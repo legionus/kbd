@@ -1,0 +1,58 @@
+# ro-latin2.map: Romanian keymap
+# Following de-latin1.map by Manfred Pohler <Manfred.Pohler@t-online.de>
+
+keymaps 0-2,4-6,8-10,12
+alt_is_meta
+include "qwertz-layout"
+include "linux-with-alt-and-altgr"
+        plain keycode  83 = KP_Comma
+include "euro.map"
+strings as usual
+
+#             Normal           Shift            AltGr           Strg
+keycode   1 = Escape           Escape
+keycode   2 = one              exclam           asciitilde
+keycode   3 = two              quotedbl         at              nul
+keycode   4 = three            numbersign       asciicircum     Escape
+keycode   5 = four             currency
+keycode   6 = five             percent          degree
+keycode   7 = six              ampersand
+keycode   8 = seven            slash            grave
+keycode   9 = eight            parenleft
+keycode  10 = nine             parenright
+keycode  11 = zero             equal
+keycode  12 = plus             question
+keycode  13 = apostrophe       asterisk
+        alt     keycode  13 = Meta_acute
+        shift   alt   keycode  13 = Meta_grave
+keycode  14 = Delete           Delete
+        alt     keycode  14 = Meta_Delete
+keycode  15 = Tab              Tab
+keycode  16 = +q               +Q               backslash
+        control altgr keycode  16 = Control_backslash
+keycode  17 = +w               +W               bar
+keycode  26 = +atilde          +Atilde          division
+keycode  27 = +icircumflex     +Icircumflex     multiply
+keycode  28 = Return
+        alt     keycode  28 = Meta_Control_m
+keycode  29 = Control
+keycode  39 = +masculine       +ordfeminine     dollar
+keycode  40 = +thorn           +THORN           ssharp
+keycode  41 = bracketright     bracketleft
+        control altgr keycode 41 = Control_bracketright
+keycode  42 = Shift
+keycode  43 = +acircumflex     +Acircumflex
+keycode  48 = +b               +B               braceleft
+keycode  49 = +n               +N               braceright
+keycode  50 = +m               +M               section
+keycode  51 = comma            semicolon        less
+keycode  52 = period           colon            greater
+keycode  53 = minus            underscore       Meta_minus
+        shift control keycode 53 = Control_underscore
+keycode  54 = Shift
+keycode  56 = Alt
+keycode  57 = space            space            Meta_space      nul
+keycode  58 = Caps_Lock
+keycode  86 = numbersign       apostrophe
+keycode  97 = Control
+
