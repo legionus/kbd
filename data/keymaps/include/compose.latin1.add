@@ -1,0 +1,21 @@
+# Additional useful compose combinations
+# 2000-07-24, garloff@suse.de
+
+include "compose.latin1"
+#From Latin for Latin1
+compose '|' 's' to '$'
+compose '|' 'S' to '$'
+compose 'S' 'S' to '§'
+# More Euro combinations
+compose '=' 'C' to '¤'
+compose 'C' '=' to '¤'
+compose 'o' 'x' to '¤'
+compose 'x' 'o' to '¤'
+# Greek letters (do not work)
+#compose 'p' 'i' to pi
+# Not operational either
+#compose '^' 'n' to nsuperior
+#compose '%' '0' to permille
+# Those would not be correct
+#compose ''' 'C' to 'Ç'
+#compose ''' 'c' to 'ç'
