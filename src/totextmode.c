@@ -14,26 +14,26 @@
 
 int
 main(int argc, char *argv[]) {
-    int fd, num;
+	int fd, num;
 
-    set_progname(argv[0]);
+	set_progname(argv[0]);
 
-    setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE, LOCALEDIR);
-    textdomain(PACKAGE);
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 
-    if (argc == 2 && !strcmp(argv[1], "-V"))
-	print_version_and_exit();
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+		print_version_and_exit();
 
-    if (argc != 2) {
-	fprintf(stderr, _("usage: totextmode\n"));
-	exit(1);
-    }
-    fd = getfd(NULL);
-    num = atoi(argv[1]);
-    if (ioctl(fd,KDSETMODE,KD_TEXT)) {
-	perror("totextmode: KDSETMODE");
-	exit(1);
-    }
-    exit(0);
+	if (argc != 2) {
+		fprintf(stderr, _("usage: totextmode\n"));
+		exit(1);
+	}
+	fd = getfd(NULL);
+	num = atoi(argv[1]);
+	if (ioctl(fd,KDSETMODE,KD_TEXT)) {
+		perror("totextmode: KDSETMODE");
+		exit(1);
+	}
+	exit(0);
 }

@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
-#include <sys/kd.h>
+#include <linux/kd.h>
 #include "paths.h"
 #include "findfile.h"
 #include "kdmapop.h"

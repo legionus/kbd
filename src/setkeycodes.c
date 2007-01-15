@@ -3,7 +3,7 @@
  *  (where scancode is either xx or e0xx, given in hexadecimal,
  *   and keycode is given in decimal)
  *
- * aeb, 941108
+ * aeb, 941108, 2004-01-11
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,52 +16,56 @@
 
 static void
 usage(char *s) {
-    fprintf(stderr, "setkeycode: %s\n", s);
-    fprintf(stderr, _(
-"usage: setkeycode scancode keycode ...\n"
-" (where scancode is either xx or e0xx, given in hexadecimal,\n"
-"  and keycode is given in decimal)\n"));
-    exit(1);
+	fprintf(stderr, "setkeycode: %s\n", s);
+	fprintf(stderr, _(
+	    "usage: setkeycode scancode keycode ...\n"
+	    " (where scancode is either xx or e0xx, given in hexadecimal,\n"
+	    "  and keycode is given in decimal)\n"));
+	exit(1);
 }
 
 int
 main(int argc, char **argv) {
-    char *ep;
-    int fd, sc;
-    struct kbkeycode a;
+	char *ep;
+	int fd;
+	struct kbkeycode a;
 
-    set_progname(argv[0]);
+	set_progname(argv[0]);
 
-    setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE, LOCALEDIR);
-    textdomain(PACKAGE);
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 
-    if (argc == 2 && !strcmp(argv[1], "-V"))
-      print_version_and_exit();
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+		print_version_and_exit();
 
-    if (argc % 2 != 1)
-      usage(_("even number of arguments expected"));
-    fd = getfd(NULL);
+	if (argc % 2 != 1)
+		usage(_("even number of arguments expected"));
+	fd = getfd(NULL);
 
-    while (argc > 2) {
-	a.keycode = atoi(argv[2]);
-	a.scancode = sc = strtol(argv[1], &ep, 16);
-	if (*ep)
-	  usage(_("error reading scancode"));
-	if (a.scancode > 127) {
-	    a.scancode -= 0xe000;
-	    a.scancode += 128;
+	while (argc > 2) {
+		a.keycode = atoi(argv[2]);
+		a.scancode = strtol(argv[1], &ep, 16);
+		if (*ep)
+			usage(_("error reading scancode"));
+		if (a.scancode >= 0xe000) {
+			a.scancode -= 0xe000;
+			a.scancode += 128;	/* some kernels needed +256 */
+		}
+#if 0
+		/* Test is OK up to 2.5.31--later kernels have more keycodes */
+		if (a.scancode > 255 || a.keycode > 127)
+			usage(_("code outside bounds"));
+#endif
+		if (ioctl(fd,KDSETKEYCODE,&a)) {
+			perror("KDSETKEYCODE");
+			fprintf(stderr,
+				_("failed to set scancode %x to keycode %d\n"),
+				a.scancode, a.keycode);
+			exit(1);
+		}
+		argc -= 2;
+		argv += 2;
 	}
-	if (a.scancode > 255 || a.keycode > 127)
-	  usage(_("code outside bounds"));
-	if (ioctl(fd,KDSETKEYCODE,&a)) {
-	    perror("KDSETKEYCODE");
-	    fprintf(stderr, _("failed to set scancode %x to keycode %d\n"),
-		    sc, a.keycode);
-	    exit(1);
-	}
-	argc -= 2;
-	argv += 2;
-    }
-    return 0;
+	return 0;
 }

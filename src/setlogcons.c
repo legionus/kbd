@@ -14,7 +14,7 @@
 
 int
 main(int argc, char **argv){
-        int fd, cons;
+	int fd, cons;
 	struct { char fn, subarg; } arg;
 
 	setlocale(LC_ALL, "");
@@ -26,12 +26,12 @@ main(int argc, char **argv){
 	else
 		cons = 0;	/* current console */
 
-        fd = getfd(NULL);
+	fd = getfd(NULL);
 	arg.fn = 11;		/* redirect kernel messages */
 	arg.subarg = cons;	/* to specified console */
-        if (ioctl(fd, TIOCLINUX, &arg)) {
-                perror("TIOCLINUX");
-                exit(1);
-        }
-        return 0;
+	if (ioctl(fd, TIOCLINUX, &arg)) {
+		perror("TIOCLINUX");
+		exit(1);
+	}
+	return 0;
 }

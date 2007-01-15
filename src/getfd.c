@@ -3,8 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <linux/kd.h>
 #include <sys/ioctl.h>
+#include <linux/kd.h>
 #include "nls.h"
 #include "getfd.h"
 

@@ -4,9 +4,9 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <termios.h>
+#include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <sys/ioctl.h>
 #include "getfd.h"
 #include "nls.h"
 #include "version.h"
@@ -105,7 +105,7 @@ main (int argc, char *argv[]) {
 	int print_ascii = 0;
 
 	struct termios new;
-	unsigned char buf[16];
+	unsigned char buf[18];	/* divisible by 3 */
 	int i, n;
 
 	set_progname(argv[0]);
@@ -115,22 +115,22 @@ main (int argc, char *argv[]) {
 	textdomain(PACKAGE);
 
 	while ((c = getopt_long(argc, argv,
-		short_opts, long_opts, NULL)) != -1) {
+				short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
-			case 's':
-				show_keycodes = 0;
-				break;
-			case 'k':
-				show_keycodes = 1;
-				break;
-			case 'a':
-				print_ascii = 1;
-				break;
-			case 'V':
-				print_version_and_exit();
-			case 'h':
-			case '?':
-				usage();
+		case 's':
+			show_keycodes = 0;
+			break;
+		case 'k':
+			show_keycodes = 1;
+			break;
+		case 'a':
+			print_ascii = 1;
+			break;
+		case 'V':
+			print_version_and_exit();
+		case 'h':
+		case '?':
+			usage();
 		}
 	}
 
@@ -178,8 +178,8 @@ main (int argc, char *argv[]) {
 	signal(SIGALRM, watch_dog);
 
 	/*
-		if we receive a signal, we want to exit nicely, in
-		order not to leave the keyboard in an unusable mode
+	  if we receive a signal, we want to exit nicely, in
+	  order not to leave the keyboard in an unusable mode
 	*/
 	signal(SIGHUP, die);
 	signal(SIGINT, die);
@@ -224,20 +224,43 @@ main (int argc, char *argv[]) {
 	}
 
 	printf(_("press any key (program terminates 10s after last keypress)...\n"));
+
+	/* show scancodes */
+	if (!show_keycodes) {
+		while (1) {
+			alarm(10);
+			n = read(fd, buf, sizeof(buf));
+			for (i = 0; i < n; i++)
+				printf("0x%02x ", buf[i]);
+			printf("\n");
+		}
+		clean_up();
+		exit(0);
+	}
+
+	/* show keycodes - 2.6 allows 3-byte reports */
 	while (1) {
 		alarm(10);
 		n = read(fd, buf, sizeof(buf));
-		for (i = 0; i < n; i++) {
-			if (!show_keycodes)
-				printf("0x%02x ", buf[i]);
-			else
-				printf(_("keycode %3d %s\n"),
-					buf[i] & 0x7f,
-					buf[i] & 0x80 ? _("release")
-				                      : _("press"));
+		i = 0;
+		while (i < n) {
+			int kc;
+			char *s;
+
+			s = (buf[i] & 0x80) ? _("release") : _("press");
+
+			if (i+2 < n && (buf[i] & 0x7f) == 0
+				&& (buf[i+1] & 0x80) != 0
+				&& (buf[i+2] & 0x80) != 0) {
+				kc = ((buf[i+1] & 0x7f) << 7) |
+					(buf[i+2] & 0x7f);
+				i += 3;
+			} else {
+				kc = (buf[i] & 0x7f);
+				i++;
+			}
+			printf(_("keycode %3d %s\n"), kc, s);
 		}
-		if (!show_keycodes)
-			printf("\n");
 	}
 
 	clean_up();

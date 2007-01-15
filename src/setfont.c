@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
-#include <sys/kd.h>
+#include <linux/kd.h>
 #include <endian.h>
 #include <sysexits.h>
 #include "paths.h"

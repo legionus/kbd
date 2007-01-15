@@ -16,10 +16,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <ctype.h>
+#include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <sys/ioctl.h>
-#include <ctype.h>
 #include "paths.h"
 #include "getfd.h"
 #include "findfile.h"
