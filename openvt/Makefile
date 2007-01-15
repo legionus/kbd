@@ -28,5 +28,6 @@ install: $(PROGS)
 	install -c $(PROGS) $(BINDIR)
 	install -c $(MAN)  $(MANDIR)
 
+# don't change 4711 to 0711 - this is the setuid target
 setuid:
 	chmod 4711 $(BINDIR)/$(PROG)

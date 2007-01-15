@@ -231,6 +231,7 @@ main(int argc, char **argv) {
 	FILE *ifil, *ofil, *itab, *otab;
 	int psftype, fontlen, charsize, hastable, notable;
 	int i;
+	int width = 8, bytewidth, height;
 	char *inbuf, *fontbuf;
 	int inbuflth, fontbuflth;
 
@@ -352,7 +353,8 @@ main(int argc, char **argv) {
 	}
 
 	if (readpsffont(ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
-		       &fontlen, 0, itab ? NULL : &uclistheads) == -1) {
+			&width, &fontlen, 0,
+			itab ? NULL : &uclistheads) == -1) {
 		char *u = _("%s: Bad magic number on %s\n");
 		fprintf(stderr, u, progname, ifname);
 		exit(EX_DATAERR);
@@ -360,6 +362,10 @@ main(int argc, char **argv) {
 	fclose(ifil);
 
 	charsize = fontbuflth/fontlen;
+	bytewidth = (width + 7)/8;
+	if (!bytewidth)
+		bytewidth = 1;
+	height = charsize / bytewidth;
 
 	hastable = (uclistheads != NULL);
 
@@ -411,7 +417,7 @@ main(int argc, char **argv) {
 	}
 
 	if (ofil) {
-		writepsffont(ofil, fontbuf, charsize, fontlen, psftype,
+		writepsffont(ofil, fontbuf, width, height, fontlen, psftype,
 			     notable ? NULL : uclistheads);
 		fclose(ofil);
 	}

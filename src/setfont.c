@@ -1,7 +1,7 @@
 /*
  * setfont.c - Eugene Crosser & Andries Brouwer
  *
- * Version 1.00
+ * Version 1.04
  *
  * Loads the console font, and possibly the corresponding screen map(s).
  * We accept two kind of screen maps, one [-m] giving the correspondence
@@ -45,7 +45,6 @@ extern void saveoldmap(int fd, char *omfil);
 extern void loadnewmap(int fd, char *mfil);
 extern void activatemap(void);
 extern void disactivatemap(void);
-extern int font_charheight(char *buf, int count);
 
 int verbose = 0;
 int force = 0;
@@ -230,28 +229,33 @@ restorefont(int fd) {
 static int erase_mode = 1;
 
 static void
-do_loadfont(int fd, char *inbuf, int unit, int hwunit, int fontsize,
-	    char *pathname) {
+do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
+	    int fontsize, char *pathname) {
 	char *buf;
 	int i, buflen;
+	int bytewidth = (width+7)/8;
+	int charsize = height * bytewidth;
+	int kcharsize = 32 * bytewidth;
 	int bad_video_erase_char = 0;
 
-	buflen = 32*fontsize;
-	if (buflen < 32*128)		/* below we access position 32 */
-		buflen = 32*128; 	/* so need at least 32*33 */
-	buf = xmalloc(buflen);
-	memset(buf,0,buflen);
-
-	if (unit < 1 || unit > 32) {
-		fprintf(stderr, _("Bad character size %d\n"), unit);
+	if (height < 1 || height > 32) {
+		fprintf(stderr, _("Bad character height %d\n"), height);
+		exit(EX_DATAERR);
+	}
+	if (width < 1 || width > 32) {
+		fprintf(stderr, _("Bad character width %d\n"), width);
 		exit(EX_DATAERR);
 	}
 
 	if (!hwunit)
-		hwunit = unit;
+		hwunit = height;
+
+	buflen = kcharsize * ((fontsize < 128) ? 128 : fontsize);
+	buf = xmalloc(buflen);
+	memset(buf,0,buflen);
 
 	for (i = 0; i < fontsize; i++)
-		memcpy(buf+(32*i), inbuf+(unit*i), unit);
+		memcpy(buf+(i*kcharsize), inbuf+(i*charsize), charsize);
 
 	/*
 	 * Due to a kernel bug, font position 32 is used
@@ -259,8 +263,8 @@ do_loadfont(int fd, char *inbuf, int unit, int hwunit, int fontsize,
 	 * So, usually this font position should be blank.
 	 */
 	if (erase_mode) {
-		for (i = 0; i < 32; i++)
-			if (buf[32*32+i])
+		for (i = 0; i < kcharsize; i++)
+			if (buf[32*kcharsize+i])
 				bad_video_erase_char = 1;
 		if (bad_video_erase_char) {
 			fprintf(stderr,
@@ -270,8 +274,8 @@ do_loadfont(int fd, char *inbuf, int unit, int hwunit, int fontsize,
 			case 3:
 				exit(EX_DATAERR);
 			case 2:
-				for (i = 0; i < 32; i++)
-					buf[32*32+i] = 0;
+				for (i = 0; i < kcharsize; i++)
+					buf[32*kcharsize+i] = 0;
 				fprintf(stderr, _("%s: wiped it\n"), progname);
 				break;
 			case 1:
@@ -285,15 +289,21 @@ do_loadfont(int fd, char *inbuf, int unit, int hwunit, int fontsize,
 	}
 
 	if (verbose) {
-		if (pathname)
-			printf(_("Loading %d-char 8x%d font from file %s\n"),
-			       fontsize, unit, pathname);
+		if (height == hwunit && pathname)
+			printf(_("Loading %d-char %dx%d font from file %s\n"),
+			       fontsize, width, height, pathname);
+		else if (height == hwunit)
+			printf(_("Loading %d-char %dx%d font\n"),
+			       fontsize, width, height);
+		else if (pathname)
+			printf(_("Loading %d-char %dx%d (%d) font from file %s\n"),
+			       fontsize, width, height, hwunit, pathname);
 		else
-			printf(_("Loading %d-char 8x%d font\n"),
-			       fontsize, unit);
+			printf(_("Loading %d-char %dx%d (%d) font\n"),
+			       fontsize, width, height, hwunit);
 	}
 
-	if (putfont(fd, buf, fontsize, hwunit))
+	if (putfont(fd, buf, fontsize, width, hwunit))
 		exit(EX_OSERR);
 }
 
@@ -372,8 +382,8 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	     int iunit, int hwunit, int no_m, int no_u) {
 	FILE *fpi;
 	char *ifil, *inbuf, *fontbuf, *bigfontbuf;
-	int inputlth, fontbuflth, fontsize, unit;
-	int bigfontbuflth, bigfontsize, bigunit;
+	int inputlth, fontbuflth, fontsize, height, width, bytewidth;
+	int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
 	int i;
 
@@ -388,7 +398,8 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	bigfontbuflth = 0;
 	bigfontsize = 0;
 	uclistheads = NULL;
-	bigunit = 0;
+	bigheight = 0;
+	bigwidth = 0;
 
 	for (i=0; i<ifilct; i++) {
 		ifil = ifiles[i];
@@ -403,31 +414,42 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 		fontsize = 0;
 
 		if(readpsffont(fpi, &inbuf, &inputlth, &fontbuf, &fontbuflth,
-			       &fontsize, bigfontsize,
+			       &width, &fontsize, bigfontsize,
 			       no_u ? NULL : &uclistheads)) {
 			fprintf(stderr, _("When loading several fonts, all "
 					  "must be psf fonts - %s isn't\n"),
 				pathname);
 			exit(EX_DATAERR);
 		}
-		unit = fontbuflth / fontsize;
+		bytewidth = (width+7) / 8;
+		height = fontbuflth / (bytewidth * fontsize);
 		if (verbose)
-			printf(_("Read %d-char 8x%d font from file %s\n"),
-			       fontsize, unit, pathname);
-		if (bigunit == 0)
-			bigunit = unit;
-		else if (bigunit != unit) {
+			printf(_("Read %d-char %dx%d font from file %s\n"),
+			       fontsize, width, height, pathname);
+
+		if (bigheight == 0)
+			bigheight = height;
+		else if (bigheight != height) {
 			fprintf(stderr, _("When loading several fonts, all "
-					  "must have the same pointsize\n"));
+					  "must have the same height\n"));
 			exit(EX_DATAERR);
 		}
+		if (bigwidth == 0)
+			bigwidth = width;
+		else if (bigwidth != width) {
+			fprintf(stderr, _("When loading several fonts, all "
+					  "must have the same width\n"));
+			exit(EX_DATAERR);
+		}
+
 		bigfontsize += fontsize;
 		bigfontbuflth += fontbuflth;
 		bigfontbuf = xrealloc(bigfontbuf, bigfontbuflth);
 		memcpy(bigfontbuf+bigfontbuflth-fontbuflth,
 		       fontbuf, fontbuflth);
 	}
-	do_loadfont(fd, bigfontbuf, bigunit, hwunit, bigfontsize, NULL);
+	do_loadfont(fd, bigfontbuf, bigwidth, bigheight, hwunit,
+		    bigfontsize, NULL);
 
 	if (uclistheads && !no_u)
 		do_loadtable(fd, uclistheads, bigfontsize);
@@ -437,7 +459,7 @@ static void
 loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 	FILE *fpi;
 	char defname[20];
-	int unit, def = 0;
+	int height, width, bytewidth, def = 0;
 	char *inbuf, *fontbuf;
 	int inputlth, fontbuflth, fontsize, offset;
 	struct unicode_list *uclistheads;
@@ -474,13 +496,17 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 
 	inbuf = fontbuf = NULL;
 	inputlth = fontbuflth = fontsize = 0;
+	width = 8;
 	uclistheads = NULL;
 	if(readpsffont(fpi, &inbuf, &inputlth, &fontbuf, &fontbuflth,
-		       &fontsize, 0, no_u ? NULL : &uclistheads) == 0) {
+		       &width, &fontsize, 0,
+		       no_u ? NULL : &uclistheads) == 0) {
 		/* we've got a psf font */
-		unit = fontbuflth / fontsize;
+		bytewidth = (width+7) / 8;
+		height = fontbuflth / (bytewidth * fontsize);
 
-		do_loadfont(fd, fontbuf, unit, hwunit, fontsize, pathname);
+		do_loadfont(fd, fontbuf, width, height, hwunit,
+			    fontsize, pathname);
 		if (uclistheads && !no_u)
 			do_loadtable(fd, uclistheads, fontsize);
 #if 1
@@ -524,8 +550,9 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 	/* file with three code pages? */
 	if (inputlth == 9780) {
 		offset = position_codepage(iunit);
-		unit = iunit;
+		height = iunit;
 		fontsize = 256;
+		width = 8;
 	} else if (inputlth == 32768) {
 		/* restorefont -w writes a SVGA font to file
 		   restorefont -r restores it
@@ -538,7 +565,8 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 		inputlth = 16384; 	/* ignore rest */
 		fontsize = 512;
 		offset = 0;
-		unit = 32;
+		width = 8;
+		height = 32;
 		if (!hwunit)
 			hwunit = 16;
 	} else {
@@ -553,9 +581,11 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 			exit(EX_DATAERR);
 		}
 		fontsize = 256;
-		unit = inputlth/256;
+		width = 8;
+		height = inputlth/256;
 	}
-	do_loadfont(fd, inbuf+offset, unit, hwunit, fontsize, pathname);
+	do_loadfont(fd, inbuf+offset, width, height, hwunit, fontsize,
+		    pathname);
 }
 
 static int
@@ -591,53 +621,58 @@ position_codepage(int iunit) {
 }
 
 static void
-do_saveoldfont(int fd, char *ofil, FILE *fpo, int unimap_follows, int *count) {
-    int i, unit, ct;
-    char buf[65536];
+do_saveoldfont(int fd, char *ofil, FILE *fpo, int unimap_follows,
+	       int *count, int *utf8) {
 
-    ct = sizeof(buf)/(32*32/8);		/* max size 32x32, 8 bits/byte */
-    if (getfont(fd, buf, &ct, NULL)) 	/* ignore height given by kernel */
-	exit(EX_OSERR);
+/* this is the max font size the kernel is willing to handle */
+#define MAXFONTSIZE	65536
+	char buf[MAXFONTSIZE];
 
-    /* save as efficiently as possible */
-    unit = font_charheight(buf, ct);
+	int i, ct, width, height, bytewidth, charsize, kcharsize;
 
-    /* Do we need a psf header? */
-    /* Yes if ct=512 - otherwise we cannot distinguish
-       a 512-char 8x8 and a 256-char 8x16 font. */
+	ct = sizeof(buf)/(32*32/8);	/* max size 32x32, 8 bits/byte */
+	if (getfont(fd, buf, &ct, &width, &height))
+		exit(EX_OSERR);
+
+	/* save as efficiently as possible */
+	bytewidth = (width + 7) / 8;
+	height = font_charheight(buf, ct, width);
+	charsize = height * bytewidth;
+	kcharsize = 32 * bytewidth;
+
+	/* Do we need a psf header? */
+	/* Yes if ct==512 - otherwise we cannot distinguish
+	   a 512-char 8x8 and a 256-char 8x16 font. */
 #define ALWAYS_PSF_HEADER	1
 
-    if (ct != 256 || unimap_follows || ALWAYS_PSF_HEADER) {
-        struct psf1_header psfhdr;
+	if (ct != 256 || width != 8 || unimap_follows || ALWAYS_PSF_HEADER) {
+		int psftype = 1;
+		int flags = 0;
 
-	psfhdr.magic[0] = PSF1_MAGIC0;
-	psfhdr.magic[1] = PSF1_MAGIC1;
-	psfhdr.mode = 0;
-	if (ct != 256)
-	    psfhdr.mode |= PSF1_MODE512;
-	if (unimap_follows)
-	    psfhdr.mode |= PSF1_MODEHASTAB;
-	psfhdr.charsize = unit;
-	if (fwrite(&psfhdr, sizeof(struct psf1_header), 1, fpo) != 1) {
-	    fprintf(stderr, _("Cannot write font file header"));
-	    exit(EX_IOERR);
+		if (unimap_follows)
+			flags |= WPSFH_HASTAB;
+		writepsffontheader (fpo, width, height, ct, &psftype, flags);
+		if (utf8)
+			*utf8 = (psftype == 2);
 	}
-    }
 
-    if (unit == 0)
-      fprintf(stderr, _("Found nothing to save\n"));
-    else {
-      for (i = 0; i < ct; i++)
-	if (fwrite(buf+(32*i), unit, 1, fpo) != 1) {
-	   fprintf(stderr, _("Cannot write font file"));
-	   exit(EX_IOERR);
+	if (height == 0) {
+		fprintf(stderr, _("Found nothing to save\n"));
+	} else {
+		for (i = 0; i < ct; i++) {
+			if (fwrite(buf+(i*kcharsize), charsize, 1, fpo) != 1) {
+				fprintf(stderr, _("Cannot write font file"));
+				exit(EX_IOERR);
+			}
+		}
+		if (verbose) {
+			printf(_("Saved %d-char %dx%d font file on %s\n"),
+			       ct, width, height, ofil);
+		}
 	}
-      if (verbose)
-	printf(_("Saved %d-char 8x%d font file on %s\n"), ct, unit, ofil);
-    }
 
-    if (count)
-      *count = ct;
+	if (count)
+		*count = ct;
 }
 
 static void
@@ -648,7 +683,7 @@ saveoldfont(int fd, char *ofil) {
 	perror(ofil);
 	exit(EX_CANTCREAT);
     }
-    do_saveoldfont(fd, ofil, fpo, 0, NULL);
+    do_saveoldfont(fd, ofil, fpo, 0, NULL, NULL);
     fclose(fpo);
 }
 
@@ -656,14 +691,15 @@ static void
 saveoldfontplusunicodemap(int fd, char *Ofil) {
     FILE *fpo;
     int ct;
+    int utf8 = 0;
 
     if((fpo = fopen(Ofil, "w")) == NULL) {
 	perror(Ofil);
 	exit(EX_CANTCREAT);
     }
     ct = 0;
-    do_saveoldfont(fd, Ofil, fpo, 1, &ct);
-    appendunicodemap(fd, fpo, ct, 0);
+    do_saveoldfont(fd, Ofil, fpo, 1, &ct, &utf8);
+    appendunicodemap(fd, fpo, ct, utf8);
     fclose(fpo);
 }
 

@@ -211,6 +211,14 @@ be able to survive: the dangerous letters A,M,Q,W,Y,Z that are
 differently placed on English, French and German keyboards, are
 not used for actions. (But if your finger slips and you hit L
 instead of K - bye bye to your system.)
+<P>In Linux 2.3.13 the possibility to enable/disable SysRq was added.
+<BLOCKQUOTE><CODE>
+<PRE>
+        echo 0 > /proc/sys/kernel/sysrq
+</PRE>
+</CODE></BLOCKQUOTE>
+
+will disable it (if the kernel was compiled with CONFIG_MAGIC_SYSRQ).
 <P>
 <HR>
 <A HREF="kbd.FAQ-9.html">Next</A>

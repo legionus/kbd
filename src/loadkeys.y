@@ -475,7 +475,8 @@ char *include_dirpath0[] = { "", 0 };
 char *include_dirpath1[] = { "", "../include/", "../../include/", 0 };
 char *include_dirpath2[] = { 0, 0, 0, 0 };
 char *include_dirpath3[] = { DATADIR "/" KEYMAPDIR "/include/",
-			     DATADIR "/" KEYMAPDIR "/i386/include/", 0 };
+			     DATADIR "/" KEYMAPDIR "/i386/include/",
+			     DATADIR "/" KEYMAPDIR "/mac/include/", 0 };
 char *include_suffixes[] = { "", ".inc", 0 };
 
 FILE *find_standard_incl_file(char *s) {

@@ -118,20 +118,22 @@ struct console_font_op {
 #endif /* KDFONTOP */
 
 int
-font_charheight(char *buf, int count) {
-	int h, i;
+font_charheight(char *buf, int count, int width) {
+	int h, i, x;
+	int bytewidth = (width+7)/8;
 
 	for (h = 32; h > 0; h--)
 		for (i = 0; i < count; i++)
-			if (buf[32*i+h-1])
-				goto nonzero;
+			for (x = 0; x < bytewidth; x++)
+				if (buf[(32*i+h-1)*bytewidth+x])
+					goto nonzero;
  nonzero:
 	return h;
 }
-	
+
 
 int
-getfont(int fd, char *buf, int *count, int *height) {
+getfont(int fd, char *buf, int *count, int *width, int *height) {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
 	int i;
@@ -147,11 +149,8 @@ getfont(int fd, char *buf, int *count, int *height) {
 		*count = cfo.charcount;
 		if (height)
 			*height = cfo.height;
-		if (cfo.width != 8) {
-			fprintf(stderr,
-				_("kdfontop.c: only width 8 supported\n"));
-			exit(1);
-		}
+		if (width)
+			*width = cfo.width;
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
@@ -166,6 +165,10 @@ getfont(int fd, char *buf, int *count, int *height) {
 	i = ioctl(fd, GIO_FONTX, &cfd);
 	if (i == 0) {
 		*count = cfd.charcount;
+		if (height)
+			*height = cfd.charheight;
+		if (width)
+			*width = 8;
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
@@ -184,29 +187,35 @@ getfont(int fd, char *buf, int *count, int *height) {
 		return -1;
 	}
 	*count = 256;
+	if (height)
+		*height = 0;	/* undefined, at most 32 */
+	if (width)
+		*width = 8;
 	return 0;
 }
 
 int
-putfont(int fd, char *buf, int count, int height) {
+putfont(int fd, char *buf, int count, int width, int height) {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
 	int i;
 
+	if (!width)
+		width = 8;
 	if (!height)
-		height = font_charheight(buf, count);
+		height = font_charheight(buf, count, width);
 
 	/* First attempt: KDFONTOP */
 	cfo.op = KD_FONT_OP_SET;
 	cfo.flags = 0;
-	cfo.width = 8;
+	cfo.width = width;
 	cfo.height = height;
 	cfo.charcount = count;
 	cfo.data = buf;
 	i = ioctl(fd, KDFONTOP, &cfo);
 	if (i == 0)
 		return 0;
-	if (errno != ENOSYS && errno != EINVAL) {
+	if (width != 8 || (errno != ENOSYS && errno != EINVAL)) {
 		perror("putfont: KDFONTOP");
 		return -1;
 	}

@@ -1,4 +1,5 @@
-# This map derived from one contributed by Robert Herzog <rherzog@ulb.ac.be>.
+# This map derived from one contributed by Robert Herzog <rherzog@ulb.ac.be>
+# with improvements by Pablo Saratxaga <srtxg@f2219.n293.z2.fidonet.org>
 keymaps 0-2,4,6,8,12
 alt_is_meta
 include "azerty-layout"
@@ -20,7 +21,7 @@ keycode   5 = apostrophe       four
 keycode   6 = parenleft        five
 	control keycode   6 = Control_bracketright
 	alt     keycode   6 = Meta_five
-keycode   7 = paragraph        six              dead_circumflex
+keycode   7 = paragraph        six              asciicircum
 	control keycode   7 = Control_asciicircum
 	alt     keycode   7 = Meta_six
 keycode   8 = egrave           seven
@@ -50,13 +51,10 @@ keycode  29 = Control
 keycode  40 = ugrave              percent        dead_acute
 	control keycode  40 = Control_g
 	alt     keycode  40 = Meta_apostrophe
-keycode  41 = mu         sterling                dead_grave
-	control keycode  41 = nul
-	alt     keycode  41 = Meta_grave
+keycode  41 = twosuperior  threesuperior
 keycode  42 = Shift
-keycode  43 =
-	control keycode  43 = Control_backslash
-	alt     keycode  43 = Meta_backslash
+keycode  43 = mu  sterling  dead_grave
+	alt     keycode  43 = Meta_grave
 keycode  50 = comma            question
 keycode  51 = semicolon        period
 keycode  52 = colon            slash

@@ -9,6 +9,11 @@ ifndef BINDIR
 BINDIR = /usr/bin
 endif
 
+# Maybe we want to use a qwertz keyboard before /usr is mounted
+ifndef LOADKEYS_BINDIR
+LOADKEYS_BINDIR = /bin
+endif
+
 PROGS   = dumpkeys loadkeys showkey setfont showfont \
 	  setleds setmetamode kbd_mode chvt deallocvt \
 	  psfxtable kbdrate
@@ -27,9 +32,11 @@ endif
 
 OLDPROGS= mapscrn loadunimap
 
-MISC    = screendump setvesablank spawn_console spawn_login \
+# Not installed by default
+MISC    = screendump setlogcons setvesablank spawn_console spawn_login \
 	  getunimap clrunimap fgconsole outpsfheader
 
+# Not installed by default
 SHCMDS  = unicode_start unicode_stop
 
 WARN	= -Wall -Wmissing-prototypes -Wstrict-prototypes
@@ -55,8 +62,10 @@ install:	all
 #	install -s -m 0755 -o root $(MISC) $(BINDIR)
 #	install -c -m 0755 -o root $(SHCMDS) $(BINDIR)
 	for i in psfaddtable psfgettable psfstriptable; do \
-		rm -f $(BINDIR)/$$i; ln -s $(BINDIR)/psfxtable $(BINDIR)/$$i; \
+		rm -f $(BINDIR)/$$i; ln -s psfxtable $(BINDIR)/$$i; \
 	done
+	rm -f $(BINDIR)/loadkeys
+	install -s -m 0755 -o root loadkeys $(LOADKEYS_BINDIR)
 	@echo "You may also want to add psf.magic to /usr/lib/magic"
 
 
@@ -93,8 +102,8 @@ findfile.o loadkeys.o loadunimap.o mapscrn.o resizecons.o setfont.o: findfile.h
 
 catwithfont.o chvt.o clrunimap.o deallocvt.o dumpkeys.o fgconsole.o: getfd.h
 getfd.o getkeycodes.o getunimap.o kbd_mode.o loadkeys.o loadunimap.o: getfd.h
-mapscrn.o resizecons.o setfont.o setkeycodes.o setvesablank.o: getfd.h
-showkey.o: getfd.h
+mapscrn.o resizecons.o setfont.o setkeycodes.o setlogcons.o: getfd.h
+setvesablank.o showkey.o: getfd.h
 
 kdfontop.o setfont.o: kdfontop.h
 
@@ -114,7 +123,10 @@ loadunimap.o psffontop.o psfxtable.o setfont.o: psf.h
 
 psffontop.o psfxtable.o setfont.o: psffontop.h
 
-dumpkeys.o kbdrate.o loadkeys.o setfont.o showkey.o: version.h
+chvt.o deallocvt.o dumpkeys.o getkeycodes.o getunimap.o kbd_mode.o: version.h
+kbdrate.o loadkeys.o loadunimap.o mapscrn.o psfxtable.o resizecons.o: version.h
+screendump.o setfont.o setkeycodes.o setleds.o setmetamode.o: version.h
+showfont.o showkey.o totextmode.o: version.h
 
 findfile.o loadunimap.o psffontop.o psfxtable.o setfont.o xmalloc.o: xmalloc.h
 
@@ -132,7 +144,7 @@ loadkeys mapscrn setfont resizecons loadunimap: findfile.o xmalloc.o
 
 chvt clrunimap deallocvt dumpkeys fgconsole getkeycodes getunimap: getfd.o
 kbd_mode loadkeys loadunimap mapscrn resizecons setkeycodes setfont: getfd.o
-setvesablank showkey: getfd.o
+setlogcons setvesablank showkey: getfd.o
 
 setfont: mapscrn.o loadunimap.o kdfontop.o psffontop.o
 

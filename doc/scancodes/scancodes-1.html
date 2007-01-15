@@ -16,9 +16,10 @@ Previous
 
 <P>The data from a keyboard comes mainly in the form of scancodes,
 produced by key presses or used in the protocol with the computer.
-(Different codes are used by the keyboard firmware internally,
-and there also exist several
-<A HREF="#scancode_modes">sets of scancodes</A>. Here, for the
+(
+<A HREF="scancodes-3.html#kscancodes">Different codes</A> are used by the keyboard
+firmware internally, and there also exist several
+<A HREF="scancodes-3.html#kscancodes">sets of scancodes</A>. Here, for the
 time being, we only give the default codes - those from scancode set 2.)
 Each key press and key release produces between 0 and 6 scancodes.
 <P>
@@ -38,6 +39,8 @@ fake Shift down and Shift up events during the repeat.
 The former produces scancode <B>e0</B> <B>2a</B> <B>e0</B> <B>37</B>
 when no modifier key is pressed simultaneously, <B>e0</B> <B>37</B>
 together with Shift or Ctrl, but <B>54</B> together with (left or right) Alt.
+(And one gets the expected sequences upon release. But see
+<A HREF="scancodes-2.html#mtek">below</A>.)
 The latter produces scancode sequence
 <B>e1</B> <B>1d</B> <B>45</B> <B>e1</B> <B>9d</B> <B>c5</B>
 when pressed (without modifier) and nothing at all upon release.
@@ -45,21 +48,30 @@ However, together with (left or right) Ctrl, one gets
 <B>e0</B> <B>46</B> <B>e0</B> <B>c6</B>,
 and again nothing at release. It does not repeat.
 <P>
-<P>
 <H2><A NAME="ss1.2">1.2 Protocol scancodes</A>
 </H2>
 
 <P>Most scancodes indicate a key press or release.
 Some are used in the communication protocol.
-<P><B>00</B> (Keyboard buffer overflow or parity error)
+<P><B>00</B> (Keyboard error - see <B>ff</B>)
 <P><B>aa</B> (BAT [Basic Assurance Test] OK)
 <P><B>ee</B> (Result of echo command)
 <P><B>f1</B> (Some keyboards, as reply to command <B>a4</B>:
 Password not installed)
-<P><B>fa</B> (Ack)
+<P><B>fa</B> (Acknowledge from kbd)
 <P><B>fc</B> (BAT error or Mouse transmit error)
 <P><B>fe</B> (Keyboard fails to ack, please resend)
-<P><B>ff</B> (Keyboard parity error)
+<P><B>ff</B> (Keyboard error)<BR>
+Three common causes for keyboard error are:
+(i) several keys pressed simultaneously,
+(ii) keyboard buffer overflow,
+(iii) parity error on the serial line used by keyboard
+and keyboard controller for communication.
+The error reported is <B>ff</B> in
+<A HREF="scancodes-3.html#kscancodes">scancode mode</A> 1,
+and <B>00</B> in scancode modes 2 and 3.
+If translation is on, both <B>00</B> and <B>ff</B>
+are translated as <B>ff</B>.
 <P>
 <H2><A NAME="ss1.3">1.3 Escape scancodes</A>
 </H2>
@@ -193,7 +205,7 @@ fool programs that identify Grey-/ with ordinary /, so that they
 don't treat Shift-Grey-/ like Shift-/, i.e., ?.
 <P>On a Toshiba notebook, the three Windows keys are treated like
 the group of ten keys mentioned, and get fake shifts when
-(left or right) Shift is down. Thet do not react to NumLock.
+(left or right) Shift is down. They do not react to NumLock.
 <P>
 <H2><A NAME="ss1.7">1.7 Turbo Mode</A>
 </H2>
@@ -207,29 +219,30 @@ and Turbo Switch (Low->High):
 <B>1d</B> <B>38</B> <B>4e</B> <B>ce</B> <B>b8</B> <B>9d</B>.
 <P>Other peculiar combinations in this style include
 LCtrl-LAlt-LShift-GreyMinus to turn off system cache.
-<P>Thio Yu Jin &lt;jin@singmail.com&gt; complains that on his Toshiba 4010CDS
+<P>Thio Yu Jin &lt;<CODE>jin@singmail.com</CODE>&gt; complains that on his Toshiba 4010CDS
 the Ctrl-Alt-Shift-T key combination brings up the Toshiba user manual.
 (04 Mar 1999 - not April 1.)
 <P>
 <P>
-<H2><A NAME="scancode_modes"></A> <A NAME="ss1.8">1.8 Scancode modes</A>
+<H2><A NAME="ss1.8">1.8 Power Saving</A>
 </H2>
 
-<P>The usual PC keyboards are capable of producing three
-sets of scancodes. Writing 0xf0 followed by 1, 2 or 3 to port
-0x60 will put the keyboard in scancode mode 1, 2 or 3. Writing
-0xf0 followed by 0 queries the mode, resulting in a scancode
-byte 0x43, 0x41 or 0x3f from the keyboard.
-<P>Scancode mode 2 is the default. In this mode, a key press
-usually produces a value <I>s</I> in the range 0x01-0x5f and the
-corresponding key release produces <I>s</I>+0x80. In scancode
-mode 3, the only key releases that produce a scan code are of
-either Shift key, or of the left Ctrl and Alt keys; for all
-other keys only the key presses are noted. The produced
-scancodes are mostly equal to those for scancode mode 2.
-<P>In scancode mode 1 most key releases produce the same values as
-in scancode mode 2, but for key presses there are entirely
-different, unrelated values. The details are somewhat messy.
+<P>
+<A HREF="http://www.microsoft.com/HWDEV/specs/PMref/PMinput.htm">Microsoft</A> recommends: "i8042-based keyboards should deploy the
+following scan codes for power management buttons, i.e., POWER and SLEEP
+buttons:
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+<BR>
+</TD><TD> Set-1 make/break </TD><TD> Set-2 make/break </TD></TR><TR><TD>
+</TD></TR><TR><TD>
+Power </TD><TD> <B>e0</B> <B>5e</B> / <B>e0</B> <B>de</B> </TD><TD><B>e0</B> <B>37</B> / <B>e0</B> <B>f0</B> <B>37</B> </TD></TR><TR><TD>
+Sleep </TD><TD> <B>e0</B> <B>5f</B> / <B>e0</B> <B>df</B> </TD><TD><B>e0</B> <B>3f</B> / <B>e0</B> <B>f0</B> <B>3f</B> </TD></TR><TR><TD>
+Wake </TD><TD> <B>e0</B> <B>63</B> / <B>e0</B> <B>e3</B> </TD><TD><B>e0</B> <B>5e</B> / <B>e0</B> <B>f0</B> <B>5e</B> </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>The Power, Sleep, and Wake event scan codes are the i8042 equivalents
+to the System Power Down, System Sleep, and System Wake Up HID usages".
 <P>
 <HR>
 <A HREF="scancodes-2.html">Next</A>

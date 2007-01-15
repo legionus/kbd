@@ -4,7 +4,7 @@
 
 <title>The Linux keyboard and console HOWTO
 <author>Andries Brouwer, <tt/aeb@cwi.nl/
-<date>v2.9, 990114
+<date>v2.10, 000208
 
 <abstract>This note contains some information about the Linux keyboard
 and console, and the use of non-ASCII characters.
@@ -84,9 +84,11 @@ The Linux console sequences are documented in console_codes(4).
 <sect>Keyboard generalities<p>
 <nidx>keyboard!theory of operation</nidx>
 
-You press a key, and the keyboard controller sends scancodes to the
-kernel keyboard driver. Some keyboards can be programmed, but usually
-the scancodes corresponding to your keys are fixed.
+You press a key, and the keyboard controller sends
+<htmlurl name="scancodes"
+ url="http://www.win.tue.nl/~aeb/linux/kbd/scancodes.html">
+to the kernel keyboard driver. Some keyboards can be programmed,
+but usually the scancodes corresponding to your keys are fixed.
 The kernel keyboard driver just transmits whatever it receives
 to the application program when it is in <em>scancode mode</em>,
 like when <tt/X/ is running. Otherwise, it parses the stream of scancodes
@@ -1004,6 +1006,12 @@ be able to survive: the dangerous letters A,M,Q,W,Y,Z that are
 differently placed on English, French and German keyboards, are
 not used for actions. (But if your finger slips and you hit L
 instead of K - bye bye to your system.)
+<p>
+In Linux 2.3.13 the possibility to enable/disable SysRq was added.
+<tscreen><verb>
+	echo 0 > /proc/sys/kernel/sysrq
+</verb></tscreen>
+will disable it (if the kernel was compiled with CONFIG_MAGIC_SYSRQ).
 
 <sect>How to get out of raw mode<p>
 <nidx>raw mode, exiting</nidx>
@@ -1508,19 +1516,7 @@ Since version 1.3.33, the kernel knows about `sticky' modifier keys.
 These act on the next key pressed. So, where one earlier needed
 the 3-symbol sequence Shift_Lock a Shift_Lock to type `A', one
 can now use the 2-symbol sequence SShift_Lock a.
-Versions of the kbd package older than 0.93 do not yet include code
-for these sticky modifiers, and have to invoke them
-using their hexadecimal codes. For example,
-<tscreen><verb>
-	% loadkeys
-	keymaps 0-15
-	keycode 54 = 0x0c00
-	keycode 97 = 0x0c02
-	keycode 100 = 0x0c03
-	%
-</verb></tscreen>
-will make the right Shift, Ctrl, Alt sticky versions of the left ones.
-From 0.93 on you can say
+You can say
 <tscreen><verb>
 	% loadkeys
 	keymaps 0-15
@@ -1529,7 +1525,7 @@ From 0.93 on you can say
 	keycode 100 = SAlt
 	%
 </verb></tscreen>
-to obtain the same result.
+to make the right Shift, Ctrl, Alt sticky versions of the left ones.
 This will allow you to type Ctrl-Alt-Del in three keystrokes with one hand.
 
 The keymaps line in these examples should cover all keymaps you have in use.
@@ -1537,6 +1533,37 @@ You find what keymaps you have in use by
 <tscreen><verb>
 	% dumpkeys | head -1
 </verb></tscreen>
+
+
+<sect1>Sticky keys under <tt/X/<p>
+The following text was contributed by Piotr Mitros.
+
+XFree86 supports an accessibility option which allows disabled users
+to type single-handed. With sticky keys enabled, the user can hit a
+modifier key (ctrl, alt, shift) followed by another key, rather than
+having to hold the modifier key while hitting the letter. 
+
+To enable sticky keys, first make sure the xkb extension is enabled
+(this is done during initial <tt/X/ server configuration and is usually
+enabled by default). Next, run the <tt/X/ server with the <tt/+accessx/
+option. If you use <tt/startx/, either run <tt/startx -- +accessx/ or
+add <tt/+accessx/ to the serverargs line in the <tt/startx/ script.
+If you use <tt/xdm/, add <tt/+accessx/ to the appropriate server line
+in <tt>/etc/X11/xdm/Xservers</tt>.
+
+It is also possible to enable <tt/X/ accessibility with some end-user
+utilities with a running <tt/X/ server.
+
+Once <tt/X/ accessibility is enabled, press the shift key five times in a
+row to enable sticky keys. To disable sticky keys, either press the
+shift key five times again, or press a key while holding a modifier
+key.
+
+XFree86 also supports Slow Keys, Repeat Keys, Bounce Keys and an
+audible bell. <tt/xkbcomp/ can be used to generate a <tt/.xkm/ file
+to enable these. The appropriate <tt/xkbcomp/ commands are listed in
+<tt>/usr/X11R6/lib/X11/xkb/compat/accessx</tt>.
+Unfortunately, the exact process is still undocumented.
 
 <sect>Changing the video mode<p>
 <nidx>console!changing video modes</nidx>

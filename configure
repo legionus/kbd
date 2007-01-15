@@ -1,9 +1,7 @@
 #!/bin/sh
 #
 # Call:
-#  ./configure
-# or
-#  ./configure --datadir=DATADIR
+#  ./configure [--datadir=DATADIR] [--disable-nls]
 #
 # Where shall we store our stuff?
 #  Old default: /usr/lib/kbd
@@ -55,7 +53,7 @@ case "$datadir" in
 		;;
 esac
 
-for i in Makefile src/Makefile man/man1/dumpkeys.1 man/man1/loadkeys.1 man/man8/setfont.8; do
+for i in Makefile src/Makefile man/man1/dumpkeys.1 man/man1/loadkeys.1 man/man8/setfont.8 man/man8/loadunimap.8 man/man8/mapscrn.8; do
 	sed -e "
 s,@datadir@,$datadir,
 " $i.in > $i

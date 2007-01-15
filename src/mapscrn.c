@@ -1,5 +1,5 @@
 /*
- * mapscrn.c - version 0.98
+ * mapscrn.c
  */
 
 #include <stdio.h>
@@ -72,7 +72,8 @@ loadnewmap(int fd, char *mfil) {
 	int i;
 
 	if ((fp = findfile(mfil, mapdirpath, mapsuffixes)) == NULL) {
-	        fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"), mfil);
+	        fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
+			mfil);
 		exit(1);
 	}
 	if (stat(pathname, &stbuf)) {
@@ -81,20 +82,23 @@ loadnewmap(int fd, char *mfil) {
 		exit(1);
 	}
 	if (stbuf.st_size != E_TABSZ) {
-		fprintf(stderr,
-			_("Loading symbolic screen map from file %s\n"),
-			pathname);
-
+		if (verbose)
+			printf(_("Loading symbolic screen map from file %s\n"),
+			       pathname);
 		if (parsemap(fp,buf)) {
-			fprintf(stderr, _("Error parsing symbolic map\n"));
+			fprintf(stderr,
+				_("Error parsing symbolic map from `%s'\n"),
+				pathname);
 			exit(1);
 		}
 	} else 	{
-		fprintf(stderr, _("Loading binary screen map from file %s\n"),
-			pathname);
-
+		if (verbose)
+			printf(_("Loading binary screen map from file %s\n"),
+			       pathname);
 		if (fread(buf,E_TABSZ,1,fp) != 1) {
-			fprintf(stderr, _("Cannot read map from file"));
+			fprintf(stderr,
+				_("Error reading map from file `%s'\n"),
+				pathname);
 			exit(1);
 		}
 	}
@@ -102,12 +106,9 @@ loadnewmap(int fd, char *mfil) {
 
 	i = ioctl(fd,PIO_SCRNMAP,buf);
 	if (i) {
-	    perror("PIO_SCRNMAP");
-	    exit(1);
+		perror("PIO_SCRNMAP");
+		exit(1);
 	}
-
-	if (verbose)
-	  printf(_("Loaded screen map from `%s'\n"), mfil);
 }
 
 static int

@@ -1,5 +1,5 @@
 PACKAGE = kbd
-VERSION = 0.99
+VERSION = 1.04
 
 include ../make_include
 
@@ -14,7 +14,7 @@ INTL = /usr/share/gettext/intl
 FOREIGN=
 SHELL = /bin/sh
 
-prefix = /usr
+prefix = $(DESTDIR)/usr
 exec_prefix = ${prefix}
 datadir = $(prefix)/share
 localedir = $(datadir)/locale

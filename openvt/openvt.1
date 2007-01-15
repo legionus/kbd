@@ -1,6 +1,6 @@
 .\" Copyright 1994-95 Jon Tombs (jon@gtex02.us.es, jon@robots.ox.ac.uk)
 .\" May be distributed under the GNU General Public License
-.TH OPEN 1 V1.4 "19 Jul 1996" "Linux 1.x" "Linux Users' Manual"
+.TH OPENVT 1 V1.4 "19 Jul 1996" "Linux 1.x" "Linux Users' Manual"
 .SH NAME
 openvt \- start a program on a new virtual terminal (VT).
 .SH SYNOPSIS
@@ -47,7 +47,7 @@ end of options to
 .SH NOTE
 If
 .B openvt
-is compiled with a POSIX (Gnu) getopt() and you wish to set
+is compiled with a POSIX (GNU) getopt() and you wish to set
 options to the command to be run, then you must supply
 the end of options \-\- flag before the command.
 .BR
@@ -68,13 +68,15 @@ To get a long listing you must supply the \-\- separator:
 .I "openvt -- ls -l"
 .BR
 
+.SH HISTORY
+Earlier,
+.B openvt
+was called
+.BR open .
+It was written by Jon Tombs <jon@gtex02.us.es or jon@robots.ox.ac.uk.>
+The \-w idea is from "sam".
 
 .SH "SEE ALSO"
 .BR chvt (1),
 .BR doshell (8),
-.BR login (1).
-
-.SH AUTHOR
-Jon Tombs <jon@gtex02.us.es or jon@robots.ox.ac.uk>
-.br
-\-w idea from "sam".
+.BR login (1)

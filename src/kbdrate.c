@@ -117,7 +117,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	if (rate == 0)				/* switch repeat off */
 		kbdrep_s.rate = 0;
 	else
-		kbdrep_s.rate  = 1000.0 / rate;		/* convert cps to msec */
+		kbdrep_s.rate  = 1000.0 / rate;	/* convert cps to msec */
 	if (kbdrep_s.rate < 1)
 		kbdrep_s.rate = 1;
 	kbdrep_s.delay = delay;

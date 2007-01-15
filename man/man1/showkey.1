@@ -24,7 +24,10 @@ buffer fills up. This can be used to determine roughly, what byte
 sequences the keyboard sends at once on a given key press. The scan code
 dumping mode is primarily intended for debugging the keyboard driver or
 other low level interfaces. As such it shouldn't be of much interest to
-the regular end-user.
+the regular end-user. However, some modern keyboards have keys or buttons
+that produce scancodes to which the kernel does not associate a keycode,
+and, after finding out what these are, the user can assign keycodes with
+.BR setkeycodes (8).
 .LP
 When in the default keycode dump mode,
 .B showkey
@@ -66,5 +69,5 @@ in `ascii' dump mode.
 .SH "SEE ALSO"
 .BR loadkeys (1),
 .BR dumpkeys (1),
-.BR keymaps (5)
-
+.BR keymaps (5),
+.BR setkeycodes (8)

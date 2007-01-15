@@ -1,15 +1,18 @@
 # de.map: German keymap
 # (Renamed from gr.map, since it is not a Greek map.)
 # Some changes due to Olaf Flebbe (flebbe@pluto.tat.physik.uni-tuebingen.de)
-# More changes by Jochen Hein <jochen.hein@delphi.central.de>.
+# More changes by Jochen Hein <jochen@jochen.org>.
 
 keymaps 0-2,4-6,8-10,12
 alt_is_meta
 include "qwertz-layout"
 	altgr keycode 16 = at
+control altgr keycode 16 = nul
 	altgr keycode 50 = mu
 include "linux-with-alt-and-altgr"
 	plain keycode  83 = KP_Comma
+include "compose.latin1"
+include "euro2.map"
 strings as usual
 
 #             Normal           Shift            AltGr           Strg

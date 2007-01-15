@@ -18,9 +18,10 @@
 <!--
 keyboard!theory of operation
 -->
-<P>You press a key, and the keyboard controller sends scancodes to the
-kernel keyboard driver. Some keyboards can be programmed, but usually
-the scancodes corresponding to your keys are fixed.
+<P>You press a key, and the keyboard controller sends
+<A HREF="http://www.win.tue.nl/~aeb/linux/kbd/scancodes.html">scancodes</A>
+to the kernel keyboard driver. Some keyboards can be programmed,
+but usually the scancodes corresponding to your keys are fixed.
 The kernel keyboard driver just transmits whatever it receives
 to the application program when it is in <EM>scancode mode</EM>,
 like when <CODE>X</CODE> is running. Otherwise, it parses the stream of scancodes

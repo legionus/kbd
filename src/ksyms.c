@@ -341,7 +341,7 @@ static sym latin1_syms[] = {
 };
 
 static sym latin2_syms[] = {
-	{ 0x00a0, "" },
+	{ 0x00a0, "" },		/* 0240 */
 	{ 0x0104, "Aogonek" },
 	{ 0x02d8, "breve" },
 	{ 0x0141, "Lstroke" },
@@ -373,7 +373,7 @@ static sym latin2_syms[] = {
 	{ 0x02dd, "doubleacute" },
 	{ 0x017e, "zcaron" },
 	{ 0x017c, "zabovedot" },
-	{ 0x0154, "Racute" },
+	{ 0x0154, "Racute" },	/* 0300 */
 	{ 0x00c1, "" },
 	{ 0x00c2, "" },
 	{ 0x0102, "Abreve" },
@@ -1121,6 +1121,7 @@ static sym iso_8859_9_syms[] = { /* latin-5 */
 };
 
 #include "koi8.syms.h"
+#include "cp1250.syms.h"
 #include "ethiopic.syms.h"
 
 static sym iso_8859_15_syms[] = {
@@ -1592,19 +1593,20 @@ struct cs {
     sym *charnames;
     int start;
 } charsets[] = {
-    { "iso-8859-1", latin1_syms, 160 },
-    { "iso-8859-2", latin2_syms, 160 },
-    { "iso-8859-3", latin3_syms, 160 },
-    { "iso-8859-4", latin4_syms, 160 },
-    { "iso-8859-5", iso_8859_5_syms, 160 },
-    { "iso-8859-7", iso_8859_7_syms, 160 },
-    { "iso-8859-8", iso_8859_8_syms, 160 },
-    { "iso-8859-9", iso_8859_9_syms, 208 },
-    { "iso-8859-15", iso_8859_15_syms, 160 },
-    { "mazovia",    mazovia_syms, 128 },
-    { "koi8-r",     koi8_syms, 128 },
-    { "koi8-u",     koi8_syms, 128 },
-    { "iso-10646-18", iso_10646_18_syms, 159 },		/* ethiopic */
+    { "iso-8859-1",	latin1_syms, 160 },
+    { "iso-8859-2",	latin2_syms, 160 },
+    { "iso-8859-3",	latin3_syms, 160 },
+    { "iso-8859-4",	latin4_syms, 160 },
+    { "iso-8859-5",	iso_8859_5_syms, 160 },
+    { "iso-8859-7",	iso_8859_7_syms, 160 },
+    { "iso-8859-8",	iso_8859_8_syms, 160 },
+    { "iso-8859-9",	iso_8859_9_syms, 208 },
+    { "iso-8859-15",	iso_8859_15_syms, 160 },
+    { "mazovia",	mazovia_syms, 128 },
+    { "cp-1250",	cp1250_syms, 128 },
+    { "koi8-r",		koi8_syms, 128 },
+    { "koi8-u",		koi8_syms, 128 },
+    { "iso-10646-18",	iso_10646_18_syms, 159 },	/* ethiopic */
 };
 
 /* Functions for both dumpkeys and loadkeys. */

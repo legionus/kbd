@@ -57,6 +57,7 @@ struct psf1_header {
  * done in the same style).
  * Following hpa's suggestion, psf2 uses UTF-8 rather than UCS-2,
  * and has 32-bit magic 0x864ab572.
+ * The integers here are little endian 4-byte integers.
  */
 
 #define PSF2_MAGIC0     0x72

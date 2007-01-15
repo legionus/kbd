@@ -10,6 +10,7 @@ install: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 	install -m 644 $(UNIMAPDIR)/* $(DATADIR)/$(UNIMAPDIR)
 	install -d -m 755 $(DATADIR)/$(KEYMAPDIR)
 	install -d -m 755 $(DATADIR)/$(KEYMAPDIR)/i386
+	install -d -m 755 $(DATADIR)/$(KEYMAPDIR)/mac
 	for i in $(KEYMAPSUBDIRS); do \
 		install -d -m 755 $(DATADIR)/$(KEYMAPDIR)/$$i ;\
 		install -m 644 $(KEYMAPDIR)_Z/$$i/* $(DATADIR)/$(KEYMAPDIR)/$$i ;\

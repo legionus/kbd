@@ -25,7 +25,10 @@ main(){
     if (fd < 0)
       fd = 0;
     signal(SIGHUP, sighup);
-    ioctl(fd, KDSIGACCEPT, (long) SIGHUP);
+    if (ioctl(fd, KDSIGACCEPT, (long) SIGHUP)) {
+      perror("KDSIGACCEPT");
+      exit(1);
+    }
     while(1)
       sleep(3600);
 }

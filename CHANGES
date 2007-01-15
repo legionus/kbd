@@ -120,3 +120,47 @@ o Setfont now accepts several psf2 fonts, each of arbitrary length.
   Setfont now accepts a text file containing a list of fonts to load.
 o Made distinction between koi8-r and koi8-u.
 o spawn_console and spawn_login invoke openvt, not open.
+
+Changes for 1.03 (aeb):
+
+o Added doc/scancodes/* with information on the scancodes produced
+  by PC keyboards.
+o Added by.map.
+o Added Unicode maps to Greek fonts.
+
+Changes for 1.04 (aeb, Olaf Hering, Kurt Garloff):
+
+o Programs:
+  - setfont etc: support for font widths other than 8
+  - loadkeys.y: also look at mac/include
+  - cp1250.syms.h: new
+  - setlogcons: new
+  - contrib/showfont: new
+  - contrib/psfsplit: new
+  - cad: don't create a temp file
+o Documentation:
+  - Minor changes to kbd FAQ. Extended scancode FAQ. New A20 docs.
+  - Minor changes to man pages.
+o Keymaps:
+  - New keymap include dir mac/include.
+  - Added euro1.map and euro2.map.
+  - Added some compose definitions to compose.latin and compose.latin1.
+  - Deleted be-latin1.map and renamed be2-latin1.map to be-latin1.map.
+    There seems to be consensus that it is better than the original
+    be-latin1.map.
+  - Renamed hebrew.map to il-phonetic.map and added il.map.
+  - Applied fix from Jochen Hein to de.map.
+  - Applied SuSE fixes to mac-de-latin1-nodeadkeys.map, us.map, de*.map.
+  - Added mac-be.map, mac-de-latin1.map, mac-de_CH.map, mac-dk-latin1.map,
+    mac-es.map, mac-fi-latin1.map, mac-fr.map, mac-fr_CH-latin1.map,
+    mac-it.map, mac-pt-latin1.map, mac-se.map, mac-uk.map, mac-us.map,
+    br-latin1-abnt2.map, br-latin1-us.map, cz.map, de_CH-latin1.map,
+    mk.map (renamed the old one to mk0.map), mk-cp1251.map, mk-utf.map,
+    ro_win.map and cz-cp1250.map.
+o Unimaps:
+  - Added cp1250.uni.
+o Console translations:
+  - Added iso02_to_cp1250.trans.
+o Fonts:
+  - Added cybercafe.fnt, sun12x22.psfu, cp1250.psfu,
+    cp857.08, cp857.14, cp857.16.

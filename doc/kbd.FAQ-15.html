@@ -141,22 +141,7 @@ Control_Lock, Shift_Lock, Alt_Lock, ALtGr_Lock.
 These act on the next key pressed. So, where one earlier needed
 the 3-symbol sequence Shift_Lock a Shift_Lock to type `A', one
 can now use the 2-symbol sequence SShift_Lock a.
-Versions of the kbd package older than 0.93 do not yet include code
-for these sticky modifiers, and have to invoke them
-using their hexadecimal codes. For example,
-<BLOCKQUOTE><CODE>
-<PRE>
-        % loadkeys
-        keymaps 0-15
-        keycode 54 = 0x0c00
-        keycode 97 = 0x0c02
-        keycode 100 = 0x0c03
-        %
-</PRE>
-</CODE></BLOCKQUOTE>
-
-will make the right Shift, Ctrl, Alt sticky versions of the left ones.
-From 0.93 on you can say
+You can say
 <BLOCKQUOTE><CODE>
 <PRE>
         % loadkeys
@@ -168,7 +153,7 @@ From 0.93 on you can say
 </PRE>
 </CODE></BLOCKQUOTE>
 
-to obtain the same result.
+to make the right Shift, Ctrl, Alt sticky versions of the left ones.
 This will allow you to type Ctrl-Alt-Del in three keystrokes with one hand.
 <P>The keymaps line in these examples should cover all keymaps you have in use.
 You find what keymaps you have in use by
@@ -177,6 +162,34 @@ You find what keymaps you have in use by
         % dumpkeys | head -1
 </PRE>
 </CODE></BLOCKQUOTE>
+<P>
+<P>
+<H2><A NAME="ss15.2">15.2 Sticky keys under <CODE>X</CODE></A>
+</H2>
+
+<P>The following text was contributed by Piotr Mitros.
+<P>XFree86 supports an accessibility option which allows disabled users
+to type single-handed. With sticky keys enabled, the user can hit a
+modifier key (ctrl, alt, shift) followed by another key, rather than
+having to hold the modifier key while hitting the letter. 
+<P>To enable sticky keys, first make sure the xkb extension is enabled
+(this is done during initial <CODE>X</CODE> server configuration and is usually
+enabled by default). Next, run the <CODE>X</CODE> server with the <CODE>+accessx</CODE>
+option. If you use <CODE>startx</CODE>, either run <CODE>startx -- +accessx</CODE> or
+add <CODE>+accessx</CODE> to the serverargs line in the <CODE>startx</CODE> script.
+If you use <CODE>xdm</CODE>, add <CODE>+accessx</CODE> to the appropriate server line
+in <CODE>/etc/X11/xdm/Xservers</CODE>.
+<P>It is also possible to enable <CODE>X</CODE> accessibility with some end-user
+utilities with a running <CODE>X</CODE> server.
+<P>Once <CODE>X</CODE> accessibility is enabled, press the shift key five times in a
+row to enable sticky keys. To disable sticky keys, either press the
+shift key five times again, or press a key while holding a modifier
+key.
+<P>XFree86 also supports Slow Keys, Repeat Keys, Bounce Keys and an
+audible bell. <CODE>xkbcomp</CODE> can be used to generate a <CODE>.xkm</CODE> file
+to enable these. The appropriate <CODE>xkbcomp</CODE> commands are listed in
+<CODE>/usr/X11R6/lib/X11/xkb/compat/accessx</CODE>.
+Unfortunately, the exact process is still undocumented.
 <P>
 <HR>
 <A HREF="kbd.FAQ-16.html">Next</A>

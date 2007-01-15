@@ -16,11 +16,37 @@
 
 <P>
 <P>
-<H2><A NAME="ss2.1">2.1 Focus KeyPro FK-9000 keyboard</A>
+<H2><A NAME="ss2.1">2.1 Cherry G80-0777</A>
 </H2>
 
-<P>Raul D. Miller &lt;rockwell@nova.umd.edu&gt;
-and &lt;hagmanti@cps.msu.edu&gt; report:
+<P>According to 
+<A HREF="http://titan.informatik.uni-bonn.de/~frinke/FreeKEYB/kbdinfo.html">FreeKEYB/kbdinfo.html</A>
+this keyboard has five additional keys with scancodes
+<B>55</B> (F11), <B>56</B> (F12),
+<B>57</B> (F13), <B>58</B> (F14), <B>59</B> (F15).
+<P>
+<H2><A NAME="ss2.2">2.2 Amstrad/Schneider PC1512</A>
+</H2>
+
+<P>This keyboard has a Del key on the keypad, and both Del-> and Del&lt;- keys
+above the Enter key. The Del-> key has scancode <B>70</B>.
+There is an additional Enter key with scancode <B>74</B>.
+It is possible to connect a mouse and/or joystick to the keyboard,
+and then these devices also yield scancodes:
+<B>77</B> (joystick button 1), <B>78</B> (joystick button 2),
+<B>79</B> (joystick right), <B>7a</B> (joystick left),
+<B>7b</B> (joystick up), <B>7c</B> (joystick down),
+<B>7d</B> (mouse right), <B>7e</B> (mouse left).
+The Amstrad keyboard is entirely incompatible with XT and AT keyboards,
+and can be used only on an Amstrad; conversely, no other keyboard will
+work on an older Amstrad.
+<P>
+<H2><A NAME="ss2.3">2.3 Focus KeyPro FK-9000 keyboard</A>
+</H2>
+
+<P>Raul D. Miller &lt;<CODE>rockwell@nova.umd.edu</CODE>&gt;
+and Timothy C. Hagman &lt;<CODE>hagmanti@cps.msu.edu</CODE>&gt;
+report:
 <P><I>The keyboard is a KeyPro FK-9000.  The FCC label says it's made in
 Taiwan by Focus Electronic Co, Ltd.  It has a built-in calculator.</I>
 <P><I>This keyboard has twelve additional keys, with scancodes</I>
@@ -73,13 +99,16 @@ generates <B>56</B> when hit, repeats that, and then <B>d6</B>
 when released, just like a normal key.</I>
 <P>
 <P>
-<H2><A NAME="ss2.2">2.2 BTC keyboard</A>
+<H2><A NAME="ss2.4">2.4 BTC keyboard</A>
 </H2>
 
 <P>This keyboard has one additional key, with escaped scancode
-<B>e0</B> <B>6f</B> (Macro).
+<B>e0</B> <B>6f</B> (Macro). (Funny enough it does this
+in all modes, each of the three scancode sets, translated or not.
+In particular, this Macro key is the only key that generates
+two bytes in scancode mode 3.)
 <P>
-<H2><A NAME="ss2.3">2.3 LK450 keyboard</A>
+<H2><A NAME="ss2.5">2.5 LK450 keyboard</A>
 </H2>
 
 <P>This keyboard has six additional keys, with escaped scancodes
@@ -90,32 +119,39 @@ when released, just like a normal key.</I>
 <B>e0</B> <B>41</B> (F17),
 <B>e0</B> <B>4e</B> (Keypad-minplus).
 <P>
-<H2><A NAME="ss2.4">2.4 OmniKey keyboard</A>
+<H2><A NAME="ss2.6">2.6 OmniKey keyboard</A>
 </H2>
 
 <P>This keyboard has one additional key, with escaped scancode
 <B>e0</B> <B>4c</B> (Omni).
 <P>
-<H2><A NAME="ss2.5">2.5 GRiD 2260 keyboard</A>
+<H2><A NAME="ss2.7">2.7 GRiD 2260 keyboard</A>
 </H2>
 
 <P>The GRiD 2260 notebook has a key producing the
 <B>6c</B> scancode; I do not know the keycap.
 <P>
-<H2><A NAME="ss2.6">2.6 A Japanese 86/106 keyboard</A>
+<H2><A NAME="ss2.8">2.8 A Japanese 86/106 keyboard</A>
 </H2>
 
-<P>Barry Yip &lt;g609296@cc.win.or.jp&gt; reports:
+<P>Barry Yip &lt;<CODE>g609296@cc.win.or.jp</CODE>&gt; reports:
 <P><I>This keyboard has two additional keys, with scancodes
 <B>73</B> (\-) and <B>7d</B> (\|).
 This kind of keyboard is rather standard in Japan. They are called 106
 keyboard. Mine is a notebook so it is 86 keyboard. No specific brand
 name.</I>
 <P>
-<H2><A NAME="ss2.7">2.7 Brazilian keyboard</A>
+<H2><A NAME="ss2.9">2.9 Trust Ergonomic keyboard</A>
 </H2>
 
-<P>Arnaldo Moura &lt;lumbago@vnet.ibm.com&gt; reports:
+<P>Frank v Waveren &lt;<CODE>fvw@var.cx</CODE>&gt; reports:
+The Trust Ergo Track keyboard has one additional key (`application key'), with
+escaped scancode <B>e0</B> <B>68</B>. The keycap is a triangle pointing left.
+<P>
+<H2><A NAME="ss2.10">2.10 Brazilian keyboard</A>
+</H2>
+
+<P>Arnaldo Moura &lt;<CODE>lumbago@vnet.ibm.com</CODE>&gt; reports:
 <P><I>This keyboard has two unusual keys, with scancodes
 <B>73</B> (/?) and <B>7e</B> (Keypad-.).</I>
 <P>Also others mention an ABNT keyboard with <B>73</B> and
@@ -128,10 +164,10 @@ keyboard has 103 keys. I find an ABNT 107 key keyboard announced by
 with Suspend / Wake-up / Power power management keys.
 <I>For enabling these functions, run BIOS setup.</I>
 <P>
-<H2><A NAME="ss2.8">2.8 RC930 keyboard</A>
+<H2><A NAME="ss2.11">2.11 RC930 keyboard</A>
 </H2>
 
-<P>Torben Fjerdingstad &lt;tfj@olivia.ping.dk&gt; reports:
+<P>Torben Fjerdingstad &lt;<CODE>tfj@olivia.ping.dk</CODE>&gt; reports:
 <P><I>It's an rc930 keyboard, from Regnecentralen/RC International, Now ICL.
 This keyboard has four additional keys, with scancodes</I>
 <B>59</B> (A1),
@@ -142,10 +178,10 @@ This keyboard has four additional keys, with scancodes</I>
 problem with fast typists, writing over 400 chars/minute.
 Writing 'af&lt;space&gt;', very, very fast, did a PgUp.</I>
 <P>
-<H2><A NAME="prefix_80"></A> <A NAME="ss2.9">2.9 Tandberg Data keyboard</A>
+<H2><A NAME="prefix_80"></A> <A NAME="ss2.12">2.12 Tandberg Data keyboard</A>
 </H2>
 
-<P>Kjetil Torgrim Homme &lt;kjetilho@ifi.uio.no&gt; reports:
+<P>Kjetil Torgrim Homme &lt;<CODE>kjetilho@ifi.uio.no</CODE>&gt; reports:
 <P><I>My Tandberg Data keyboard uses the prefix <B>80</B> for
 its numerous (20) extra keys. The <B>80</B> scancodes are:</I>
 <P><B>11</B>, <B>12</B>, <B>13</B>, <B>14</B>, <B>16</B>,
@@ -158,22 +194,66 @@ its numerous (20) extra keys. The <B>80</B> scancodes are:</I>
 <B>50</B>, <B>51</B>, <B>52</B>, <B>53</B>.
 <P><I>The <B>e1</B> scancode: <B>1d</B>.
 As you can see, there is no overlap on this keyboard.</I>
+<P>Harald Arnesen &lt;<CODE>gurre@start.no</CODE>&gt; gives the keycaps
+for these for the Tandberg TDV5020 keyboard.
+All use prefix <B>80</B> on both press and release.
+<P>Thirteen keys have (Norwegian) text:
+<B>11</B> HJELP (help), <B>14</B> STRYK (cut),
+<B>16</B> KOPI (copy), <B>17</B> FLYTT (move),
+<B>19</B> JUST (justify), <B>21</B> MERK (mark),
+<B>22</B> ANGRE (undo), <B>23</B> SKRIV (print),
+<B>25</B> SLUTT (exit), <B>26</B> FELT (field),
+<B>2f</B> AVSN (paragraph), <B>30</B> SETN (sentence),
+and <B>32</B> ORD (word).
+<P>Seven keys have symbols: <B>12</B> /\/\/\ (insert soft hyphen),
+<B>13</B> [Crossed down-arrow] (move down five lines),
+<B>18</B> &gt;&gt; &lt;&lt; (justify left/right),
+<B>1e</B> &lt;&gt; &gt;&lt; (justify full/center),
+<B>1f</B> |&lt;- (backtab),
+<B>20</B> -&gt;| (tab), and
+<B>56</B> [Back/down arrow] (start new paragraph).
+<P>Other keycaps also occur. Those given above were meant
+for use with the Notis WP word processor.
 <P>
-<H2><A NAME="ss2.10">2.10 A keyboard</A>
+<H2><A NAME="ss2.13">2.13 A Chinese keyboard</A>
 </H2>
 
-<P><I>Three unusual power keys: <B>e0</B> <B>5e</B>,
-<B>e0</B> <B>5f</B>, <B>e0</B> <B>63</B>.</I>
+<P>Bruno Haible &lt;<CODE>haible@ilog.fr</CODE>&gt; reports:
+The keyboard has three keys <B>e0</B> <B>5e</B> (Power),
+<B>e0</B> <B>5f</B> (Sleep), <B>e0</B> <B>63</B> (WakeUp)
+in the following positions:
 <P>
-<H2><A NAME="ss2.11">2.11 Microsoft Natural keyboard</A>
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+<BR>
+</TD><TD> F10 F11 F12 </TD><TD> Power </TD><TD> Sleep </TD><TD> WakeUp </TD></TR><TR><TD>
+</TD></TR><TR><TD>
+..</TD><TD> Backspace </TD><TD> PrtScr </TD><TD> ScrLck </TD><TD> Pause </TD></TR><TR><TD>
+..</TD><TD> Return </TD><TD> Ins </TD><TD> Home </TD><TD> PgUp </TD></TR><TR><TD>
+..</TD><TD> Return </TD><TD> Del </TD><TD> End </TD><TD> PgDn </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>
+<H2><A NAME="ss2.14">2.14 Microsoft Natural keyboard</A>
 </H2>
 
 <P>This keyboard has three additional keys, with escaped scancodes
 <B>e0</B> <B>5b</B> (LeftWindow),
 <B>e0</B> <B>5c</B> (RightWindow),
 <B>e0</B> <B>5d</B> (Menu).
+The kscancodes (see 
+<A HREF="scancodes-3.html#kscancodes">below</A>)
+are <B>e0</B> <B>1f</B>, <B>e0</B> <B>27</B> and
+<B>e0</B> <B>2f</B>, respectively.
+The USB key codes are usage page 0x07, usage index 227, 231, 101
+(decimal), respectively.
+Microsoft 
+<A HREF="http://www.microsoft.com/hwdev/download/desinit/scancode.zip">describes</A>
+the intended use in detail. Both Windows keys are intended to be
+used as modifier keys, like both shift and control and alt keys.
+The Menu key may be modified by shift etc.
 <P>
-<H2><A NAME="ss2.12">2.12 Microsoft Internet keyboard</A>
+<H2><A NAME="ss2.15">2.15 Microsoft Internet keyboard</A>
 </H2>
 
 <P>In addition to the three extra keys on the Microsoft Natural keyboard,
@@ -188,36 +268,239 @@ this keyboard has ten keys, with escaped scancodes
 <B>e0</B> <B>6a</B> (Back),
 <B>e0</B> <B>6b</B> (My Computer),
 <B>e0</B> <B>6c</B> (Mail).
+The kscancodes (see 
+<A HREF="scancodes-3.html#kscancodes">below</A>) are
+<B>e0</B> <B>2b</B>, <B>e0</B> <B>3a</B>,
+<B>e0</B> <B>3f</B>, <B>e0</B> <B>10</B>,
+<B>e0</B> <B>18</B>, <B>e0</B> <B>28</B>,
+<B>e0</B> <B>30</B>, <B>e0</B> <B>38</B>,
+<B>e0</B> <B>40</B>, <B>e0</B> <B>48</B>,
+respectively.
 <P>
-<H2><A NAME="ss2.13">2.13 Logitech Internet keyboard</A>
+<H2><A NAME="ss2.16">2.16 Microsoft Natural keyboard pro</A>
 </H2>
 
-<P>Jonathan DeBoer &lt;deboer@ugrad.cs.ualberta.ca&gt;
-reports Key-down and key-up scancodes for a Logitech Internet keyboard.
-<P> 0xe0 0x7a 0xe0 0xfa
-<P> 0xe0 0x32 0xe0 0xb2
-<P> 0xe0 0x21 0xe0 0xa1
-<P> 0xe0 0x23 0xe0 0xa3
-<P> 0x38 0x2a 0x0f 0x8f 0x8f 0xb8 0xaa
-<P> 0xe0 0x17 0xe0 0x97
-<P> 0xe0 0x10 0xe0 0x90
-<P> 0xe0 0x22 0xe0 0xa2
-<P> 0xe0 0x24 0xe0 0xa4
-<P> 0xe0 0x19 0xe0 0x99
-<P> 0xe0 0x1e 0xe0 0x9e
-<P> 0xe0 0x12 0xe0 0x92
-<P> 0xe0 0x26 0xe0 0xa6
-<P> 0xe0 0x18 0xe0 0x98
-<P> 0xe0 0x20 0xe0 0xa0
-<P> 0xe0 0x30 0xe0 0xb0
-<P> 0xe0 0x2e 0xe0 0xae
-<P> 0xe0 0x25 0xe0 0xa5
-<P> (But I have no keycap information.)
+<P>Marco Melgazzi &lt;<CODE>marco@techie.com</CODE>&gt; reports:
+The Microsoft Natural keyboard pro has 19 additional keys,
+with escaped scancodes
+<B>e0</B> <B>6a</B> (Back),
+<B>e0</B> <B>69</B> (Forward),
+<B>e0</B> <B>68</B> (Stop),
+<B>e0</B> <B>67</B> (Refresh),
+<B>e0</B> <B>65</B> (Search),
+<B>e0</B> <B>66</B> (Favorites),
+<B>e0</B> <B>32</B> (Web/Home),
+<B>e0</B> <B>6c</B> (Mail),
+<B>e0</B> <B>20</B> (Mute),
+<B>e0</B> <B>2e</B> (Volume -),
+<B>e0</B> <B>30</B> (Volume +),
+<B>e0</B> <B>22</B> (Play/Pause),
+<B>e0</B> <B>24</B> (Stop),
+<B>e0</B> <B>10</B> (Prev Track),
+<B>e0</B> <B>19</B> (Next Track),
+<B>e0</B> <B>6d</B> (Media),
+<B>e0</B> <B>6b</B> (My Computer),
+<B>e0</B> <B>21</B> (Calculator),
+<B>e0</B> <B>5f</B> (Sleep).
+(That is, we have the ten extra keys of the Microsoft Internet keyboard,
+with the same scancodes, and also Refresh, Mute, Volume -, Volume +,
+Play/Pause, Stop, Prev Track, Next Track, Media.)
 <P>
-<H2><A NAME="e0_as_key"></A> <A NAME="ss2.14">2.14 A keyboard using e0 as ordinary scancode</A>
+<H2><A NAME="ss2.17">2.17 Logitech Internet keyboard</A>
 </H2>
 
-<P>Benjamin Carter &lt;bcarter@ultra5.cs.umr.edu&gt; reports:
+<P>Jonathan DeBoer &lt;<CODE>deboer@ugrad.cs.ualberta.ca</CODE>&gt; reports:
+This keyboard has 18 unusual keys.
+<P><B>e0</B> <B>7a</B> (WWW),
+<B>e0</B> <B>32</B> (History),
+<B>e0</B> <B>21</B> (Open URL),
+<B>e0</B> <B>23</B> (Home),
+<B>38</B> <B>2a</B> <B>0f</B> <B>8f</B> (key press)
+<B>8f</B> <B>b8</B> <B>aa</B> (key release) (Send To Back) -
+this sequence simulates Alt+Shift+Tab, but contains two Tab releases,
+<B>e0</B> <B>17</B> (Print),
+<B>e0</B> <B>10</B> (Back),
+<B>e0</B> <B>22</B> (Forward),
+<B>e0</B> <B>24</B> (Stop),
+<B>e0</B> <B>19</B> (Refresh),
+<B>e0</B> <B>1e</B> (Search),
+<B>e0</B> <B>12</B> (Find),
+<B>e0</B> <B>26</B> (Add Favourite),
+<B>e0</B> <B>18</B> (Open Favourites),
+<B>e0</B> <B>20</B> (Hot Links),
+<B>e0</B> <B>30</B> (Scroll Up),
+<B>e0</B> <B>2e</B> (Scroll Down),
+<B>e0</B> <B>25</B> (Logitech).
+<P>
+<P>Ryan Lortie &lt;<CODE>desertangel@globalserve.net</CODE>&gt; writes:
+The "Logitech" key is used as a modifier.
+In windows, Logitech-Keypad+ increases volume, Logitech-Keypad- decreases.
+There is a conjoined dual-button key for "scroll".
+You press the top part to scroll up, the bottom to scroll down.
+<P>
+<H2><A NAME="ss2.18">2.18 Compaq Armada laptop keyboard</A>
+</H2>
+
+<P>Christian Gennerat &lt;<CODE>christian.gennerat@vz.cit.alcatel.fr</CODE>&gt; writes:
+There are 4 extra keys on the Compaq Armada laptops.
+The four keys are located over the Esc-F1..F12, and are labelled *1-*4.
+Scancodes: <B>65</B>, <B>67</B>, <B>69</B>, <B>6b</B>.
+<P>
+<H2><A NAME="ss2.19">2.19 Rapid Access keyboard</A>
+</H2>
+
+<P>Dennis Bjorklund &lt;<CODE>dennisb@cs.chalmers.se</CODE>&gt; writes:
+<P>I have a Rapid Access keyboard with some (14) extra buttons and
+two more leds then a normal pc keyboard. To activate the extra buttons
+one has to send the sequence <B>ea</B> <B>71</B>
+to the keyboard. Once that is done the extra keys generate normal
+e0xx sequences. To turn off the extra keys you send <B>ea</B> <B>70</B>.
+<P>There are 14 keys:
+<P><B>e0</B> <B>25</B> (Suspend),
+<B>e0</B> <B>26</B> (Help),
+<B>e0</B> <B>32</B> (Prg 1),
+<B>e0</B> <B>17</B> (Prg 2),
+<B>e0</B> <B>30</B> (Prg 3),
+<B>e0</B> <B>2e</B> (Prg 4),
+<B>e0</B> <B>19</B> (Play CD),
+<B>e0</B> <B>24</B> (CD Stop),
+<B>e0</B> <B>22</B> (CD Pause),
+<B>e0</B> <B>1e</B> (Vol -),
+<B>e0</B> <B>29</B> (Vol +),
+<B>e0</B> <B>23</B> (Prev song),
+<B>e0</B> <B>21</B> (Next song),
+<B>e0</B> <B>12</B> (Mute).
+<P>
+<P>The Suspend and Mute buttons have extra leds on them.
+These are controlled by the sequence <B>eb</B> <B>00</B> <B>xx</B>
+where the <B>xx</B> controls the leds. Bit 2 controls the Suspend led and
+bit 5 controls the Mute led.
+<P>
+<H2><A NAME="ss2.20">2.20 Rapid Access II keyboard</A>
+</H2>
+
+<P>John Elliott &lt;<CODE>jce@seasip.demon.co.uk</CODE>&gt; writes:
+<P>I have an IBM Rapid Access II keyboard (UK layout), which seems to 
+generate codes that are similar - but not identical - to the Rapid Access
+keycodes listed above.
+<P>Keys:
+<P><B>e0</B> <B>25</B> (Green, "Internet"),
+<B>e0</B> <B>26</B> (Blue, "Internet shopping"),
+<B>e0</B> <B>32</B> (Yellow, "IBM Web support"),
+<B>e0</B> <B>17</B> (Purple),
+<B>e0</B> <B>30</B> (Red),
+<B>e0</B> <B>2e</B> (Cyan, "Help"),
+<B>e0</B> <B>5f</B> (White, "Standby" - has a LED),
+<B>e0</B> <B>20</B> (CD stop),
+<B>e0</B> <B>22</B> (CD play),
+<B>e0</B> <B>24</B> (CD back),
+<B>e0</B> <B>12</B> (CD fwd),
+<B>e0</B> <B>21</B> (Volume D),
+<B>e0</B> <B>23</B> (Volume U),
+<B>e0</B> <B>1e</B> (Mute - no LED).
+<P>
+<P>There are also "back" and "forward" keys (one could think of them as 
+"page left" and "page right" :-) ). They generate ALT+left and ALT+right
+respectively: <B>38</B> <B>e0</B> <B>4b</B> and
+<B>38</B> <B>e0</B> <B>4d</B>.
+<P>
+<P>
+<H2><A NAME="ss2.21">2.21 Chicony KBP-8993 keyboard</A>
+</H2>
+
+<P>Matthijs Melchior &lt;<CODE>mmelchio@xs4all.nl</CODE>&gt; reports:
+<P>The Chicony KBP-8993 keyboard is similar. It has 14 additional
+keys, enabled by sending <B>ea</B> <B>71</B> and disabled
+by sending <B>ea</B> <B>70</B>.
+<P>These keys generate the following scan codes:
+<P><B>e0</B> <B>25</B> (Moon),
+<B>e0</B> <B>32</B> (WWW),
+<B>e0</B> <B>30</B> (DOS),
+<B>e0</B> <B>17</B> (MyDoc),
+<B>e0</B> <B>26</B> (Menu),
+<B>e0</B> <B>1e</B> (zzZ),
+<B>e0</B> <B>2e</B> (Close),
+<B>e0</B> <B>24</B> (Stop),
+<B>e0</B> <B>23</B> (Back),
+<B>e0</B> <B>22</B> (Play),
+<B>e0</B> <B>21</B> (Forward),
+<B>e0</B> <B>20</B> (Mute),
+<B>e0</B> <B>12</B> (VolDown),
+<B>e0</B> <B>19</B> (VolUp).
+<P>The two extra leds, above the Moon key, and next to the zzZ key
+are manipulated by sending: <B>eb</B> <B>00</B> <B>0x</B>,
+where bit 0 is the Moon led and bit 1 is the zzZ led.
+<P>
+<H2><A NAME="ss2.22">2.22 Logitech Cordless Desktop Pro keyboard</A>
+</H2>
+
+<P>Nick Rusnov &lt;<CODE>nick@grawk.net</CODE>&gt; reports:
+<P>The special buttons on a Logitech Cordless Desktop Pro keyboard
+produce the following scancodes:
+<P><B>e0</B> <B>5f</B> (Moon (sleep)),
+<B>e0</B> <B>32</B> (Homepage),
+<B>e0</B> <B>6c</B> (Mail),
+<B>e0</B> <B>65</B> (Search),
+<B>e0</B> <B>66</B> (runningguuy),
+<B>e0</B> <B>20</B> (Mute),
+<B>e0</B> <B>2e</B> (VolDown),
+<B>e0</B> <B>30</B> (VolUp),
+<B>e0</B> <B>22</B> (Play/Pause),
+<B>e0</B> <B>24</B> (Stop),
+<B>e0</B> <B>10</B> (Rewind),
+<B>e0</B> <B>19</B> (ff),
+<B>e0</B> <B>21</B> (Logitech).
+<P>
+<H2><A NAME="ss2.23">2.23 Keyboards for HP Kayak and Vectra</A>
+</H2>
+
+<P>Fons Rademakers &lt;<CODE>Fons.Rademakers@cern.ch</CODE>&gt; writes:
+<P><I>The electronics for this keyboard was first developed by HP's
+Home Products Division (HPD).
+They now make improved versions, which I don't know much about.
+We (HP Corporate PC Divisions, in Grenoble) reused the electronics,
+and changed the serigraphy printed on the keys.</I>
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+<BR>
+</TD><TD>Msg</TD><TD>TTl</TD><TD>WWW</TD><TD> ? </TD><TD>Lck</TD><TD> </TD><TD></TD><TD>Msg</TD><TD>Phn</TD><TD>WWW</TD><TD>xxx</TD><TD>Slp</TD><TD> </TD><TD></TD><TD>133</TD><TD>134</TD><TD>135</TD><TD>136</TD><TD>137</TD><TD> </TD></TR><TR><TD>
+</TD><TD>Phn</TD><TD>S3 </TD><TD>S4 </TD><TD>S5 </TD><TD> i </TD><TD> </TD><TD></TD><TD>&lt;&lt;</TD><TD>&gt;||</TD><TD>[] </TD><TD>&gt;&gt; </TD><TD>HP </TD><TD> </TD><TD></TD><TD>138</TD><TD>139</TD><TD>140</TD><TD>141</TD><TD>142</TD><TD> </TD></TR><TR><TD>
+</TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>Mut</TD><TD> </TD><TD></TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>Mut</TD><TD> </TD><TD></TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>143</TD><TD> </TD></TR><TR><TD>
+</TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>Vl+</TD><TD> </TD><TD></TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>Vl+</TD><TD> </TD><TD></TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>144</TD><TD> </TD></TR><TR><TD>
+</TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>VL-</TD><TD> </TD><TD></TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>VL-</TD><TD> </TD><TD></TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD><TD>145</TD><TD> </TD></TR><TR><TD>
+
+<CAPTION>Grenoble keyboard ------- Old HPD keyboard -------- key numbers</CAPTION>
+</TD></TR></TABLE></CENTER>
+<P>
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+<BR>
+</TD><TD> Key# </TD><TD> Scancode </TD><TD> Gren. Name </TD><TD> HPD name </TD><TD> ASCII </TD></TR><TR><TD>
+</TD></TR><TR><TD>
+</TD><TD> 133 </TD><TD> <B>e0 1e</B> </TD><TD> Message/SC1 </TD><TD> Message </TD><TD> a </TD></TR><TR><TD>
+</TD><TD> 134 </TD><TD> <B>e0 12</B> </TD><TD> Top Tools </TD><TD> Phone </TD><TD> e </TD></TR><TR><TD>
+</TD><TD> 135 </TD><TD> <B>e0 32</B> </TD><TD> Web Browser </TD><TD> Internet </TD><TD> m </TD></TR><TR><TD>
+</TD><TD> 136 </TD><TD> <B>e0 17</B> </TD><TD> Reminder </TD><TD> Shortcut </TD><TD> i </TD></TR><TR><TD>
+</TD><TD> 137 </TD><TD> <B>e0 25</B> </TD><TD> Lock </TD><TD> Suspend </TD><TD> k </TD></TR><TR><TD>
+</TD><TD> 138 </TD><TD> <B>e0 23</B> </TD><TD> Phone/SC2 </TD><TD> &lt;&lt; </TD><TD> h </TD></TR><TR><TD>
+</TD><TD> 139 </TD><TD> <B>e0 22</B> </TD><TD> ShortCut 3 </TD><TD> &gt;|| </TD><TD> g </TD></TR><TR><TD>
+</TD><TD> 140 </TD><TD> <B>e0 24</B> </TD><TD> ShortCut 4 </TD><TD> [] </TD><TD> j </TD></TR><TR><TD>
+</TD><TD> 141 </TD><TD> <B>e0 21</B> </TD><TD> ShortCut 5 </TD><TD> &gt;&gt; </TD><TD> f </TD></TR><TR><TD>
+</TD><TD> 142 </TD><TD> <B>e0 26</B> </TD><TD> Information </TD><TD> Information </TD><TD> l </TD></TR><TR><TD>
+</TD><TD> 143 </TD><TD> <B>e0 20</B> </TD><TD> Mute </TD><TD> Mute </TD><TD> d </TD></TR><TR><TD>
+</TD><TD> 144 </TD><TD> <B>e0 30</B> </TD><TD> Volume + </TD><TD> Volume + </TD><TD> b </TD></TR><TR><TD>
+</TD><TD> 145 </TD><TD> <B>e0 2e</B> </TD><TD> Volume - </TD><TD> Volume - </TD><TD> c </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P><I>Note the scancodes above are those read by x86 software in port 0x60.
+This is also called Scancode Set 1.
+Break codes are the same, with bit 7 of the second scancode set.
+Example:</I> <B>e0 9e</B> <I>for the Message key.</I>
+<P>
+<H2><A NAME="e0_as_key"></A> <A NAME="ss2.24">2.24 A keyboard using e0 as ordinary scancode</A>
+</H2>
+
+<P>Benjamin Carter &lt;<CODE>bcarter@ultra5.cs.umr.edu</CODE>&gt; reports:
 <P><I>I recently came into possession of a 97-key keyboard with Japanese
 markings on the keys.  (The keys also have the standard
 qwerty-characters on them, with the exception of some of the meta-keys
@@ -296,15 +579,15 @@ and <B>e1</B>, confusing the keyboard driver.</I>
 <B>7e</B> (Keypad ,).
 <P>
 <P>There are more keyboards that do not use <B>e0</B> as escape code.
-For example, Paul Schulz &lt;pauls@caemrad.com.au&gt;
+For example, Paul Schulz &lt;<CODE>pauls@caemrad.com.au</CODE>&gt;
 reports the same for Sun Type 5 Keyboard with PS/2 connector,
 NCD model N-123NA. A kernel patch is required for such keyboards.
 <P>
 <P>
-<H2><A NAME="ss2.15">2.15 IBM ThinkPad</A>
+<H2><A NAME="ss2.25">2.25 IBM ThinkPad</A>
 </H2>
 
-<P>George Staikos &lt;staikos@0wned.org&gt; writes:
+<P>George Staikos &lt;<CODE>staikos@0wned.org</CODE>&gt; writes:
 <P><I>I have an IBM ThinkPad i1460. It has the IBM EasyLaunch&lt;tm&gt; keys.
 These are four multicoloured keys up at the top of the keyboard
 for "Home Page", "Search", "Shop", "Mail".  They dont' seem to create
@@ -313,14 +596,38 @@ any keyboard events at all.  The keyboard interrupt doesn't trigger,
 sequence of BIOS calls doesn't see them either.
 Also, being a laptop, it has an FN key.  This key generates <B>55</B>.</I>
 <P>
-<H2><A NAME="ss2.16">2.16 Keyboards with many keys</A>
+<H2><A NAME="ss2.26">2.26 A keyboard</A>
+</H2>
+
+<P>Jon Masters &lt;<CODE>jonathan@easypenguin.co.uk</CODE>&gt; writes:
+<P><I>My new 121 key keyboard has 105 keys + 16 multimedia keys
+(including cool stuff like a volume jog dial that sends one scancode
+when turned one way and anther when turned the opposite way).</I>
+<P><B>e0</B> <B>5e</B> (Power Off),
+<B>e0</B> <B>5f</B> (Sleep),
+<B>e0</B> <B>63</B> (Resume),
+<B>e0</B> <B>2e</B> (Help),
+<B>e0</B> <B>20</B> (My Favourite),
+<B>e0</B> <B>30</B> (Browser),
+<B>e0</B> <B>32</B> (WWW Search),
+<B>e0</B> <B>26</B> (Shortcut),
+<B>e0</B> <B>25</B> (Volume Down),
+<B>e0</B> <B>1e</B> (Volume Up),
+<B>e0</B> <B>12</B> (Mute),
+<B>e0</B> <B>22</B> (Previous),
+<B>e0</B> <B>10</B> (Stop),
+<B>e0</B> <B>24</B> (Next),
+<B>e0</B> <B>21</B> (Eject),
+<B>e0</B> <B>19</B> (Play).
+<P>
+<H2><A NAME="ss2.27">2.27 Keyboards with many keys</A>
 </H2>
 
 <P>The current mechanism is unable to handle keyboards with more than
 127 keys. But such keyboards seem to exist. (So far, nobody has
 reported `I have one', but there are several reports saying
 `I have heard about someone who has one'.)
-<P>Mark Hatle &lt;fray@kernel.crashing.org&gt; wrote:
+<P>Mark Hatle &lt;<CODE>fray@kernel.crashing.org</CODE>&gt; wrote:
 <P><I>On some ADB keyboards there are actually 128 distinct keys.
 They use scancodes 0-127.</I>
 <P><I>ADB is Apple Desktop Bus.  The way that ADB works is similar to SCSI but
@@ -340,6 +647,21 @@ the PPC - Power Macintosh and CHRP ports.</I>
 <P>and later:
 <P><I>Basically the scancode sequences for ADB are 16 bit. so there can actually
 be 65536 scancodes, currently though only 128 are defined.</I>
+<P>
+<H2><A NAME="ss2.28">2.28 A keyboard treating PrtSc/SysRq like Pause/Break</A>
+</H2>
+
+<P>
+<A NAME="mtek"></A> 
+Mike A. Harris &lt;<CODE>mharris@meteng.on.ca</CODE>&gt;
+reports a keyboard (an "Mtek" keyboard, model "K208")
+where PrtSc/SysRq behaves like Pause/Break and also sends both make
+and break sequences when pressed and nothing when released.
+It does not repeat.
+(Thus, he gets <B>e0</B> <B>2a</B> <B>e0</B> <B>37</B>
+<B>e0</B> <B>b7</B> <B>e0</B> <B>aa</B> for PrtSc press,
+and <B>54</B> <B>d4</B> for SysRq (i.e., Alt+PrtSc).)
+<P>
 <P>
 <HR>
 <A HREF="scancodes-3.html">Next</A>

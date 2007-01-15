@@ -37,7 +37,7 @@ command can read the map in either of two formats:
 .br
 2. two-column text file
 .br
-Format (1) is is an image of translation 
+Format (1) is an image of translation 
 .I table. 
 Any time a character with the code
 .I i
@@ -65,9 +65,12 @@ Single character enclosed in single quotes.
 Note that blank, comma, tab character and '#' cannot be specified
 with the 4th format.
 .PP
-Note that control characters ( with codes < 32) cannot be re-mapped with
+Note that control characters (with codes < 32) cannot be re-mapped with
 .I mapscrn
 because they have special meaning for the driver.
+.SH FILES
+.I @datadir@/consoletrans
+is the default directory for screen mappings.
 .SH "SEE ALSO"
 .IR setfont (8)
 .SH AUTHOR
