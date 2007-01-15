@@ -1,0 +1,31 @@
+
+CC=gcc
+CFLAGS=-O2 -Wall -ansi
+LDFLAGS=$(CFLAGS) -s 
+
+SRC=openvt.c
+OBJ=openvt.o getfd.o
+PROG=openvt
+PROGS=$(PROG)
+MAN=openvt.1
+BINDIR=/usr/bin
+MANDIR=/usr/man/man1
+
+all: $(PROGS)
+
+openvt: $(OBJ) 
+
+openvt.o: openvt.h
+
+clean:
+	-rm -f $(OBJ)
+
+realclean distclean: clean
+	-rm -f $(PROGS)
+
+install: $(PROGS)
+	install -c $(PROGS) $(BINDIR)
+	install -c $(MAN)  $(MANDIR)
+
+setuid:
+	chmod 4711 $(BINDIR)/$(PROG)

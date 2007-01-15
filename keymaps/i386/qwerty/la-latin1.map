@@ -1,0 +1,74 @@
+# From jfernand@dc.uba.ar Mon Apr 21 22:00:42 1997
+! Latin American keyboard, loosely based on Jon Tombs' and Julio Sanchez's
+! Spanish keyboard. Read the Spahish and Keyboard HOWTOs for information on
+! how to configure your system to use the extended symbols.
+!
+! shift keycode 41 is mapped to masculine because I wasn't able to
+! figure out the correct keysym for that character. If you do, please
+! contact me.
+!
+! Please do send any comments/suggestions to the following address:
+!
+! Javier Fernandez Ivern <jfernand@dc.uba.ar>
+!
+keymaps 0-2,4-6,8-10,12-14
+alt_is_meta
+include "qwerty-layout"
+	altgr   keycode  16 = at
+include "linux-with-alt-and-altgr"
+strings as usual
+
+keycode   1 = Escape
+keycode   2 = one              exclam
+keycode   3 = two              quotedbl
+keycode   4 = three            numbersign
+keycode   5 = four             dollar
+keycode   6 = five             percent
+keycode   7 = six              ampersand
+keycode   8 = seven            slash
+keycode   9 = eight            parenleft
+keycode  10 = nine             parenright
+keycode  11 = zero             equal
+keycode  12 = apostrophe       question         backslash
+	altgr	control	keycode  12 = Control_backslash
+keycode  13 = questiondown     exclamdown
+keycode  14 = Delete
+	control	keycode  14 = BackSpace
+	alt     keycode  14 = Meta_BackSpace
+keycode  15 = Tab
+keycode  26 = dead_acute       dead_diaeresis
+keycode  27 = plus             asterisk         asciitilde
+keycode  28 = Return
+	alt	keycode  28 = Meta_Control_m
+keycode  29 = Control
+keycode  39 = ntilde           Ntilde
+keycode  40 = braceleft        bracketleft      asciicircum
+	altgr	control	keycode  40 = Control_asciicircum
+keycode  41 = bar              masculine        notsign
+keycode  42 = Shift
+keycode  43 = braceright       bracketright     grave
+	shift	control	keycode  43 = Control_bracketright
+keycode  51 = comma            semicolon
+keycode  52 = period           colon
+keycode  53 = minus            underscore
+	shift	control	keycode  53 = Control_underscore
+keycode  54 = Shift
+keycode  56 = Alt
+keycode  57 = space
+	control	keycode  57 = nul
+keycode  58 = Caps_Lock
+keycode  86 = less             greater
+keycode  97 = Control
+
+compose '\'' 'a' to 'á'
+compose '\'' 'e' to 'é'
+compose '\'' 'i' to 'í'
+compose '\'' 'o' to 'ó'
+compose '\'' 'u' to 'ú'
+compose '\'' 'A' to 'Á'
+compose '\'' 'E' to 'É'
+compose '\'' 'I' to 'Í'
+compose '\'' 'O' to 'Ó'
+compose '\'' 'U' to 'Ú'
+compose '"' 'u' to 'ü'
+compose '"' 'U' to 'Ü'

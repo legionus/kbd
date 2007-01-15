@@ -1,0 +1,128 @@
+#!/bin/sh
+#
+# Very simple configure: only DATADIR is variable.
+#
+# Call:
+#  ./configure
+# or
+#  ./configure --datadir=DATADIR
+#
+# Where shall we store our stuff?
+#  Old default: /usr/lib/kbd
+#  New default: /usr/share/kbd
+#
+
+datadir=
+nls=1
+
+for arg in $*; do
+	case "$arg" in
+		-*=*) optarg=`echo "$arg" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
+		   *) optarg= ;;
+	esac
+
+	case "$arg" in
+		--da*)
+			datadir=$optarg
+			;;
+		--di*)
+			nls=0
+			;;
+		*)
+			echo "usage: configure [--datadir=DATADIR]"
+			exit 1
+			;;
+	esac
+done
+
+if [ x$datadir = x ]; then
+	if [ -d /usr/lib/kbd ]; then
+		datadir=/usr/lib/kbd
+	elif [ -d /usr/share/consolefonts ]; then
+		datadir=/usr/share
+	elif [ -d /usr/share ]; then
+		datadir=/usr/share/kbd
+	else
+		datadir=/usr/lib/kbd
+	fi
+fi
+
+case "$datadir" in
+	/*)
+		echo "Configuring for DATADIR=$datadir"
+		;;
+	*)
+		echo "DATADIR must have a leading slash"
+		exit 1
+		;;
+esac
+
+for i in Makefile src/Makefile man1/dumpkeys.1 man1/loadkeys.1 man8/setfont.8; do
+	sed -e "
+s,@datadir@,$datadir,
+" $i.in > $i
+done
+
+rm -f defines.h make_include
+
+# Next, figure out some things about the environment
+# Things taken from util-linux configure
+
+if test "$RANDOM" = "$RANDOM"; then
+  # Plain old Bourne shell.
+  echo checking for gcc
+  test -z "$CC" -a -n "`gcc 2>&1`" && CC="gcc -O"
+else
+  # ksh, bash or zsh.  ksh and zsh write "command not found" to stderr.
+  echo checking for gcc
+  test -z "$CC" && type gcc && CC="gcc -O"
+fi
+
+CC=${CC-cc}
+CFLAGS=${CFLAGS-"-O"}
+compile="$CC $CFLAGS $DEFS conftest.c -o conftest $LIBS >/dev/null 2>&1"
+static_compile="$CC -static $DEFS conftest.c -o conftest $LIBS >/dev/null 2>&1"
+
+rm -f make_include conftest.c conftest
+
+#
+# 1. Do we have <locale.h>?
+#
+echo "
+#include <locale.h>
+main(){ exit(0); }
+" > conftest.c
+eval $compile
+if test -s conftest && ./conftest 2>/dev/null; then
+        echo "#define HAVE_locale_h" >> defines.h
+        echo "You have <locale.h>"
+else
+        echo "You don't have <locale.h>"
+fi
+rm -f conftest conftest.c
+
+#
+# 2. Do we have <libintl.h>?
+#
+echo "
+#include <libintl.h>
+main(){ exit(0); }
+" > conftest.c
+eval $compile
+if [ $nls = 1 ]; then
+	if test -s conftest && ./conftest 2>/dev/null; then
+		echo '#define HAVE_libintl_h' >> defines.h
+		echo "You have <libintl.h>"
+		echo '#define ENABLE_NLS' >> defines.h
+		echo 'ENABLE_NLS=yes' >> make_include
+		echo "Assuming that you want to enable NLS support."
+		echo "(Otherwise, edit defines.h)"
+	else
+        	echo "You don't have <libintl.h>"
+		echo 'ENABLE_NLS=no' >> make_include
+	fi
+else
+	echo "NLS disabled"
+	echo 'ENABLE_NLS=no' >> make_include
+fi
+rm -f conftest conftest.c

@@ -1,0 +1,66 @@
+# NL Keyboard Mapping  version 0.0.0.1
+#
+# From: wwessels@explore.demon.nl
+# Date: 22/12/98 
+# For an IBM 85 key international keyboard as found on a Thinkpad 765L.
+# 
+# This keyboard mapping is far from complete, I only have fixed the
+# most irritating not working keys on the NL/IBM keyboard.
+# I will try to fix all the keys if I have the knowledge and the time.
+# 
+# Best regards, Wouter.
+#
+# [slightly adapted - aeb]
+# [corrections welcome - it seems unlikely that both Shift-9 and Shift-0
+#  are parenright]
+charset "iso-8859-1"
+keymaps 0-2,4-6,8-9,12
+alt_is_meta
+include "qwerty-layout"
+include "linux-with-alt-and-altgr"
+strings as usual
+compose as usual for "iso-8859-1"
+
+keycode   1 = Escape
+keycode   2 = one              exclam          
+keycode   3 = two              quotedbl               at               nul              nul             
+keycode   4 = three            numbersign      
+	control	keycode   4 = Escape          
+keycode   5 = four             dollar           dollar           Control_backslash
+keycode   6 = five             percent         
+	control	keycode   6 = Control_bracketright
+keycode   7 = six              ampersand     
+	control	keycode   7 = Control_asciicircum
+keycode   8 = seven            underscore        braceleft        Control_underscore
+keycode   9 = eight            parenleft         bracketleft      Delete          
+keycode  10 = nine             parenright        bracketright    
+keycode  11 = zero             parenright       braceright      
+keycode  12 = slash            question		backslash        Control_underscore Control_underscore
+keycode  13 = equal            asciitilde            
+keycode  14 = Delete
+keycode  15 = Tab
+keycode  26 = bracketleft      asciicircum       
+	control	keycode  26 = Escape          
+keycode  27 = asterisk     bar	asciitilde       Control_bracketright
+keycode  28 = Return          
+	alt	keycode  28 = Meta_Control_m  
+keycode  29 = Control         
+keycode  39 = plus        colon           
+keycode  40 = apostrophe      grave 
+	control	keycode  40 = Control_g       
+keycode  41 = at            asciitilde      
+	control	keycode  41 = nul             
+keycode  42 = Shift           
+keycode  43 = less        greater             
+	control	keycode  43 = Control_backslash
+keycode  51 = comma           semicolon 
+keycode  52 = period          colon 
+keycode  53 = minus          equal 
+	control	keycode  53 = Delete          
+keycode  54 = Shift           
+keycode  56 = Alt             
+keycode  57 = space            space           
+	control	keycode  57 = nul             
+keycode  58 = Caps_Lock       
+keycode  86 = bracketright             greater          bar             
+keycode  97 = Control         

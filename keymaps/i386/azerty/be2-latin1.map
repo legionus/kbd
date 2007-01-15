@@ -1,0 +1,20 @@
+#From srtxg@habcnx.interpac.be Wed Apr 26 07:21:00 1995
+#
+#I've seen some (minor) differences between be-latin1.map and my own keyboard,
+#so I send you the modified keymap.
+#(the differences are twosuperior and threesuperior added(keycode 41), grave at
+#the correct place(43), and changed the ^ on the numbers row (7) to have the
+#same behaviour than in ms-dos)
+
+# be-latin1.map modified by Pablo Saratxaga <srtxg@f2219.n293.z2.fidonet.org>
+include "be-latin1.map"
+
+	altgr keycode 7 = asciicircum
+keycode  41 = twosuperior  threesuperior
+keycode  43 = mu  sterling  dead_grave
+	alt keycode 43 = Meta_grave
+
+# be-latin1.map has here:
+# altgr keycode 7 = dead_circumflex
+# keycode  41 = mu         sterling                dead_grave
+# keycode  43 = <absent>

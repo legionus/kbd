@@ -1,0 +1,26 @@
+#!/bin/sh
+# start unicode
+#
+# When a Unicode symbol is not found in the Unicode mapping table,
+# and it is in the range U+0000-00FF, then it is looked up in the
+# current translation table; outside that range it is replaced by
+# a space. The arguments "-m space" below make sure that also inside
+# this range unknown symbols are replaced by spaces.
+#
+case $# in
+	2)
+		setfont $1 -u $2 -m space ;;
+	1)
+		setfont $1 -m space;;
+	0)
+		setfont
+		setfont -u def.uni -m space
+		;;
+	*)
+		echo "usage: unicode_start [font [unicode map]]"
+		;;
+esac
+
+kbd_mode -u
+# Since 1.2.1 - for older kernels, use: echo -n -e '\033%8'
+echo -n -e '\033%G'

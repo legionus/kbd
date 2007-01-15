@@ -1,0 +1,78 @@
+.\" @(#)man/man8/mapscrn.8	1.0 3/19/93 17:04:00
+.TH MAPSCRN 8 "20 March 1993" "Local" "International Support"
+.SH NAME
+mapscrn \- load screen output mapping table
+.SH SYNOPSIS
+.B mapscrn
+[
+.I -o map.orig
+]
+.I mapfile
+.SH DESCRIPTION
+The
+.I mapscrn
+command loads a user defined output character mapping table into the
+console driver. The console driver may be later put into
+.B use user-defined mapping table
+mode by outputting a special escape sequence to the console device.
+This sequence is
+.I <esc>(K
+for the
+.B G0 
+character set and
+.I <esc>)K
+for the
+.B G1
+character set.
+When the
+.I -o
+option is given, the old map is saved in
+.I map.orig.
+.SH "OPERATION"
+The
+.I mapscrn
+command can read the map in either of two formats:
+.br
+1. 256 byte binary data
+.br
+2. two-column text file
+.br
+Format (1) is is an image of translation 
+.I table. 
+Any time a character with the code
+.I i
+is output to the console device, the character with the code 
+.I table[i]
+appears on the screen. Format (2) is used to fill the 
+.I table
+as follows: cell with offset mentioned in the first column is filled
+with the value mentioned in the second column.
+.PP
+Values in the file may be specified in one of four 
+.B formats:
+.br
+.B 1. Decimal: 
+string of decimal digits not beginning with '0'
+.br
+.B 2. Octal: 
+string of octal digits beginning with '0'
+.br
+.B 3. Hexadecimal: 
+string of hexadecimal digits preceded by "0x"
+.br
+.B 4. Character: 
+Single character enclosed in single quotes.
+Note that blank, comma, tab character and '#' cannot be specified
+with the 4th format.
+.PP
+Note that control characters ( with codes < 32) cannot be re-mapped with
+.I mapscrn
+because they have special meaning for the driver.
+.SH "SEE ALSO"
+.IR setfont (8)
+.SH AUTHOR
+Copyright (C) 1993 Eugene G. Crosser
+.br
+<crosser@pccross.msk.su>
+.br
+This software and documentation may be distributed freely.

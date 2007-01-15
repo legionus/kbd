@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.7">
+ <TITLE>The Linux keyboard and console HOWTO: Unusual keys and keyboards</TITLE>
+ <LINK HREF="kbd.FAQ-15.html" REL=next>
+ <LINK HREF="kbd.FAQ-13.html" REL=previous>
+ <LINK HREF="kbd.FAQ.html#toc14" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="kbd.FAQ-15.html">Next</A>
+<A HREF="kbd.FAQ-13.html">Previous</A>
+<A HREF="kbd.FAQ.html#toc14">Contents</A>
+<HR>
+<H2><A NAME="s14">14. Unusual keys and keyboards</A></H2>
+
+<P>
+<!--
+keyboard!unusual versions of
+-->
+
+<!--
+keyboard!non-standard keys on
+-->
+<P>The two keys PrintScrn/SysRq and Pause/Break are special in that they
+have two keycodes: the former has keycode 84 when Alt is pressed
+simultaneously, and keycode 99 otherwise; the latter has keycode
+101 when Ctrl is pressed simultaneously, and keycode 119 otherwise.
+(Thus, it makes no sense to bind functions to Alt keycode 99 or
+Ctrl keycode 119.)
+<P>If you have strange keys, that do not generate any code under Linux
+(or generate messages like "unrecognized scancode"), and your kernel
+is 1.1.63 or later, then you can use setkeycodes(1) to tell the kernel
+about them. They won't work under X, however.
+Once they have gotten a keycode from <CODE>setkeycodes</CODE>, they can be assigned
+a function by <CODE>loadkeys</CODE>.
+<P>
+<HR>
+<A HREF="kbd.FAQ-15.html">Next</A>
+<A HREF="kbd.FAQ-13.html">Previous</A>
+<A HREF="kbd.FAQ.html#toc14">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,82 @@
+# fi-latin1.map: Finnish keymap
+# Changes by Johan Myréen <jem@iki.fi> 1997-08-19
+
+charset "iso-8859-1"
+keymaps 0-2,4-6,8-10,12-14
+alt_is_meta
+include "qwerty-layout"
+	altgr keycode 18 = Hex_E
+	altgr keycode 30 = Hex_A
+	altgr keycode 32 = Hex_D
+	altgr keycode 33 = Hex_F
+	altgr keycode 46 = Hex_C
+	altgr keycode 48 = Hex_B
+include "linux-with-alt-and-altgr"
+	plain keycode  83 = KP_Comma
+strings as usual
+
+keycode   1 = Escape
+keycode   2 = one              exclam
+keycode   3 = two              quotedbl         at
+	control keycode   3 = nul
+	control altgr keycode 3 = nul
+keycode   4 = three            numbersign       sterling
+	control keycode   4 = Escape
+keycode   5 = four             dollar         dollar
+	control keycode   5 = Control_backslash
+keycode   6 = five             percent
+	control keycode   6 = Control_bracketright
+keycode   7 = six              ampersand
+	control keycode   7 = Control_asciicircum
+keycode   8 = seven            slash            braceleft
+	control keycode   8 = Control_underscore
+keycode   9 = eight            parenleft        bracketleft
+	control keycode   9 = Delete
+	control altgr keycode 9 = Escape
+keycode  10 = nine             parenright       bracketright
+	control altgr keycode 10 = Control_bracketright
+keycode  11 = zero             equal            braceright
+keycode  12 = plus             question         backslash
+	control keycode  12 = Control_underscore
+	control altgr keycode 12 = Control_backslash
+keycode  13 = dead_acute       dead_grave
+	alt     keycode  13 = Meta_equal
+	alt shift keycode 13 = Meta_grave
+keycode  14 = Delete
+keycode  15 = Tab
+keycode  26 = +aring            +Aring
+	control keycode  26 = Escape
+	alt     keycode  26 = Meta_bracketleft
+keycode  27 = dead_diaeresis   dead_circumflex  dead_tilde
+	control keycode  27 = Control_bracketright
+	control shift keycode 27 = Control_asciicircum
+	alt keycode  27 = Meta_bracketright
+	alt shift keycode 27 = Meta_asciicircum
+	alt altgr keycode 27 = Meta_asciitilde
+keycode  28 = Return
+	alt     keycode  28 = Meta_Control_m
+keycode  29 = Control
+keycode  39 = +odiaeresis       +Odiaeresis
+	alt     keycode  39 = Meta_semicolon
+keycode  40 = +adiaeresis       +Adiaeresis
+	alt     keycode  40 = Meta_apostrophe
+keycode  41 = section          onehalf
+	control keycode  41 = nul
+	alt     keycode  41 = Meta_grave
+keycode  42 = Shift
+keycode  43 = apostrophe       asterisk
+	control keycode  43 = Control_backslash
+keycode  51 = comma            semicolon
+keycode  52 = period           colon
+keycode  53 = minus            underscore
+	control keycode  53 = Control_underscore
+	control shift keycode 53 = Control_underscore
+	control alt shift keycode 53 = Meta_Control_underscore
+keycode  54 = Shift
+keycode  56 = Alt
+keycode  57 = space
+	control keycode  57 = nul
+keycode  58 = Caps_Lock
+keycode  86 = less             greater          bar
+	alt altgr keycode 86 = Meta_bar
+keycode  97 = Control

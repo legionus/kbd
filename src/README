@@ -1,0 +1,15 @@
+Several corrections in kbd-0.90 are due to shields@tembel.org
+(Michael Shields).
+
+jrs@world.std.com (Rick Sladkey) suggested some improvements
+to the Makefile.
+
+resize has been renamed resizecons in order to avoid name conflicts.
+
+disalloc has been renamed deallocvt since people tell me
+that `disallocate' is bad English; also it is good to have
+the `vt' in the name, just like in chvt.
+Now open should be renamed openvt...
+
+A few Unicode related things are not installed by default, since
+not many people use them. Install them yourself, if you need them.

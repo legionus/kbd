@@ -1,0 +1,66 @@
+#encoding: UTF-8
+#     Lithuanian key-map for PC 101/102 keyboard in ISO 8859-4 mode. V1.0.
+# Comments & bug reports to: Ričardas Čepas <rch@pub.osf.lt>
+# Load after loading lt.map. See lt.map for more info.
+# Usage: kbd_mode -a; loadkeys lt.map lt.l4.map; setfont lat4u* -m vga2iso
+
+charset "iso-8859-4"
+
+#		U+0105		 U+0104	
+AltGr		keycode	  2 = +aogonek
+Shift	AltGr	keycode	  2 = +Aogonek
+
+#		U+010d		 U+010c	
+AltGr		keycode	  3 = +ccaron
+Shift	AltGr	keycode	  3 = +Ccaron
+
+#		U+0119		 U+0118	
+AltGr		keycode	  4 = +eogonek
+Shift	AltGr	keycode	  4 = +Eogonek
+
+#		U+0117		 U+0116	
+AltGr		keycode	  5 = +eabovedot
+Shift	AltGr	keycode	  5 = +Eabovedot
+
+#		U+012f		 U+012e	
+AltGr		keycode	  6 = +iogonek
+Shift	AltGr	keycode	  6 = +Iogonek
+
+#		U+0161		 U+0160	
+AltGr		keycode	  7 = +scaron
+Shift	AltGr	keycode	  7 = +Scaron
+
+#		U+0173		 U+0172	
+AltGr		keycode	  8 = +uogonek
+Shift	AltGr	keycode	  8 = +Uogonek
+
+#		U+016b		 U+016a	
+AltGr		keycode	  9 = +umacron
+Shift	AltGr	keycode	  9 = +Umacron
+
+# not available in ISO 8859-4  low_double_comma_quotation_mark „ U+201e
+AltGr		keycode	 10 =	0x90
+
+# not available in ISO 8859-4  double_turned_comma_quotation_mark “ U+201c
+AltGr		keycode	 11 =	0x91
+
+Shift		Control		keycode	 12 = hyphen
+Shift	AltGr	Control		keycode	 12 = hyphen
+Shift			Alt	keycode	 12 = minus
+Shift	AltGr		Alt	keycode	 12 = minus
+Shift		Control	Alt	keycode	 12 = hyphen
+Shift	AltGr	Control	Alt	keycode	 12 = hyphen
+
+#		U+017e		 U+017d	
+AltGr		keycode	 13 = +zcaron
+Shift	AltGr	keycode	 13 = +Zcaron
+
+		Control	Alt	keycode	 40 = quotedbl
+	AltGr	Control	Alt	keycode	 40 = quotedbl
+Shift		Control	Alt	keycode	 40 = quotedbl
+Shift	AltGr	Control	Alt	keycode	 40 = quotedbl
+
+Shift		Control		keycode	 57 = nobreakspace
+Shift	AltGr	Control		keycode	 57 = nobreakspace
+Shift		Control	Alt	keycode	 57 = nobreakspace
+Shift	AltGr	Control	Alt	keycode	 57 = nobreakspace

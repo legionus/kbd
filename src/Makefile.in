@@ -1,0 +1,95 @@
+# Something like /usr/lib/kbd or /usr/share/kbd
+ifndef DATADIR
+DATADIR = @datadir@
+endif
+
+ifndef BINDIR
+BINDIR = /usr/bin
+endif
+
+PROGS   = dumpkeys loadkeys showkey setfont showfont \
+	  setleds setmetamode kbd_mode chvt deallocvt \
+	  psfaddtable psfgettable psfstriptable \
+	  getkeycodes setkeycodes
+
+# probably also getkeycodes and setkeycodes are arch-specific;
+# they will work on an alpha, though, and perhaps be dummy on a sun
+
+I386PROGS = resizecons
+
+OLDPROGS= mapscrn loadunimap
+
+MISC    = screendump setvesablank spawn_console spawn_login \
+	  getunimap clrunimap fgconsole
+
+SHCMDS  = unicode_start unicode_stop
+
+WARN	= -Wall
+DEFS	= -DDATADIR=\"$(DATADIR)\"
+CFLAGS  = -O2
+LDFLAGS = -s
+
+CC	= gcc
+YACC	= bison -y
+LEX	= flex -8
+
+.c.o:
+	$(CC) -c $(WARN) $(CFLAGS) $(DEFS) $<
+
+all:	$(PROGS) $(OLDPROGS) $(MISC)
+
+progs:	$(PROGS)
+
+old:	$(OLDPROGS)
+
+i386:	$(I386PROGS)
+
+install:	all
+	install -s -m 0755 -o root $(PROGS) $(OLDPROGS) $(BINDIR)
+#	install -s -m 0755 -o root $(MISC) $(BINDIR)
+#	install -c -m 0755 -o root $(SHCMDS) $(BINDIR)
+
+
+install386:	i386
+	install $(I386PROGS) $(BINDIR)
+
+# loadkeys.o: separate rule since the flex output does not permit -Wall
+loadkeys.o:	loadkeys.c analyze.c
+	$(CC) -c $(CFLAGS) $(DEFS) $<
+
+
+# mapscrn and loadunimap are now part of setfont
+# but can be compiled separately, if desired
+main_mapscrn.o: mapscrn.c paths.h
+	$(CC) $(CFLAGS) $(WARN) $(DEFS) -DMAIN -c $< -o $@
+
+main_loadunimap.o: loadunimap.c paths.h
+	$(CC) $(CFLAGS) $(WARN) $(DEFS) -DMAIN -c $< -o $@
+
+$(OLDPROGS): %: main_%.o findfile.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+
+clean:
+	rm -f core *.o analyze.c loadkeys.c
+
+reallyclean spotless distclean: clean
+	rm -f $(PROGS) $(OLDPROGS) $(MISC) $(I386PROGS) *~
+
+$(PROGS): %: %.o
+
+dumpkeys loadkeys: ksyms.o
+
+ksyms.o: cyrillic.syms.h ethiopic.syms.h
+
+loadkeys.o mapscrn.o setfont.o resizecons.o loadunimap.o: paths.h
+
+psfaddtable.o psfgettable.o psfstriptable.o setfont.o: psf.h
+
+loadkeys mapscrn setfont resizecons loadunimap: findfile.o
+
+chvt clrunimap deallocvt dumpkeys getkeycodes getunimap kbd_mode: getfd.o
+loadkeys loadunimap mapscrn resizecons setkeycodes setfont: getfd.o
+setvesablank showkey: getfd.o
+
+setfont: mapscrn.o loadunimap.o kdfontop.o
