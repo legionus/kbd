@@ -9,7 +9,7 @@ main(int argc, char **argv){
 	int fd, indx, red, green, blue;
 	unsigned char cmap[48];
 
-	fd = getfd();
+	fd = getfd(NULL);
 	if (ioctl(fd, GIO_CMAP, cmap))
 		perror("GIO_CMAP");
 	if (argc != 5) {

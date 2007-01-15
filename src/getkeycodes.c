@@ -35,7 +35,7 @@ main(int argc, char **argv) {
 
     if (argc != 1)
       usage();
-    fd = getfd();
+    fd = getfd(NULL);
     printf(_("Plain scancodes xx (hex) versus keycodes (dec)\n"));
     printf(_("0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"));
 

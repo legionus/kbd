@@ -157,7 +157,7 @@ main(int argc, char **argv) {
  	fpclose(fin);
     }
 
-    fd = getfd();
+    fd = getfd(NULL);
 
     if(ioctl(fd, TIOCGWINSZ, &winsize)) {
 	perror("TIOCGWINSZ");

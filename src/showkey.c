@@ -172,7 +172,7 @@ main (int argc, char *argv[]) {
 	}
 
 
-	fd = getfd();
+	fd = getfd(NULL);
 
 	/* the program terminates when there is no input for 10 secs */
 	signal(SIGALRM, watch_dog);

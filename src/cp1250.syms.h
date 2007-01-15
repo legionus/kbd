@@ -6,14 +6,14 @@
  */
 static sym cp1250_syms[] = {	/* 128-255 */
 	{ 0x20ac, "euro"},	/* 0200 */
-	{ 0xfffd, ""},
+	{ 0xfffd, ""},  /* undefined */
 	{ 0x201a, ""},	/* SINGLE LOW-9 QUOTATION MARK */
-	{ 0xfffd, ""},
+	{ 0xfffd, ""},  /* undefined */
 	{ 0x201e, ""},	/* DOUBLE LOW-9 QUOTATION MARK */
 	{ 0x2026, "ellipsis"},
 	{ 0x2020, "dagger"},
 	{ 0x2021, "doubledagger"},
-	{ 0xfffd, ""},		/* 0210 */
+	{ 0xfffd, ""},	/* undefined */ /* 0210 */
 	{ 0x2030, "permille"},
 	{ 0x0160, "Scaron"},
 	{ 0x2039, ""},	/* SINGLE LEFT-POINTING ANGLE QUOTATION MARK */
@@ -21,7 +21,7 @@ static sym cp1250_syms[] = {	/* 128-255 */
 	{ 0x0164, "Tcaron"},
 	{ 0x017d, "Zcaron"},
 	{ 0x0179, "Zacute"},
-	{ 0xfffd, ""},		/* 0220 */
+	{ 0xfffd, ""},	/* undefined */	/* 0220 */
 	{ 0x2018, ""},	/* LEFT SINGLE QUOTATION MARK */
 	{ 0x2019, ""},	/* RIGHT SINGLE QUOTATION MARK */
 	{ 0x201c, ""},	/* LEFT DOUBLE QUOTATION MARK */
@@ -29,7 +29,7 @@ static sym cp1250_syms[] = {	/* 128-255 */
 	{ 0x2022, "bullet"},
 	{ 0x2013, "endash"},
 	{ 0x2014, "emdash"},
-	{ 0xfffd, ""},		/* 0230 */
+	{ 0xfffd, ""},	/* undefined */	/* 0230 */
 	{ 0x2122, "trademark"},
 	{ 0x0161, "scaron"},
 	{ 0x203a, ""},	/* SINGLE RIGHT-POINTING ANGLE QUOTATION MARK */
@@ -37,34 +37,34 @@ static sym cp1250_syms[] = {	/* 128-255 */
 	{ 0x0165, "tcaron"},
 	{ 0x017e, "zcaron"},
 	{ 0x017a, "zacute"},
-	{ 0x00a0, ""},		/* 0240 */
+	{ 0x00a0, ""},	/* nbsp */	/* 0240 */
 	{ 0x02c7, "caron"},
 	{ 0x02d8, "breve"},
 	{ 0x0141, "Lstroke"},
-	{ 0x00a4, ""},
+	{ 0x00a4, ""},	/* CURRENCY SIGN */
 	{ 0x0104, "Aogonek"},
-	{ 0x00a6, ""},
-	{ 0x00a7, ""},
-	{ 0x00a8, ""},		/* 0250 */
-	{ 0x00a9, ""},
+	{ 0x00a6, ""},	/* BROKEN BAR */
+	{ 0x00a7, ""},	/* SECTION SIGN */
+	{ 0x00a8, ""},	/* DIAERESIS */	/* 0250 */
+	{ 0x00a9, ""},	/* COPYRIGHT SIGN */
 	{ 0x015e, "Scedilla"},
-	{ 0x00ab, ""},
-	{ 0x00ac, ""},
-	{ 0x00ad, ""},
-	{ 0x00ae, ""},
+	{ 0x00ab, ""},	/* LEFT-POINTING DOUBLE ANGLE QUOTATION MARK */
+	{ 0x00ac, ""},	/* NOT SIGN */
+	{ 0x00ad, ""},	/* SOFT HYPHEN */
+	{ 0x00ae, ""},	/* REGISTERED SIGN */
 	{ 0x017b, "Zabovedot"},
-	{ 0x00b0, ""},		/* 0260 */
-	{ 0x00b1, ""},
+	{ 0x00b0, ""},	/* DEGREE SIGN */	/* 0260 */
+	{ 0x00b1, ""},	/* PLUS-MINUS SIGN */
 	{ 0x02db, "ogonek"},
 	{ 0x0142, "lstroke"},
-	{ 0x00b4, ""},
-	{ 0x00b5, ""},
-	{ 0x00b6, ""},
-	{ 0x00b7, ""},
-	{ 0x00b8, ""},		/* 0270 */
+	{ 0x00b4, ""},	/* ACUTE ACCENT */
+	{ 0x00b5, ""},	/* MICRO SIGN */
+	{ 0x00b6, ""},	/* PILCROW SIGN */
+	{ 0x00b7, ""},	/* MIDDLE DOT */
+	{ 0x00b8, ""},	/* CEDILLA */	/* 0270 */
 	{ 0x0105, "aogonek"},
 	{ 0x015f, "scedilla"},
-	{ 0x00bb, ""},
+	{ 0x00bb, ""},	/* RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK */
 	{ 0x013d, "Lcaron"},
 	{ 0x02dd, "doubleacute"},
 	{ 0x013e, "lcaron"},

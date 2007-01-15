@@ -286,8 +286,18 @@ This usually settles the output side.
 
 On the input side there are many things that might be wrong. If <tt/X/ or
 <tt/DOOM/ or some other program using raw mode crashed, your keyboard may
-still be in raw (or mediumraw) mode, and it is difficult to give commands.
+still be in raw (or mediumraw) mode, and you must give the command
+<tscreen><verb>
+        % kbd_mode -a
+</verb></tscreen>
+or
+<tscreen><verb>
+        % kbd_mode -u
+</verb></tscreen>
+to get back to normal 8-bit or Unicode mode again. Of course in this
+situation it may be difficult to give commands.
 (See "How to get out of raw mode" below.)
+
 If you loaded a bad keymap, then
 <tscreen><verb>
 	% loadkeys -d
@@ -928,6 +938,10 @@ AMI BIOS has a feature that locks up the keyboard and flashes the LED's
 if the Ctrl-Alt-Backspace combination is pressed while a BIOS password
 is enabled, until the CMOS/BIOS password is typed in.
 
+On some SiS based motherboards the combination Ctrl-Alt-Backspace
+will cause a power off, or puts the machine in power save mode.
+(Reported for SiS 630 and for SiS645DX.)
+
 <sect1>Dosemu Combinations<p>
 <nidx>key combinations!dosemu</nidx>
 <nidx>dosemu!key combinations for</nidx>
@@ -1193,6 +1207,15 @@ Note that in recent versions of libc the routine setlocale() only
 works if you have installed the locale files (e.g. in
 <tt>/usr/lib/locale</tt>).
 
+NOTE! The above was written years ago. Today locale stuff is a bit different.
+Try the command <tt>locale -a</tt> to see which locales are available.
+Then use one of these locale names instead of the <tt>iso_8859-1</tt>
+mentioned above. For example, <tt>LC_CTYPE=fr_FR.ISO-8859-1</tt> or
+<tt/LC_CTYPE=fr_FR@euro</tt>.
+
+NOTE! Some of the below may still be true. Most of it is outdated.
+(Please report on what is incorrect today, so that it can be deleted.)
+
 First of all, the 8-th bit should survive the kernel input processing,
 so make sure to have <tt/stty cs8 -istrip -parenb/ set.
 
@@ -1285,7 +1308,7 @@ into your <tt>&dollar;HOME/.inputrc</tt>.
 
 E. For <tt/tcsh/, use
 <tscreen><verb>
-	setenv LANG     US_en
+	setenv LANG     en_US
 	setenv LC_CTYPE iso_8859_1
 </verb></tscreen>
 If you have nls on your system, then the corresponding routines are used.
@@ -1308,10 +1331,6 @@ correctly.
 I. For programs using <tt/groff/ (such as <tt/man/), make sure to use
 <tt/-Tlatin1/ instead of <tt/-Tascii/. Old versions of the program <tt/man/
 also use <tt/col/, and the next point also applies.
-
-J. For <tt/col/, make sure 1) that it is fixed so as to do
-<tt>setlocale(LC_CTYPE,"");</tt> and 2) put
-<tt>LC_CTYPE=ISO-8859-1</tt> in the environment.
 
 K. For <tt/rlogin/, use option <tt/-8/.
 

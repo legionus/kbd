@@ -1,1 +1,1 @@
-extern int getfd(void);
+extern int getfd(const char *fnam);

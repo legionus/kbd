@@ -22,6 +22,7 @@
  * Fixed some bugs; made it a bit more robust; renamed to openvt
  *  aeb@cwi.nl, 1998-06-06.
  * Applied patch by Chuck Martin <cmartin@bigfoot.com>, i18n, aeb, 990316.
+ * Applied patch by damjan@legolas (-e option), aeb, 2004-01-03.
  */
 
 #include "openvt.h"
@@ -48,6 +49,7 @@ main(int argc, char *argv[])
    char login   = FALSE;
    char force   = FALSE;
    char verbose = FALSE;
+   char direct_exec	= FALSE;
    char do_wait	= FALSE;
    char as_user = FALSE;
    char vtname[sizeof VTNAME + 2]; /* allow 999 possible VTs */
@@ -58,7 +60,7 @@ main(int argc, char *argv[])
     * POSIX/Gnu getopt forces the use of -- to separate child/program
     * options. RTFM.
     */
-   while ((opt = getopt(argc, argv, "c:lsvfuw")) != -1) {
+   while ((opt = getopt(argc, argv, "c:lsvfuew")) != -1) {
       switch (opt) {
 	case 'c':
 	  optc = 1;		/* vtno was specified by the user */
@@ -81,6 +83,9 @@ main(int argc, char *argv[])
 	  break;
         case 'f':
 	  force = TRUE;
+	  break;
+	case 'e':
+	  direct_exec = TRUE;
 	  break;
 	case 'w':
 	  do_wait = TRUE;
@@ -119,7 +124,8 @@ main(int argc, char *argv[])
      }
    } else if (!force) {
      if (vtno >= 16) {
-        fprintf(stderr, _("openvt: cannot check whether vt %d is free\n"), vtno);
+        fprintf(stderr, _("openvt: cannot check whether vt %d is free\n"),
+		vtno);
 	fprintf(stderr, _("        use `openvt -f' to force.\n"));
 	return(7);
      }
@@ -206,16 +212,18 @@ got_vtno:
 	
    fflush(stderr);
 
-   if((pid = fork()) == 0) {
+   if (direct_exec || ((pid = fork()) == 0)) {
       /* leave current vt */
+      if (!direct_exec) {
 #ifdef   ESIX_5_3_2_D
-      if (setpgrp() < 0) {
+         if (setpgrp() < 0) {
 #else
-      if (setsid() < 0) {
+         if (setsid() < 0) {
 #endif
-        int errsv = errno;
-        fprintf(stderr, _("openvt: Unable to set new session (%s)\n"),
-		strerror(errsv));
+           int errsv = errno;
+           fprintf(stderr, _("openvt: Unable to set new session (%s)\n"),
+		   strerror(errsv));
+         }
       }
       close(0);			/* so that new vt becomes stdin */
 
@@ -251,6 +259,8 @@ got_vtno:
       dup(fd);
       dup(fd);
 
+      /* slight problem: after "openvt -su" has finished, the
+	 utmp entry is not removed */
       if(as_user)
 	 execlp("login", "login", "-f", username, NULL);
       else if (def_cmd)

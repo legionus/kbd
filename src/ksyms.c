@@ -1811,6 +1811,9 @@ add_capslock(int code)
 		sprintf(buf, "0x%04x", code);
 		p = buf;
 	}
+#if 0
+	/* silence the common usage  dumpkeys | loadkeys -u  */
 	fprintf(stderr, _("plus before %s ignored\n"), p);
+#endif
 	return code;
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <ctype.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "getfd.h"
@@ -23,14 +24,20 @@ ud_compar(const void *u1, const void *u2){
 	return (int) fp1 - (int) fp2;
 }
 
+static void
+usage(void) {
+	fprintf(stderr, _("Usage:\n\t%s [-s] [-C console]\n"), progname);
+	exit(1);
+}
+
 int
 main(int argc, char **argv){
 	int sortflag = 0;
 	char mb[]={0,0,0,0,0,0,0,0};
 	unsigned mb_length;
-	int fd;
+	int fd, c, i;
+	char *console = NULL;
 	struct unimapdesc ud;
-	int i;
 
 	set_progname(argv[0]);
 
@@ -38,26 +45,34 @@ main(int argc, char **argv){
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
+	if (argc == 2 &&
+	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
 		print_version_and_exit();
 
-	if (argc == 2 && !strcmp(argv[1], "-s")) {
-		sortflag = 1;
-		argc--;
-	}
-	if (argc != 1) {
-		fprintf(stderr, _("Usage:\n\t%s [-s]\n"), progname);
-		exit(1);
+	while ((c = getopt(argc, argv, "sC:")) != EOF) {
+		switch (c) {
+		case 's':
+			sortflag = 1;
+			break;
+		case 'C':
+			console = optarg;
+			break;
+		default:
+			usage();
+		}
 	}
 
-	fd = getfd();
+	if (argc != 1)
+		usage();
+
+	fd = getfd(console);
 	if (getunimap(fd, &ud))
 		exit(1);
 
 	if (sortflag) {
 		printf("# sorted kernel unimap - count=%d\n", ud.entry_ct);
 		/* sort and merge entries */
-		qsort (ud.entries, ud.entry_ct, sizeof(ud.entries[0]),
+		qsort(ud.entries, ud.entry_ct, sizeof(ud.entries[0]),
 		       ud_compar);
 		for(i=0; i<ud.entry_ct; i++) {
 			int fp = ud.entries[i].fontpos;

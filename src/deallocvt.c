@@ -35,7 +35,7 @@ main(int argc, char *argv[]) {
 		}
 	}
 
-	fd = getfd();
+	fd = getfd(NULL);
 
 	if (argc == 1) {
 		/* deallocate all unused consoles */

@@ -67,7 +67,7 @@ if [ x$datadir = x ]; then
 else
     case "$datadir" in
 	/*)
-		datadir="$prefix$datadir"
+		datadir="$datadir"
 		echo "Configuring for DATADIR=$datadir"
 		;;
 	*)
@@ -86,7 +86,7 @@ if [ x$mandir = x ]; then
 else
     case "$mandir" in
 	/*)
-		mandir="$prefix$mandir"
+		mandir="$mandir"
 		echo "Configuring for MANDIR=$mandir"
 		;;
 	*)
@@ -96,7 +96,7 @@ else
     esac
 fi
 
-for i in Makefile src/Makefile man/man1/dumpkeys.1 man/man1/loadkeys.1 man/man8/setfont.8 man/man8/loadunimap.8 man/man8/mapscrn.8; do
+for i in Makefile src/Makefile po/Makefile man/man1/dumpkeys.1 man/man1/loadkeys.1 man/man8/setfont.8 man/man8/loadunimap.8 man/man8/mapscrn.8; do
 	sed -e "
 s,@datadir@,$datadir,
 s,@mandir@,$mandir,
@@ -193,3 +193,6 @@ if (test $ENABLE_NLS = yes && type xgettext > /dev/null 2>&1); then
 else
 	echo "HAVE_XGETTEXT=no" >> make_include
 fi
+
+echo
+echo "Done. You can run make now."

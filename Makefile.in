@@ -1,10 +1,13 @@
 # Note: BINDIR, DATA_DIR, and DESTDIR also occur in src/Makefile.
-DESTDIR = @prefix@
+# Note: The binaries, manpages, data files and messages will eventually be
+#       installed under @prefix@/bin, @mandir@, @datadir@ and @prefix@/share,
+#       respectively; these locations are all prefixed with $(DESTDIR)
+#       which can be used, e.g. to build a binary package.
 DATA_DIR = @datadir@
 MAN_DIR = @mandir@
-BINDIR  = $(DESTDIR)/bin
-MANDIR  = $(MAN_DIR)
-DATADIR = $(DATA_DIR)
+BINDIR  = $(DESTDIR)@prefix@/bin
+DATADIR = $(DESTDIR)/$(DATA_DIR)
+MANDIR  = $(DESTDIR)/$(MAN_DIR)
 # If you change the names of any of the following subdirs,
 # also change paths.h.
 OLDKEYMAPDIR = keytables
@@ -24,6 +27,7 @@ SUBDIRS = src openvt po
 
 all:
 	for i in $(SUBDIRS) data; do $(MAKE) -C $$i all || exit 1; done
+	@echo
 	@echo "Done. You can now do  make install"
 
 install:	install-progs install-data install-man
@@ -46,4 +50,4 @@ reallyclean distclean spotless: clean
 	find . -name "*~" -exec rm {} ";"
 	for i in $(SUBDIRS); do $(MAKE) -C $$i distclean || exit 1; done
 	rm -f Makefile src/Makefile make_include defines.h
-
+	cp Makefile.x Makefile

@@ -23,7 +23,7 @@ main(int argc, char *argv[]) {
 		fprintf(stderr, _("usage: %s\n"), "setvesablank ON|on|off");
 		exit(1);
 	}
-	fd = getfd();
+	fd = getfd(NULL);
 	arg.ten = 10;
 	arg.onoff = 0;
 	if (!strcmp(argv[1], "on"))

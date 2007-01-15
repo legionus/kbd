@@ -17,7 +17,7 @@ main(int argc, char **argv){
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	fd = getfd();
+	fd = getfd(NULL);
 	if (ioctl(fd, VT_GETSTATE, &vtstat)) {
 		perror("fgconsole: VT_GETSTATE");
 		exit(1);

@@ -28,7 +28,7 @@ main(int argc, char *argv[]) {
 	fprintf(stderr, _("usage: chvt N\n"));
 	exit(1);
     }
-    fd = getfd();
+    fd = getfd(NULL);
     num = atoi(argv[1]);
     if (ioctl(fd,VT_ACTIVATE,num)) {
 	perror("chvt: VT_ACTIVATE");

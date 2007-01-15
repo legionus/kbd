@@ -43,8 +43,8 @@ static void loadnewfonts(int fd, char **ifiles, int ifilct,
 			int iunit, int hwunit, int no_m, int no_u);
 extern void saveoldmap(int fd, char *omfil);
 extern void loadnewmap(int fd, char *mfil);
-extern void activatemap(void);
-extern void disactivatemap(void);
+extern void activatemap(int fd);
+extern void disactivatemap(int fd);
 
 int verbose = 0;
 int force = 0;
@@ -72,14 +72,14 @@ usage(void)
         fprintf(stderr, _(
 "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
-"    -o  <filename>	Write current font to <filename>\n"
-"    -O  <filename>	Write current font and unicode map to <filename>\n"
-"    -om <filename>	Write current consolemap to <filename>\n"
-"    -ou <filename>	Write current unicodemap to <filename>\n"
+"    -o  <filename>  Write current font to <filename>\n"
+"    -O  <filename>  Write current font and unicode map to <filename>\n"
+"    -om <filename>  Write current consolemap to <filename>\n"
+"    -ou <filename>  Write current unicodemap to <filename>\n"
 "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
 "a default font is loaded:\n"
-"    setfont             Load font \"default[.gz]\"\n"
-"    setfont -<N>        Load font \"default8x<N>[.gz]\"\n"
+"    setfont         Load font \"default[.gz]\"\n"
+"    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 "The -<N> option selects a font from a codepage that contains three fonts:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n"
 "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
@@ -87,10 +87,11 @@ usage(void)
 "    -h<N>      (no space) Override font height.\n"
 "    -m <fn>    Load console screen map.\n"
 "    -u <fn>    Load font unicode map.\n"
-"    -m none	Suppress loading and activation of a screen map.\n"
-"    -u none	Suppress loading of a unicode map.\n"
-"    -v		Be verbose.\n"
-"    -V		Print version and exit.\n"
+"    -m none    Suppress loading and activation of a screen map.\n"
+"    -u none    Suppress loading of a unicode map.\n"
+"    -v         Be verbose.\n"
+"    -C <cons>  Indicate console device to be used.\n"
+"    -V         Print version and exit.\n"
 "Files are loaded from the current directory or /usr/lib/kbd/*/.\n"
 ));
 	exit(EX_USAGE);
@@ -101,7 +102,7 @@ usage(void)
 int
 main(int argc, char *argv[]) {
 	char *ifiles[MAXIFILES];
-	char *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil;
+	char *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil, *console;
 	int ifilct = 0, fd, i, iunit, hwunit, no_m, no_u;
 	int restore = 0;
 
@@ -111,12 +112,14 @@ main(int argc, char *argv[]) {
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	fd = getfd();
-
-	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = 0;
+	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;
 	no_m = no_u = 0;
+	console = NULL;
 
+	/*
+	 * No getopt() here because of the -om etc options.
+	 */
 	for (i = 1; i < argc; i++) {
 	    if (!strcmp(argv[i], "-V")) {
 		print_version_and_exit();
@@ -124,6 +127,10 @@ main(int argc, char *argv[]) {
 	        verbose++;
 	    } else if (!strcmp(argv[i], "-R")) {
 		restore = 1;
+	    } else if (!strcmp(argv[i], "-C")) {
+		if (++i == argc || console)
+		  usage();
+		console = argv[i];
 	    } else if (!strcmp(argv[i], "-O")) {
 		if (++i == argc || Ofil)
 		  usage();
@@ -179,6 +186,8 @@ main(int argc, char *argv[]) {
 	    exit(EX_USAGE);
 	}
 
+	fd = getfd(console);
+
 	if (!ifilct && !mfil && !ufil &&
 	    !Ofil && !ofil && !omfil && !oufil && !restore)
 	  /* reset to some default */
@@ -198,7 +207,7 @@ main(int argc, char *argv[]) {
 
 	if (mfil) {
 	    loadnewmap(fd, mfil);
-	    activatemap();
+	    activatemap(fd);
 	    no_m = 1;
 	}
 
@@ -681,12 +690,19 @@ saveoldfontplusunicodemap(int fd, char *Ofil) {
    probably it should copy the default from the current console?
    But what if we want a new one because the current one is messed up? */
 /* For the moment: only the current console, only the G0 set */
-void
-activatemap(void) {
-    printf("\033(K");
+
+static void
+send_escseq(int fd, char *seq, int n) {
+	if (write(fd, seq, n) != n)  /* maybe fd is read-only */
+		printf(seq);
 }
 
 void
-disactivatemap(void) {
-    printf("\033(B");
+activatemap(int fd) {
+	send_escseq(fd, "\033(K", 3);
+}
+
+void
+disactivatemap(int fd) {
+	send_escseq(fd, "\033(B", 3);
 }

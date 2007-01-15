@@ -3,10 +3,12 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "nls.h"
+#include "getfd.h"
 #include "version.h"
 #include "kdmapop.h"
 #include "kdfontop.h"
@@ -106,8 +108,8 @@ usage(void) {
 
 int
 main (int argc, char **argv) {
-	int n, cols, rows, nr, i, j, k;
-	char *sep;
+	int c, n, cols, rows, nr, i, j, k;
+	char *sep, *console = NULL;
 	int list[64], lth, verbose = 0;
 
 	set_progname(argv[0]);
@@ -120,14 +122,24 @@ main (int argc, char **argv) {
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
 		print_version_and_exit();
 
-	if (argc == 2 && !strcmp(argv[1], "-v"))
-		verbose = 1;
-	else if (argc != 1)
+	while ((c = getopt(argc, argv, "vC:")) != EOF) {
+		switch (c) {
+		case 'v':
+			verbose = 1;
+			break;
+		case 'C':
+			console = optarg;
+			break;
+		default:
+			usage();
+		}
+	}
+
+	if (argc != 1)
 		usage();
 
-#if 0
-	fd = getfd();
-#endif
+	fd = getfd(console);
+
 	settrivialscreenmap();
 	getoldunicodemap();
 

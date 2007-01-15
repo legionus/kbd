@@ -13,7 +13,7 @@ INTL = /usr/share/gettext/intl
 FOREIGN=
 SHELL = /bin/sh
 
-prefix = $(DESTDIR)/usr
+prefix = $(DESTDIR)@prefix@
 datadir = $(prefix)/share
 localedir = $(datadir)/locale
 gnulocaledir = $(prefix)/share/locale

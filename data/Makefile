@@ -34,7 +34,7 @@ $(KEYMAPDIR)_Z:
 $(FONTDIR)_Z:
 	cp -r $(FONTDIR) $(FONTDIR)_Z
 	cp -r $(PARTIALDIR) $(PARTIALDIR)_Z
-	cd $(FONTDIR)_Z && $(MYGZIP) * && gunzip README*
+	cd $(FONTDIR)_Z && $(MYGZIP) * && gunzip ERRORS* README*
 	cd $(PARTIALDIR)_Z && $(MYGZIP) *
 # (not yet screenmaps - some other time)
 

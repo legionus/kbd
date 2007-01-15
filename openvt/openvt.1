@@ -21,6 +21,11 @@ specified then the environment variable $SHELL is used.
 Use the given VT number and not the first available. Note you
 must have write access to the supplied VT for this to work.
 .TP
+.I "\-e"
+Directly execute the given command, without forking.
+This option is meant for use in
+.IR /etc/inittab .
+.TP
 .I "\-s"
 Switch to the new VT when starting the command. The VT of the new command
 will be made the new current VT.

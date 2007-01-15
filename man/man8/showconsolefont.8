@@ -5,23 +5,23 @@ showconsolefont \- Show the current EGA/VGA console screen font
 
 .SH SYNOPSIS
 .B showconsolefont
-.RI "[-V]"
-.RI "[-v]"
+[
+.B \-V
+] [
+.B \-v
+] [
+.B \-C
+.I console
+]
 
 .SH DESCRIPTION
 The
 .B showconsolefont
 command outputs the current console font to stdout.
-The option
-.RI \-v 
-prints additional information, while the option
-.RI \-V
-prints the program version number.
+The option \-v prints additional information, while
+the option \-V prints the program version number.
+On Linux 2.6.1 and later, the option \-C allows one
+to indicate the console involved. Its argument is a pathname.
 
 .SH "SEE ALSO"
-.BR setfont (8).
-
-.\" .SH AUTHORS
-.\" Andries Brouwer
-.\" .br
-.\" Manpage by Alastair McKinstry <mckinstry@computer.org>
+.BR setfont (8)

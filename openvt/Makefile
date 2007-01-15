@@ -25,8 +25,8 @@ realclean distclean: clean
 
 install: $(PROGS)
 	install -d -m 755 $(BINDIR) $(MANDIR)/man1
-	install -c $(PROGS) $(BINDIR)
-	install -c $(MAN) $(MANDIR)/man1
+	install $(PROGS) $(BINDIR)
+	install -m 644 $(MAN) $(MANDIR)/man1
 
 # don't change 4711 to 0711 - this is the setuid target
 setuid:

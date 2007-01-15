@@ -127,6 +127,9 @@ loaduniscrnmap(int fd, unsigned short *map) {
  * In Linux 1.3.28 the hash table was replaced by a 3-level
  * paged table, so the contents of a struct unimapinit are
  * no longer meaningful.
+ *
+ * Linux 2.6.1 makes GIO_UNIMAP, PIO_UNIMAP, PIO_UNIMAPCLR per-vt
+ * so that fd no longer is random.
  */
 int
 getunimap(int fd, struct unimapdesc *ud0) {

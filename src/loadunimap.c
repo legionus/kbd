@@ -1,7 +1,7 @@
 /*
  * loadunimap.c - aeb
  *
- * Version 1.04
+ * Version 1.09
  */
 
 #include <errno.h>
@@ -10,6 +10,7 @@
 #include <sysexits.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
@@ -35,9 +36,19 @@ static char *unisuffixes[] = { "", ".uni", 0 };
 int verbose = 0;
 int force = 0;
 
+static void
+usage(void) {
+        fprintf(stderr,
+		_("Usage:\n\t%s [-C console] [-o map.orig]\n"), progname);
+        exit(1);
+}
+
 int
 main(int argc, char *argv[]) {
-	int fd;
+	int fd, c;
+	char *console = NULL;
+	char *outfnam = NULL;
+	char *infnam = "def.uni";
 
 	set_progname(argv[0]);
 
@@ -45,26 +56,37 @@ main(int argc, char *argv[]) {
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
-	    print_version_and_exit();
+	if (argc == 2 &&
+	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
+		print_version_and_exit();
 
-	fd = getfd();
-
-	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-	    saveunicodemap(fd, argv[2]);
-	    argc -= 2;
-	    argv += 2;
-	    if (argc == 1)
-	      exit(0);
-	}
-		
-	if (argc > 2 || (argc == 2 && argv[1][0] == '-' && argv[1][1])) {
-		fprintf(stderr, _("usage: %s [-o map.orig] [map-file]\n"),
-			progname);
-		exit(1);
+	while ((c = getopt(argc, argv, "C:o:")) != EOF) {
+		switch (c) {
+		case 'C':
+			console = optarg;
+			break;
+		case 'o':
+		     	outfnam = optarg;
+			break;
+		default:
+			usage();
+		}
 	}
 
-	loadunicodemap(fd, (argc > 1) ? argv[1] : "def.uni");
+	if (argc > 2 || (argc == 1 && !outfnam))
+		usage();
+
+	fd = getfd(console);
+
+	if (outfnam) {
+		saveunicodemap(fd, outfnam);
+		if (argc == 1)
+			exit(0);
+	}
+
+	if (argc == 2)
+		infnam = argv[optind];
+	loadunicodemap(fd, infnam);
 	exit(0);
 }
 #endif

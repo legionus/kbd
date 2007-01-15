@@ -26,7 +26,7 @@ main(int argc, char **argv){
 	else
 		cons = 0;	/* current console */
 
-        fd = getfd();
+        fd = getfd(NULL);
 	arg.fn = 11;		/* redirect kernel messages */
 	arg.subarg = cons;	/* to specified console */
         if (ioctl(fd, TIOCLINUX, &arg)) {

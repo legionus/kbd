@@ -85,7 +85,7 @@ beats rebuilding the kernel!
 #define KDKBDREP        0x4B52  /* set keyboard delay/repeat rate;
 				 * actually used values are returned */
 struct kbd_repeat {
-        int delay;      /* in msec; <= 0: don't change */
+        int delay;        /* in msec; <= 0: don't change */
         int period;       /* in msec; <= 0: don't change */
 };
 #endif

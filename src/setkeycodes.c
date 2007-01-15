@@ -41,7 +41,7 @@ main(int argc, char **argv) {
 
     if (argc % 2 != 1)
       usage(_("even number of arguments expected"));
-    fd = getfd();
+    fd = getfd(NULL);
 
     while (argc > 2) {
 	a.keycode = atoi(argv[2]);

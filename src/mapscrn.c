@@ -52,7 +52,7 @@ main(int argc, char *argv[]) {
 		argv++;
 	}
 
-	fd = getfd();
+	fd = getfd(NULL);
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
 	    saveoldmap(fd, argv[2]);

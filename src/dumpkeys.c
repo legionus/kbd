@@ -2,19 +2,6 @@
  * dumpkeys.c
  *
  * derived from version 0.81 - aeb@cwi.nl
- * Fix: escape quotes and backslashes in strings
- * Fix: after  dumpkeys > x; loadkeys x; dumpkeys > y
- *      the files x and y should be identical
- * Added: compose key support
- *
- * for 0.83: output a "+" for KT_LETTER
- * for 0.85: with -i option: also output MAX_DIACR
- * for 0.86: with -l option: also tell about synonyms
- * for 0.87: output "charset iso-8859-x" so that loadkeys
- *      can handle the output of dumpkeys -c
- * for 0.88: handle sparse keymaps
- * for 0.94: support alt_is_meta
- * for 0.96: option -1
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,11 +29,26 @@
 #endif
 
 static int fd;
-
 static int verbose;
+static int nr_keys = 0;			/* probably 112, 128, 256 or 512 */
 
-int keymap_index[MAX_NR_KEYMAPS];		/* inverse of good_keymap */
+int keymap_index[MAX_NR_KEYMAPS];	/* inverse of good_keymap */
 int good_keymap[MAX_NR_KEYMAPS], keymapnr, allocct;
+
+/* note: asking for n > 255 is not meaningful: ke.kb_index is uchar */
+static int
+has_key(int n) {
+	struct kbentry ke;
+
+	ke.kb_table = 0;	/* plain map is always present */
+	ke.kb_index = n;
+	return !ioctl(fd, KDGKBENT, (unsigned long)&ke);
+}
+
+static void
+find_nr_keys(void) {
+	nr_keys = (has_key(255) ? 256 : has_key(127) ? 128 : 112);
+}
 
 static void
 get_keymaps(void) {
@@ -60,7 +62,8 @@ get_keymaps(void) {
 	    j = ioctl(fd, KDGKBENT, (unsigned long)&ke);
 	    if (j && errno != EINVAL) {
 		perror("KDGKBENT");
-		fprintf(stderr, _("KDGKBENT error at index 0 in table %d: "), i);
+		fprintf(stderr,
+			_("KDGKBENT error at index 0 in table %d\n"), i);
 		exit(1);
 	    }
 	    if (!j && ke.kb_value != K_NOSUCHMAP) {
@@ -78,7 +81,8 @@ get_keymaps(void) {
 	}
 	if (good_keymap[0] != 0) {
 	    fprintf(stderr,
-		    _("%s: plain map not allocated? very strange ...\n"), progname);
+		    _("%s: plain map not allocated? very strange ...\n"),
+		    progname);
 	    /* this is not fatal */
 	}
 }
@@ -110,7 +114,7 @@ get_bind(u_char index, u_char table) {
 	ke.kb_table = table;
 	if (ioctl(fd, KDGKBENT, (unsigned long)&ke)) {
 		perror("KDGKBENT");
-		fprintf(stderr, _("KDGKBENT error at index %d in table %d: "),
+		fprintf(stderr, _("KDGKBENT error at index %d in table %d\n"),
 			index, table);
 		exit(1);
 	}
@@ -239,7 +243,7 @@ show_short_info(void) {
 	int i;
 
 	printf(_("keycode range supported by kernel:           1 - %d\n"),
-	       NR_KEYS - 1);
+	       nr_keys - 1);
 	printf(_("max number of actions bindable to a key:         %d\n"),
 	       MAX_NR_KEYMAPS);
 	get_keymaps();
@@ -351,7 +355,7 @@ dump_keys(char table_shape, char numeric) {
 	for (j = 0; j < MAX_NR_KEYMAPS; j++) {
 	     int ja = (j | M_ALT);
 	     if (j != ja && keymap_index[j] >= 0 && keymap_index[ja] >= 0)
-		  for (i = 1; i < NR_KEYS; i++) {
+		  for (i = 1; i < nr_keys; i++) {
 		       int buf0, buf1, type;
 
 		       buf0 = get_bind(i, j);
@@ -377,7 +381,7 @@ dump_keys(char table_shape, char numeric) {
 not_alt_is_meta:
 
 no_shorthands:
-	for (i = 1; i < NR_KEYS; i++) {
+	for (i = 1; i < nr_keys; i++) {
 	    for (j = 0; j < keymapnr; j++)
 	      buf[j] = get_bind(i, good_keymap[j]);
 
@@ -622,7 +626,9 @@ main (int argc, char *argv[]) {
 	if (optind < argc)
 		usage();
 
-	fd = getfd();
+	fd = getfd(NULL);
+
+	find_nr_keys();
 
 	if (short_info || long_info) {
 		show_short_info();

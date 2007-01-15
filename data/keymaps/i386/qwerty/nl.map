@@ -9,7 +9,7 @@
 #   Added the circumflex as AltGr func. of the key with the dead_circumflex
 #
 charset "iso-8859-1"
-keymaps 0-2,4-6,8-9,12
+keymaps 0-6,8-9,12
 alt_is_meta
 include "qwerty-layout"
   altgr        keycode  19 = paragraph
@@ -44,6 +44,7 @@ keycode   9 = eight		parenleft	braceleft
 keycode  10 = nine		parenright	braceright
 keycode  11 = zero		apostrophe
 keycode  12 = slash		question	backslash
+  control altgr keycode  12 = Control_backslash
 # some use dead_tilde instead of asciitilde
 keycode  13 = degree		asciitilde	dead_cedilla
 keycode  14 = Delete
@@ -58,6 +59,7 @@ keycode  29 = Control
 keycode  39 = plus		plusminus
 keycode  40 = dead_acute	dead_grave
   control      keycode  40 = Control_g
+  alt          keycode  40 = Meta_apostrophe
 keycode  41 = at		section		notsign
   control keycode  41 = nul
   control shift keycode 41 = nul

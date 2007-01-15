@@ -1,11 +1,11 @@
-.TH GETUNIMAP 8 "2002-02-20" "Console Tools" "Linux"
+.TH GETUNIMAP 8 "2004-01-01" "Console Tools" "Linux"
 
 .SH NAME
 getunimap \- dump the unicode map for the current console to stdout
 
 .SH SYNOPSIS
-.B getunimap [
-.I \-s 
+.B getunimap [ \-s ] [ \-C
+.I console
 ]
 
 .SH DESCRIPTION
@@ -17,8 +17,16 @@ program is old and obsolete. It is now part of
 The 
 .B getunimap
 program outputs the unicode map (also called a "Screen Font Map") 
-for the current console to standard out.
-The output will be of the form
+for the current console to standard output.
+.LP
+The
+.B \-C
+option may be used with Linux 2.6.1 and later to get the map for
+a console different from the current one. Its argument is a pathname.
+.LP
+The output of
+.B getunimap
+is of the form
 .LP
 .RS
 	0xAA U+1234 # comment

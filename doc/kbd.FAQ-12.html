@@ -26,6 +26,13 @@ Try this first, and if it doesn't help look at the hints below.
 Note that in recent versions of libc the routine setlocale() only
 works if you have installed the locale files (e.g. in
 <CODE>/usr/lib/locale</CODE>).
+<P>NOTE! The above was written years ago. Today locale stuff is a bit different.
+Try the command <CODE>locale -a</CODE> to see which locales are available.
+Then use one of these locale names instead of the <CODE>iso_8859-1</CODE>
+mentioned above. For example, <CODE>LC_CTYPE=fr_FR.ISO-8859-1</CODE> or
+<CODE>LC_CTYPE=fr_FR@euro</CODE>.
+<P>NOTE! Some of the below may still be true. Most of it is outdated.
+(Please report on what is incorrect today, so that it can be deleted.)
 <P>First of all, the 8-th bit should survive the kernel input processing,
 so make sure to have <CODE>stty cs8 -istrip -parenb</CODE> set.
 <P>A. For <CODE>emacs</CODE> the details strongly depend on the version.
@@ -135,7 +142,7 @@ into your <CODE>$HOME/.inputrc</CODE>.
 <P>E. For <CODE>tcsh</CODE>, use
 <BLOCKQUOTE><CODE>
 <PRE>
-        setenv LANG     US_en
+        setenv LANG     en_US
         setenv LC_CTYPE iso_8859_1
 </PRE>
 </CODE></BLOCKQUOTE>
@@ -156,9 +163,6 @@ correctly.
 <P>I. For programs using <CODE>groff</CODE> (such as <CODE>man</CODE>), make sure to use
 <CODE>-Tlatin1</CODE> instead of <CODE>-Tascii</CODE>. Old versions of the program <CODE>man</CODE>
 also use <CODE>col</CODE>, and the next point also applies.
-<P>J. For <CODE>col</CODE>, make sure 1) that it is fixed so as to do
-<CODE>setlocale(LC_CTYPE,"");</CODE> and 2) put
-<CODE>LC_CTYPE=ISO-8859-1</CODE> in the environment.
 <P>K. For <CODE>rlogin</CODE>, use option <CODE>-8</CODE>.
 <P>L. For <CODE>joe</CODE>,
 <CODE>metalab.unc.edu:/pub/Linux/apps/editors/joe-1.0.8-linux.tar.gz</CODE>

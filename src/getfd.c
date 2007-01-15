@@ -18,53 +18,68 @@
 
 static int
 is_a_console(int fd) {
-    char arg;
+	char arg;
 
-    arg = 0;
-    return (ioctl(fd, KDGKBTYPE, &arg) == 0
-	    && ((arg == KB_101) || (arg == KB_84)));
+	arg = 0;
+	return (ioctl(fd, KDGKBTYPE, &arg) == 0
+		&& ((arg == KB_101) || (arg == KB_84)));
 }
 
 static int
-open_a_console(char *fnam) {
-    int fd;
+open_a_console(const char *fnam) {
+	int fd;
 
-    fd = open(fnam, O_RDONLY);
-    if (fd < 0 && errno == EACCES)
-      fd = open(fnam, O_WRONLY);
-    if (fd < 0)
-      return -1;
-    if (!is_a_console(fd)) {
-      close(fd);
-      return -1;
-    }
-    return fd;
+	/*
+	 * For ioctl purposes we only need some fd and permissions
+	 * do not matter. But setfont:activatemap() does a write.
+	 */
+	fd = open(fnam, O_RDWR);
+	if (fd < 0 && errno == EACCES)
+		fd = open(fnam, O_WRONLY);
+	if (fd < 0 && errno == EACCES)
+		fd = open(fnam, O_RDONLY);
+	if (fd < 0)
+		return -1;
+	if (!is_a_console(fd)) {
+		close(fd);
+		return -1;
+	}
+	return fd;
 }
 
-int getfd() {
-    int fd;
+int getfd(const char *fnam) {
+	int fd;
 
-    fd = open_a_console("/dev/tty");
-    if (fd >= 0)
-      return fd;
+	if (fnam) {
+		fd = open_a_console(fnam);
+		if (fd >= 0)
+			return fd;
+		fprintf(stderr,
+			_("Couldnt open %s\n"), fnam);
+		exit(1);
+	}
 
-    fd = open_a_console("/dev/tty0");
-    if (fd >= 0)
-      return fd;
+	fd = open_a_console("/dev/tty");
+	if (fd >= 0)
+		return fd;
 
-    fd = open_a_console("/dev/vc/0");
-    if (fd >= 0)
-      return fd;
+	fd = open_a_console("/dev/tty0");
+	if (fd >= 0)
+		return fd;
 
-    fd = open_a_console("/dev/console");
-    if (fd >= 0)
-      return fd;
+	fd = open_a_console("/dev/vc/0");
+	if (fd >= 0)
+		return fd;
 
-    for (fd = 0; fd < 3; fd++)
-      if (is_a_console(fd))
-	return fd;
+	fd = open_a_console("/dev/console");
+	if (fd >= 0)
+		return fd;
 
-    fprintf(stderr,
-	    _("Couldnt get a file descriptor referring to the console\n"));
-    exit(1);		/* total failure */
+	for (fd = 0; fd < 3; fd++)
+		if (is_a_console(fd))
+			return fd;
+
+	fprintf(stderr,
+		_("Couldnt get a file descriptor referring to the console\n"));
+	exit(1);		/* total failure */
 }

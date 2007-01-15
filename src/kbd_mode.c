@@ -32,7 +32,7 @@ main(int argc, char *argv[]){
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 	    print_version_and_exit();
 
-	fd = getfd();
+	fd = getfd(NULL);
 
 	if (argc == 1) {
 	    /* report mode */

@@ -176,9 +176,24 @@ in the LILO configuration file.
 <P>This usually settles the output side.
 <P>On the input side there are many things that might be wrong. If <CODE>X</CODE> or
 <CODE>DOOM</CODE> or some other program using raw mode crashed, your keyboard may
-still be in raw (or mediumraw) mode, and it is difficult to give commands.
+still be in raw (or mediumraw) mode, and you must give the command
+<BLOCKQUOTE><CODE>
+<PRE>
+        % kbd_mode -a
+</PRE>
+</CODE></BLOCKQUOTE>
+
+or
+<BLOCKQUOTE><CODE>
+<PRE>
+        % kbd_mode -u
+</PRE>
+</CODE></BLOCKQUOTE>
+
+to get back to normal 8-bit or Unicode mode again. Of course in this
+situation it may be difficult to give commands.
 (See "How to get out of raw mode" below.)
-If you loaded a bad keymap, then
+<P>If you loaded a bad keymap, then
 <BLOCKQUOTE><CODE>
 <PRE>
         % loadkeys -d

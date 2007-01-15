@@ -29,7 +29,7 @@ main(int argc, char *argv[]) {
 	fprintf(stderr, _("usage: totextmode\n"));
 	exit(1);
     }
-    fd = getfd();
+    fd = getfd(NULL);
     num = atoi(argv[1]);
     if (ioctl(fd,KDSETMODE,KD_TEXT)) {
 	perror("totextmode: KDSETMODE");

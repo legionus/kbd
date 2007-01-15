@@ -9,6 +9,7 @@ setfont \- load EGA/VGA console screen font
 .RI "[-" "N" "] [" "font.new ..." ]
 .RI "[-m " "cmap" ]
 .RI "[-u " "umap" ]
+.RI "[-C " "console" ]
 .RI "[-h" "H" ]
 .RI "[-v] [-V]"
 .IX "setfont command" "" "\fLsetfont\fR command"
@@ -201,6 +202,9 @@ Save previous Unicode map in
 .BI "\-u " file
 Load Unicode table describing the font from
 .IR file .
+.TP
+.BI "\-C " console
+Set the font for the indicated console. (May require root permissions.)
 .TP
 .B \-v
 Be verbose.

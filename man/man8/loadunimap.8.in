@@ -1,11 +1,14 @@
 .\" @(#)loadunimap.8 1.0 970317 aeb
-.TH LOADUNIMAP 8 "17 Mar 1997"
+.TH LOADUNIMAP 8 "2004-01-01"
 .SH NAME
 loadunimap \- load the kernel unicode-to-font mapping table
 .SH SYNOPSIS
 .B loadunimap
 [
-.B -o
+.B \-C
+.I console
+] [
+.B \-o
 .I oldmap
 ] [
 .I map
@@ -25,10 +28,16 @@ If no map is given
 is assumed.
 The default extension (that can be omitted) is
 .IR .uni .
+.LP
 If the
 .B -o
 .I oldmap
 option is given, the old map is saved in the file specified.
+.LP
+On Linux 2.6.1 and later one can specify the console device using the
+.B \-C
+option.
+.LP
 Usually one does not call
 .B loadunimap
 directly - its function is also built into

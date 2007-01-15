@@ -31,6 +31,9 @@
 #define KT_LETTER KT_LATIN
 #endif
 
+#undef NR_KEYS
+#define NR_KEYS 256
+
 /* What keymaps are we defining? */
 char defining[MAX_NR_KEYMAPS];
 char keymaps_line_seen = 0;
@@ -68,7 +71,6 @@ static void consoles_as_usual(char *keyboard);
 static void compose_as_usual(char *charset);
 static void lkfatal0(const char *, int);
 extern int set_charset(const char *charset);
-extern int getfd(void);
 extern char *xstrdup(char *);
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
@@ -696,33 +698,37 @@ addkey(int index, int table, int keycode) {
 
 static void
 addfunc(struct kbsentry kbs) {
-        int sh, i;
+	int sh, i, x;
 	char *p, *q, *r;
 
-        if (kbs.kb_func >= MAX_NR_FUNC) {
+	x = kbs.kb_func;
+
+        if (x >= MAX_NR_FUNC) {
 	        fprintf(stderr, _("%s: addfunc called with bad func %d\n"),
 			progname, kbs.kb_func);
 		exit(1);
 	}
-	if ((q = func_table[kbs.kb_func])) { /* throw out old previous def */
+
+	q = func_table[x];
+	if (q) {			/* throw out old previous def */
 	        sh = strlen(q) + 1;
 		p = q + sh;
 		while (p < fp)
 		        *q++ = *p++;
 		fp -= sh;
 
-		for (i = kbs.kb_func + 1; i < MAX_NR_FUNC; i++)
+		for (i = x + 1; i < MAX_NR_FUNC; i++)
 		     if (func_table[i])
 			  func_table[i] -= sh;
 	}
 
 	p = func_buf;                        /* find place for new def */
-	for (i = 0; i < kbs.kb_func; i++)
+	for (i = 0; i < x; i++)
 	        if (func_table[i]) {
 		        p = func_table[i];
 			while(*p++);
 		}
-	func_table[kbs.kb_func] = p;
+	func_table[x] = p;
         sh = strlen(kbs.kb_string) + 1;
 	if (fp + sh > func_buf + sizeof(func_buf)) {
 	        fprintf(stderr,
@@ -735,7 +741,7 @@ addfunc(struct kbsentry kbs) {
 	while (q > p)
 	        *--r = *--q;
 	strcpy(p, kbs.kb_string);
-	for (i = kbs.kb_func + 1; i < MAX_NR_FUNC; i++)
+	for (i = x + 1; i < MAX_NR_FUNC; i++)
 	        if (func_table[i])
 		        func_table[i] += sh;
 }
@@ -979,7 +985,7 @@ loadkeys (void) {
         int fd;
         int keyct, funcct, diacct;
 
-	fd = getfd();
+	fd = getfd(NULL);
 	keyct = defkeys(fd);
 	funcct = deffuncs(fd);
 	if (accent_table_size > 0 || nocompose)
