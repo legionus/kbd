@@ -8,8 +8,8 @@ OBJ=openvt.o getfd.o
 PROG=openvt
 PROGS=$(PROG)
 MAN=openvt.1
-BINDIR=${DESTDIR}/usr/bin
-MANDIR=${DESTDIR}/usr/man/man1
+# BINDIR=${DESTDIR}/usr/bin
+# MANDIR=${DESTDIR}/usr/man
 
 all: $(PROGS)
 
@@ -24,9 +24,9 @@ realclean distclean: clean
 	-rm -f $(PROGS)
 
 install: $(PROGS)
-	install -d -m 755 $(BINDIR) $(MANDIR)
+	install -d -m 755 $(BINDIR) $(MANDIR)/man1
 	install -c $(PROGS) $(BINDIR)
-	install -c $(MAN)  $(MANDIR)
+	install -c $(MAN) $(MANDIR)/man1
 
 # don't change 4711 to 0711 - this is the setuid target
 setuid:

@@ -1,4 +1,6 @@
-install: $(KEYMAPDIR)_Z $(FONTDIR)_Z
+all: $(KEYMAPDIR)_Z $(FONTDIR)_Z
+
+install:	all
 	install -d -m 755 $(DATADIR)
 	install -d -m 755 $(DATADIR)/$(FONTDIR)
 	install -m 644 $(FONTDIR)_Z/* $(DATADIR)/$(FONTDIR)

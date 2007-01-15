@@ -582,6 +582,15 @@ in <tt>/usr/lib/X11/app-defaults/XTerm</tt> or in
 </verb></tscreen>
 in your <tt>&dollar;HOME/.xinitrc</tt> or <tt>&dollar;HOME/.xsession</tt>.
 
+<sect1>How to tell non-Motif X applications that the Del key deletes forward<p>
+Put
+<tscreen><verb>
+*Text.translations:    #override \
+	~Shift ~Meta <Key>Delete: delete-next-character()
+</verb></tscreen>
+into <tt>.Xresources</tt> to make non-Motif X applications such as
+<tt>xfig</tt>, <tt>xedit</tt>, etc., work correctly. (Daniel T. Cobra)
+
 <sect1>How to tell xmosaic that the Backspace key generates a DEL<p>
 <nidx>xmosaic!remapping BS key</nidx>
 <nidx>Netscape!remapping BS</nidx>

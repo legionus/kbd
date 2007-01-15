@@ -456,7 +456,7 @@ lk_pop(void) {
  * 4. Try KD/include and KD/#/include where KD = DATADIR/KEYMAPDIR.
  *
  * Expected layout:
- * KD has subdirectories amiga, atari, sun, i386, include
+ * KD has subdirectories amiga, atari, i386, mac, sun, include
  * KD/include contains architecture-independent stuff
  * like strings and iso-8859-x compose tables.
  * KD/i386 has subdirectories qwerty, ... and include;
@@ -479,16 +479,12 @@ char *include_dirpath3[] = { DATADIR "/" KEYMAPDIR "/include/",
 			     DATADIR "/" KEYMAPDIR "/mac/include/", 0 };
 char *include_suffixes[] = { "", ".inc", 0 };
 
-FILE *find_standard_incl_file(char *s) {
-	FILE *f;
+FILE *find_incl_file_near_fn(char *s, char *fn) {
+	FILE *f = NULL;
 	char *t, *te, *t1, *t2;
 	int len;
 
-	f = findfile(s, include_dirpath1, include_suffixes);
-	if (f)
-		return f;
-
-	t = xstrdup(filename);
+	t = xstrdup(fn);
 	te = rindex(t, '/');
 	if (te) {
 		te[1] = 0;
@@ -504,8 +500,31 @@ FILE *find_standard_incl_file(char *s) {
 		if (f)
 			return f;
 	}
+	return f;
+}
 
-	return findfile(s, include_dirpath3, include_suffixes);
+FILE *find_standard_incl_file(char *s) {
+	FILE *f;
+
+	f = findfile(s, include_dirpath1, include_suffixes);
+	if (!f)
+		f = find_incl_file_near_fn(s, filename);
+
+	/* If filename is a symlink, also look near its target. */
+	if (!f) {
+		char buf[1024];
+		int n;
+
+		n = readlink(filename, buf, sizeof(buf));
+		if (n > 0 && n < sizeof(buf)) {
+		     buf[n] = 0;
+		     f = find_incl_file_near_fn(s, buf);
+		}
+	}
+
+	if (!f)
+	     f = findfile(s, include_dirpath3, include_suffixes);
+	return f;
 }
 
 FILE *find_incl_file(char *s) {
@@ -1221,5 +1240,3 @@ mktable () {
 
 	exit(0);
 }
-
-

@@ -1,5 +1,5 @@
 PACKAGE = kbd
-VERSION = 1.04
+VERSION = 1.06
 
 include ../make_include
 

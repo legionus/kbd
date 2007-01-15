@@ -179,8 +179,8 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 #endif /* KIOCSRATE */
 }
 
-int main( int argc, char **argv )
-{
+int
+main( int argc, char **argv ) {
 #ifdef __sparc__
 	double      rate = 5.0;      /* Default rate */
 	int         delay = 200;     /* Default delay */
@@ -189,7 +189,7 @@ int main( int argc, char **argv )
 	int         delay = 250;     /* Default delay */
 #endif
 	int         value = 0x7f;    /* Maximum delay with slowest rate */
-                                /* DO NOT CHANGE this value */
+        			     /* DO NOT CHANGE this value */
 	int         silent = 0;
 	int         fd;
 	char        data;
@@ -203,7 +203,8 @@ int main( int argc, char **argv )
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
+	if (argc == 2 &&
+	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
 		print_version_and_exit();
 
 	while ( (c = getopt( argc, argv, "r:d:sv" )) != EOF ) {
@@ -217,9 +218,10 @@ int main( int argc, char **argv )
 		case 's':
 			silent = 1;
 			break;
-		case 'v':
-			fprintf(stderr, "kbdrate from kbd-%s\n", VERSION);
-			exit(0);
+		default:
+			fprintf(stderr,
+				_("Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"));
+			exit(1);
 		}
 	}
 

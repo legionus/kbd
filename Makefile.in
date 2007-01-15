@@ -1,7 +1,9 @@
-# Note: BINDIR, DATADIR also occur in src/Makefile.
-MANDIR  = $(DESTDIR)/usr/man
+# Note: BINDIR, DATA_DIR, and DESTDIR also occur in src/Makefile.
+DATA_DIR = @datadir@
+MAN_DIR = @mandir@
 BINDIR  = $(DESTDIR)/usr/bin
-DATADIR = $(DESTDIR)@datadir@
+MANDIR  = $(DESTDIR)$(MAN_DIR)
+DATADIR = $(DESTDIR)$(DATA_DIR)
 # If you change the names of any of the following subdirs,
 # also change paths.h.
 OLDKEYMAPDIR = keytables
@@ -15,14 +17,14 @@ KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/dvorak i386/fgGIod i386
 # Do not use GZIP - it is interpreted by gzip
 MYGZIP = gzip -f -9
 
-DIR	= kbd-1.03wip
+DIR	= kbd-1.06
 
 SUBDIRS = src openvt po
 
 .EXPORT_ALL_VARIABLES:
 
 all:
-	for i in $(SUBDIRS); do (cd $$i && $(MAKE) all); done
+	for i in $(SUBDIRS) data; do (cd $$i && $(MAKE) all); done
 	@echo "Done. You can now do  make install"
 
 install:	install-progs install-data install-man

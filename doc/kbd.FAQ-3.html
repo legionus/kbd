@@ -29,10 +29,10 @@ the correspondence between Unicode values and font positions,
 and the obtained 8- or 9-bit font indices are then written to video memory,
 where they cause the display of character shapes found in the video card's
 character ROM.
-One can load one's own fonts into character ROM using
-<CODE>setfont</CODE>, load the corresponding Unicode map with <CODE>loadunimap</CODE>,
-and load a user mapping table using <CODE>mapscrn</CODE>.
-More details will be given below.
+One can load one's own fonts into character ROM using <CODE>setfont</CODE>.
+The obsolete programs <CODE>loadunimap</CODE> and <CODE>mapscrn</CODE> can be used
+to manipulate the Unicode map belonging to the font, or the mapping
+table of the console. More details will be given below.
 <P>There are many consoles (called <I>Virtual Consoles</I> or
 <I>Virtual Terminals</I>, abbreviated VCs or VTs) that share the same
 screen. You can use them as independent devices, either to run

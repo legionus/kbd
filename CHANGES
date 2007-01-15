@@ -164,3 +164,54 @@ o Console translations:
 o Fonts:
   - Added cybercafe.fnt, sun12x22.psfu, cp1250.psfu,
     cp857.08, cp857.14, cp857.16.
+
+Changes for 1.05 (aeb)
+
+o Programs:
+  - kdmapop.c, kdmapop.h, utf8.c, utf8.h: new
+  - loadunimap.c: also allow a range mapped to a single Unicode symbol
+  - mapscrn.c: also allow a character given as utf8 string
+  - mapscrn.c: handle PIO_SCRNMAP and PIO_UNISCRNMAP with same -m/-om options
+  - showfont.c: also show fonts larger than 256 glyphs
+  - unicode_start: updated; added text from Bruno Haible
+o Documentation:
+  - font-formats, unicode_start.1, unicode_stop.1: new
+  - loadunimap.8, mapscrn.8, setfont.8: updated
+o Fonts:
+  - Added drdos8xN.psfu
+o Unimaps:
+  - Added cybercafe.uni
+o Console translations:
+  - Added 8859-N_to_uni.trans, cpNNNN_to_uni.trans
+o Data:
+  - Corrected corrupted 737.cp, lat5-N.psfu, baltic.trans
+
+Changes for 1.06 (aeb)
+
+o Programs:
+  - Some Makefile changes (Peter Breitenlohner)
+  - Added fgconsole to the installed programs
+  - resizecons.c: removed .psf extension from default fonts (bero)
+  - psffontop.c: correction to handling of unicode sequences (Kurt Garloff)
+  - loadkeys: work better in the presence of symlinks
+o Documentation:
+  - Removed scancode docs (these will be distributed separately, had grown to
+    over 1 MB; see also http://www.win.tue.nl/~aeb/linux/kbd/scancodes.html)
+o Fonts:
+  - Added iso02-12x22.psfu (Jacek Lipkowski)
+  - Renamed sun-12x22.psfu to iso01-12x22.psfu since Kurt Garloff
+    explained that it was not the kernel font but a modified version.
+    Added the original sun-12x22.psfu.
+  - Renamed lat7-16.psfu to iso07u-16.psfu. (lat7 is iso13, not iso07)
+  - Added lat7a-14.psfu (earlier: lt-brim*) and lat7a-16.psf (bad fonts)
+  - Added lat7-14.psfu (ugly, but with the right characters)
+o Unimaps:
+  - Renamed lat7u.uni to iso07u.uni since it is not a Latin-7 map.
+  - Added lat7.uni
+o Keymaps (mostly Kurt Garloff, SuSE):
+  - Corrected br-latin1-abnt2.map (Frédéric Meunier), mac-de_CH.map,
+    sunt5-uk.map
+  - Added missing Latin-1 symbols to fi-latin1.map (Marko Myllynen)
+  - Added sundvorak.map, sunt4-no-latin1.map, sunt5-cz-us.map,
+    sunt5-us-cz.map, mac-dvorak.map, mac-qwertz-layout.inc
+

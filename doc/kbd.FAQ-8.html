@@ -25,8 +25,8 @@ ctrl-alt-del!action taken by
 -->
 <P>If you press Ctrl-Alt-Del (or whatever key was assigned the keysym Boot by
 loadkeys) then either the machine reboots immediately (without sync), or
-<CODE>init</CODE> is sent a SIGINT. The former behaviour is the default. The default can
-be changed by root, using the system call reboot(), see ctrlaltdel(8).
+<CODE>init</CODE> is sent a SIGINT. The former behaviour is the default. The default
+can be changed by root, using the system call reboot(), see ctrlaltdel(8).
 Some <CODE>init</CODE>'s change the default. What happens when <CODE>init</CODE> gets SIGINT depends
 on the version of <CODE>init</CODE> used - often it will be determined by the pf entry in
 <CODE>/etc/inittab</CODE> (which means that you can run an arbitrary program

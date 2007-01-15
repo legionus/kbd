@@ -74,21 +74,22 @@ Values in the file may be specified in one of several
 .B formats:
 .br
 .B 1. Decimal: 
-string of decimal digits not beginning with '0'
+String of decimal digits not starting with '0'
 .br
 .B 2. Octal: 
-string of octal digits beginning with '0'
+String of octal digits beginning with '0'.
 .br
 .B 3. Hexadecimal: 
-string of hexadecimal digits preceded by "0x"
+String of hexadecimal digits preceded by "0x".
 .br
 .B 4. Unicode:
-string of four hexadecimal digits preceded by "U+"
+String of four hexadecimal digits preceded by "U+".
 .br
 .B 5. Character: 
 Single character enclosed in single quotes. (And the binary value is used.)
 Note that blank, comma, tab character and '#' cannot be specified
 with this format.
+.br
 .B 6. UTF-8 Character:
 Single (possibly multi-byte) UTF-8 character, enclosed in single quotes.
 .PP

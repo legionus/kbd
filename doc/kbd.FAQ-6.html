@@ -27,8 +27,8 @@ user byte, and next where this symbol is located in the current font.
 <P>The kernel knows about 5 translations of bytes into console-screen symbols.
 In Unicode (UTF-8) mode, the UTF-8 code is just converted directly into
 Unicode. The assumption is that almost all symbols one needs are present
-in Unicode, and for the cases where this does not hold the codes 0xff**
-are reserved for direct font access.
+in Unicode, and for the cases where this does not hold the codes
+0xf000-0xf1ff are reserved for direct font access.
 When not in Unicode mode, one of four translation tables is used.
 The four tables are: a) Latin1 -&gt; Unicode,  b) VT100 graphics -&gt; Unicode,
 c) PC -&gt; Unicode, d) user-defined.

@@ -106,7 +106,8 @@ getflags(char *flags) {
     if (ioctl(0, KDGKBLED, flags)) {
 	perror("KDGKBLED");
 	fprintf(stderr,
-          _("Error reading current flags setting. Maybe an old kernel?\n"));
+          _("Error reading current flags setting. "
+	    "Maybe you are not on the console?\n"));
 	exit(1);
     }
 }
@@ -158,7 +159,7 @@ main(int argc, char **argv) {
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
 
-    if (argc == 2 && !strcmp("-V", argv[1]))
+    if (argc == 2 && (!strcmp("-V", argv[1]) || !strcmp("--version", argv[1])))
 	print_version_and_exit();
 
 #ifdef __sparc__

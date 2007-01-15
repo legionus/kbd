@@ -144,12 +144,12 @@ get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8) {
 				continue;
 			}
 		}
-		if (inseq == 0)
+		if (inseq < 2)
 			addpair(up, unichar);
-		else {
+		else
 			addseq(up, unichar);
+		if (inseq)
 			inseq++;
-		}
 	}
 }
 

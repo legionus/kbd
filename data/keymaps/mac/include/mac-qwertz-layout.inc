@@ -4,7 +4,7 @@ keycode 13 = w
 keycode 14 = e
 keycode 15 = r
 keycode 17 = t
-keycode 16 = y
+keycode 16 = z
 keycode 32 = u
 keycode 34 = i
 keycode 31 = o
@@ -20,7 +20,7 @@ keycode 38 = j
 keycode 40 = k
 keycode 37 = l
 #
-keycode  6 = z
+keycode  6 = y
 keycode  7 = x
 keycode  8 = c
 keycode  9 = v

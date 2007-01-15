@@ -61,6 +61,12 @@ on some other VT (where 4 symbols are typed to <CODE>cat</CODE>: ESC, c, ENTER,
 Ctrl-D) and refreshing the screen on <CODE>/dev/tty2</CODE>
 (perhaps using Ctrl-L) will fix things. Of course the permanent fix
 is to use the right termcap or terminfo entry.
+A command that only changes the number of lines is
+<BLOCKQUOTE><CODE>
+<PRE>
+        % echo -e "\033[1;25r"
+</PRE>
+</CODE></BLOCKQUOTE>
 <P>Why is it that you sometimes get a lot of line-drawing characters,
 e.g., after catting a binary to the screen?
 Well, there are various character set changing escape sequences,
@@ -152,10 +158,11 @@ commands may be replaced by
 </PRE>
 </CODE></BLOCKQUOTE>
 
-The Ethiopian fonts and the <CODE>lat1u*.psf</CODE> fonts have embedded
-Unicode code map. Most of the others don't.
-<P>On old terminals output involving tabs may require a delay, and you
-have to say
+These days most fonts have embedded Unicode maps (often this is
+indicated by the extension <CODE>.psfu</CODE>), and none of this nonsense
+is needed anymore.
+<P>On very old terminals output involving tabs may require a delay,
+and you have to say
 <BLOCKQUOTE><CODE>
 <PRE>
         % stty tab3
@@ -164,9 +171,10 @@ have to say
 
 (see stty(1)).
 <P>You can change the video mode using <CODE>resizecons</CODE> or
-<CODE>SVGATextMode</CODE>.
-This usually settles the output side.
-On the input side there are many things that might be wrong. If <CODE>X</CODE> or
+<CODE>SVGATextMode</CODE>. Or by rebooting and having "vga=ask"
+in the LILO configuration file.
+<P>This usually settles the output side.
+<P>On the input side there are many things that might be wrong. If <CODE>X</CODE> or
 <CODE>DOOM</CODE> or some other program using raw mode crashed, your keyboard may
 still be in raw (or mediumraw) mode, and it is difficult to give commands.
 (See "How to get out of raw mode" below.)

@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Call:
-#  ./configure [--datadir=DATADIR] [--disable-nls]
+#  ./configure [--datadir=DATADIR] [--mandir=MANDIR] [--disable-nls]
 #
 # Where shall we store our stuff?
 #  Old default: /usr/lib/kbd
@@ -9,6 +9,7 @@
 #
 
 datadir=
+mandir=
 nls=1
 
 for arg in $*; do
@@ -21,11 +22,14 @@ for arg in $*; do
 		--da*)
 			datadir=$optarg
 			;;
+		--ma*)
+			mandir=$optarg
+			;;
 		--di*)
 			nls=0
 			;;
 		*)
-			echo "usage: configure [--datadir=DATADIR]"
+			echo "usage: configure [--datadir=DATADIR] [--mandir=MANDIR]"
 			exit 1
 			;;
 	esac
@@ -53,9 +57,28 @@ case "$datadir" in
 		;;
 esac
 
+if [ x$mandir = x ]; then
+	if [ -d /usr/share/man ]; then
+		mandir=/usr/share/man
+	else
+		mandir=/usr/man
+	fi
+fi
+
+case "$mandir" in
+	/*)
+		echo "Configuring for MANDIR=$mandir"
+		;;
+	*)
+		echo "MANDIR must have a leading slash"
+		exit 1
+		;;
+esac
+
 for i in Makefile src/Makefile man/man1/dumpkeys.1 man/man1/loadkeys.1 man/man8/setfont.8 man/man8/loadunimap.8 man/man8/mapscrn.8; do
 	sed -e "
 s,@datadir@,$datadir,
+s,@mandir@,$mandir,
 " $i.in > $i
 done
 

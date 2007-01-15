@@ -53,8 +53,8 @@
  *	C x 60		8
  *
  * Two 12-line fonts are already in the consolefonts directory,
- * namely lat1-12.psf and lat2-12.psf.
- * For the 36 lines mode (11 line font), lat1-10.psf and lat2-10.psf
+ * namely lat1-12.psfu.gz and lat2-12.psfu.gz.
+ * For the 36 lines mode (11 line font), lat1-10.psfu.gz and lat2-10.psfu.gz
  * can be used.
  * 
  * hhanemaa@cs.ruu.nl - 941028
@@ -297,11 +297,11 @@ main(int argc, char **argv) {
     switch (vga_get_fontheight()) {
     case 8 :
     case 9 : defaultfont = "default8x9"; break;
-    case 10 : defaultfont = "lat1-10.psf"; break;
+    case 10 : defaultfont = "lat1-10"; break;
     case 11 :
-    case 12 : defaultfont = "lat1-12.psf"; break;
+    case 12 : defaultfont = "lat1-12"; break;
     case 13 :
-    case 14 : defaultfont = "iso01.f14"; break;
+    case 14 : defaultfont = "iso01.14"; break;
     case 15 :
     case 16 :
     default : defaultfont = "default8x16"; break;

@@ -377,7 +377,21 @@ in <CODE>/usr/lib/X11/app-defaults/XTerm</CODE> or in
 
 in your <CODE>$HOME/.xinitrc</CODE> or <CODE>$HOME/.xsession</CODE>.
 <P>
-<H2><A NAME="ss5.9">5.9 How to tell xmosaic that the Backspace key generates a DEL</A>
+<H2><A NAME="ss5.9">5.9 How to tell non-Motif X applications that the Del key deletes forward</A>
+</H2>
+
+<P>Put
+<BLOCKQUOTE><CODE>
+<PRE>
+*Text.translations:    #override \
+        ~Shift ~Meta &lt;Key>Delete: delete-next-character()
+</PRE>
+</CODE></BLOCKQUOTE>
+
+into <CODE>.Xresources</CODE> to make non-Motif X applications such as
+<CODE>xfig</CODE>, <CODE>xedit</CODE>, etc., work correctly. (Daniel T. Cobra)
+<P>
+<H2><A NAME="ss5.10">5.10 How to tell xmosaic that the Backspace key generates a DEL</A>
 </H2>
 
 <P>
@@ -426,7 +440,7 @@ in <CODE>.xinitrc</CODE>.)
         away Netscape Navigator's other text-field key bindings.
 </PRE>
 <P>
-<H2><A NAME="ss5.10">5.10 A better solution for Motif-using programs, like netscape</A>
+<H2><A NAME="ss5.11">5.11 A better solution for Motif-using programs, like netscape</A>
 </H2>
 
 <P>
@@ -479,7 +493,7 @@ is adding osfBackSpace to keycode 22 in addition to BackSpace.
 <P>Note that there must be spaces on either side of the = sign.
 <P>
 <P>
-<H2><A NAME="ss5.11">5.11 What about termcap and terminfo?</A>
+<H2><A NAME="ss5.12">5.12 What about termcap and terminfo?</A>
 </H2>
 
 <P>
@@ -498,7 +512,7 @@ particular program only, probably the fault is elsewhere.
 Of course it is a good idea anyway to correct your termcap (terminfo) entry.
 See also below under "The TERM variable".
 <P>
-<H2><A NAME="ss5.12">5.12 A complete solution</A>
+<H2><A NAME="ss5.13">5.13 A complete solution</A>
 </H2>
 
 <P>There are many possibilities to get a functioning system.

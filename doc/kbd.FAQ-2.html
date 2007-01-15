@@ -28,7 +28,8 @@ like when <CODE>X</CODE> is running. Otherwise, it parses the stream of scancode
 into keycodes, corresponding to key press or key release events.
 (A single key press can generate up to 6 scancodes.)
 These keycodes are transmitted to the application program when it is
-in <EM>keycode mode</EM> (as used, for example, by <CODE>showkey</CODE>).
+in <EM>keycode mode</EM> (as used, for example, by <CODE>showkey</CODE>
+and some X servers).
 Otherwise, these keycodes are looked up in the keymap, and the character
 or string found there is transmitted to the application, or the action
 described there is performed.
@@ -41,7 +42,7 @@ transmitted as the 4-symbol sequence ESC [ 3 ~, all assuming
 a US keyboard and a default keymap. An example of a key combination to which
 an action is assigned is Ctrl-Alt-Del.)
 <P>The translation between unusual scancodes and keycodes can be set using the
-utility <CODE>setkeycodes</CODE> - only very few people will need it.
+utility <CODE>setkeycodes</CODE> - only few people will need it.
 The translation between keycodes and characters or strings or actions, that is,
 the keymap, is set using the utilities <CODE>loadkeys</CODE> and <CODE>setmetamode</CODE>.
 For details, see getkeycodes(8), setkeycodes(8), dumpkeys(1), loadkeys(1),
