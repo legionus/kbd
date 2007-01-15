@@ -278,9 +278,11 @@ main(int argc, char **argv) {
 		notable = 1;
 	} else {
 		for (i = 1; i < argc; i ++) {
-			if (!strcmp(argv[i], "-i") && i < argc-1)
+			if ((!strcmp(argv[i], "-i") || !strcmp(argv[i], "-if"))
+			    && i < argc-1)
 				ifname = argv[++i];
-			else if(!strcmp(argv[i], "-o") && i < argc-1)
+			else if((!strcmp(argv[i],"-o")||!strcmp(argv[i],"-of"))
+				&& i < argc-1)
 				ofname = argv[++i];
 			else if(!strcmp(argv[i], "-it") && i < argc-1)
 				itname = argv[++i];

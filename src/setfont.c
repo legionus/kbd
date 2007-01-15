@@ -232,11 +232,15 @@ static int erase_mode = 1;
 static void
 do_loadfont(int fd, char *inbuf, int unit, int hwunit, int fontsize,
 	    char *pathname) {
-	char buf[16384];
-	int i;
+	char *buf;
+	int i, buflen;
 	int bad_video_erase_char = 0;
 
-	memset(buf,0,sizeof(buf));
+	buflen = 32*fontsize;
+	if (buflen < 32*128)		/* below we access position 32 */
+		buflen = 32*128; 	/* so need at least 32*33 */
+	buf = xmalloc(buflen);
+	memset(buf,0,buflen);
 
 	if (unit < 1 || unit > 32) {
 		fprintf(stderr, _("Bad character size %d\n"), unit);
@@ -423,8 +427,8 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 		memcpy(bigfontbuf+bigfontbuflth-fontbuflth,
 		       fontbuf, fontbuflth);
 	}
-
 	do_loadfont(fd, bigfontbuf, bigunit, hwunit, bigfontsize, NULL);
+
 	if (uclistheads && !no_u)
 		do_loadtable(fd, uclistheads, bigfontsize);
 }

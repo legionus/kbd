@@ -1,0 +1,668 @@
+<!doctype linuxdoc system>
+
+<article>
+
+<title>Keyboard scancodes
+<author>Andries Brouwer, <tt/aeb@cwi.nl/
+<date>v1.0, 991209
+
+<abstract>
+This note contains some information about PC keyboard scancodes.
+</abstract>
+
+<toc>
+
+<sect>Ordinary PC keyboards<p>
+The data from a keyboard comes mainly in the form of scancodes,
+produced by key presses or used in the protocol with the computer.
+(Different codes are used by the keyboard firmware internally,
+and there also exist several
+<ref id="scancode_modes" name="sets of scancodes">. Here, for the
+time being, we only give the default codes - those from scancode set 2.)
+Each key press and key release produces between 0 and 6 scancodes.
+
+<sect1>Key release<p>
+Below I'll only mention the scancode for key press (`make').
+The scancode for key release (`break') is obtained from it
+by setting the high order bit (adding 0x80 = 128).
+Thus, Esc press produces scancode <bf>01</bf>, Esc release
+scancode <bf>81</bf> (hex).
+For sequences things are similar: Keypad-/ gives <bf>e0</bf> <bf>35</bf>
+when pressed, <bf>e0</bf> <bf>b5</bf> when released. Most keyboards will
+repeat the make code (key down code) when the key repeats. Some will also
+fake Shift down and Shift up events during the repeat.
+
+The keys PrtSc/SysRq and Pause/Break are special.
+The former produces scancode <bf>e0</bf> <bf>2a</bf> <bf>e0</bf> <bf>37</bf>
+when no modifier key is pressed simultaneously, <bf>e0</bf> <bf>37</bf>
+together with Shift or Ctrl, but <bf>54</bf> together with (left or right) Alt.
+The latter produces scancode sequence
+<bf>e1</bf> <bf>1d</bf> <bf>45</bf> <bf>e1</bf> <bf>9d</bf> <bf>c5</bf>
+when pressed (without modifier) and nothing at all upon release.
+However, together with (left or right) Ctrl, one gets
+<bf>e0</bf> <bf>46</bf> <bf>e0</bf> <bf>c6</bf>,
+and again nothing at release. It does not repeat.
+
+
+<sect1>Protocol scancodes<p>
+Most scancodes indicate a key press or release.
+Some are used in the communication protocol.
+<p>
+<bf>00</bf> (Keyboard buffer overflow or parity error)
+<p>
+<bf>aa</bf> (BAT [Basic Assurance Test] OK)
+<p>
+<bf>ee</bf> (Result of echo command)
+<p>
+<bf>f1</bf> (Some keyboards, as reply to command <bf>a4</bf>:
+Password not installed)
+<p>
+<bf>fa</bf> (Ack)
+<p>
+<bf>fc</bf> (BAT error or Mouse transmit error)
+<p>
+<bf>fe</bf> (Keyboard fails to ack, please resend)
+<p>
+<bf>ff</bf> (Keyboard parity error)
+
+<sect1>Escape scancodes<p>
+The codes <bf>e0</bf> and <bf>e1</bf> introduce scancode sequences,
+and are not usually used as isolated scancodes themselves
+(but see <ref id="e0_as_key" name="below">).
+<p>
+This, and the above, means that scancodes
+<bf>00</bf>, <bf>60</bf>, <bf>61</bf>, <bf>6e</bf>, <bf>71</bf>,
+<bf>7a</bf>, <bf>7c</bf>, <bf>7e</bf>, <bf>7f</bf>
+are unavailable to signify key presses (on a default keyboard;
+we'll see keyboards that actually use scancode <bf>60</bf>).
+<p>
+Also other prefixes occur, see <ref id="prefix_80" name="below">.
+
+<sect1>Ordinary scancodes<p>
+The scancodes in scancode set 2 are given in hex.
+Between parentheses the keycap on a US keyboard.
+The scancodes are given in order, grouped according
+to groups of keys that are usually found next to each other.
+<p>
+<bf>00</bf> is normally an error code
+<p>
+<bf>01</bf> (Esc)
+<p>
+<bf>02</bf> (1!), <bf>03</bf> (2@), <bf>04</bf> (3#), <bf>05</bf> (4$),
+<bf>06</bf> (5%E), <bf>07</bf> (6^), <bf>08</bf> (7&amp;),
+<bf>09</bf> (8*), <bf>0a</bf> (9(), <bf>0b</bf> (0)), <bf>0c</bf> (-_),
+<bf>0d</bf> (=+), <bf>0e</bf> (Backspace)
+<p>
+<bf>0f</bf> (Tab), <bf>10</bf> (Q), <bf>11</bf> (W), <bf>12</bf> (E),
+<bf>13</bf> (R), <bf>14</bf> (T), <bf>15</bf> (Y),
+<bf>16</bf> (U), <bf>17</bf> (I), <bf>18</bf> (O),
+<bf>19</bf> (P), <bf>1a</bf> ([{), <bf>1b</bf> (]})
+<p>
+<bf>1c</bf> (Enter)
+<p>
+<bf>1d</bf> (LCtrl)
+<p>
+<bf>1e</bf> (A), <bf>1f</bf> (S), <bf>20</bf> (D), <bf>21</bf> (F),
+<bf>22</bf> (G), <bf>23</bf> (H), <bf>24</bf> (J), <bf>25</bf> (K),
+<bf>26</bf> (L), <bf>27</bf> (;:), <bf>28</bf> ('")
+<p>
+<bf>29</bf> (`&tilde;)
+<p>
+<bf>2a</bf> (LShift)
+<p>
+<bf>2b</bf> (\|), on a 102-key keyboard
+<p>
+<bf>2c</bf> (Z), <bf>2d</bf> (X), <bf>2e</bf> (C), <bf>2f</bf> (V),
+<bf>30</bf> (B), <bf>31</bf> (N), <bf>32</bf> (M), <bf>33</bf> (,&lt;),
+<bf>34</bf> (.&gt;), <bf>35</bf> (/?), <bf>36</bf> (RShift)
+<p>
+<bf>37</bf> (Keypad-*) or (*/PrtScn) on a 83/84-key keyboard
+<p>
+<bf>38</bf> (LAlt), <bf>39</bf> (Space bar),
+<p>
+<bf>3a</bf> (CapsLock)
+<p>
+<bf>3b</bf> (F1), <bf>3c</bf> (F2), <bf>3d</bf> (F3), <bf>3e</bf> (F4),
+<bf>3f</bf> (F5), <bf>40</bf> (F6), <bf>41</bf> (F7),
+<bf>42</bf> (F8), <bf>43</bf> (F9), <bf>44</bf> (F10)
+<p>
+<bf>45</bf> (NumLock)
+<p>
+<bf>46</bf> (ScrollLock)
+<p>
+<bf>47</bf> (Keypad-7/Home), <bf>48</bf> (Keypad-8/Up),
+<bf>49</bf> (Keypad-9/PgUp)
+<p>
+<bf>4a</bf> (Keypad--)
+<p>
+<bf>4b</bf> (Keypad-4/Left), <bf>4c</bf> (Keypad-5),
+<bf>4d</bf> (Keypad-6/Right), <bf>4e</bf> (Keypad-+)
+<p>
+<bf>4f</bf> (Keypad-1/End), <bf>50</bf> (Keypad-2/Down),
+<bf>51</bf> (Keypad-3/PgDn)
+<p>
+<bf>52</bf> (Keypad-0/Ins), <bf>53</bf> (Keypad-./Del)
+<p>
+<bf>54</bf> (Alt-SysRq) on a 84+ key keyboard
+<p>
+<bf>55</bf> is less common; occurs as PF1 on a Focus 9000 keyboard,
+and as FN on an IBM ThinkPad.
+<p>
+<bf>56</bf> mostly on non-US keyboards. It is an unlabelled key
+next to the space bar on a Toshiba notebook.
+<p>
+<bf>57</bf> (F11), <bf>58</bf> (F12) both on a 101+ key keyboard
+<p>
+<bf>59</bf>-<bf>5a</bf>-...-<bf>7f</bf> are less common.
+Scancodes <bf>59</bf>-<bf>5c</bf> occur on the RC930 keyboard.
+X calls <bf>5d</bf> `KEY_Begin'.
+Scancodes <bf>55</bf>, <bf>6d</bf>, <bf>6f</bf>, <bf>73</bf>, <bf>74</bf>,
+<bf>77</bf>, <bf>78</bf>, <bf>79</bf>, <bf>7a</bf>, <bf>7b</bf>,
+<bf>7c</bf>, <bf>7e</bf> occur on the Focus 9000 keyboard.
+Scancodes <bf>73</bf>, <bf>7d</bf> occur on a Japanese 86/106 keyboard.
+<p>
+
+<sect1>Escaped scancodes<p>
+Apart from the Pause/Break key that has an escaped sequence starting
+with <bf>e1</bf>, the escape used is <bf>e0</bf>. Often, the codes
+are chosen in such a way that something meaningful happens when
+the receiver just discards the <bf>e0</bf>.
+<p>
+<bf>e0</bf> <bf>1c</bf> (Keypad Enter) - <bf>1c</bf> (Enter)
+<p>
+<bf>e0</bf> <bf>1d</bf> (RCtrl) - <bf>1d</bf> (LCtrl)
+<p>
+<bf>e0</bf> <bf>2a</bf> (fake LShift) - <bf>2a</bf> (LShift)
+<p>
+<bf>e0</bf> <bf>35</bf> (Keypad-/) - <bf>35</bf> (/?)
+<p>
+<bf>e0</bf> <bf>36</bf> (fake RShift) - <bf>36</bf> (RShift)
+<p>
+<bf>e0</bf> <bf>37</bf> (Ctrl-PrtScn) - <bf>37</bf> (*/PrtScn)
+<p>
+<bf>e0</bf> <bf>38</bf> (RAlt) - <bf>38</bf> (LAlt)
+<p>
+<bf>e0</bf> <bf>46</bf> (Ctrl-Break) - <bf>46</bf> (ScrollLock)
+<p>
+<bf>e0</bf> <bf>47</bf> (Grey Home) - <bf>47</bf> (Keypad-7/Home)
+<p>
+<bf>e0</bf> <bf>48</bf> (Grey Up) - <bf>48</bf> (Keypad-8/UpArrow)
+<p>
+<bf>e0</bf> <bf>49</bf> (Grey PgUp) - <bf>49</bf> (Keypad-9/PgUp)
+<p>
+<bf>e0</bf> <bf>4b</bf> (Grey Left) - <bf>4b</bf> (Keypad-4/Left)
+<p>
+<bf>e0</bf> <bf>4d</bf> (Grey Right) - <bf>4d</bf> (Keypad-6/Right)
+<p>
+<bf>e0</bf> <bf>4f</bf> (Grey End) - <bf>4f</bf> (Keypad-1/End)
+<p>
+<bf>e0</bf> <bf>50</bf> (Grey Down) - <bf>50</bf> (Keypad-2/DownArrow)
+<p>
+<bf>e0</bf> <bf>51</bf> (Grey PgDn) - <bf>51</bf> (Keypad-3/PgDn)
+<p>
+<bf>e0</bf> <bf>52</bf> (Grey Insert) - <bf>52</bf> (Keypad-0/Ins)
+<p>
+<bf>e0</bf> <bf>53</bf> (Grey Delete) - <bf>53</bf> (Keypad-./Del)
+<p>
+These escaped scancodes occur only on 101+ key keyboards.
+
+<sect1>Fake shifts<p>
+The ten grey keys Insert, Home, PgUp, Delete, End, PgDn,
+Up, Left, Down, Right are supposed to function regardless
+of the state of Shift and NumLock keys. But for an old AT keyboard
+the keypad keys would produce digits when Numlock was on or Shift
+was down. Therefore, in order to fool old programs,
+fake scancodes are sent: when LShift is down, and Insert is
+pressed, <bf>e0</bf> <bf>aa</bf> <bf>e0</bf> <bf>52</bf> is sent;
+upon release of Insert <bf>e0</bf> <bf>d2</bf> <bf>e0</bf> <bf>2a</bf>
+is sent. In other words, a fake LShift-up and
+fake LShift-down are inserted.
+
+If the Shift key is released earlier than the repeated key,
+then a real Shift-up code occurs (without preceding fake Shift-down)
+so that a program ignoring <bf>e0</bf> would see one more Shift-up
+than Shift-down.
+
+When NumLock is on, no fake Shifts are sent when Shift was down,
+but fake Shifts are sent when Shift was not down. Thus,
+with Numlock, if Insert is pressed,
+<bf>e0</bf> <bf>2a</bf> <bf>e0</bf> <bf>52</bf> is sent
+and upon release <bf>e0</bf> <bf>d2</bf> <bf>e0</bf> <bf>aa</bf> is sent.
+The keyboard maintains a private NumLock mode, toggled when
+NumLock is pressed, and set when the NumLock LED is set.
+
+In the same way, when Shift is down, the Grey-/ key produces
+fake Shift-up and fake Shift-down sequences. However, it does
+not react to the state of NumLock. The purpose of course is to
+fool programs that identify Grey-/ with ordinary /, so that they
+don't treat Shift-Grey-/ like Shift-/, i.e., ?.
+
+On a Toshiba notebook, the three Windows keys are treated like
+the group of ten keys mentioned, and get fake shifts when
+(left or right) Shift is down. Thet do not react to NumLock.
+
+<sect1>Turbo Mode<p>
+On some motherboards the LCtrl-LAlt-GreyPlus and LCtrl-LAlt-GreyMinus
+switch Turbo mode on/off, respectively. For these, the motherboard
+may generate the same scancode sequence when the Turbo button is
+pushed: Turbo Switch (High->Low):
+<bf>1d</bf> <bf>38</bf> <bf>4a</bf> <bf>ce</bf> <bf>b8</bf> <bf>9d</bf>
+and Turbo Switch (Low->High):
+<bf>1d</bf> <bf>38</bf> <bf>4e</bf> <bf>ce</bf> <bf>b8</bf> <bf>9d</bf>.
+<p>
+Other peculiar combinations in this style include
+LCtrl-LAlt-LShift-GreyMinus to turn off system cache.
+<p>
+Thio Yu Jin &lt;jin@singmail.com&gt; complains that on his Toshiba 4010CDS
+the Ctrl-Alt-Shift-T key combination brings up the Toshiba user manual.
+(04 Mar 1999 - not April 1.)
+<p>
+
+<sect1>Scancode modes
+<label id="scancode_modes">
+<p>
+The usual PC keyboards are capable of producing three
+sets of scancodes. Writing 0xf0 followed by 1, 2 or 3 to port
+0x60 will put the keyboard in scancode mode 1, 2 or 3. Writing
+0xf0 followed by 0 queries the mode, resulting in a scancode
+byte 0x43, 0x41 or 0x3f from the keyboard.
+<p>
+Scancode mode 2 is the default. In this mode, a key press
+usually produces a value <it>s</it> in the range 0x01-0x5f and the
+corresponding key release produces <it>s</it>+0x80. In scancode
+mode 3, the only key releases that produce a scan code are of
+either Shift key, or of the left Ctrl and Alt keys; for all
+other keys only the key presses are noted. The produced
+scancodes are mostly equal to those for scancode mode 2.
+<p>
+In scancode mode 1 most key releases produce the same values as
+in scancode mode 2, but for key presses there are entirely
+different, unrelated values. The details are somewhat messy.
+
+<sect>Special keyboards<p>
+
+<sect1>Focus KeyPro FK-9000 keyboard<p>
+Raul D. Miller &lt;rockwell@nova.umd.edu&gt;
+and &lt;hagmanti@cps.msu.edu&gt; report:
+<p>
+<it>
+The keyboard is a KeyPro FK-9000.  The FCC label says it's made in
+Taiwan by Focus Electronic Co, Ltd.  It has a built-in calculator.
+</it>
+<p>
+<it>
+This keyboard has twelve additional keys, with scancodes
+</it>
+<bf>55</bf> (PF1),
+<bf>6d</bf> (PF11),
+<bf>6f</bf> (PF12),
+<bf>73</bf> (PF2),
+<bf>74</bf> (PF9),
+<bf>77</bf> (PF3),
+<bf>78</bf> (PF4),
+<bf>79</bf> (PF5),
+<bf>7a</bf>* (PF6),
+<bf>7b</bf> (PF7),
+<bf>7c</bf> (PF8),
+<bf>7e</bf>* (PF10).
+<p>
+<it>
+The break codes equal the make codes ORed with 0x80, as always,
+but the Linux kernel eats <bf>fa</bf> and <bf>fe</bf> as
+protocol bytes.
+</it>
+<p>
+<it>
+The behavior of these keys is different from that of normal keys--
+they generate nothing when pressed; then generate the above scancodes
+at the normal repeat time and rate, and then generate (except for the
+starred ones) their scancode ORed with 0x80 when released...
+</it>
+<p>
+<it>
+These PF keys are reprogrammable -- and programming occurs as a sequence
+of keyboard actions.  Therefore, the PF keys duplicate whatever
+keyboard actions occurred during their programming.
+You hit the "Prog" key, then the PF key you want to program; type the
+string you want to store in the key (it's limited to 14 keypresses),
+and then hit the PF key again. After that, when you hit the PF key,
+it sends the string, and generates its own abnormal scancode upon
+release. When the key is held down, it generates the scancode repeatedly,
+but does not generate the string stored in it repeatedly.
+</it>
+<p>
+<it>
+When you go to program a key, the scancodes for "PF##-" are sent
+to the computer, then the scancodes for each key you hit as you
+hit it (the shift, etc. keys are an exception-- they send "s-"
+and such :), and then, when you hit the PF## key again to end the
+programming, it sends a sequence of (at least) 18 "0e 8e"s --
+Backspaces...
+</it>
+<p>
+<it>
+The program key itself doesn't generate a scancode at any time.
+The same applies to the CE and AC/ON keys (part of the calculator).
+There is a switch to change between calculator and keyboard mode
+which generates no scancodes.
+</it>
+<p>
+<it>
+When the keyboard is in calculator mode, the entire numeric
+keypad (and everything else on the right side) generates no
+scancodes.
+</it>
+<p>
+<it>
+When the keyboard is not in caluclator mode, the %, MC, MR, M-,
+M+, and Square Root keys all generate 0xff when pressed,
+0xff to repeat, and 0xff on release.
+</it>
+<p>
+<it>
+The little unlabeled key between the right Ctrl and right Alt
+generates <bf>56</bf> when hit, repeats that, and then <bf>d6</bf>
+when released, just like a normal key.
+</it>
+<p>
+
+<sect1>BTC keyboard<p>
+This keyboard has one additional key, with escaped scancode
+<bf>e0</bf> <bf>6f</bf> (Macro).
+
+<sect1>LK450 keyboard<p>
+This keyboard has six additional keys, with escaped scancodes
+<bf>e0</bf> <bf>3d</bf> (F13),
+<bf>e0</bf> <bf>3e</bf> (F14),
+<bf>e0</bf> <bf>3f</bf> (Help),
+<bf>e0</bf> <bf>40</bf> (Do),
+<bf>e0</bf> <bf>41</bf> (F17),
+<bf>e0</bf> <bf>4e</bf> (Keypad-minplus).
+
+<sect1>OmniKey keyboard<p>
+This keyboard has one additional key, with escaped scancode
+<bf>e0</bf> <bf>4c</bf> (Omni).
+
+<sect1>GRiD 2260 keyboard<p>
+The GRiD 2260 notebook has a key producing the
+<bf>6c</bf> scancode; I do not know the keycap.
+
+<sect1>A Japanese 86/106 keyboard<p>
+Barry Yip &lt;g609296@cc.win.or.jp&gt; reports:
+<p>
+<it>
+This keyboard has two additional keys, with scancodes
+<bf>73</bf> (\-) and <bf>7d</bf> (\|).
+This kind of keyboard is rather standard in Japan. They are called 106
+keyboard. Mine is a notebook so it is 86 keyboard. No specific brand
+name.
+</it>
+
+<sect1>Brazilian keyboard<p>
+Arnaldo Moura &lt;lumbago@vnet.ibm.com&gt; reports:
+<p>
+<it>
+This keyboard has two unusual keys, with scancodes
+<bf>73</bf> (/?) and <bf>7e</bf> (Keypad-.).
+</it>
+<p>
+Also others mention an ABNT keyboard with <bf>73</bf> and
+<bf>7e</bf> keys, mostly because these keys do not function
+with Windows NT 4.0.
+<p>
+ABNT (Associação Brasileira de Normas Tecnicas) and ABNT2
+are Brazilian keyboard layout standards. The plain Brazilian
+keyboard has 103 keys. I find an ABNT 107 key keyboard announced by
+<htmlurl name="gertec" url="http://www.gertec.com.br/tecpc1.htm">.
+with Suspend / Wake-up / Power power management keys.
+<it>For enabling these functions, run BIOS setup.</it>
+
+<sect1>RC930 keyboard<p>
+Torben Fjerdingstad &lt;tfj@olivia.ping.dk&gt; reports:
+<p>
+<it>
+It's an rc930 keyboard, from Regnecentralen/RC International, Now ICL.
+This keyboard has four additional keys, with scancodes
+</it>
+<bf>59</bf> (A1),
+<bf>5a</bf> (A2),
+<bf>5b</bf> (A3),
+<bf>5c</bf> (A4).
+<p>
+<it>
+The rc930/rc931 keyboards are not made anymore, because they had a
+problem with fast typists, writing over 400 chars/minute.
+Writing 'af&lt;space&gt;', very, very fast, did a PgUp.
+</it>
+
+<sect1>Tandberg Data keyboard
+<label id="prefix_80">
+<p>
+Kjetil Torgrim Homme &lt;kjetilho@ifi.uio.no&gt; reports:
+<p>
+<it>
+My Tandberg Data keyboard uses the prefix <bf>80</bf> for
+its numerous (20) extra keys. The <bf>80</bf> scancodes are:
+</it><p>
+<bf>11</bf>, <bf>12</bf>, <bf>13</bf>, <bf>14</bf>, <bf>16</bf>,
+<bf>17</bf>, <bf>18</bf>, <bf>19</bf>, <bf>1e</bf>, <bf>1f</bf>,
+<bf>20</bf>, <bf>21</bf>, <bf>22</bf>, <bf>23</bf>, <bf>25</bf>,
+<bf>26</bf>, <bf>2f</bf>, <bf>30</bf>, <bf>32</bf>, <bf>56</bf>.
+<p><it>
+For completeness, the <bf>e0</bf> scancodes:
+</it><p>
+<bf>1c</bf>, <bf>2a</bf>, <bf>35</bf>, <bf>37</bf>, <bf>47</bf>,
+<bf>48</bf>, <bf>49</bf>, <bf>4b</bf>, <bf>4d</bf>, <bf>4f</bf>,
+<bf>50</bf>, <bf>51</bf>, <bf>52</bf>, <bf>53</bf>.
+<p><it>
+The <bf>e1</bf> scancode: <bf>1d</bf>.
+As you can see, there is no overlap on this keyboard.
+</it>
+
+<sect1>A keyboard<p>
+<it>Three unusual power keys: <bf>e0</bf> <bf>5e</bf>,
+<bf>e0</bf> <bf>5f</bf>, <bf>e0</bf> <bf>63</bf>.</it>
+
+<sect1>Microsoft Natural keyboard<p>
+This keyboard has three additional keys, with escaped scancodes
+<bf>e0</bf> <bf>5b</bf> (LeftWindow),
+<bf>e0</bf> <bf>5c</bf> (RightWindow),
+<bf>e0</bf> <bf>5d</bf> (Menu).
+
+<sect1>Microsoft Internet keyboard<p>
+In addition to the three extra keys on the Microsoft Natural keyboard,
+this keyboard has ten keys, with escaped scancodes
+<bf>e0</bf> <bf>21</bf> (Calculator),
+<bf>e0</bf> <bf>32</bf> (Web/Home),
+<bf>e0</bf> <bf>5f</bf> (Sleep),
+<bf>e0</bf> <bf>65</bf> (Search),
+<bf>e0</bf> <bf>66</bf> (Favorites),
+<bf>e0</bf> <bf>68</bf> (Stop),
+<bf>e0</bf> <bf>69</bf> (Forward),
+<bf>e0</bf> <bf>6a</bf> (Back),
+<bf>e0</bf> <bf>6b</bf> (My Computer),
+<bf>e0</bf> <bf>6c</bf> (Mail).
+
+<sect1>Logitech Internet keyboard<p>
+Jonathan DeBoer &lt;deboer@ugrad.cs.ualberta.ca&gt;
+reports Key-down and key-up scancodes for a Logitech Internet keyboard.
+<p> 0xe0 0x7a 0xe0 0xfa
+<p> 0xe0 0x32 0xe0 0xb2
+<p> 0xe0 0x21 0xe0 0xa1
+<p> 0xe0 0x23 0xe0 0xa3
+<p> 0x38 0x2a 0x0f 0x8f 0x8f 0xb8 0xaa
+<p> 0xe0 0x17 0xe0 0x97
+<p> 0xe0 0x10 0xe0 0x90
+<p> 0xe0 0x22 0xe0 0xa2
+<p> 0xe0 0x24 0xe0 0xa4
+<p> 0xe0 0x19 0xe0 0x99
+<p> 0xe0 0x1e 0xe0 0x9e
+<p> 0xe0 0x12 0xe0 0x92
+<p> 0xe0 0x26 0xe0 0xa6
+<p> 0xe0 0x18 0xe0 0x98
+<p> 0xe0 0x20 0xe0 0xa0
+<p> 0xe0 0x30 0xe0 0xb0
+<p> 0xe0 0x2e 0xe0 0xae
+<p> 0xe0 0x25 0xe0 0xa5
+<p> (But I have no keycap information.)
+
+<sect1>A keyboard using e0 as ordinary scancode
+<label id="e0_as_key">
+<p>
+Benjamin Carter &lt;bcarter@ultra5.cs.umr.edu&gt; reports:
+<p>
+<it>
+I recently came into possession of a 97-key keyboard with Japanese
+markings on the keys.  (The keys also have the standard
+qwerty-characters on them, with the exception of some of the meta-keys
+(there are 3 keys near the Alt keys on either side of the spacebar with
+only Japanese characters on them so I don't know what they are).
+In any case, the keyboard sends out scancodes that work for all the main
+keys (backspace, letters and numbers, enter, shift), but the numeric
+keypad, Alt keys, and function keys don't work.
+I have run the board through <tt>showkey -s</tt>, so I know what
+scancodes this keyboard sends out.
+However, the F9 and F10 keys send out <bf>60</bf> and <bf>61</bf>,
+respectively, so their key release events send out <bf>e0</bf>
+and <bf>e1</bf>, confusing the keyboard driver.
+</it>
+<p>
+# These are across the top of the keyboard.
+<p>
+<bf>58</bf> (F1), <bf>59</bf> (F2), <bf>5a</bf> (F3),
+<bf>5b</bf> (F4), <bf>5c</bf> (F5), <bf>5d</bf> (F6),
+<bf>5e</bf> (F7), <bf>5f</bf> (F8), <bf>60</bf> (F9),
+<bf>61</bf> (F10), <bf>62</bf> (F11), <bf>63</bf> (F12)
+<p> 
+<bf>76</bf> (Break), <bf>77</bf> (Setup).
+<p> 
+# top row
+<p>
+<bf>64</bf> (Esc),
+<bf>02</bf> (1), <bf>03</bf> (2), <bf>04</bf> (3),
+<bf>05</bf> (4), <bf>06</bf> (5), <bf>07</bf> (6),
+<bf>08</bf> (7), <bf>09</bf> (8), <bf>0a</bf> (9),
+<bf>0b</bf> (0), <bf>0c</bf> (-), <bf>0d</bf> (=),
+<bf>29</bf> (`), <bf>0e</bf> (Backspace)
+
+<p>
+# 2nd row
+<p>
+<bf>0f</bf> (Tab),
+<bf>10</bf> (Q), <bf>11</bf> (W), <bf>12</bf> (E),
+<bf>13</bf> (R), <bf>14</bf> (T), <bf>15</bf> (Y),
+<bf>16</bf> (U), <bf>17</bf> (I), <bf>18</bf> (O),
+<bf>19</bf> (P), <bf>1a</bf> ([), <bf>1b</bf> (]),
+<bf>79</bf> (Del), <bf>6e</bf> (Line Feed)
+
+<p>
+# 3rd row
+<p>
+<bf>38</bf> (Ctrl),
+<bf>1e</bf> (A), <bf>1f</bf> (S), <bf>20</bf> (D),
+<bf>21</bf> (F), <bf>22</bf> (G), <bf>23</bf> (H),
+<bf>24</bf> (J), <bf>25</bf> (K), <bf>26</bf> (L),
+<bf>27</bf> (;), <bf>28</bf> ('), <bf>75</bf> (\),
+<bf>1c</bf> (Return)
+
+<p>
+# 4th row
+<p>
+<bf>2a</bf> (Shift_L),
+<bf>2c</bf> (Z), <bf>2d</bf> (X), <bf>2e</bf> (C),
+<bf>2f</bf> (V), <bf>30</bf> (B), <bf>31</bf> (N),
+<bf>32</bf> (M), <bf>33</bf> (,), <bf>34</bf> (.),
+<bf>35</bf> (/),
+<bf>3a</bf> ((unknown)),
+<bf>36</bf> (Shift_R)
+
+<p>
+# bottom row
+<p>
+<bf>1d</bf> (Caps Lock), <bf>71</bf> (Alt_L),
+<bf>01</bf> ((unknown)),
+<bf>39</bf> (Space),
+<bf>45</bf> ((unknown)),
+<bf>72</bf> (Alt_R),
+<bf>46</bf> ((unknown))
+
+<p>
+# numeric keypad.  No "grey" section on the keyboard.
+<p>
+<bf>47</bf> (7), <bf>48</bf> (8), <bf>49</bf> (9),
+<bf>54</bf> (Keypad -),
+<bf>4b</bf> (4), <bf>4c</bf> (5), <bf>4d</bf> (6),
+<bf>37</bf> (Keypad +),
+<bf>4f</bf> (1), <bf>50</bf> (2), <bf>51</bf> (3),
+<bf>4e</bf> (Keypad Enter),
+<bf>52</bf> (0),
+<bf>78</bf> (Up),
+<bf>53</bf> (Keypad .),
+<bf>56</bf> (Left),
+<bf>55</bf> (Down),
+<bf>7d</bf> (Right),
+<bf>7e</bf> (Keypad ,).
+<p>
+
+There are more keyboards that do not use <bf>e0</bf> as escape code.
+For example, Paul Schulz &lt;pauls@caemrad.com.au&gt;
+reports the same for Sun Type 5 Keyboard with PS/2 connector,
+NCD model N-123NA. A kernel patch is required for such keyboards.
+
+
+<sect1>IBM ThinkPad<p>
+George Staikos &lt;staikos@0wned.org&gt; writes:
+<p><it>
+I have an IBM ThinkPad i1460. It has the IBM EasyLaunch&lt;tm&gt; keys.
+These are four multicoloured keys up at the top of the keyboard
+for "Home Page", "Search", "Shop", "Mail".  They dont' seem to create
+any keyboard events at all.  The keyboard interrupt doesn't trigger,
+<tt>showkeys</tt> doesn't see them do anything, and in DOS, a simple
+sequence of BIOS calls doesn't see them either.
+Also, being a laptop, it has an FN key.  This key generates <bf>55</bf>.
+</it>
+
+<sect1>Keyboards with many keys<p>
+The current mechanism is unable to handle keyboards with more than
+127 keys. But such keyboards seem to exist. (So far, nobody has
+reported `I have one', but there are several reports saying
+`I have heard about someone who has one'.)
+
+Mark Hatle &lt;fray@kernel.crashing.org&gt; wrote:
+<p>
+<it>
+On some ADB keyboards there are actually 128 distinct keys.
+They use scancodes 0-127.
+</it><p><it>
+ADB is Apple Desktop Bus.  The way that ADB works is similar to SCSI but
+on a much slower level.  Specifically there is a communications chip in
+the computer, ADB controller, and the same chip in the keyboard.  The
+keyboard sends the scancode to its internal ADB controller, the internal
+ADB controller then does any key mapping needed (not used under linux
+from my understanding) and passes the data to the computer.
+</it><p><it>
+The ADB controller is capable of sending 256 distinct keys, but to my
+knowledge only 128 are sent.  The key 0 is the 'a' and key 127 is the
+"power button".
+</it><p><it>
+Also some of the Apple ADB keyboards have special "sound" and "function"
+keys.  These keys (used in MacOS for volume up and down, screen contrast
+changing, etc) also show up on the ADB scancodes.
+</it><p><it>
+ADB is used for both m68k and PPC Linux.  The m68k Macintosh port, and
+the PPC - Power Macintosh and CHRP ports.
+</it><p>
+and later:
+<p><it>
+Basically the scancode sequences for ADB are 16 bit. so there can actually
+be 65536 scancodes, currently though only 128 are defined.
+</it>
+
+<sect>Reporting<p>
+Additions and corrections are welcome.
+Use <tt>showkey -s</tt> to get the scancodes.
+Mention keyboard manufacturer and type, and the keycaps.
+<p>
+Andries Brouwer - <tt/aeb@cwi.nl/
+
+</article>

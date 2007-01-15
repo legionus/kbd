@@ -98,7 +98,13 @@ assemble_utf8(char **inptr, int cnt) {
 	*inptr = in;
 	return uc;
 }
-	
+
+static void
+clear_uni_entry(struct unicode_list *up) {
+	up->next = NULL;
+	up->seq = NULL;
+	up->prev = up;
+}	
 
 /*
  * Read description of a single font position.
@@ -277,14 +283,17 @@ readpsffont(FILE *fontf, char **allbufp, int *allszp,
 	if (fontlenp)
 		*fontlenp = fontlen;
 
-	if (hastable && uclistheadsp) {
+	if (!uclistheadsp)
+		return 0;	/* got font, don't need unicode_list */
+
+	*uclistheadsp = xrealloc(*uclistheadsp,
+		(fontpos0+fontlen)*sizeof(struct unicode_list));
+
+	if (hastable) {
 		char *inptr, *endptr;
 
 		inptr = inputbuf + ftoffset + fontlen * charsize;
 		endptr = inputbuf + inputlth;
-
-		*uclistheadsp = xrealloc(*uclistheadsp,
-			(fontpos0+fontlen)*sizeof(struct unicode_list));
 
 		for (i=0; i<fontlen; i++) {
 			k = fontpos0 + i;
@@ -295,6 +304,11 @@ readpsffont(FILE *fontf, char **allbufp, int *allszp,
 			char *u = _("%s: Input file: trailing garbage\n");
 			fprintf(stderr, u, progname);
 			exit(EX_DATAERR);
+		}
+	} else {
+		for (i=0; i<fontlen; i++) {
+			k = fontpos0 + i;
+			clear_uni_entry(&(*uclistheadsp)[k]);
 		}
 	}
 

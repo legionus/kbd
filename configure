@@ -126,7 +126,7 @@ if [ $nls = 1 ]; then
         	echo "(Otherwise, edit defines.h and delete the line with ENABLE_NLS)"
 	        ENABLE_NLS=yes
 	else
-        	echo "You don't have <libintl.h>"
+        	echo "You don't have <libintl.h> and gettext()"
 	        ENABLE_NLS=no
 	fi
 else

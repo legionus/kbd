@@ -7,7 +7,7 @@ install: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 	install -d -m 755 $(DATADIR)/$(TRANSDIR)
 	install -m 644 $(TRANSDIR)/* $(DATADIR)/$(TRANSDIR)
 	install -d -m 755 $(DATADIR)/$(UNIMAPDIR)
-	install -m 644 $(TRANSDIR)/* $(DATADIR)/$(UNIMAPDIR)
+	install -m 644 $(UNIMAPDIR)/* $(DATADIR)/$(UNIMAPDIR)
 	install -d -m 755 $(DATADIR)/$(KEYMAPDIR)
 	install -d -m 755 $(DATADIR)/$(KEYMAPDIR)/i386
 	for i in $(KEYMAPSUBDIRS); do \

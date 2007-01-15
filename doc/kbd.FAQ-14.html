@@ -27,13 +27,45 @@ have two keycodes: the former has keycode 84 when Alt is pressed
 simultaneously, and keycode 99 otherwise; the latter has keycode
 101 when Ctrl is pressed simultaneously, and keycode 119 otherwise.
 (Thus, it makes no sense to bind functions to Alt keycode 99 or
-Ctrl keycode 119.)
+Ctrl keycode 119.) The Pause/Break key is also special in another way:
+it does not generate key-up scancodes, but generates the entire
+6-scancode sequence on key-down.
 <P>If you have strange keys, that do not generate any code under Linux
 (or generate messages like "unrecognized scancode"), and your kernel
 is 1.1.63 or later, then you can use setkeycodes(1) to tell the kernel
-about them. They won't work under X, however.
-Once they have gotten a keycode from <CODE>setkeycodes</CODE>, they can be assigned
-a function by <CODE>loadkeys</CODE>.
+about them. Once they have gotten a keycode from <CODE>setkeycodes</CODE>,
+they can be assigned a function by <CODE>loadkeys</CODE>.
+<P>For example, using <CODE>showkey -s</CODE> one sees that Microsoft keyboards
+use the scancode sequences (in hexadecimal) e0 5b (left Windows key),
+e0 5c (right Windows key), e0 5d (Menu key).
+Microsoft Internet keyboard also uses e0 6a (Back), e0 69 (Forward),
+e0 68 (Stop), e0 6c (Mail), e0 65 (Search), e0 66 (Favorites),
+e0 32 (Web/Home), e0 6b (My Computer), e0 21 (Calculator), e0 5f (Sleep).
+Use <CODE>dumpkeys</CODE> to see what keycodes are still unused.
+Typically values like 89-95 and 112-118 and 120-127 are free.
+Now
+<BLOCKQUOTE><CODE>
+<PRE>
+        % setkeycodes e05b 125
+        % setkeycodes e05c 126
+        % setkeycodes e05d 127
+</PRE>
+</CODE></BLOCKQUOTE>
+
+assigns keycodes to these scancode sequences, and
+<BLOCKQUOTE><CODE>
+<PRE>
+        % loadkeys
+        keycode 125 = Decr_Console
+        keycode 126 = Incr_Console
+        keycode 127 = KeyboardSignal
+        %
+</PRE>
+</CODE></BLOCKQUOTE>
+
+would make these Windows keys go to the previous or next virtual console,
+and let the Menu key create a fresh virtual console (in case you have
+something like <CODE>spawn_console</CODE> running).
 <P>
 <HR>
 <A HREF="kbd.FAQ-15.html">Next</A>
