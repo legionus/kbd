@@ -1,12 +1,16 @@
 /*
  * All data is in subdirectories of DATADIR, by default /usr/lib/kbd
- * The following four subdirectories are defined:
+ * The following five subdirectories are defined:
  */
 #define KEYMAPDIR "keymaps"
-#define OLDKEYMAPDIR "keytables"
-#define FONTDIR "consolefonts"
+#define UNIMAPDIR "unimaps"
 #define TRANSDIR "consoletrans"
 #define VIDEOMODEDIR "videomodes"
+#define FONTDIR "consolefonts"
+/* subdir of the latter */
+#define PARTIALDIR "partialfonts"
+/* obsolete */
+#define OLDKEYMAPDIR "keytables"
 
 /*
  * Default keymap, and where the kernel copy of it lives.

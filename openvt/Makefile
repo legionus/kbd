@@ -8,8 +8,8 @@ OBJ=openvt.o getfd.o
 PROG=openvt
 PROGS=$(PROG)
 MAN=openvt.1
-BINDIR=/usr/bin
-MANDIR=/usr/man/man1
+BINDIR=${DESTDIR}/usr/bin
+MANDIR=${DESTDIR}/usr/man/man1
 
 all: $(PROGS)
 
@@ -24,6 +24,7 @@ realclean distclean: clean
 	-rm -f $(PROGS)
 
 install: $(PROGS)
+	install -d -m 755 $(BINDIR) $(MANDIR)
 	install -c $(PROGS) $(BINDIR)
 	install -c $(MAN)  $(MANDIR)
 

@@ -14,14 +14,14 @@
 
 void
 sighup(){
-    system("open -s -l bash");
+    system("openvt -s -l bash");
     signal(SIGHUP, sighup);
 }
 
 main(){
     int fd;
 
-    fd = open("/dev/console", 0);
+    fd = open("/dev/tty0", 0);
     if (fd < 0)
       fd = 0;
     signal(SIGHUP, sighup);

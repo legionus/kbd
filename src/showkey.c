@@ -7,13 +7,12 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 #include <sys/ioctl.h>
+#include "getfd.h"
 #include "nls.h"
-
-#define VERSION "0.98"
+#include "version.h"
 
 int tmp;	/* for debugging */
 
-extern int getfd();
 int fd;
 int oldkbmode;
 struct termios old;
@@ -22,7 +21,8 @@ struct termios old;
  * version 0.81 of showkey would restore kbmode unconditially to XLATE,
  * thus making the console unusable when it was called under X.
  */
-void get_mode(void) {
+static void
+get_mode(void) {
         char *m;
 
 	if (ioctl(fd, KDGKBMODE, &oldkbmode)) {
@@ -49,7 +49,8 @@ void get_mode(void) {
 	printf("\n");
 }
 
-void clean_up(void) {
+static void
+clean_up(void) {
 	if (ioctl(fd, KDSKBMODE, oldkbmode)) {
 		perror("KDSKBMODE");
 		exit(1);
@@ -59,18 +60,21 @@ void clean_up(void) {
 	close(fd);
 }
 
-void die(int x) {
+static void
+die(int x) {
 	printf(_("caught signal %d, cleaning up...\n"), x);
 	clean_up();
 	exit(1);
 }
 
-void watch_dog(int x) {
+static void
+watch_dog(int x) {
 	clean_up();
 	exit(0);
 }
 
-void usage(void) {
+static void
+usage(void) {
 	fprintf(stderr, _(
 "showkey version %s\n\n"
 "usage: showkey [options...]\n"
@@ -87,12 +91,13 @@ void usage(void) {
 
 int
 main (int argc, char *argv[]) {
-	const char *short_opts = "hask";
+	const char *short_opts = "haskV";
 	const struct option long_opts[] = {
 		{ "help",	no_argument, NULL, 'h' },
 		{ "ascii",	no_argument, NULL, 'a' },
 		{ "scancodes",	no_argument, NULL, 's' },
 		{ "keycodes",	no_argument, NULL, 'k' },
+		{ "version",	no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
@@ -102,6 +107,8 @@ main (int argc, char *argv[]) {
 	struct termios new;
 	unsigned char buf[16];
 	int i, n;
+
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -119,6 +126,8 @@ main (int argc, char *argv[]) {
 			case 'a':
 				print_ascii = 1;
 				break;
+			case 'V':
+				print_version_and_exit();
 			case 'h':
 			case '?':
 				usage();

@@ -17,9 +17,14 @@
  * and give them your favourite owners and permissions.
  */
 #include <stdio.h>
-#include <linux/termios.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include "xmalloc.h"
 #include "nls.h"
-extern char *malloc();
+#include "version.h"
 
 int
 main(int argc, char **argv) {
@@ -30,9 +35,14 @@ main(int argc, char **argv) {
     int fd, i, j;
     char *inbuf, *outbuf, *p, *q;
 
+    set_progname(argv[0]);
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+	print_version_and_exit();
 
     if (argc > 2) {
 	fprintf(stderr, _("usage: screendump [n]\n"));
@@ -42,19 +52,18 @@ main(int argc, char **argv) {
     cons = (argc == 2) ? atoi(argv[1]) : 0;
 
     sprintf(infile, "/dev/vcsa%d", cons);
-    fd = open(infile, 0);
+    fd = open(infile, O_RDONLY);
+    if (fd < 0 && cons == 0 && errno == ENOENT)
+      fd = open("/dev/vcsa", O_RDONLY);
     if (fd < 0 || read(fd, header, 4) != 4)
       goto try_ioctl;
     rows = header[0];
     cols = header[1];
     if (rows * cols == 0)
       goto try_ioctl;
-    inbuf = malloc(rows*cols*2);
-    outbuf = malloc(rows*(cols+1));
-    if(!inbuf || !outbuf) {
-        fprintf(stderr, _("Out of memory?\n"));
-        exit(1);
-    }
+    inbuf = xmalloc(rows*cols*2);
+    outbuf = xmalloc(rows*(cols+1));
+
     if (read(fd, inbuf, rows*cols*2) != rows*cols*2) {
         fprintf(stderr, _("Error reading %s\n"), infile);
         exit(1);
@@ -79,7 +88,7 @@ try_ioctl:
 	unsigned char *screenbuf;
 
 	sprintf(consnam, "/dev/tty%d", cons);
-	if((fd = open(consnam, 0)) < 0) {
+	if((fd = open(consnam, O_RDONLY)) < 0) {
 	    perror(consnam);
 	    fd = 0;
 	}
@@ -89,20 +98,22 @@ try_ioctl:
 	    exit(1);
 	}
 
-	screenbuf = malloc(2 + win.ws_row * win.ws_col);
-	if (!screenbuf) {
-	    fprintf(stderr, _("Out of memory.\n"));
-	    exit(1);
-	}
-
+	screenbuf = xmalloc(2 + win.ws_row * win.ws_col);
 	screenbuf[0] = 0;
 	screenbuf[1] = (unsigned char) cons;
 
 	if (ioctl(fd,TIOCLINUX,screenbuf) &&
 	    (!fd || ioctl(0,TIOCLINUX,screenbuf))) {
+#if 0
 	    perror("TIOCLINUX");
 	    fprintf(stderr,_("couldn't read %s, and cannot ioctl dump\n"),
 		    infile);
+#else
+	    /* we tried this just to be sure, but TIOCLINUX
+	       function 0 has been disabled since 1.1.92
+	       Do not mention `ioctl dump' in error msg */
+	    fprintf(stderr,_("couldn't read %s\n"), infile);
+#endif
 	    exit(1);
 	}
 
@@ -115,11 +126,7 @@ try_ioctl:
 	    exit(1);
 	}
 
-	outbuf = malloc(rows*(cols+1));
-	if(!outbuf) {
-	    fprintf(stderr, _("Out of memory?\n"));
-	    exit(1);
-	}
+	outbuf = xmalloc(rows*(cols+1));
 	p = screenbuf + 2;
 	q = outbuf;
         for (i=0; i<rows; i++) {

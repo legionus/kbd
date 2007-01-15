@@ -4,11 +4,11 @@
  * usage: setvesablank ON|on|off
  */
 #include <stdio.h>
-#include <linux/termios.h>
+#include <sys/ioctl.h>
+#include "getfd.h"
 #include "nls.h"
 
-extern int getfd();
-
+int
 main(int argc, char *argv[]) {
     int fd;
     struct { char ten, onoff; } arg;
@@ -32,5 +32,5 @@ main(int argc, char *argv[]) {
        perror("setvesablank: TIOCLINUX");
        exit(1);
     }
-    exit(0);
+    return 0;
 }

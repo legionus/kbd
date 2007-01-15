@@ -1,7 +1,7 @@
 /*
  * resizecons.c - change console video mode
  *
- * Version 0.98
+ * Version 1.00
  *
  * How to use this:
  *
@@ -12,8 +12,8 @@
  *    For me this resulted in the files 80x25, 80x28, 80x50, 80x60, 100x40,
  *    132x25, 132x28, 132x44. Put these files in /usr/lib/kbd/videomodes
  *    (or in your current dir).
- * 3. Now "resizecons COLSxROWS" will change your video mode. (Assuming you have
- *    an appropriate kernel, and svgalib works for your video card.)
+ * 3. Now "resizecons COLSxROWS" will change your video mode. (Assuming you
+ *    have an appropriate kernel, and svgalib works for your video card.)
  *
  * Note: this is experimental, but it works for me. Comments are welcome.
  * You may have to be root to get the appropriate ioperm permissions.
@@ -71,6 +71,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
@@ -84,29 +85,30 @@
 #endif
 #include <linux/vt.h>
 #include "paths.h"
+#include "getfd.h"
+#include "findfile.h"
 #include "nls.h"
+#include "version.h"
 
 #define MODE_RESTORETEXTMODE	0
 #define MODE_VGALINES		1
 
-extern char *index();
-extern int getfd();
 static void usage(void);
 
 /* VGA textmode register tweaking. */
-static void vga_init_io();
-static void vga_400_scanlines();
-static void vga_480_scanlines();
-static void vga_set_fontheight( int );
-static int vga_get_fontheight();
-static void vga_set_cursor( int, int );
-static void vga_set_verticaldisplayend_lowbyte( int );
+static void vga_init_io(void);
+static void vga_400_scanlines(void);
+static void vga_480_scanlines(void);
+static void vga_set_fontheight(int);
+static int vga_get_fontheight(void);
+static void vga_set_cursor(int, int);
+static void vga_set_verticaldisplayend_lowbyte(int);
 
 char *dirpath[] = { "", DATADIR "/" VIDEOMODEDIR "/", 0};
 char *suffixes[] = { "", 0 };
 
 int
-main(argc, argv) int argc; char **argv; {
+main(int argc, char **argv) {
     int rr, cc, fd, i, mode;
     struct vt_sizes vtsizes;
     struct vt_stat vtstat;
@@ -116,12 +118,18 @@ main(argc, argv) int argc; char **argv; {
     FILE *fin;
     char *defaultfont;
 
+    set_progname(argv[0]);
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
 
     if (argc < 2)
       usage();
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+      print_version_and_exit();
+
     rr = 0;			/* make gcc happy */
     cc = atoi(argv[1]);
     mode = MODE_RESTORETEXTMODE;
@@ -257,15 +265,17 @@ main(argc, argv) int argc; char **argv; {
     for (i=0; i<16; i++)
       if (vtstat.v_state & (1<<i)) {
 	  sprintf(tty, "/dev/tty%d", i);
-	  if ((fd = open(tty, 0)) > 0) {
+	  if ((fd = open(tty, O_RDONLY)) > 0) {
 	      if(ioctl(fd, TIOCSWINSZ, &winsize))
 		perror("TIOCSWINSZ");
 	      close(fd);
 	  }
       }
 
+#if 0
     /* Try to tell selection about the change */
-    if ((fd = open("/tmp/selection.pid", 0)) >= 0) {
+    /* [may be a security risk?] */
+    if ((fd = open("/tmp/selection.pid", O_RDONLY)) >= 0) {
 	char buf[64];
 	int n = read(fd, buf, sizeof(buf));
 	if (n > 0) {
@@ -277,6 +287,7 @@ main(argc, argv) int argc; char **argv; {
 	}
 	close(fd);
     }
+#endif
 
     /* do: setfont default8x16 */
     /* (other people might wish other fonts - this should be settable) */
@@ -315,7 +326,7 @@ main(argc, argv) int argc; char **argv; {
     return 0;
 }
 
-void
+static void
 usage() {
     fprintf(stderr,
 	    _("resizecons:\n"

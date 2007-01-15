@@ -21,11 +21,13 @@
  *
  * Fixed some bugs; made it a bit more robust; renamed to openvt
  *  aeb@cwi.nl, 1998-06-06.
+ * Applied patch by Chuck Martin <cmartin@bigfoot.com>, i18n, aeb, 990316.
  */
 
 #include "openvt.h"
+#include "nls.h"
 
-const char *version = "openvt 1.4a - (c) Jon Tombs 1994";
+const char *version = "openvt 1.4b - (c) Jon Tombs 1994";
 
 #ifndef VTNAME
 #error vt device name must be defined in openvt.h
@@ -40,6 +42,7 @@ main(int argc, char *argv[])
    struct vt_stat vtstat;
    int vtno     = -1;
    int fd       = -1;
+   int consfd   = -1;
    char optc	= FALSE;
    char show    = FALSE;
    char login   = FALSE;
@@ -61,7 +64,7 @@ main(int argc, char *argv[])
 	  optc = 1;		/* vtno was specified by the user */
 	  vtno = (int) atol(optarg);
 	  if (vtno <= 0 || vtno > 63) {	  
-	    fprintf(stderr, "openvt: %s illegal vt number\n", optarg); 
+	    fprintf(stderr, _("openvt: %s: illegal vt number\n"), optarg); 
 	    return 5;
 	  }
 	  /* close security holes - until we can do this safely */
@@ -85,7 +88,7 @@ main(int argc, char *argv[])
 	case 'u':
           /* we'll let 'em get away with the meaningless -ul combo */
           if(getuid()) {
-		fprintf(stderr,"%s: only root can use the -u flag.\n",argv[0]);
+		fprintf(stderr, _("openvt: only root can use the -u flag.\n"));
 		exit(1);
           }
 	  as_user = TRUE;
@@ -96,32 +99,33 @@ main(int argc, char *argv[])
       }
    }
 
-   fd = getfd();
-   if (fd < 0) {
+   consfd = getfd();
+   if (consfd < 0) {
       fprintf(stderr,
-	      "Couldnt get a file descriptor referring to the console\n");
+	      _("Couldnt get a file descriptor referring to the console\n"));
       return(2);
    }
 
-   if (ioctl(fd, VT_GETSTATE, &vtstat) < 0) {
-	perror("openvt: can't get VTstate\n");
+   if (ioctl(consfd, VT_GETSTATE, &vtstat) < 0) {
+	perror("openvt: VT_GETSTATE");
         return(4);
    }
 
    if (vtno == -1) {
-     if ((ioctl(fd, VT_OPENQRY, &vtno) < 0) || (vtno == -1)) {
-        perror("openvt: Cannot find a free VT\n");
+     if ((ioctl(consfd, VT_OPENQRY, &vtno) < 0) || (vtno == -1)) {
+        perror("openvt: VT_OPENQRY");
+	fprintf(stderr, _("openvt: cannot find a free vt\n"));
         return(3);
      }
    } else if (!force) {
      if (vtno >= 16) {
-        fprintf(stderr, "openvt: cannot check whether vt %d is free\n", vtno);
-	fprintf(stderr, "        use `openvt -f' to force.\n");
+        fprintf(stderr, _("openvt: cannot check whether vt %d is free\n"), vtno);
+	fprintf(stderr, _("        use `openvt -f' to force.\n"));
 	return(7);
      }
      if (vtstat.v_state & (1 << vtno)) {
-        fprintf(stderr, "openvt: vt %d is in use; command aborted\n", vtno);
-	fprintf(stderr, "        use `openvt -f' to force.\n");
+        fprintf(stderr, _("openvt: vt %d is in use; command aborted\n"), vtno);
+	fprintf(stderr, _("        use `openvt -f' to force.\n"));
 	return(7);
      }
    }
@@ -148,7 +152,7 @@ main(int argc, char *argv[])
 	      }
 	      sprintf(vtname, VTNAME, vtno);
       }
-      fprintf(stderr, "openvt: Unable to open %s: %s\n",
+      fprintf(stderr, _("openvt: Unable to open %s: %s\n"),
 	      vtname, strerror(errsv));
       return(5);
    }
@@ -159,8 +163,9 @@ got_vtno:
       Check that the real user can access this VT.
       We assume getty has made any in use VT non accessable */
    if (access(vtname, R_OK | W_OK) < 0) {
-      fprintf(stderr, "openvt: Cannot open %s read/write (%s)\n", vtname,
-	     strerror(errno));
+      int errsv = errno;
+      fprintf(stderr, _("openvt: Cannot open %s read/write (%s)\n"),
+	      vtname, strerror(errsv));
       return (5);
    }
 
@@ -197,7 +202,7 @@ got_vtno:
    }
 
    if (verbose)
-	fprintf(stderr,	"openvt: using VT %s\n", vtname);
+	fprintf(stderr,	_("openvt: using VT %s\n"), vtname);
 	
    fflush(stderr);
 
@@ -207,39 +212,42 @@ got_vtno:
       if (setpgrp() < 0) {
 #else
       if (setsid() < 0) {
-#endif      
-        fprintf(stderr, "openvt: Unable to set new session (%s)\n",
-	strerror(errno));
+#endif
+        int errsv = errno;
+        fprintf(stderr, _("openvt: Unable to set new session (%s)\n"),
+		strerror(errsv));
       }
       close(0);			/* so that new vt becomes stdin */
 
       /* and grab new one */
       if ((fd = open(vtname, O_RDWR)) == -1) { /* strange ... */
-	fprintf(stderr, "\nopenvt: could not open %s R/W (%s)\n",
-		vtname, strerror(errno));
+        int errsv = errno;
+	fprintf(stderr, _("\nopenvt: could not open %s R/W (%s)\n"),
+		vtname, strerror(errsv));
 	fflush(stderr);
         _exit (1);		/* maybe above user limit? */
       }
 
       if (show) {
          if (ioctl(fd, VT_ACTIVATE, vtno)) {
+            int errsv = errno;
 	    fprintf(stderr, "\nopenvt: could not activate vt %d (%s)\n",
-		    vtno, strerror(errno));
+		    vtno, strerror(errsv));
 	    fflush(stderr);
 	    _exit (1); /* probably fd does not refer to a tty device file */
 	 }
 
 	 if (ioctl(fd, VT_WAITACTIVE, vtno)){
+            int errsv = errno;
 	    fprintf(stderr, "\nopenvt: activation interrupted? (%s)\n",
-		    strerror(errno));
+		    strerror(errsv));
 	    fflush(stderr);
 	    _exit (1);
 	 }
       }
       close(1);
       close(2);
-      if (fd > 2)
-	 close(fd);	 
+      close(consfd);
       dup(fd);
       dup(fd);
 
@@ -260,9 +268,20 @@ got_vtno:
    if ( do_wait ) {
       wait(NULL);
       if (show) { /* Switch back... */
-	 (void) ioctl(fd, VT_ACTIVATE, vtstat.v_active);
+	 if (ioctl(consfd, VT_ACTIVATE, vtstat.v_active)) {
+	    perror("VT_ACTIVATE");
+	    return 8;
+	 }
 	 /* wait to be really sure we have switched */
-	 (void) ioctl(fd, VT_WAITACTIVE, vtstat.v_active);
+	 if (ioctl(consfd, VT_WAITACTIVE, vtstat.v_active)) {
+	    perror("VT_WAITACTIVE");
+	    return 8;
+	 }
+	 if (ioctl(consfd, VT_DISALLOCATE, vtno)) {
+	   fprintf(stderr, _("openvt: could not deallocate console %d\n"),
+		   vtno);
+	   return(8);
+	 }
       }
    }
 

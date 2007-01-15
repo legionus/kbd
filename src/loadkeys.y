@@ -74,15 +74,15 @@
 #include <sys/ioctl.h>
 #include <ctype.h>
 #include "paths.h"
+#include "getfd.h"
+#include "findfile.h"
 #include "modifiers.h"
 #include "nls.h"
+#include "version.h"
 
 #ifndef KT_LETTER
 #define KT_LETTER KT_LATIN
 #endif
-
-/* name to use in error messages */
-char *progname;
 
 /* What keymaps are we defining? */
 char defining[MAX_NR_KEYMAPS];
@@ -106,8 +106,6 @@ char *fp = func_buf;
 #undef ECHO
 #include "analyze.c"
 
-#define VERSION "0.99"
-
 static void addmap(int map, int explicit);
 static void addkey(int index, int table, int keycode);
 static void addfunc(struct kbsentry kbs_buf);
@@ -122,13 +120,13 @@ static void keypad_as_usual(char *keyboard);
 static void function_keys_as_usual(char *keyboard);
 static void consoles_as_usual(char *keyboard);
 static void compose_as_usual(char *charset);
-static void lkfatal0(char *, int);
-extern int set_charset(char *charset);
+static void lkfatal0(const char *, int);
+extern int set_charset(const char *charset);
 extern int getfd(void);
 extern char *xstrdup(char *);
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
-int unicode_used;
+extern int unicode_used;
 int private_error_ct = 0;
 %}
 
@@ -278,11 +276,11 @@ rvalue		: NUMBER
 		| UNUMBER
 			{$$=($1 ^ 0xf000); unicode_used=1;}
                 | PLUS NUMBER
-                        {$$=K(KT_LETTER, KVAL($2));}
+                        {$$=add_capslock($2);}
 		| LITERAL
 			{$$=$1;}
                 | PLUS LITERAL
-                        {$$=K(KT_LETTER, KVAL($2));}
+                        {$$=add_capslock($2);}
 		;
 %%			
 
@@ -299,6 +297,7 @@ usage(void) {
 "	-h --help	  display this help text\n"
 "	-m --mktable      output a \"defkeymap.c\" to stdout\n"
 "	-s --clearstrings clear kernel string table\n"
+"	-u --unicode      implicit conversion to Unicode\n"
 "	-v --verbose      report the changes\n"), VERSION);
 	exit(1);
 }
@@ -313,20 +312,22 @@ int nocompose = 0;
 
 int
 main(unsigned int argc, char *argv[]) {
-	const char *short_opts = "cdhmsqv";
+	const char *short_opts = "cdhmsuqvV";
 	const struct option long_opts[] = {
 		{ "clearcompose", no_argument, NULL, 'c' },
 	        { "default",    no_argument, NULL, 'd' },
 		{ "help",	no_argument, NULL, 'h' },
 		{ "mktable",    no_argument, NULL, 'm' },
 		{ "clearstrings", no_argument, NULL, 's' },
+		{ "unicode",	no_argument, NULL, 'u' },
 		{ "quiet",	no_argument, NULL, 'q' },
 		{ "verbose",    no_argument, NULL, 'v' },
+		{ "version",	no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
 
-	progname = argv[0];
+	set_progname(argv[0]);
 
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
@@ -343,12 +344,17 @@ main(unsigned int argc, char *argv[]) {
 			case 's':
 				opts = 1;
 				break;
+			case 'u':
+				set_charset("unicode");
+				break;
 			case 'q':
 				quiet = 1;
 				break;
 			case 'v':
 				verbose++;
 				break;
+			case 'V':
+				print_version_and_exit();
 			case 'h':
 			case '?':
 				usage();
@@ -377,7 +383,7 @@ char *filename;
 int line_nr = 1;
 
 int
-yyerror(char *s) {
+yyerror(const char *s) {
 	fprintf(stderr, "%s:%d: %s\n", filename, line_nr, s);
 	private_error_ct++;
 	return(0);
@@ -385,13 +391,13 @@ yyerror(char *s) {
 
 /* fatal errors - change to varargs next time */
 void
-lkfatal(char *s) {
+lkfatal(const char *s) {
 	fprintf(stderr, "%s: %s:%d: %s\n", progname, filename, line_nr, s);
 	exit(1);
 }
 
 void
-lkfatal0(char *s, int d) {
+lkfatal0(const char *s, int d) {
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
 	fprintf(stderr, s, d);
 	fprintf(stderr, "\n");
@@ -399,7 +405,7 @@ lkfatal0(char *s, int d) {
 }
 
 void
-lkfatal1(char *s, char *s2) {
+lkfatal1(const char *s, const char *s2) {
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
 	fprintf(stderr, s, s2);
 	fprintf(stderr, "\n");
@@ -998,7 +1004,7 @@ loadkeys (void) {
 
 static void strings_as_usual(void) {
 	/*
-	 * 28 strings, mostly inspired by the VT100 family
+	 * 26 strings, mostly inspired by the VT100 family
 	 */
 	char *stringvalues[30] = {
 		/* F1 .. F20 */
@@ -1010,7 +1016,7 @@ static void strings_as_usual(void) {
 		/* Find,    Insert,    Remove,    Select,    Prior */
 		"\033[1~", "\033[2~", "\033[3~", "\033[4~", "\033[5~",
 		/* Next,    Macro,  Help, Do,  Pause */
-		"\033[6~", "\033[M",  0,   0, "\033[P"
+		"\033[6~",    0,      0,   0,    0
 	};
 	int i;
 	for (i=0; i<30; i++) if(stringvalues[i]) {

@@ -10,11 +10,11 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
+#include "getfd.h"
 #include "nls.h"
+#include "version.h"
 
-extern int getfd();
-
-void
+static void
 usage(char *s) {
     fprintf(stderr, "setkeycode: %s\n", s);
     fprintf(stderr, _(
@@ -30,9 +30,14 @@ main(int argc, char **argv) {
     int fd, sc;
     struct kbkeycode a;
 
+    set_progname(argv[0]);
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+      print_version_and_exit();
 
     if (argc % 2 != 1)
       usage(_("even number of arguments expected"));

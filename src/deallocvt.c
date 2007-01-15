@@ -8,28 +8,24 @@
 #include <sys/ioctl.h>
 #include <linux/vt.h>
 #include <stdio.h>
+#include "getfd.h"
 #include "nls.h"
-
-extern int getfd(void);
-char *progname;
-
-void
-usage(){
-    fprintf(stderr, _("usage: %s [N1 N2 ...]\n"), progname);
-    exit(1);
-}
+#include "version.h"
 
 int
 main(int argc, char *argv[]) {
     int fd, num, i;
 
     if (argc < 1)		/* unlikely */
-      exit(1);
-    progname = argv[0];
+        exit(1);
+    set_progname(argv[0]);
 
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+	print_version_and_exit();
 
     fd = getfd();
 
@@ -56,7 +52,6 @@ main(int argc, char *argv[]) {
 	    perror("VT_DISALLOCATE");
 	    fprintf(stderr, _("%s: could not deallocate console %d\n"),
 		    progname, num);
-	    exit(1);
 	}
     }
     exit(0);

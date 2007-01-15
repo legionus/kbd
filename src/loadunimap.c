@@ -1,7 +1,7 @@
 /*
  * loadunimap.c - aeb
  *
- * Version 0.97
+ * Version 1.00
  */
 
 #include <errno.h>
@@ -14,36 +14,37 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 #include "paths.h"
+#include "getfd.h"
+#include "xmalloc.h"
+#include "findfile.h"
+#include "psffontop.h"
+#include "loadunimap.h"
 #include "psf.h"
 #include "nls.h"
 
-/* the three exported functions */
-void saveunicodemap(int fd, char *oufil);	/* save humanly readable */
-void loadunicodemap(int fd, char *ufil);
-void appendunicodemap(int fd, FILE *fp, int ct);/* append in psf style */
-
-extern char *malloc(), *realloc();
 extern char *progname;
-extern int getfd(void);
 extern int force;
 
-static char *unidirpath[] = { "", DATADIR "/" TRANSDIR "/", 0 };
+static char *unidirpath[] = { "", DATADIR "/" UNIMAPDIR "/", 0 };
 static char *unisuffixes[] = { "", ".uni", 0 };
 
 #ifdef MAIN
+#include "version.h"
 int verbose = 0;
 int force = 0;
-char *progname;
 
 int
 main(int argc, char *argv[]) {
 	int fd;
 
-	progname = argv[0];
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+	    print_version_and_exit();
 
 	fd = getfd();
 
@@ -55,8 +56,8 @@ main(int argc, char *argv[]) {
 	      exit(0);
 	}
 		
-	if (argc > 2) {
-		fprintf(stderr, _("usage: %s [-o map.orig] map-file\n"),
+	if (argc > 2 || (argc == 2 && argv[1][0] == '-' && argv[1][1])) {
+		fprintf(stderr, _("usage: %s [-o map.orig] [map-file]\n"),
 			progname);
 		exit(1);
 	}
@@ -70,6 +71,7 @@ main(int argc, char *argv[]) {
  * Skip spaces and read U+1234 or return -1 for error.
  * Return first non-read position in *p0 (unchanged on error).
  */ 
+static
 int getunicode(char **p0) {
   char *p = *p0;
 
@@ -91,7 +93,8 @@ int listsz = 0;
 int listct = 0;
 int fd;
 
-void outlist() {
+static void
+outlist(void) {
     advice.advised_hashsize = 0;
     advice.advised_hashstep = 0;
     advice.advised_hashlevel = 1;
@@ -116,14 +119,11 @@ void outlist() {
     listct = 0;
 }
 
-void addpair(int fp, int un) {
+static void
+addpair(int fp, int un) {
     if (listct == listsz) {
 	listsz += 4096;
-	list = realloc((char *)list, listsz);
-	if (!list) {
-	    fprintf(stderr, _("%s: out of memory\n"), progname);
-	    exit(1);
-	}
+	list = xrealloc((char *)list, listsz);
     }
     list[listct].fontpos = fp;
     list[listct].unicode = un;
@@ -321,34 +321,22 @@ saveunicodemap(int fd, char *oufil) {
     printf(_("Saved unicode map on `%s'\n"), oufil);
 }
 
-static void
-appendunsignedshort(FILE *fp, unsigned short u) {
-  unsigned char unicodepair[2];
-
-  unicodepair[0] = (u & 0xff);
-  unicodepair[1] = ((u >> 8) & 0xff);
-  if (fwrite(unicodepair, sizeof(unicodepair), 1, fp) != 1) {
-    perror("appendunimap");
-    exit(1);
-  }
-}
-
 void
-appendunicodemap(int fd, FILE *fp, int fontsize) {
-  struct unimapdesc descr;
-  struct unipair *list;
-  int i, j;
+appendunicodemap(int fd, FILE *fp, int fontsize, int utf8) {
+	struct unimapdesc descr;
+	struct unipair *list;
+	int i, j;
 
-  descr = getunicodemap(fd);
-  list = descr.entries;
+	descr = getunicodemap(fd);
+	list = descr.entries;
 
-  for(i=0; i<fontsize; i++) {
-    for(j=0; j<descr.entry_ct; j++)
-      if (list[j].fontpos == i)
-	appendunsignedshort(fp, list[j].unicode);
-    appendunsignedshort(fp, PSF_SEPARATOR);
-  }
+	for(i=0; i<fontsize; i++) {
+		for(j=0; j<descr.entry_ct; j++)
+			if (list[j].fontpos == i)
+				appendunicode(fp, list[j].unicode, utf8);
+		appendseparator(fp, 0, utf8);
+	}
 
-  if (verbose)
-     printf(_("Appended Unicode map\n"));
+	if (verbose)
+		printf(_("Appended Unicode map\n"));
 }

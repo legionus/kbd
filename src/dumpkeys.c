@@ -28,8 +28,10 @@
 #include <string.h>
 #include <errno.h>
 #include "ksyms.h"
+#include "getfd.h"
 #include "modifiers.h"
 #include "nls.h"
+#include "version.h"
 
 #ifndef KT_LETTER
 #define KT_LETTER KT_LATIN
@@ -39,9 +41,6 @@
 #define MAX_NR_KEYMAPS NR_KEYMAPS
 #endif
 
-#define VERSION "0.98"
-char *progname;
-extern int getfd();
 static int fd;
 
 static int verbose;
@@ -49,7 +48,8 @@ static int verbose;
 int keymap_index[MAX_NR_KEYMAPS];		/* inverse of good_keymap */
 int good_keymap[MAX_NR_KEYMAPS], keymapnr, allocct;
 
-void get_keymaps(void) {
+static void
+get_keymaps(void) {
 	int i, j;
 	struct kbentry ke;
 
@@ -83,7 +83,8 @@ void get_keymaps(void) {
 	}
 }
 
-void print_keymaps(void) {
+static void
+print_keymaps(void) {
 	int i,m0,m;
 
 	printf("keymaps ");
@@ -101,7 +102,8 @@ void print_keymaps(void) {
 	printf("\n");
 }
 
-int get_bind(u_char index, u_char table) {
+static int
+get_bind(u_char index, u_char table) {
 	struct kbentry ke;
 
 	ke.kb_index = index;
@@ -115,16 +117,21 @@ int get_bind(u_char index, u_char table) {
 	return ke.kb_value;
 }
 
-void print_keysym(int code, char numeric) {
+static void
+print_keysym(int code, char numeric) {
 	int t;
 	int v;
-	char *p;
+	const char *p;
 
 	printf(" ");
 	t = KTYP(code);
 	v = KVAL(code);
-	if (t > KT_LETTER) {
-		printf("U+%04x          ", code ^ 0xf000);
+	if (t >= syms_size) {
+		code = code ^ 0xf000;
+		if (!numeric && (p = unicodetoksym(code)) != NULL)
+			printf("%-16s", p);
+		else
+			printf("U+%04x          ", code);
 		return;
 	}
 	if (t == KT_LETTER) {
@@ -141,7 +148,8 @@ void print_keysym(int code, char numeric) {
 		printf("0x%04x          ", code);
 }
 
-char valid_type(int t) {
+static char
+valid_type(int t) {
 	struct kbentry ke;
 	char status;
 
@@ -152,7 +160,8 @@ char valid_type(int t) {
 	return status;
 }
 
-u_char maximum_val(int t) {
+static u_char
+maximum_val(int t) {
 	struct kbentry ke, ke0;
 	int i;
 
@@ -180,7 +189,7 @@ int maxval[NR_TYPES];
 /* isgraph() does not know about iso-8859; printing the character
    unescaped makes the output easier to check. Maybe this should
    be an option. Use locale? */
-void
+static void
 outchar (unsigned char c) {
 	printf("'");
 	printf((c == '\'' || c == '\\') ? "\\%c"
@@ -189,9 +198,10 @@ outchar (unsigned char c) {
 	printf("'");
 }
 
-struct kbdiacrs kd;
+static struct kbdiacrs kd;
 
-void get_diacs(void) {
+static void
+get_diacs(void) {
 	static int got_diacs = 0;
 
 	if(!got_diacs && ioctl(fd, KDGKBDIACR, (unsigned long)&kd)) {
@@ -201,12 +211,14 @@ void get_diacs(void) {
 	got_diacs = 1;
 }
 
-int nr_of_diacs(void) {
+static int
+nr_of_diacs(void) {
 	get_diacs();
 	return kd.kb_cnt;
 }
 
-void dump_diacs(void) {
+static void
+dump_diacs(void) {
 	int i;
 
 	get_diacs();
@@ -222,7 +234,8 @@ void dump_diacs(void) {
 }
 #endif        
 
-void show_short_info(void) {
+static void
+show_short_info(void) {
 	int i;
 
 	printf(_("keycode range supported by kernel:           1 - %d\n"),
@@ -248,7 +261,7 @@ void show_short_info(void) {
 	       nr_of_diacs());
 }
 
-struct {
+static struct {
     char *name;
     int bit;
 } modifiers[] = {
@@ -262,12 +275,14 @@ struct {
     { "ctrlr",	KG_CTRLR  }
 };
 
-void dump_symbols(void) {
+static void
+dump_symbols(void) {
 	int t;
 	int v;
-	char *p;
+	const char *p;
 
-	printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"), progname);
+	printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
+	       progname);
 	for (t = 0; t < syms_size; t++) {
 	    if (syms[t].size) {
 		for (v = 0; v < syms[t].size; v++)
@@ -288,7 +303,8 @@ void dump_symbols(void) {
 	  printf("%s\t\t%3d\n", modifiers[t].name, 1 << modifiers[t].bit);
 }
 
-void print_mod(int x) {
+static void
+print_mod(int x) {
 	int t;
 
 	if (!x)
@@ -299,7 +315,8 @@ void print_mod(int x) {
 	    printf("%s\t", modifiers[t].name);
 }
 
-void print_bind(int bufj, int i, int j, char numeric) {
+static void
+print_bind(int bufj, int i, int j, char numeric) {
 	if(j)
 	    printf("\t");
 	print_mod(j);
@@ -313,7 +330,8 @@ void print_bind(int bufj, int i, int j, char numeric) {
 #define SEPARATE_LINES	2	/* one line for each (modifier,keycode) pair */
 #define	UNTIL_HOLE	3	/* one line for each keycode, until 1st hole */
 
-void dump_keys(char table_shape, char numeric) {
+static void
+dump_keys(char table_shape, char numeric) {
 	int i, j, k;
 	int buf[MAX_NR_KEYMAPS];
 	int isletter, islatin, isasexpected;
@@ -463,7 +481,8 @@ no_shorthands:
 	}
 }
 
-void dump_funcs(void) {
+static void
+dump_funcs(void) {
 	int i;
 	struct kbsentry fbuf;
 	char *p;
@@ -492,35 +511,36 @@ void dump_funcs(void) {
 	}
 }
 
-/* bah - xgettext forces us to uglify this */
-void usage(void) {
+static void
+usage(void) {
 	fprintf(stderr, _("dumpkeys version %s"), VERSION);
-	fprintf(stderr, _(
-"\n"
-"usage: dumpkeys [options...]\n"
-"\n"
-"valid options are:\n"
-"\n"
-"	-h --help	    display this help text\n"
-"	-i --short-info	    display information about keyboard driver\n"
-"	-l --long-info	    display above and symbols known to loadkeys\n"
-"	-n --numeric	    display keytable in hexadecimal notation\n"
-"	-f --full-table	    don't use short-hand notations, one row per keycode\n"
-"	-1 --separate-lines one line per (modifier,keycode) pair\n"
-"	   --funcs-only	    display only the function key strings\n"
-"	   --keys-only	    display only key bindings\n"
-"	   --compose-only   display only compose key combinations\n"
-"	-c --charset=iso-8859-{1,2,3,4,5,7,8,9}\n"
-"	             koi8-{r,u}		\n"
-"			    interpret character action codes to be from the\n"
-"			    specified character set\n"
-));
+	fprintf(stderr, _("\
+\n\
+usage: dumpkeys [options...]\n\
+\n\
+valid options are:\n\
+\n\
+	-h --help	    display this help text\n\
+	-i --short-info	    display information about keyboard driver\n\
+	-l --long-info	    display above and symbols known to loadkeys\n\
+	-n --numeric	    display keytable in hexadecimal notation\n\
+	-f --full-table	    don't use short-hand notations, one row per keycode\n\
+	-1 --separate-lines one line per (modifier,keycode) pair\n\
+	   --funcs-only	    display only the function key strings\n\
+	   --keys-only	    display only key bindings\n\
+	   --compose-only   display only compose key combinations\n\
+	-c --charset="));
+	list_charsets(stderr);
+	fprintf(stderr, _("\
+			    interpret character action codes to be from the\n\
+			    specified character set\n\
+"));
 	exit(1);
 }
 
 int
 main (int argc, char *argv[]) {
-	const char *short_opts = "hilvsnf1S:c:";
+	const char *short_opts = "hilvsnf1S:c:V";
 	const struct option long_opts[] = {
 		{ "help",	no_argument,		NULL, 'h' },
 		{ "short-info",	no_argument,		NULL, 'i' },
@@ -532,8 +552,9 @@ main (int argc, char *argv[]) {
 		{ "funcs-only",	no_argument,		NULL, 't' },
 		{ "keys-only",	no_argument,		NULL, 'k' },
 		{ "compose-only",no_argument,		NULL, 'd' },
-		{ "verbose",	no_argument,		NULL, 'v' },
 		{ "charset",	required_argument,	NULL, 'c' },
+		{ "verbose",	no_argument,		NULL, 'v' },
+		{ "version",	no_argument,		NULL, 'V' },
 		{ NULL,	0, NULL, 0 }
 	};
 	int c;
@@ -545,7 +566,7 @@ main (int argc, char *argv[]) {
 	char keys_only = 0;
 	char diac_only = 0;
 
-	progname = argv[0];
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -590,6 +611,8 @@ main (int argc, char *argv[]) {
 					usage();
 				printf("charset \"%s\"\n", optarg);
 				break;
+			case 'V':
+				print_version_and_exit();
 			case 'h':
 			case '?':
 				usage();

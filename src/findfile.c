@@ -5,27 +5,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include "xmalloc.h"
+#include "findfile.h"
 #include "nls.h"
-
-void *
-xmalloc(size_t n) {
-	void *p = malloc(n);
-	if (p == NULL) {
-		fprintf(stderr, _("Out of Memory\n"));
-		exit(1);
-	}
-	return p;
-}
-
-char *
-xstrdup(char *p) {
-	char *q = strdup(p);
-	if (q == NULL) {
-		fprintf(stderr, _("Out of Memory?\n"));
-		exit(1);
-	}
-	return q;
-}
 
 char pathname[1024];
 static int ispipe;

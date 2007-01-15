@@ -1,3 +1,5 @@
+include ../make_include
+
 # Something like /usr/lib/kbd or /usr/share/kbd
 ifndef DATADIR
 DATADIR = @datadir@
@@ -9,22 +11,28 @@ endif
 
 PROGS   = dumpkeys loadkeys showkey setfont showfont \
 	  setleds setmetamode kbd_mode chvt deallocvt \
-	  psfaddtable psfgettable psfstriptable \
-	  getkeycodes setkeycodes
+	  psfxtable kbdrate
 
 # probably also getkeycodes and setkeycodes are arch-specific;
 # they will work on an alpha, though, and perhaps be dummy on a sun
+ifneq ($(ARCH), m68k)
+ifneq ($(ARCH), sparc)
+PROGS += getkeycodes setkeycodes
+endif
+endif
 
-I386PROGS = resizecons
+ifeq ($(ARCH), i386)
+PROGS += resizecons
+endif
 
 OLDPROGS= mapscrn loadunimap
 
 MISC    = screendump setvesablank spawn_console spawn_login \
-	  getunimap clrunimap fgconsole
+	  getunimap clrunimap fgconsole outpsfheader
 
 SHCMDS  = unicode_start unicode_stop
 
-WARN	= -Wall
+WARN	= -Wall -Wmissing-prototypes -Wstrict-prototypes
 DEFS	= -DDATADIR=\"$(DATADIR)\"
 CFLAGS  = -O2
 LDFLAGS = -s
@@ -42,16 +50,15 @@ progs:	$(PROGS)
 
 old:	$(OLDPROGS)
 
-i386:	$(I386PROGS)
-
 install:	all
 	install -s -m 0755 -o root $(PROGS) $(OLDPROGS) $(BINDIR)
 #	install -s -m 0755 -o root $(MISC) $(BINDIR)
 #	install -c -m 0755 -o root $(SHCMDS) $(BINDIR)
+	for i in psfaddtable psfgettable psfstriptable; do \
+		rm -f $(BINDIR)/$$i; ln -s $(BINDIR)/psfxtable $(BINDIR)/$$i; \
+	done
+	@echo "You may also want to add psf.magic to /usr/lib/magic"
 
-
-install386:	i386
-	install $(I386PROGS) $(BINDIR)
 
 # loadkeys.o: separate rule since the flex output does not permit -Wall
 loadkeys.o:	loadkeys.c analyze.c
@@ -66,30 +73,67 @@ main_mapscrn.o: mapscrn.c paths.h
 main_loadunimap.o: loadunimap.c paths.h
 	$(CC) $(CFLAGS) $(WARN) $(DEFS) -DMAIN -c $< -o $@
 
-$(OLDPROGS): %: main_%.o findfile.o
+$(OLDPROGS): %: main_%.o findfile.o psffontop.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 
-clean:
+clean reallyclean spotless distclean:
 	rm -f core *.o analyze.c loadkeys.c
-
-reallyclean spotless distclean: clean
-	rm -f $(PROGS) $(OLDPROGS) $(MISC) $(I386PROGS) *~
+	rm -f $(PROGS) $(OLDPROGS) $(MISC) *~
 
 $(PROGS): %: %.o
 
-dumpkeys loadkeys: ksyms.o
+#
+# dependencies
+#
 
-ksyms.o: cyrillic.syms.h ethiopic.syms.h
+ksyms.o: koi8.syms.h ethiopic.syms.h
 
-loadkeys.o mapscrn.o setfont.o resizecons.o loadunimap.o: paths.h
+findfile.o loadkeys.o loadunimap.o mapscrn.o resizecons.o setfont.o: findfile.h
 
-psfaddtable.o psfgettable.o psfstriptable.o setfont.o: psf.h
+catwithfont.o chvt.o clrunimap.o deallocvt.o dumpkeys.o fgconsole.o: getfd.h
+getfd.o getkeycodes.o getunimap.o kbd_mode.o loadkeys.o loadunimap.o: getfd.h
+mapscrn.o resizecons.o setfont.o setkeycodes.o setvesablank.o: getfd.h
+showkey.o: getfd.h
 
-loadkeys mapscrn setfont resizecons loadunimap: findfile.o
+kdfontop.o setfont.o: kdfontop.h
 
-chvt clrunimap deallocvt dumpkeys getkeycodes getunimap kbd_mode: getfd.o
-loadkeys loadunimap mapscrn resizecons setkeycodes setfont: getfd.o
+dumpkeys.o ksyms.o loadkeys.o: ksyms.h
+
+dumpkeys.o loadkeys.o: modifiers.h
+
+catwithfont.o chvt.o clrunimap.o deallocvt.o dumpkeys.o fgconsole.o: nls.h
+findfile.o getfd.o getkeycodes.o getunimap.o kbd_mode.o kbdrate.o: nls.h
+kdfontop.o ksyms.o loadkeys.o loadunimap.o mapscrn.o psffontop.o: nls.h
+psfxtable.o resizecons.o screendump.o setfont.o setkeycodes.o setleds.o: nls.h
+setmetamode.o setvesablank.o showfont.o showkey.o xmalloc.o: nls.h
+
+loadkeys.o loadunimap.o mapscrn.o resizecons.o setfont.o: paths.h
+
+loadunimap.o psffontop.o psfxtable.o setfont.o: psf.h
+
+psffontop.o psfxtable.o setfont.o: psffontop.h
+
+dumpkeys.o kbdrate.o loadkeys.o setfont.o showkey.o: version.h
+
+findfile.o loadunimap.o psffontop.o psfxtable.o setfont.o xmalloc.o: xmalloc.h
+
+#
+# constituent object files
+#
+
+dumpkeys loadkeys: ksyms.o xmalloc.o
+
+getunimap screendump: xmalloc.o
+
+psfxtable: psffontop.o xmalloc.o
+
+loadkeys mapscrn setfont resizecons loadunimap: findfile.o xmalloc.o
+
+chvt clrunimap deallocvt dumpkeys fgconsole getkeycodes getunimap: getfd.o
+kbd_mode loadkeys loadunimap mapscrn resizecons setkeycodes setfont: getfd.o
 setvesablank showkey: getfd.o
 
-setfont: mapscrn.o loadunimap.o kdfontop.o
+setfont: mapscrn.o loadunimap.o kdfontop.o psffontop.o
+
+catwithfont: kdfontop.o

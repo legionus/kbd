@@ -51,7 +51,7 @@ enum
 #endif /* PLAN9 */
 };
 
-int
+static int
 our_wctomb(char *s, unsigned long wc)
 {
 	if(s == 0)

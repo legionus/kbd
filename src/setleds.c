@@ -1,5 +1,5 @@
 /*
- * setleds.c - aeb, 940130, 940909
+ * setleds.c - aeb, 940130, 940909, 991008
  *
  * Call: setleds [-L] [-D] [-F] [{+|-}{num|caps|scroll}]*
  * will set or clear the indicated flags on the stdin tty,
@@ -12,13 +12,18 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 #include "nls.h"
+#include "version.h"
 
-void
+#ifdef __sparc__
+#include <asm/kbio.h>
+#endif
+
+static void
 usage(void)
 {
     fprintf(stderr, _(
 "Usage:\n"
-"	setleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll ]]\n"
+"	setleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
 "Thus,\n"
 "	setleds +caps -num\n"
 "will set CapsLock, clear NumLock and leave ScrollLock unchanged.\n"
@@ -29,58 +34,146 @@ usage(void)
 "With -L, setleds only sets the leds, and leaves the flags alone.\n"
 "With -D, setleds sets both the flags and the default flags, so\n"
 "that a subsequent reset will not change the flags.\n"
-));
+),
+#ifdef __sparc__
+    "| compose "
+#else
+    ""
+#endif
+    );
     exit(1);
 }
 
-    
-
 #define onoff(a) ((a) ? _("on ") : _("off"))
 
-void
-report(leds) int leds;
-{
-    printf("NumLock %s   CapsLock %s   ScrollLock %s\n",
-	   onoff(leds & LED_NUM),
-	   onoff(leds & LED_CAP),
-	   onoff(leds & LED_SCR));
+/* report the bits, in the order seen on the (my) keyboard */
+#define LED_NLOCK  1
+#define LED_CMPOSE 2
+#define LED_SCRLCK 4
+#define LED_CLOCK  8
+
+static void
+sunreport(int leds) {
+	printf("NumLock %s   Compose %s   ScrollLock %s   CapsLock %s\n",
+	       onoff(leds & LED_NLOCK),
+	       onoff(leds & LED_CMPOSE),
+	       onoff(leds & LED_SCRLCK),
+	       onoff(leds & LED_CLOCK));
+}
+
+static void
+report(int leds) {
+        printf("NumLock %s   CapsLock %s   ScrollLock %s\n",
+	       onoff(leds & LED_NUM),
+	       onoff(leds & LED_CAP),
+	       onoff(leds & LED_SCR));
 }
 
 struct led {
     char *name;
     int bit;
-} leds[3] = {
-    { "scroll", LED_SCR },
-    { "num", LED_NUM },
-    { "caps", LED_CAP }
+    int sunbit;
+} leds[] = {
+    { "scroll", LED_SCR, LED_SCRLCK },
+    { "num",    LED_NUM, LED_NLOCK },
+    { "caps",   LED_CAP, LED_CLOCK },
+#ifdef __sparc__
+    { "compose",   0,    LED_CMPOSE }
+#endif
 };
 
-int
-main(argc,argv) int argc; char **argv;
-{
-    int optL = 0, optD = 0, optF = 0, verbose = 0;
-    char oleds, nleds, oflags, nflags, odefflags, ndefflags;
-    char nval, ndef, sign;
-    char *ap;
-    struct led *lp;
-
-    setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE, LOCALEDIR);
-    textdomain(PACKAGE);
-
-    if (ioctl(0, KDGETLED, &oleds)) {
+static void
+getleds(char *leds) {
+    if (ioctl(0, KDGETLED, leds)) {
 	perror("KDGETLED");
 	fprintf(stderr,
 	  _("Error reading current led setting. Maybe stdin is not a VT?\n"));
 	exit(1);
     }
+}
 
-    if (ioctl(0, KDGKBLED, &oflags)) {
+static int
+setleds(char leds) {
+    if (ioctl(0, KDSETLED, leds)) {
+	perror("KDSETLED");
+	return -1;
+    }
+    return 0;
+}
+
+static void
+getflags(char *flags) {
+    if (ioctl(0, KDGKBLED, flags)) {
 	perror("KDGKBLED");
 	fprintf(stderr,
           _("Error reading current flags setting. Maybe an old kernel?\n"));
 	exit(1);
     }
+}
+
+static int sunkbdfd = -1;
+
+static void
+sungetleds(char *leds) {
+#ifdef KIOCGLED
+    if (ioctl(sunkbdfd, KIOCGLED, leds)) {
+	perror("KIOCGLED");
+	fprintf(stderr,
+	  _("Error reading current led setting from /dev/kbd.\n"));
+	exit(1);
+    }
+#else
+    fprintf(stderr, _("KIOCGLED unavailable?\n"));
+    exit(1);
+#endif
+}
+
+static void
+sunsetleds(char *leds) {
+#ifdef KIOCSLED
+    if (ioctl(sunkbdfd, KIOCSLED, leds)) {
+	perror("KIOCGSLED");
+	fprintf(stderr,
+	  _("Error reading current led setting from /dev/kbd.\n"));
+	exit(1);
+    }
+#else
+    fprintf(stderr, _("KIOCSLED unavailable?\n"));
+    exit(1);
+#endif
+}
+
+int
+main(int argc, char **argv) {
+    int optL = 0, optD = 0, optF = 0, verbose = 0;
+    char oleds, nleds, oflags, nflags, odefflags, ndefflags;
+    char nval, ndef, sign;
+    char osunleds, nsunleds, nsunval, nsundef;
+    char *ap;
+    struct led *lp;
+
+    set_progname(argv[0]);
+
+    setlocale(LC_ALL, "");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp("-V", argv[1]))
+	print_version_and_exit();
+
+#ifdef __sparc__
+    sunkbdfd = open("/dev/kbd", O_RDONLY);
+    if (sunkbdfd < 0) {
+	perror("/dev/kbd");
+	fprintf(stderr, _("Error opening /dev/kbd.\n"));
+	/* exit(1); */
+    }
+#endif
+
+    getflags(&oflags);
+    getleds(&oleds);
+    if (sunkbdfd >= 0)
+	    sungetleds(&osunleds);
 
     while (argc > 1) {
 	if (!strcmp("-L", argv[1]))
@@ -103,8 +196,7 @@ main(argc,argv) int argc; char **argv;
     if (argc <= 1) {
 	if (optL) {
 	    nleds = 0xff;
-	    if (ioctl(0, KDSETLED, &nleds)) {
-		perror("KDSETLED");
+	    if (setleds(nleds)) {
 		fprintf(stderr, _("Error resetting ledmode\n"));
 		exit(1);
 	    }
@@ -123,7 +215,10 @@ main(argc,argv) int argc; char **argv;
 	}
 	if (optL) {
 	    printf(_("Current leds:           "));
-	    report(oleds);
+	    if (sunkbdfd >= 0)
+		sunreport(osunleds);
+	    else
+	        report(oleds);
 	}
 	exit(0);
     }
@@ -132,6 +227,8 @@ main(argc,argv) int argc; char **argv;
       optF = 1;
     nval = 0;
     ndef = 0;
+    nsunval = 0;
+    nsundef = 0;
 
     while(--argc) {
 	ap = *++argv;
@@ -142,11 +239,14 @@ main(argc,argv) int argc; char **argv;
 	    sign = 0;
 	    ap++;
 	}
-	for (lp = leds; lp-leds < 3; lp++) {
+	for (lp = leds; lp-leds < sizeof(leds)/sizeof(leds[0]); lp++) {
 	    if(!strcmp(ap, lp->name)) {
-		if(sign)
+		if(sign) {
 		  nval |= lp->bit;
+		  nsunval |= lp->sunbit;
+		}
 		ndef |= lp->bit;
+		nsundef |= lp->sunbit;
 		goto nxtarg;
 	    }
 	}
@@ -181,16 +281,25 @@ main(argc,argv) int argc; char **argv;
 	}
     }
     if (optL) {
-	nleds = (oleds & ~ndef) | nval;
-	if (verbose) {
-	    printf(_("Old leds:             "));
-	    report(oleds);
-	    printf(_("New leds:             "));
-	    report(nleds);
-	}
-	if (ioctl(0, KDSETLED, nleds)) {
-	    perror("KDSETLED");
-	    exit(1);
+	if (sunkbdfd >= 0) {
+	    nsunleds = (osunleds & ~nsundef) | nsunval;
+	    if (verbose) {
+		printf(_("Old leds:             "));
+		sunreport(osunleds);
+		printf(_("New leds:             "));
+		sunreport(nsunleds);
+	    }
+	    sunsetleds(&nsunleds);
+	} else {
+	    nleds = (oleds & ~ndef) | nval;
+	    if (verbose) {
+	        printf(_("Old leds:             "));
+	        report(oleds);
+	        printf(_("New leds:             "));
+	        report(nleds);
+	    }
+	    if (setleds(nleds))
+	        exit(1);
 	}
     }
     exit(0);

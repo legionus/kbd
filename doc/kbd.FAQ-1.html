@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <HTML>
 <HEAD>
- <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.7">
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
  <TITLE>The Linux keyboard and console HOWTO: Useful programs</TITLE>
  <LINK HREF="kbd.FAQ-2.html" REL=next>
 
@@ -31,22 +31,27 @@ keyboard!programs related to
 console!programs related to
 -->
 <P>The following packages contain keyboard or console related programs.
-<P><CODE>kbd-0.96.tar.gz</CODE> contains <CODE>loadkeys</CODE>, <CODE>dumpkeys</CODE>, <CODE>showkey</CODE>,
+<P><CODE>kbd-1.00.tar.gz</CODE> contains <CODE>loadkeys</CODE>, <CODE>dumpkeys</CODE>, <CODE>showkey</CODE>,
 <CODE>setmetamode</CODE>, <CODE>setleds</CODE>, <CODE>setfont</CODE>, <CODE>showfont</CODE>, <CODE>mapscrn</CODE>,
-<CODE>kbd_mode</CODE>, <CODE>loadunimap</CODE>, <CODE>chvt</CODE>, <CODE>resizecons</CODE>, <CODE>deallocvt</CODE>,
-<CODE>getkeycodes</CODE>, <CODE>setkeycodes</CODE>.
-<P><CODE>util-linux-2.6</CODE> contains <CODE>setterm</CODE>, <CODE>kbdrate</CODE>.
-(Yes, the <CODE>more</CODE> in <CODE>util-linux-2.6</CODE> dumps core due to a name
-conflict. Preserve your old copy, or use <CODE>util-linux-2.5</CODE>, or
-change `savetty' to `my_savetty' in <CODE>more.c</CODE>.)
-<P><CODE>sh-utils-1.12</CODE> contains <CODE>stty</CODE>.
-<P><CODE>open-1.4.tgz</CODE> contains <CODE>open</CODE> (that should be renamed to
-<CODE>openvt</CODE>). (See also <CODE>dynamic-vc-1.1.tar.gz</CODE> and <CODE>consd-1.1.tgz</CODE>.)
+<CODE>kbd_mode</CODE>, <CODE>kbdrate</CODE>, <CODE>loadunimap</CODE>, <CODE>chvt</CODE>, <CODE>resizecons</CODE>,
+<CODE>deallocvt</CODE>, <CODE>getkeycodes</CODE>, <CODE>setkeycodes</CODE>.
+It also contains <CODE>openvt</CODE>, formerly called <CODE>open</CODE>.
 <P><CODE>SVGATextMode-1.8.tar.gz</CODE> contains <CODE>SVGATextMode</CODE>, a program that
 obsoletes <CODE>resizecons</CODE>.
+<P><CODE>util-linux-2.9</CODE> contains <CODE>setterm</CODE>, <CODE>kbdrate</CODE>.
+<P><CODE>sh-utils-1.12</CODE> contains <CODE>stty</CODE>.
+<P>See also <CODE>dynamic-vc-1.1.tar.gz</CODE> and <CODE>consd-1.1.tgz</CODE> for
+programs that exploit the `Keyboard Signal' key. Very primitive
+versions are <CODE>spawn_login</CODE> or <CODE>spawn_console</CODE> found in the kbd package.
+<P>See 
+<A HREF="http://www.cix.co.uk/~mayday/font.tgz">font.tgz</A>
+for a package that handles console fonts.
+<P>
 <P>The X distribution contains <CODE>xmodmap</CODE>, <CODE>xset</CODE>, <CODE>kbd_mode</CODE>.
 (See also X386keybd(1) for the situation under XFree86 1.3,
 and Xserver(1) for the XKEYBOARD extension under X11R6.)
+A handy interface to <CODE>xmodmap</CODE> is <CODE>xkeycaps</CODE>, see
+<A HREF="www.jwz.org/xkeycaps/">http://www.jwz.org/xkeycaps/</A>.
 <P><CODE>termcap-2.0.8.tar.gz</CODE> contains <CODE>termcap</CODE>, an old terminal
 capabilities data base. <CODE>ncurses-1.9.9e.tar.gz</CODE> contains the
 <CODE>termlib</CODE> data base which obsoletes <CODE>termcap</CODE>. (However,
@@ -69,7 +74,8 @@ See terminfo(5). Terminfo files are compiled
 by the terminfo compiler <CODE>/usr/lib/terminfo/tic</CODE>, see tic(1).
 Their contents can be examined using the program <CODE>infocmp</CODE>,
 see infocmp(1).
-The Linux console sequences are documented in console_codes(4).
+<P>The Linux console sequences are documented in console_codes(4).
+<P>
 <P>
 <P>
 <HR>

@@ -23,27 +23,32 @@ It describes Linux 2.0.
 
 The following packages contain keyboard or console related programs.
 <p>
-<tt/kbd-0.96.tar.gz/ contains <tt/loadkeys/, <tt/dumpkeys/, <tt/showkey/,
+<tt/kbd-1.00.tar.gz/ contains <tt/loadkeys/, <tt/dumpkeys/, <tt/showkey/,
 <tt/setmetamode/, <tt/setleds/, <tt/setfont/, <tt/showfont/, <tt/mapscrn/,
-<tt/kbd_mode/, <tt/loadunimap/, <tt/chvt/, <tt/resizecons/, <tt/deallocvt/,
-<tt/getkeycodes/, <tt/setkeycodes/.
+<tt/kbd_mode/, <tt/kbdrate/, <tt/loadunimap/, <tt/chvt/, <tt/resizecons/,
+<tt/deallocvt/, <tt/getkeycodes/, <tt/setkeycodes/.
+It also contains <tt/openvt/, formerly called <tt/open/.
 <p>
-<tt/util-linux-2.6/ contains <tt/setterm/, <tt/kbdrate/.
-(Yes, the <tt/more/ in <tt/util-linux-2.6/ dumps core due to a name
-conflict. Preserve your old copy, or use <tt/util-linux-2.5/, or
-change `savetty' to `my_savetty' in <tt/more.c/.)
+<tt/SVGATextMode-1.8.tar.gz/ contains <tt/SVGATextMode/, a program that
+obsoletes <tt/resizecons/.
+<p>
+<tt/util-linux-2.9/ contains <tt/setterm/, <tt/kbdrate/.
 <p>
 <tt/sh-utils-1.12/ contains <tt/stty/.
 <p>
-<tt/open-1.4.tgz/ contains <tt/open/ (that should be renamed to
-<tt/openvt/). (See also <tt/dynamic-vc-1.1.tar.gz/ and <tt/consd-1.1.tgz/.)
-
-<tt/SVGATextMode-1.8.tar.gz/ contains <tt/SVGATextMode/, a program that
-obsoletes <tt/resizecons/.
+See also <tt/dynamic-vc-1.1.tar.gz/ and <tt/consd-1.1.tgz/ for
+programs that exploit the `Keyboard Signal' key. Very primitive
+versions are <tt/spawn_login/ or <tt/spawn_console/ found in the kbd package.
+<p>
+See <htmlurl name="font.tgz" url="http://www.cix.co.uk/~mayday/font.tgz">
+for a package that handles console fonts.
+<p>
 
 The X distribution contains <tt/xmodmap/, <tt/xset/, <tt/kbd_mode/.
 (See also X386keybd(1) for the situation under XFree86 1.3,
 and Xserver(1) for the XKEYBOARD extension under X11R6.)
+A handy interface to <tt/xmodmap/ is <tt/xkeycaps/, see
+<htmlurl name="http://www.jwz.org/xkeycaps/" url="www.jwz.org/xkeycaps/">.
 
 <tt/termcap-2.0.8.tar.gz/ contains <tt/termcap/, an old terminal
 capabilities data base. <tt/ncurses-1.9.9e.tar.gz/ contains the
@@ -71,7 +76,9 @@ See terminfo(5). Terminfo files are compiled
 by the terminfo compiler <tt>/usr/lib/terminfo/tic</tt>, see tic(1).
 Their contents can be examined using the program <tt/infocmp/,
 see infocmp(1).
+
 The Linux console sequences are documented in console_codes(4).
+
 
 
 <sect>Keyboard generalities<p>
@@ -345,8 +352,9 @@ How come this is not right by default? It is, if you use the right
 <tt/getty/.
 
 Note that many programs (like <tt/bash/, <tt/emacs/ etc.) have their own
-keybindings (defined in <tt>&tilde;/.inputrc</tt>, <tt>&tilde;/.emacs</tt> etc.) and
-are unaffected by the setting of the erase character.
+keybindings (defined in <tt>&tilde;/.inputrc</tt>,
+<tt>&tilde;/.emacs</tt> etc.) and are unaffected by the setting
+of the erase character.
 
 The standard Unix tty driver does not recognize a cursor, or keys
 (like the arrow keys) to move the current position, and hence does not
@@ -428,6 +436,20 @@ itself has default keymap <tt/defkeymap.map/ located somewhere under
 <tt>/usr/lib/kbd</tt> or <tt>/usr/share/kbd</tt> (just like all other
 keymaps) and this may not yet be available in single user boot before
 <tt>/usr</tt> has been mounted.
+
+<sect2>`How do I get a dvorak keyboard?'<p>
+<nidx>dvorak keyboard</nidx>
+The command
+<tscreen><verb>
+	% loadkeys dvorak
+</verb></tscreen>
+will give you a dvorak layout, probably by loading
+something like <tt>/usr/lib/kbd/keymaps/i386/dvorak/dvorak.map.gz</tt>.
+Under <tt/X/, put
+<tscreen><verb>
+	XkbLayout       "dvorak"
+</verb></tscreen>
+in <tt>XF86Config</tt>.
 
 <sect2>`Why doesn't the Backspace key generate BackSpace by default?'<p>
 <nidx>backspace key!not generating correct keycode</nidx>
@@ -666,6 +688,11 @@ xrdb -merge .Xresources
 </verb></tscreen>
 in <tt/.xinitrc/, and you are settled.
 
+For a much more extensive discussion of these things, and
+alternative solutions, see
+<htmlurl url="http://www.ibbnet.nl/~anne/keyboard.html"
+name="Anne Baretta's page">.
+
 <sect>The console character sets<p>
 <nidx>console character sets</nidx>
 <nidx>character sets, console</nidx>
@@ -775,7 +802,7 @@ command.
 Fortunately it is possible to create a new console upon a single
 keystroke, regardless of what is happening at the current console.
 
-If you have <tt/spawn_login/ from <tt/kbd-0.96.tar.gz/ and you put
+If you have <tt/spawn_login/ from <tt/kbd-0.99.tar.gz/ and you put
 <tscreen><verb>
 	loadkeys << EOF
 	alt keycode 103 = Spawn_Console
@@ -1236,7 +1263,7 @@ J. For <tt/col/, make sure 1) that it is fixed so as to do
 K. For <tt/rlogin/, use option <tt/-8/.
 
 L. For <tt/joe/,
-<tt>sunsite.unc.edu:/pub/Linux/apps/editors/joe-1.0.8-linux.tar.gz</tt>
+<tt>metalab.unc.edu:/pub/Linux/apps/editors/joe-1.0.8-linux.tar.gz</tt>
 is said to work after editing the configuration file. Someone else said:
 <tt/joe/: Put the <tt/-asis/ option in <tt>/isr/lib/joerc</tt> in the
 first column.
@@ -1629,7 +1656,7 @@ can be accessed using the device <tt>/dev/vcs</tt><it/N/
 (where `vcs' stands for `virtual console screen').
 For example, you could have a clock program that displays the
 current time in the upper right hand corner of the console screen
-(see the program <tt/vcstime/ in <tt/kbd-0.96.tar.gz/).
+(see the program <tt/vcstime/ in <tt/kbd-0.99.tar.gz/).
 Just dumping the contents goes with <tt>cat /dev/vcs</tt><it/N/.
 These device files <tt>/dev/vcs</tt><it/N/ do not contain
 newlines, and do not contain attributes, like colors. From a program
@@ -1706,8 +1733,8 @@ I'm assuming the Stealth 64 did something funny with the timings.'
 <sect>Copyright<p>
 Copyright (c) 1993-1999 by Andries Brouwer.  This document may be
 distributed under the terms set forth in the LDP license 
-at <htmlurl url="http://sunsite.unc.edu/LDP/COPYRIGHT.html"
-name="http://sunsite.unc.edu/LDP/COPYRIGHT.html"> or
+at <htmlurl url="http://metalab.unc.edu/LDP/COPYRIGHT.html"
+name="http://metalab.unc.edu/LDP/COPYRIGHT.html"> or
 <htmlurl url="ftp://www.win.tue.nl/pub/linux/LDP/COPYRIGHT.txt"
 name="ftp://www.win.tue.nl/pub/linux/LDP/COPYRIGHT.txt">.
 

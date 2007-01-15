@@ -9,11 +9,11 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
+#include "getfd.h"
 #include "nls.h"
+#include "version.h"
 
-extern int getfd(void);
-
-void
+static void
 usage(void) {
     fprintf(stderr, _("usage: getkeycodes\n"));
     exit(1);
@@ -24,9 +24,14 @@ main(int argc, char **argv) {
     int fd, sc;
     struct kbkeycode a;
 
+    set_progname(argv[0]);
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+      print_version_and_exit();
 
     if (argc != 1)
       usage();

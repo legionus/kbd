@@ -1,6 +1,8 @@
 PACKAGE = kbd
 VERSION = 0.99
 
+include ../make_include
+
 #
 # po2tbl.sed is not taken from /usr/share/gettext/intl
 # Often it is not present.
@@ -59,7 +61,7 @@ INSTOBJEXT = .mo
 	sed -f $(PO2TBL) < $< > $*.msg \
 	  && rm -f $@ && $(GENCAT) $@ $*.msg
 
-all: all-yes
+all: all-$(HAVE_XGETTEXT)
 
 all-yes: cat-id-tbl.c $(CATALOGS)
 all-no:
@@ -84,7 +86,7 @@ stamp-cat-id: kbd.pot
 	fi
 	rm -f stamp-cat-id && echo timestamp > stamp-cat-id
 
-install: install-data-yes
+install: install-data-$(HAVE_XGETTEXT)
 install-data-no: all
 install-data-yes: all
 	../mkinstalldirs $(datadir);

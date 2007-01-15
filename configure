@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# Very simple configure: only DATADIR is variable.
-#
 # Call:
 #  ./configure
 # or
@@ -57,7 +55,7 @@ case "$datadir" in
 		;;
 esac
 
-for i in Makefile src/Makefile man1/dumpkeys.1 man1/loadkeys.1 man8/setfont.8; do
+for i in Makefile src/Makefile man/man1/dumpkeys.1 man/man1/loadkeys.1 man/man8/setfont.8; do
 	sed -e "
 s,@datadir@,$datadir,
 " $i.in > $i
@@ -83,7 +81,13 @@ CFLAGS=${CFLAGS-"-O"}
 compile="$CC $CFLAGS $DEFS conftest.c -o conftest $LIBS >/dev/null 2>&1"
 static_compile="$CC -static $DEFS conftest.c -o conftest $LIBS >/dev/null 2>&1"
 
-rm -f make_include conftest.c conftest
+rm -f conftest.c conftest
+
+#
+# 0. Figure out architecture (one of i386, alpha, sparc, arm, m68k, mips)
+#
+ARCH=`uname -m | sed s/i.86/i386/`
+echo "ARCH=$ARCH" >> make_include
 
 #
 # 1. Do we have <locale.h>?
@@ -102,27 +106,47 @@ fi
 rm -f conftest conftest.c
 
 #
-# 2. Do we have <libintl.h>?
+# 2. For lib/nls.h: do we have <libintl.h> and gettext() ?
 #
-echo "
+echo '
 #include <libintl.h>
-main(){ exit(0); }
-" > conftest.c
+main(int a, char **v){
+  if (a == -1)  /* false */
+        gettext("There is no gettext man page\n");
+  exit(0);
+}
+' > conftest.c
 eval $compile
 if [ $nls = 1 ]; then
 	if test -s conftest && ./conftest 2>/dev/null; then
-		echo '#define HAVE_libintl_h' >> defines.h
-		echo "You have <libintl.h>"
-		echo '#define ENABLE_NLS' >> defines.h
-		echo 'ENABLE_NLS=yes' >> make_include
-		echo "Assuming that you want to enable NLS support."
-		echo "(Otherwise, edit defines.h)"
+        	echo '#define HAVE_libintl_h' >> defines.h
+	        echo "You have <libintl.h> and gettext()"
+        	echo '#define ENABLE_NLS' >> defines.h
+	        echo "Assuming that you want to enable NLS support."
+        	echo "(Otherwise, edit defines.h and delete the line with ENABLE_NLS)"
+	        ENABLE_NLS=yes
 	else
         	echo "You don't have <libintl.h>"
-		echo 'ENABLE_NLS=no' >> make_include
+	        ENABLE_NLS=no
 	fi
 else
 	echo "NLS disabled"
-	echo 'ENABLE_NLS=no' >> make_include
+	ENABLE_NLS=no
 fi
 rm -f conftest conftest.c
+
+
+#
+# 3. Does xgettext exist and take the option --foreign-user?
+#
+if (test $ENABLE_NLS = yes && type xgettext > /dev/null 2>&1); then
+	msg=`xgettext --foreign-user 2>&1 | grep unrecognized`
+	if test -n "$msg"; then
+		echo "FOREIGN = " >> make_include
+	else
+		echo "FOREIGN = --foreign-user" >> make_include
+	fi
+	echo "HAVE_XGETTEXT=yes" >> make_include
+else
+	echo "HAVE_XGETTEXT=no" >> make_include
+fi

@@ -1,8 +1,14 @@
-/* Font handling differs between various kernel versions */
+/*
+ * kdfontop.c - export getfont() and putfont()
+ *
+ * Font handling differs between various kernel versions.
+ * Hide the differences in this file.
+ */
 #include <stdio.h>
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
+#include "kdfontop.h"
 #include "nls.h"
 
 /*
@@ -106,6 +112,7 @@ struct console_font_op {
 					 data points to name / NULL */
 #define KD_FONT_OP_COPY         3     /* Copy from another console */
 
+#define KD_FONT_FLAG_OLD	0x80000000 /* Invoked via old interface */
 #define KD_FONT_FLAG_DONT_RECALC 1    /* Don't call adjust_height() */
 			  /* (Used internally for PIO_FONT support) */
 #endif /* KDFONTOP */
@@ -124,7 +131,7 @@ font_charheight(char *buf, int count) {
 	
 
 int
-getfont(int fd, char *buf, int *count) {
+getfont(int fd, char *buf, int *count, int *height) {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
 	int i;
@@ -132,16 +139,23 @@ getfont(int fd, char *buf, int *count) {
 	/* First attempt: KDFONTOP */
 	cfo.op = KD_FONT_OP_GET;
 	cfo.flags = 0;
-	cfo.width = cfo.height = 0;
+	cfo.width = cfo.height = 32;
 	cfo.charcount = *count;
 	cfo.data = buf;
 	i = ioctl(fd, KDFONTOP, &cfo);
 	if (i == 0) {
 		*count = cfo.charcount;
+		if (height)
+			*height = cfo.height;
+		if (cfo.width != 8) {
+			fprintf(stderr,
+				_("kdfontop.c: only width 8 supported\n"));
+			exit(1);
+		}
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
-		perror("setfont: KDFONTOP");
+		perror("getfont: KDFONTOP");
 		return -1;
 	}
 
@@ -155,18 +169,18 @@ getfont(int fd, char *buf, int *count) {
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
-		perror("setfont: GIO_FONTX");
+		perror("getfont: GIO_FONTX");
 		return -1;
 	}
 
 	/* Third attempt: GIO_FONT */
 	if (*count < 256) {
-		fprintf(stderr, _("setfont bug: getfont called with count<256\n"));
+		fprintf(stderr, _("bug: getfont called with count<256\n"));
 		exit(1);
 	}
 	i = ioctl(fd, GIO_FONT, buf);
 	if (i) {
-		perror("setfont: GIO_FONT");
+		perror("getfont: GIO_FONT");
 		return -1;
 	}
 	*count = 256;
@@ -193,7 +207,7 @@ putfont(int fd, char *buf, int count, int height) {
 	if (i == 0)
 		return 0;
 	if (errno != ENOSYS && errno != EINVAL) {
-		perror("setfont: KDFONTOP");
+		perror("putfont: KDFONTOP");
 		return -1;
 	}
 
@@ -205,18 +219,15 @@ putfont(int fd, char *buf, int count, int height) {
 	if (i == 0)
 		return 0;
 	if (errno != ENOSYS && errno != EINVAL) {
-		perror("setfont: PIO_FONTX");
+		perror("putfont: PIO_FONTX");
 		return -1;
 	}
 
 	/* Third attempt: PIO_FONT */
-	if (count < 256) {
-		fprintf(stderr, _("setfont bug: getfont called with count<256\n"));
-		exit(1);
-	}
+	/* This will load precisely 256 chars, independent of count */
 	i = ioctl(fd, PIO_FONT, buf);
 	if (i) {
-		perror("setfont: PIO_FONT");
+		perror("putfont: PIO_FONT");
 		return -1;
 	}
 	return 0;

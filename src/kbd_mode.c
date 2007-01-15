@@ -9,14 +9,12 @@
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include <linux/kd.h>
+#include "getfd.h"
 #include "nls.h"
+#include "version.h"
 
-char *progname;
-
-extern int getfd(void);
-
-void
-usage(){
+static void
+usage(void){
     fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s]\n"));
     exit(1);
 }
@@ -25,11 +23,14 @@ int
 main(int argc, char *argv[]){
         int fd, mode;
 
-	progname = argv[0];
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+	    print_version_and_exit();
 
 	fd = getfd();
 

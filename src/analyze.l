@@ -1,8 +1,8 @@
 %{
 #include <stdlib.h>
 #include <linux/kd.h>
-
-extern int ksymtocode(char *s);
+#include "ksyms.h"
+#include "xmalloc.h"
 
 extern int line_nr;
 int	yylval;
@@ -13,12 +13,11 @@ char *filename;
 
 #undef yywrap
 extern int yywrap(void);
-extern int yyerror(char *s);
+extern int yyerror(const char *s);
 extern void stringovfl(void);
-extern void lkfatal(char *s);
-extern void lkfatal1(char *s, char *s2);
+extern void lkfatal(const char *s);
+extern void lkfatal1(const char *s, const char *s2);
 extern void open_include(char *s);
-extern void *xmalloc(size_t);
 %}
 
 %s RVALUE

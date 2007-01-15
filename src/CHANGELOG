@@ -1,0 +1,54 @@
+From: Bruno Haible <haible@ilog.fr>
+Date:   Mon, 4 Oct 1999 16:03:41 +0200 (MET DST)
+
+[patch on kbd-0.99]
+
+The precise changes are as follows:
+
+* ksyms.h:
+  - New structure `sym', includes a Unicode value.
+  - Use "const char *" instead of "char *", this helps me ensure that I don't
+    accidentally clobber a string literal.
+  - Declare a new function `unicodetoksym', which is used to make pretty
+    output for dumpkeys when in Unicode mode (i.e. convert back "U+0401" to
+    "cyrillic_capital_letter_io").
+* ksyms.c:
+  - Add Unicode codes to all syms.
+* cyrillic.syms.h, ethiopic.syms.h: Likewise.
+* ksyms.c:
+  - I'm really not confident that it's safe to erase the upper half of
+    latin1_syms in set_charset(). It might cause obscure bugs. Therefore I
+    split latin1_syms into `iso646_syms' whose upper half can be freely
+    modified, and `latin1_syms' proper which contains only the Latin1 syms.
+    I.e. treat Latin1 like Latin2, Latin3 etc.
+    { Hmm. It was correct. Now all character sets except latin1 are broken. }
+  - Added a few comments in front of the spec_syms, pad_syms, etc. tables.
+    Without these comments, it was really hard to understand the "big picture"
+    of the keyboard driver. Especially since "sticky_syms" corresponds to
+    KT_SLOCK, and KT_LATIN actually means KT_8BIT - how would you guess?
+  - In koi8_r_syms, added the range 128..159 which was previously unmapped.
+  - Added function unicodetoksym, for dumpkeys.
+  - ksymtocode: Add support for the `prefer_unicode' flag set by the -u
+    option. Treat Latin1 like Latin2, Latin3 etc.
+  - Added function unicodetocode which converts a Unicode value to a
+    16-bit code for the keyboard driver. Set unicode_used = 1 only if
+    Unicode is really needed.
+  - Added function add_capslock which outputs a warning if it has to
+    ignore the "+" flag (because of the current limitation in the kernel:
+    only KT_LATIN codes are capable of CapsLock treatment).
+* loadkeys.y:
+  - The unicode_used variable has been transferred to ksyms.c, because it's
+    now used there. Otherwise `dumpkeys' wouldn't link.
+  - Use the capslock function. `unicode_used' is now set if it really used,
+    it depends on both the keymap entry _and_ the value of the -u option.
+  - Implement option --unicode.
+* analyze.l:
+  - Use unicodetocode here, so the upper level (loadkeys.y) can operate on
+    KTYP/KVAL composed code.
+* dumpkeys.c:
+  - printksym bug fix: KT_LETTER was assumed to be the largest KT_* value. It
+    is not.
+  - printksym uses unicodetoksym in order to print the ksym string. This
+    generates more maintainable keymaps. ("cedilla" tells the user a lot
+    more than "U+00b8".)
+

@@ -4,7 +4,7 @@
  * Compiles under Linux & DOS (using BC++ 3.1).
  *
  * Compile: gcc -o cpi cpi.c
- * Call: codepage file.cpi [-a|-l|nnn]
+ * Call: codepage [-a|-l|nnn] file.cpi
  *
  * Author: Ahmed M. Naas (ahmed@oea.xs4all.nl)
  * Many changes: aeb@cwi.nl  [changed until it would handle all
@@ -76,18 +76,12 @@ extern char *optarg;
 
 unsigned short codepage;
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
 	if (argc < 2)
 		usage();
 
-	if ((in = fopen(argv[1], "r")) == NULL) {
-		printf("\nUnable to open file %s.\n", argv[1]);
-		exit(0);
-	}
-
 	opta = optc = optl = optL = optx = 0;
-	optind = 2;
+
 	if (argc == 2)
 		optl = 1;
 	else
@@ -113,6 +107,16 @@ int main (int argc, char *argv[])
 	    }
 	    break;
         }
+
+	if (optind < argc) {
+	    if ((in = fopen(argv[optind], "r")) == NULL) {
+		printf("\nUnable to open file %s.\n", argv[optind]);
+		exit(0);
+	    }
+	    optind++;
+        } else
+	    usage();
+	
 	if (optind != argc) {
 	    if (optind != argc-1 || opta)
 	      usage();

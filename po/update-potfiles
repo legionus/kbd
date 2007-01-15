@@ -6,13 +6,13 @@
 > .null
 > POTFILES.in
 
-for x in ../*/*.c; do
+for x in ../*/*.c ../src/version.h; do
 echo "$x \\" >> POTFILES
 done
 echo .null   >> POTFILES
 
 cd ..
-for x in */*.c; do
+for x in */*.c src/version.h; do
 echo "$x" >> po/POTFILES.in
 done
 cd po

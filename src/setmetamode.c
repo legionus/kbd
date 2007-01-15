@@ -11,8 +11,9 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 #include "nls.h"
+#include "version.h"
 
-void
+static void
 usage(void)
 {
     fprintf(stderr, _(
@@ -26,9 +27,8 @@ usage(void)
     exit(1);
 }
 
-void
-report(meta) int meta;
-{
+static void
+report(int meta) {
     char *s;
 
     switch(meta) {
@@ -59,14 +59,18 @@ struct meta {
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))
 
 int
-main(argc,argv) int argc; char **argv;
-{
+main(int argc, char **argv) {
     char ometa, nmeta;
     struct meta *mp;
+
+    set_progname(argv[0]);
 
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+	print_version_and_exit();
 
     if (ioctl(0, KDGKBMETA, &ometa)) {
 	perror("KDGKBMETA");

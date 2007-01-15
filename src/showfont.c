@@ -4,14 +4,15 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include "nls.h"
+#include "version.h"
 
 #define CSI		155
 #define CSI_ERSATZ	126
 
 char obuf[E_TABSZ], nbuf[E_TABSZ];
 
-void
-leave(n) int n; {
+static void
+leave(int n) {
   printf("\0338");		/* restore attributes */
   if (ioctl(0,PIO_SCRNMAP,obuf)) {
       perror("PIO_SCRNMAP");
@@ -22,12 +23,17 @@ leave(n) int n; {
 }
 
 int
-main (argc,argv) int argc; char **argv; {
+main (int argc, char **argv) {
   unsigned char i, j, k;
+
+  set_progname(argv[0]);
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
+
+  if (argc == 2 && !strcmp(argv[1], "-V"))
+    print_version_and_exit();
 
   if (argc != 1) {
       fprintf(stderr,

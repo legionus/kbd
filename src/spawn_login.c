@@ -9,14 +9,14 @@
 
 void
 sighup(){
-    system("open -s -l -- login -h spawn");
+    system("openvt -s -l -- login -h spawn");
     signal(SIGHUP, sighup);
 }
 
 main(){
     int fd;
 
-    fd = open("/dev/console", 0);
+    fd = open("/dev/tty0", 0);
     if (fd < 0)
       fd = 0;
     signal(SIGHUP, sighup);

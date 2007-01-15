@@ -105,3 +105,18 @@ o Added -a option to showkey.
 Changes for 0.98 (aeb):
 
 o Added internationalization and Dutch texts (nl.po)
+
+Changes for 1.00 (aeb):
+
+o Introduced psf2 fonts, allowing one to describe a font position
+  with a Unicode sequence (base character with combining accents).
+o Reorganized fonts; added Unicode table to most of them.
+  The consolefonts directory got a subdirectory partialfonts.
+  The Unicode maps got a directory of their own.
+o Moved kbdrate from util-linux to here.
+o Added -s (sort) option to getunimap.c.
+o Setfont now accepts several psf2 fonts, each of arbitrary length.
+  Setfont now accepts certain codepage fonts.
+  Setfont now accepts a text file containing a list of fonts to load.
+o Made distinction between koi8-r and koi8-u.
+o spawn_console and spawn_login invoke openvt, not open.

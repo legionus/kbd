@@ -80,7 +80,8 @@
         5.1.1 `Getty used to do the right thing with DEL and BS but is broken now?'
         5.1.2 `Login behaves differently at the first and second login attempts?'
      5.2 How to tell Linux what code to generate when a key is pressed
-        5.2.1 `Why doesn't the Backspace key generate BackSpace by default?'
+        5.2.1 `How do I get a dvorak keyboard?'
+        5.2.2 `Why doesn't the Backspace key generate BackSpace by default?'
      5.3 How to tell X to interchange Delete and Backspace
      5.4 How to tell emacs what to do when it receives a Delete or Backspace
      5.5 How to tell emacs to interchange Delete and Backspace
@@ -130,6 +131,7 @@
   16. Changing the video mode
 
      16.1 Instructions for the use of resizecons
+
   17. Changing the keyboard repeat rate
 
   18. Scrolling
@@ -153,25 +155,29 @@
 
   The following packages contain keyboard or console related programs.
 
-  kbd-0.96.tar.gz contains loadkeys, dumpkeys, showkey, setmetamode,
-  setleds, setfont, showfont, mapscrn, kbd_mode, loadunimap, chvt,
-  resizecons, deallocvt, getkeycodes, setkeycodes.
-
-  util-linux-2.6 contains setterm, kbdrate.  (Yes, the more in util-
-  linux-2.6 dumps core due to a name conflict. Preserve your old copy,
-  or use util-linux-2.5, or change `savetty' to `my_savetty' in more.c.)
-
-  sh-utils-1.12 contains stty.
-
-  open-1.4.tgz contains open (that should be renamed to openvt). (See
-  also dynamic-vc-1.1.tar.gz and consd-1.1.tgz.)
+  kbd-1.00.tar.gz contains loadkeys, dumpkeys, showkey, setmetamode,
+  setleds, setfont, showfont, mapscrn, kbd_mode, kbdrate, loadunimap,
+  chvt, resizecons, deallocvt, getkeycodes, setkeycodes.  It also
+  contains openvt, formerly called open.
 
   SVGATextMode-1.8.tar.gz contains SVGATextMode, a program that
   obsoletes resizecons.
 
+  util-linux-2.9 contains setterm, kbdrate.
+
+  sh-utils-1.12 contains stty.
+
+  See also dynamic-vc-1.1.tar.gz and consd-1.1.tgz for programs that
+  exploit the `Keyboard Signal' key. Very primitive versions are
+  spawn_login or spawn_console found in the kbd package.
+
+  See font.tgz for a package that handles console fonts.
+
+
   The X distribution contains xmodmap, xset, kbd_mode.  (See also
   X386keybd(1) for the situation under XFree86 1.3, and Xserver(1) for
-  the XKEYBOARD extension under X11R6.)
+  the XKEYBOARD extension under X11R6.)  A handy interface to xmodmap is
+  xkeycaps, see http://www.jwz.org/xkeycaps/.
 
   termcap-2.0.8.tar.gz contains termcap, an old terminal capabilities
   data base. ncurses-1.9.9e.tar.gz contains the termlib data base which
@@ -190,14 +196,15 @@
   See setterm(1) and kbdrate(8) for properties such as foreground and
   background colors, screen blanking and character repeat rate when not
   under X.  Under X, see xset(1), also for key click and bell volume.
-
   The file /etc/termcap defines the escape sequences used by many
   programs addressing the console (or any other terminal).  See
   termcap(5).  A more modern version is found in /usr/lib/terminfo.  See
   terminfo(5). Terminfo files are compiled by the terminfo compiler
   /usr/lib/terminfo/tic, see tic(1).  Their contents can be examined
-  using the program infocmp, see infocmp(1).  The Linux console
-  sequences are documented in console_codes(4).
+  using the program infocmp, see infocmp(1).
+
+  The Linux console sequences are documented in console_codes(4).
+
 
 
 
@@ -319,15 +326,19 @@
   without resetting other console attributes. For example, after
 
 
-               % cat
-               ^N
-               ^D
+
+
+          % cat
+          ^N
+          ^D
 
 
 
 
   your shell prompt will be all line-drawing characters.  Now do (typing
   blindly)
+
+
                % cat
                ^O
                ^D
@@ -383,7 +394,7 @@
   going back to the previous font with
 
 
-               % setfont
+          % setfont
 
 
 
@@ -393,6 +404,9 @@
 
 
                % loadunimap
+
+
+
 
   which loads the default Unicode map (which is right for the default
   font) all works correctly again. Usually loadunimap is not invoked
@@ -445,9 +459,9 @@
   there are four main types of keyboards: QWERTY, QWERTZ, AZERTY and
   DVORAK.  The first three are named after the first six letter keys,
   and roughly represent the English, German and French speaking coun-
-  tries.  Compared to QWERTY, the QWERTZ map interchanges Y and Z.  Com-
-  pared to QWERTY, the AZERTY map interchanges Q and A, W and Z, and has
-  its M right of the L, at the semicolon position.  DVORAK has an
+  tries.  Compared to QWERTY, the QWERTZ map interchanges Y and Z.
+  Compared to QWERTY, the AZERTY map interchanges Q and A, W and Z, and
+  has its M right of the L, at the semicolon position.  DVORAK has an
   entirely different letter ordering.  There are two types of Turkish
   keyboard. The so-called `Q'-keyboard has a QWERTY layout, while the
   `F'-keyboard has an entirely different layout, let us say fgGIod,
@@ -511,8 +525,8 @@
   If the character is erased, but in a funny way, then something is
   wrong with your tty settings. If echoprt is set, then erased charac-
   ters are enclosed between \ and /.  If echoe is not set, then the
-  erase char is echoed (which is reasonable when it is a printing char-
-  acter, like #).  Most people will want stty echoe -echoprt. Saying
+  erase char is echoed (which is reasonable when it is a printing
+  character, like #).  Most people will want stty echoe -echoprt. Saying
   stty sane will do this and more. Saying stty -a shows your current
   settings.  How come this is not right by default? It is, if you use
   the right getty.
@@ -526,8 +540,9 @@
   have a command `delete current character' either. But for example you
   can get bash on the console to recognize the Delete key by putting
 
-          set editing-mode emacs
-          "\e[3~":delete-char
+
+               set editing-mode emacs
+               "\e[3~":delete-char
 
 
 
@@ -618,7 +633,32 @@
   /usr has been mounted.
 
 
-  55..22..11..  ``WWhhyy ddooeessnn''tt tthhee BBaacckkssppaaccee kkeeyy ggeenneerraattee BBaacckkSSppaaccee bbyy ddeeffaauulltt??''
+  55..22..11..  ``HHooww ddoo II ggeett aa ddvvoorraakk kkeeyybbooaarrdd??''
+
+  The command
+
+
+               % loadkeys dvorak
+
+
+
+
+  will give you a dvorak layout, probably by loading something like
+  /usr/lib/kbd/keymaps/i386/dvorak/dvorak.map.gz.  Under X, put
+
+
+               XkbLayout       "dvorak"
+
+
+
+
+  in XF86Config.
+
+
+
+
+
+  55..22..22..  ``WWhhyy ddooeessnn''tt tthhee BBaacckkssppaaccee kkeeyy ggeenneerraattee BBaacckkSSppaaccee bbyy ddeeffaauulltt??''
 
 
   (i) Because the VT100 had a Delete key above the Enter key.
@@ -653,9 +693,6 @@
 
 
   (but usually this is the default binding already).
-
-
-
 
 
   55..44..  HHooww ttoo tteellll eemmaaccss wwhhaatt ttoo ddoo wwhheenn iitt rreecceeiivveess aa DDeelleettee oorr
@@ -724,10 +761,10 @@
   bound to Ctrl-H). One can distinguish Backspace and Delete, e.g. by
 
 
-          (global-unset-key [backspace] )
-          (global-set-key [backspace] 'delete-backward-char)
-          (global-unset-key [delete] )
-          (global-set-key [delete] 'delete-char)
+               (global-unset-key [backspace] )
+               (global-set-key [backspace] 'delete-backward-char)
+               (global-unset-key [delete] )
+               (global-set-key [delete] 'delete-char)
 
 
 
@@ -750,9 +787,12 @@
 
 
 
-       XTerm*VT100.Translations:       #override\n\
-               <KeyPress> BackSpace : string(0x7f)\n\
-               <KeyPress> Delete : string(0x08)\n
+
+
+
+  XTerm*VT100.Translations:       #override\n\
+          <KeyPress> BackSpace : string(0x7f)\n\
+          <KeyPress> Delete : string(0x08)\n
 
 
 
@@ -790,10 +830,10 @@
   Putting
 
 
-          *XmText.translations: #override\n\
-             <Key>osfDelete: delete-previous-character()
-          *XmTextField.translations: #override\n\
-             <Key>osfDelete: delete-previous-character()
+               *XmText.translations: #override\n\
+                  <Key>osfDelete: delete-previous-character()
+               *XmTextField.translations: #override\n\
+                  <Key>osfDelete: delete-previous-character()
 
 
 
@@ -802,6 +842,19 @@
   file that is fed to xrdb, for example in .xinitrc.)
 
   The netscape FAQ, however, says:
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           Why doesn't my Backspace key work in text fields?
           By default, Linux and XFree86 come with the Backspace and Delete keys
@@ -852,25 +905,20 @@
   Add the following lines to your .xinitrc file:
 
 
+       xmodmap <<-EOF
+       keycode 22  =  BackSpace osfBackSpace
+       keycode 107 =  Delete
+       EOF
 
+       # start your window manager here,  for example:
+       #(fvwm) 2>&1 | tee /dev/tty /dev/console
 
-
-
-  xmodmap <<-EOF
-  keycode 22  =  BackSpace osfBackSpace
-  keycode 107 =  Delete
-  EOF
-
-  # start your window manager here,  for example:
-  #(fvwm) 2>&1 | tee /dev/tty /dev/console
-
-  stty sane
-  stty erase ^H
-  loadmap <<-EOF
-  keycode 14  = BackSpace
-  keycode 111 = Delete
-  EOF
-
+       stty sane
+       stty erase ^H
+       loadmap <<-EOF
+       keycode 14  = BackSpace
+       keycode 111 = Delete
+       EOF
 
 
 
@@ -922,12 +970,16 @@
 
   in .Xresources, and
 
-  xrdb -merge .Xresources
+
+       xrdb -merge .Xresources
 
 
 
 
   in .xinitrc, and you are settled.
+
+  For a much more extensive discussion of these things, and alternative
+  solutions, see Anne Baretta's page.
 
 
   66..  TThhee ccoonnssoollee cchhaarraacctteerr sseettss
@@ -1048,16 +1100,13 @@
   to create a new console upon a single keystroke, regardless of what is
   happening at the current console.
 
-  If you have spawn_login from kbd-0.96.tar.gz and you put
+  If you have spawn_login from kbd-0.99.tar.gz and you put
 
 
-
-
-
-          loadkeys << EOF
-          alt keycode 103 = Spawn_Console
-          EOF
-          spawn_login &
+               loadkeys << EOF
+               alt keycode 103 = Spawn_Console
+               EOF
+               spawn_login &
 
 
 
@@ -1118,8 +1167,6 @@
   Ctrl-AltGr-Del is no longer by default assigned to Boot.
 
 
-
-
   88..22..  OOtthheerr ccoommbbiinnaattiioonnss
 
 
@@ -1138,9 +1185,6 @@
   Scroll_Forward  Shift-PageDown
   Caps_On                                 (CapsLock is a toggle; this key sets)
   Compose         Ctrl-.
-
-
-
 
   88..33..  XX CCoommbbiinnaattiioonnss
 
@@ -1208,7 +1252,6 @@
 
   1. The Linux keyboard driver mechanism, used in conjunction with
      loadkeys.
-
   2. The X mechanism - see X386keybd(1), later XFree86kbd(1).  Under
      X11R6: edit /usr/X11R6/lib/X11/locale/iso8859-1/Compose.
 
@@ -1318,6 +1361,7 @@
   application key mode will not change the NumLock status, but produce
   an escape sequence.  If you want the NumLock key to always change the
   Numlock status, bind it to Bare_Num_Lock.)
+
   2. Next, there are per-tty default keyboard flags, to initialize the
   keyboard flags when a reset occurs.  Thus if you want NumLock on all
   the time, that is possible.  The usual way to change them is by
@@ -1383,7 +1427,6 @@
   /usr/lib/terminfo/c/console.
 
 
-
   1111..11..  TTeerrmmiinnffoo
 
 
@@ -1407,8 +1450,6 @@
 
   A. For emacs the details strongly depend on the version.  The
   information below is for version 19.34. Put lines
-
-
                (set-input-mode nil nil 1)
                (standard-display-european t)
                (require 'iso-syntax)
@@ -1450,7 +1491,8 @@
 
   The command
 
-          (iso-accents-mode)
+
+               (iso-accents-mode)
 
 
 
@@ -1515,7 +1557,6 @@
 
   into your $HOME/.inputrc.
 
-
   E. For tcsh, use
 
 
@@ -1554,7 +1595,7 @@
   K. For rlogin, use option -8.
 
   L. For joe,
-  sunsite.unc.edu:/pub/Linux/apps/editors/joe-1.0.8-linux.tar.gz is said
+  metalab.unc.edu:/pub/Linux/apps/editors/joe-1.0.8-linux.tar.gz is said
   to work after editing the configuration file. Someone else said: joe:
   Put the -asis option in /isr/lib/joerc in the first column.
 
@@ -1582,6 +1623,7 @@
   which substitutes its own handling. However, it seems useful to
   document some of the Linux keyboard and console related properties of
   X.
+
   First of all, when X is started (say using startx or xinit) it opens
   the first unused console, unless the desired console has been
   indicated explicitly, as in xinit -- vt12.  Note that this will fail
@@ -1646,7 +1688,6 @@
   Next, the definitions in the Xconfig file are used. (Thus, a
   definition of Compose in Xconfig will override its value as found in
   the Linux keymap.)
-
 
   What happens to the strings associated with the function keys?
   Nothing, X does not have such a concept. (But it is possible to define
@@ -1737,11 +1778,13 @@
   the current keymap, make a copy and edit that:
 
 
-               % dumpkeys > my_keymap
-               % cp my_keymap trial_keymap
-               % emacs trial_keymap
-               % loadkeys trial_keymap
-               %
+
+
+          % dumpkeys > my_keymap
+          % cp my_keymap trial_keymap
+          % emacs trial_keymap
+          % loadkeys trial_keymap
+          %
 
 
 
@@ -1777,7 +1820,6 @@
 
 
   1155..11..  ``II ccaann uussee oonnllyy oonnee ffiinnggeerr ttoo ttyyppee wwiitthh''
-
 
 
   "Can the Shift, Ctrl and Alt keys be made to behave as toggles?"
@@ -1846,6 +1888,7 @@
 
 
 
+
   1166..  CChhaannggiinngg tthhee vviiddeeoo mmooddee
 
 
@@ -1906,11 +1949,6 @@
   that you can hardly touch a key without getting three copies of the
   corresponding symbol. Use the program kbdrate(8) to change the repeat
   rate, or, if that doesn't help, edit or remove the section
-
-
-
-
-
 
   ______________________________________________________________________
        ! set the keyboard repeat rate to the max
@@ -1991,7 +2029,7 @@
   the device /dev/vcs_N (where `vcs' stands for `virtual console
   screen').  For example, you could have a clock program that displays
   the current time in the upper right hand corner of the console screen
-  (see the program vcstime in kbd-0.96.tar.gz).  Just dumping the
+  (see the program vcstime in kbd-0.99.tar.gz).  Just dumping the
   contents goes with cat /dev/vcs_N.  These device files /dev/vcs_N do not
   contain newlines, and do not contain attributes, like colors. From a
   program it is usually better to use /dev/vcsa_N (`virtual console
@@ -2004,6 +2042,7 @@
 
 
   : Sometimes my cursor keys or keypad keys produce strange codes?
+
 
   When the terminal is in application cursor key mode the cursor keys
   produce  Esc O x  and otherwise  Esc [ x  where x is one of A,B,C,D.
@@ -2042,8 +2081,6 @@
   clears it again.
 
 
-
-
   2222..  HHaarrddwwaarree iinnccoommppaattiibbiilliittyy
 
 
@@ -2073,7 +2110,6 @@
 
   There may be a relation between keyboard problems and the video card
   in use.
-
   Shawn K. Quinn (skquinn@wt.net) wrote: `I have a Zeos Pantera
   Pentium-90 that originally came with a Diamond Stealth 64 S3-based
   video card. Under X I frequently got q's inserted into my text (how
@@ -2087,10 +2123,40 @@
 
   Copyright (c) 1993-1999 by Andries Brouwer.  This document may be
   distributed under the terms set forth in the LDP license at
-  http://sunsite.unc.edu/LDP/COPYRIGHT.html or
+  http://metalab.unc.edu/LDP/COPYRIGHT.html or
   ftp://www.win.tue.nl/pub/linux/LDP/COPYRIGHT.txt.
 
   Additions and corrections are welcome.  Andries Brouwer - aeb@cwi.nl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

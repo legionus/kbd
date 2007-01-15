@@ -9,9 +9,8 @@
 #include <fcntl.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
+#include "getfd.h"
 #include "nls.h"
-
-extern int getfd(void);
 
 int
 main(int argc, char *argv[]) {
@@ -32,4 +31,6 @@ main(int argc, char *argv[]) {
 		perror("PIO_UNIMAPCLR");
 		exit(1);
 	}
+
+	return 0;
 }

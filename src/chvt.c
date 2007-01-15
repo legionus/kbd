@@ -7,17 +7,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include "getfd.h"
 #include "nls.h"
-
-extern int getfd(void);
+#include "version.h"
 
 int
 main(int argc, char *argv[]) {
     int fd, num;
 
+    set_progname(argv[0]);
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+
+    if (argc == 2 && !strcmp(argv[1], "-V"))
+	print_version_and_exit();
 
     if (argc != 2) {
 	fprintf(stderr, _("usage: chvt N\n"));

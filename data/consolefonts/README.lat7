@@ -1,0 +1,35 @@
+
+GERMAN -- ENGLISH BELOW
+
+Im iso07-Zeichensatz sind die Zeichen 0x80-0x9f, 0xa0, 0xa4,
+0xa5, 0xaa, 0xae, 0xd2 und 0xff unbelegt.
+Die SuSE-Erweiterung lat7u.psfu belegt diese Stellen mit Grafikzeichen, damit 
+YaST aussieht wie gewohnt. Die integrierte Unicodebelegungstabelle wurde
+ entsprechend erweitert.
+Belegungsplan:
+0x80-0x9f	wie in lat1u-16.psf 0xc0-0xdf
+0xa0		wie in lat1u-16.psf 0x08
+0xa4		wie in lat1u-16.psf 0x09
+0xa5		wie in lat1u-16.psf 0x0a
+0xaa		wie in lat1u-16.psf 0x0b
+0xae		wie in lat1u-16.psf 0x0c
+0xff		wie in lat1u-16.psf 0x0e
+0xd2		wie in lat1u-16.psf 0xca (Unicode U+2500)
+
+ENGLISH
+The iso07-codepage has some unused characters. ( 0x80-0x9f, 0xa0, 0xa4,
+0xa5, 0xaa, 0xae, 0xd2 and 0xff ) The SuSE-extension lat7u.psfu uses 
+this formerly unused places for graphical symbols to make yast look 
+similar to the way it looks when used with lat1-fonts.
+
+What we did:
+0x80-0x9f       as in lat1u-16.psf 0xc0-0xdf
+0xa0            as in lat1u-16.psf 0x08
+0xa4            as in lat1u-16.psf 0x09
+0xa5            as in lat1u-16.psf 0x0a
+0xaa            as in lat1u-16.psf 0x0b
+0xae            as in lat1u-16.psf 0x0c
+0xff            as in lat1u-16.psf 0x0e
+0xd2            as in lat1u-16.psf 0xca (U+2500)  
+
+Martin Lohner, ml@suse.de

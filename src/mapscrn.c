@@ -11,6 +11,7 @@
 #include <sys/ioctl.h>
 #include <sys/kd.h>
 #include "paths.h"
+#include "findfile.h"
 #include "nls.h"
 
 /* the two exported functions */
@@ -25,7 +26,8 @@ static char *mapdirpath[] = { "", DATADIR "/" TRANSDIR "/", 0 };
 static char *mapsuffixes[] = { "", 0 };
 
 #ifdef MAIN
-extern int getfd(void);
+#include "getfd.h"
+#include "version.h"
 
 int verbose = 0;
 
@@ -33,9 +35,14 @@ int
 main(int argc, char *argv[]) {
 	int fd;
 
+	set_progname(argv[0]);
+
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+	    print_version_and_exit();
 
 	fd = getfd();
 
@@ -49,7 +56,7 @@ main(int argc, char *argv[]) {
 		
 	if (argc != 2) {
 		fprintf(stderr, _("usage: %s [-o map.orig] map-file\n"),
-			argv[0]);
+			progname);
 		exit(1);
 	}
 	loadnewmap(fd, argv[1]);
