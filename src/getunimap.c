@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <ctype.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "getfd.h"
 #include "xmalloc.h"
+#include "kdmapop.h"
 #include "nls.h"
 #include "version.h"
 
@@ -26,7 +28,7 @@ main(int argc, char **argv){
 	int sortflag = 0;
 	char mb[]={0,0,0,0,0,0,0,0};
 	unsigned mb_length;
-	int fd, ct;
+	int fd;
 	struct unimapdesc ud;
 	int i;
 
@@ -49,48 +51,32 @@ main(int argc, char **argv){
 	}
 
 	fd = getfd();
-
-	ud.entry_ct = ct = 0;
-	ud.entries = 0;
-	if (ioctl(fd, GIO_UNIMAP, &ud)) {
-		if (errno != ENOMEM) {
-			perror("GIO_UNIMAP");
-			exit(1);
-		}
-		ct = ud.entry_ct;
-		ud.entries = xmalloc(ct * sizeof(struct unipair));
-		if (ioctl(fd, GIO_UNIMAP, &ud)) {
-			perror("GIO_UNIMAP (2)");
-			exit(1);
-		}
-		if (ct != ud.entry_ct)
-			fprintf(stderr,
-				_("strange... ct changed from %d to %d\n"),
-				ct, ud.entry_ct);
-
-		/* someone could change the unimap between our
-		   first and second ioctl, so the above errors
-		   are not impossible */
-	}
+	if (getunimap(fd, &ud))
+		exit(1);
 
 	if (sortflag) {
 		printf("# sorted kernel unimap - count=%d\n", ud.entry_ct);
 		/* sort and merge entries */
 		qsort (ud.entries, ud.entry_ct, sizeof(ud.entries[0]),
 		       ud_compar);
-		for(i=0; i<ud.entry_ct && i<ct; i++) {
+		for(i=0; i<ud.entry_ct; i++) {
 			int fp = ud.entries[i].fontpos;
 			printf("0x%03x\tU+%04x", fp, ud.entries[i].unicode);
-			while (i+1 < ud.entry_ct && i+1 < ct &&
+			while (i+1 < ud.entry_ct &&
 			       ud.entries[i+1].fontpos == fp)
 				printf(" U+%04x", ud.entries[++i].unicode);
 			printf("\n");
 		}
 	} else {
 		printf("# kernel unimap - count=%d\n", ud.entry_ct);
-		for(i=0; i<ud.entry_ct && i<ct; i++) {
-			mb_length=wctomb (mb, ud.entries[i].unicode);
+		for(i=0; i<ud.entry_ct; i++) {
+			mb_length = wctomb (mb, ud.entries[i].unicode);
 			mb[ (mb_length > 6) ? 0 : mb_length ] = 0 ;
+			if (mb_length == 1 && !isprint(mb[0])) {
+				mb[2] = 0;
+				mb[1] = mb[0] + 0100;
+				mb[0] = '^';
+			}
 			printf("0x%03x\tU+%04x\t# %s \n",
 			       ud.entries[i].fontpos,
 			       ud.entries[i].unicode, mb);

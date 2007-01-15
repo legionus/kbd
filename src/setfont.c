@@ -1,7 +1,7 @@
 /*
  * setfont.c - Eugene Crosser & Andries Brouwer
  *
- * Version 1.04
+ * Version 1.05
  *
  * Loads the console font, and possibly the corresponding screen map(s).
  * We accept two kind of screen maps, one [-m] giving the correspondence
@@ -29,6 +29,7 @@
 #include "psf.h"
 #include "psffontop.h"
 #include "kdfontop.h"
+#include "kdmapop.h"
 #include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
@@ -40,7 +41,6 @@ static void loadnewfont(int fd, char *ifil,
 			int iunit, int hwunit, int no_m, int no_u);
 static void loadnewfonts(int fd, char **ifiles, int ifilct,
 			int iunit, int hwunit, int no_m, int no_u);
-static void restorefont(int fd);
 extern void saveoldmap(int fd, char *omfil);
 extern void loadnewmap(int fd, char *mfil);
 extern void activatemap(void);
@@ -73,17 +73,21 @@ usage(void)
 "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>	Write current font to <filename>\n"
+"    -O  <filename>	Write current font and unicode map to <filename>\n"
 "    -om <filename>	Write current consolemap to <filename>\n"
 "    -ou <filename>	Write current unicodemap to <filename>\n"
-"If no newfont and no -[o|om|ou|m|u] option is given, a default font is loaded:\n"
+"If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
+"a default font is loaded:\n"
 "    setfont             Load font \"default[.gz]\"\n"
 "    setfont -<N>        Load font \"default8x<N>[.gz]\"\n"
 "The -<N> option selects a font from a codepage that contains three fonts:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n"
-"Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings will\n"
-"be loaded and, in the case of consolemaps, activated.\n"
-"    -h<N>       (no space) Override font height.\n"
-"    -m none	Suppress loading and activation of a mapping table.\n"
+"Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
+"will be loaded and, in the case of consolemaps, activated.\n"
+"    -h<N>      (no space) Override font height.\n"
+"    -m <fn>    Load console screen map.\n"
+"    -u <fn>    Load font unicode map.\n"
+"    -m none	Suppress loading and activation of a screen map.\n"
 "    -u none	Suppress loading of a unicode map.\n"
 "    -v		Be verbose.\n"
 "    -V		Print version and exit.\n"
@@ -95,9 +99,9 @@ usage(void)
 #define MAXIFILES 256
 
 int
-main(int argc, char *argv[])
-{
-	char *ifiles[MAXIFILES], *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil;
+main(int argc, char *argv[]) {
+	char *ifiles[MAXIFILES];
+	char *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil;
 	int ifilct = 0, fd, i, iunit, hwunit, no_m, no_u;
 	int restore = 0;
 
@@ -117,7 +121,7 @@ main(int argc, char *argv[])
 	    if (!strcmp(argv[i], "-V")) {
 		print_version_and_exit();
 	    } else if (!strcmp(argv[i], "-v")) {
-	        verbose = 1;
+	        verbose++;
 	    } else if (!strcmp(argv[i], "-R")) {
 		restore = 1;
 	    } else if (!strcmp(argv[i], "-O")) {
@@ -213,16 +217,6 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-static void
-restorefont(int fd) {
-	/* On most kernels this won't work since it is not supported
-	   when BROKEN_GRAPHICS_PROGRAMS is defined, and that is defined
-	   by default.  Moreover, this is not defined for vgacon. */
-	if (ioctl(fd, PIO_FONTRESET, 0)) {
-		perror("PIO_FONTRESET");
-	}
-}
-
 /*
  * 0 - do not test, 1 - test and warn, 2 - test and wipe, 3 - refuse
  */
@@ -309,7 +303,6 @@ do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 
 static void
 do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize) {
-	struct unimapinit advice;
 	struct unimapdesc ud;
 	struct unipair *up;
 	int i, ct = 0, maxct;
@@ -345,36 +338,13 @@ do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize) {
 		exit(EX_SOFTWARE);
 	}
 
-	/* Note: after PIO_UNIMAPCLR and before PIO_UNIMAP
-	   this printf did not work on many kernels */
 	if (verbose)
 	  printf(_("Loading Unicode mapping table...\n"));
 
-	advice.advised_hashsize = 0;
-	advice.advised_hashstep = 0;
-	advice.advised_hashlevel = 0;
-	if(ioctl(fd, PIO_UNIMAPCLR, &advice)) {
-#ifdef ENOIOCTLCMD
-	    if (errno == ENOIOCTLCMD) {
-		fprintf(stderr,
-			_("It seems this kernel is older than 1.1.92\n"
-			  "No Unicode mapping table loaded.\n"));
-	    } else
-#endif
-	      perror("PIO_UNIMAPCLR");
-	    exit(EX_OSERR);
-	}
 	ud.entry_ct = ct;
 	ud.entries = up;
-	if(ioctl(fd, PIO_UNIMAP, &ud)) {
-#if 0
-	    if (errno == ENOMEM) {
-		/* change advice parameters */
-	    }
-#endif
-	    perror("PIO_UNIMAP");
-	    exit(EX_OSERR);
-	}
+	if (loadunimap(fd, NULL, &ud))
+		exit(EX_OSERR);
 }
 
 static void
@@ -493,6 +463,9 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 			exit(EX_NOINPUT);
 		}
 	}
+
+	if (verbose > 1)
+		printf(_("Reading font file %s\n"), ifil);
 
 	inbuf = fontbuf = NULL;
 	inputlth = fontbuflth = fontsize = 0;

@@ -3,12 +3,16 @@
 .SH NAME
 mapscrn \- load screen output mapping table
 .SH SYNOPSIS
-.B mapscrn
-[
-.I -o map.orig
-]
+.BR mapscrn " [" -v "] [" -o
+.IR map.orig ]
 .I mapfile
 .SH DESCRIPTION
+The
+.B mapscrn
+command is obsolete - its function is now built-in into setfont.
+However, for backwards compatibility it is still available
+as a separate command.
+.LP
 The
 .I mapscrn
 command loads a user defined output character mapping table into the
@@ -28,27 +32,45 @@ When the
 .I -o
 option is given, the old map is saved in
 .I map.orig.
-.SH "OPERATION"
+.SH USE
+There are two kinds of mapping tables: direct-to-font tables,
+that give a font position for each user byte value, and user-to-unicode
+tables that give a unicode value for each user byte. The corresponding
+glyph is now found using the unicode index of the font.
+The command
+.RS
+mapscrn trivial
+.RE
+sets up a one-to-one direct-to-font table where user bytes
+directly address the font. This is useful for fonts that are
+in the same order as the character set one uses.
+A command like
+.RS
+mapscrn 8859-2
+.RE
+sets up a user-to-unicode table that assumes that the user
+uses ISO 8859-2.
+.SH "INPUT FORMAT"
 The
 .I mapscrn
 command can read the map in either of two formats:
 .br
-1. 256 byte binary data
+1. 256 or 512 bytes binary data
 .br
 2. two-column text file
 .br
-Format (1) is an image of translation 
-.I table. 
-Any time a character with the code
-.I i
-is output to the console device, the character with the code 
-.I table[i]
-appears on the screen. Format (2) is used to fill the 
+Format (1) is a direct image of the translation 
+.I table. The 256-bytes tables are direct-to-font,
+the 512-bytes tables are user-to-unicode tables.
+Format (2) is used to fill the 
 .I table
 as follows: cell with offset mentioned in the first column is filled
 with the value mentioned in the second column.
+When values larger than 255 occur, or values are written using
+the U+xxxx notation, the table is assumed to be a user-to-unicode
+table, otherwise it is a direct-to-font table.
 .PP
-Values in the file may be specified in one of four 
+Values in the file may be specified in one of several
 .B formats:
 .br
 .B 1. Decimal: 
@@ -60,10 +82,15 @@ string of octal digits beginning with '0'
 .B 3. Hexadecimal: 
 string of hexadecimal digits preceded by "0x"
 .br
-.B 4. Character: 
-Single character enclosed in single quotes.
+.B 4. Unicode:
+string of four hexadecimal digits preceded by "U+"
+.br
+.B 5. Character: 
+Single character enclosed in single quotes. (And the binary value is used.)
 Note that blank, comma, tab character and '#' cannot be specified
-with the 4th format.
+with this format.
+.B 6. UTF-8 Character:
+Single (possibly multi-byte) UTF-8 character, enclosed in single quotes.
 .PP
 Note that control characters (with codes < 32) cannot be re-mapped with
 .I mapscrn

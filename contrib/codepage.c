@@ -28,12 +28,22 @@ void handle_fontfile(void);
 /*#define PACKED  */
 
 struct {
-	unsigned char id[8] PACKED;
+	unsigned char id0 PACKED;
+	unsigned char id[7] PACKED;
 	unsigned char res[8] PACKED;
-	unsigned short num_pointers PACKED;
-	unsigned char p_type PACKED;
-	unsigned long offset PACKED;
+	unsigned short pnum PACKED;	 /* number of pointers */
+	unsigned char ptyp PACKED;	 /* type of pointers */
+	unsigned long fih_offset PACKED; /* FontInfoHeader offset */
 } FontFileHeader;
+
+int drfont = 0;
+
+#define N	4
+struct {
+	unsigned char num_fonts PACKED;	    /* N = 4 fonts per code page*/
+	unsigned char font_height[N] PACKED;
+	unsigned long dfd_offset[N] PACKED; /* DisplayFontData offset */
+} DRDOS_ExtendedFontFileHeader;
 
 struct {
 	unsigned short num_codepages PACKED;
@@ -59,12 +69,12 @@ struct {
 	unsigned char height PACKED;
 	unsigned char width PACKED;
 	unsigned short reserved PACKED;
-	unsigned short num_chard PACKED;
+	unsigned short num_chars PACKED;
 } ScreenFontHeader;
 
 struct {
-	unsigned short p1 PACKED;
-	unsigned short p2 PACKED;
+	unsigned short printer_type PACKED;
+	unsigned short seqlength PACKED;
 } PrinterFontHeader;
 
 FILE *in, *out;
@@ -147,16 +157,37 @@ handle_fontfile(){
 	    printf("error reading FontFileHeader - got %d chars\n", j);
 	    exit (1);
 	}
-	if (!strcmp(FontFileHeader.id + 1, "DRFONT ")) {
-	    printf("this program cannot handle DRDOS font files\n");
-	    exit(1);
-	}
 	if (optL)
-	  printf("FontFileHeader: id=%8.8s res=%8.8s num=%d typ=%c offset=%ld\n\n",
-		 FontFileHeader.id, FontFileHeader.res,
-		 FontFileHeader.num_pointers,
-		 FontFileHeader.p_type,
-		 FontFileHeader.offset);
+	  printf("FontFileHeader: id=0x%x \"%7.7s\" res=%8.8s "
+		 "num=%d typ=%d fih_offset=%ld\n\n",
+		 FontFileHeader.id0, FontFileHeader.id, FontFileHeader.res,
+		 FontFileHeader.pnum, FontFileHeader.ptyp,
+		 FontFileHeader.fih_offset);
+
+	if (!strcmp(FontFileHeader.id, "DRFONT ")) {
+	    drfont = 1;
+	    j = fread(&DRDOS_ExtendedFontFileHeader, 1,
+		      sizeof(DRDOS_ExtendedFontFileHeader), in);
+	    if (j != sizeof(DRDOS_ExtendedFontFileHeader)) {
+		printf("error reading ExtendedFontFileHeader - "
+		       "got %d chars\n", j);
+		exit (1);
+	    }
+	    if (DRDOS_ExtendedFontFileHeader.num_fonts != N) {
+		printf("found %d instead of 4 fonts in drfont\n",
+		       DRDOS_ExtendedFontFileHeader.num_fonts);
+		exit (1);
+	    }
+	    if (optL) {
+		printf("ExtendedFontFileHeader:\n");
+		for (j=0; j<N; j++) {
+			printf("font%d: height %d dfd_offset %d\n", j,
+			   DRDOS_ExtendedFontFileHeader.font_height[j],
+			   DRDOS_ExtendedFontFileHeader.dfd_offset[j]);
+		}
+		printf("\n");
+	    }
+	}
 
 	j = fread(&FontInfoHeader, 1, sizeof(FontInfoHeader), in);
 	if (j != sizeof(FontInfoHeader)) {
@@ -166,6 +197,13 @@ handle_fontfile(){
 	if (optL)
 	  printf("FontInfoHeader: num_codepages=%d\n\n",
 		 FontInfoHeader.num_codepages);
+
+#if 1
+	if (drfont) {
+	    printf("this program cannot handle DRDOS font files\n");
+	    exit(1);
+	}
+#endif
 
 	for (i = FontInfoHeader.num_codepages; i; i--)
 	  if (handle_codepage(i-1))
@@ -262,7 +300,7 @@ codepage=%d\n\t\tres=%6.6s nxt=%ld off_font=%ld\n\n",
 	nexthdr = CPEntryHeader.off_nexthdr;
 	if (nexthdr == 0 || nexthdr == -1) {
 	    if (more_to_come) {
-		printf("mode codepages expected, but nexthdr=%ld\n",
+		printf("more codepages expected, but nexthdr=%ld\n",
 		       nexthdr);
 		exit(1);
 	    } else

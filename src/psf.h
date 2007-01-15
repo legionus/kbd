@@ -43,9 +43,9 @@
 #define PSF1_STARTSEQ   0xFFFE
 
 struct psf1_header {
-  unsigned char magic[2];	/* Magic number */
-  unsigned char mode;		/* PSF font mode */
-  unsigned char charsize;	/* Character size */
+	unsigned char magic[2];	    /* Magic number */
+	unsigned char mode;	    /* PSF font mode */
+	unsigned char charsize;	    /* Character size */
 };
 
 /*

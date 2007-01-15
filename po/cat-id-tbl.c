@@ -88,18 +88,18 @@ Escaped scancodes e0 xx (hex)\n", 47},
   {"\
 Usage:\n\
 \t%s [-s]\n", 49},
-  {"strange... ct changed from %d to %d\n", 50},
-  {"usage: kbd_mode [-a|-u|-k|-s]\n", 51},
-  {"kbd_mode: error reading keyboard mode\n", 52},
-  {"The keyboard is in raw (scancode) mode\n", 53},
-  {"The keyboard is in mediumraw (keycode) mode\n", 54},
-  {"The keyboard is in the default (ASCII) mode\n", 55},
-  {"The keyboard is in Unicode (UTF-8) mode\n", 56},
-  {"The keyboard is in some unknown mode\n", 57},
-  {"%s: error setting keyboard mode\n", 58},
-  {"Typematic Rate set to %.1f cps (delay = %d ms)\n", 59},
-  {"Cannot open /dev/port", 60},
-  {"bug: getfont called with count<256\n", 61},
+  {"usage: kbd_mode [-a|-u|-k|-s]\n", 50},
+  {"kbd_mode: error reading keyboard mode\n", 51},
+  {"The keyboard is in raw (scancode) mode\n", 52},
+  {"The keyboard is in mediumraw (keycode) mode\n", 53},
+  {"The keyboard is in the default (ASCII) mode\n", 54},
+  {"The keyboard is in Unicode (UTF-8) mode\n", 55},
+  {"The keyboard is in some unknown mode\n", 56},
+  {"%s: error setting keyboard mode\n", 57},
+  {"Typematic Rate set to %.1f cps (delay = %d ms)\n", 58},
+  {"Cannot open /dev/port", 59},
+  {"bug: getfont called with count<256\n", 60},
+  {"%s: out of memory\n", 61},
   {"unknown charset %s - ignoring charset request\n", 62},
   {"assuming iso-8859-1 %s\n", 63},
   {"assuming iso-8859-15 %s\n", 64},
@@ -109,56 +109,56 @@ Usage:\n\
   {"unknown keysym '%s'\n", 68},
   {"plus before %s ignored\n", 69},
   {"usage: %s [-o map.orig] [map-file]\n", 70},
-  {"trying hashlevel %d\n", 71},
-  {"Loading unicode map from file %s\n", 72},
-  {"%s: %s: Warning: line too long\n", 73},
-  {"Bad input line: %s\n", 74},
-  {"%s: Glyph number (0x%x) larger than font length\n", 75},
-  {"%s: Bad end of range (0x%x)\n", 76},
-  {"\
-%s: Corresponding to a range of font positions, there should be a Unicode \
-range\n", 77},
-  {"%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n", 78},
+  {"Bad input line: %s\n", 71},
+  {"%s: Glyph number (0x%x) larger than font length\n", 72},
+  {"%s: Bad end of range (0x%x)\n", 73},
+  {"%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n", 74},
   {"\
 %s: Unicode range U+%x-U+%x not of the same length as font position range \
-0x%x-0x%x\n", 79},
-  {"%s: trailing junk (%s) ignored\n", 80},
+0x%x-0x%x\n", 75},
+  {"%s: trailing junk (%s) ignored\n", 76},
+  {"Loading unicode map from file %s\n", 77},
+  {"%s: %s: Warning: line too long\n", 78},
   {"\
 %s: not loading empty unimap\n\
-(if you insist: use option -f to override)\n", 81},
-  {"%s: out of memory?\n", 82},
-  {"entry", 83},
-  {"entries", 84},
-  {"Saved unicode map on `%s'\n", 85},
-  {"Appended Unicode map\n", 86},
-  {"usage: %s [-o map.orig] map-file\n", 87},
-  {"mapscrn: cannot open map file _%s_\n", 88},
-  {"Cannot stat map file", 89},
+(if you insist: use option -f to override)\n", 79},
+  {"entry", 80},
+  {"entries", 81},
+  {"Saved unicode map on `%s'\n", 82},
+  {"Appended Unicode map\n", 83},
+  {"usage: %s [-v] [-o map.orig] map-file\n", 84},
+  {"mapscrn: cannot open map file _%s_\n", 85},
+  {"Cannot stat map file", 86},
+  {"Loading binary direct-to-font screen map from file %s\n", 87},
+  {"Error reading map from file `%s'\n", 88},
+  {"Loading binary unicode screen map from file %s\n", 89},
   {"Loading symbolic screen map from file %s\n", 90},
-  {"Error parsing symbolic map from `%s'\n", 91},
-  {"Loading binary screen map from file %s\n", 92},
-  {"Error reading map from file `%s'\n", 93},
-  {"mapscrn: format error detected in _%s_\n", 94},
-  {"Error writing map to file", 95},
-  {"Saved screen map in `%s'\n", 96},
-  {"%s: short ucs2 unicode table\n", 97},
-  {"%s: short utf8 unicode table\n", 98},
-  {"%s: bad utf8\n", 99},
-  {"%s: short unicode table\n", 100},
-  {"%s: Error reading input font", 101},
-  {"%s: Bad call of readpsffont\n", 102},
-  {"%s: Unsupported psf file mode (%d)\n", 103},
-  {"%s: Unsupported psf version (%d)\n", 104},
-  {"%s: zero input font length?\n", 105},
-  {"%s: zero input character size?\n", 106},
-  {"%s: Input file: bad input length (%d)\n", 107},
-  {"%s: Input file: trailing garbage\n", 108},
-  {"appendunicode: illegal unicode %u\n", 109},
-  {"Cannot write font file header", 110},
-  {"%s: Warning: line too long\n", 111},
-  {"%s: Bad input line: %s\n", 112},
-  {"%s: Glyph number (0x%lx) past end of font\n", 113},
-  {"%s: Bad end of range (0x%lx)\n", 114},
+  {"Error parsing symbolic map from `%s', line %d\n", 91},
+  {"Error writing map to file\n", 92},
+  {"Cannot read console map\n", 93},
+  {"Saved screen map in `%s'\n", 94},
+  {"%s: short ucs2 unicode table\n", 95},
+  {"%s: short utf8 unicode table\n", 96},
+  {"%s: bad utf8\n", 97},
+  {"%s: unknown utf8 error\n", 98},
+  {"%s: short unicode table\n", 99},
+  {"%s: Error reading input font", 100},
+  {"%s: Bad call of readpsffont\n", 101},
+  {"%s: Unsupported psf file mode (%d)\n", 102},
+  {"%s: Unsupported psf version (%d)\n", 103},
+  {"%s: zero input font length?\n", 104},
+  {"%s: zero input character size?\n", 105},
+  {"%s: Input file: bad input length (%d)\n", 106},
+  {"%s: Input file: trailing garbage\n", 107},
+  {"appendunicode: illegal unicode %u\n", 108},
+  {"Cannot write font file header", 109},
+  {"%s: Warning: line too long\n", 110},
+  {"%s: Bad input line: %s\n", 111},
+  {"%s: Glyph number (0x%lx) past end of font\n", 112},
+  {"%s: Bad end of range (0x%lx)\n", 113},
+  {"\
+%s: Corresponding to a range of font positions, there should be a Unicode \
+range\n", 114},
   {"\
 Usage:\n\
 \t%s infont intable outfont\n", 115},
@@ -198,19 +198,21 @@ Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u \
 unicodemap]\n\
   write-options (take place before file loading):\n\
     -o  <filename>\tWrite current font to <filename>\n\
+    -O  <filename>\tWrite current font and unicode map to <filename>\n\
     -om <filename>\tWrite current consolemap to <filename>\n\
     -ou <filename>\tWrite current unicodemap to <filename>\n\
-If no newfont and no -[o|om|ou|m|u] option is given, a default font is \
-loaded:\n\
+If no newfont and no -[o|O|om|ou|m|u] option is given,\n\
+a default font is loaded:\n\
     setfont             Load font \"default[.gz]\"\n\
     setfont -<N>        Load font \"default8x<N>[.gz]\"\n\
 The -<N> option selects a font from a codepage that contains three fonts:\n\
     setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n\
-Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings \
-will\n\
-be loaded and, in the case of consolemaps, activated.\n\
-    -h<N>       (no space) Override font height.\n\
-    -m none\tSuppress loading and activation of a mapping table.\n\
+Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n\
+will be loaded and, in the case of consolemaps, activated.\n\
+    -h<N>      (no space) Override font height.\n\
+    -m <fn>    Load console screen map.\n\
+    -u <fn>    Load font unicode map.\n\
+    -m none\tSuppress loading and activation of a screen map.\n\
     -u none\tSuppress loading of a unicode map.\n\
     -v\t\tBe verbose.\n\
     -V\t\tPrint version and exit.\n\
@@ -230,16 +232,14 @@ unchanged.\n", 138},
   {"Loading %d-char %dx%d (%d) font\n", 147},
   {"%s: bug in do_loadtable\n", 148},
   {"Loading Unicode mapping table...\n", 149},
-  {"\
-It seems this kernel is older than 1.1.92\n\
-No Unicode mapping table loaded.\n", 150},
-  {"Cannot open font file %s\n", 151},
-  {"When loading several fonts, all must be psf fonts - %s isn't\n", 152},
-  {"Read %d-char %dx%d font from file %s\n", 153},
-  {"When loading several fonts, all must have the same height\n", 154},
-  {"When loading several fonts, all must have the same width\n", 155},
-  {"Cannot find default font\n", 156},
-  {"Cannot find %s font\n", 157},
+  {"Cannot open font file %s\n", 150},
+  {"When loading several fonts, all must be psf fonts - %s isn't\n", 151},
+  {"Read %d-char %dx%d font from file %s\n", 152},
+  {"When loading several fonts, all must have the same height\n", 153},
+  {"When loading several fonts, all must have the same width\n", 154},
+  {"Cannot find default font\n", 155},
+  {"Cannot find %s font\n", 156},
+  {"Reading font file %s\n", 157},
   {"No final newline in combine file\n", 158},
   {"Too many files to combine\n", 159},
   {"Hmm - a font from restorefont? Using the first half.\n", 160},
@@ -306,17 +306,18 @@ The setting before and after the change are reported.\n", 190},
   {"new state:    ", 196},
   {"usage: %s\n", 197},
   {"failed to restore original translation table\n", 198},
-  {"\
-usage: showfont\n\
-(probably after loading a font with `setfont font')\n", 199},
+  {"failed to restore original unimap\n", 199},
   {"cannot change translation table\n", 200},
-  {"cannot change translation table??\n", 201},
-  {"?UNKNOWN?", 202},
-  {"kb mode was %s\n", 203},
+  {"%s: out of memory?\n", 201},
+  {"\
+usage: showfont [-v|-V]\n\
+(probably after loading a font with `setfont font')\n", 202},
+  {"?UNKNOWN?", 203},
+  {"kb mode was %s\n", 204},
   {"\
 [ if you are trying this under X, it might not work\n\
-since the X server is also reading /dev/console ]\n", 204},
-  {"caught signal %d, cleaning up...\n", 205},
+since the X server is also reading /dev/console ]\n", 205},
+  {"caught signal %d, cleaning up...\n", 206},
   {"\
 showkey version %s\n\
 \n\
@@ -327,16 +328,15 @@ valid options are:\n\
 \t-h --help\tdisplay this help text\n\
 \t-a --ascii\tdisplay the decimal/octal/hex values of the keys\n\
 \t-s --scancodes\tdisplay only the raw scan-codes\n\
-\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n", 206},
+\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n", 207},
   {"\
 \n\
 Press any keys - Ctrl-D will terminate this program\n\
-\n", 207},
-  {"press any key (program terminates 10s after last keypress)...\n", 208},
-  {"keycode %3d %s\n", 209},
-  {"release", 210},
-  {"press", 211},
-  {"%s: out of memory\n", 212},
+\n", 208},
+  {"press any key (program terminates 10s after last keypress)...\n", 209},
+  {"keycode %3d %s\n", 210},
+  {"release", 211},
+  {"press", 212},
   {"%s from %s\n", 213},
 };
 

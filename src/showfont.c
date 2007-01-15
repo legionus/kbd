@@ -1,114 +1,164 @@
-/* showfont.c - aeb, 940207 */
-#include <sys/types.h>
-#include <linux/kd.h>
+/* showfont.c - aeb, 940207 - updated 2001-02-06 */
+
 #include <stdio.h>
+#include <errno.h>
+#include <sys/types.h>
 #include <sys/ioctl.h>
+#include <linux/kd.h>
 #include "nls.h"
 #include "version.h"
+#include "kdmapop.h"
+#include "kdfontop.h"
 
-#define CSI		155
-#define CSI_ERSATZ	126
+/*
+ * Showing the font is nontrivial mostly because testing whether
+ * we are in utf8 mode cannot be done in an easy and clean way.
+ * So, we set up things here in such a way that it does not matter
+ * whether we are in utf8 mode.
+ */
 
-char obuf[E_TABSZ], nbuf[E_TABSZ];
+unsigned short obuf[E_TABSZ], nbuf[E_TABSZ];
+struct unimapdesc ounimap, nunimap;
+int fd = 0;
+int have_obuf = 0;
+int have_ounimap = 0;
 
 static void
 leave(int n) {
-  printf("\0338");		/* restore attributes */
-  if (ioctl(0,PIO_SCRNMAP,obuf)) {
-      perror("PIO_SCRNMAP");
-      fprintf(stderr, _("failed to restore original translation table\n"));
-      exit(1);
-  }
-  exit(n);
+	if (have_obuf && loaduniscrnmap(fd,obuf)) {
+		fprintf(stderr,
+			_("failed to restore original translation table\n"));
+		n = 1;
+	}
+	if (have_ounimap && loadunimap(fd,NULL,&ounimap)) {
+		fprintf(stderr,
+			_("failed to restore original unimap\n"));
+		n = 1;
+	}
+	exit(n);
+}
+
+static void
+settrivialscreenmap(void) {
+	int i;
+
+	if (getuniscrnmap(fd,obuf))
+		exit(1);
+	have_obuf = 1;
+
+	for(i=0; i<E_TABSZ; i++)
+		nbuf[i] = i;
+
+	if (loaduniscrnmap(fd,nbuf)) {
+		fprintf(stderr, _("cannot change translation table\n"));
+		exit(1);
+	}
+}
+
+static void
+out_of_memory(void) {
+	fprintf(stderr, _("%s: out of memory?\n"), progname);
+	leave(1);
+}
+
+static void
+getoldunicodemap(void) {
+	struct unimapdesc descr;
+
+	if (getunimap(fd, &descr))
+		leave(1);
+	ounimap = descr;
+	have_ounimap = 1;
+}
+
+#define BASE	041		/* ' '+1 */
+
+static void
+setnewunicodemap(int *list, int cnt) {
+	int i;
+
+	if (!nunimap.entry_ct) {
+		nunimap.entry_ct = 512;
+		nunimap.entries = (struct unipair *)
+			malloc(nunimap.entry_ct * sizeof(struct unipair));
+		if (nunimap.entries == NULL)
+			out_of_memory();
+	}
+	for (i=0; i<512; i++) {
+		nunimap.entries[i].fontpos = i;
+		nunimap.entries[i].unicode = 0;
+	}
+	for (i=0; i<cnt; i++)
+		nunimap.entries[list[i]].unicode = BASE+i;
+
+	if (loadunimap(fd, NULL, &nunimap))
+		leave(1);
+}
+
+static void
+usage(void) {
+	fprintf(stderr,
+		_("usage: showfont [-v|-V]\n"
+		  "(probably after loading a font with `setfont font')\n"));
+	exit(1);
 }
 
 int
 main (int argc, char **argv) {
-  unsigned char i, j, k;
+	int n, cols, rows, nr, i, j, k;
+	char *sep;
+	int list[64], lth, verbose = 0;
 
-  set_progname(argv[0]);
+	set_progname(argv[0]);
 
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 
-  if (argc == 2 && !strcmp(argv[1], "-V"))
-    print_version_and_exit();
+	if (argc == 2 &&
+	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
+		print_version_and_exit();
 
-  if (argc != 1) {
-      fprintf(stderr,
-	      _("usage: showfont\n"
-		"(probably after loading a font with `setfont font')\n"));
-      exit(1);
-  }
-
-  if (ioctl(0,GIO_SCRNMAP,obuf)) {
-      perror("GIO_SCRNMAP");
-      exit(1);
-  }
-  for (i=0; i<25; i++) printf("\n"); /* go down */
-  printf("\0337");		/* save attributes */
-
-  /* Since control characters are treated specially, we must
-     avoid printing control characters. Therefore we do the
-     printing in two stages. */
-
-  k = 128;
-  for (i = 0; i < 8; i++)
-      for (j = 0; j < 16; j++)
-	nbuf[k++] = 16*j+i;
-  nbuf[CSI_ERSATZ] = nbuf[CSI];	/* avoid CSI = 128+27 */
-  nbuf[128] = 32;		/* it will not be shown anyway */
-  nbuf[32] = 32;
-  nbuf[10] = 0;
-  if (ioctl(0,PIO_SCRNMAP,nbuf)) {
-      perror("PIO_SCRNMAP");
-      fprintf(stderr, _("cannot change translation table\n"));
-      exit(1);
-  }
-
-  printf("\033%%@");		/* leave Unicode */
-  printf("\033(K");		/* select user translation */
-
-  /* show first half of font, avoiding CSI */
-  printf("\n");
-  k = 128;
-  for (i = 0; i < 8; i++) {
-      for (j = 0; j < 16; j++) {
-	  printf ("  %c", (k==CSI) ? CSI_ERSATZ : k);
-	  k++;
-      }
-      printf ("\n");
-  }
-
-  /* construct second half */
-  k = 128;
-  for (i = 8; i < 16; i++)
-      for (j = 0; j < 16; j++)
-	nbuf[k++] = 16*j+i;
-  nbuf[CSI_ERSATZ] = nbuf[CSI];
-  if (ioctl(0,PIO_SCRNMAP,nbuf)) {
-      perror("PIO_SCRNMAP");
-      fprintf(stderr, _("cannot change translation table??\n"));
-      leave(1);
-  }
-
-  /* show second half of font, avoiding CSI */
-  printf("\n");
-  k = 128;
-  for (i = 0; i < 8; i++) {
-      for (j = 0; j < 16; j++) {
-	  printf ("  %c", (k==CSI) ? CSI_ERSATZ : k);
-	  k++;
-      }
-      printf ("\n");
-  }
-  printf ("\n");
+	if (argc == 2 && !strcmp(argv[1], "-v"))
+		verbose = 1;
+	else if (argc != 1)
+		usage();
 
 #if 0
-  printf("\033(B");		/* and return to usual translation */
+	fd = getfd();
 #endif
-  leave(0);
+	settrivialscreenmap();
+	getoldunicodemap();
 
-  exit(0);			/* make gcc happy */
+	n = getfontsize(fd);
+	if (verbose)
+		printf("Showing %d-char font\n\n", n);
+	cols = ((n > 256) ? 32 : 16);
+	nr = 64/cols;
+	rows = (n+cols-1)/cols;
+	sep = ((cols == 16) ? "  " : " ");
+
+	for (i=0; i<rows; i++) {
+		if (i % nr == 0) {
+			lth = 0;
+			for (k=i; k<i+nr; k++)
+				for (j=0; j < cols; j++)
+					list[lth++] = k+j*rows;
+			setnewunicodemap(list, lth);
+		}
+		printf("    ");
+		for(j=0; j < cols && i+j*rows < n; j++) {
+			putchar(BASE + (i%nr)*cols+j);
+			printf(sep);
+			if (j%8 == 7)
+				printf(sep);
+		}
+		putchar('\n');
+		if (i%8 == 7)
+			putchar('\n');
+		fflush(stdout);
+	}
+
+	leave(0);
+	exit(0);			/* make gcc happy */
 }

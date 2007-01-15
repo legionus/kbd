@@ -9,6 +9,7 @@
 #include "nls.h"
 #include "psf.h"
 #include "psffontop.h"
+#include "utf8.h"
 
 extern char *progname;
 
@@ -75,40 +76,25 @@ assemble_ucs2(char **inptr, int cnt) {
 /* called with cnt > 0 and **inptr not 0xff or 0xfe */
 static unsigned int
 assemble_utf8(char **inptr, int cnt) {
-	unsigned char *in;
-	unsigned int uc, uc2;
-	int need, bit, bad = 0;
+	int err;
+	unsigned long uc;
+	char *u;
 
-	in = (unsigned char *)(* inptr);
-	uc = *in++;
-	need = 0;
-	bit = 0x80;
-	while(uc & bit) {
-		need++;
-		bit >>= 1;
-	}
-	uc &= (bit-1);
-	if (cnt < need) {
-		char *u = _("%s: short utf8 unicode table\n");
-		fprintf(stderr, u, progname);
-		exit(EX_DATAERR);
-	}
-	if (need == 1)
-		bad = 1;
-	else if (need) while(--need) {
-		uc2 = *in++;
-		if ((uc2 & 0xc0) != 0x80) {
-			bad = 1;
+	uc = from_utf8(inptr, cnt, &err);
+	if (err) {
+		switch (err) {
+		case UTF8_SHORT:
+			u = _("%s: short utf8 unicode table\n");
 			break;
+		case UTF8_BAD:
+			u = _("%s: bad utf8\n");
+			break;
+		default:
+			u = _("%s: unknown utf8 error\n");
 		}
-		uc = ((uc << 6) | (uc2 & 0x3f));
-	}
-	if (bad) {
-		char *u = _("%s: bad utf8\n");
 		fprintf(stderr, u, progname);
 		exit(EX_DATAERR);
 	}
-	*inptr = in;
 	return uc;
 }
 

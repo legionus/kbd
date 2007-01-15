@@ -17,3 +17,13 @@ extern int putfont(int fd, char *buf, int count, int width, int height);
  * (in the ((WIDTH+7)/8)*32*COUNT bytes of BUF).
  */
 extern int font_charheight(char *buf, int count, int width);
+
+/*
+ * Find the size of the kernel font.
+ */
+extern int getfontsize(int fd);
+
+/*
+ * Restore font (doesn't work).
+ */
+extern int restorefont(int fd);
