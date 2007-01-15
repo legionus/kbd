@@ -458,7 +458,9 @@ keycode	 98 = KP_Divide	       KP_Divide	KP_Divide	 KP_Divide \
 	      KP_Divide	       Hex_B		KP_Divide	 Hex_B	     \
 	      KP_Divide	       KP_Divide	KP_Divide	 KP_Divide
 
-keycode	 99 = Control_backslash	 # 99=Print-Screen
+keycode	 99 = VoidSymbol	 # 99=Print-Screen
+	control keycode  99 = Control_backslash
+	alt     keycode  99 = Control_backslash
 keycode 100 = AltGr
 keycode 101 = Break #	101=Control-Pause
 string F102 = "\033[7$"

@@ -220,6 +220,24 @@ instead of K - bye bye to your system.)
 
 will disable it (if the kernel was compiled with CONFIG_MAGIC_SYSRQ).
 <P>
+<H2><A NAME="ss8.7">8.7 Problems</A>
+</H2>
+
+<P>A good keyboard accurately reports multiple key presses.
+Especially for people using a keyboard as Braille input device,
+where they have to be able to press up to six keys simultaneously,
+this is important. Many modern keyboards fail here due to sloppy
+design and testing - they misreport or fail in other ways when
+four or more keys are pressed simultaneously, sometimes already
+when two non-modifier keys are pressed simultaneously.
+This affects Linux users a bit: the SysRq key is not a modifier key,
+and people report problems using Alt-SysRq-<I>X</I> for various
+letters or digits <I>X</I>.
+<P>Long ago a similar problem (`ghosting') was caused by the design
+of the scan matrix: when three keys were pressed a fourth was
+also seen. That problem was solved by the use of diodes.
+Today it is the interface logic that is deficient.
+<P>
 <HR>
 <A HREF="kbd.FAQ-9.html">Next</A>
 <A HREF="kbd.FAQ-7.html">Previous</A>

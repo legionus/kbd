@@ -89,7 +89,7 @@ option.
 .SH "CONSOLE MAPS"
 Several mappings are involved in the path from user program
 output to console display. If the console is in utf8 mode (see
-.BR start_unicode (1))
+.BR unicode_start (1))
 then the kernel expects that user program output is coded as UTF-8 (see
 .BR utf-8 (7)),
 and converts that to Unicode (ucs2).
@@ -223,7 +223,7 @@ if the \-N option was given for some number N)
 perhaps with suitable extension (like .psf).
 .SH "SEE ALSO"
 .BR psfaddtable (1),
-.BR start_unicode (1),
+.BR unicode_start (1),
 .BR loadunimap (8),
 .BR utf-8 (7),
 .BR mapscrn (8)

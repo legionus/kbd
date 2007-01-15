@@ -6,10 +6,11 @@
  * Note: this functionality will probably go away and become
  * part of init. For the time being, be very careful when
  * you use this - if you have this in /etc/rc.local you should
- * start getty, not open, or anybody will have a root shell
+ * start getty, not openvt, or anybody will have a root shell
  * with a single keystroke.
  */
 #include <signal.h>
+#include <errno.h>
 #include <linux/kd.h>
 
 void
@@ -22,6 +23,8 @@ main(){
     int fd;
 
     fd = open("/dev/tty0", 0);
+    if (fd < 0 && errno == ENOENT)
+      fd = open("/dev/vc/0", 0);
     if (fd < 0)
       fd = 0;
     signal(SIGHUP, sighup);

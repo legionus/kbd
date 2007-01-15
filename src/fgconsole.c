@@ -2,6 +2,7 @@
  * fgconsole.c - aeb - 960123 - Print foreground console
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #include <linux/vt.h>
 #include "getfd.h"

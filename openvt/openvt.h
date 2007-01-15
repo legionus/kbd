@@ -34,6 +34,7 @@ int getfd(void);
  */
 #ifdef __linux__
 #define VTNAME "/dev/tty%d"
+#define VTNAME2 "/dev/vc/%d"
 #endif
 
 #ifdef ESIX_5_3_2_D

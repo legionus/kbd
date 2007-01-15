@@ -338,10 +338,18 @@ authenticate_user(int curvt) {
 	}
 	
 	/* get the current tty */
-	sprintf(filename,"/dev/tty%d", curvt);
+	/* try /dev/ttyN, then /dev/vc/N */
+	sprintf(filename, VTNAME, curvt);
 	if (stat(filename,&buf)) {
-		perror(filename);
-		exit(1);
+		int errsv = errno;
+		sprintf(filename, VTNAME2, curvt);
+		if (stat(filename,&buf)) {
+			/* give error message for first attempt */
+			sprintf(filename, VTNAME, curvt);
+			errno = errsv;
+			perror(filename);
+			exit(1);
+		}
 	}
 	console_dev=buf.st_dev;
 	console_ino=buf.st_ino;

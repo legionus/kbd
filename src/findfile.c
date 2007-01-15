@@ -72,6 +72,7 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	struct dirent *de;
 	char *ff, *fdir, *p, *q, **sp;
 	struct decompressor *dc;
+	int secondpass = 0;
 
 	ispipe = 0;
 
@@ -82,6 +83,11 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	} else
 		fdir = 0;		/* just to please gcc */
 
+	/* Scan the directory twice: first for files, then
+	   for subdirectories, so that we do never search
+	   a subdirectory when the directory itself already
+	   contains the file we are looking for. */
+ StartScan:
 	d = opendir(dir);
 	if (d == NULL)
 	    return NULL;
@@ -97,7 +103,7 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 
 	    okdir = (ff && strcmp(de->d_name, fdir) == 0);
 
-	    if (recdepth || okdir) {
+	    if ((secondpass && recdepth) || okdir) {
        		struct stat statbuf;
 		char *a;
 
@@ -114,6 +120,9 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 		}
 		free(a);
 	    }
+
+	    if (secondpass)
+		    continue;
 
 	    /* Should we be in a subdirectory? */
 	    if (ff)
@@ -143,6 +152,11 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 				return pipe_open(dc);
 		    }
 	    }
+	}
+	closedir(d);
+	if (recdepth > 0 && !secondpass) {
+		secondpass = 1;
+		goto StartScan;
 	}
 	return NULL;
 }

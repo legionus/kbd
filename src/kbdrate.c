@@ -47,7 +47,7 @@ beats rebuilding the kernel!
  				(Roman.Hodek@informatik.uni-erlangen.de):
  
   Reading/writing the Intel I/O ports via /dev/port is not the
-  English way... Such hardware dependant stuff can never work on
+  English way... Such hardware dependent stuff can never work on
   other architectures.
   
   Linux/68k has an new ioctl for setting the keyboard repeat rate
@@ -75,13 +75,19 @@ beats rebuilding the kernel!
 #include <sys/file.h>
 #include <sys/ioctl.h>
 
-#include "../defines.h"
-#ifdef HAVE_kd_h
-#include <linux/kd.h>
-#endif
 #ifdef __sparc__
 #include <asm/param.h>
 #include <asm/kbio.h>
+#endif
+
+#ifndef KDKBDREP
+/* usually defined in <linux/kd.h> */
+#define KDKBDREP        0x4B52  /* set keyboard delay/repeat rate;
+				 * actually used values are returned */
+struct kbd_repeat {
+        int delay;      /* in msec; <= 0: don't change */
+        int period;       /* in msec; <= 0: don't change */
+};
 #endif
 
 #include "nls.h"
@@ -98,13 +104,12 @@ static int valid_delays[] = { 250, 500, 750, 1000 };
 
 static int
 KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
-#ifdef KDKBDREP
 	/* This ioctl is defined in <linux/kd.h> but is not
 	   implemented anywhere - must be in some m68k patches. */
 	struct kbd_repeat kbdrep_s;
 
 	/* don't change, just test */
-	kbdrep_s.rate = -1;
+	kbdrep_s.period = -1;
 	kbdrep_s.delay = -1;
 	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
 		if (errno == EINVAL)
@@ -113,37 +118,38 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 		exit( 1 );
 	}
 
+#if 0
+	printf("old delay %d, period %d\n",
+	       kbdrep_s.delay, kbdrep_s.period);
+#endif
+
 	/* do the change */
-	if (rate == 0)				/* switch repeat off */
-		kbdrep_s.rate = 0;
+	if (rate == 0)				  /* switch repeat off */
+		kbdrep_s.period = 0;
 	else
-		kbdrep_s.rate  = 1000.0 / rate;	/* convert cps to msec */
-	if (kbdrep_s.rate < 1)
-		kbdrep_s.rate = 1;
+		kbdrep_s.period  = 1000.0 / rate; /* convert cps to msec */
+	if (kbdrep_s.period < 1)
+		kbdrep_s.period = 1;
 	kbdrep_s.delay = delay;
 	if (kbdrep_s.delay < 1)
 		kbdrep_s.delay = 1;
    
-	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
-		perror( "ioctl(KDKBDREP)" );
-		exit( 1 );
+	if (ioctl(0, KDKBDREP, &kbdrep_s)) {
+		perror("ioctl(KDKBDREP)");
+		exit(1);
 	}
 
 	/* report */
-	if (kbdrep_s.rate == 0)
+	if (kbdrep_s.period == 0)
 		rate = 0;
 	else
-		rate = 1000.0 / (double) kbdrep_s.rate;
+		rate = 1000.0 / (double) kbdrep_s.period;
 
 	if (!silent)
 		printf( _("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
 			rate, kbdrep_s.delay );
 
 	return 1;			/* success! */
-
-#else /* no KDKBDREP */
-	return 0;
-#endif /* KDKBDREP */
 }
 
 static int
@@ -158,10 +164,10 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 		exit( 1 );
 	}
 
-	kbdrate_s.rate = (int) (rate + 0.5);  /* round up */
+	kbdrate_s.period = (int) (rate + 0.5);  /* round up */
 	kbdrate_s.delay = delay * HZ / 1000;  /* convert ms to Hz */
-	if (kbdrate_s.rate > 50)
-		kbdrate_s.rate = 50;
+	if (kbdrate_s.period > 50)
+		kbdrate_s.period = 50;
 
 	if (ioctl( fd, KIOCSRATE, &kbdrate_s )) {
 		perror( "ioctl(KIOCSRATE)" );
@@ -171,7 +177,7 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 
 	if (!silent)
 		printf( "Typematic Rate set to %d cps (delay = %d ms)\n",
-			kbdrate_s.rate, kbdrate_s.delay * 1000 / HZ );
+			kbdrate_s.period, kbdrate_s.delay * 1000 / HZ );
 
 	return 1;
 #else /* no KIOCSRATE */

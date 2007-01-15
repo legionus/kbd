@@ -67,6 +67,22 @@ would make these Windows keys go to the previous or next virtual console,
 and let the Menu key create a fresh virtual console (in case you have
 something like <CODE>spawn_console</CODE> running).
 <P>
+<H2><A NAME="ss14.1">14.1 Funkeys</A>
+</H2>
+
+<P>Many modern keyboards have buttons or keys with labels like
+"Vol Up", "Eject" etc. that suggest actions rather than strings.
+Of course one can bind shell commands to them, but then they'll
+work only when you are at a shell prompt.
+Rick van Rein wrote a package funkey consisting of a kernel patch
+and a daemon. The kernel patch creates a new character device,
+and adds a new key type to indicate which keystrokes should be
+sent to this new character device. A daemon can now listen to
+the character device, somewhat like <CODE>gpm</CODE> listens to the
+mouse device, and perform the actions indicated in its config file.
+See 
+<A HREF="http://rick.vanrein.org/linux/funkey">rick.vanrein.org/linux/funkey</A>.
+<P>
 <HR>
 <A HREF="kbd.FAQ-15.html">Next</A>
 <A HREF="kbd.FAQ-13.html">Previous</A>

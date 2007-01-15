@@ -1,60 +1,7 @@
 /*
  * loadkeys.y
  *
- * Changes for 0.82:
- * Merged from version 0.81 of loadkeys.y and mktable.c - aeb@cwi.nl
- * Reason for change:
- *   The original version of mktable would use the current kernel
- *   for getting at the entries. However, this does not work if
- *   e.g. NR_FUNC in keyboard.h has changed. So, instead of getting
- *   the information from the current kernel, we must get it out of
- *   defkeymap.map, just like loadkeys. Thus, mktable is now an
- *   option of loadkeys.
- * (Other advantage: we first do the parsing, and then the key binding.
- *  No bindings are changed in case of a syntax error.)
- * Fix: contrary to the documentation in keytables.5 it was assumed
- * by default that the AltGr modifier had no effect. This assumption
- * has been removed.
- *
- * Changes for 0.83:
- * Added the intl_con patch by Eugene G. Crosser:
- * The modifier + in front of a keysym means that it is a letter,
- * and susceptible for change under CapsLock. For ASCII 'a'-'z'
- * and 'A'-'Z' no + is required (when given as a single entry).
- *
- * Changes for 0.84:
- * More compose key support. Default search path. Option -d.
- *
- * Change for 0.85:
- * Do not change compose key table when no definitions given.
- * Option -c to override this.
- *
- * Changes for 0.86:
- * Added a few synonyms. Comment may now contain non-ASCII symbols.
- *
- * Changes for 0.87:
- * Accept the "charset iso-8859-x" directive.
- *
- * Changes for 0.88:
- * Handle sparse keymaps and many strings. Accept "keymaps" directive.
- * Handle 8 modifiers. Handle Unicode.
- *
- * Change for 0.93:
- * Set K_UNICODE during the loading of keymaps requiring that.
- *
- * Change for 0.94:
- * Add alt_is_meta keyword:
- * Whenever some combination is defined as an ASCII symbol, and there
- * is a corresponding Alt keymap, define by default the corresponding
- * Alt combination as Meta_value.
- *
- * Change for 0.96:
- * Compose now accepts letter names.
- * Add strings_as_usual etc.
- * Add include directive.
- *
- * Change for 0.99:
- * Internationalized
+ * For history, see older versions.
  */
 
 %token EOL NUMBER LITERAL CHARSET KEYMAPS KEYCODE EQUALS
@@ -104,7 +51,6 @@ char *fp = func_buf;
 #define U(x) ((x) ^ 0xf000)
 
 #undef ECHO
-#include "analyze.c"
 
 static void addmap(int map, int explicit);
 static void addkey(int index, int table, int keycode);
@@ -128,6 +74,13 @@ int key_buf[MAX_NR_KEYMAPS];
 int mod;
 extern int unicode_used;
 int private_error_ct = 0;
+
+extern int rvalct;
+extern struct kbsentry kbs_buf;
+extern void lkfatal(const char *s);
+extern void lkfatal1(const char *s, const char *s2);
+
+#include "ksyms.h"
 %}
 
 %%
@@ -283,6 +236,8 @@ rvalue		: NUMBER
                         {$$=add_capslock($2);}
 		;
 %%			
+
+#include "analyze.c"
 
 void
 usage(void) {
@@ -484,6 +439,9 @@ FILE *find_incl_file_near_fn(char *s, char *fn) {
 	char *t, *te, *t1, *t2;
 	int len;
 
+	if (!fn)
+		return NULL;
+
 	t = xstrdup(fn);
 	te = rindex(t, '/');
 	if (te) {
@@ -512,13 +470,23 @@ FILE *find_standard_incl_file(char *s) {
 
 	/* If filename is a symlink, also look near its target. */
 	if (!f) {
-		char buf[1024];
+		char buf[1024], path[1024], *p;
 		int n;
 
 		n = readlink(filename, buf, sizeof(buf));
 		if (n > 0 && n < sizeof(buf)) {
 		     buf[n] = 0;
-		     f = find_incl_file_near_fn(s, buf);
+		     if (buf[0] == '/')
+			  f = find_incl_file_near_fn(s, buf);
+		     else if (strlen(filename) + n < sizeof(path)) {
+			  strcpy(path, filename);
+			  path[sizeof(path)-1] = 0;
+			  p = rindex(path, '/');
+			  if (p)
+			       p[1] = 0;
+			  strcat(path, buf);
+			  f = find_incl_file_near_fn(s, path);
+		     }
 		}
 	}
 
@@ -617,7 +585,7 @@ yywrap(void) {
 
 	line_nr = 1;
 	if (optd) {
-	        /* first read default map */
+	        /* first read default map - search starts in . */
 	        optd = 0;
 	        if((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
 		    fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
@@ -742,7 +710,12 @@ addfunc(struct kbsentry kbs) {
 		while (p < fp)
 		        *q++ = *p++;
 		fp -= sh;
+
+		for (i = kbs.kb_func + 1; i < MAX_NR_FUNC; i++)
+		     if (func_table[i])
+			  func_table[i] -= sh;
 	}
+
 	p = func_buf;                        /* find place for new def */
 	for (i = 0; i < kbs.kb_func; i++)
 	        if (func_table[i]) {
@@ -752,7 +725,8 @@ addfunc(struct kbsentry kbs) {
 	func_table[kbs.kb_func] = p;
         sh = strlen(kbs.kb_string) + 1;
 	if (fp + sh > func_buf + sizeof(func_buf)) {
-	        fprintf(stderr, _("%s: addfunc: func_buf overflow\n"), progname);
+	        fprintf(stderr,
+			_("%s: addfunc: func_buf overflow\n"), progname);
 		exit(1);
 	}
 	q = fp;
@@ -761,7 +735,7 @@ addfunc(struct kbsentry kbs) {
 	while (q > p)
 	        *--r = *--q;
 	strcpy(p, kbs.kb_string);
-	for (i++; i < MAX_NR_FUNC; i++)
+	for (i = kbs.kb_func + 1; i < MAX_NR_FUNC; i++)
 	        if (func_table[i])
 		        func_table[i] += sh;
 }

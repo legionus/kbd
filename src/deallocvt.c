@@ -48,18 +48,21 @@ main(int argc, char *argv[]) {
 		}
 	} else for (i = 1; i < argc; i++) {
 		num = atoi(argv[i]);
-		if (num == 0)
+		if (num == 0) {
 			fprintf(stderr,
 				_("%s: 0: illegal VT number\n"), progname);
-		else if (num == 1)
+			exit(1);
+		} else if (num == 1) {
 			fprintf(stderr,
 				_("%s: VT 1 is the console and cannot be deallocated\n"),
 				progname);
-		else if (ioctl(fd,VT_DISALLOCATE,num)) {
+			exit(1);
+		} else if (ioctl(fd,VT_DISALLOCATE,num)) {
 			perror("VT_DISALLOCATE");
 			fprintf(stderr,
 				_("%s: could not deallocate console %d\n"),
 				progname, num);
+			exit(1);
 		}
 	}
 	exit(0);

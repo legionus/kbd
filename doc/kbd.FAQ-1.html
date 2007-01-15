@@ -31,17 +31,17 @@ keyboard!programs related to
 console!programs related to
 -->
 <P>The following packages contain keyboard or console related programs.
-<P><CODE>kbd-1.04.tar.gz</CODE> contains <CODE>loadkeys</CODE>, <CODE>dumpkeys</CODE>, <CODE>showkey</CODE>,
-<CODE>setmetamode</CODE>, <CODE>setleds</CODE>, <CODE>setfont</CODE>, <CODE>showfont</CODE>, <CODE>mapscrn</CODE>,
-<CODE>kbd_mode</CODE>, <CODE>kbdrate</CODE>, <CODE>loadunimap</CODE>, <CODE>chvt</CODE>, <CODE>resizecons</CODE>,
-<CODE>deallocvt</CODE>, <CODE>getkeycodes</CODE>, <CODE>setkeycodes</CODE>.
+<P><CODE>kbd-1.06.tar.gz</CODE> contains <CODE>loadkeys</CODE>, <CODE>dumpkeys</CODE>, <CODE>showkey</CODE>,
+<CODE>setmetamode</CODE>, <CODE>setleds</CODE>, <CODE>setfont</CODE>, <CODE>showconsolefont</CODE>,
+<CODE>mapscrn</CODE>, <CODE>kbd_mode</CODE>, <CODE>kbdrate</CODE>, <CODE>loadunimap</CODE>, <CODE>chvt</CODE>,
+<CODE>resizecons</CODE>, <CODE>deallocvt</CODE>, <CODE>getkeycodes</CODE>, <CODE>setkeycodes</CODE>.
 It also contains <CODE>openvt</CODE>, formerly called <CODE>open</CODE>.
 <P>There exists a clone of the kbd package, namely <CODE>console-tools</CODE>,
 that contains more or less the same stuff. The latest version,
 <CODE>console-tools-0.3.3</CODE> is roughly up-to-date with <CODE>kbd-0.99</CODE>.
 <P><CODE>SVGATextMode-1.10</CODE> contains <CODE>SVGATextMode</CODE>, a program that
 obsoletes <CODE>resizecons</CODE>.
-<P><CODE>util-linux-2.10</CODE> contains <CODE>setterm</CODE>, <CODE>kbdrate</CODE>.
+<P><CODE>util-linux-2.11</CODE> contains <CODE>setterm</CODE>.
 <P><CODE>sh-utils-1.12</CODE> contains <CODE>stty</CODE>.
 <P>See also <CODE>dynamic-vc-1.2.tar.gz</CODE> and <CODE>consd-1.3.tgz</CODE> for
 programs that exploit the `Keyboard Signal' key. Very primitive
@@ -80,8 +80,9 @@ by the terminfo compiler <CODE>/usr/lib/terminfo/tic</CODE>, see tic(1).
 Their contents can be examined using the program <CODE>infocmp</CODE>,
 see infocmp(1).
 <P>The Linux console sequences are documented in console_codes(4).
-<P>
-<P>
+<P>The package <CODE>funkey</CODE> by Rick van Rein provides support
+for all these new keys modern keyboards have. See
+<A HREF="http://rick.vanrein.org/linux/funkey">rick.vanrein.org/linux/funkey</A>.
 <P>
 <HR>
 <A HREF="kbd.FAQ-2.html">Next</A>

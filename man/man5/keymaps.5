@@ -75,7 +75,7 @@ Octal is denoted by a leading zero and hexadecimal by the prefix
 Each of the
 .I keysyms
 represent keyboard actions, of which up to 256 can be bound to a single
-key. The actions available include outputting Latin1 character codes or
+key. The actions available include outputting character codes or
 character sequences, switching consoles or keymaps, booting the machine
 etc. (The complete list can be obtained from dumpkeys(1) by saying
 .BI " dumpkeys -l"
@@ -167,9 +167,10 @@ you should always define all the columns to have the same modifier
 symbol. There is a handy short-hand notation for this, see below.
 .LP
 .I keysyms
-can be given in decimal, octal, hexadecimal or symbolic notation.
+can be given in decimal, octal, hexadecimal, unicode or symbolic notation.
 The numeric notations use the same format as with
 .IR keynumber .
+Unicode notation is "U+" followed by four hexadecimal digits.
 The symbolic notation resembles that used by
 .BR xmodmap (1).
 Notable differences are the number symbols. The numeric

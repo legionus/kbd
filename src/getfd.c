@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -48,6 +49,10 @@ int getfd() {
       return fd;
 
     fd = open_a_console("/dev/tty0");
+    if (fd >= 0)
+      return fd;
+
+    fd = open_a_console("/dev/vc/0");
     if (fd >= 0)
       return fd;
 

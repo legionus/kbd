@@ -53,8 +53,18 @@ main(int argc, char **argv) {
 
     sprintf(infile, "/dev/vcsa%d", cons);
     fd = open(infile, O_RDONLY);
-    if (fd < 0 && cons == 0 && errno == ENOENT)
-      fd = open("/dev/vcsa", O_RDONLY);
+    if (fd < 0 && cons == 0 && errno == ENOENT) {
+      sprintf(infile, "/dev/vcsa");
+      fd = open(infile, O_RDONLY);
+    }
+    if (fd < 0 && errno == ENOENT) {
+      sprintf(infile, "/dev/vcs/a%d", cons);
+      fd = open(infile, O_RDONLY);
+    }
+    if (fd < 0 && cons == 0 && errno == ENOENT) {
+      sprintf(infile, "/dev/vcs/a");
+      fd = open(infile, O_RDONLY);
+    }
     if (fd < 0 || read(fd, header, 4) != 4)
       goto try_ioctl;
     rows = header[0];
@@ -84,16 +94,23 @@ main(int argc, char **argv) {
 try_ioctl:
     {
 	struct winsize win;
-	char consnam[20];
+	char consnam[20], devfsconsnam[20];
 	unsigned char *screenbuf;
 
 	sprintf(consnam, "/dev/tty%d", cons);
-	if((fd = open(consnam, O_RDONLY)) < 0) {
+	fd = open(consnam, O_RDONLY);
+	if (fd < 0 && errno == ENOENT) {
+	    sprintf(devfsconsnam, "/dev/vc/%d", cons);
+	    fd = open(devfsconsnam, O_RDONLY);
+	    if (fd < 0)
+		errno = ENOENT;
+	}
+	if (fd < 0) {
 	    perror(consnam);
 	    fd = 0;
 	}
 
-	if (ioctl(fd,TIOCGWINSZ,&win)) {
+	if (ioctl(fd, TIOCGWINSZ, &win)) {
 	    perror("TIOCGWINSZ");
 	    exit(1);
 	}

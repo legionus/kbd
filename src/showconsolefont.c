@@ -1,4 +1,5 @@
 /* showfont.c - aeb, 940207 - updated 2001-02-06 */
+/* renamed to showconsolefont.c to avoid clash with the X showfont */
 
 #include <stdio.h>
 #include <errno.h>
@@ -98,7 +99,7 @@ setnewunicodemap(int *list, int cnt) {
 static void
 usage(void) {
 	fprintf(stderr,
-		_("usage: showfont [-v|-V]\n"
+		_("usage: showconsolefont [-v|-V]\n"
 		  "(probably after loading a font with `setfont font')\n"));
 	exit(1);
 }

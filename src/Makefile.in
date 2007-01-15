@@ -11,10 +11,14 @@ endif
 
 # Maybe we want to use a qwertz keyboard before /usr is mounted
 ifndef LOADKEYS_BINDIR
-LOADKEYS_BINDIR = $(DESTDIR)/bin
+ifeq ($(DESTDIR), /usr)
+  LOADKEYS_BINDIR = /bin
+else
+  LOADKEYS_BINDIR = $(DESTDIR)/bin
+endif
 endif
 
-PROGS   = dumpkeys loadkeys showkey setfont showfont \
+PROGS   = dumpkeys loadkeys showkey setfont showconsolefont \
 	  setleds setmetamode kbd_mode chvt deallocvt \
 	  psfxtable kbdrate fgconsole
 
@@ -34,7 +38,7 @@ OLDPROGS= mapscrn loadunimap
 
 # Not installed by default
 MISC    = screendump setlogcons setvesablank spawn_console spawn_login \
-	  getunimap clrunimap outpsfheader
+	  getunimap clrunimap outpsfheader setpalette
 
 # Installed by default
 SHCMDS  = unicode_start unicode_stop
@@ -104,9 +108,9 @@ findfile.o loadkeys.o loadunimap.o mapscrn.o resizecons.o setfont.o: findfile.h
 catwithfont.o chvt.o clrunimap.o deallocvt.o dumpkeys.o fgconsole.o: getfd.h
 getfd.o getkeycodes.o getunimap.o kbd_mode.o loadkeys.o loadunimap.o: getfd.h
 mapscrn.o resizecons.o setfont.o setkeycodes.o setlogcons.o: getfd.h
-setvesablank.o showfont.o showkey.o: getfd.h
+setpalette.o setvesablank.o showconsolefont.o showkey.o: getfd.h
 
-kdfontop.o setfont.o showfont.o: kdfontop.h
+kdfontop.o setfont.o showconsolefont.o: kdfontop.h
 
 clrunimap.o kdmapop.o loadunimap.o mapscrn.o: kdmapop.h
 
@@ -118,7 +122,7 @@ catwithfont.o chvt.o clrunimap.o deallocvt.o dumpkeys.o fgconsole.o: nls.h
 findfile.o getfd.o getkeycodes.o getunimap.o kbd_mode.o kbdrate.o: nls.h
 kdfontop.o ksyms.o loadkeys.o loadunimap.o mapscrn.o psffontop.o: nls.h
 psfxtable.o resizecons.o screendump.o setfont.o setkeycodes.o setleds.o: nls.h
-setmetamode.o setvesablank.o showfont.o showkey.o xmalloc.o: nls.h
+setmetamode.o setvesablank.o showconsolefont.o showkey.o xmalloc.o: nls.h
 
 loadkeys.o loadunimap.o mapscrn.o resizecons.o setfont.o: paths.h
 
@@ -131,7 +135,7 @@ loadunimap.o psffontop.o utf8.o: utf8.h
 chvt.o deallocvt.o dumpkeys.o getkeycodes.o getunimap.o kbd_mode.o: version.h
 kbdrate.o loadkeys.o loadunimap.o mapscrn.o psfxtable.o resizecons.o: version.h
 screendump.o setfont.o setkeycodes.o setleds.o setmetamode.o: version.h
-showfont.o showkey.o totextmode.o: version.h
+showconsolefont.o showkey.o totextmode.o: version.h
 
 findfile.o kdfontop.o loadunimap.o psffontop.o psfxtable.o: xmalloc.h
 setfont.o xmalloc.o: xmalloc.h
@@ -142,7 +146,7 @@ setfont.o xmalloc.o: xmalloc.h
 
 dumpkeys loadkeys: ksyms.o xmalloc.o
 
-getunimap screendump showfont: xmalloc.o
+getunimap screendump showconsolefont: xmalloc.o
 
 psfxtable: psffontop.o xmalloc.o utf8.o
 
@@ -150,12 +154,12 @@ loadkeys mapscrn setfont resizecons loadunimap: findfile.o xmalloc.o
 
 chvt clrunimap deallocvt dumpkeys fgconsole getkeycodes getunimap: getfd.o
 kbd_mode loadkeys loadunimap mapscrn resizecons setkeycodes setfont: getfd.o
-showfont setlogcons setvesablank showkey: getfd.o
+setpalette showconsolefont setlogcons setvesablank showkey: getfd.o
 
 setfont: mapscrn.o loadunimap.o kdmapop.o kdfontop.o psffontop.o utf8.o
 
 loadunimap: utf8.o
 
-getunimap mapscrn clrunimap loadunimap showfont: kdmapop.o
+getunimap mapscrn clrunimap loadunimap showconsolefont: kdmapop.o
 
-catwithfont showfont: kdfontop.o
+catwithfont showconsolefont: kdfontop.o

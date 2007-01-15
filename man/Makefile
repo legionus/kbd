@@ -11,3 +11,8 @@ install:
 
 clean:
 	rm -f $(GEN1) $(GEN8)
+
+# Note: man?misc contains the man pages for non-installed
+# programs from ../src. Most of these are tiny test programs,
+# not very useful for anybody.
+# But if you decide to install some of those, then here are the man pages.

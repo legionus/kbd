@@ -5,6 +5,7 @@
  *
  */
 #include <signal.h>
+#include <errno.h>
 #include <linux/kd.h>
 
 void
@@ -17,6 +18,8 @@ main(){
     int fd;
 
     fd = open("/dev/tty0", 0);
+    if (fd < 0 && errno == ENOENT)
+      fd = open("/dev/vc/0", 0);
     if (fd < 0)
       fd = 0;
     signal(SIGHUP, sighup);

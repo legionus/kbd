@@ -133,7 +133,7 @@ static void
 sunsetleds(char *leds) {
 #ifdef KIOCSLED
     if (ioctl(sunkbdfd, KIOCSLED, leds)) {
-	perror("KIOCGSLED");
+	perror("KIOCSLED");
 	fprintf(stderr,
 	  _("Error reading current led setting from /dev/kbd.\n"));
 	exit(1);

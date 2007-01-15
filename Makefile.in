@@ -1,9 +1,10 @@
 # Note: BINDIR, DATA_DIR, and DESTDIR also occur in src/Makefile.
+DESTDIR = @prefix@
 DATA_DIR = @datadir@
 MAN_DIR = @mandir@
-BINDIR  = $(DESTDIR)/usr/bin
-MANDIR  = $(DESTDIR)$(MAN_DIR)
-DATADIR = $(DESTDIR)$(DATA_DIR)
+BINDIR  = $(DESTDIR)/bin
+MANDIR  = $(MAN_DIR)
+DATADIR = $(DATA_DIR)
 # If you change the names of any of the following subdirs,
 # also change paths.h.
 OLDKEYMAPDIR = keytables
@@ -17,20 +18,18 @@ KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/dvorak i386/fgGIod i386
 # Do not use GZIP - it is interpreted by gzip
 MYGZIP = gzip -f -9
 
-DIR	= kbd-1.06
-
 SUBDIRS = src openvt po
 
 .EXPORT_ALL_VARIABLES:
 
 all:
-	for i in $(SUBDIRS) data; do (cd $$i && $(MAKE) all); done
+	for i in $(SUBDIRS) data; do $(MAKE) -C $$i all || exit 1; done
 	@echo "Done. You can now do  make install"
 
 install:	install-progs install-data install-man
 
 install-progs:
-	for i in $(SUBDIRS); do (cd $$i && $(MAKE) install); done
+	for i in $(SUBDIRS); do $(MAKE) -C $$i install || exit 1; done
 
 install-man:
 	cd man && $(MAKE) install
@@ -38,16 +37,13 @@ install-man:
 install-data:
 	cd data && $(MAKE) install
 
-tar: reallyclean # analyze.c loadkeys.c
-	cd ..; 	tar cvfz $(DIR).tar.gz ./$(DIR)
-
 clean:
-	for i in $(SUBDIRS); do (cd $$i && $(MAKE) clean); done
+	for i in $(SUBDIRS); do $(MAKE) -C $$i clean || exit 1; done
 	cd man && $(MAKE) clean
 	cd data && $(MAKE) clean
 
 reallyclean distclean spotless: clean
 	find . -name "*~" -exec rm {} ";"
-	for i in $(SUBDIRS); do (cd $$i && $(MAKE) distclean); done
+	for i in $(SUBDIRS); do $(MAKE) -C $$i distclean || exit 1; done
 	rm -f Makefile src/Makefile make_include defines.h
 

@@ -265,7 +265,12 @@ main(int argc, char **argv) {
     for (i=0; i<16; i++)
       if (vtstat.v_state & (1<<i)) {
 	  sprintf(tty, "/dev/tty%d", i);
-	  if ((fd = open(tty, O_RDONLY)) > 0) {
+	  fd = open(tty, O_RDONLY);
+	  if (fd < 0 && errno == ENOENT) {
+	      sprintf(tty, "/dev/vc/%d", i);
+	      fd = open(tty, O_RDONLY);
+	  }
+	  if (fd >= 0) {
 	      if(ioctl(fd, TIOCSWINSZ, &winsize))
 		perror("TIOCSWINSZ");
 	      close(fd);

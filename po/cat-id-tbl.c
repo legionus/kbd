@@ -115,8 +115,8 @@ Usage:\n\
   {"%s: Bad end of range (0x%x)\n", 74},
   {"%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n", 75},
   {"\
-%s: Unicode range U+%x-U+%x not of the same length as font position range \
-0x%x-0x%x\n", 76},
+%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%\
+x-0x%x\n", 76},
   {"%s: trailing junk (%s) ignored\n", 77},
   {"Loading unicode map from file %s\n", 78},
   {"%s: %s: Warning: line too long\n", 79},
@@ -273,53 +273,55 @@ Normally, setleds influences the vt flag settings\n\
 With -L, setleds only sets the leds, and leaves the flags alone.\n\
 With -D, setleds sets both the flags and the default flags, so\n\
 that a subsequent reset will not change the flags.\n", 173},
-  {"Error reading current led setting. Maybe stdin is not a VT?\n", 174},
+  {"on ", 174},
+  {"off", 175},
+  {"Error reading current led setting. Maybe stdin is not a VT?\n", 176},
   {"\
-Error reading current flags setting. Maybe you are not on the console?\n", 175},
-  {"Error reading current led setting from /dev/kbd.\n", 176},
-  {"KIOCGLED unavailable?\n", 177},
-  {"KIOCSLED unavailable?\n", 178},
-  {"Error opening /dev/kbd.\n", 179},
-  {"Error resetting ledmode\n", 180},
-  {"Current default flags:  ", 181},
-  {"Current flags:          ", 182},
-  {"Current leds:           ", 183},
+Error reading current flags setting. Maybe you are not on the console?\n", 177},
+  {"Error reading current led setting from /dev/kbd.\n", 178},
+  {"KIOCGLED unavailable?\n", 179},
+  {"KIOCSLED unavailable?\n", 180},
+  {"Error opening /dev/kbd.\n", 181},
+  {"Error resetting ledmode\n", 182},
+  {"Current default flags:  ", 183},
+  {"Current flags:          ", 184},
+  {"Current leds:           ", 185},
   {"\
 unrecognized argument: _%s_\n\
-\n", 184},
-  {"Old default flags:    ", 185},
-  {"New default flags:    ", 186},
-  {"Old flags:            ", 187},
-  {"New flags:            ", 188},
-  {"Old leds:             ", 189},
-  {"New leds:             ", 190},
+\n", 186},
+  {"Old default flags:    ", 187},
+  {"New default flags:    ", 188},
+  {"Old flags:            ", 189},
+  {"New flags:            ", 190},
+  {"Old leds:             ", 191},
+  {"New leds:             ", 192},
   {"\
 Usage:\n\
 \tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n\
 Each vt has his own copy of this bit. Use\n\
 \tsetmetamode [arg] < /dev/ttyn\n\
 to change the settings of another vt.\n\
-The setting before and after the change are reported.\n", 191},
-  {"Meta key sets high order bit\n", 192},
-  {"Meta key gives Esc prefix\n", 193},
-  {"Strange mode for Meta key?\n", 194},
-  {"Error reading current setting. Maybe stdin is not a VT?\n", 195},
-  {"old state:    ", 196},
-  {"new state:    ", 197},
-  {"usage: %s\n", 198},
-  {"failed to restore original translation table\n", 199},
-  {"failed to restore original unimap\n", 200},
-  {"cannot change translation table\n", 201},
-  {"%s: out of memory?\n", 202},
+The setting before and after the change are reported.\n", 193},
+  {"Meta key sets high order bit\n", 194},
+  {"Meta key gives Esc prefix\n", 195},
+  {"Strange mode for Meta key?\n", 196},
+  {"Error reading current setting. Maybe stdin is not a VT?\n", 197},
+  {"old state:    ", 198},
+  {"new state:    ", 199},
+  {"usage: %s\n", 200},
+  {"failed to restore original translation table\n", 201},
+  {"failed to restore original unimap\n", 202},
+  {"cannot change translation table\n", 203},
+  {"%s: out of memory?\n", 204},
   {"\
-usage: showfont [-v|-V]\n\
-(probably after loading a font with `setfont font')\n", 203},
-  {"?UNKNOWN?", 204},
-  {"kb mode was %s\n", 205},
+usage: showconsolefont [-v|-V]\n\
+(probably after loading a font with `setfont font')\n", 205},
+  {"?UNKNOWN?", 206},
+  {"kb mode was %s\n", 207},
   {"\
 [ if you are trying this under X, it might not work\n\
-since the X server is also reading /dev/console ]\n", 206},
-  {"caught signal %d, cleaning up...\n", 207},
+since the X server is also reading /dev/console ]\n", 208},
+  {"caught signal %d, cleaning up...\n", 209},
   {"\
 showkey version %s\n\
 \n\
@@ -330,16 +332,16 @@ valid options are:\n\
 \t-h --help\tdisplay this help text\n\
 \t-a --ascii\tdisplay the decimal/octal/hex values of the keys\n\
 \t-s --scancodes\tdisplay only the raw scan-codes\n\
-\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n", 208},
+\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n", 210},
   {"\
 \n\
 Press any keys - Ctrl-D will terminate this program\n\
-\n", 209},
-  {"press any key (program terminates 10s after last keypress)...\n", 210},
-  {"keycode %3d %s\n", 211},
-  {"release", 212},
-  {"press", 213},
-  {"%s from %s\n", 214},
+\n", 211},
+  {"press any key (program terminates 10s after last keypress)...\n", 212},
+  {"keycode %3d %s\n", 213},
+  {"release", 214},
+  {"press", 215},
+  {"%s from %s\n", 216},
 };
 
-int _msg_tbl_length = 214;
+int _msg_tbl_length = 216;

@@ -14,8 +14,7 @@ INTL = /usr/share/gettext/intl
 FOREIGN=
 SHELL = /bin/sh
 
-prefix = $(DESTDIR)/usr
-exec_prefix = ${prefix}
+prefix = ${DESTDIR}
 datadir = $(prefix)/share
 localedir = $(datadir)/locale
 gnulocaledir = $(prefix)/share/locale
@@ -37,9 +36,9 @@ INCLUDES = -I.. -I$(INTL)
 COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
 
 # Enter here all .po files
-POFILES =  nl.po ru.po
+POFILES =  es.po nl.po ru.po
 # the same but with .gmo
-GMOFILES = nl.gmo ru.gmo
+GMOFILES = es.gmo nl.gmo ru.gmo
 
 CATALOGS = $(GMOFILES)
 CATOBJEXT = .gmo
