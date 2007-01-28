@@ -163,6 +163,10 @@ valid_type(int t) {
 	ke.kb_index = 0;
 	ke.kb_table = 0;
 	ke.kb_value = K(t, 0);
+#if defined(__mc68000__) || defined(__powerpc__)
+	/* Keycode 0 is a valid keycode, do not clobber it. */
+	ioctl(fd, KDGKBENT, (unsigned long)&ke);
+#endif
 	status = (ioctl(fd, KDSKBENT, (unsigned long)&ke) == 0);
 	return status;
 }
@@ -245,8 +249,13 @@ static void
 show_short_info(void) {
 	int i;
 
+#if !defined(__mc68000__) && !defined(__powerpc__)
 	printf(_("keycode range supported by kernel:           1 - %d\n"),
 	       nr_keys - 1);
+#else
+	printf(_("keycode range supported by kernel:           0 - %d\n"),
+	       NR_KEYS - 1);
+#endif
 	printf(_("max number of actions bindable to a key:         %d\n"),
 	       MAX_NR_KEYMAPS);
 	get_keymaps();
@@ -358,7 +367,11 @@ dump_keys(char table_shape, char numeric) {
 	for (j = 0; j < MAX_NR_KEYMAPS; j++) {
 	     int ja = (j | M_ALT);
 	     if (j != ja && keymap_index[j] >= 0 && keymap_index[ja] >= 0)
+#if !defined(__mc68000__) && !defined(__powerpc__)
 		  for (i = 1; i < nr_keys; i++) {
+#else
+		  for (i = 0; i < nr_keys; i++) {
+#endif
 		       int buf0, buf1, type;
 
 		       buf0 = get_bind(i, j);
@@ -384,7 +397,11 @@ dump_keys(char table_shape, char numeric) {
 not_alt_is_meta:
 
 no_shorthands:
+#if !defined(__mc68000__) && !defined(__powerpc__)
 	for (i = 1; i < nr_keys; i++) {
+#else
+	for (i = 0; i < nr_keys; i++) {
+#endif
 	    for (j = 0; j < keymapnr; j++)
 	      buf[j] = get_bind(i, good_keymap[j]);
 
