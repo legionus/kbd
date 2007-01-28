@@ -22,7 +22,7 @@ Using
 without any options will reset the repeat rate to 10.9 characters per second (cps)
 and the delay to 250 milliseconds (ms) for Intel- and M68K-based systems.
 These are the IBM defaults. On SPARC-based systems it will reset the repeat rate
-to 5 cps and the delay to 200 ms.
+to 20 cps and the delay to 200 ms.
 
 .SH OPTIONS
 .TP
@@ -69,3 +69,5 @@ When these ioctls fail an ioport interface as on i386 is assumed.
 .I /etc/rc.local
 .br
 .I /dev/port
+.br
+.I /dev/kbd

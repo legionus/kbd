@@ -77,7 +77,6 @@ beats rebuilding the kernel!
 
 #ifdef __sparc__
 #include <asm/param.h>
-#include <asm/kbio.h>
 #endif
 
 #ifndef KDKBDREP
@@ -106,8 +105,11 @@ static int valid_delays[] = { 250, 500, 750, 1000 };
 
 static int
 KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
+#if defined(KDKBDREP) && !defined(__sparc__)
 	/* This ioctl is defined in <linux/kd.h> but is not
-	   implemented anywhere - must be in some m68k patches. */
+	   implemented anywhere - must be in some m68k patches.
+	   We cannot blindly try unimplemented ioctls on sparc64 -
+	   the 32<->64bit transition layer does not like it. */
 	struct kbd_repeat kbdrep_s;
 
 	/* don't change, just test */
@@ -152,6 +154,9 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 			rate, kbdrep_s.delay );
 
 	return 1;			/* success! */
+#else /* no KDKBDREP or __sparc__ */
+	return 0;
+#endif /* KDKBDREP */
 }
 
 static int
@@ -196,7 +201,7 @@ sigalrmhandler( int sig ) {
 int
 main( int argc, char **argv ) {
 #ifdef __sparc__
-	double      rate = 5.0;      /* Default rate */
+	double      rate = 20.0;      /* Default rate */
 	int         delay = 200;     /* Default delay */
 #else
 	double      rate = 10.9;     /* Default rate */
@@ -246,8 +251,9 @@ main( int argc, char **argv ) {
 		return 0;
 
 
-	/* The ioport way */
+	/* The ioport way - will crash on sparc */
 
+#ifndef __sparc__
 	for (i = 0; i < RATE_COUNT; i++)
 		if (rate * 10 >= valid_rates[i]) {
 			value &= 0x60;
@@ -297,6 +303,8 @@ main( int argc, char **argv ) {
 		printf( _("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
 			valid_rates[value & 0x1f] / 10.0,
 			valid_delays[ (value & 0x60) >> 5 ] );
+
+#endif
 
 	return 0;
 }
