@@ -537,7 +537,7 @@ open_include(char *s) {
 
 	if (verbose)
 		/* start reading include file */
-		fprintf(stderr, _("switching to %s\n"), s);
+		fprintf(stdout, _("switching to %s\n"), s);
 
 	lk_push();
 
@@ -613,8 +613,8 @@ yywrap(void) {
 	*/
       gotf:
 	filename = xstrdup(pathname);
-	if (!quiet)
-		fprintf(stderr, _("Loading %s\n"), pathname);
+	if (!quiet && !optm)
+		fprintf(stdout, _("Loading %s\n"), pathname);
 	if (first_file) {
 		yyin = f;
 		first_file = 0;
