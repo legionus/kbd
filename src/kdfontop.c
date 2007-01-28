@@ -268,6 +268,7 @@ putfont(int fd, char *buf, int count, int width, int height) {
 	if (i == 0)
 		return 0;
 	if (errno != ENOSYS && errno != EINVAL) {
+		fprintf(stderr, "%s: putfont: %d,%dx%d:failed: %d\n", progname, count, width, height, i);
 		perror("putfont: PIO_FONTX");
 		return -1;
 	}
@@ -276,6 +277,7 @@ putfont(int fd, char *buf, int count, int width, int height) {
 	/* This will load precisely 256 chars, independent of count */
 	i = ioctl(fd, PIO_FONT, buf);
 	if (i) {
+		fprintf(stderr, "%s: putfont: %d,%dx%d:  failed: %d\n", progname, count, width, height, i);
 		perror("putfont: PIO_FONT");
 		return -1;
 	}
