@@ -143,8 +143,11 @@ font_charheight(char *buf, int count, int width) {
 	return h;
 }
 
-/* may be called with buf==NULL if we only want info */
-/* must not exit - we may have cleanup to do */
+/*
+ * May be called with buf==NULL if we only want info.
+ * May be called with width==NULL and height==NULL.
+ * Must not exit - we may have cleanup to do.
+ */
 int
 getfont(int fd, char *buf, int *count, int *width, int *height) {
 	struct consolefontdesc cfd;
@@ -194,6 +197,10 @@ getfont(int fd, char *buf, int *count, int *width, int *height) {
 		fprintf(stderr, _("bug: getfont called with count<256\n"));
 		return -1;
 	}
+	if (!buf) {
+	    fprintf(stderr, _("bug: getfont using GIO_FONT needs buf.\n"));
+	    return -1;
+	}
 	i = ioctl(fd, GIO_FONT, buf);
 	if (i) {
 		perror("getfont: GIO_FONT");
@@ -207,11 +214,11 @@ getfont(int fd, char *buf, int *count, int *width, int *height) {
 
 int
 getfontsize(int fd) {
-	int count, width, height;
+	int count;
 	int i;
 
-	count = width = height = 0;
-	i = getfont(fd, NULL, &count, &width, &height);
+	count = 0;
+	i = getfont(fd, NULL, &count, NULL, NULL);
 	return (i == 0) ? count : 256;
 }
 

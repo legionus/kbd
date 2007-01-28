@@ -101,8 +101,15 @@ setnewunicodemap(int *list, int cnt) {
 static void
 usage(void) {
 	fprintf(stderr,
-		_("usage: showconsolefont [-v|-V]\n"
-		  "(probably after loading a font with `setfont font')\n"));
+		_("usage: showconsolefont -V|--version\n"
+		  "       showconsolefont [-C tty] [-v] [-i]\n"
+		  "(probably after loading a font with `setfont font')\n"
+		  "\n"
+		  "Valid options are:\n"
+		  " -C tty   Device to read the font from. Default: current tty.\n"
+		  " -v       Be more verbose.\n"
+		  " -i       Don't print out the font table, just show\n"
+		  "          ROWSxCOLSxCOUNT and exit.\n"));
 	exit(1);
 }
 
@@ -110,7 +117,7 @@ int
 main (int argc, char **argv) {
 	int c, n, cols, rows, nr, i, j, k;
 	char *sep, *console = NULL;
-	int list[64], lth, verbose = 0;
+	int list[64], lth, info = 0, verbose = 0;
 
 	set_progname(argv[0]);
 
@@ -122,8 +129,11 @@ main (int argc, char **argv) {
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
 		print_version_and_exit();
 
-	while ((c = getopt(argc, argv, "vC:")) != EOF) {
+	while ((c = getopt(argc, argv, "ivC:")) != EOF) {
 		switch (c) {
+		case 'i':
+			info = 1;
+			break;
 		case 'v':
 			verbose = 1;
 			break;
@@ -135,8 +145,24 @@ main (int argc, char **argv) {
 		}
 	}
 
-	if (argc != 1)
+	if (optind != argc)
 		usage();
+
+        if (info) {
+	    nr = rows = cols = 0;
+	    n = getfont(fd, NULL, &nr, &rows, &cols);
+	    if (n != 0)
+	      leave(1);
+
+	    if (verbose) {
+	        printf("Character count: %d\n", nr);
+		printf("Font width     : %d\n", rows);
+		printf("Font height    : %d\n", cols);
+	    }
+	    else
+		printf("%dx%dx%d\n", rows, cols, nr);
+	    leave(0);
+	  }
 
 	fd = getfd(console);
 
