@@ -126,6 +126,7 @@ print_keysym(int code, char numeric) {
 	int t;
 	int v;
 	const char *p;
+	int plus;
 
 	printf(" ");
 	t = KTYP(code);
@@ -138,18 +139,20 @@ print_keysym(int code, char numeric) {
 			printf("U+%04x          ", code);
 		return;
 	}
+	plus = 0;
 	if (t == KT_LETTER) {
 		t = KT_LATIN;
 		printf("+");
+		plus++;
 	}
 	if (!numeric && t < syms_size && v < syms[t].size &&
 	    (p = syms[t].table[v])[0])
-		printf("%-16s", p);
+		printf("%-*s", 16 - plus, p);
 	else if (!numeric && t == KT_META && v < 128 && v < syms[0].size &&
 		 (p = syms[0].table[v])[0])
 		printf("Meta_%-11s", p);
 	else
-		printf("0x%04x          ", code);
+		printf("0x%04x         %s", code, plus ? "" : " ");
 }
 
 static char
