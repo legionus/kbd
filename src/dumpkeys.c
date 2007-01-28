@@ -113,10 +113,13 @@ get_bind(u_char index, u_char table) {
 	ke.kb_index = index;
 	ke.kb_table = table;
 	if (ioctl(fd, KDGKBENT, (unsigned long)&ke)) {
-		perror("KDGKBENT");
-		fprintf(stderr, _("KDGKBENT error at index %d in table %d\n"),
-			index, table);
-		exit(1);
+		if (index < 128) {
+			perror("KDGKBENT");
+			fprintf(stderr, _("KDGKBENT error at index %d in table %d\n"),
+				index, table);
+			exit(1);
+		} else
+			return -1;
 	}
 	return ke.kb_value;
 }
@@ -375,6 +378,8 @@ dump_keys(char table_shape, char numeric) {
 		       int buf0, buf1, type;
 
 		       buf0 = get_bind(i, j);
+		       if (buf0 == -1)
+			   break;
 		       type = KTYP(buf0);
 		       if ((type == KT_LATIN || type == KT_LETTER)
 			   && KVAL(buf0) < 128) {
@@ -404,6 +409,8 @@ no_shorthands:
 #endif
 	    for (j = 0; j < keymapnr; j++)
 	      buf[j] = get_bind(i, good_keymap[j]);
+	    if (buf[0] == -1)
+		break;
 
 	    if (table_shape == FULL_TABLE) {
 		printf("keycode %3d =", i);
