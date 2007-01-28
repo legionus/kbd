@@ -425,8 +425,10 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 			fprintf(stderr, _("When loading several fonts, all "
 					  "must be psf fonts - %s isn't\n"),
 				pathname);
+			fpclose(fpi);
 			exit(EX_DATAERR);
 		}
+		fpclose(fpi);		// avoid zombies, jw@suse.de (#88501)
 		bytewidth = (width+7) / 8;
 		height = fontbuflth / (bytewidth * fontsize);
 		if (verbose)
@@ -510,6 +512,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 	if(readpsffont(fpi, &inbuf, &inputlth, &fontbuf, &fontbuflth,
 		       &width, &fontsize, 0,
 		       no_u ? NULL : &uclistheads) == 0) {
+		fpclose(fpi);
 		/* we've got a psf font */
 		bytewidth = (width+7) / 8;
 		height = fontbuflth / (bytewidth * fontsize);
@@ -524,6 +527,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 #endif
 		return;
 	}
+	fpclose(fpi);		// avoid zombies, jw@suse.de (#88501)
 
 	/* instructions to combine fonts? */
 	{ char *combineheader = "# combine partial fonts\n";
