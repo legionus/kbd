@@ -90,6 +90,8 @@ struct kbd_repeat {
 };
 #endif
 
+#include <signal.h>
+
 #include "nls.h"
 #include "version.h"
 
@@ -185,6 +187,12 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 #endif /* KIOCSRATE */
 }
 
+void
+sigalrmhandler( int sig ) {
+	fprintf( stderr, "kbdrate: Failed waiting for kbd controller!\n" );
+	raise( SIGINT );
+}
+
 int
 main( int argc, char **argv ) {
 #ifdef __sparc__
@@ -260,6 +268,9 @@ main( int argc, char **argv ) {
 		exit( 1 );
 	}
 
+	signal( SIGALRM, sigalrmhandler );
+	alarm( 3 );
+
 	do {
 		lseek( fd, 0x64, 0 );
 		read( fd, &data, 1 );
@@ -273,6 +284,8 @@ main( int argc, char **argv ) {
 		lseek( fd, 0x64, 0 );
 		read( fd, &data, 1 );
 	} while ((data & 2) == 2 );  /* wait */
+
+	alarm( 0 );
 
 	lseek( fd, 0x60, 0 );
 	sleep( 1 );
