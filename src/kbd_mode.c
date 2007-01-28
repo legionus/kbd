@@ -6,6 +6,7 @@
  */
 #include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include <linux/kd.h>
@@ -15,13 +16,14 @@
 
 static void
 usage(void){
-    fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s]\n"));
+    fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"));
     exit(1);
 }
 
 int
 main(int argc, char *argv[]){
-        int fd, mode;
+        int fd, mode, c, n = 0;
+        char *console = NULL;
 
 	set_progname(argv[0]);
 
@@ -32,9 +34,45 @@ main(int argc, char *argv[]){
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 	    print_version_and_exit();
 
-	fd = getfd(NULL);
+	while ((c = getopt(argc, argv, "auskC:")) != EOF) {
+		switch (c) {
+		case 'a':
+                        if (n > 0)
+                            usage ();
+			mode = K_XLATE;
+			n++;
+			break;
+		case 'u':
+                        if (n > 0)
+                            usage ();
+			mode = K_UNICODE;
+			n++;
+			break;
+		case 's':
+                        if (n > 0)
+                            usage ();
+			mode = K_RAW;
+			n++;
+			break;
+		case 'k':
+                        if (n > 0)
+                            usage ();
+			mode = K_MEDIUMRAW;
+			n++;
+			break;
+		case 'C':
+                        if (!optarg || !optarg[0])
+			    usage ();
+			console = optarg;
+			break;
+		default:
+			usage();
+		}
+	}
 
-	if (argc == 1) {
+	fd = getfd(console);
+
+	if (n == 0) {
 	    /* report mode */
 	    if (ioctl(fd, KDGKBMODE, &mode)) {
 		perror("KDGKBMODE");
@@ -57,20 +95,9 @@ main(int argc, char *argv[]){
 	      default:
 		printf(_("The keyboard is in some unknown mode\n"));
 	    }
-	    exit(1);
+	    exit(0);
 	}
-	if (argc != 2)
-	  usage();
-	if (!strcmp(argv[1], "-a"))
-	  mode = K_XLATE;
-	else if (!strcmp(argv[1], "-u"))
-	  mode = K_UNICODE;
-	else if (!strcmp(argv[1], "-s"))
-	  mode = K_RAW;
-	else if (!strcmp(argv[1], "-k"))
-	  mode = K_MEDIUMRAW;
-	else
-	  usage();
+
 	if (ioctl(fd, KDSKBMODE, mode)) {
 		perror("KDSKBMODE");
 		fprintf(stderr, _("%s: error setting keyboard mode\n"), progname);
