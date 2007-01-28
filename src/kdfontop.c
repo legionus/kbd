@@ -170,6 +170,8 @@ getfont(int fd, char *buf, int *count, int *width, int *height) {
 		return -1;
 	}
 
+	/* The other methods do not support width != 8 */
+	if (width) *width = 8;
 	/* Second attempt: GIO_FONTX */
 	cfd.charcount = *count;
 	cfd.charheight = 0;
@@ -179,8 +181,6 @@ getfont(int fd, char *buf, int *count, int *width, int *height) {
 		*count = cfd.charcount;
 		if (height)
 			*height = cfd.charheight;
-		if (width)
-			*width = 8;
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
@@ -201,8 +201,6 @@ getfont(int fd, char *buf, int *count, int *width, int *height) {
 	*count = 256;
 	if (height)
 		*height = 0;	/* undefined, at most 32 */
-	if (width)
-		*width = 8;
 	return 0;
 }
 

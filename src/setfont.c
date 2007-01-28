@@ -48,6 +48,7 @@ extern void disactivatemap(int fd);
 
 int verbose = 0;
 int force = 0;
+int debug = 0;
 
 /* search for the font in these directories (with trailing /) */
 char *fontdirpath[] = { "", DATADIR "/" FONTDIR "/", 0 };
@@ -331,15 +332,28 @@ do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize) {
 	up = xmalloc(maxct * sizeof(struct unipair));
 	for (i = 0; i < fontsize; i++) {
 		ul = uclistheads[i].next;
+		if (debug) printf ("char %03x:", i);
 		while(ul) {
 			us = ul->seq;
 			if (us && ! us->next) {
 				up[ct].unicode = us->uc;
 				up[ct].fontpos = i;
 				ct++;
+				if (debug) printf (" %04x", us->uc);
 			}
+			else
+				if (debug) {
+					printf (" seq: <");
+					while (us) {
+						printf (" %04x", us->uc);
+						us = us->next;
+					}
+					printf (" >");
+				}
 			ul = ul->next;
+			if (debug) printf (",");
 		}
+		if (debug) printf ("\n");
 	}
 	if (ct != maxct) {
 		char *u = _("%s: bug in do_loadtable\n");

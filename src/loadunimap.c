@@ -35,6 +35,7 @@ static char *unisuffixes[] = { "", ".uni", 0 };
 #include "version.h"
 int verbose = 0;
 int force = 0;
+int debug = 0;
 
 static void
 usage(void) {
@@ -345,13 +346,29 @@ appendunicodemap(int fd, FILE *fp, int fontsize, int utf8) {
 	descr = getunicodemap(fd);
 	list = descr.entries;
 
+		
 	for(i=0; i<fontsize; i++) {
-		for(j=0; j<descr.entry_ct; j++)
+#if 0
+		/* More than one mapping is not a sequence! */
+		int no = 0;
+		for(j=0; j<descr.entry_ct; j++) 
 			if (list[j].fontpos == i)
+				no++;
+		if (no > 1)
+			appendseparator(fp, 1, utf8);
+#endif		
+		if (debug) printf ("\nchar %03x: ", i);
+		for(j=0; j<descr.entry_ct; j++)
+			if (list[j].fontpos == i) {
+				if (debug)
+					printf ("%04x ", list[j].unicode);
 				appendunicode(fp, list[j].unicode, utf8);
+			}
 		appendseparator(fp, 0, utf8);
 	}
 
+
+	if (debug) printf ("\n");
 	if (verbose)
 		printf(_("Appended Unicode map\n"));
 }

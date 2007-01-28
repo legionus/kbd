@@ -225,6 +225,8 @@ read_itable(FILE *itab, int fontlen, struct unicode_list **uclistheadsp) {
 	}
 }
 
+int debug = 0;
+
 int
 main(int argc, char **argv) {
 	char *ifname, *ofname, *itname, *otname;

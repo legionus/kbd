@@ -1,3 +1,5 @@
+/* psf.h */
+
 /*
  * Format of a psf font file:
  *
@@ -29,6 +31,9 @@
  * Some font positions may be described by sequences only,
  * namely when there is no precomposed Unicode value for the glyph.
  */
+
+#ifndef _PSF_H
+#define _PSF_H
 
 
 #define PSF1_MAGIC0	0x36
@@ -91,3 +96,5 @@ struct psf2_header {
 #define PSF2_MAGIC_OK(x)	((x)[0]==PSF2_MAGIC0 && (x)[1]==PSF2_MAGIC1 \
 				&& (x)[2]==PSF2_MAGIC2 && (x)[3]==PSF2_MAGIC3)
 
+
+#endif	/* _PSF_H */

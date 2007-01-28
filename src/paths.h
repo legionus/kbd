@@ -28,3 +28,4 @@ extern char pathname[];
 extern void fpclose(FILE *fp);
 
 extern int verbose;
+extern int debug;

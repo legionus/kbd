@@ -54,7 +54,8 @@ SHCMDS  = unicode_start unicode_stop
 
 WARN	= -Wall -Wmissing-prototypes -Wstrict-prototypes
 DEFS	= -DDATADIR=\"$(DATA_DIR)\"
-CFLAGS  = -O2
+RPM_OPT_FLAGS = -O2 -Wall
+CFLAGS  = $(RPM_OPT_FLAGS)
 LDFLAGS = -s
 
 CC	= gcc

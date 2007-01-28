@@ -32,6 +32,7 @@ static char *mapsuffixes[] = { "", ".trans", "_to_uni.trans", 0 };
 #include "version.h"
 
 int verbose = 0;
+int debug = 0;
 
 int
 main(int argc, char *argv[]) {
