@@ -1,6 +1,7 @@
 /* outpsfheader - auxiliary fn - not to be installed */
 /* assumes a little-endian machine */
 #include <stdio.h>
+#include <stdlib.h>	/* exit */
 #include "psf.h"
 
 void

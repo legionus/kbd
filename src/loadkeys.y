@@ -20,6 +20,7 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
+#include <unistd.h>		/* readlink */
 #include "paths.h"
 #include "getfd.h"
 #include "findfile.h"
@@ -65,9 +66,9 @@ static void do_constant_key (int, u_short);
 static void loadkeys(char *console, int *warned);
 static void mktable(void);
 static void strings_as_usual(void);
-static void keypad_as_usual(char *keyboard);
-static void function_keys_as_usual(char *keyboard);
-static void consoles_as_usual(char *keyboard);
+/* static void keypad_as_usual(char *keyboard); */
+/* static void function_keys_as_usual(char *keyboard); */
+/* static void consoles_as_usual(char *keyboard); */
 static void compose_as_usual(char *charset);
 static void lkfatal0(const char *, int);
 extern int set_charset(const char *charset);
@@ -559,7 +560,6 @@ FILE *find_incl_file(char *s) {
 
 void
 open_include(char *s) {
-	char *t, *te;
 
 	if (verbose)
 		/* start reading include file */
@@ -713,7 +713,6 @@ addkey(int index, int table, int keycode) {
 	     int alttable = table | M_ALT;
 	     int type = KTYP(keycode);
 	     int val = KVAL(keycode);
-	     char *p;
 	     if (alttable != table && defining[alttable] &&
 		 (!keymap_was_set[alttable] ||
 		  !(keymap_was_set[alttable])[index]) &&
@@ -1021,7 +1020,7 @@ do_constant (void) {
 static void
 loadkeys (char *console, int *warned) {
         int fd;
-        int keyct, funcct, diacct;
+        int keyct, funcct, diacct = 0;
 
 	fd = getfd(console);
 	keyct = defkeys(fd, console, &warned);
@@ -1156,7 +1155,6 @@ static void
 mktable () {
 	int i, imax, j;
 
-	struct kbsentry kbs;
 	u_char *p;
 	int maxfunc;
 	unsigned int keymap_count = 0;

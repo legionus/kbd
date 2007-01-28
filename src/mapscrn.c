@@ -126,7 +126,7 @@ readnewmapfromfile(int fd, char *mfil, char *buf, unsigned short *ubuf) {
 	FILE *fp;
 	struct stat stbuf;
 	int u = 0;
-	int lineno;
+	int lineno = 0;
 
 	if ((fp = findfile(mfil, mapdirpath, mapsuffixes)) == NULL) {
 	        fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
@@ -215,18 +215,18 @@ ctoi(unsigned char *s) {
 
 	if ((strncmp(s,"0x",2) == 0) && 
 	    (strspn(s+2,"0123456789abcdefABCDEF") == strlen(s+2)))
-		sscanf(s+2,"%x",&i);
+		(void)sscanf(s+2,"%x",&i);
 
 	else if ((*s == '0') &&
 		 (strspn(s,"01234567") == strlen(s)))
-		sscanf(s,"%o",&i);
+		(void)sscanf(s,"%o",&i);
 
 	else if (strspn(s,"0123456789") == strlen(s)) 
-		sscanf(s,"%d",&i);
+		(void)sscanf(s,"%d",&i);
 
 	else if ((strncmp(s,"U+",2) == 0) && strlen(s) == 6 &&
 		 (strspn(s+2,"0123456789abcdefABCDEF") == 4))
-		sscanf(s+2,"%x",&i);
+		(void)sscanf(s+2,"%x",&i);
 
 	else if ((strlen(s) == 3) && (s[0] == '\'') && (s[2] == '\''))
 		i=s[1];

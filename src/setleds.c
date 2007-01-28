@@ -149,7 +149,7 @@ main(int argc, char **argv) {
     int optL = 0, optD = 0, optF = 0, verbose = 0;
     char oleds, nleds, oflags, nflags, odefflags, ndefflags;
     char nval, ndef, sign;
-    char osunleds, nsunleds, nsunval, nsundef;
+    char osunleds = 0, nsunleds, nsunval, nsundef;
     char *ap;
     struct led *lp;
 

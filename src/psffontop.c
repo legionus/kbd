@@ -465,7 +465,7 @@ writepsffont(FILE *ofil, char *fontbuf, int width, int height, int fontlen,
 	writepsffontheader(ofil, width, height, fontlen, &psftype, flags);
 	utf8 = (psftype == 2);
 
-	fwrite(fontbuf, charsize, fontlen, ofil);
+	(void)fwrite(fontbuf, charsize, fontlen, ofil);
 	/* unimaps: -1 => do nothing: caller will append map */
 	if (uclistheads != NULL && uclistheads != (struct unicode_list*)-1) {
 		struct unicode_list *ul;

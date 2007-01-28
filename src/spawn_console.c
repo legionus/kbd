@@ -12,6 +12,10 @@
 #include <signal.h>
 #include <errno.h>
 #include <linux/kd.h>
+#include <stdlib.h>	/* system */
+#include <fcntl.h>	/* open */
+#include <sys/ioctl.h>	/* ioctl */
+#include <unistd.h>	/* sleep */
 
 void
 sighup(){
