@@ -189,6 +189,19 @@ main(int argc, char *argv[]) {
 
 	fd = getfd(console);
 
+	int kd_mode = -1;
+	if (!ioctl(fd, KDGETMODE, &kd_mode) && (kd_mode == KD_GRAPHICS))
+	  {
+	    /*
+	     * PIO_FONT will fail on a console which is in foreground and in KD_GRAPHICS mode.
+	     * 2005-03-03, jw@suse.de.
+	     */
+	    if (verbose)
+	      printf("setfont: graphics console %s skipped\n", console?console:"");
+	    close(fd);
+	    return 0;
+	  }
+
 	if (!ifilct && !mfil && !ufil &&
 	    !Ofil && !ofil && !omfil && !oufil && !restore)
 	  /* reset to some default */

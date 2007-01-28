@@ -62,7 +62,7 @@ static void killkey(int index, int table);
 static void compose(int diacr, int base, int res);
 static void do_constant(void);
 static void do_constant_key (int, u_short);
-static void loadkeys(void);
+static void loadkeys(char *console, int *warned);
 static void mktable(void);
 static void strings_as_usual(void);
 static void keypad_as_usual(char *keyboard);
@@ -250,6 +250,8 @@ usage(void) {
 "valid options are:\n"
 "\n"
 "	-c --clearcompose clear kernel compose table\n"
+"	-C <cons1,cons2,...>\n"
+"	--console=<...>   Indicate console device(s) to be used.\n"
 "	-d --default	  load \"" DEFMAP "\"\n"
 "	-h --help	  display this help text\n"
 "	-m --mktable      output a \"defkeymap.c\" to stdout\n"
@@ -269,9 +271,10 @@ int nocompose = 0;
 
 int
 main(unsigned int argc, char *argv[]) {
-	const char *short_opts = "cdhmsuqvV";
+	const char *short_opts = "cC:dhmsuqvV";
 	const struct option long_opts[] = {
 		{ "clearcompose", no_argument, NULL, 'c' },
+		{ "console",    1, NULL, 'C' },
 	        { "default",    no_argument, NULL, 'd' },
 		{ "help",	no_argument, NULL, 'h' },
 		{ "mktable",    no_argument, NULL, 'm' },
@@ -283,6 +286,8 @@ main(unsigned int argc, char *argv[]) {
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
+	char *console = NULL;
+        int warned = 0;
 
 	set_progname(argv[0]);
 
@@ -291,6 +296,9 @@ main(unsigned int argc, char *argv[]) {
 		switch (c) {
 		        case 'c':
 		                nocompose = 1;
+				break;
+		        case 'C':
+				console = optarg;
 				break;
 		        case 'd':
 		    		optd = 1;
@@ -330,8 +338,26 @@ main(unsigned int argc, char *argv[]) {
 	do_constant();
 	if(optm)
 	        mktable();
+	else if (console)
+	  {
+	    char *buf = strdup(console);	/* make writable */
+	    char *e, *s = buf;
+	    while (*s)
+	      {
+	        while (      *s == ' ' || *s == '\t' || *s == ',') s++;
+		e = s;
+		while (*e && *e != ' ' && *e != '\t' && *e != ',') e++;
+		char c = *e;
+		*e = '\0';
+		if (verbose) printf("%s\n", s);
+	        loadkeys(s, &warned);
+		*e = c;
+		s = e;
+	      }
+	    free(buf);
+	  }
 	else
-	        loadkeys();
+	  loadkeys(NULL, &warned);
 	exit(0);
 }
 
@@ -760,7 +786,7 @@ compose(int diacr, int base, int res) {
 }
 
 static int
-defkeys(int fd) {
+defkeys(int fd, char *cons, int *warned) {
 	struct kbentry ke;
 	int ct = 0;
 	int i,j,fail;
@@ -845,9 +871,21 @@ defkeys(int fd) {
 		  fprintf(stderr, _("%s: failed to restore keyboard mode\n"),
 			  progname);
 	     }
-	     fprintf(stderr, _("%s: warning: this map uses Unicode symbols\n"
-		             "    (perhaps you want to do `kbd_mode -u'?)\n"),
-		     progname);
+
+	     if (!warned++)
+	       {
+		     int kd_mode = -1;
+		     if (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS))
+		       {
+			 /*
+			  * It is okay for the graphics console to have a non-unicode mode.
+			  * only talk about other consoles
+			  */
+			 fprintf(stderr, _("%s: warning: this map uses Unicode symbols, %s mode=%d\n"
+				     "    (perhaps you want to do `kbd_mode -u'?)\n"),
+			     progname, cons ? cons : "NULL", kd_mode);
+		       }
+	       }
 	}
 	return ct;
 }
@@ -981,12 +1019,12 @@ do_constant (void) {
 }
 
 static void
-loadkeys (void) {
+loadkeys (char *console, int *warned) {
         int fd;
         int keyct, funcct, diacct;
 
-	fd = getfd(NULL);
-	keyct = defkeys(fd);
+	fd = getfd(console);
+	keyct = defkeys(fd, console, &warned);
 	funcct = deffuncs(fd);
 	if (accent_table_size > 0 || nocompose)
 		diacct = defdiacs(fd);

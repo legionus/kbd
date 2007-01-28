@@ -7,6 +7,10 @@ loadkeys \- load keyboard translation tables
 [
 .I -c --clearcompose
 ] [
+.I -C '<cons1 cons2 ...>'
+|
+.I --console=cons1,cons2,...
+] [
 .I -d --default
 ] [
 .I -h --help
@@ -28,6 +32,11 @@ The program
 reads the file or files specified by
 .IR filename... .
 Its main purpose is to load the kernel keymap for the console.
+The affected console device or devices can be specified using the 
+.I -C 
+(or
+.I --console
+) option. This option supports a list of device names 
 .SH "RESET TO DEFAULT"
 If the
 .I -d
