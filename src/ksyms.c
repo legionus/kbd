@@ -1497,6 +1497,20 @@ static const char *sticky_syms[] = {
 	"SCtrlR"
 };
 
+/* Keysyms whose KTYP is KT_BRL. */
+
+static const char *brl_syms[] = {
+	"Brl_blank",
+	"Brl_dot1",
+	"Brl_dot2",
+	"Brl_dot3",
+	"Brl_dot4",
+	"Brl_dot5",
+	"Brl_dot6",
+	"Brl_dot7",
+	"Brl_dot8"
+};
+
 #define E(x) { x, sizeof(x) / sizeof(x[0]) }
 
 syms_entry syms[] = {
@@ -1512,7 +1526,9 @@ syms_entry syms[] = {
 	E(ascii_syms),		/* KT_ASCII */
 	E(lock_syms),		/* KT_LOCK */
 	{ 0, 0 },		/* KT_LETTER */
-	E(sticky_syms)		/* KT_SLOCK */
+	E(sticky_syms),		/* KT_SLOCK */
+	{ 0, 0 },		/*  */
+	E(brl_syms)		/* KT_BRL */
 };
 
 #undef E
