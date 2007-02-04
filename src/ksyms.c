@@ -1796,7 +1796,7 @@ ksymtocode(const char *s) {
 
 	fprintf(stderr, _("unknown keysym '%s'\n"), s);
 
-	return -1;
+	return CODE_FOR_UNKNOWN_KSYM;
 }
 
 int

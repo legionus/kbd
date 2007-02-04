@@ -22,6 +22,9 @@ extern struct syn synonyms[];
 extern const int syms_size;
 extern const int syn_size;
 
+/* Returned by ksymtocode to report an unknown symbol */
+#define CODE_FOR_UNKNOWN_KSYM (-1)
+
 extern int set_charset(const char *name);
 extern const char *unicodetoksym(int code);
 extern void list_charsets(FILE *f);

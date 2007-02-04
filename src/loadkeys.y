@@ -171,7 +171,7 @@ singleline	:	{ mod = 0; }
 			}
 		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
 			{
-			    addkey($4, 0, $6);
+			    addkey($3, 0, $5);
 			}
 		;
 modifiers	: modifiers modifier
@@ -685,8 +685,10 @@ static void
 addkey(int index, int table, int keycode) {
 	int i;
 
-	if (keycode == -1)
-		return;
+	if (keycode == CODE_FOR_UNKNOWN_KSYM)
+	  /* is safer not to be silent in this case, 
+	   * it can be caused by coding errors as well. */
+	        lkfatal0(_("addkey called with bad keycode %d"), keycode);
         if (index < 0 || index >= NR_KEYS)
 	        lkfatal0(_("addkey called with bad index %d"), index);
         if (table < 0 || table >= MAX_NR_KEYMAPS)
