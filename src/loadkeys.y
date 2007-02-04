@@ -594,7 +594,7 @@ lk_end_string(void) {
 }
 
 char *dirpath[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
-char *suffixes[] = { "", ".map", 0 };
+char *suffixes[] = { "", ".kmap", ".map", 0 };
 extern FILE *findfile(char *fnam, char **dirpath, char **suffixes);
 
 #undef yywrap
