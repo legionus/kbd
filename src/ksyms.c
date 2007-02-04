@@ -1122,6 +1122,7 @@ static sym iso_8859_9_syms[] = { /* latin-5 */
 
 #include "koi8.syms.h"
 #include "cp1250.syms.h"
+#include "thai.syms.h"
 #include "ethiopic.syms.h"
 #include "sami.syms.h"
 
@@ -1633,6 +1634,7 @@ struct cs {
     { "cp-1250",	cp1250_syms, 128 },
     { "koi8-r",		koi8_syms, 128 },
     { "koi8-u",		koi8_syms, 128 },
+    { "tis-620",	tis_620_syms, 160 },		/* thai */
     { "iso-10646-18",	iso_10646_18_syms, 159 },	/* ethiopic */
     { "iso-ir-197",	iso_ir_197_syms, 160 },		/* sami */
     { "iso-ir-209",	iso_ir_209_syms, 160 },		/* sami */
