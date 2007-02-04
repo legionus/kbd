@@ -116,7 +116,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	kbdrep_s.period = -1;
 	kbdrep_s.delay = -1;
 	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
-		if (errno == EINVAL)
+		if (errno == EINVAL || errno == ENOTTY)
 			return 0;
 		perror( "ioctl(KDKBDREP)" );
 		exit( 1 );
