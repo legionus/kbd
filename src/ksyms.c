@@ -770,7 +770,7 @@ static sym latin4_syms[] = {
 };
 
 static sym iso_8859_5_syms[] = { /* 160-255 */
-	{ 0x00a0, "no-break_space" },					/* 0240 */
+	{ 0x00a0, "nobreakspace" },
 	{ 0x0401, "cyrillic_capital_letter_io" },
 	{ 0x0402, "serbocroatian_cyrillic_capital_letter_dje" },
 	{ 0x0403, "macedonian_cyrillic_capital_letter_gje" },
@@ -783,7 +783,7 @@ static sym iso_8859_5_syms[] = { /* 160-255 */
 	{ 0x040a, "cyrillic_capital_letter_nje" },
 	{ 0x040b, "serbocroatian_cyrillic_capital_letter_chje" },
 	{ 0x040c, "macedonian_cyrillic_capital_letter_kje" },
-	{ 0x00ad, "soft_hyphen" },
+	{ 0x00ad, "hyphen" },
 	{ 0x040e, "bielorussian_cyrillic_capital_letter_short_u" },
 	{ 0x040f, "cyrillic_capital_letter_dze" },
 	{ 0x0410, "cyrillic_capital_letter_a" }, 			/* 0260 */
@@ -863,7 +863,7 @@ static sym iso_8859_5_syms[] = { /* 160-255 */
 	{ 0x045a, "cyrillic_small_letter_nje" },
 	{ 0x045b, "serbocroatian_cyrillic_small_letter_chje" },
 	{ 0x045c, "macedonian_cyrillic_small_letter_kje" },
-	{ 0x00a7, "paragraph_sign" },
+	{ 0x00a7, "section" },
 	{ 0x045e, "bielorussian_cyrillic_small_letter_short_u" }, 	/* printing error in ECMA-113 */
 	{ 0x045f, "cyrillic_small_letter_dze" }
 };
@@ -896,7 +896,7 @@ static sym iso_8859_7_syms[] = { /* 160-255 */
 	{ 0x0388, "Epsilonaccent" },
 	{ 0x0389, "Etaaccent" },
 	{ 0x038a, "Iotaaccent" },
-	{ 0x00bb, "rightanglequote" },
+	{ 0x00bb, "guillemotright" },
 	{ 0x038c, "Omicronaccent" },
 	{ 0x00bd, "onehalf" },
 	{ 0x038e, "Upsilonaccent" },
@@ -978,7 +978,7 @@ static sym iso_8859_8_syms[] = {
 	{ 0x00a7, "" },
 	{ 0x00a8, "" },
 	{ 0x00a9, "" },
-	{ 0x00d7, "multiplication" },
+	{ 0x00d7, "multiply" },
 	{ 0x00ab, "" },
 	{ 0x00ac, "" },
 	{ 0x00ad, "" },
@@ -1581,7 +1581,13 @@ synonyms[] = {
 	{ "dead_caron",         "dead_circumflex" },
 	{ "dead_breve",         "dead_tilde" },
 	{ "dead_doubleacute",   "dead_tilde" },
+/* turkish */
+	{ "Idotabove",          "Iabovedot" },
+	{ "dotlessi",           "idotless" },
 /* cyrillic */
+	{ "no-break_space",     "nobreakspace" },
+	{ "paragraph_sign",     "section" },
+	{ "soft_hyphen",        "hyphen" },
 	{ "bielorussian_cyrillic_capital_letter_i", "ukrainian_cyrillic_capital_letter_i" },
 	{ "cyrillic_capital_letter_kha", "cyrillic_capital_letter_ha" },
 	{ "cyrillic_capital_letter_ge", "cyrillic_capital_letter_ghe" },
@@ -1599,7 +1605,9 @@ synonyms[] = {
 	{ "cyrillic_small_letter_yeri", "cyrillic_small_letter_yeru" },
 	{ "cyrillic_small_letter_reversed_e", "cyrillic_small_letter_e" },
 	{ "cyrillic_small_letter_ii", "cyrillic_small_letter_i" },
-	{ "cyrillic_small_letter_short_ii", "cyrillic_small_letter_short_i" }
+	{ "cyrillic_small_letter_short_ii", "cyrillic_small_letter_short_i" },
+/* iso-8859-7 */
+	{ "rightanglequote",    "guillemotright" }
 };
 
 const int syms_size = sizeof(syms) / sizeof(syms_entry);
