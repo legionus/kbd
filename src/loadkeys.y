@@ -80,10 +80,12 @@ int private_error_ct = 0;
 
 extern int rvalct;
 extern struct kbsentry kbs_buf;
+int yyerror(const char *s);
 extern void lkfatal(const char *s);
 extern void lkfatal1(const char *s, const char *s2);
 
 #include "ksyms.h"
+int yylex (void);
 %}
 
 %%
@@ -1025,18 +1027,21 @@ loadkeys (char *console, int *warned) {
 	fd = getfd(console);
 	keyct = defkeys(fd, console, &warned);
 	funcct = deffuncs(fd);
-	if (accent_table_size > 0 || nocompose)
-		diacct = defdiacs(fd);
 	if (verbose) {
 	        printf(_("\nChanged %d %s and %d %s.\n"),
 		       keyct, (keyct == 1) ? _("key") : _("keys"),
 		       funcct, (funcct == 1) ? _("string") : _("strings"));
-		if (accent_table_size > 0 || nocompose)
+	}
+	if (accent_table_size > 0 || nocompose) {
+	  diacct = defdiacs(fd);
+	  if (verbose) {
 			printf(_("Loaded %d compose %s.\n"), diacct,
 			       (diacct == 1) ? _("definition") : _("definitions"));
-		else
-			printf(_("(No change in compose definitions.)\n"));
+	  }
 	}
+	else
+	  if (verbose)
+	    printf(_("(No change in compose definitions.)\n"));
 }
 
 static void strings_as_usual(void) {
