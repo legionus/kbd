@@ -74,18 +74,18 @@ main(int argc, char *argv[]) {
 		}
 	}
 
-	if (argc > 2 || (argc == 1 && !outfnam))
+	if (argc > optind+1 || (argc == optind && !outfnam))
 		usage();
 
 	fd = getfd(console);
 
 	if (outfnam) {
 		saveunicodemap(fd, outfnam);
-		if (argc == 1)
+		if (argc == optind)
 			exit(0);
 	}
 
-	if (argc == 2)
+	if (argc == optind+1)
 		infnam = argv[optind];
 	loadunicodemap(fd, infnam);
 	exit(0);
