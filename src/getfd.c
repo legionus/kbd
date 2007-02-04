@@ -59,6 +59,10 @@ int getfd(const char *fnam) {
 		exit(1);
 	}
 
+	fd = open_a_console("/proc/self/fd/0");
+	if (fd >= 0)
+		return fd;
+
 	fd = open_a_console("/dev/tty");
 	if (fd >= 0)
 		return fd;
