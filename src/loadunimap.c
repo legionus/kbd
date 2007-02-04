@@ -28,8 +28,8 @@
 extern char *progname;
 extern int force;
 
-static char *unidirpath[] = { "", DATADIR "/" UNIMAPDIR "/", 0 };
-static char *unisuffixes[] = { "", ".uni", 0 };
+static char *unidirpath[] = { "", DATADIR "/" TRANSDIR "/", 0 };
+static char *unisuffixes[] = { "", ".sfm", ".uni", 0 };
 
 #ifdef MAIN
 #include "version.h"
