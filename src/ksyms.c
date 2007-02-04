@@ -1726,6 +1726,8 @@ ksymtocode(const char *s) {
 		keycode = ksymtocode(s+5);
 		if (KTYP(keycode) == KT_LATIN)
 			return K(KT_META, KVAL(keycode));
+		else if(prefer_unicode)
+		        return (0);
 		/* fall through to error printf */
 	}
 
