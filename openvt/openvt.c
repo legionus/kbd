@@ -104,7 +104,7 @@ main(int argc, char *argv[])
       }
    }
 
-   consfd = getfd();
+   consfd = getfd(NULL);
    if (consfd < 0) {
       fprintf(stderr,
 	      _("Couldnt get a file descriptor referring to the console\n"));

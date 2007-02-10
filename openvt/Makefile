@@ -1,11 +1,11 @@
 
 CC=gcc
 RPM_OPT_FLAGS=-O2 -Wall -ansi
-CFLAGS=$(RPM_OPT_FLAGS)
+CFLAGS=$(RPM_OPT_FLAGS) -I../src
 LDFLAGS=$(CFLAGS) -s 
 
 SRC=openvt.c
-OBJ=openvt.o getfd.o
+OBJ=openvt.o ../src/getfd.o
 PROG=openvt
 PROGS=$(PROG)
 MAN=openvt.1

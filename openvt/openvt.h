@@ -13,13 +13,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "getfd.h"
+
 #ifndef NAME_MAX
 #define NAME_MAX 255
 #endif
 
 void usage(int);
 char *authenticate_user(int);
-int getfd(void);
 
 /*
  * There must be a universal way to find these!
