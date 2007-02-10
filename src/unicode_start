@@ -1,4 +1,16 @@
 #!/bin/sh
+
+# 0. Check whether we're on a console
+TTY="`/usr/bin/tty`"
+case "$TTY" in
+	/dev/console|/dev/vc*|/dev/tty[0-9]*)
+		;;
+	*)
+		echo "unicode_start skipped on $TTY" >&2
+		exit 0
+		;;
+esac
+
 # Enables Unicode processing in the current console.
 #
 # 1. The input side: the keyboard driver.
@@ -18,14 +30,28 @@ kbd_mode -u
 # produce UTF-8 encoded multibyte sequences, instead of single bytes
 # >= 0x80 in a legacy 8-bit encoding.
 
-dumpkeys | loadkeys --unicode
+# There is no way of reverting the effect of "dumpkeys | loadkeys --unicode",
+# the memory of the earlier keymap is lost. Therefore, try
+# to save a copy of the original keymap to be able to reload it in unicode_stop.
+# (see also http://mail.nl.linux.org/linux-utf8/2003-08/msg00053.html):
+
+test -z "$HOME" -o "/" == "$HOME" && HOME=/root
+test -d $HOME/.kbd || mkdir $HOME/.kbd
+dumpkeys > $HOME/.kbd/.keymap_sv
+
+# redirect stderr and stdout of loadkeys to /dev/null to avoid the confusing
+# "plus before udiaeresis ignored" warnings.
+
+dumpkeys | loadkeys --unicode > /dev/null 2>&1
 
 # 2. The output side: the console screen.
 
 # Tell the console output driver that the bytes arriving are UTF-8
 # encoded multibyte sequences.
-
-echo -n -e '\033%G'
+if test -t 1 -a -t 2 ; then
+	printf '\033%%G'
+fi
+stty iutf8
 
 # Tell the graphics card how to display Unicode characters not
 # contained in the IBM 437 character set (on PCs). The font should
