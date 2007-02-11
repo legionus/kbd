@@ -180,7 +180,10 @@ got_vtno:
    else {
 	   if (!geteuid()) {
 		   uid_t uid = getuid();
-		   chown(vtname, uid, getgid());
+		   if (chown(vtname, uid, getgid()) == -1) {
+			perror("chown");
+			return(5);
+		   }
 		   setuid(uid);
 	   }
 
@@ -256,8 +259,11 @@ got_vtno:
       close(1);
       close(2);
       close(consfd);
-      dup(fd);
-      dup(fd);
+      if ((dup(fd) == -1) || (dup(fd) == -1)) {
+	perror("dup");
+	fflush(stderr);
+	_exit (1);
+      }
 
       /* slight problem: after "openvt -su" has finished, the
 	 utmp entry is not removed */
