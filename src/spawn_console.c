@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <linux/kd.h>
+#include <stdio.h>
 #include <stdlib.h>	/* system */
 #include <fcntl.h>	/* open */
 #include <sys/ioctl.h>	/* ioctl */
@@ -19,11 +20,15 @@
 
 void
 sighup(){
-    system("openvt -s -l bash");
+    if (system("openvt -s -l bash") == -1) {
+      perror("system");
+      exit(1);
+    }
     signal(SIGHUP, sighup);
 }
 
-main(){
+int
+main(void) {
     int fd;
 
     fd = open("/dev/tty0", 0);

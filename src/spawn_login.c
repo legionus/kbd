@@ -4,17 +4,26 @@
  * aeb - 941025
  *
  */
+#include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
 #include <linux/kd.h>
 
 void
-sighup(){
-    system("openvt -s -l -- login -h spawn");
+sighup() {
+    if (system("openvt -s -l -- login -h spawn") == -1) {
+	perror("system");
+	exit(1);
+    }
     signal(SIGHUP, sighup);
 }
 
-main(){
+int
+main(void) {
     int fd;
 
     fd = open("/dev/tty0", 0);

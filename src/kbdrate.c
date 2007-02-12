@@ -202,7 +202,7 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 #endif /* KIOCSRATE */
 }
 
-void
+static void
 sigalrmhandler( int sig ) {
 	fprintf( stderr, "kbdrate: Failed waiting for kbd controller!\n" );
 	raise( SIGINT );
@@ -289,23 +289,35 @@ main( int argc, char **argv ) {
 
 	do {
 		lseek( fd, 0x64, 0 );
-		read( fd, &data, 1 );
+		if (read( fd, &data, 1 ) == -1) {
+			perror( "read" );
+			exit( 1 );
+		}
 	} while ((data & 2) == 2 );  /* wait */
 
 	lseek( fd, 0x60, 0 );
 	data = 0xf3;                 /* set typematic rate */
-	write( fd, &data, 1 );
+	if (write( fd, &data, 1 ) == -1) {
+		perror( "write" );
+		exit( 1 );
+	}
 
 	do {
 		lseek( fd, 0x64, 0 );
-		read( fd, &data, 1 );
+		if (read( fd, &data, 1 ) == -1) {
+			perror( "read" );
+			exit( 1 );
+		}
 	} while ((data & 2) == 2 );  /* wait */
 
 	alarm( 0 );
 
 	lseek( fd, 0x60, 0 );
 	sleep( 1 );
-	write( fd, &value, 1 );
+	if (write( fd, &value, 1 ) == -1) {
+		perror( "write" );
+		exit( 1 );
+	}
 
 	close( fd );
 
