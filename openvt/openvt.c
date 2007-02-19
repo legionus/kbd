@@ -39,7 +39,7 @@ int
 main(int argc, char *argv[])
 {
 
-   int opt, pid;
+   int opt, pid, i;
    struct vt_stat vtstat;
    int vtno     = -1;
    int fd0      = -1;
@@ -104,6 +104,12 @@ main(int argc, char *argv[])
 	
       }
    }
+
+    for (i=0; i<3; i++) {
+	struct stat st;
+	if (fstat(i, &st) == -1 && open("/dev/null", O_RDWR) == -1)
+		error(EXIT_FAILURE, errno, "open");
+    }
 
    consfd = getfd(NULL);
    if (consfd < 0) {
