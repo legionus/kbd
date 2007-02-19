@@ -42,7 +42,8 @@ main(int argc, char *argv[])
    int opt, pid;
    struct vt_stat vtstat;
    int vtno     = -1;
-   int fd       = -1;
+   int fd0      = -1;
+   int fd1      = -1;
    int consfd   = -1;
    char optc	= FALSE;
    char show    = FALSE;
@@ -139,7 +140,7 @@ main(int argc, char *argv[])
    sprintf(vtname, VTNAME, vtno);
 
    /* Can we open the vt we want? */
-   if ((fd = open(vtname, O_RDWR)) == -1) {
+   if ((fd0 = open(vtname, O_RDWR)) == -1) {
       int errsv = errno;
       if (!optc) {
 	      /* We found vtno ourselves - it is free according
@@ -150,7 +151,7 @@ main(int argc, char *argv[])
 	      for (i=vtno+1; i<16; i++) {
 		      if((vtstat.v_state & (1<<i)) == 0) {
 			      sprintf(vtname, VTNAME, i);
-			      if ((fd = open(vtname, O_RDWR)) >= 0) {
+			      if ((fd0 = open(vtname, O_RDWR)) >= 0) {
 				      vtno = i;
 				      goto got_vtno;
 			      }
@@ -163,7 +164,6 @@ main(int argc, char *argv[])
       return(5);
    }
 got_vtno:
-   close(fd);
 
    /* Maybe we are suid root, and the -c option was given.
       Check that the real user can access this VT.
@@ -231,7 +231,7 @@ got_vtno:
       close(0);			/* so that new vt becomes stdin */
 
       /* and grab new one */
-      if ((fd = open(vtname, O_RDWR)) == -1) { /* strange ... */
+      if ((fd1 = open(vtname, O_RDWR)) == -1) { /* strange ... */
         int errsv = errno;
 	fprintf(stderr, _("\nopenvt: could not open %s R/W (%s)\n"),
 		vtname, strerror(errsv));
@@ -240,7 +240,7 @@ got_vtno:
       }
 
       if (show) {
-         if (ioctl(fd, VT_ACTIVATE, vtno)) {
+         if (ioctl(fd1, VT_ACTIVATE, vtno)) {
             int errsv = errno;
 	    fprintf(stderr, "\nopenvt: could not activate vt %d (%s)\n",
 		    vtno, strerror(errsv));
@@ -248,7 +248,7 @@ got_vtno:
 	    _exit (1); /* probably fd does not refer to a tty device file */
 	 }
 
-	 if (ioctl(fd, VT_WAITACTIVE, vtno)){
+	 if (ioctl(fd1, VT_WAITACTIVE, vtno)){
             int errsv = errno;
 	    fprintf(stderr, "\nopenvt: activation interrupted? (%s)\n",
 		    strerror(errsv));
@@ -258,8 +258,9 @@ got_vtno:
       }
       close(1);
       close(2);
+      close(fd0);
       close(consfd);
-      if ((dup(fd) == -1) || (dup(fd) == -1)) {
+      if ((dup(fd1) == -1) || (dup(fd1) == -1)) {
 	perror("dup");
 	fflush(stderr);
 	_exit (1);
