@@ -5,7 +5,7 @@ strings as usual
 
 keycode   1 = Escape           Escape
 	alt     keycode   1 = Meta_Escape
-keycode   2 = one              plus            bar
+keycode   2 = one              plus             bar
 	alt     keycode   2 = Meta_one
 keycode   3 = two              quotedbl         at
 	control keycode   3 = nul
@@ -13,10 +13,10 @@ keycode   3 = two              quotedbl         at
 keycode   4 = three            asterisk         numbersign
 	control keycode   4 = Escape
 	alt     keycode   4 = Meta_three
-keycode   5 = four             ccedilla
+keycode   5 = four             ccedilla         degree
 	control keycode   5 = Control_backslash
 	alt     keycode   5 = Meta_four
-keycode   6 = five             percent
+keycode   6 = five             percent          section
 	control keycode   6 = Control_bracketright
 	alt     keycode   6 = Meta_five
 keycode   7 = six              ampersand        notsign
@@ -44,7 +44,7 @@ keycode  15 = Tab              Tab
 keycode  26 = udiaeresis       egrave           bracketleft
 	control keycode  26 = Escape
 	alt     keycode  26 = Meta_bracketleft
-keycode  27 =   dead_diaeresis exclam           bracketright
+keycode  27 = dead_diaeresis   exclam           bracketright
 	control keycode  27 = Control_bracketright
 	alt     keycode  27 = Meta_bracketright
 keycode  28 = Return
@@ -85,3 +85,6 @@ keycode  58 = Caps_Lock
 keycode  86 = less             greater          backslash
 	alt     keycode  86 = Meta_less
 keycode  97 = Control
+# adapted to X11 keymap
+altgr keycode  18 = currency
+#altgr keycode  46 = cent
