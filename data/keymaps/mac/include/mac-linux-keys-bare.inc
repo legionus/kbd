@@ -166,6 +166,7 @@ keycode 113 = Pause			# Break/Pause
 keycode  36 = Return
         alt     keycode  36 = Meta_Control_m
 keycode  48 = Tab
+	shift	keycode  48 = Meta_Tab
 	alt keycode 48 = Meta_Tab
 keycode  49 = space space space nul
 keycode  51 = Delete  Remove
