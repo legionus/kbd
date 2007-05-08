@@ -148,7 +148,8 @@ control	alt keycode 111 = Boot
 # The three system keys
 #
 keycode  84 = Last_Console		# Alt+SysRq/PrintScrn
-keycode  99 = VoidSymbol		# SysRq/PrintScrn
+#keycode  99 = VoidSymbol		# SysRq/PrintScrn
+keycode  99 = Compose			# SysRq/PrintScrn
 alt	keycode 99 = Control_backslash
 control	keycode 99 = Control_backslash
 

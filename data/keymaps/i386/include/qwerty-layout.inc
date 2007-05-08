@@ -28,3 +28,4 @@ keycode 48 = b
 keycode 49 = n
 keycode 50 = m
 #
+include "compose"
