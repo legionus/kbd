@@ -92,6 +92,7 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	if (d == NULL)
 	    return NULL;
 	while ((de = readdir(d)) != NULL) {
+	    struct stat statbuf;
 	    int okdir;
 
 	    if (strcmp(de->d_name, ".") == 0 ||
@@ -104,7 +105,6 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	    okdir = (ff && strcmp(de->d_name, fdir) == 0);
 
 	    if ((secondpass && recdepth) || okdir) {
-       		struct stat statbuf;
 		char *a;
 
 		a = xmalloc(strlen(dir) + strlen(de->d_name) + 2);
@@ -136,6 +136,8 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 		    continue;
 
 	    sprintf(pathname, "%s/%s", dir, de->d_name);
+	    if (stat(pathname, &statbuf) != 0 || !S_ISREG(statbuf.st_mode))
+		    continue;
 
 	    /* Does tail consist of a known suffix and possibly
 	       a compression suffix? */
@@ -180,13 +182,16 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
 	/* Test for full pathname - opening it failed, so need suffix */
 	/* (This is just nonsense, for backwards compatibility.) */
 	if (*fnam == '/') {
+	    struct stat statbuf;
+
 	    for (sp = suffixes; *sp; sp++) {
 		if (strlen(fnam) + strlen(*sp) + 1 > sizeof(pathname))
 		    continue;
 		if (*sp == 0)
 		    continue;	/* we tried it already */
 		sprintf(pathname, "%s%s", fnam, *sp);
-		if((fp = fopen(pathname, "r")) != NULL)
+		if(stat(pathname, &statbuf) == 0 && S_ISREG(statbuf.st_mode)
+		   && (fp = fopen(pathname, "r")) != NULL)
 		    return fp;
 	    }
 
@@ -196,7 +201,9 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
 			+ strlen(dc->ext) + 1 > sizeof(pathname))
 			    continue;
 		    sprintf(pathname, "%s%s%s", fnam, *sp, dc->ext);
-		    if ((fp = fopen(pathname, "r")) != NULL) {
+		    if (stat(pathname, &statbuf) == 0
+			&& S_ISREG(statbuf.st_mode)
+			&& (fp = fopen(pathname, "r")) != NULL) {
 			    fclose(fp);
 			    return pipe_open(dc);
 		    }
