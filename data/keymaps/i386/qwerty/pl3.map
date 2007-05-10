@@ -4,6 +4,8 @@
 # Polish "programmers' keyboard" + paragraph sign AltGr-4, v. 0.92
 # Rafal Maszkowski <rzm@oso.chalmers.se>, <rzm@mat.uni.torun.pl>, 94.02.16
 # changed by Adam Tla/lka to obtain working left Alt normally
+# czw wrz 18 13:29:04 CEST 2003 - switched CapsLock with left Ctrl
+# Dedicated to my zi0m - Sebek :) risp3kt :)
 
 charset "iso-8859-2"
 alt_is_meta
@@ -61,7 +63,7 @@ keycode  14 = Delete           Delete
 	alt		keycode 14 = Meta_Delete
 	alt shift	keycode 14 = Meta_Delete
 	control		keycode 14 = Meta_Delete
-keycode  15 = Tab              Meta_Tab             
+keycode  15 = Tab              Tab             
 	alt		keycode 15 = Meta_Tab        
 	alt shift	keycode 15 = Meta_Tab
 	AltGr		keycode 15 = Meta_Tab
@@ -89,7 +91,7 @@ keycode  27 = bracketright     braceright       asciitilde
 keycode  28 = Return          
 	control		keycode 28 = Meta_Control_m
 	alt		keycode 28 = Meta_Control_m
-keycode  29 = Control         
+keycode  58 = Control         
 keycode  30 = a               
 	AltGr		keycode 30 = +aogonek
 	AltGr		Shift keycode  30 = +Aogonek
@@ -145,7 +147,7 @@ keycode  56 = Alt
 keycode  57 = space            space           
 	control		keycode 57 = nul             
 	alt		keycode 57 = Meta_space      
-keycode  58 = Caps_Lock       
+keycode  29 = Caps_Lock       
 keycode  59 = F1               F11              Console_13      
 	control		keycode 59 = F1              
 	alt		keycode 59 = Console_1       
@@ -242,7 +244,6 @@ keycode  99 = VoidSymbol
 	alt		keycode 99 = Control_backslash
 keycode 100 = AltGr           
 keycode 101 = Break           
-	control keycode 101 = Control_c
 keycode 102 = Find            
 keycode 103 = Up              
 keycode 104 = Prior           
