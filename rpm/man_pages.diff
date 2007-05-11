@@ -1,0 +1,43 @@
+#! /bin/sh -e
+## 02_man_pages.dpatch by Denis Barbier <barbier@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Description: codepage, mk_modmap, screendump and setvesablank
+## DP: programs are installed, so their man pages have to be shipped too.
+## DP: splitfont.1, setlogcons.8, and vcstime.8 are copied from console-tools.
+## DP: Date: 2004-07-25
+
+if [ $# -lt 1 ]; then
+    echo "`basename $0`: script expects -patch|-unpatch as argument" >&2
+    exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch} ${2:+-d $2}"
+
+case "$1" in
+    -patch) patch -p1 ${patch_opts} < $0;;
+    -unpatch) patch -R -p1 ${patch_opts} < $0;;
+    *)
+        echo "`basename $0`: script expects -patch|-unpatch as argument" >&2
+        exit 1;;
+esac
+
+exit 0
+
+--- kbd-1.12.orig/man/Makefile
++++ kbd-1.12/man/Makefile
+@@ -7,6 +7,13 @@
+ 		install -d -m 755 $(MANDIR)/$$i; \
+ 		install -m 644 $$i/*.[0-9] $(MANDIR)/$$i; \
+ 	done
++	install -m 644 man1misc/codepage.1 $(MANDIR)/man1
++	install -m 644 man1misc/screendump.1 $(MANDIR)/man1
++	install -m 644 man1misc/splitfont.1 $(MANDIR)/man1
++	install -m 644 man8misc/mk_modmap.8 $(MANDIR)/man8
++	install -m 644 man8misc/setlogcons.8 $(MANDIR)/man8
++	install -m 644 man8misc/setvesablank.8 $(MANDIR)/man8
++	install -m 644 man8misc/vcstime.8 $(MANDIR)/man8
+ 	rm -f $(MANDIR)/man5/keytables.5
+ 
+ clean:

@@ -1,0 +1,29 @@
+diff -Naur kbd-1.12/src/unicode_start kbd-1.12.new/src/unicode_start
+--- kbd-1.12/src/unicode_start	2005-08-16 10:19:13 +0400
++++ kbd-1.12.new/src/unicode_start	2005-08-16 10:18:48 +0400
+@@ -42,25 +42,3 @@
+ 	echo -n -e '\033%G'
+ fi
+ 
+-# Tell the graphics card how to display Unicode characters not
+-# contained in the IBM 437 character set (on PCs). The font should
+-# have a Unicode map attached, or explicitly specified, e.g.,
+-# by giving `def.uni' as a second argument.
+-
+-DEFAULT_UNICODE_FONT=LatArCyrHeb-16
+-# Also drdos8x16 is a good candidate.
+-
+-case $# in
+-	2)
+-		setfont $1 -u $2
+-		;;
+-	1)
+-		setfont $1
+-		;;
+-	0)
+-		setfont $DEFAULT_UNICODE_FONT
+-		;;
+-	*)
+-		echo "usage: unicode_start [font [unicode map]]"
+-		;;
+-esac

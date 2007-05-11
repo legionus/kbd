@@ -1,0 +1,49 @@
+#! /bin/sh -e
+## 01_po_makefile.dpatch by Denis Barbier <barbier@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Description: In original tarball, po/Makefile had been modified
+## DP: instead of po/Makefile.in
+## DP: Date: 2004-07-25
+
+if [ $# -lt 1 ]; then
+    echo "`basename $0`: script expects -patch|-unpatch as argument" >&2
+    exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch} ${2:+-d $2}"
+
+case "$1" in
+    -patch) patch -p1 ${patch_opts} < $0;;
+    -unpatch) patch -R -p1 ${patch_opts} < $0;;
+    *)
+        echo "`basename $0`: script expects -patch|-unpatch as argument" >&2
+        exit 1;;
+esac
+
+exit 0
+
+--- kbd-1.12.orig/po/Makefile.in
++++ kbd-1.12/po/Makefile.in
+@@ -1,5 +1,5 @@
+ PACKAGE = kbd
+-VERSION = 1.10
++VERSION = 1.12
+ 
+ include ../make_include
+ 
+@@ -34,9 +34,11 @@
+ COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
+ 
+ # Enter here all .po files
+-POFILES =  cs.po da.po de.po es.po fr.po gr.po nl.po pl.po ro.po ru.po sv.po tr.po
++POFILES =  cs.po da.po de.po el.po es.po fr.po gr.po nl.po pl.po \
++ ro.po ru.po sv.po tr.po
+ # the same but with .gmo
+-GMOFILES = cs.gmo da.gmo de.gmo es.gmo fr.gmo gr.gmo nl.gmo pl.gmo ro.gmo ru.gmo sv.gmo tr.gmo
++GMOFILES = cs.gmo da.gmo de.gmo el.gmo es.gmo fr.gmo gr.gmo nl.gmo \
++ pl.gmo ro.gmo ru.gmo sv.gmo tr.gmo
+ 
+ CATALOGS = $(GMOFILES)
+ CATOBJEXT = .gmo

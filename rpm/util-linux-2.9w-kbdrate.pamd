@@ -1,0 +1,5 @@
+#%PAM-1.0
+auth	sufficient	/lib/security/pam_rootok.so
+auth	required	/lib/security/pam_console.so
+account	required	/lib/security/pam_permit.so
+password	required	/lib/security/pam_deny.so
