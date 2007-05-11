@@ -1,7 +1,9 @@
 
 CC=gcc
-RPM_OPT_FLAGS=-O2 -Wall -ansi
-CFLAGS=$(RPM_OPT_FLAGS) -I../src
+ifndef RPM_OPT_FLAGS
+  RPM_OPT_FLAGS=-O2 -pipe -Wall -ansi
+endif
+CFLAGS += $(RPM_OPT_FLAGS) -I../src
 LDFLAGS=$(CFLAGS) -s 
 
 SRC=openvt.c
