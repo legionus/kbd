@@ -272,6 +272,12 @@ got_vtno:
 	_exit (1);
       }
 
+      if (ioctl(fd1, TIOCSCTTY, (char *)1)) {
+	perror("ioctl TIOCSCTTY");
+	fflush(stderr);
+	_exit (1);
+      }
+
       /* slight problem: after "openvt -su" has finished, the
 	 utmp entry is not removed */
       if(as_user)
