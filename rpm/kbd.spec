@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.12.1
-Release: alt1
+Release: alt2
 
 Group: Terminals
 Summary: Tools for managing the Linux console (variant: kbd)
@@ -221,6 +221,9 @@ mv %buildroot/%_bindir/kbdrate %buildroot/sbin/
 %_bindir/kbdrate
 
 %changelog
+* Mon May 21 2007 Alexey Gladkov <legion@altlinux.ru> 0:1.12.1-alt2
+- Fix openvt: set the session controlling terminal.
+
 * Wed May 09 2007 Alexey Gladkov <legion@altlinux.ru> 0:1.12.1-alt1
 - New bugfix version
 - Move documentation into kbd-docs.
