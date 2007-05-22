@@ -21,7 +21,8 @@ is_a_console(int fd) {
 	char arg;
 
 	arg = 0;
-	return (ioctl(fd, KDGKBTYPE, &arg) == 0
+	return (isatty (fd)
+		&& ioctl(fd, KDGKBTYPE, &arg) == 0
 		&& ((arg == KB_101) || (arg == KB_84)));
 }
 
