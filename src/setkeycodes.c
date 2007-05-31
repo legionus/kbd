@@ -56,6 +56,11 @@ main(int argc, char **argv) {
 		/* Test is OK up to 2.5.31--later kernels have more keycodes */
 		if (a.scancode > 255 || a.keycode > 127)
 			usage(_("code outside bounds"));
+
+		/* Both fields are unsigned int, so can be large;
+		   for current kernels the correct test might be
+		     (a.scancode > 255 || a.keycode > 239)
+		   but we can leave testing to the kernel. */
 #endif
 		if (ioctl(fd,KDSETKEYCODE,&a)) {
 			perror("KDSETKEYCODE");

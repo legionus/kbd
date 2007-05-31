@@ -62,7 +62,6 @@ store_int_le(unsigned char *ip, int num) {
 
 static unsigned int
 assemble_ucs2(char **inptr, int cnt) {
-	unsigned char **in = (unsigned char **) inptr;
 	unsigned int u1, u2;
 
 	if (cnt < 2) {
@@ -71,8 +70,8 @@ assemble_ucs2(char **inptr, int cnt) {
 		exit(EX_DATAERR);
 	}
 
-	u1 = *(*in)++;
-	u2 = *(*in)++;
+	u1 = (unsigned char) *(*inptr)++;
+	u2 = (unsigned char) *(*inptr)++;
 	return (u1 | (u2 << 8));
 }
 
@@ -113,7 +112,6 @@ clear_uni_entry(struct unicode_list *up) {
  */
 static void
 get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8) {
-	unsigned char **in = (unsigned char **) inptr;
 	unsigned char uc;
 	unicode unichar;
 	int inseq = 0;
@@ -129,14 +127,14 @@ get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8) {
 			exit(EX_DATAERR);
 		}
 		if (utf8) {
-			uc = *(*in)++;
+			uc = *(*inptr)++;
 			if (uc == PSF2_SEPARATOR)
 				break;
 			if (uc == PSF2_STARTSEQ) {
 				inseq = 1;
 				continue;
 			}
-			--(*in);
+			--(*inptr);
 			unichar = assemble_utf8(inptr, *endptr - *inptr);
 		} else {
 			unichar = assemble_ucs2(inptr, *endptr - *inptr);

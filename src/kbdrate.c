@@ -63,8 +63,8 @@ beats rebuilding the kernel!
   1999-03-17
   Linux/SPARC modifications by Jeffrey Connell <ankh@canuck.gen.nz>:
   It seems that the KDKBDREP ioctl is not available on this platform.
-  However, Linux/SPARC has its own ioctl for this, with yet another
-  different measurement system.  Thus, try for KIOCSRATE, too.
+  However, Linux/SPARC has its own ioctl for this (since 2.1.30),
+  with yet another measurement system.  Thus, try for KIOCSRATE, too.
 
 */
 

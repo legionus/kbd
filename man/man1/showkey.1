@@ -66,6 +66,20 @@ are present.
 Starts
 .B showkey
 in `ascii' dump mode.
+.SH "2.6 KERNELS"
+In 2.6 kernels key codes lie in the range 1-255, instead of 1-127.
+Key codes larger than 127 are returned as three bytes of which the
+low order 7 bits are: zero, bits 13-7, and bits 6-0 of the key code.
+The high order bits are: 0/1 for make/break, 1, 1.
+.LP
+In 2.6 kernels raw mode, or scancode mode, is not very raw at all.
+Scan codes are first translated to key codes, and when scancodes
+are desired, the key codes are translated back. Various transformations
+are involved, and there is no guarantee at all that the final result
+corresponds to what the keyboard hardware did send. So, if you want
+to know the scan codes sent by various keys it is better to boot a
+2.4 kernel. Since 2.6.9 there also is the boot option atkbd.softraw=0
+that tells the 2.6 kernel to return the actual scan codes.
 .SH "SEE ALSO"
 .BR loadkeys (1),
 .BR dumpkeys (1),

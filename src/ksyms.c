@@ -1740,8 +1740,11 @@ ksymtocode(const char *s) {
 		keycode = ksymtocode(s+5);
 		if (KTYP(keycode) == KT_LATIN)
 			return K(KT_META, KVAL(keycode));
+
+		/* Avoid error messages for Meta_acute with UTF-8 */
 		else if(prefer_unicode)
 		        return (0);
+
 		/* fall through to error printf */
 	}
 

@@ -216,6 +216,12 @@ Be verbose.
 .B \-V
 Print version and exit.
 
+.SH NOTE
+PC video hardware allows one to use the "intensity" bit
+either to indicate brightness, or to address 512 (instead of 256)
+glyphs in the font. So, if the font has more than 256 glyphs,
+the console will be reduced to 8 (instead of 16) colors.
+
 .SH FILES
 .I @datadir@/consolefonts
 is the default font directory.
