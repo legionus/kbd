@@ -85,18 +85,8 @@ beats rebuilding the kernel!
 				 * actually used values are returned */
 struct kbd_repeat {
         int delay;        /* in msec; <= 0: don't change */
-#ifdef __sparc__
-	int rate;         /* in msec; <= 0: don't change */
-#else
         int period;       /* in msec; <= 0: don't change */
-#endif
 };
-#endif /* KDKBDREP */
-
-#ifdef __sparc__
-#define KBD_PERIOD(var) var.rate
-#else
-#define KBD_PERIOD(var) var.period
 #endif
 
 #include <signal.h>
@@ -123,7 +113,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	struct kbd_repeat kbdrep_s;
 
 	/* don't change, just test */
-	KBD_PERIOD(kbdrep_s) = -1;
+	kbdrep_s.period = -1;
 	kbdrep_s.delay = -1;
 	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
 		if (errno == EINVAL || errno == ENOTTY)
@@ -134,16 +124,16 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 
 #if 0
 	printf("old delay %d, period %d\n",
-	       kbdrep_s.delay, KBD_PERIOD(kbdrep_s));
+	       kbdrep_s.delay, kbdrep_s.period);
 #endif
 
 	/* do the change */
 	if (rate == 0)				  /* switch repeat off */
-		KBD_PERIOD(kbdrep_s) = 0;
+		kbdrep_s.period = 0;
 	else
-		KBD_PERIOD(kbdrep_s)  = 1000.0 / rate; /* convert cps to msec */
-	if (KBD_PERIOD(kbdrep_s) < 1)
-		KBD_PERIOD(kbdrep_s) = 1;
+		kbdrep_s.period  = 1000.0 / rate; /* convert cps to msec */
+	if (kbdrep_s.period < 1)
+		kbdrep_s.period = 1;
 	kbdrep_s.delay = delay;
 	if (kbdrep_s.delay < 1)
 		kbdrep_s.delay = 1;
@@ -154,10 +144,10 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	}
 
 	/* report */
-	if (KBD_PERIOD(kbdrep_s) == 0)
+	if (kbdrep_s.period == 0)
 		rate = 0;
 	else
-		rate = 1000.0 / (double) KBD_PERIOD(kbdrep_s);
+		rate = 1000.0 / (double) kbdrep_s.period;
 
 	if (!silent)
 		printf( _("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
@@ -181,10 +171,10 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 		exit( 1 );
 	}
 
-	KBD_PERIOD(kbdrate_s) = (int) (rate + 0.5);  /* round up */
+	kbdrate_s.period = (int) (rate + 0.5);  /* round up */
 	kbdrate_s.delay = delay * HZ / 1000;  /* convert ms to Hz */
-	if (KBD_PERIOD(kbdrate_s) > 50)
-		KBD_PERIOD(kbdrate_s) = 50;
+	if (kbdrate_s.period > 50)
+		kbdrate_s.period = 50;
 
 	if (ioctl( fd, KIOCSRATE, &kbdrate_s )) {
 		perror( "ioctl(KIOCSRATE)" );
@@ -194,7 +184,7 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 
 	if (!silent)
 		printf( "Typematic Rate set to %d cps (delay = %d ms)\n",
-			KBD_PERIOD(kbdrate_s), kbdrate_s.delay * 1000 / HZ );
+			kbdrate_s.period, kbdrate_s.delay * 1000 / HZ );
 
 	return 1;
 #else /* no KIOCSRATE */
