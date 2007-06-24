@@ -14,6 +14,10 @@
 #include "nls.h"
 #include "version.h"
 
+#ifdef __sparc__
+#include <asm/kbio.h>
+#endif
+
 static void
 usage(void)
 {
