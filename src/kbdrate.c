@@ -84,11 +84,14 @@ beats rebuilding the kernel!
 /* usually defined in <linux/kd.h> */
 #define KDKBDREP        0x4B52  /* set keyboard delay/repeat rate;
 				 * actually used values are returned */
-struct kbd_repeat {
+#endif
+
+/* Equal to kernel version, but field names vary. */
+struct my_kbd_repeat {
         int delay;        /* in msec; <= 0: don't change */
         int period;       /* in msec; <= 0: don't change */
+			  /* earlier this field was misnamed "rate" */
 };
-#endif
 
 #include <signal.h>
 
@@ -106,9 +109,12 @@ static int valid_delays[] = { 250, 500, 750, 1000 };
 
 static int
 KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
-	/* This ioctl is defined in <linux/kd.h> but is not
-	   implemented anywhere - must be in some m68k patches. */
-	struct kbd_repeat kbdrep_s;
+	/*
+	 * This ioctl is defined in <linux/kd.h> but is not
+	 * implemented anywhere - must be in some m68k patches.
+	 * Since 2.4.9 also on i386.
+	 */
+	struct my_kbd_repeat kbdrep_s;
 
 	/* don't change, just test */
 	kbdrep_s.period = -1;
@@ -151,6 +157,25 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 		printf( _("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
 			rate, kbdrep_s.delay );
 
+	kbdrep_s.period = -1;
+	kbdrep_s.delay = -1;
+	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
+		if (errno == EINVAL)
+			return 0;
+		perror( "ioctl(KDKBDREP)" );
+		exit( 1 );
+	}
+	printf("old delay %d, period %d\n",
+	       kbdrep_s.delay, kbdrep_s.period);
+	if (kbdrep_s.period == 0)
+		rate = 0;
+	else
+		rate = 1000.0 / (double) kbdrep_s.period;
+
+	if (!silent)
+		printf( _("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
+			rate, kbdrep_s.delay );
+
 	return 1;			/* success! */
 }
 
@@ -166,10 +191,10 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 		exit( 1 );
 	}
 
-	kbdrate_s.period = (int) (rate + 0.5);  /* round up */
+	kbdrate_s.rate = (int) (rate + 0.5);  /* round up */
 	kbdrate_s.delay = delay * HZ / 1000;  /* convert ms to Hz */
-	if (kbdrate_s.period > 50)
-		kbdrate_s.period = 50;
+	if (kbdrate_s.rate > 50)
+		kbdrate_s.rate = 50;
 
 	if (ioctl( fd, KIOCSRATE, &kbdrate_s )) {
 		perror( "ioctl(KIOCSRATE)" );
@@ -179,7 +204,7 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 
 	if (!silent)
 		printf( "Typematic Rate set to %d cps (delay = %d ms)\n",
-			kbdrate_s.period, kbdrate_s.delay * 1000 / HZ );
+			kbdrate_s.rate, kbdrate_s.delay * 1000 / HZ );
 
 	return 1;
 #else /* no KIOCSRATE */
