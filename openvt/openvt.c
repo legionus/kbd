@@ -107,8 +107,10 @@ main(int argc, char *argv[])
 
     for (i=0; i<3; i++) {
 	struct stat st;
-	if (fstat(i, &st) == -1 && open("/dev/null", O_RDWR) == -1)
-		error(EXIT_FAILURE, errno, "open");
+	if (fstat(i, &st) == -1 && open("/dev/null", O_RDWR) == -1) {
+		perror("open(/dev/null) failed");
+		return EXIT_FAILURE;
+	}
     }
 
    consfd = getfd(NULL);
