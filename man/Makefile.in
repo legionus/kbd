@@ -7,25 +7,31 @@ OPTIONAL_PROGS = @OPTIONAL_PROGS@
 GEN1 = man1/dumpkeys.1 man1/loadkeys.1
 GEN8 = man8/setfont.8 man8/loadunimap.8 man8/mapscrn.8
 
-MANS = $(GEN1) $(GEN8)
-
-DIRLIST = man1 man5 man8
+MAN1DIRS = man1
+MAN5DIRS = man5
+MAN8DIRS = man8
 
 ifdef OPTIONAL_PROGS
-DIRLIST += man1misc man8misc
+MAN1DIRS += man1misc
+MAN8DIRS += man8misc
 endif
 
-all: $(MANS)
+all: $(GEN1) $(GEN8)
 
 %: %.in
 	sed -e "s|\@datadir\@|$(datadir)|g" <$< >$@
 
 install:
-	for i in $(DIRLIST); do \
-		install -d -m 755 $(mandir)/$$i; \
-		install -m 644 $$i/*.[0-9] $(mandir)/$$i; \
+	install -d -m 755 $(mandir)/man1 $(mandir)/man5 $(mandir)/man8; \
+	for d in $(MAN1DIRS); do \
+		install -m 644 $$d/*.[0-9] $(mandir)/man1/; \
+	done; \
+	for d in $(MAN5DIRS); do \
+		install -m 644 $$d/*.[0-9] $(mandir)/man5/; \
+	done; \
+	for d in $(MAN8DIRS); do \
+		install -m 644 $$d/*.[0-9] $(mandir)/man8/; \
 	done
-	rm -f $(mandir)/man5/keytables.5
 
 clean:
 	rm -f $(GEN1) $(GEN8)
