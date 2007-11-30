@@ -56,6 +56,10 @@ main(int argc, char *argv[])
    char vtname[sizeof VTNAME + 2]; /* allow 999 possible VTs */
    char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
+   setlocale(LC_ALL, "");
+   bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+   textdomain(PACKAGE_NAME);
+
    /*
     * I don't like using getopt for this, but otherwise this gets messy.
     * POSIX/Gnu getopt forces the use of -- to separate child/program

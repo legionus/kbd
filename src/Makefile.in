@@ -1,32 +1,15 @@
-include ../make_include
-
-PREFIX = @prefix@
+prefix         = @prefix@
+exec_prefix    = @exec_prefix@
+bindir         = @bindir@
+OPTIONAL_PROGS = @OPTIONAL_PROGS@
 
 # Something like /usr/lib/kbd or /usr/share/kbd
-ifndef DATA_DIR
 DATA_DIR = @datadir@
-endif
-
-ifndef BINDIR
-BINDIR = $(DESTDIR)$(PREFIX)/bin
-endif
 
 # Maybe we want to use a qwertz keyboard before /usr is mounted
-ifndef LOADKEYS_BINDIR
-ifeq ($(PREFIX), /usr)
-  LOADKEYS_BINDIR = $(DESTDIR)/bin
-else
-  LOADKEYS_BINDIR = $(DESTDIR)$(PREFIX)/bin
-endif
-endif
+LOADKEYS_BINDIR ?= /bin
 
-# Omit the "-o root" when installing elsewhere
-ifeq "$(DESTDIR)" ""
-  setowner = -o root
-else
-  setowner =
-endif
-
+OLDPROGS= mapscrn loadunimap
 PROGS   = dumpkeys loadkeys showkey setfont showconsolefont \
 	  setleds setmetamode kbd_mode chvt deallocvt \
 	  psfxtable kbdrate fgconsole
@@ -43,26 +26,17 @@ ifeq ($(ARCH), i386)
 PROGS += resizecons
 endif
 
-OLDPROGS= mapscrn loadunimap
-
 # Not installed by default
-MISC    = screendump setlogcons setvesablank spawn_console spawn_login \
-	  getunimap clrunimap outpsfheader setpalette
+ifdef OPTIONAL_PROGS
+PROGS += screendump setlogcons setvesablank spawn_console spawn_login \
+	 getunimap clrunimap outpsfheader setpalette
+endif
 
 # Installed by default
 SHCMDS  = unicode_start unicode_stop
 
 WARN	= -Wall -Wmissing-prototypes -Wstrict-prototypes
 DEFS	= -DDATADIR=\"$(DATA_DIR)\"
-ifndef RPM_OPT_FLAGS
-  RPM_OPT_FLAGS = -O2 -pipe -Wall
-endif
-CFLAGS  += $(RPM_OPT_FLAGS)
-LDFLAGS = -s
-
-CC	= gcc
-YACC	= bison -y
-LEX	= flex -8
 
 .c.o:
 	$(CC) -c $(WARN) $(CFLAGS) $(DEFS) $<
@@ -73,21 +47,19 @@ progs:	$(PROGS)
 
 old:	$(OLDPROGS)
 
-install:	all
-	install -d -m 0755 $(BINDIR) $(LOADKEYS_BINDIR)
-	install -s -m 0755 $(setowner) $(PROGS) $(OLDPROGS) $(BINDIR)
-#	install -s -m 0755 $(setowner) $(MISC) $(BINDIR)
-	install -c -m 0755 $(setowner) $(SHCMDS) $(BINDIR)
+install: all
+	install -d -m 0755 $(bindir) $(LOADKEYS_BINDIR)
+	install -s -m 0755 $(PROGS) $(OLDPROGS) $(SHCMDS) $(bindir)
 	for i in psfaddtable psfgettable psfstriptable; do \
-		rm -f $(BINDIR)/$$i; ln -s psfxtable $(BINDIR)/$$i; \
+		rm -f $(bindir)/$$i; ln -s psfxtable $(bindir)/$$i; \
 	done
-	rm -f $(BINDIR)/loadkeys
-	install -s -m 0755 $(setowner) loadkeys $(LOADKEYS_BINDIR)
+	rm -f $(bindir)/loadkeys
+	install -s -m 0755 loadkeys $(LOADKEYS_BINDIR)
 	@echo "You may also want to add psf.magic to /usr/lib/magic"
 
 
 # loadkeys.o: separate rule since the flex output does not permit -Wall
-loadkeys.o:	loadkeys.c analyze.c
+loadkeys.o: loadkeys.c analyze.c
 	$(CC) -c $(CFLAGS) $(DEFS) $<
 
 
@@ -103,9 +75,12 @@ $(OLDPROGS): %: main_%.o findfile.o psffontop.o utf8.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 
-clean reallyclean spotless distclean:
+clean reallyclean spotless:
 	rm -f core *.o analyze.c loadkeys.c
 	rm -f $(PROGS) $(OLDPROGS) $(MISC) *~
+
+distclean: clean
+	rm -f Makefile
 
 $(PROGS): %: %.o
 

@@ -1,0 +1,64 @@
+prefix  = @prefix@
+datadir = @datadir@
+
+# If you change the names of any of the following subdirs,
+# also change paths.h.
+OLDKEYMAPDIR = keytables
+KEYMAPDIR    = keymaps
+UNIMAPDIR    = unimaps
+FONTDIR      = consolefonts
+PARTIALDIR   = partialfonts
+TRANSDIR     = consoletrans
+
+KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/dvorak \
+	i386/fgGIod i386/qwerty i386/qwertz i386/include mac/include mac/all
+
+
+# Do not use GZIP - it is interpreted by gzip
+MYGZIP = gzip -f -9
+
+all: $(KEYMAPDIR)_Z $(FONTDIR)_Z
+
+install:	all
+	install -d -m 755 $(datadir)
+	install -d -m 755 $(datadir)/$(FONTDIR)
+	install -m 644 $(FONTDIR)_Z/* $(datadir)/$(FONTDIR)
+	install -d -m 755 $(datadir)/$(FONTDIR)/$(PARTIALDIR)
+	install -m 644 $(PARTIALDIR)_Z/* $(datadir)/$(FONTDIR)/$(PARTIALDIR)
+	install -d -m 755 $(datadir)/$(TRANSDIR)
+	install -m 644 $(TRANSDIR)/* $(datadir)/$(TRANSDIR)
+	install -d -m 755 $(datadir)/$(UNIMAPDIR)
+	install -m 644 $(UNIMAPDIR)/* $(datadir)/$(UNIMAPDIR)
+	install -d -m 755 $(datadir)/$(KEYMAPDIR)
+	install -d -m 755 $(datadir)/$(KEYMAPDIR)/i386
+	install -d -m 755 $(datadir)/$(KEYMAPDIR)/mac
+	for i in $(KEYMAPSUBDIRS); do \
+		install -d -m 755 $(datadir)/$(KEYMAPDIR)/$$i ;\
+		install -m 644 $(KEYMAPDIR)_Z/$$i/* $(datadir)/$(KEYMAPDIR)/$$i ;\
+	done
+	rm -f $(datadir)/$(KEYMAPDIR)/ppc; ln -s mac $(datadir)/$(KEYMAPDIR)/ppc
+	@if [ -f $(datadir)/$(OLDKEYMAPDIR) ]; then \
+	  echo "Done. You may want to remove old keymaps with" ; \
+	  echo "  rm -rf $(datadir)/$(OLDKEYMAPDIR)" ; \
+	  echo "But be careful to preserve your default map if it is" ; \
+	  echo "nonstandard, and to adapt any scripts in rc.local or so." ; \
+	fi
+
+
+# compress data files - do not touch the distribution but copy first
+$(KEYMAPDIR)_Z:
+	cp -r $(KEYMAPDIR) $(KEYMAPDIR)_Z
+	cd $(KEYMAPDIR)_Z && $(MYGZIP) */*.map */*/*.map
+
+$(FONTDIR)_Z:
+	cp -r $(FONTDIR) $(FONTDIR)_Z
+	cp -r $(PARTIALDIR) $(PARTIALDIR)_Z
+	cd $(FONTDIR)_Z && $(MYGZIP) * && gunzip ERRORS* README*
+	cd $(PARTIALDIR)_Z && $(MYGZIP) *
+# (not yet screenmaps - some other time)
+
+clean:
+	rm -rf $(KEYMAPDIR)_Z $(FONTDIR)_Z $(PARTIALDIR)_Z
+
+distclean: clean
+	rm -f Makefile

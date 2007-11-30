@@ -18,8 +18,8 @@ main(int argc, char **argv){
 	struct { char fn, subarg; } arg;
 
 	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
 	if (argc == 2)
 		cons = atoi(argv[1]);

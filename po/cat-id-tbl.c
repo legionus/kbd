@@ -76,128 +76,140 @@ valid options are:\n\
   {"\
 \t\t\t    interpret character action codes to be from the\n\
 \t\t\t    specified character set\n", 42},
-  {"error executing  %s\n", 43},
-  {"Couldnt open %s\n", 44},
-  {"usage: getkeycodes\n", 45},
-  {"Plain scancodes xx (hex) versus keycodes (dec)\n", 46},
-  {"0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n", 47},
-  {"for 1-%d (0x01-0x%02x) scancode equals keycode\n", 48},
+  {"\
+%s version %s\n\
+\n\
+Usage: %s [options]\n\
+\n\
+Valid options are:\n\
+\n\
+\t-h --help            display this help text\n\
+\t-V --version         display this help text\n\
+\t-n --next-available  display next unallocated VT\n", 43},
+  {"Couldn't read VTNO: ", 44},
+  {"error executing  %s\n", 45},
+  {"Couldnt open %s\n", 46},
+  {"usage: getkeycodes\n", 47},
+  {"Plain scancodes xx (hex) versus keycodes (dec)\n", 48},
+  {"0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n", 49},
+  {"for 1-%d (0x01-0x%02x) scancode equals keycode\n", 50},
   {"\
 \n\
 \n\
-Escaped scancodes e0 xx (hex)\n", 49},
-  {"failed to get keycode for scancode 0x%x\n", 50},
+Escaped scancodes e0 xx (hex)\n", 51},
+  {"failed to get keycode for scancode 0x%x\n", 52},
   {"\
 Usage:\n\
-\t%s [-s] [-C console]\n", 51},
-  {"usage: kbd_mode [-a|-u|-k|-s]\n", 52},
-  {"kbd_mode: error reading keyboard mode\n", 53},
-  {"The keyboard is in raw (scancode) mode\n", 54},
-  {"The keyboard is in mediumraw (keycode) mode\n", 55},
-  {"The keyboard is in the default (ASCII) mode\n", 56},
-  {"The keyboard is in Unicode (UTF-8) mode\n", 57},
-  {"The keyboard is in some unknown mode\n", 58},
-  {"%s: error setting keyboard mode\n", 59},
-  {"Typematic Rate set to %.1f cps (delay = %d ms)\n", 60},
-  {"Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n", 61},
-  {"Cannot open /dev/port", 62},
-  {"bug: getfont called with count<256\n", 63},
-  {"%s: out of memory\n", 64},
-  {"unknown charset %s - ignoring charset request\n", 65},
-  {"assuming iso-8859-1 %s\n", 66},
-  {"assuming iso-8859-15 %s\n", 67},
-  {"assuming iso-8859-2 %s\n", 68},
-  {"assuming iso-8859-3 %s\n", 69},
-  {"assuming iso-8859-4 %s\n", 70},
-  {"unknown keysym '%s'\n", 71},
-  {"plus before %s ignored\n", 72},
+\t%s [-s] [-C console]\n", 53},
+  {"usage: kbd_mode [-a|-u|-k|-s] [-C device]\n", 54},
+  {"kbd_mode: error reading keyboard mode\n", 55},
+  {"The keyboard is in raw (scancode) mode\n", 56},
+  {"The keyboard is in mediumraw (keycode) mode\n", 57},
+  {"The keyboard is in the default (ASCII) mode\n", 58},
+  {"The keyboard is in Unicode (UTF-8) mode\n", 59},
+  {"The keyboard is in some unknown mode\n", 60},
+  {"%s: error setting keyboard mode\n", 61},
+  {"Typematic Rate set to %.1f cps (delay = %d ms)\n", 62},
+  {"Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n", 63},
+  {"Cannot open /dev/port", 64},
+  {"bug: getfont called with count<256\n", 65},
+  {"bug: getfont using GIO_FONT needs buf.\n", 66},
+  {"%s: out of memory\n", 67},
+  {"unknown charset %s - ignoring charset request\n", 68},
+  {"assuming iso-8859-1 %s\n", 69},
+  {"assuming iso-8859-15 %s\n", 70},
+  {"assuming iso-8859-2 %s\n", 71},
+  {"assuming iso-8859-3 %s\n", 72},
+  {"assuming iso-8859-4 %s\n", 73},
+  {"unknown keysym '%s'\n", 74},
+  {"plus before %s ignored\n", 75},
   {"\
 Usage:\n\
-\t%s [-C console] [-o map.orig]\n", 73},
-  {"Bad input line: %s\n", 74},
-  {"%s: Glyph number (0x%x) larger than font length\n", 75},
-  {"%s: Bad end of range (0x%x)\n", 76},
-  {"%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n", 77},
+\t%s [-C console] [-o map.orig]\n", 76},
+  {"Bad input line: %s\n", 77},
+  {"%s: Glyph number (0x%x) larger than font length\n", 78},
+  {"%s: Bad end of range (0x%x)\n", 79},
+  {"%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n", 80},
   {"\
 %s: Unicode range U+%x-U+%x not of the same length as font position range 0x%\
-x-0x%x\n", 78},
-  {"%s: trailing junk (%s) ignored\n", 79},
-  {"Loading unicode map from file %s\n", 80},
-  {"%s: %s: Warning: line too long\n", 81},
+x-0x%x\n", 81},
+  {"%s: trailing junk (%s) ignored\n", 82},
+  {"Loading unicode map from file %s\n", 83},
+  {"%s: %s: Warning: line too long\n", 84},
   {"\
 %s: not loading empty unimap\n\
-(if you insist: use option -f to override)\n", 82},
-  {"entry", 83},
-  {"entries", 84},
-  {"Saved unicode map on `%s'\n", 85},
-  {"Appended Unicode map\n", 86},
-  {"usage: %s [-v] [-o map.orig] map-file\n", 87},
-  {"mapscrn: cannot open map file _%s_\n", 88},
-  {"Cannot stat map file", 89},
-  {"Loading binary direct-to-font screen map from file %s\n", 90},
-  {"Error reading map from file `%s'\n", 91},
-  {"Loading binary unicode screen map from file %s\n", 92},
-  {"Loading symbolic screen map from file %s\n", 93},
-  {"Error parsing symbolic map from `%s', line %d\n", 94},
-  {"Error writing map to file\n", 95},
-  {"Cannot read console map\n", 96},
-  {"Saved screen map in `%s'\n", 97},
-  {"%s: short ucs2 unicode table\n", 98},
-  {"%s: short utf8 unicode table\n", 99},
-  {"%s: bad utf8\n", 100},
-  {"%s: unknown utf8 error\n", 101},
-  {"%s: short unicode table\n", 102},
-  {"%s: Error reading input font", 103},
-  {"%s: Bad call of readpsffont\n", 104},
-  {"%s: Unsupported psf file mode (%d)\n", 105},
-  {"%s: Unsupported psf version (%d)\n", 106},
-  {"%s: zero input font length?\n", 107},
-  {"%s: zero input character size?\n", 108},
-  {"%s: Input file: bad input length (%d)\n", 109},
-  {"%s: Input file: trailing garbage\n", 110},
-  {"appendunicode: illegal unicode %u\n", 111},
-  {"Cannot write font file header", 112},
-  {"%s: Warning: line too long\n", 113},
-  {"%s: Bad input line: %s\n", 114},
-  {"%s: Glyph number (0x%lx) past end of font\n", 115},
-  {"%s: Bad end of range (0x%lx)\n", 116},
+(if you insist: use option -f to override)\n", 85},
+  {"entry", 86},
+  {"entries", 87},
+  {"Saved unicode map on `%s'\n", 88},
+  {"Appended Unicode map\n", 89},
+  {"usage: %s [-v] [-o map.orig] map-file\n", 90},
+  {"mapscrn: cannot open map file _%s_\n", 91},
+  {"Cannot stat map file", 92},
+  {"Loading binary direct-to-font screen map from file %s\n", 93},
+  {"Error reading map from file `%s'\n", 94},
+  {"Loading binary unicode screen map from file %s\n", 95},
+  {"Loading symbolic screen map from file %s\n", 96},
+  {"Error parsing symbolic map from `%s', line %d\n", 97},
+  {"Error writing map to file\n", 98},
+  {"Cannot read console map\n", 99},
+  {"Saved screen map in `%s'\n", 100},
+  {"%s: short ucs2 unicode table\n", 101},
+  {"%s: short utf8 unicode table\n", 102},
+  {"%s: bad utf8\n", 103},
+  {"%s: unknown utf8 error\n", 104},
+  {"%s: short unicode table\n", 105},
+  {"%s: Error reading input font", 106},
+  {"%s: Bad call of readpsffont\n", 107},
+  {"%s: Unsupported psf file mode (%d)\n", 108},
+  {"%s: Unsupported psf version (%d)\n", 109},
+  {"%s: zero input font length?\n", 110},
+  {"%s: zero input character size?\n", 111},
+  {"%s: Input file: bad input length (%d)\n", 112},
+  {"%s: Input file: trailing garbage\n", 113},
+  {"appendunicode: illegal unicode %u\n", 114},
+  {"Cannot write font file header", 115},
+  {"%s: Warning: line too long\n", 116},
+  {"%s: Bad input line: %s\n", 117},
+  {"%s: Glyph number (0x%lx) past end of font\n", 118},
+  {"%s: Bad end of range (0x%lx)\n", 119},
   {"\
 %s: Corresponding to a range of font positions, there should be a Unicode \
-range\n", 117},
+range\n", 120},
   {"\
 Usage:\n\
-\t%s infont intable outfont\n", 118},
+\t%s infont intable outfont\n", 121},
   {"\
 Usage:\n\
-\t%s infont [outtable]\n", 119},
+\t%s infont [outtable]\n", 122},
   {"\
 Usage:\n\
-\t%s infont outfont\n", 120},
+\t%s infont outfont\n", 123},
   {"\
 Usage:\n\
-\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n", 121},
-  {"%s: Bad magic number on %s\n", 122},
-  {"%s: psf file with unknown magic\n", 123},
-  {"%s: input font does not have an index\n", 124},
-  {"resizecons: cannot find videomode file %s\n", 125},
-  {"Invalid number of lines\n", 126},
-  {"Old mode: %dx%d  New mode: %dx%d\n", 127},
-  {"Old #scanlines: %d  New #scanlines: %d  Character height: %d\n", 128},
-  {"resizecons: the command `%s' failed\n", 129},
+\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n", 124},
+  {"%s: Bad magic number on %s\n", 125},
+  {"%s: psf file with unknown magic\n", 126},
+  {"%s: input font does not have an index\n", 127},
+  {"resizecons: cannot find videomode file %s\n", 128},
+  {"Invalid number of lines\n", 129},
+  {"Old mode: %dx%d  New mode: %dx%d\n", 130},
+  {"Old #scanlines: %d  New #scanlines: %d  Character height: %d\n", 131},
+  {"resizecons: the command `%s' failed\n", 132},
   {"\
-resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n", 130},
+resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n", 133},
   {"\
 resizecons:\n\
 call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n\
 or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, \
-60\n", 131},
-  {"resizecons: cannot get I/O permissions.\n", 132},
-  {"usage: screendump [n]\n", 133},
-  {"Error reading %s\n", 134},
-  {"couldn't read %s, and cannot ioctl dump\n", 135},
-  {"couldn't read %s\n", 136},
-  {"Strange ... screen is both %dx%d and %dx%d ??\n", 137},
-  {"Error writing screendump\n", 138},
+60\n", 134},
+  {"resizecons: cannot get I/O permissions.\n", 135},
+  {"usage: screendump [n]\n", 136},
+  {"Error reading %s\n", 137},
+  {"couldn't read %s, and cannot ioctl dump\n", 138},
+  {"couldn't read %s\n", 139},
+  {"Strange ... screen is both %dx%d and %dx%d ??\n", 140},
+  {"Error writing screendump\n", 141},
   {"\
 Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u \
 unicodemap]\n\
@@ -222,49 +234,49 @@ will be loaded and, in the case of consolemaps, activated.\n\
     -v         Be verbose.\n\
     -C <cons>  Indicate console device to be used.\n\
     -V         Print version and exit.\n\
-Files are loaded from the current directory or /usr/lib/kbd/*/.\n", 139},
-  {"setfont: too many input files\n", 140},
+Files are loaded from the current directory or /usr/lib/kbd/*/.\n", 142},
+  {"setfont: too many input files\n", 143},
   {"\
 setfont: cannot both restore from character ROM and from file. Font \
-unchanged.\n", 141},
-  {"Bad character height %d\n", 142},
-  {"Bad character width %d\n", 143},
-  {"%s: font position 32 is nonblank\n", 144},
-  {"%s: wiped it\n", 145},
-  {"%s: background will look funny\n", 146},
-  {"Loading %d-char %dx%d font from file %s\n", 147},
-  {"Loading %d-char %dx%d font\n", 148},
-  {"Loading %d-char %dx%d (%d) font from file %s\n", 149},
-  {"Loading %d-char %dx%d (%d) font\n", 150},
-  {"%s: bug in do_loadtable\n", 151},
-  {"Loading Unicode mapping table...\n", 152},
-  {"Cannot open font file %s\n", 153},
-  {"When loading several fonts, all must be psf fonts - %s isn't\n", 154},
-  {"Read %d-char %dx%d font from file %s\n", 155},
-  {"When loading several fonts, all must have the same height\n", 156},
-  {"When loading several fonts, all must have the same width\n", 157},
-  {"Cannot find default font\n", 158},
-  {"Cannot find %s font\n", 159},
-  {"Reading font file %s\n", 160},
-  {"No final newline in combine file\n", 161},
-  {"Too many files to combine\n", 162},
-  {"Hmm - a font from restorefont? Using the first half.\n", 163},
-  {"Bad input file size\n", 164},
+unchanged.\n", 144},
+  {"Bad character height %d\n", 145},
+  {"Bad character width %d\n", 146},
+  {"%s: font position 32 is nonblank\n", 147},
+  {"%s: wiped it\n", 148},
+  {"%s: background will look funny\n", 149},
+  {"Loading %d-char %dx%d font from file %s\n", 150},
+  {"Loading %d-char %dx%d font\n", 151},
+  {"Loading %d-char %dx%d (%d) font from file %s\n", 152},
+  {"Loading %d-char %dx%d (%d) font\n", 153},
+  {"%s: bug in do_loadtable\n", 154},
+  {"Loading Unicode mapping table...\n", 155},
+  {"Cannot open font file %s\n", 156},
+  {"When loading several fonts, all must be psf fonts - %s isn't\n", 157},
+  {"Read %d-char %dx%d font from file %s\n", 158},
+  {"When loading several fonts, all must have the same height\n", 159},
+  {"When loading several fonts, all must have the same width\n", 160},
+  {"Cannot find default font\n", 161},
+  {"Cannot find %s font\n", 162},
+  {"Reading font file %s\n", 163},
+  {"No final newline in combine file\n", 164},
+  {"Too many files to combine\n", 165},
+  {"Hmm - a font from restorefont? Using the first half.\n", 166},
+  {"Bad input file size\n", 167},
   {"\
 This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n\
-using an option -8 or -14 or -16 which one you want loaded.\n", 165},
-  {"You asked for font size %d, but only 8, 14, 16 are possible here.\n", 166},
-  {"Found nothing to save\n", 167},
-  {"Cannot write font file", 168},
-  {"Saved %d-char %dx%d font file on %s\n", 169},
+using an option -8 or -14 or -16 which one you want loaded.\n", 168},
+  {"You asked for font size %d, but only 8, 14, 16 are possible here.\n", 169},
+  {"Found nothing to save\n", 170},
+  {"Cannot write font file", 171},
+  {"Saved %d-char %dx%d font file on %s\n", 172},
   {"\
 usage: setkeycode scancode keycode ...\n\
  (where scancode is either xx or e0xx, given in hexadecimal,\n\
-  and keycode is given in decimal)\n", 170},
-  {"even number of arguments expected", 171},
-  {"error reading scancode", 172},
-  {"code outside bounds", 173},
-  {"failed to set scancode %x to keycode %d\n", 174},
+  and keycode is given in decimal)\n", 173},
+  {"even number of arguments expected", 174},
+  {"error reading scancode", 175},
+  {"code outside bounds", 176},
+  {"failed to set scancode %x to keycode %d\n", 177},
   {"\
 Usage:\n\
 \tsetleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n\
@@ -277,56 +289,63 @@ Normally, setleds influences the vt flag settings\n\
 (and these are usually reflected in the leds).\n\
 With -L, setleds only sets the leds, and leaves the flags alone.\n\
 With -D, setleds sets both the flags and the default flags, so\n\
-that a subsequent reset will not change the flags.\n", 175},
-  {"on ", 176},
-  {"off", 177},
-  {"Error reading current led setting. Maybe stdin is not a VT?\n", 178},
+that a subsequent reset will not change the flags.\n", 178},
+  {"on ", 179},
+  {"off", 180},
+  {"Error reading current led setting. Maybe stdin is not a VT?\n", 181},
   {"\
-Error reading current flags setting. Maybe you are not on the console?\n", 179},
-  {"Error reading current led setting from /dev/kbd.\n", 180},
-  {"KIOCGLED unavailable?\n", 181},
-  {"KIOCSLED unavailable?\n", 182},
-  {"Error opening /dev/kbd.\n", 183},
-  {"Error resetting ledmode\n", 184},
-  {"Current default flags:  ", 185},
-  {"Current flags:          ", 186},
-  {"Current leds:           ", 187},
+Error reading current flags setting. Maybe you are not on the console?\n", 182},
+  {"Error reading current led setting from /dev/kbd.\n", 183},
+  {"KIOCGLED unavailable?\n", 184},
+  {"KIOCSLED unavailable?\n", 185},
+  {"Error opening /dev/kbd.\n", 186},
+  {"Error resetting ledmode\n", 187},
+  {"Current default flags:  ", 188},
+  {"Current flags:          ", 189},
+  {"Current leds:           ", 190},
   {"\
 unrecognized argument: _%s_\n\
-\n", 188},
-  {"Old default flags:    ", 189},
-  {"New default flags:    ", 190},
-  {"Old flags:            ", 191},
-  {"New flags:            ", 192},
-  {"Old leds:             ", 193},
-  {"New leds:             ", 194},
+\n", 191},
+  {"Old default flags:    ", 192},
+  {"New default flags:    ", 193},
+  {"Old flags:            ", 194},
+  {"New flags:            ", 195},
+  {"Old leds:             ", 196},
+  {"New leds:             ", 197},
   {"\
 Usage:\n\
 \tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n\
 Each vt has his own copy of this bit. Use\n\
 \tsetmetamode [arg] < /dev/ttyn\n\
 to change the settings of another vt.\n\
-The setting before and after the change are reported.\n", 195},
-  {"Meta key sets high order bit\n", 196},
-  {"Meta key gives Esc prefix\n", 197},
-  {"Strange mode for Meta key?\n", 198},
-  {"Error reading current setting. Maybe stdin is not a VT?\n", 199},
-  {"old state:    ", 200},
-  {"new state:    ", 201},
-  {"usage: %s\n", 202},
-  {"failed to restore original translation table\n", 203},
-  {"failed to restore original unimap\n", 204},
-  {"cannot change translation table\n", 205},
-  {"%s: out of memory?\n", 206},
+The setting before and after the change are reported.\n", 198},
+  {"Meta key sets high order bit\n", 199},
+  {"Meta key gives Esc prefix\n", 200},
+  {"Strange mode for Meta key?\n", 201},
+  {"Error reading current setting. Maybe stdin is not a VT?\n", 202},
+  {"old state:    ", 203},
+  {"new state:    ", 204},
+  {"usage: %s\n", 205},
+  {"failed to restore original translation table\n", 206},
+  {"failed to restore original unimap\n", 207},
+  {"cannot change translation table\n", 208},
+  {"%s: out of memory?\n", 209},
   {"\
-usage: showconsolefont [-v|-V]\n\
-(probably after loading a font with `setfont font')\n", 207},
-  {"?UNKNOWN?", 208},
-  {"kb mode was %s\n", 209},
+usage: showconsolefont -V|--version\n\
+       showconsolefont [-C tty] [-v] [-i]\n\
+(probably after loading a font with `setfont font')\n\
+\n\
+Valid options are:\n\
+ -C tty   Device to read the font from. Default: current tty.\n\
+ -v       Be more verbose.\n\
+ -i       Don't print out the font table, just show\n\
+          ROWSxCOLSxCOUNT and exit.\n", 210},
+  {"?UNKNOWN?", 211},
+  {"kb mode was %s\n", 212},
   {"\
 [ if you are trying this under X, it might not work\n\
-since the X server is also reading /dev/console ]\n", 210},
-  {"caught signal %d, cleaning up...\n", 211},
+since the X server is also reading /dev/console ]\n", 213},
+  {"caught signal %d, cleaning up...\n", 214},
   {"\
 showkey version %s\n\
 \n\
@@ -337,16 +356,16 @@ valid options are:\n\
 \t-h --help\tdisplay this help text\n\
 \t-a --ascii\tdisplay the decimal/octal/hex values of the keys\n\
 \t-s --scancodes\tdisplay only the raw scan-codes\n\
-\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n", 212},
+\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n", 215},
   {"\
 \n\
 Press any keys - Ctrl-D will terminate this program\n\
-\n", 213},
-  {"press any key (program terminates 10s after last keypress)...\n", 214},
-  {"release", 215},
-  {"press", 216},
-  {"keycode %3d %s\n", 217},
-  {"%s from %s\n", 218},
+\n", 216},
+  {"press any key (program terminates 10s after last keypress)...\n", 217},
+  {"release", 218},
+  {"press", 219},
+  {"keycode %3d %s\n", 220},
+  {"%s from %s\n", 221},
 };
 
-int _msg_tbl_length = 218;
+int _msg_tbl_length = 221;

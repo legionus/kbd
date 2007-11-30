@@ -19,8 +19,8 @@ main(int argc, char *argv[]) {
 	char *console = NULL;
 
 	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
 	if (argc >= 3 && !strcmp(argv[1], "-C"))
 		console = argv[2];

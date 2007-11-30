@@ -93,8 +93,8 @@ usage(void)
 "    -v         Be verbose.\n"
 "    -C <cons>  Indicate console device to be used.\n"
 "    -V         Print version and exit.\n"
-"Files are loaded from the current directory or /usr/lib/kbd/*/.\n"
-));
+"Files are loaded from the current directory or %s/*/.\n"
+), DATADIR);
 	exit(EX_USAGE);
 }
 
@@ -110,8 +110,8 @@ main(int argc, char *argv[]) {
 	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;

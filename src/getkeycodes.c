@@ -28,8 +28,8 @@ main(int argc, char **argv) {
 	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 		print_version_and_exit();

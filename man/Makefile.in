@@ -1,0 +1,39 @@
+prefix         = @prefix@
+datadir        = @datadir@
+mandir         = @mandir@
+OPTIONAL_PROGS = @OPTIONAL_PROGS@
+
+# Generated files
+GEN1 = man1/dumpkeys.1 man1/loadkeys.1
+GEN8 = man8/setfont.8 man8/loadunimap.8 man8/mapscrn.8
+
+MANS = $(GEN1) $(GEN8)
+
+DIRLIST = man1 man5 man8
+
+ifdef OPTIONAL_PROGS
+DIRLIST += man1misc man8misc
+endif
+
+all: $(MANS)
+
+%: %.in
+	sed -e "s|\@datadir\@|$(datadir)|g" <$< >$@
+
+install:
+	for i in $(DIRLIST); do \
+		install -d -m 755 $(mandir)/$$i; \
+		install -m 644 $$i/*.[0-9] $(mandir)/$$i; \
+	done
+	rm -f $(mandir)/man5/keytables.5
+
+clean:
+	rm -f $(GEN1) $(GEN8)
+
+distclean: clean
+	rm -f Makefile
+
+# Note: man?misc contains the man pages for non-installed
+# programs from ../src. Most of these are tiny test programs,
+# not very useful for anybody.
+# But if you decide to install some of those, then here are the man pages.

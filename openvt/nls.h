@@ -1,15 +1,11 @@
 
-#include "../defines.h"		/* for HAVE_locale_h */
-
-#ifndef PACKAGE
-#define PACKAGE	"kbd"
-#endif
+#include "../config.h"
 
 #ifndef LOCALEDIR
 #define LOCALEDIR "/usr/share/locale"
 #endif
 
-#ifdef HAVE_locale_h
+#ifdef HAVE_LOCALE_H
 # include <locale.h>
 #endif
 
