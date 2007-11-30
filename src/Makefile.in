@@ -6,9 +6,6 @@ OPTIONAL_PROGS = @OPTIONAL_PROGS@
 # Something like /usr/lib/kbd or /usr/share/kbd
 DATA_DIR = @datadir@
 
-# Maybe we want to use a qwertz keyboard before /usr is mounted
-LOADKEYS_BINDIR ?= /bin
-
 OLDPROGS= mapscrn loadunimap
 PROGS   = dumpkeys loadkeys showkey setfont showconsolefont \
 	  setleds setmetamode kbd_mode chvt deallocvt \
@@ -52,13 +49,11 @@ setuid:
 	chmod 4711 $(bindir)/openvt
 
 install: all
-	install -d -m 0755 $(bindir) $(LOADKEYS_BINDIR)
+	install -d -m 0755 $(bindir)
 	install -s -m 0755 $(PROGS) $(OLDPROGS) $(SHCMDS) $(bindir)
 	for i in psfaddtable psfgettable psfstriptable; do \
 		rm -f $(bindir)/$$i; ln -s psfxtable $(bindir)/$$i; \
 	done
-	rm -f $(bindir)/loadkeys
-	install -s -m 0755 loadkeys $(LOADKEYS_BINDIR)
 	@echo "You may also want to add psf.magic to /usr/lib/magic"
 
 # loadkeys.o: separate rule since the flex output does not permit -Wall
