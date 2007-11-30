@@ -73,7 +73,6 @@ AC_SUBST(HAVE_XGETTEXT)
 AC_CONFIG_FILES([Makefile
 		data/Makefile
 		man/Makefile
-		openvt/Makefile
 		po/Makefile
 		src/Makefile])
 AC_OUTPUT
