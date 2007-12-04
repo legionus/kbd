@@ -44,7 +44,8 @@ AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul])
 
 OPTIONAL_PROGS=
-AC_ARG_ENABLE(samples, AS_HELP_STRING(--enable-samples, [Build and install a simple programs]),
+AC_ARG_ENABLE(optional-progs,
+	AS_HELP_STRING(--enable-optional-progs, [Build and install a optional programs]),
 	[OPTIONAL_PROGS=1])
 AC_SUBST(OPTIONAL_PROGS)
 
