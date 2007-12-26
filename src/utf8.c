@@ -44,7 +44,7 @@ from_utf8(char **inptr, int cnt, int *err) {
 		*err = UTF8_BAD;
 		return 0;
 	}
-	*inptr = in;
+	*inptr = (char *)in;
 	*err = 0;
 	return uc;
 }

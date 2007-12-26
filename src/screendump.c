@@ -144,7 +144,7 @@ try_ioctl:
 	}
 
 	outbuf = xmalloc(rows*(cols+1));
-	p = screenbuf + 2;
+	p = ((char *)screenbuf) + 2;
 	q = outbuf;
         for (i=0; i<rows; i++) {
 	    for (j=0; j<cols; j++)

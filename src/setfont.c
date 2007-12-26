@@ -248,7 +248,7 @@ static int erase_mode = 1;
 static void
 do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 	    int fontsize, char *pathname) {
-	char *buf;
+	unsigned char *buf;
 	int i, buflen;
 	int bytewidth = (width+7)/8;
 	int charsize = height * bytewidth;
@@ -639,7 +639,7 @@ do_saveoldfont(int fd, char *ofil, FILE *fpo, int unimap_follows,
 
 /* this is the max font size the kernel is willing to handle */
 #define MAXFONTSIZE	65536
-	char buf[MAXFONTSIZE];
+	unsigned char buf[MAXFONTSIZE];
 
 	int i, ct, width, height, bytewidth, charsize, kcharsize;
 

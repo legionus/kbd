@@ -499,7 +499,7 @@ static void
 dump_funcs(void) {
 	int i;
 	struct kbsentry fbuf;
-	char *p;
+	unsigned char *p;
 
 	for (i = 0; i < MAX_NR_FUNC; i++) {
 		fbuf.kb_func = i;

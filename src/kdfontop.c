@@ -130,7 +130,7 @@ struct console_font_op {
 #endif /* KDFONTOP */
 
 int
-font_charheight(char *buf, int count, int width) {
+font_charheight(unsigned char *buf, int count, int width) {
 	int h, i, x;
 	int bytewidth = (width+7)/8;
 
@@ -149,7 +149,7 @@ font_charheight(char *buf, int count, int width) {
  * Must not exit - we may have cleanup to do.
  */
 int
-getfont(int fd, char *buf, int *count, int *width, int *height) {
+getfont(int fd, unsigned char *buf, int *count, int *width, int *height) {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
 	int i;
@@ -179,7 +179,7 @@ getfont(int fd, char *buf, int *count, int *width, int *height) {
 	/* Second attempt: GIO_FONTX */
 	cfd.charcount = *count;
 	cfd.charheight = 0;
-	cfd.chardata = buf;
+	cfd.chardata = (char *)buf;
 	i = ioctl(fd, GIO_FONTX, &cfd);
 	if (i == 0) {
 		*count = cfd.charcount;
@@ -223,7 +223,7 @@ getfontsize(int fd) {
 }
 
 int
-putfont(int fd, char *buf, int count, int width, int height) {
+putfont(int fd, unsigned char *buf, int count, int width, int height) {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
 	int i;
@@ -252,7 +252,7 @@ putfont(int fd, char *buf, int count, int width, int height) {
 	   round up and try again. */
 	if (errno == EINVAL && width == 8 && count != 256 && count < 512) {
 		int ct = ((count > 256) ? 512 : 256);
-		char *mybuf = malloc(32 * ct);
+		unsigned char *mybuf = malloc(32 * ct);
 
 		if (!mybuf) {
 			fprintf(stderr, _("%s: out of memory\n"), progname);
@@ -271,7 +271,7 @@ putfont(int fd, char *buf, int count, int width, int height) {
 	/* Second attempt: PIO_FONTX */
 	cfd.charcount = count;
 	cfd.charheight = height;
-	cfd.chardata = buf;
+	cfd.chardata = (char *)buf;
 	i = ioctl(fd, PIO_FONTX, &cfd);
 	if (i == 0)
 		return 0;

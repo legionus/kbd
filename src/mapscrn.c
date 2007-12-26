@@ -21,7 +21,7 @@
 void saveoldmap(int fd, char *omfil);
 void loadnewmap(int fd, char *mfil);
 
-static int ctoi (unsigned char *);
+static int ctoi (char *);
 
 /* search for the map file in these directories (with trailing /) */
 static char *mapdirpath[] = { "", DATADIR "/" TRANSDIR "/", 0 };
@@ -210,7 +210,7 @@ loadnewmap(int fd, char *mfil) {
  * ('x', x a single byte or a utf8 sequence).
  */
 int
-ctoi(unsigned char *s) {
+ctoi(char *s) {
 	int i;
 
 	if ((strncmp(s,"0x",2) == 0) && 

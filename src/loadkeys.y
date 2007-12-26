@@ -1027,7 +1027,7 @@ loadkeys (char *console, int *warned) {
         int keyct, funcct, diacct = 0;
 
 	fd = getfd(console);
-	keyct = defkeys(fd, console, &warned);
+	keyct = defkeys(fd, console, warned);
 	funcct = deffuncs(fd);
 	if (verbose) {
 	        printf(_("\nChanged %d %s and %d %s.\n"),
