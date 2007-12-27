@@ -21,4 +21,5 @@ stty -iutf8
 # cannot be reverted, therefore we have to load the keyboard mapping again
 # if it could be sucessfully saved in "unicode_start":
 
-test -r $HOME/.kbd/.keymap_sv && loadkeys $HOME/.kbd/.keymap_sv
+[ ! -r "$HOME/.kbd/.keymap_sv" ] ||
+	loadkeys "$HOME/.kbd/.keymap_sv"

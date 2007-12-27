@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # 0. Check whether we're on a console
 TTY="`/usr/bin/tty`"
@@ -35,9 +35,14 @@ kbd_mode -u
 # to save a copy of the original keymap to be able to reload it in unicode_stop.
 # (see also http://mail.nl.linux.org/linux-utf8/2003-08/msg00053.html):
 
-test -z "$HOME" -o "/" == "$HOME" && HOME=/root
-test -d $HOME/.kbd || mkdir $HOME/.kbd
-dumpkeys > $HOME/.kbd/.keymap_sv
+[ -n "$HOME" -a "$HOME" != '/' ] ||
+	HOME='/root'
+
+if [ -d "$HOME" ]; then
+	[ -d "$HOME/.kbd" ] ||
+		mkdir -- "$HOME/.kbd"
+	dumpkeys > "$HOME/.kbd/.keymap_sv"
+fi
 
 # redirect stderr and stdout of loadkeys to /dev/null to avoid the confusing
 # "plus before udiaeresis ignored" warnings.
@@ -48,7 +53,7 @@ dumpkeys | loadkeys --unicode > /dev/null 2>&1
 
 # Tell the console output driver that the bytes arriving are UTF-8
 # encoded multibyte sequences.
-if test -t 1 -a -t 2 ; then
+if [ -t 1 -a -t 2 ]; then
 	printf '\033%%G'
 fi
 stty iutf8
@@ -58,18 +63,18 @@ stty iutf8
 # have a Unicode map attached, or explicitly specified, e.g.,
 # by giving `def.uni' as a second argument.
 
-DEFAULT_UNICODE_FONT=LatArCyrHeb-16
+DEFAULT_UNICODE_FONT='LatArCyrHeb-16'
 # Also drdos8x16 is a good candidate.
 
-case $# in
+case "$#" in
 	2)
-		setfont $1 -u $2
+		setfont "$1" -u "$2"
 		;;
 	1)
-		setfont $1
+		setfont "$1"
 		;;
 	0)
-		setfont $DEFAULT_UNICODE_FONT
+		setfont "$DEFAULT_UNICODE_FONT"
 		;;
 	*)
 		echo "usage: unicode_start [font [unicode map]]"
