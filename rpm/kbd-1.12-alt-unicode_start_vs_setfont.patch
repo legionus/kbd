@@ -10,18 +10,18 @@ diff -Naur kbd-1.12/src/unicode_start kbd-1.12.new/src/unicode_start
 -# have a Unicode map attached, or explicitly specified, e.g.,
 -# by giving `def.uni' as a second argument.
 -
--DEFAULT_UNICODE_FONT=LatArCyrHeb-16
+-DEFAULT_UNICODE_FONT='LatArCyrHeb-16'
 -# Also drdos8x16 is a good candidate.
 -
--case $# in
+-case "$#" in
 -	2)
--		setfont $1 -u $2
+-		setfont "$1" -u "$2"
 -		;;
 -	1)
--		setfont $1
+-		setfont "$1"
 -		;;
 -	0)
--		setfont $DEFAULT_UNICODE_FONT
+-		setfont "$DEFAULT_UNICODE_FONT"
 -		;;
 -	*)
 -		echo "usage: unicode_start [font [unicode map]]"

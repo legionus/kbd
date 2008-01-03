@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
-Version: 1.12.1
-Release: alt2
+Version: 1.13.99
+Release: alt1
 
 Group: Terminals
 Summary: Tools for managing the Linux console (variant: kbd)
@@ -17,6 +17,9 @@ ExcludeArch: s390 s390x
 Provides: console-tools_or_kbd = %name%serial:%version-%release
 Conflicts: console-tools_or_kbd < %name%serial:%version-%release
 Conflicts: console-tools_or_kbd > %name%serial:%version-%release
+
+Obsoletes: console-tools
+Provides: console-tools = %version
 
 # due to file extarctions from this pkg to other
 # (console-data, console-common-scripts)
@@ -54,22 +57,32 @@ Basic tools for controlling the vitual terminals are in console-vt-tools package
 
 A set of various fonts and keyboard maps is provided by console-data package.
 
-%description -l ru_RU.KOI8-R
-Этот пакет содержит инструменты для управления консолью Linux
-(консолью, виртуальными терминалами на ней, клавиатурой и т.п.), в основном, они
-занимаются загрузкой консольных шрифтов и раскладок клавиатуры.
+%description -l ru_RU.UTF-8
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ я│п╬п╢п╣я─п╤п╦я┌ п╦п╫я│я┌я─я┐п╪п╣п╫я┌я▀ п╢п╩я▐ я┐п©я─п╟п╡п╩п╣п╫п╦я▐ п╨п╬п╫я│п╬п╩я▄я▌ Linux
+(п╨п╬п╫я│п╬п╩я▄я▌, п╡п╦я─я┌я┐п╟п╩я▄п╫я▀п╪п╦ я┌п╣я─п╪п╦п╫п╟п╩п╟п╪п╦ п╫п╟ п╫п╣п╧, п╨п╩п╟п╡п╦п╟я┌я┐я─п╬п╧ п╦ я┌.п©.), п╡ п╬я│п╫п╬п╡п╫п╬п╪, п╬п╫п╦
+п╥п╟п╫п╦п╪п╟я▌я┌я│я▐ п╥п╟пЁя─я┐п╥п╨п╬п╧ п╨п╬п╫я│п╬п╩я▄п╫я▀я┘ я┬я─п╦я└я┌п╬п╡ п╦ я─п╟я│п╨п╩п╟п╢п╬п╨ п╨п╩п╟п╡п╦п╟я┌я┐я─я▀.
 
-Простые инструменты для управления виртуальными терминалами находятся
-в пакете console-vt-tools.
+п÷я─п╬я│я┌я▀п╣ п╦п╫я│я┌я─я┐п╪п╣п╫я┌я▀ п╢п╩я▐ я┐п©я─п╟п╡п╩п╣п╫п╦я▐ п╡п╦я─я┌я┐п╟п╩я▄п╫я▀п╪п╦ я┌п╣я─п╪п╦п╫п╟п╩п╟п╪п╦ п╫п╟я┘п╬п╢я▐я┌я│я▐
+п╡ п©п╟п╨п╣я┌п╣ console-vt-tools.
 
-Набор разнообразных шрифтов и описаний раскладок предоставляется
-пакетом console-data.
+п²п╟п╠п╬я─ я─п╟п╥п╫п╬п╬п╠я─п╟п╥п╫я▀я┘ я┬я─п╦я└я┌п╬п╡ п╦ п╬п©п╦я│п╟п╫п╦п╧ я─п╟я│п╨п╩п╟п╢п╬п╨ п©я─п╣п╢п╬я│я┌п╟п╡п╩я▐п╣я┌я│я▐
+п©п╟п╨п╣я┌п╬п╪ console-data.
 
-%package -n kbd-docs
+%package -n %name-data
+Group: Terminals
+Summary: Linux console data files
+
+Obsoletes: console-data
+Provides: console-data = %version
+
+%description -n %name-data
+This package contains various console fonts and keyboard maps.
+
+%package -n %name-docs
 Group: Documentation
 Summary: Documentation for kbd
 
-%description -n kbd-docs
+%description -n %name-docs
 Documentation for kbd
 
 %package -n console-vt-tools
@@ -132,38 +145,32 @@ This package contains usermode bindings for kbdrate.
 
 %prep
 %setup -q
-
-# Debian:
-%patch22 -p1 -b .po_make
-%patch23 -p1 -b .man
-
 %patch100 -p1 -b .unicode_start_vs_setfont
 
 %build
-# We don't use %% {configure} because the ./configure included here does not
-# understand most of the options.
-export CFLAGS="-Wextra"
-./configure --prefix=/  --datadir=%_libdir/kbd --mandir=%_mandir 
+%__autoconf
+%configure \
+	--bindir=/bin \
+	--datadir=/lib/%name \
+	--mandir=%_mandir \
+	--enable-nls \
+	--enable-optional-progs \
+	#
 
-# Override CFLAGS because this configure ignores them anyway, and LDFLAGS
-# because it defaults to -s, but that's a build policy decision.
 %make_build
 
 %install
-%define _makeinstall_target install-progs install-man
-
-# Basic install.
-%makeinstall DESTDIR="%buildroot" \
-	\
-	BINDIR="%buildroot/%_bindir" \
-	LOADKEYS_BINDIR="%buildroot/bin" \
-	MANDIR="%buildroot/%_mandir" \
+%makeinstall \
+	bindir="%buildroot/bin" \
+	datadir="%buildroot/lib/%name" \
+	localedir="%buildroot/%_datadir/locale" \
 	gnulocaledir="%buildroot/%_datadir/locale" \
-	localedir="%buildroot/%_datadir/locale"
+	#
 
-# Move binaries which we use before /usr is mounted from %_bindir to /bin.
+# Backward compatibility link
+mkdir -p -- %buildroot/%_bindir %buildroot/%_libdir
+ln -s -- /lib/%name %buildroot/%_libdir/%name
 for binary in setfont dumpkeys kbd_mode unicode_start unicode_stop ; do
-	mv %buildroot/%_bindir/$binary %buildroot/bin
 	ln -s /bin/$binary %buildroot/%_bindir/$binary
 done
 
@@ -175,36 +182,46 @@ mkdir -p %buildroot/sbin \
 install -p -m640 rpm/util-linux-2.9w-kbdrate.pamd %buildroot/%_sysconfdir/pam.d/kbdrate
 install -p -m640 rpm/util-linux-2.9w-kbdrate.apps %buildroot/%_sysconfdir/security/console.apps/kbdrate
 
-mv %buildroot/%_bindir/kbdrate %buildroot/sbin/
-%__ln_s %_libdir/helper/consolehelper %buildroot/%_bindir/kbdrate
+mv %buildroot/bin/kbdrate %buildroot/sbin/
+ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
 
 %find_lang %name
+
+%post -n %name-data
+[ ! -d '%_libdir/%name' ] ||
+	rm -rf -- '%_libdir/%name'
+[ -e '%_libdir/%name' ] ||
+	ln -s -- '/lib/%name' '%_libdir/%name'
 
 %files -f %name.lang
 /bin/*
 /sbin/*
 %_bindir/*
 %_mandir/*/*
-%exclude %_bindir/chvt
-%exclude %_bindir/openvt
-%exclude %_bindir/deallocvt
-%exclude %_bindir/fgconsole
+%exclude /bin/chvt
+%exclude /bin/openvt
+%exclude /bin/deallocvt
+%exclude /bin/fgconsole
 %exclude /sbin/kbdrate
-%exclude %_bindir/kbdrate
+%exclude /bin/kbdrate
 %exclude %_man1dir/chvt*
 %exclude %_man1dir/openvt*
 %exclude %_man1dir/deallocvt*
 %exclude %_man1dir/fgconsole*
 %exclude %_man8dir/kbdrate.*
 
-%files -n kbd-docs
+%files -n %name-data
+/lib/%name
+%ghost %_libdir/%name
+
+%files -n %name-docs
 %doc CHANGES CREDITS README doc/*.txt doc/kbd.FAQ*.html doc/font-formats/*.html doc/utf
 
 %files -n console-vt-tools
-%_bindir/chvt
-%_bindir/openvt
-%_bindir/deallocvt
-%_bindir/fgconsole
+/bin/chvt
+/bin/openvt
+/bin/deallocvt
+/bin/fgconsole
 %_man1dir/chvt*
 %_man1dir/openvt*
 %_man1dir/deallocvt*
@@ -218,9 +235,27 @@ mv %buildroot/%_bindir/kbdrate %buildroot/sbin/
 %files -n kbdrate-usermode
 %config(noreplace) %_sysconfdir/pam.d/kbdrate
 %config(noreplace) %_sysconfdir/security/console.apps/kbdrate
-%_bindir/kbdrate
+/bin/kbdrate
 
 %changelog
+* Thu Jan 03 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt1
+- New prerelease version (1.13.99).
+- Add new subpackage: kbd-data.
+- Add '.acm' suffix for compatibility with console-tools.
+- Add Terminus font.
+- Add unicode cyrillic fonts.
+- Add more romanian keymaps.
+- Add another ukrainian keymap.
+- Add Belarusian (Belarus) keymaps.
+- Add Kazakh keymap.
+- Add Kyrgyz keymap.
+- Add Bashkir (Russia) keymap.
+- Add Tatar keymaps.
+- Add more russian keymaps.
+- Migrate to autoconf.
+- Apply patches from other linux vendors.
+- Fix some build warnings.
+
 * Mon May 21 2007 Alexey Gladkov <legion@altlinux.ru> 0:1.12.1-alt2
 - Fix openvt: set the session controlling terminal.
 
