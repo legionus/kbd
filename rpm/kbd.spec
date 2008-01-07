@@ -39,14 +39,8 @@ Patch23: man_pages.diff
 #NMU Patches:
 Patch100: kbd-1.12-alt-unicode_start_vs_setfont.patch
 
-# due to grep, sed, xargs
-BuildRequires(install): grep, sed, findutils
-# due to provided PAM config file: 
-# libpam-devel is required to compute what pkg provides
-BuildRequires(install): libpam-devel
-
-# Automatically added by buildreq on Tue Apr 12 2005
-BuildRequires: flex
+# Automatically added by buildreq on Mon Jan 07 2008 (-bi)
+BuildRequires: flex libpam-devel
 
 %description
 This package contains tools for managing the Linux console
