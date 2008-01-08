@@ -4,7 +4,7 @@ Version: 1.13.99
 Release: alt1
 
 Group: Terminals
-Summary: Tools for managing the Linux console (variant: kbd)
+Summary: Tools for managing the Linux console
 License: GPL
 Url: ftp://ftp.win.tue.nl/pub/linux-local/utils/kbd/
 # HOWTO at http://www.win.tue.nl/~aeb/linux/kbd/
@@ -249,6 +249,7 @@ ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
 - Migrate to autoconf.
 - Apply patches from other linux vendors.
 - Fix some build warnings.
+- /usr/lib/kbd moved to /lib/kbd.
 
 * Mon May 21 2007 Alexey Gladkov <legion@altlinux.ru> 0:1.12.1-alt2
 - Fix openvt: set the session controlling terminal.
