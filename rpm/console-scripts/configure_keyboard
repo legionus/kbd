@@ -1,0 +1,38 @@
+#!/bin/sh
+KEYBOARD=/etc/sysconfig/keyboard
+if [ -s "$KEYBOARD" ]; then
+    . "$KEYBOARD" 2>/dev/null
+fi
+
+if [ -z "$BACKSPACE" ]; then
+# the code for Backspace key is arch-dependent.
+# FIXME: what really returns uname for non-PC machines ???
+    case `uname -m`-`uname -p` in
+	i[3456789]86-*) BSNUM=14 ;;
+	*-amiga) BSNUM=65 ;;
+	m68k-atari) BSNUM=14 ;;
+	*-macintosh) BSNUM=51 ;;
+	mips-sun) BSNUM=43 ;;
+	*) BSNUM=999 ;;
+    esac
+
+    if [ "$BSNUM" != "999" ]; then
+        BACKSPACE=`dumpkeys -1 2>/dev/null| awk '/^plain[[:space:]]+keycode[[:space:]]+'${BSNUM}'[[:space:]]/ { print $5; exit;}'`
+    fi
+fi
+
+# Why should we do all this even on xterms?
+
+if [ "$BACKSPACE" = "BackSpace" ]; then
+    # BackSpace sends BackSpace
+    tset -Q -I -e '^H'
+else
+    # BackSpace sends Delete
+    tset -Q -I -e '^?'
+fi
+
+# activate keypad on xterm
+if [ "$TERM" = "xterm" -o -n "${TERM#xterm}" ]; then
+		# activate keypad
+    printf %b '\033>'
+fi

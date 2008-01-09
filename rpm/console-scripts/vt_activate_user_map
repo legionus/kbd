@@ -1,0 +1,18 @@
+#!/bin/sh
+
+SYSFONTACM=
+for f in "$HOME/.consolefont" "$HOME/.i18n" \
+	/etc/sysconfig/consolefont /etc/sysconfig/i18n; do
+	if [ -s "$f" ] && . "$f" && [ -n "$SYSFONTACM" ]; then
+		break
+	fi
+done
+[ -n "$SYSFONTACM" ] || exit 0
+
+case "$SYSFONTACM" in
+	cp1251*|iso01*|iso02*|iso08*|iso15*|koi*|latin2-ucw*|pt154*)
+		if [ "$TERM" = linux ] && [ "`/sbin/consoletype`" = vt ]; then
+			printf %b '\033(K' >&0
+		fi
+		;;
+esac

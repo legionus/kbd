@@ -1,0 +1,16 @@
+#!/bin/sh
+
+NEED_UNICODE=
+for f in "$HOME/.i18n" /etc/sysconfig/i18n; do
+	if [ -s "$f" ] && . "$f" ; then
+		break
+	fi
+done
+
+case "$LANG" in 
+	*.utf8|*.UTF-8) NEED_UNICODE=1 ;;
+esac
+
+if [ -n "$NEED_UNICODE"  -a "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
+	[ -x /bin/unicode_start ] && /bin/unicode_start
+fi

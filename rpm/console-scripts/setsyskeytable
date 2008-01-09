@@ -1,0 +1,84 @@
+#!/bin/sh -e
+
+WITHOUT_RC_COMPAT=1
+
+# Source function library.
+. /etc/init.d/functions
+
+KEYBOARD=/etc/sysconfig/keyboard
+[ -s "$KEYBOARD" ] || exit
+
+LOADKEYS="$(absolute loadkeys)" || exit
+
+# Read the keyboard config
+. "$KEYBOARD"
+if [ "${KEYTABLE:-bogus}" != "bogus" ]; then
+	# load the keyboard map
+	action "Loading keymap: $KEYTABLE" \
+	$LOADKEYS "$KEYTABLE"
+fi
+
+# search the charset used
+if [ -z "$KBCHARSET" ]; then
+	FILETOGREP="$KEYTABLE"
+
+	# XXXlegion: Fixme!
+	[ -r "$KEYTABLE" ] ||
+		FILETOGREP=/lib/kbd/keymaps/i386/*/$KEYTABLE*map.gz
+
+	[ ! -r "$FILETOGREP" ] ||
+		KBCHARSET=`zgrep '^charset' $FILETOGREP 2>/dev/null |cut -d' ' -f2 |tr -d ' "'`
+
+	if [ -z "$KBCHARSET" ]; then
+		KBCHARSET="${KEYTABLE#*-}"
+		KBCHARSET="${KBCHARSET%%.*}"
+	fi
+fi
+
+KBCHARSET="$(echo "$KBCHARSET" | tr '[[:upper:]]' '[[:lower:]]')"
+# load compose definitions
+case $KBCHARSET in
+	iso-8859-1) KBCHARSET=latin1;;
+	iso-8859-2) KBCHARSET=latin2;;
+	iso-8859-3) KBCHARSET=latin3;;
+	iso-8859-4) KBCHARSET=latin4;;
+	iso-8859-7) KBCHARSET=8859_7;;
+	iso-8859-8) KBCHARSET=8859_8;;
+	iso-8859-9*) KBCHARSET=latin5;;
+	iso-8859-13) KBCHARSET=latin7;;
+	iso-8859-14) KBCHARSET=latin8;;
+	iso-8859-15) KBCHARSET=latin9;;
+	latin0) KBCHARSET=latin9;;
+	tcvn*) KBCHARSET=tcvn;;
+	viscii*) KBCHARSET=viscii;;
+	koi*|cp1251|iso-8859-5) KBCHARSET=cyrillic;;
+	*) KBCHARSET=latin;;
+esac
+if [ "$KBCHARSET" != "cyrillic" ]; then
+	FILE="compose.$KBCHARSET.inc"
+	action "Loading compose keys: $FILE" \
+	$LOADKEYS "$FILE"
+	FILE="windowkeys-compose.inc"
+else
+	FILE="windowkeys-console_switch.inc"
+fi
+
+if [ "$PC105" != "off" ]; then
+	action "Binding extra Win keys, loading: $FILE" \
+	$LOADKEYS "$FILE"
+fi
+
+if [ "$BACKSPACE" = "BackSpace" ]; then
+	KEY="^H"
+	FILE="backspace.inc"
+else
+	KEY="^?"
+	FILE="delete.inc"
+fi
+action "The BackSpace key sends: $KEY loading $FILE" \
+	$LOADKEYS "$FILE"
+
+if [ -n "$GRP_TOGGLE" ]; then
+	action "Loading toggle definition: $GRP_TOGGLE.inc" \
+	$LOADKEYS ${GRP_TOGGLE}.inc
+fi

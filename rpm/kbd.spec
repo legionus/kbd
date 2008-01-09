@@ -14,21 +14,15 @@ Packager: Alexey Gladkov <legion@altlinux.ru>
 ExclusiveOS: Linux
 ExcludeArch: s390 s390x
 
-Provides: console-tools_or_kbd = %name%serial:%version-%release
-Conflicts: console-tools_or_kbd < %name%serial:%version-%release
-Conflicts: console-tools_or_kbd > %name%serial:%version-%release
-
+# for compatibility:
+Requires: console-vt-tools
 Obsoletes: console-tools
 Provides: console-tools = %version
 
 # due to file extarctions from this pkg to other
 # (console-data, console-common-scripts)
 Conflicts: interactivesystem < 1:sisyphus-alt12
-
-# for compatibility:
-Requires: console-vt-tools
-
-#TODO: the feature to build kernels: loadkeys-mktable-macros
+Conflicts: console-common-scripts <= 0.2.2-alt1.4
 
 Source0: ftp://ftp.kernel.org/pub/linux/utils/kbd/kbd-%version.tar.bz2
 
@@ -82,17 +76,11 @@ Documentation for kbd
 %package -n console-vt-tools
 Group: Terminals
 Summary: Tools to control VTs (virtual terminals) on the Linux console
-# Separate pkg is made to distinguish dependencies to vt-tools and other
-# (for interchangebility with console-tools).
+Serial: 0
 
 # due to the same files before pkg split:
 Conflicts: kbd < 0:1.12-alt1
 Conflicts: console-tools < 0:0.2.3-ipl30mdk
-
-# console-tools also produces a console-vt-tools pkg with its own version.
-# So if you want to specify correct "obsoletion" order, 
-# you should make correct declarations here, incl. a Serial:
-Serial: 0
 
 %description -n console-vt-tools
 console-vt-tools perform simple control operations on the VTs on Linux console
@@ -100,6 +88,26 @@ console-vt-tools perform simple control operations on the VTs on Linux console
 
 Usually, several VTs are used ontop of the Linux console.
 These scripts are useful for writing scripts that need to control them.
+
+%package -n console-scripts
+Group: System/Configuration/Other
+Summary: Console configuration activation and management
+
+Requires: %name %name-data
+Obsoletes: console-common-scripts
+Provides: console-common-scripts = %version
+
+Conflicts: startup < 0.9.7-alt1
+Conflicts: console-tools < 0.2.3-ipl29mdk
+
+%description -n console-scripts
+This package is required if you have an interactive system with console.
+The package is dedicated to both system-wide and per-user Linux console/other VT 
+configuration.
+
+It is responsible for the ways the console configuration is managed, 
+stored and used (activated), either at system-boot time 
+or user session startup. 
 
 %package -n kbdrate
 Group: System/Configuration/Hardware
@@ -111,7 +119,6 @@ Serial: %kbdrate_serial
 
 # due to kbdrate
 Conflicts: util-linux < 2.11h-alt2
-
 # FIX: kbdrate l10n messages are in the common kbd catalogue
 
 %description -n kbdrate
@@ -179,13 +186,54 @@ install -p -m640 rpm/util-linux-2.9w-kbdrate.apps %buildroot/%_sysconfdir/securi
 mv %buildroot/bin/kbdrate %buildroot/sbin/
 ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
 
+mkdir -p \
+	%buildroot/%_initdir \
+	%buildroot/%_datadir/%name \
+	%buildroot/%_sysconfdir/profile.d
+
+install -p -m755 rpm/console-scripts/setsys* %buildroot/sbin/
+install -p -m755 rpm/console-scripts/{keytable,consolesaver} %buildroot/%_initdir/
+
+for f in configure_keyboard vt_activate_*; do
+	install -p -m755 rpm/console-scripts/$f %buildroot/%_datadir/%name/
+done
+
+for f in console.*sh configure_keyboard.*sh; do
+	install -p -m644 rpm/console-scripts/$f  %buildroot/%_sysconfdir/profile.d/
+done
+
 %find_lang %name
+
+# Config files:
+mkdir -p -- %buildroot/%_sysconfdir/sysconfig/console
+cd %buildroot/%_sysconfdir/sysconfig
+touch consolefont keyboard console/setterm
 
 %post -n %name-data
 [ ! -d '%_libdir/%name' ] ||
 	rm -rf -- '%_libdir/%name'
 [ -e '%_libdir/%name' ] ||
 	ln -s -- '/lib/%name' '%_libdir/%name'
+
+%post -n console-scripts
+if [ "$1" -eq 1 ]; then
+	cd %_sysconfdir/sysconfig
+	for f in consolefont keyboard console/setterm; do
+		[ ! -f "$f" ] || continue
+		if [ -f "$f".rpmsave ]; then
+			cp -pfv "$f".rpmsave "$f"
+		elif [ -f "$f".rpmnew ]; then
+			cp -pfv "$f".rpmnew "$f"
+		fi
+	done
+	cd -
+fi
+%post_service keytable
+%post_service consolesaver
+
+%preun -n console-scripts
+%preun_service keytable
+%preun_service consolesaver
 
 %files -f %name.lang
 /bin/*
@@ -196,8 +244,10 @@ ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
 %exclude /bin/openvt
 %exclude /bin/deallocvt
 %exclude /bin/fgconsole
-%exclude /sbin/kbdrate
 %exclude /bin/kbdrate
+%exclude /sbin/kbdrate
+%exclude /sbin/setsysfont
+%exclude /sbin/setsyskeytable
 %exclude %_man1dir/chvt*
 %exclude %_man1dir/openvt*
 %exclude %_man1dir/deallocvt*
@@ -220,6 +270,18 @@ ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
 %_man1dir/openvt*
 %_man1dir/deallocvt*
 %_man1dir/fgconsole*
+
+%files -n console-scripts
+/sbin/setsysfont
+/sbin/setsyskeytable
+%attr(755,root,root) %config %_initdir/*
+%attr(755,root,root) %config %_sysconfdir/profile.d/*.sh
+%attr(755,root,root) %config %_sysconfdir/profile.d/*.csh
+%_datadir/%name
+%dir %_sysconfdir/sysconfig/console
+%config(noreplace) %verify(not md5 mtime size) %_sysconfdir/sysconfig/consolefont
+%config(noreplace) %verify(not md5 mtime size) %_sysconfdir/sysconfig/keyboard
+%config(noreplace) %verify(not md5 mtime size) %_sysconfdir/sysconfig/console/setterm
 
 # as in ALT util-linux:
 %files -n kbdrate

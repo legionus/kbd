@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# Load keytable
+#
+# This must be executed *after* /usr is mounted.
+#
+# chkconfig: 2345 35 65
+# description: This package loads the selected keyboard map as set in \
+#   /etc/sysconfig/keyboard.  This can be selected using the kbdconfig \
+#   utility.  You should leave this enabled for most machines.
+# config: /etc/sysconfig/keyboard
+
+WITHOUT_RC_COMPAT=1
+
+# Source function library.
+. /etc/init.d/functions
+
+LOCKFILE=/var/lock/subsys/keytable
+
+case "$1" in
+    condrestart|condreload)
+      # Nothing to do on condrestart because otherwise we could 
+      # damage a custom keytable loaded by the admin.
+      :
+      ;;
+	start|restart|reload)
+		# Read the keyboard config
+		/sbin/setsyskeytable
+		touch "$LOCKFILE"
+		;;
+	stop|condstop)
+        # Nothing to do when stoping (perhaps copy some files into /etc/sysconfig/console/?).
+		rm -f "$LOCKFILE"
+		;;
+	status)
+		if [ -f "$LOCKFILE" ]; then
+			echo "This service was last time (re-)started at $(LANG=C LANGUAGE=C /bin/ls -l "$LOCKFILE" --full-time |tr -s ' ' |cut --fields 6-10 -d' ')."
+			echo "No other status information available for this package."
+			echo "All this doesn't mean that there have not been perfomed any other (not init-forced) keytable changes since the given time."
+		else
+			echo "This service hasn't been started since stopped last time."
+			echo "This does mean nothing at all (stopping the service doesn't unload the keytable)."
+		fi
+		exit 0
+		;;
+	*)
+		msg_usage "${0##*/} {start|stop|restart|reload|status|condrestart|condreload|condstop}"
+		exit 1
+esac
+
+exit 0

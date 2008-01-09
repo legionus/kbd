@@ -1,0 +1,68 @@
+#!/bin/sh -e
+
+# Read /etc/sysconfig/i18n mainly for compatibility (SYSFONT used to be there)
+# but also LANG is referred further.
+# Do not care about the locale from the environment
+# because we work with system-wide configuration.
+c=/etc/sysconfig/i18n
+[ ! -s "$c" ] || . "$c"
+
+# The main configuration file:
+c=/etc/sysconfig/consolefont
+[ ! -s "$c" ] || . "$c"
+
+# Our parameters:
+readonly SYSFONT UNIMAP SYSFONTACM
+
+PROG="${0##*/}"
+SETFONT=/bin/setfont
+UNICODE_START=/bin/unicode_start
+
+fatal() {
+	printf '%s\n' "$PROG: $*" >&2
+	exit 1
+}
+
+if [ -n "$SYSFONT" ]; then
+############### Set font (+ the map for its encoding) #################
+	[ -x "$SETFONT" ] ||
+		fatal "cannot set font because \`setfont' not found."
+
+	"$SETFONT" "$SYSFONT" ${UNIMAP:+-u "$UNIMAP"} ||
+		fatal "Unable to set font: $SETFONT fail: rc=$?"
+fi
+
+############## Set ACM ################
+# for newer fonts and ACMs it's value is independent of the system font:
+# stage 1: application --> ACM (charmap -> Unicode) --> Unicode data -->
+# stage 2: --> Unicode data --> SFM (Unicode -> font encoding) --> data
+#                                encoded corresponding to the console font.
+#
+# Perhaps this should be done in a separate script.
+# Another enhancement would be to fall back on $(locale charmap) 
+# (or its lower-case variant) -- but the utilities are in /usr/bin/;
+# something like this is done only for the Unicode case now.
+
+
+# We examine only LANG here. What about LC_CTYPE, LC_ALL, LANGUAGE
+# -- they can also indicate a Unicode console.
+case "$LANG" in
+	*.utf8|*.UTF-8)
+		[ -x "$UNICODE_START" ] ||
+			fatal "\`unicode_start' not found."
+
+		# In this case, there is no ACM: applications output data
+		# already in Unicode; the first stage is not needed.
+		# The font and SFM has been set already;
+		# unicode_start will use the current settings
+		"$UNICODE_START" ||
+			fatal "unicode_start fail: rc=$?"
+		exit
+		;;
+esac
+
+if [ -n "$SYSFONTACM" ]; then
+	"$SETFONT" -m "$SYSFONTACM" ||
+		fatal "Unable to set ACM: $SETFONT fail: rc=$?"
+	echo -ne '\033(K' > /dev/console
+fi

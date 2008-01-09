@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Initialize console powersaver
+#
+# This script should be executed *after* /usr is mounted.
+#
+# chkconfig: 2345 35 65
+# description: This package loads console powersaver configuration.
+# config: /etc/sysconfig/console/setterm
+
+WITHOUT_RC_COMPAT=1
+
+# Source function library.
+. /etc/init.d/functions
+
+LOCKFILE=/var/lock/subsys/consolesaver
+
+case "$1" in
+	start|restart|reload)
+		if [ -x /usr/bin/setterm -a -d /lib/terminfo -a -s /etc/sysconfig/console/setterm ]; then
+			action "Initializing console powersaver:" \
+				"sh -c \"/usr/bin/setterm `cat /etc/sysconfig/console/setterm` >/dev/console\"" \
+			&& touch "$LOCKFILE"
+		fi
+		;;
+	stop|condstop)
+		rm -f "$LOCKFILE"
+		;;
+	condrestart|condreload)
+		;;
+	status)
+		if [ -f "$LOCKFILE" ]; then
+			echo "This service was last time (re-)started at $(LANG=C LANGUAGE=C /bin/ls -l "$LOCKFILE" --full-time |tr -s ' ' |cut --fields 6-10 -d' ')."
+			echo "No other status information available for the console powersaver."
+		else
+			echo "This service hasn't been started since stopped last time."
+		fi
+		exit 0
+		;;
+	*)
+		msg_usage "${0##*/} {start|stop|restart|reload|status|condrestart|condreload|condstop}"
+		exit 1
+esac
+
+exit 0
+
