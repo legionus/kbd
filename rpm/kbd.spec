@@ -188,14 +188,14 @@ ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
 
 mkdir -p \
 	%buildroot/%_initdir \
-	%buildroot/%_datadir/%name \
+	%buildroot/%_datadir/console-scripts \
 	%buildroot/%_sysconfdir/profile.d
 
 install -p -m755 rpm/console-scripts/setsys* %buildroot/sbin/
 install -p -m755 rpm/console-scripts/{keytable,consolesaver} %buildroot/%_initdir/
 
 for f in configure_keyboard vt_activate_*; do
-	install -p -m755 rpm/console-scripts/$f %buildroot/%_datadir/%name/
+	install -p -m755 rpm/console-scripts/$f %buildroot/%_datadir/console-scripts/
 done
 
 for f in console.*sh configure_keyboard.*sh; do
@@ -277,7 +277,7 @@ fi
 %attr(755,root,root) %config %_initdir/*
 %attr(755,root,root) %config %_sysconfdir/profile.d/*.sh
 %attr(755,root,root) %config %_sysconfdir/profile.d/*.csh
-%_datadir/%name
+%_datadir/console-scripts
 %dir %_sysconfdir/sysconfig/console
 %config(noreplace) %verify(not md5 mtime size) %_sysconfdir/sysconfig/consolefont
 %config(noreplace) %verify(not md5 mtime size) %_sysconfdir/sysconfig/keyboard
