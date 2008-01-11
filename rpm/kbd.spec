@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.13.99
-Release: alt1
+Release: alt2
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -204,17 +204,52 @@ done
 
 %find_lang %name
 
+# Compatibility forever!
+cp -ar -- rpm/kbd-data-extra/* %buildroot/lib/%name/
+
+old_path="$(pwd)"
+cd %buildroot/lib/%name/keymaps
+	rm -rf -- amiga atari sun
+%ifnarch ppc
+	rm -rf -- mac ppc
+%endif
+cd %buildroot/lib/%name/keymaps/i386/include
+	rm -f euro1.inc
+
+	gzip -9 *.inc
+	ln -s windowkeys.map.gz windowkeys-compose.map.gz 
+	for f in *.map.gz; do
+		fn="${f%%.map.gz}"
+		ln -s "$f" "$fn.inc.gz"
+	done
+cd %buildroot/lib/%name/keymaps/i386/qwerty
+	if [ -f by-cp1251.kmap ]; then
+		mv by-cp1251.kmap by-cp1251.map
+		gzip -9 by-cp1251.map
+	fi
+
+	ln -s ua.map.gz  ua-KOI8-U.map.gz
+	ln -s ua.map.gz  ua-KOI8-R.map.gz # it has also a Russian KOI8-R layout
+	ln -s ua-cp1251.map.gz  ua-CP1251.map.gz
+	ln -s by-cp1251.map.gz  by-CP1251.map.gz
+        ln -s ruwin_alt-KOI8-R.map.gz ruwin_alt.map.gz
+	ln -s ruwin_cplk-KOI8-R.map.gz ruwin_cplk.map.gz
+        ln -s ruwin_ct_sh-KOI8-R.map.gz ruwin_ct_sh.map.gz
+	ln -s ruwin_ctrl-KOI8-R.map.gz ruwin_ctrl.map.gz
+cd "$old_path"
+
 # Config files:
 mkdir -p -- %buildroot/%_sysconfdir/sysconfig/console
 cd %buildroot/%_sysconfdir/sysconfig
 touch consolefont keyboard console/setterm
 
-%post -n %name-data
+%triggerpostun -n %name-data -- console-data
+[ $2 = 0 ] || exit 0
 [ ! -d '%_libdir/%name' ] ||
 	rm -rf -- '%_libdir/%name'
 [ -e '%_libdir/%name' ] ||
 	ln -s -- '/lib/%name' '%_libdir/%name'
-
+	
 %post -n console-scripts
 if [ "$1" -eq 1 ]; then
 	cd %_sysconfdir/sysconfig
@@ -294,6 +329,10 @@ fi
 /bin/kbdrate
 
 %changelog
+* Fri Jan 11 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt2
+- New console-scripts obsolete console-common-scripts.
+- Improve compatibility with console-data.
+
 * Thu Jan 03 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt1
 - New prerelease version (1.13.99).
 - Add new subpackage: kbd-data.

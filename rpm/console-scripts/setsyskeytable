@@ -55,7 +55,7 @@ case $KBCHARSET in
 	*) KBCHARSET=latin;;
 esac
 if [ "$KBCHARSET" != "cyrillic" ]; then
-	FILE="compose.$KBCHARSET.inc"
+	FILE="compose.$KBCHARSET"
 	action "Loading compose keys: $FILE" \
 	$LOADKEYS "$FILE"
 	FILE="windowkeys-compose.inc"
