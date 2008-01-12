@@ -18,8 +18,12 @@ PROG="${0##*/}"
 SETFONT=/bin/setfont
 UNICODE_START=/bin/unicode_start
 
-fatal() {
+error() {
 	printf '%s\n' "$PROG: $*" >&2
+}
+
+fatal() {
+	error "$*"
 	exit 1
 }
 
@@ -29,7 +33,7 @@ if [ -n "$SYSFONT" ]; then
 		fatal "cannot set font because \`setfont' not found."
 
 	"$SETFONT" "$SYSFONT" ${UNIMAP:+-u "$UNIMAP"} ||
-		fatal "Unable to set font: $SETFONT fail: rc=$?"
+		error "Unable to set font: $SETFONT fail: rc=$?"
 fi
 
 ############## Set ACM ################
@@ -63,6 +67,6 @@ esac
 
 if [ -n "$SYSFONTACM" ]; then
 	"$SETFONT" -m "$SYSFONTACM" ||
-		fatal "Unable to set ACM: $SETFONT fail: rc=$?"
-	echo -ne '\033(K' > /dev/console
+		error "Unable to set ACM: $SETFONT fail: rc=$?"
 fi
+echo -ne '\033(K' > /dev/console

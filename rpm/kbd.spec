@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.13.99
-Release: alt2
+Release: alt3
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -253,22 +253,23 @@ touch consolefont keyboard console/setterm
 	rm -rf -- '%_libdir/%name'
 [ -e '%_libdir/%name' ] ||
 	ln -s -- '/lib/%name' '%_libdir/%name'
+
+%triggerin -n console-scripts -- console-scripts < 0:1.13.99-alt3
+/sbin/chkconfig keytable on
+/sbin/chkconfig consolesaver on
 	
 %post -n console-scripts
-if [ "$1" -eq 1 ]; then
-	cd %_sysconfdir/sysconfig
-	for f in consolefont keyboard console/setterm; do
-		[ ! -f "$f" ] || continue
-		if [ -f "$f".rpmsave ]; then
-			cp -pfv "$f".rpmsave "$f"
-		elif [ -f "$f".rpmnew ]; then
-			cp -pfv "$f".rpmnew "$f"
-		fi
-	done
-	cd -
-fi
 %post_service keytable
 %post_service consolesaver
+cd %_sysconfdir/sysconfig
+for f in consolefont keyboard console/setterm; do
+	[ ! -s "$f" ] || continue
+	if [ -f "$f".rpmsave ]; then
+		cp -pfv "$f".rpmsave "$f"
+	elif [ -f "$f".rpmnew ]; then
+		cp -pfv "$f".rpmnew "$f"
+	fi
+done
 
 %preun -n console-scripts
 %preun_service keytable
@@ -333,6 +334,10 @@ fi
 /bin/kbdrate
 
 %changelog
+* Sat Jan 12 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt3
+- Fix kbdrate-usermode for x86_64.
+- Fix postinstall to load previous configs.
+
 * Fri Jan 11 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt2
 - New console-scripts obsolete console-common-scripts.
 - Improve compatibility with console-data.
