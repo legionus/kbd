@@ -188,7 +188,7 @@ install -p -m640 rpm/util-linux-2.9w-kbdrate.pamd %buildroot/%_sysconfdir/pam.d/
 install -p -m640 rpm/util-linux-2.9w-kbdrate.apps %buildroot/%_sysconfdir/security/console.apps/kbdrate
 
 mv %buildroot/bin/kbdrate %buildroot/sbin/
-ln -s -- %_libdir/helper/consolehelper %buildroot/bin/kbdrate
+ln -s -- %_usr/lib/consolehelper/helper %buildroot/bin/kbdrate
 
 mkdir -p \
 	%buildroot/%_initdir \
