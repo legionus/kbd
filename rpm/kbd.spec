@@ -14,6 +14,10 @@ Packager: Alexey Gladkov <legion@altlinux.ru>
 ExclusiveOS: Linux
 ExcludeArch: s390 s390x
 
+Provides: console-tools_or_kbd = %name%serial:%version-%release
+Conflicts: console-tools_or_kbd < %name%serial:%version-%release
+Conflicts: console-tools_or_kbd > %name%serial:%version-%release
+
 # for compatibility:
 Requires: console-vt-tools
 Obsoletes: console-tools
