@@ -335,6 +335,7 @@ done
 
 %changelog
 * Sat Jan 12 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt3
+- Add OLPC keymaps.
 - Fix kbdrate-usermode for x86_64.
 - Fix postinstall to load previous configs.
 
