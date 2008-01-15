@@ -17,6 +17,7 @@ readonly SYSFONT UNIMAP SYSFONTACM
 PROG="${0##*/}"
 SETFONT=/bin/setfont
 UNICODE_START=/bin/unicode_start
+UNICODE_STOP=/bin/unicode_stop
 
 error() {
 	printf '%s\n' "$PROG: $*" >&2
@@ -62,6 +63,16 @@ case "$LANG" in
 		"$UNICODE_START" ||
 			fatal "unicode_start fail: rc=$?"
 		exit
+		;;
+	*)
+		# Since 2.6.24-rc1 the console by default in UTF-8 mode, we should
+		# stop Unicode mode for non-Unicode console.
+
+		[ -x "$UNICODE_STOP" ] ||
+			fatal "\`unicode_stop' not found."
+
+		"$UNICODE_STOP" ||
+			error "unicode_stop fail: rc=$?"
 		;;
 esac
 

@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.13.99
-Release: alt3
+Release: alt4
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -254,7 +254,7 @@ touch consolefont keyboard console/setterm
 [ -e '%_libdir/%name' ] ||
 	ln -s -- '/lib/%name' '%_libdir/%name'
 
-%triggerin -n console-scripts -- console-scripts < 0:1.13.99-alt3
+%triggerpostun -n console-scripts -- console-scripts < 0:1.13.99-alt4
 /sbin/chkconfig keytable on
 /sbin/chkconfig consolesaver on
 	
@@ -334,6 +334,10 @@ done
 /bin/kbdrate
 
 %changelog
+* Tue Jan 15 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt4
+- Fix for kernel-2.6.24 and newer. Since 2.6.24-rc1 the console by
+  default in UTF-8 mode.
+
 * Sat Jan 12 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt3
 - Add OLPC keymaps.
 - Fix kbdrate-usermode for x86_64.
