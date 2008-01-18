@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.13.99
-Release: alt4
+Release: alt5
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -218,10 +218,10 @@ cd %buildroot/lib/%name/keymaps
 	rm -rf -- mac ppc
 %endif
 cd %buildroot/lib/%name/keymaps/i386/include
-	rm -f euro1.inc
+	rm -f euro1.inc windowkeys.map*
 
 	gzip -9 *.inc
-	ln -s windowkeys.map.gz windowkeys-compose.map.gz 
+	ln -s windowkeys-compose.inc.gz windowkeys.map.gz
 	for f in *.map.gz; do
 		fn="${f%%.map.gz}"
 		ln -s "$f" "$fn.inc.gz"
@@ -334,6 +334,9 @@ done
 /bin/kbdrate
 
 %changelog
+* Fri Jan 18 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt5
+- Fix windowskeys compatibility.
+
 * Tue Jan 15 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt4
 - Fix for kernel-2.6.24 and newer. Since 2.6.24-rc1 the console by
   default in UTF-8 mode.
