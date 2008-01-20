@@ -63,7 +63,7 @@ else
 	FILE="windowkeys-console_switch.inc"
 fi
 
-if [ "$PC105" != "off" ]; then
+if [ "$PC105" != 'off' -a "$DISABLE_WINDOWS_KEY" != 'yes' ]; then
 	action "Binding extra Win keys, loading: $FILE" \
 	$LOADKEYS "$FILE"
 fi

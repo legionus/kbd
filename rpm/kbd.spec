@@ -227,6 +227,8 @@ cd %buildroot/lib/%name/keymaps/i386/include
 		ln -s "$f" "$fn.inc.gz"
 	done
 cd %buildroot/lib/%name/keymaps/i386/qwerty
+	gzip -9 *.map
+
 	if [ -f by-cp1251.kmap ]; then
 		mv by-cp1251.kmap by-cp1251.map
 		gzip -9 by-cp1251.map
@@ -236,6 +238,10 @@ cd %buildroot/lib/%name/keymaps/i386/qwerty
 	ln -s ua.map.gz  ua-KOI8-R.map.gz # it has also a Russian KOI8-R layout
 	ln -s ua-cp1251.map.gz  ua-CP1251.map.gz
 	ln -s by-cp1251.map.gz  by-CP1251.map.gz
+	ln -s ru_alt-KOI8-R.map.gz ru_alt.map.gz
+	ln -s ru_cplk-KOI8-R.map.gz ru_cplk.map.gz
+	ln -s ru_ct_sh-KOI8-R.map.gz ru_ct_sh.map.gz
+	ln -s ru_ctrl-KOI8-R.map.gz ru_ctrl.map.gz
         ln -s ruwin_alt-KOI8-R.map.gz ruwin_alt.map.gz
 	ln -s ruwin_cplk-KOI8-R.map.gz ruwin_cplk.map.gz
         ln -s ruwin_ct_sh-KOI8-R.map.gz ruwin_ct_sh.map.gz
@@ -254,7 +260,7 @@ touch consolefont keyboard console/setterm
 [ -e '%_libdir/%name' ] ||
 	ln -s -- '/lib/%name' '%_libdir/%name'
 
-%triggerpostun -n console-scripts -- console-scripts < 0:1.13.99-alt4
+%triggerpostun -n console-scripts -- console-common-scripts <= 0.2.2-alt1.4, console-scripts < 0:1.13.99-alt4
 /sbin/chkconfig keytable on
 /sbin/chkconfig consolesaver on
 	
@@ -335,7 +341,11 @@ done
 
 %changelog
 * Fri Jan 18 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt5
-- Fix windowskeys compatibility.
+- Compatibility:
+  + Fix windowskeys;
+  + Add DISABLE_WINDOWS_KEY handle;
+  + Add mode keymaps from console-tools.
+- Update rpm triggers.
 
 * Tue Jan 15 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt4
 - Fix for kernel-2.6.24 and newer. Since 2.6.24-rc1 the console by

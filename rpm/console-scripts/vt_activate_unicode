@@ -11,6 +11,11 @@ case "$LANG" in
 	*.utf8|*.UTF-8) NEED_UNICODE=1 ;;
 esac
 
-if [ -n "$NEED_UNICODE"  -a "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
-	[ -x /bin/unicode_start ] && /bin/unicode_start
+if [ "$TERM" = 'linux' -a "`/sbin/consoletype`" = 'vt' ]; then
+	[ -n "$NEED_UNICODE" ] &&
+		f='/bin/unicode_start' ||
+		f='/bin/unicode_stop'
+
+	[ ! -x "$f" ] ||
+		"$f"
 fi
