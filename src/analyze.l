@@ -117,7 +117,7 @@ To                      to|To|TO
 '\\{Octa}'              {yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
 '\\.'                   {yylval = yytext[2]; return(CCHAR);}
 '.'                     {yylval = yytext[1]; return(CCHAR);}
-\"			{p=kbs_buf.kb_string;
+\"			{p=(char *) kbs_buf.kb_string;
 				pmax=p+sizeof(kbs_buf.kb_string)-1;
 				BEGIN(STR);}
 <STR>\\{Octa}		{if(p>=pmax)stringovfl();*p++=strtol(yytext+1,NULL,8);}

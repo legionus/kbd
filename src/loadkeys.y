@@ -105,7 +105,7 @@ line		: EOL
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
-			    set_charset(kbs_buf.kb_string);
+			    set_charset((char *) kbs_buf.kb_string);
 			}
 		;
 altismetaline	: ALT_IS_META EOL
@@ -120,7 +120,7 @@ usualstringsline: STRINGS AS USUAL EOL
 		;
 usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
 			{
-			    compose_as_usual(kbs_buf.kb_string);
+			    compose_as_usual((char *) kbs_buf.kb_string);
 			}
 		  | COMPOSE AS USUAL EOL
 			{
@@ -273,7 +273,7 @@ int quiet = 0;
 int nocompose = 0;
 
 int
-main(unsigned int argc, char *argv[]) {
+main(int argc, char *argv[]) {
 	const char *short_opts = "cC:dhmsuqvV";
 	const struct option long_opts[] = {
 		{ "clearcompose", no_argument, NULL, 'c' },
@@ -539,7 +539,7 @@ FILE *find_incl_file(char *s) {
 		char *user_dir[2] = { 0, 0 };
 		while(ev) {
 			char *t = index(ev, ':');
-			char sv;
+			char sv = 0;
 			if (t) {
 				sv = *t;
 				*t = 0;
@@ -758,7 +758,7 @@ addfunc(struct kbsentry kbs) {
 			while(*p++);
 		}
 	func_table[x] = p;
-        sh = strlen(kbs.kb_string) + 1;
+        sh = strlen((char *) kbs.kb_string) + 1;
 	if (fp + sh > func_buf + sizeof(func_buf)) {
 	        fprintf(stderr,
 			_("%s: addfunc: func_buf overflow\n"), progname);
@@ -769,7 +769,7 @@ addfunc(struct kbsentry kbs) {
 	r = fp;
 	while (q > p)
 	        *--r = *--q;
-	strcpy(p, kbs.kb_string);
+	strcpy(p, (char *) kbs.kb_string);
 	for (i = x + 1; i < MAX_NR_FUNC; i++)
 	        if (func_table[i])
 		        func_table[i] += sh;
@@ -928,7 +928,7 @@ deffuncs(int fd){
         for (i = 0; i < MAX_NR_FUNC; i++) {
 	    kbs_buf.kb_func = i;
 	    if ((p = func_table[i])) {
-		strcpy(kbs_buf.kb_string, p);
+		strcpy((char *) kbs_buf.kb_string, p);
 		if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf))
 		  fprintf(stderr, _("failed to bind string '%s' to function %s\n"),
 			  ostr(kbs_buf.kb_string), syms[KT_FN].table[kbs_buf.kb_func]);
@@ -1066,7 +1066,7 @@ static void strings_as_usual(void) {
 	for (i=0; i<30; i++) if(stringvalues[i]) {
 		struct kbsentry ke;
 		ke.kb_func = i;
-		strncpy(ke.kb_string, stringvalues[i], sizeof(ke.kb_string));
+		strncpy((char *) ke.kb_string, stringvalues[i], sizeof(ke.kb_string));
 		ke.kb_string[sizeof(ke.kb_string)-1] = 0;
 		addfunc(ke);
 	}

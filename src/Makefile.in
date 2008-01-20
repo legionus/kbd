@@ -33,7 +33,8 @@ endif
 # Installed by default
 SHCMDS  = unicode_start unicode_stop
 
-WARN	= -Wall -Wmissing-prototypes -Wstrict-prototypes
+WARN	= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wunused-function \
+	-Wunused-label -Wunused-variable -Wunused-value
 DEFS	= -DDATADIR=\"$(DATA_DIR)\"
 
 .c.o:
