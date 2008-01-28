@@ -13,6 +13,7 @@ AC_PROG_LEX
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AC_CANONICAL_HOST
 
 # Checks for libraries.
 
@@ -43,25 +44,37 @@ AC_FUNC_STAT
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul])
 
-OPTIONAL_PROGS=
+case $host_cpu in
+	m68*|sparc*) KEYCODES_PROGS= ;;
+	*)           KEYCODES_PROGS=yes ;;
+esac
+AC_SUBST(KEYCODES_PROGS)
+
+case $host_cpu in
+	i?86*) RESIZECONS_PROGS=yes ;;
+	*)     RESIZECONS_PROGS= ;;
+esac
+AC_SUBST(RESIZECONS_PROGS)
+
 AC_ARG_ENABLE(optional-progs,
 	AS_HELP_STRING(--enable-optional-progs, [Build and install a optional programs]),
-	[OPTIONAL_PROGS=1])
+	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])
+
 AC_SUBST(OPTIONAL_PROGS)
 
 # For lib/nls.h: do we have <libintl.h> and gettext() ?
 
 AC_ARG_ENABLE(nls, AS_HELP_STRING(--enable-nls, [NLS support]),
-	[enable_nls=1], [enable_nls=])
+	[enable_nls=$enableval], [enable_nls=no])
 
-if test "$enable_nls" = "1"; then
+if test "$enable_nls" = "yes"; then
 	AC_DEFINE(ENABLE_NLS)
 fi
 
 # Does xgettext exist and take the option --foreign-user?
 FOREIGN=
 HAVE_XGETTEXT=no
-if (test "$enable_nls" = "1" && type xgettext > /dev/null 2>&1); then
+if (test "$enable_nls" = "yes" && type xgettext > /dev/null 2>&1); then
 	msg=`xgettext --foreign-user 2>&1 | grep unrecognized`
 	if test -z "$msg"; then
 		FOREIGN="--foreign-user"

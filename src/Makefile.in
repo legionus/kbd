@@ -14,18 +14,16 @@ PROGS   = dumpkeys loadkeys showkey setfont showconsolefont \
 
 # probably also getkeycodes and setkeycodes are arch-specific;
 # they will work on an alpha, though, and perhaps be dummy on a sun
-ifneq ($(ARCH), m68k)
-ifneq ($(ARCH), sparc)
+ifeq ($(KEYCODES_PROGS),yes)
 PROGS += getkeycodes setkeycodes
 endif
-endif
 
-ifeq ($(ARCH), i386)
+ifeq ($(RESIZECONS_PROGS),yes)
 PROGS += resizecons
 endif
 
 # Not installed by default
-ifdef OPTIONAL_PROGS
+ifeq ($(OPTIONAL_PROGS),yes)
 PROGS += screendump setlogcons setvesablank spawn_console spawn_login \
 	 getunimap clrunimap outpsfheader setpalette
 endif
