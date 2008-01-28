@@ -68,7 +68,7 @@ AC_ARG_ENABLE(nls, AS_HELP_STRING(--enable-nls, [NLS support]),
 	[enable_nls=$enableval], [enable_nls=no])
 
 if test "$enable_nls" = "yes"; then
-	AC_DEFINE(ENABLE_NLS)
+	AC_DEFINE(ENABLE_NLS, 1, [Enable Native Language Support])
 fi
 
 # Does xgettext exist and take the option --foreign-user?
