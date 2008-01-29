@@ -1,5 +1,7 @@
 PACKAGE_NAME  = @PACKAGE_NAME@
 
+srcdir = @srcdir@
+
 prefix        = @prefix@
 datarootdir   = @datarootdir@
 datadir       = @datadir@
@@ -95,6 +97,7 @@ install-data-yes: all
 	    *.gmo) destdir=$(gnulocaledir);; \
 	    *)     destdir=$(localedir);; \
 	  esac; \
+	  destdir=$$destdir; \
 	  lang=`echo $$cat | sed 's/$(CATOBJEXT)$$//'`; \
 	  dir=$$destdir/$$lang/LC_MESSAGES; \
 	  ../mkinstalldirs $$dir; \
@@ -110,12 +113,12 @@ uninstall:
 	catalogs='$(CATALOGS)'; \
 	for cat in $$catalogs; do \
 	  lang=`echo $$cat | sed 's/$(CATOBJEXT)$$//'`; \
-	  rm -f $(localedir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT); \
-	  rm -f $(localedir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT).m; \
-	  rm -f $(gnulocaledir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT); \
-	  rm -f $(gnulocaledir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT).m; \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT); \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT).m; \
+	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT); \
+	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(PACKAGE_NAME)$(INSTOBJEXT).m; \
 	done
-	rm -f $(gettextsrcdir)/po-Makefile.in.in
+	rm -f $(DESTDIR)$(gettextsrcdir)/po-Makefile.in.in
 
 cat-id-tbl.o: $(INTL)/libgettext.h
 
@@ -145,3 +148,7 @@ update-po:
 POTFILES: 
 	./update-potfiles
 
+distdir:
+	cd $(srcdir) && cp *.po cat-id-tbl.c ChangeLog GNU.ABOUT-NLS po2tbl.sed POTFILES.in stamp-cat-id update-potfiles $(distdir)/
+
+.PHONY: check distdir dvi installcheck

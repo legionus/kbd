@@ -1,15 +1,18 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
+AC_PREREQ(2.60)
 AC_INIT(kbd, 1.14.1, gladkov.alexey@gmail.com)
+AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/showkey.c])
 AC_CONFIG_HEADERS(config.h)
 
 # Checks for programs.
 AC_PROG_YACC
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_LEX
+AC_PROG_SED
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
@@ -45,31 +48,23 @@ AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul])
 
 case $host_cpu in
-	m68*|sparc*) KEYCODES_PROGS= ;;
+	m68*|sparc*) KEYCODES_PROGS=no ;;
 	*)           KEYCODES_PROGS=yes ;;
 esac
-AC_SUBST(KEYCODES_PROGS)
+AM_CONDITIONAL(KEYCODES_PROGS, test "$KEYCODES_PROGS" = "yes")
 
 case $host_cpu in
 	i?86*) RESIZECONS_PROGS=yes ;;
-	*)     RESIZECONS_PROGS= ;;
+	*)     RESIZECONS_PROGS=no ;;
 esac
-AC_SUBST(RESIZECONS_PROGS)
+AM_CONDITIONAL(RESIZECONS_PROGS, test "$RESIZECONS_PROGS" = "yes")
 
 AC_ARG_ENABLE(optional-progs,
 	AS_HELP_STRING(--enable-optional-progs, [Build and install a optional programs]),
 	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])
-
-AC_SUBST(OPTIONAL_PROGS)
-
-AC_ARG_ENABLE(strip,
-	AS_HELP_STRING(--enable-strip, [Enable stripping of executables]),
-	[ENABLE_STRIP=$enableval], [ENABLE_STRIP=no])
-
-AC_SUBST(ENABLE_STRIP)
+AM_CONDITIONAL(OPTIONAL_PROGS, test "$OPTIONAL_PROGS" = "yes")
 
 # For lib/nls.h: do we have <libintl.h> and gettext() ?
-
 AC_ARG_ENABLE(nls, AS_HELP_STRING(--enable-nls, [NLS support]),
 	[enable_nls=$enableval], [enable_nls=no])
 
@@ -93,6 +88,16 @@ AC_SUBST(HAVE_XGETTEXT)
 AC_CONFIG_FILES([Makefile
 		data/Makefile
 		man/Makefile
+		man/man1/Makefile
+		man/man1/dumpkeys.1
+		man/man1/loadkeys.1
+		man/man1misc/Makefile
+		man/man5/Makefile
+		man/man8/Makefile
+		man/man8/loadunimap.8
+		man/man8/mapscrn.8
+		man/man8/setfont.8
+		man/man8misc/Makefile
 		po/Makefile
 		src/Makefile])
 AC_OUTPUT
