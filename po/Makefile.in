@@ -3,9 +3,9 @@ PACKAGE_NAME  = @PACKAGE_NAME@
 prefix        = @prefix@
 datarootdir   = @datarootdir@
 datadir       = @datadir@
-localedir     = $(datadir)/locale
-gnulocaledir  = $(datadir)/locale
-gettextsrcdir = $(datadir)/gettext/po
+localedir     = $(DESTDIR)$(datadir)/locale
+gnulocaledir  = $(DESTDIR)$(datadir)/locale
+gettextsrcdir = $(DESTDIR)$(datadir)/gettext/po
 
 FOREIGN       = @FOREIGN@
 HAVE_XGETTEXT = @HAVE_XGETTEXT@

@@ -1,7 +1,7 @@
 prefix         = @prefix@
 datarootdir    = @datarootdir@
-datadir        = @datadir@
-mandir         = @mandir@
+datadir        = $(DESTDIR)@datadir@
+mandir         = $(DESTDIR)@mandir@
 OPTIONAL_PROGS = @OPTIONAL_PROGS@
 
 # Generated files
