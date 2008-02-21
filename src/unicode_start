@@ -30,24 +30,33 @@ kbd_mode -u
 # produce UTF-8 encoded multibyte sequences, instead of single bytes
 # >= 0x80 in a legacy 8-bit encoding.
 
-# There is no way of reverting the effect of "dumpkeys | loadkeys --unicode",
-# the memory of the earlier keymap is lost. Therefore, try
-# to save a copy of the original keymap to be able to reload it in unicode_stop.
-# (see also http://mail.nl.linux.org/linux-utf8/2003-08/msg00053.html):
+# Non-root users are allowed to change the unicode mode of their console, but
+# not the global keymap. root will have to load the keymap in unicode mode
+# explicitly.
 
-[ -n "$HOME" -a "$HOME" != '/' ] ||
-	HOME='/root'
+uid="`id -u 2>/dev/null`" ||:
+if [ "$uid" = '0' ]; then
+	# There is no way of reverting the effect of "dumpkeys | loadkeys --unicode",
+	# the memory of the earlier keymap is lost. Therefore, try
+	# to save a copy of the original keymap to be able to reload it in unicode_stop.
+	# (see also http://mail.nl.linux.org/linux-utf8/2003-08/msg00053.html):
 
-if [ -d "$HOME" ]; then
-	[ -d "$HOME/.kbd" ] ||
-		mkdir -- "$HOME/.kbd"
-	dumpkeys > "$HOME/.kbd/.keymap_sv"
+	[ -n "$HOME" -a "$HOME" != '/' ] ||
+		HOME='/root'
+
+	if [ -d "$HOME" -a -w "$HOME" ]; then
+		[ -d "$HOME/.kbd" ] ||
+			mkdir -- "$HOME/.kbd"
+
+		[ ! -w "$HOME/.kbd" ] ||
+			dumpkeys > "$HOME/.kbd/.keymap_sv"
+	fi
+
+	# redirect stderr and stdout of loadkeys to /dev/null to avoid the confusing
+	# "plus before udiaeresis ignored" warnings.
+
+	dumpkeys | loadkeys --unicode > /dev/null 2>&1
 fi
-
-# redirect stderr and stdout of loadkeys to /dev/null to avoid the confusing
-# "plus before udiaeresis ignored" warnings.
-
-dumpkeys | loadkeys --unicode > /dev/null 2>&1
 
 # 2. The output side: the console screen.
 

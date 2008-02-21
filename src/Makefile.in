@@ -1,6 +1,6 @@
 prefix         = @prefix@
 exec_prefix    = @exec_prefix@
-bindir         = @bindir@
+bindir         = $(DESTDIR)@bindir@
 datarootdir    = @datarootdir@
 OPTIONAL_PROGS = @OPTIONAL_PROGS@
 
@@ -14,18 +14,16 @@ PROGS   = dumpkeys loadkeys showkey setfont showconsolefont \
 
 # probably also getkeycodes and setkeycodes are arch-specific;
 # they will work on an alpha, though, and perhaps be dummy on a sun
-ifneq ($(ARCH), m68k)
-ifneq ($(ARCH), sparc)
+ifeq ($(KEYCODES_PROGS),yes)
 PROGS += getkeycodes setkeycodes
 endif
-endif
 
-ifeq ($(ARCH), i386)
+ifeq ($(RESIZECONS_PROGS),yes)
 PROGS += resizecons
 endif
 
 # Not installed by default
-ifdef OPTIONAL_PROGS
+ifeq ($(OPTIONAL_PROGS),yes)
 PROGS += screendump setlogcons setvesablank spawn_console spawn_login \
 	 getunimap clrunimap outpsfheader setpalette
 endif
@@ -52,7 +50,8 @@ setuid:
 
 install: all
 	install -d -m 0755 $(bindir)
-	install -s -m 0755 $(PROGS) $(OLDPROGS) $(SHCMDS) $(bindir)
+	install -s -m 0755 $(PROGS) $(OLDPROGS) $(bindir)
+	install -m 0755 $(SHCMDS) $(bindir)
 	for i in psfaddtable psfgettable psfstriptable; do \
 		rm -f $(bindir)/$$i; ln -s psfxtable $(bindir)/$$i; \
 	done

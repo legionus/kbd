@@ -17,9 +17,8 @@ if test -t ; then
 fi
 stty -iutf8
 
-# "dumpkeys | loadkeys --unicode" which is called in "unicode_start"
-# cannot be reverted, therefore we have to load the keyboard mapping again
-# if it could be sucessfully saved in "unicode_start":
-
-[ ! -r "$HOME/.kbd/.keymap_sv" ] ||
-	loadkeys "$HOME/.kbd/.keymap_sv"
+uid="`id -u 2>/dev/null`" ||:
+if [ "$uid" = '0' ]; then
+	[ ! -r "$HOME/.kbd/.keymap_sv" ] ||
+		loadkeys "$HOME/.kbd/.keymap_sv"
+fi
