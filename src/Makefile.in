@@ -50,7 +50,8 @@ setuid:
 
 install: all
 	install -d -m 0755 $(bindir)
-	install -s -m 0755 $(PROGS) $(OLDPROGS) $(SHCMDS) $(bindir)
+	install -s -m 0755 $(PROGS) $(OLDPROGS) $(bindir)
+	install -m 0755 $(SHCMDS) $(bindir)
 	for i in psfaddtable psfgettable psfstriptable; do \
 		rm -f $(bindir)/$$i; ln -s psfxtable $(bindir)/$$i; \
 	done
