@@ -85,7 +85,7 @@ usage(void) {
 "	-a --ascii	display the decimal/octal/hex values of the keys\n"
 "	-s --scancodes	display only the raw scan-codes\n"
 "	-k --keycodes	display only the interpreted keycodes (default)\n"
-), VERSION);
+), PACKAGE_VERSION);
 	exit(1);
 }
 

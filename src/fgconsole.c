@@ -22,7 +22,7 @@ static void usage(void)
 "	-h --help            display this help text\n"
 "	-V --version         display this help text\n"
 "	-n --next-available  display next unallocated VT\n"),
-			progname, VERSION, progname);
+			progname, PACKAGE_VERSION, progname);
 	exit(1);
 }
 

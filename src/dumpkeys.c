@@ -527,7 +527,7 @@ dump_funcs(void) {
 
 static void
 usage(void) {
-	fprintf(stderr, _("dumpkeys version %s"), VERSION);
+	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
 	fprintf(stderr, _("\
 \n\
 usage: dumpkeys [options...]\n\
