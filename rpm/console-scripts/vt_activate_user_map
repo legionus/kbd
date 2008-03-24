@@ -9,7 +9,7 @@ for f in "$HOME/.consolefont" "$HOME/.i18n" \
 done
 [ -n "$SYSFONTACM" ] || exit 0
 
-case "$SYSFONTACM" in
+case "${SYSFONTACM##*/}" in
 	cp1251*|iso01*|iso02*|iso08*|iso15*|koi*|latin2-ucw*|pt154*)
 		if [ "$TERM" = linux ] && [ "`/sbin/consoletype`" = vt ]; then
 			printf %b '\033(K' >&0
