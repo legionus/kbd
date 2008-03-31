@@ -65,6 +65,7 @@ static void do_constant(void);
 static void do_constant_key (int, u_short);
 static void loadkeys(char *console, int *warned);
 static void mktable(void);
+static void bkeymap(void);
 static void strings_as_usual(void);
 /* static void keypad_as_usual(char *keyboard); */
 /* static void function_keys_as_usual(char *keyboard); */
@@ -252,6 +253,7 @@ usage(void) {
 "\n"
 "valid options are:\n"
 "\n"
+"	-b --bkeymap      output a binary keymap to stdout\n"
 "	-c --clearcompose clear kernel compose table\n"
 "	-C <cons1,cons2,...>\n"
 "	--console=<...>   Indicate console device(s) to be used.\n"
@@ -265,6 +267,7 @@ usage(void) {
 }
 
 char **args;
+int optb = 0;
 int optd = 0;
 int optm = 0;
 int opts = 0;
@@ -274,8 +277,9 @@ int nocompose = 0;
 
 int
 main(int argc, char *argv[]) {
-	const char *short_opts = "cC:dhmsuqvV";
+	const char *short_opts = "bcC:dhmsuqvV";
 	const struct option long_opts[] = {
+		{ "bkeymap",    no_argument, NULL, 'b' },
 		{ "clearcompose", no_argument, NULL, 'c' },
 		{ "console",    1, NULL, 'C' },
 	        { "default",    no_argument, NULL, 'd' },
@@ -297,6 +301,9 @@ main(int argc, char *argv[]) {
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+		        case 'b':
+		                optb = 1;
+				break;
 		        case 'c':
 		                nocompose = 1;
 				break;
@@ -339,9 +346,11 @@ main(int argc, char *argv[]) {
 		exit(1);
 	}
 	do_constant();
-	if(optm)
+	if(optb) {
+		bkeymap();
+	} else if(optm) {
 	        mktable();
-	else if (console)
+	} else if (console)
 	  {
 	    char *buf = strdup(console);	/* make writable */
 	    char *e, *s = buf;
@@ -1261,5 +1270,29 @@ mktable () {
 	printf("unsigned int accent_table_size = %d;\n",
 	       accent_table_size);
 
+	exit(0);
+}
+
+static void
+bkeymap () {
+	int i, j;
+
+	u_char *p;
+	char flag, magic[] = "bkeymap";
+	unsigned short v;
+
+	write(1, magic, 7);
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		flag = key_map[i] ? 1 : 0;
+		write(1, &flag, 1);
+	}
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (key_map[i]) {
+			for (j = 0; j < NR_KEYS / 2; j++) {
+				v = key_map[i][j];
+				write(1, &v, 2);
+			}
+		}
+	}
 	exit(0);
 }

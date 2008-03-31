@@ -195,6 +195,7 @@ static void do_constant(void);
 static void do_constant_key (int, u_short);
 static void loadkeys(char *console, int *warned);
 static void mktable(void);
+static void bkeymap(void);
 static void strings_as_usual(void);
 /* static void keypad_as_usual(char *keyboard); */
 /* static void function_keys_as_usual(char *keyboard); */
@@ -249,7 +250,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 253 "loadkeys.c"
+#line 254 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -551,11 +552,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    92,    92,    93,    95,    96,    97,    98,    99,   100,
-     101,   102,   103,   104,   106,   111,   116,   121,   125,   130,
-     135,   136,   138,   144,   149,   158,   162,   167,   167,   172,
-     177,   178,   180,   181,   182,   183,   184,   185,   186,   187,
-     189,   222,   223,   225,   232,   234,   236,   238,   240
+       0,    93,    93,    94,    96,    97,    98,    99,   100,   101,
+     102,   103,   104,   105,   107,   112,   117,   122,   126,   131,
+     136,   137,   139,   145,   150,   159,   163,   168,   168,   173,
+     178,   179,   181,   182,   183,   184,   185,   186,   187,   188,
+     190,   223,   224,   226,   233,   235,   237,   239,   241
 };
 #endif
 
@@ -1510,49 +1511,49 @@ yyreduce:
   switch (yyn)
     {
         case 14:
-#line 107 "loadkeys.y"
+#line 108 "loadkeys.y"
     {
 			    set_charset((char *) kbs_buf.kb_string);
 			}
     break;
 
   case 15:
-#line 112 "loadkeys.y"
+#line 113 "loadkeys.y"
     {
 			    alt_is_meta = 1;
 			}
     break;
 
   case 16:
-#line 117 "loadkeys.y"
+#line 118 "loadkeys.y"
     {
 			    strings_as_usual();
 			}
     break;
 
   case 17:
-#line 122 "loadkeys.y"
+#line 123 "loadkeys.y"
     {
 			    compose_as_usual((char *) kbs_buf.kb_string);
 			}
     break;
 
   case 18:
-#line 126 "loadkeys.y"
+#line 127 "loadkeys.y"
     {
 			    compose_as_usual(0);
 			}
     break;
 
   case 19:
-#line 131 "loadkeys.y"
+#line 132 "loadkeys.y"
     {
 			    keymaps_line_seen = 1;
 			}
     break;
 
   case 22:
-#line 139 "loadkeys.y"
+#line 140 "loadkeys.y"
     {
 			    int i;
 			    for (i = (yyvsp[(1) - (3)]); i<= (yyvsp[(3) - (3)]); i++)
@@ -1561,14 +1562,14 @@ yyreduce:
     break;
 
   case 23:
-#line 145 "loadkeys.y"
+#line 146 "loadkeys.y"
     {
 			    addmap((yyvsp[(1) - (1)]),1);
 			}
     break;
 
   case 24:
-#line 150 "loadkeys.y"
+#line 151 "loadkeys.y"
     {
 			    if (KTYP((yyvsp[(2) - (5)])) != KT_FN)
 				lkfatal1(_("'%s' is not a function key symbol"),
@@ -1579,80 +1580,80 @@ yyreduce:
     break;
 
   case 25:
-#line 159 "loadkeys.y"
+#line 160 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
     break;
 
   case 26:
-#line 163 "loadkeys.y"
+#line 164 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
     break;
 
   case 27:
-#line 167 "loadkeys.y"
+#line 168 "loadkeys.y"
     { mod = 0; }
     break;
 
   case 28:
-#line 169 "loadkeys.y"
+#line 170 "loadkeys.y"
     {
 			    addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)]));
 			}
     break;
 
   case 29:
-#line 173 "loadkeys.y"
+#line 174 "loadkeys.y"
     {
 			    addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)]));
 			}
     break;
 
   case 32:
-#line 180 "loadkeys.y"
+#line 181 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 33:
-#line 181 "loadkeys.y"
+#line 182 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 34:
-#line 182 "loadkeys.y"
+#line 183 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 35:
-#line 183 "loadkeys.y"
+#line 184 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 36:
-#line 184 "loadkeys.y"
+#line 185 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 37:
-#line 185 "loadkeys.y"
+#line 186 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 38:
-#line 186 "loadkeys.y"
+#line 187 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 39:
-#line 187 "loadkeys.y"
+#line 188 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 40:
-#line 190 "loadkeys.y"
+#line 191 "loadkeys.y"
     {
 	    int i, j;
 
@@ -1686,7 +1687,7 @@ yyreduce:
     break;
 
   case 43:
-#line 226 "loadkeys.y"
+#line 227 "loadkeys.y"
     {
 			    if (rvalct >= MAX_NR_KEYMAPS)
 				lkfatal(_("too many keydefinitions on one line"));
@@ -1695,33 +1696,33 @@ yyreduce:
     break;
 
   case 44:
-#line 233 "loadkeys.y"
+#line 234 "loadkeys.y"
     {(yyval)=(yyvsp[(1) - (1)]);}
     break;
 
   case 45:
-#line 235 "loadkeys.y"
+#line 236 "loadkeys.y"
     {(yyval)=((yyvsp[(1) - (1)]) ^ 0xf000); unicode_used=1;}
     break;
 
   case 46:
-#line 237 "loadkeys.y"
+#line 238 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
   case 47:
-#line 239 "loadkeys.y"
+#line 240 "loadkeys.y"
     {(yyval)=(yyvsp[(1) - (1)]);}
     break;
 
   case 48:
-#line 241 "loadkeys.y"
+#line 242 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1725 "loadkeys.c"
+#line 1726 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1935,7 +1936,7 @@ yyreturn:
 }
 
 
-#line 243 "loadkeys.y"
+#line 244 "loadkeys.y"
 			
 
 #include "analyze.c"
@@ -1948,6 +1949,7 @@ usage(void) {
 "\n"
 "valid options are:\n"
 "\n"
+"	-b --bkeymap      output a binary keymap to stdout\n"
 "	-c --clearcompose clear kernel compose table\n"
 "	-C <cons1,cons2,...>\n"
 "	--console=<...>   Indicate console device(s) to be used.\n"
@@ -1961,6 +1963,7 @@ usage(void) {
 }
 
 char **args;
+int optb = 0;
 int optd = 0;
 int optm = 0;
 int opts = 0;
@@ -1970,8 +1973,9 @@ int nocompose = 0;
 
 int
 main(int argc, char *argv[]) {
-	const char *short_opts = "cC:dhmsuqvV";
+	const char *short_opts = "bcC:dhmsuqvV";
 	const struct option long_opts[] = {
+		{ "bkeymap",    no_argument, NULL, 'b' },
 		{ "clearcompose", no_argument, NULL, 'c' },
 		{ "console",    1, NULL, 'C' },
 	        { "default",    no_argument, NULL, 'd' },
@@ -1993,6 +1997,9 @@ main(int argc, char *argv[]) {
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+		        case 'b':
+		                optb = 1;
+				break;
 		        case 'c':
 		                nocompose = 1;
 				break;
@@ -2035,9 +2042,11 @@ main(int argc, char *argv[]) {
 		exit(1);
 	}
 	do_constant();
-	if(optm)
+	if(optb) {
+		bkeymap();
+	} else if(optm) {
 	        mktable();
-	else if (console)
+	} else if (console)
 	  {
 	    char *buf = strdup(console);	/* make writable */
 	    char *e, *s = buf;
@@ -2957,6 +2966,30 @@ mktable () {
 	printf("unsigned int accent_table_size = %d;\n",
 	       accent_table_size);
 
+	exit(0);
+}
+
+static void
+bkeymap () {
+	int i, j;
+
+	u_char *p;
+	char flag, magic[] = "bkeymap";
+	unsigned short v;
+
+	write(1, magic, 7);
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		flag = key_map[i] ? 1 : 0;
+		write(1, &flag, 1);
+	}
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (key_map[i]) {
+			for (j = 0; j < NR_KEYS / 2; j++) {
+				v = key_map[i][j];
+				write(1, &v, 2);
+			}
+		}
+	}
 	exit(0);
 }
 
