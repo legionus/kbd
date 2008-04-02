@@ -62,6 +62,12 @@ AC_ARG_ENABLE(optional-progs,
 
 AC_SUBST(OPTIONAL_PROGS)
 
+AC_ARG_ENABLE(strip,
+	AS_HELP_STRING(--enable-strip, [Enable stripping of executables]),
+	[ENABLE_STRIP=$enableval], [ENABLE_STRIP=no])
+
+AC_SUBST(ENABLE_STRIP)
+
 # For lib/nls.h: do we have <libintl.h> and gettext() ?
 
 AC_ARG_ENABLE(nls, AS_HELP_STRING(--enable-nls, [NLS support]),

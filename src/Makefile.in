@@ -2,6 +2,7 @@ prefix         = @prefix@
 exec_prefix    = @exec_prefix@
 bindir         = $(DESTDIR)@bindir@
 datarootdir    = @datarootdir@
+ENABLE_STRIP   = @STRIP@
 KEYCODES_PROGS   = @KEYCODES_PROGS@
 RESIZECONS_PROGS = @RESIZECONS_PROGS@
 OPTIONAL_PROGS   = @OPTIONAL_PROGS@
@@ -30,6 +31,11 @@ PROGS += screendump setlogcons setvesablank spawn_console spawn_login \
 	 getunimap clrunimap outpsfheader setpalette
 endif
 
+INSTALL_STRIP =
+ifeq ($(ENABLE_STRIP),yes)
+	INSTALL_STRIP = -s
+endif
+
 # Installed by default
 SHCMDS  = unicode_start unicode_stop
 
@@ -52,7 +58,7 @@ setuid:
 
 install: all
 	install -d -m 0755 $(bindir)
-	install -s -m 0755 $(PROGS) $(OLDPROGS) $(bindir)
+	install $(INSTALL_STRIP) -m 0755 $(PROGS) $(OLDPROGS) $(bindir)
 	install -m 0755 $(SHCMDS) $(bindir)
 	for i in psfaddtable psfgettable psfstriptable; do \
 		rm -f $(bindir)/$$i; ln -s psfxtable $(bindir)/$$i; \
