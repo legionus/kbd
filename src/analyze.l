@@ -48,6 +48,7 @@ ShiftL			shiftl|ShiftL|SHIFTL
 ShiftR			shiftr|ShiftR|SHIFTR
 CtrlL			ctrll|CtrlL|CTRLL
 CtrlR			ctrlr|CtrlR|CTRLR
+CapsShift		capsshift|Capsshift|CapsShift|CAPSSHIFT
 AltIsMeta		[aA][lL][tT][-_][iI][sS][-_][mM][eE][tT][aA]
 Strings			strings|Strings|STRINGS
 Compose                 compose|Compose|COMPOSE
@@ -106,6 +107,7 @@ To                      to|To|TO
 {ShiftR}		{return(SHIFTR);}
 {CtrlL}			{return(CTRLL);}
 {CtrlR}			{return(CTRLR);}
+{CapsShift}		{return(CAPSSHIFT);}
 {AltIsMeta}		{return(ALT_IS_META);}
 {Strings}		{return(STRINGS);}
 {Compose}               {return(COMPOSE);}

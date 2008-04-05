@@ -282,7 +282,8 @@ static struct {
     { "shiftl",	KG_SHIFTL },
     { "shiftr",	KG_SHIFTR },
     { "ctrll",	KG_CTRLL  },
-    { "ctrlr",	KG_CTRLR  }
+    { "ctrlr",	KG_CTRLR  },
+    { "capsshift",	KG_CAPSSHIFT  }
 };
 
 static void

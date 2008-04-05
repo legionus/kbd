@@ -7,3 +7,4 @@
 #define M_SHIFTR (1 << KG_SHIFTR)
 #define M_CTRLL  (1 << KG_CTRLL)
 #define M_CTRLR  (1 << KG_CTRLR)
+#define M_CAPSSHIFT (1 << KG_CAPSSHIFT)

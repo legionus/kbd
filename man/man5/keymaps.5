@@ -99,9 +99,9 @@ in the map file.
 .LP
 Which of the actions bound to a given key is taken when it is pressed
 depends on what modifiers are in effect at that moment.
-The keyboard driver supports 8 modifiers. These modifiers are labeled
+The keyboard driver supports 9 modifiers. These modifiers are labeled
 (completely arbitrarily) Shift, AltGr, Control, Alt, ShiftL, ShiftR,
-CtrlL and CtrlR.
+CtrlL, CtrlR and CapsShift.
 Each of these modifiers has an associated weight of power of two
 according to the following table:
 .LP
@@ -134,6 +134,9 @@ CtrlL
 .TP 24
 CtrlR
 128
+.TP 24
+CapsShift
+256
 .PD
 .RE
 .LP
