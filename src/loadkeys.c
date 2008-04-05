@@ -2977,19 +2977,24 @@ bkeymap () {
 	char flag, magic[] = "bkeymap";
 	unsigned short v;
 
-	write(1, magic, 7);
+	if (write(1, magic, 7) == -1)
+		goto fail;
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		flag = key_map[i] ? 1 : 0;
-		write(1, &flag, 1);
+		if (write(1, &flag, 1) == -1)
+			goto fail;
 	}
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (key_map[i]) {
 			for (j = 0; j < NR_KEYS / 2; j++) {
 				v = key_map[i][j];
-				write(1, &v, 2);
+				if (write(1, &v, 2) == -1)
+					goto fail;
 			}
 		}
 	}
 	exit(0);
+fail:	fprintf(stderr, _("Error writing map to file\n"));
+	exit(1);
 }
 
