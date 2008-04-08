@@ -226,7 +226,7 @@ rvalue0		:
 rvalue1		: rvalue
 			{
 			    if (rvalct >= MAX_NR_KEYMAPS)
-				lkfatal(_("too many keydefinitions on one line"));
+				lkfatal(_("too many key definitions on one line"));
 			    key_buf[rvalct++] = $1;
 			}
 		;
@@ -251,18 +251,18 @@ usage(void) {
 "\n"
 "Usage: loadkeys [option...] [mapfile...]\n"
 "\n"
-"valid options are:\n"
+"Valid options are:\n"
 "\n"
-"	-b --bkeymap      output a binary keymap to stdout\n"
-"	-c --clearcompose clear kernel compose table\n"
-"	-C <cons1,cons2,...>\n"
-"	--console=<...>   Indicate console device(s) to be used.\n"
-"	-d --default	  load \"" DEFMAP "\"\n"
-"	-h --help	  display this help text\n"
-"	-m --mktable      output a \"defkeymap.c\" to stdout\n"
-"	-s --clearstrings clear kernel string table\n"
-"	-u --unicode      implicit conversion to Unicode\n"
-"	-v --verbose      report the changes\n"), PACKAGE_VERSION);
+"  -b --bkeymap       output a binary keymap to stdout\n"
+"  -c --clearcompose  clear kernel compose table\n"
+"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
+"                     the console device(s) to be used\n"
+"  -d --default       load \"%s\"\n"
+"  -h --help          display this help text\n"
+"  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+"  -s --clearstrings  clear kernel string table\n"
+"  -u --unicode       implicit conversion to Unicode\n"
+"  -v --verbose       report the changes\n"), PACKAGE_VERSION, DEFMAP);
 	exit(1);
 }
 
@@ -297,6 +297,10 @@ main(int argc, char *argv[]) {
         int warned = 0;
 
 	set_progname(argv[0]);
+
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
@@ -419,7 +423,7 @@ int infile_stack_ptr = 0;
 void
 lk_push(void) {
 	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
-		lkfatal(_("includes nested too deeply"));
+		lkfatal(_("includes are nested too deeply"));
 
 	/* preserve current state */
 	infile_stack[infile_stack_ptr].filename = filename;
@@ -833,7 +837,7 @@ defkeys(int fd, char *cons, int *warned) {
 			} else
 			  ct++;
 			if(verbose)
-			  printf("keycode %d, table %d = %d%s\n", j, i,
+			  printf(_("keycode %d, table %d = %d%s\n"), j, i,
 				 (key_map[i])[j], fail ? _("    FAILED") : "");
 			else if (fail)
 			  fprintf(stderr,

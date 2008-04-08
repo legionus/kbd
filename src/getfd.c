@@ -56,7 +56,7 @@ int getfd(const char *fnam) {
 		if (fd >= 0)
 			return fd;
 		fprintf(stderr,
-			_("Couldnt open %s\n"), fnam);
+			_("Couldn't open %s\n"), fnam);
 		exit(1);
 	}
 
@@ -85,6 +85,6 @@ int getfd(const char *fnam) {
 			return fd;
 
 	fprintf(stderr,
-		_("Couldnt get a file descriptor referring to the console\n"));
+		_("Couldn't get a file descriptor referring to the console\n"));
 	exit(1);		/* total failure */
 }
