@@ -3,10 +3,10 @@ include "linux-keys-bare"
 keycode 100 = AltGr
 alt keycode 100 = Compose
 
-altgr keycode 70 = Show_Registers
-alt keycode 70 = Scroll_Lock
+altgr keycode  70 = Show_Registers
+alt keycode  70 = Scroll_Lock
 
-control altgr keycode 83 = Boot
+control altgr keycode  83 = Boot
 control altgr keycode 111 = Boot
 
 # Hex keypad keys (for giving a Unicode value in 4 hex digits)

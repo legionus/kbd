@@ -1,8 +1,8 @@
 # For keymaps in which AltGr_Lock is used to switch between two alphabets.
 #
 # A common construction is
-#	alt keycode 42 = AltGr_Lock
-#	altgr alt keycode 42 = AltGr_Lock
+#	alt keycode  42 = AltGr_Lock
+#	altgr alt keycode  42 = AltGr_Lock
 #
 # All Linux keys have the same meaning with or without AltGr.
 # No convention for Hex_* has been established.
@@ -91,11 +91,11 @@ altgr alt keycode 106 = Incr_Console
 altgr shift keycode 104 = Scroll_Backward
 altgr shift keycode 109 = Scroll_Forward
 #
-# altgr control keycode 83 = Boot
-altgr control alt keycode 83 = Boot
+# altgr control keycode  83 = Boot
+altgr control alt keycode  83 = Boot
 # altgr control keycode 111 = Boot
 altgr control alt keycode 111 = Boot
 #
 # an exception - altgr changes the function
 #
-altgr   keycode 70 = Show_Registers
+altgr   keycode  70 = Show_Registers

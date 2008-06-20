@@ -6,7 +6,7 @@
 # It does not use the AltGr modifier, so that the user can opt
 # to have both Alt keys produce the same effect.
 # As a consequence, the Hex_* keys are missing, as are
-#	control altgr keycode 83 = Boot
+#	control altgr keycode  83 = Boot
 #	control altgr keycode 111 = Boot
 #
 # One culture-specific item that will be overridden in many keymaps
@@ -150,13 +150,13 @@ control	alt keycode 111 = Boot
 keycode  84 = Last_Console		# Alt+SysRq/PrintScrn
 #keycode  99 = VoidSymbol		# SysRq/PrintScrn
 keycode  99 = Compose			# SysRq/PrintScrn
-alt	keycode 99 = Control_backslash
-control	keycode 99 = Control_backslash
+alt	keycode  99 = Control_backslash
+control	keycode  99 = Control_backslash
 
-plain   keycode 70 = Scroll_Lock
-shift	keycode 70 = Show_Memory
-control keycode 70 = Show_State
-alt	keycode 70 = Show_Registers
+plain   keycode  70 = Scroll_Lock
+shift	keycode  70 = Show_Memory
+control keycode  70 = Show_State
+alt	keycode  70 = Show_Registers
 
 keycode 101 = Break			# Ctrl+Break/Pause
 keycode 119 = Pause			# Break/Pause
