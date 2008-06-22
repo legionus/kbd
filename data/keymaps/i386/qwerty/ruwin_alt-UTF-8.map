@@ -16,6 +16,8 @@
 #  according to a report by Vitaly Lopatin <vitls@beshtau.ru>:
 #  - make it really conform to the win-layout (based on ruwin_cplk).
 
+include "qwerty-layout"
+
 		keycode   0 =
 		keycode   1 =	Escape	Escape		Escape	Escape
 	alt	keycode   1 =	Meta_Escape
@@ -102,34 +104,34 @@ altgr	alt     keycode  14 = 	Meta_Delete
 		keycode  15 =	Tab	Tab		Tab	Tab	
 	alt	keycode  15 =	Meta_Tab	
 altgr	alt     keycode  15 = 	Meta_Tab
-		keycode  16 = 	+q	
+
 altgr		keycode  16 = 	U+0439
 altgr	shift	keycode  16 = 	U+0419
-		keycode  17 = 	+w	
+
 altgr		keycode  17 =	U+0446
 altgr	shift	keycode  17 =	U+0426
-		keycode  18 = 	+e
+
 altgr		keycode  18 = 	U+0443
 altgr	shift 	keycode  18 = 	U+0423
-		keycode  19 =	+r
+
 altgr		keycode  19 = 	U+043A
 altgr	shift 	keycode  19 = 	U+041A
-		keycode  20 = 	+t
+
 altgr		keycode  20 = 	U+0435
 altgr	shift 	keycode  20 = 	U+0415
-		keycode  21 = 	+y
+
 altgr		keycode  21 = 	U+043D
 altgr	shift 	keycode  21 = 	U+041D
-		keycode  22 = 	+u
+
 altgr		keycode  22 = 	U+0433
 altgr	shift 	keycode  22 = 	U+0413
-		keycode  23 = 	+i
+
 altgr		keycode  23 = 	U+0448
 altgr	shift 	keycode  23 = 	U+0428
-		keycode  24 = 	+o
+
 altgr		keycode  24 =	U+0449
 altgr	shift 	keycode  24 = 	U+0429
-		keycode  25 = 	+p
+
 altgr		keycode  25 = 	U+0437
 altgr	shift 	keycode  25 = 	U+0417
 		keycode  26 = 	bracketleft     braceleft
@@ -155,31 +157,31 @@ altgr	alt     keycode  28 = 	0x080d
 	control keycode  28 = 	Linefeed
 altgr	control keycode  28 =	Linefeed
 		keycode  29 =	Control	
-		keycode  30 = 	+a
+
 altgr		keycode  30 = 	U+0444
 altgr	shift 	keycode  30 = 	U+0424
-		keycode  31 = 	+s
+
 altgr		keycode  31 = 	U+044B
 altgr	shift 	keycode  31 = 	U+042B
-		keycode  32 =	+d
+
 altgr		keycode  32 = 	U+0432
 altgr	shift 	keycode  32 = 	U+0412
-		keycode  33 = 	+f
+
 altgr		keycode  33 = 	U+0430
 altgr	shift 	keycode  33 = 	U+0410
-		keycode  34 = 	+g
+
 altgr		keycode  34 = 	U+043F
 altgr	shift 	keycode  34 = 	U+041F
-		keycode  35 = 	+h
+
 altgr		keycode  35 = 	U+0440
 altgr	shift	keycode  35 = 	U+0420
-		keycode  36 = 	+j
+
 altgr		keycode  36 = 	U+043E
 altgr	shift 	keycode  36 = 	U+041E
-		keycode  37 = 	+k
+
 altgr		keycode  37 = 	U+043B
 altgr	shift 	keycode  37 = 	U+041B
-		keycode  38 = 	+l
+
 altgr		keycode  38 = 	U+0434
 altgr	shift 	keycode  38 = 	U+0414
 		keycode  39 = 	semicolon        colon
@@ -207,25 +209,25 @@ altgr	control keycode  43 = 	Control_backslash
 altgr	alt     keycode  43 = 	Meta_backslash
 	shift alt keycode  43 = 	Meta_bar
 altgr	shift alt keycode  43 = 	Meta_bar
-		keycode  44 = 	+z
+
 altgr		keycode  44 = 	U+044F
 altgr	shift 	keycode  44 = 	U+042F
-		keycode  45 = 	+x
+
 altgr		keycode  45 = 	U+0447
 altgr	shift 	keycode  45 = 	U+0427
-		keycode  46 = 	+c
+
 altgr		keycode  46 = 	U+0441
 altgr	shift 	keycode  46 = 	U+0421
-		keycode  47 = 	+v
+
 altgr		keycode  47 = 	U+043C
 altgr	shift 	keycode  47 = 	U+041C
-		keycode  48 = 	+b
+
 altgr		keycode  48 = 	U+0438
 altgr	shift 	keycode  48 = 	U+0418
-		keycode  49 = 	+n
+
 altgr		keycode  49 = 	U+0442
 altgr	shift 	keycode  49 = 	U+0422
-		keycode  50 = 	+m
+
 altgr		keycode  50 = 	U+044C
 altgr	shift 	keycode  50 = 	U+042C
 		keycode  51 = 	comma            less

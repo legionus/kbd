@@ -12,6 +12,8 @@
 #  RightCtrl is used to change rus/lat
 #  
 
+include "qwerty-layout"
+
 		keycode   0 =
 		keycode   1 =	Escape	Escape		Escape	Escape
 	alt	keycode   1 =	Meta_Escape
@@ -98,34 +100,34 @@ altgr	alt     keycode  14 = 	Meta_Delete
 		keycode  15 =	Tab	Tab		Tab	Tab	
 	alt	keycode  15 =	Meta_Tab	
 altgr	alt     keycode  15 = 	Meta_Tab
-		keycode  16 = 	+q	
+
 altgr		keycode  16 = 	+0xE9
 altgr	shift	keycode  16 = 	+0xC9
-		keycode  17 = 	+w	
+
 altgr		keycode  17 =	+0xF6
 altgr	shift	keycode  17 =	+0xD6
-		keycode  18 = 	+e
+
 altgr		keycode  18 = 	+0xF3
 altgr	shift 	keycode  18 = 	+0xD3
-		keycode  19 =	+r
+
 altgr		keycode  19 = 	+0xEA
 altgr	shift 	keycode  19 = 	+0xCA
-		keycode  20 = 	+t
+
 altgr		keycode  20 = 	+0xE5
 altgr	shift 	keycode  20 = 	+0xC5
-		keycode  21 = 	+y
+
 altgr		keycode  21 = 	+0xED
 altgr	shift 	keycode  21 = 	+0xCD
-		keycode  22 = 	+u
+
 altgr		keycode  22 = 	+0xE3
 altgr	shift 	keycode  22 = 	+0xC3
-		keycode  23 = 	+i
+
 altgr		keycode  23 = 	+0xF8
 altgr	shift 	keycode  23 = 	+0xD8
-		keycode  24 = 	+o
+
 altgr		keycode  24 =	+0xF9
 altgr	shift 	keycode  24 = 	+0xD9
-		keycode  25 = 	+p
+
 altgr		keycode  25 = 	+0xE7
 altgr	shift 	keycode  25 = 	+0xC7
 		keycode  26 = 	bracketleft     braceleft
@@ -151,31 +153,31 @@ altgr	alt     keycode  28 = 	0x080d
 	control keycode  28 = 	Linefeed
 altgr	control keycode  28 =	Linefeed
 		keycode  29 =	Control	
-		keycode  30 = 	+a
+
 altgr		keycode  30 = 	+0xF4
 altgr	shift 	keycode  30 = 	+0xD4
-		keycode  31 = 	+s
+
 altgr		keycode  31 = 	+0xFB
 altgr	shift 	keycode  31 = 	+0xDB
-		keycode  32 =	+d
+
 altgr		keycode  32 = 	+0xE2
 altgr	shift 	keycode  32 = 	+0xC2
-		keycode  33 = 	+f
+
 altgr		keycode  33 = 	+0xE0
 altgr	shift 	keycode  33 = 	+0xC0
-		keycode  34 = 	+g
+
 altgr		keycode  34 = 	+0xEF
 altgr	shift 	keycode  34 = 	+0xCF
-		keycode  35 = 	+h
+
 altgr		keycode  35 = 	+0xF0
 altgr	shift	keycode  35 = 	+0xD0
-		keycode  36 = 	+j
+
 altgr		keycode  36 = 	+0xEE
 altgr	shift 	keycode  36 = 	+0xCE
-		keycode  37 = 	+k
+
 altgr		keycode  37 = 	+0xEB
 altgr	shift 	keycode  37 = 	+0xCB
-		keycode  38 = 	+l
+
 altgr		keycode  38 = 	+0xE4
 altgr	shift 	keycode  38 = 	+0xC4
 		keycode  39 = 	semicolon        colon
@@ -203,25 +205,25 @@ altgr	control keycode  43 = 	Control_backslash
 altgr	alt     keycode  43 = 	Meta_backslash
 	shift alt keycode  43 = 	Meta_bar
 altgr	shift alt keycode  43 = 	Meta_bar
-		keycode  44 = 	+z
+
 altgr		keycode  44 = 	+0xFF
 altgr	shift 	keycode  44 = 	+0xDF
-		keycode  45 = 	+x
+
 altgr		keycode  45 = 	+0xF7
 altgr	shift 	keycode  45 = 	+0xD7
-		keycode  46 = 	+c
+
 altgr		keycode  46 = 	+0xF1
 altgr	shift 	keycode  46 = 	+0xD1
-		keycode  47 = 	+v
+
 altgr		keycode  47 = 	+0xEC
 altgr	shift 	keycode  47 = 	+0xCC
-		keycode  48 = 	+b
+
 altgr		keycode  48 = 	+0xE8
 altgr	shift 	keycode  48 = 	+0xC8
-		keycode  49 = 	+n
+
 altgr		keycode  49 = 	+0xF2
 altgr	shift 	keycode  49 = 	+0xD2
-		keycode  50 = 	+m
+
 altgr		keycode  50 = 	+0xFC
 altgr	shift 	keycode  50 = 	+0xDC
 		keycode  51 = 	comma            less
@@ -403,7 +405,6 @@ altgr	control	alt     keycode  88 = Console_12
 altgr	control keycode  99 = 	Control_backslash
 	alt	keycode  99 =	Control_backslash
 altgr	alt     keycode  99 = 	Control_backslash
-		keycode 100 = AltGr
 		keycode 101 =	Break	
 		keycode 102 =	Find	
 		keycode 103 =	Up	
