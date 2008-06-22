@@ -327,7 +327,7 @@ got_vtno:
 void usage(int stat)
 {
    fprintf(stderr, _(
-     "Usage: openvt [-c vtnumber] [-l] [-u] [-s] [-v] [-w] -- command_line\n"));
+     "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"));
    exit (stat);
 }
 
