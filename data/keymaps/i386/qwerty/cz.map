@@ -1,6 +1,9 @@
+# *** toto neni originalni verze souboru:
+# *** upraveno z puvodni QWERTZ na QWERTY + opraveno par preklepu
+#
 # Tato keymapa NENI urcena pro jadro "opatchovane" programem "patch-capslock"
 #
-# klavesova mapa kompatibilni s windows QWERTZ
+# klavesova mapa kompatibilni s windows QWERTY
 #
 # Vytvoril: Richard S~puta, Richard.Sputa@os3.os.ds.mfcr.cz
 #
@@ -11,7 +14,7 @@
 # Links: ftp://ftp.penguin.cz/pub/cestina/klavesnice/console/
 #        - primary ftp archiv
 #        http://www.debian.cz/proj/czkbd/index.php3
-#        - czech keyboard standarts
+#        - czech keyboard standards
 #
 #
 # POZOR: Tato klavesova mapa obsahuje ve skutecnosti 2 (dve) klavesnice
@@ -27,7 +30,7 @@
 #               Navic klavesa "PrintScreen" funguje jako carka a hacek
 #
 #
-# Rozsireni oproti standartni_CESKE_unikodove_klavesnici
+# Rozsireni oproti standardni_CESKE_unikodove_klavesnici
 #         (zde jsou popsany pouze kombinace, jejichz umisteni je diskutabilni)
 #         (popis ostatnich rozsireni je v souboru "readme.txt")
 #        1) AltGr-SPACE => znak "nobreakspace" (neoddelitelna mezera kod 0xa0)
@@ -148,7 +151,7 @@ alt_is_meta
 #          Linefeed  (primarni) => Control_j
 #
 # vzdalenost mezi zacatky symbolu:
-#          12 znaku (standartne) vyhovuje 80% symbolickych nazvu
+#          12 znaku (standardne) vyhovuje 80% symbolickych nazvu
 #          25 znaku ma symbolicky nazev Meta_Control_bracketright
 #             123456789012 123456789012 123456789012 123456789012 123456789012 
 keycode   1 = Escape       Escape       VoidSymbol   VoidSymbol   VoidSymbol  \
@@ -383,15 +386,15 @@ keycode  20 = +t           T            VoidSymbol   VoidSymbol   Control_t   \
               VoidSymbol   VoidSymbol   +T           t            VoidSymbol  \
               VoidSymbol   VoidSymbol   VoidSymbol   Meta_T       Meta_t      \
               VoidSymbol
-keycode  21 = +z           Z            VoidSymbol   VoidSymbol   Control_z   \
-              Control_z    VoidSymbol   VoidSymbol   Meta_z       Meta_Z      \
-              VoidSymbol   VoidSymbol   +Z           z            VoidSymbol  \
-              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Z       Meta_z      \
+keycode  21 = +y           Y            VoidSymbol   VoidSymbol   Control_y   \
+              Control_y    VoidSymbol   VoidSymbol   Meta_y       Meta_Y      \
+              VoidSymbol   VoidSymbol   +Y           y            VoidSymbol  \
+              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Z       Meta_y      \
               VoidSymbol                                                      \
-              +z           Z            VoidSymbol   VoidSymbol   Control_z   \
-              Control_z    VoidSymbol   VoidSymbol   Meta_z       Meta_Z      \
-              VoidSymbol   VoidSymbol   +Z           z            VoidSymbol  \
-              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Z       Meta_z      \
+              +y           Y            VoidSymbol   VoidSymbol   Control_y   \
+              Control_y    VoidSymbol   VoidSymbol   Meta_y       Meta_Y      \
+              VoidSymbol   VoidSymbol   +Y           y            VoidSymbol  \
+              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Y       Meta_y      \
               VoidSymbol
 keycode  22 = +u           U            VoidSymbol   VoidSymbol   Control_u   \
               Control_u    VoidSymbol   VoidSymbol   Meta_u       Meta_U      \
@@ -601,15 +604,15 @@ keycode  43 = dead_diaeresis            dead_diaeresis            currency    \
               Meta_Control_backslash    bar          bar          VoidSymbol  \
               VoidSymbol   VoidSymbol   VoidSymbol   Meta_bar     Meta_bar    \
               VoidSymbol
-keycode  44 = +y           Y            degree       degree       Control_y   \
-              Control_y    VoidSymbol   VoidSymbol   Meta_y       Meta_Y      \
-              VoidSymbol   VoidSymbol   +Y           y            VoidSymbol  \
-              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Y       Meta_y      \
+keycode  44 = +z           Z            degree       degree       Control_z   \
+              Control_z    VoidSymbol   VoidSymbol   Meta_z       Meta_Z      \
+              VoidSymbol   VoidSymbol   +Z           z            VoidSymbol  \
+              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Z       Meta_z      \
               VoidSymbol                                                      \
-              +y           Y            degree       degree       Control_y   \
-              Control_y    VoidSymbol   VoidSymbol   Meta_y       Meta_Y      \
-              VoidSymbol   VoidSymbol   +Y           y            VoidSymbol  \
-              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Y       Meta_y      \
+              +z           Z            degree       degree       Control_z   \
+              Control_z    VoidSymbol   VoidSymbol   Meta_z       Meta_Z      \
+              VoidSymbol   VoidSymbol   +Z           z            VoidSymbol  \
+              VoidSymbol   VoidSymbol   VoidSymbol   Meta_Z       Meta_z      \
               VoidSymbol
 keycode  45 = +x           X            numbersign   numbersign   Control_x   \
               Control_x    VoidSymbol   VoidSymbol   Meta_x       Meta_X      \
@@ -996,7 +999,7 @@ keycode  83 = KP_Period    KP_Period    period       period       VoidSymbol  \
 #
 #
 #
-#keycode 84 = Alt PrintScreen => SysRq
+#keycode  84 = Alt PrintScreen => SysRq
 keycode  84 = Spawn_Console             Spawn_Console             VoidSymbol  \
               VoidSymbol   VoidSymbol   VoidSymbol   VoidSymbol   VoidSymbol  \
               VoidSymbol   VoidSymbol   VoidSymbol   VoidSymbol   VoidSymbol  \
@@ -1248,9 +1251,9 @@ keycode 119 = ShiftR_Lock  ShiftR_Lock  VoidSymbol   VoidSymbol   VoidSymbol  \
 #
 #
 #
-# keycode 125 => Windows klavesa vlevo (symbol okna)
-# keycode 126 => Windows klavesa vpravo (symbol okna)
-# keycode 127 => Windows klavesa nejvice vpravo (symbol menu)
+# keycode 125 = > Windows klavesa vlevo (symbol okna)
+# keycode 126 = > Windows klavesa vpravo (symbol okna)
+# keycode 127 = > Windows klavesa nejvice vpravo (symbol menu)
 keycode 125 = F13          F13          VoidSymbol   VoidSymbol   VoidSymbol  \
               VoidSymbol   Console_13   Console_13   Console_13   Console_13  \
               Console_13   Console_13   VoidSymbol   VoidSymbol   VoidSymbol  \

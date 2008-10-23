@@ -20,9 +20,9 @@ static void usage(void)
 "Valid options are:\n"
 "\n"
 "	-h --help            display this help text\n"
-"	-V --version         display this help text\n"
-"	-n --next-available  display next unallocated VT\n"),
-			progname, VERSION, progname);
+"	-V --version         display program version\n"
+"	-n --next-available  display number of next unallocated VT\n"),
+			progname, PACKAGE_VERSION, progname);
 	exit(1);
 }
 

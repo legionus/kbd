@@ -155,9 +155,9 @@ main (int argc, char **argv) {
 	      leave(1);
 
 	    if (verbose) {
-	        printf("Character count: %d\n", nr);
-		printf("Font width     : %d\n", rows);
-		printf("Font height    : %d\n", cols);
+	        printf(_("Character count: %d\n"), nr);
+		printf(_("Font width     : %d\n"), rows);
+		printf(_("Font height    : %d\n"), cols);
 	    }
 	    else
 		printf("%dx%dx%d\n", rows, cols, nr);
@@ -171,7 +171,7 @@ main (int argc, char **argv) {
 
 	n = getfontsize(fd);
 	if (verbose)
-		printf("Showing %d-char font\n\n", n);
+		printf(_("Showing %d-char font\n\n"), n);
 	cols = ((n > 256) ? 32 : 16);
 	nr = 64/cols;
 	rows = (n+cols-1)/cols;

@@ -5,6 +5,8 @@ loadkeys \- load keyboard translation tables
 .SH SYNOPSIS
 .B loadkeys
 [
+.I -b --bkeymap
+] [
 .I -c --clearcompose
 ] [
 .I -C '<cons1 cons2 ...>'
@@ -47,7 +49,7 @@ If the
 loads a default keymap, probably the file
 .I defkeymap.map
 either in
-.I @datadir@/keymaps
+.I @DATADIR@/keymaps
 or in
 .IR /usr/src/linux/drivers/char .
 (Probably the former was user-defined, while the latter
@@ -129,6 +131,17 @@ prints to the standard output a file that may be used as
 .I /usr/src/linux\%/drivers\%/char\%/defkeymap.c,
 specifying the default key bindings for a kernel
 (and does not modify the current keymap).
+.SH "CREATE BINARY KEYMAP"
+If the
+.I -b
+(or
+.I --bkeymap
+) option is given
+.B loadkeys
+prints to the standard output a file that may be used as a binary
+keymap as expected by Busybox
+.B loadkmap
+command (and does not modify the current keymap).
 .SH "OTHER OPTIONS"
 .TP
 .B \-h \-\-help
@@ -150,7 +163,7 @@ outlive your session. This means that even at the login prompt the key
 bindings may not be what the user expects.
 .SH FILES
 .TP
-.BI @datadir@/keymaps
+.BI @DATADIR@/keymaps
 default directory for keymaps
 .LP
 .TP

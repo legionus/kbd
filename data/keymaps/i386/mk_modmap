@@ -365,7 +365,7 @@ awk -F'#' '
 		if (keycode > 117)
 			msg("Skipped keycode " keycode-8 ": " output);
 	 	else if (output)
-			printf("keycode %3d =%s\n", keycode, output);
+			printf("keycode %3d = %s\n", keycode, output);
 		next;
 	}
 	{ print }

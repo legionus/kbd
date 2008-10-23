@@ -120,7 +120,7 @@ main(int argc, char *argv[])
    consfd = getfd(NULL);
    if (consfd < 0) {
       fprintf(stderr,
-	      _("Couldnt get a file descriptor referring to the console\n"));
+	      _("Couldn't get a file descriptor referring to the console\n"));
       return(2);
    }
 
@@ -254,7 +254,7 @@ got_vtno:
       if (show) {
          if (ioctl(fd1, VT_ACTIVATE, vtno)) {
             int errsv = errno;
-	    fprintf(stderr, "\nopenvt: could not activate vt %d (%s)\n",
+	    fprintf(stderr, _("\nopenvt: could not activate vt %d (%s)\n"),
 		    vtno, strerror(errsv));
 	    fflush(stderr);
 	    _exit (1); /* probably fd does not refer to a tty device file */
@@ -262,7 +262,7 @@ got_vtno:
 
 	 if (ioctl(fd1, VT_WAITACTIVE, vtno)){
             int errsv = errno;
-	    fprintf(stderr, "\nopenvt: activation interrupted? (%s)\n",
+	    fprintf(stderr, _("\nopenvt: activation interrupted? (%s)\n"),
 		    strerror(errsv));
 	    fflush(stderr);
 	    _exit (1);
@@ -292,6 +292,7 @@ got_vtno:
          execlp(cmd, def_cmd, NULL);
       else
 	 execvp(cmd, &argv[optind]);
+      perror("openvt: exec failed");
       _exit(127);		/* exec failed */
    }
 
@@ -326,8 +327,8 @@ got_vtno:
 
 void usage(int stat)
 {
-   fprintf(stderr,
-     "Usage: openvt [-c vtnumber] [-l] [-u] [-s] [-v] [-w] -- command_line\n");
+   fprintf(stderr, _(
+     "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"));
    exit (stat);
 }
 
@@ -407,7 +408,7 @@ authenticate_user(int curvt) {
 			goto got_a_process;
 	}
 
-	fprintf(stderr,"couldn't find owner of current tty!\n");
+	fprintf(stderr, _("Couldn't find owner of current tty!\n"));
 	exit(1);
 
    got_a_process:

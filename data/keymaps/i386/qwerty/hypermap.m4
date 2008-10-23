@@ -355,7 +355,7 @@ SIMPLE(106, Right)
 alt keycode 106 = Incr_Console
 SIMPLE(108, Down)
 
-control	alt keycode 83 = Boot
+control	alt keycode  83 = Boot
 control	alt keycode 111 = Boot
 
 

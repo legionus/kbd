@@ -282,7 +282,8 @@ static struct {
     { "shiftl",	KG_SHIFTL },
     { "shiftr",	KG_SHIFTR },
     { "ctrll",	KG_CTRLL  },
-    { "ctrlr",	KG_CTRLR  }
+    { "ctrlr",	KG_CTRLR  },
+    { "capsshift",	KG_CAPSSHIFT  }
 };
 
 static void
@@ -527,7 +528,7 @@ dump_funcs(void) {
 
 static void
 usage(void) {
-	fprintf(stderr, _("dumpkeys version %s"), VERSION);
+	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
 	fprintf(stderr, _("\
 \n\
 usage: dumpkeys [options...]\n\

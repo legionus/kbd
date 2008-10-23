@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define VERSION "1.13"
+#include "../config.h"
 
 char *progname;
 
@@ -15,6 +15,6 @@ set_progname(char *name) {
 
 static inline void
 print_version_and_exit(void) {
-	printf(_("%s from %s\n"), progname, "kbd-" VERSION);
+	printf(_("%s from %s\n"), progname, PACKAGE_STRING);
 	exit(0);
 }

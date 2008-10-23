@@ -144,12 +144,12 @@ keycode  13 = apostrophe grave
 	shift alt     keycode  13 = Meta_grave
 
 keycode  14 = Delete Delete
-	control       keycode 14 = Delete
-	control shift keycode 14 = Delete
-	alt           keycode 14 = Meta_Delete
-	alt shift     keycode 14 = Meta_Delete
-	alt control   keycode 14 = Meta_Delete
-	alt control shift keycode 14 = Meta_Delete
+	control       keycode  14 = Delete
+	control shift keycode  14 = Delete
+	alt           keycode  14 = Meta_Delete
+	alt shift     keycode  14 = Meta_Delete
+	alt control   keycode  14 = Meta_Delete
+	alt control shift keycode  14 = Meta_Delete
 
 keycode  21 = z
 	# rest done by loadkeys!
@@ -160,8 +160,8 @@ keycode  26 = 0x0bfc 0x0bdc # udiaeresis Udiaeresis with type KT_LETTER
     alt           keycode  26 = at
 	shift alt     keycode  26 = backslash
 	# Who knows a better way to implement these?
-	alt control       keycode 26 = Meta_at
-	shift alt control keycode 26 = Meta_backslash
+	alt control       keycode  26 = Meta_at
+	shift alt control keycode  26 = Meta_backslash
 
 keycode  27 = plus asterisk
 !	control       keycode  27 = VoidSymbol
@@ -175,8 +175,8 @@ keycode  39 = 0x0bf6 0x0bd6 # odiaeresis Odiaeresis with type KT_LETTER
     alt           keycode  39 = bracketleft
 	shift alt     keycode  39 = braceleft
 	# Who knows a better way to implement these?
-	alt control       keycode 39 = Meta_bracketleft
-	shift alt control keycode 39 = Meta_braceleft
+	alt control       keycode  39 = Meta_bracketleft
+	shift alt control keycode  39 = Meta_braceleft
 
 keycode  40 = 0x0be4 0x0bc4 # adiaeresis Adiaeresis with type KT_LETTER
 	control       keycode  40 = Control_bracketright
@@ -184,8 +184,8 @@ keycode  40 = 0x0be4 0x0bc4 # adiaeresis Adiaeresis with type KT_LETTER
     alt           keycode  40 = bracketright
 	shift alt     keycode  40 = braceright
 	# Who knows a better way to implement these?
-	alt control       keycode 40 = Meta_bracketright
-	shift alt control keycode 40 = Meta_braceright
+	alt control       keycode  40 = Meta_bracketright
+	shift alt control keycode  40 = Meta_braceright
 
 keycode  41 = numbersign asciicircum
 	control       keycode  41 = Control_asciicircum # for convenience
@@ -226,10 +226,10 @@ keycode  53 = minus underscore
 
 # These two are for Emacs-style editing: Alt+Cursor Left/Right send
 # Meta b or f to jump over words.
-	alt keycode 75 = Meta_b
-	alt keycode 77 = Meta_f
+	alt keycode  75 = Meta_b
+	alt keycode  77 = Meta_f
 
-keycode 83 = Remove Remove
+keycode  83 = Remove Remove
 	control       keycode  83 = Remove
 	control shift keycode  83 = Remove
 	alt           keycode  83 = Meta_d
