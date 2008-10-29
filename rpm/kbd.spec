@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
-Version: 1.13.99
-Release: alt5
+Version: 1.14.1.20081023
+Release: alt1
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -153,7 +153,7 @@ This package contains usermode bindings for kbdrate.
 %patch100 -p1 -b .unicode_start_vs_setfont
 
 %build
-%__autoconf
+%autoreconf
 %configure \
 	--bindir=/bin \
 	--datadir=/lib/%name \
@@ -175,7 +175,8 @@ This package contains usermode bindings for kbdrate.
 # Backward compatibility link
 mkdir -p -- %buildroot/%_bindir %buildroot/%_libdir
 ln -s -- /lib/%name %buildroot/%_libdir/%name
-for binary in setfont dumpkeys kbd_mode unicode_start unicode_stop ; do
+for binary in setfont dumpkeys kbd_mode unicode_start unicode_stop \
+		chvt openvt deallocvt fgconsole; do
 	ln -s /bin/$binary %buildroot/%_bindir/$binary
 done
 
@@ -294,6 +295,10 @@ done
 %exclude /sbin/kbdrate
 %exclude /sbin/setsysfont
 %exclude /sbin/setsyskeytable
+%exclude %_bindir/chvt
+%exclude %_bindir/openvt
+%exclude %_bindir/deallocvt
+%exclude %_bindir/fgconsole
 %exclude %_man1dir/chvt*
 %exclude %_man1dir/openvt*
 %exclude %_man1dir/deallocvt*
@@ -305,13 +310,17 @@ done
 %ghost %_libdir/%name
 
 %files -n %name-docs
-%doc CHANGES CREDITS README doc/*.txt doc/kbd.FAQ*.html doc/font-formats/*.html doc/utf
+%doc ChangeLog CREDITS README doc/*.txt doc/kbd.FAQ*.html doc/font-formats/*.html doc/utf
 
 %files -n console-vt-tools
 /bin/chvt
 /bin/openvt
 /bin/deallocvt
 /bin/fgconsole
+%_bindir/chvt
+%_bindir/openvt
+%_bindir/deallocvt
+%_bindir/fgconsole
 %_man1dir/chvt*
 %_man1dir/openvt*
 %_man1dir/deallocvt*
@@ -340,6 +349,23 @@ done
 /bin/kbdrate
 
 %changelog
+* Fri Oct 24 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.14.1.20081023-alt1
+- New release version (1.14.1).
+- Print an error message when calls to exec* functions fail (thx Michael Schutte).
+- openvt: Document the -f switch (thx Michael Schutte).
+- loadkeys: dump binary keymap (thx Michel Stempin).
+- Keymaps:
+  + Add turkish F (trf) keyboard map.
+  + Add qwertz/cz.map keymap.
+  + Add Norwegian dvorak keymap.
+  + Fix turkish Q (trq) keymap (thx Ozgur Murat Homurlu).
+  + Understand the CapsShift modifiers (thx Michael Schutte).
+  + ruwin_*: Use qwerty-layout.inc.
+- vt_activate_user_map: Allow absolute path in SYSFONTACM variable.
+- unicode_{start,stop}: To run loadkeys is allowed only to root.
+- unicode_start: Without any arguments utility will only set
+  unicode mode.
+
 * Fri Jan 18 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.13.99-alt5
 - Compatibility:
   + Fix windowskeys;
