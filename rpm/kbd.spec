@@ -96,6 +96,7 @@ These scripts are useful for writing scripts that need to control them.
 %package -n console-scripts
 Group: System/Configuration/Other
 Summary: Console configuration activation and management
+BuildArch: noarch
 
 Requires: %name %name-data
 Obsoletes: console-common-scripts
@@ -133,6 +134,7 @@ will start to repeat.
 %package -n kbdrate-usermode
 Group: System/Configuration/Hardware
 Summary: Usermode bindings for kbdrate
+BuildArch: noarch
 
 # due to the parent package change (util-linux --> kbd)
 Serial: %kbdrate_serial
