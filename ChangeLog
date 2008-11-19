@@ -1,3 +1,33 @@
+Changes for 1.15 (legion)
+
+o Build system:
+  - Use automake.
+  - Add --enable-strip configure option.
+  - Propagates configure options (Charles Clément)
+
+o Programs:
+  - Fix internationalization (Benno Schulenberg).
+  - unicode_start: Without any arguments utility will only set unicode mode.
+  - analyze.l: Add warning for on U+xxxx keysym specifications >= 0xf000.
+  - analyze.l: Understand the CapsShift modifiers (Michael Schutte).
+  - openvt: Document the -f switch (Michael Schutte).
+  - openvt: Print an error message when calls to exec* functions fail.
+  - loadkeys: dump binary keymap (Michel Stempin).
+  - loadunimap should use UNIMAPDIR.
+
+o Keymaps:
+  - Add qwerty/cz.map keymap.
+  - Recognize Ctrl-[ as Escape.
+  - ruwin_*: Use qwerty-layout.inc.
+  - Revert "include/*euro.map: Change 'currency' to 'euro' symbol".
+  - be-latin1 keycode 7 assignment fix (Herton Ronaldo Krzesinski).
+
+o Fonts:
+  - iso07u-16.psfu: Update font (Lefteris Dimitroulakis)
+
+o Unimaps:
+  - Update 8859-7_to_uni.trans
+
 Changes for 1.14.1 (legion)
 
 o Build system:
