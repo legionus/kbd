@@ -14,7 +14,7 @@ KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/dvorak \
 	mac/include mac/all
 
 # Do not use GZIP - it is interpreted by gzip
-MYGZIP = gzip -f -9
+MYGZIP = gzip -f -n -9
 
 install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 	install -d -m 755 $(DESTDIR)$(datadir)
