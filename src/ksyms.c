@@ -1662,7 +1662,7 @@ list_charsets(FILE *f) {
 			if(!strncmp(charsets[i].charset, mm[j], lth)) {
 				if(ct++)
 					fprintf(f, ",");
-				fprintf(f, charsets[i].charset+lth);
+				fprintf(f, "%s", charsets[i].charset+lth);
 			}
 		}
 		fprintf(f, "}");

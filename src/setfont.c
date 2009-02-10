@@ -725,7 +725,7 @@ saveoldfontplusunicodemap(int fd, char *Ofil) {
 static void
 send_escseq(int fd, char *seq, int n) {
 	if (write(fd, seq, n) != n)  /* maybe fd is read-only */
-		printf(seq);
+		printf("%s", seq);
 }
 
 void

@@ -41,7 +41,7 @@ report(int meta) {
       default:
 	s = _("Strange mode for Meta key?\n");
     }
-    printf(s);
+    printf("%s", s);
 }
 
 struct meta {

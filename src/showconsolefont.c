@@ -188,9 +188,9 @@ main (int argc, char **argv) {
 		printf("    ");
 		for(j=0; j < cols && i+j*rows < n; j++) {
 			putchar(BASE + (i%nr)*cols+j);
-			printf(sep);
+			printf("%s", sep);
 			if (j%8 == 7)
-				printf(sep);
+				printf("%s", sep);
 		}
 		putchar('\n');
 		if (i%8 == 7)
