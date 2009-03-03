@@ -19,8 +19,8 @@ struct syn {
 };
 extern struct syn synonyms[];
 
-extern const int syms_size;
-extern const int syn_size;
+extern const unsigned int syms_size;
+extern const unsigned int syn_size;
 
 /* Returned by ksymtocode to report an unknown symbol */
 #define CODE_FOR_UNKNOWN_KSYM (-1)

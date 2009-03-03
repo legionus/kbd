@@ -2,9 +2,10 @@
 /* assumes a little-endian machine */
 #include <stdio.h>
 #include <stdlib.h>	/* exit */
+#include "kbd.h"
 #include "psf.h"
 
-static void
+static void attr_noreturn
 usage(void) {
 	fprintf(stderr, "call: outpsfheader psftype fontsize charsize hastable\n");
 	exit(1);

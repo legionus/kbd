@@ -1,3 +1,6 @@
+#ifndef _OPENVT_H
+#define _OPENVT_H
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -41,3 +44,5 @@ char *authenticate_user(int);
 #ifdef ESIX_5_3_2_D
 #define	VTBASE		"/dev/vt%02d"
 #endif
+
+#endif /* _OPENVT_H */

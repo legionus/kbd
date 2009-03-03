@@ -9,7 +9,7 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 33
+#define YY_FLEX_SUBMINOR_VERSION 35
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -31,7 +31,7 @@
 
 /* C99 systems have <inttypes.h>. Non-C99 systems may or may not. */
 
-#if __STDC_VERSION__ >= 199901L
+#if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 /* C99 says to define __STDC_LIMIT_MACROS before including stdint.h,
  * if you want the limit (max/min) macros for int types. 
@@ -54,7 +54,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -85,6 +84,8 @@ typedef unsigned int flex_uint32_t;
 #define UINT32_MAX             (4294967295U)
 #endif
 
+#endif /* ! C99 */
+
 #endif /* ! FLEXINT_H */
 
 #ifdef __cplusplus
@@ -94,11 +95,12 @@ typedef unsigned int flex_uint32_t;
 
 #else	/* ! __cplusplus */
 
-#if __STDC__
+/* C99 requires __STDC__ to be defined as 1. */
+#if defined (__STDC__)
 
 #define YY_USE_CONST
 
-#endif	/* __STDC__ */
+#endif	/* defined (__STDC__) */
 #endif	/* ! __cplusplus */
 
 #ifdef YY_USE_CONST
@@ -140,7 +142,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -178,14 +188,9 @@ extern FILE *yyin, *yyout;
 
 #define unput(c) yyunput( c, (yytext_ptr)  )
 
-/* The following is because we cannot portably get our hands on size_t
- * (without autoconf's help, which isn't available because we want
- * flex-generated scanners to compile on their own).
- */
-
 #ifndef YY_TYPEDEF_YY_SIZE_T
 #define YY_TYPEDEF_YY_SIZE_T
-typedef unsigned int yy_size_t;
+typedef size_t yy_size_t;
 #endif
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
@@ -352,7 +357,11 @@ extern char *yytext;
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
 static int yy_get_next_buffer (void );
+#ifdef __GNUC__
+static void yy_fatal_error (yyconst char msg[]  ) __attribute__((noreturn));
+#else
 static void yy_fatal_error (yyconst char msg[]  );
+#endif
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
@@ -792,7 +801,9 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "analyze.l"
-#line 2 "analyze.l"
+#line 4 "analyze.l"
+#define YY_NO_INPUT 1
+
 #include <stdlib.h>
 #include <linux/kd.h>
 #include "ksyms.h"
@@ -815,7 +826,7 @@ extern void open_include(char *s);
 
 
 
-#line 819 "analyze.c"
+#line 830 "analyze.c"
 
 #define INITIAL 0
 #define RVALUE 1
@@ -836,6 +847,35 @@ extern void open_include(char *s);
 
 static int yy_init_globals (void );
 
+/* Accessor methods to globals.
+   These are made visible to non-reentrant scanners for convenience. */
+
+int yylex_destroy (void );
+
+int yyget_debug (void );
+
+void yyset_debug (int debug_flag  );
+
+YY_EXTRA_TYPE yyget_extra (void );
+
+void yyset_extra (YY_EXTRA_TYPE user_defined  );
+
+FILE *yyget_in (void );
+
+void yyset_in  (FILE * in_str  );
+
+FILE *yyget_out (void );
+
+void yyset_out  (FILE * out_str  );
+
+int yyget_leng (void );
+
+char *yyget_text (void );
+
+int yyget_lineno (void );
+
+void yyset_lineno (int line_number  );
+
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
  */
@@ -848,8 +888,6 @@ extern int yywrap (void );
 #endif
 #endif
 
-    static void yyunput (int c,char *buf_ptr  );
-    
 #ifndef yytext_ptr
 static void yy_flex_strncpy (char *,yyconst char *,int );
 #endif
@@ -870,7 +908,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -878,7 +921,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO (void) fwrite( yytext, yyleng, 1, yyout )
+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -968,10 +1011,10 @@ extern int yylex (void);
 YY_DECL
 {
 	register yy_state_type yy_current_state;
-	register char *yy_cp, *yy_bp;
+	register char *yy_cp = NULL, *yy_bp = NULL;
 	register int yy_act;
     
-#line 60 "analyze.l"
+#line 64 "analyze.l"
 
 
 /* To protect from wrong code in the higher level parser (loadkeys.y), 
@@ -986,7 +1029,7 @@ YY_DECL
  * yylval to YYLVAL_UNDEF. Then it might be overwritten by specific rules. */
   yylval = YYLVAL_UNDEF;
 
-#line 990 "analyze.c"
+#line 1033 "analyze.c"
 
 	if ( !(yy_init) )
 		{
@@ -1071,12 +1114,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 74 "analyze.l"
+#line 78 "analyze.l"
 {BEGIN(INCLSTR);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 75 "analyze.l"
+#line 79 "analyze.l"
 { int l; char *s;
 			 l = strlen(yytext);
 			 s = xmalloc(l);
@@ -1089,7 +1132,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 83 "analyze.l"
+#line 87 "analyze.l"
 {
 			  yyerror("expected filename between quotes");
 			  BEGIN(0); }
@@ -1097,18 +1140,18 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 86 "analyze.l"
+#line 90 "analyze.l"
 {line_nr++;}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 87 "analyze.l"
+#line 91 "analyze.l"
 {line_nr++;BEGIN(0);return(EOL);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 88 "analyze.l"
+#line 92 "analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1117,219 +1160,219 @@ case 7:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 89 "analyze.l"
+#line 93 "analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 90 "analyze.l"
+#line 94 "analyze.l"
 {BEGIN(RVALUE);rvalct=0;return(EQUALS);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 91 "analyze.l"
+#line 95 "analyze.l"
 {return(DASH);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 92 "analyze.l"
+#line 96 "analyze.l"
 {return(COMMA);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 93 "analyze.l"
+#line 97 "analyze.l"
 {return(PLUS);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 94 "analyze.l"
+#line 98 "analyze.l"
 {yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal1("unicode keysym out of range: %s",yytext);return(UNUMBER);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 95 "analyze.l"
+#line 99 "analyze.l"
 {yylval=strtol(yytext,NULL,0);return(NUMBER);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 96 "analyze.l"
+#line 100 "analyze.l"
 {return((yylval=ksymtocode(yytext))==-1?ERROR:LITERAL);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 97 "analyze.l"
+#line 101 "analyze.l"
 {return(CHARSET);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 98 "analyze.l"
+#line 102 "analyze.l"
 {return(KEYMAPS);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 99 "analyze.l"
+#line 103 "analyze.l"
 {return(KEYCODE);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 100 "analyze.l"
+#line 104 "analyze.l"
 {BEGIN(RVALUE);return(STRING);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 101 "analyze.l"
+#line 105 "analyze.l"
 {return(PLAIN);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 102 "analyze.l"
+#line 106 "analyze.l"
 {return(SHIFT);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 103 "analyze.l"
+#line 107 "analyze.l"
 {return(CONTROL);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 104 "analyze.l"
+#line 108 "analyze.l"
 {return(ALT);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 105 "analyze.l"
+#line 109 "analyze.l"
 {return(ALTGR);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 106 "analyze.l"
+#line 110 "analyze.l"
 {return(SHIFTL);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 107 "analyze.l"
+#line 111 "analyze.l"
 {return(SHIFTR);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 108 "analyze.l"
+#line 112 "analyze.l"
 {return(CTRLL);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 109 "analyze.l"
+#line 113 "analyze.l"
 {return(CTRLR);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 110 "analyze.l"
+#line 114 "analyze.l"
 {return(CAPSSHIFT);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 111 "analyze.l"
+#line 115 "analyze.l"
 {return(ALT_IS_META);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 112 "analyze.l"
+#line 116 "analyze.l"
 {return(STRINGS);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 113 "analyze.l"
+#line 117 "analyze.l"
 {return(COMPOSE);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 114 "analyze.l"
+#line 118 "analyze.l"
 {return(AS);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 115 "analyze.l"
+#line 119 "analyze.l"
 {return(USUAL);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 116 "analyze.l"
+#line 120 "analyze.l"
 {BEGIN(RVALUE); return(TO);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 117 "analyze.l"
+#line 121 "analyze.l"
 {return(ON);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 118 "analyze.l"
+#line 122 "analyze.l"
 {return(FOR);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 119 "analyze.l"
+#line 123 "analyze.l"
 {yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 120 "analyze.l"
+#line 124 "analyze.l"
 {yylval = yytext[2]; return(CCHAR);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 121 "analyze.l"
+#line 125 "analyze.l"
 {yylval = yytext[1]; return(CCHAR);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 122 "analyze.l"
+#line 126 "analyze.l"
 {p=(char *) kbs_buf.kb_string;
 				pmax=p+sizeof(kbs_buf.kb_string)-1;
 				BEGIN(STR);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 125 "analyze.l"
+#line 129 "analyze.l"
 {if(p>=pmax)stringovfl();*p++=strtol(yytext+1,NULL,8);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 126 "analyze.l"
+#line 130 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='"';}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 127 "analyze.l"
+#line 131 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='\\';}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 128 "analyze.l"
+#line 132 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='\n';}
 	YY_BREAK
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 129 "analyze.l"
+#line 133 "analyze.l"
 {char *ptmp=p;p+=strlen(yytext);
 				if(p>pmax)stringovfl();strcpy(ptmp,yytext);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 131 "analyze.l"
+#line 135 "analyze.l"
 {*p='\0';BEGIN(0);return(STRLITERAL);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 132 "analyze.l"
+#line 136 "analyze.l"
 {return(ERROR); /* report any unknown characters */}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 133 "analyze.l"
+#line 137 "analyze.l"
 ECHO;
 	YY_BREAK
-#line 1333 "analyze.c"
+#line 1376 "analyze.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
@@ -1587,6 +1630,14 @@ static int yy_get_next_buffer (void)
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
 
+	if ((yy_size_t) ((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+		/* Extend the array by 50%, plus the number we really need. */
+		yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size  );
+		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
+			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
+	}
+
 	(yy_n_chars) += number_to_move;
 	YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars)] = YY_END_OF_BUFFER_CHAR;
 	YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars) + 1] = YY_END_OF_BUFFER_CHAR;
@@ -1651,43 +1702,6 @@ static int yy_get_next_buffer (void)
 	yy_is_jam = (yy_current_state == 503);
 
 	return yy_is_jam ? 0 : yy_current_state;
-}
-
-    static void yyunput (int c, register char * yy_bp )
-{
-	register char *yy_cp;
-    
-    yy_cp = (yy_c_buf_p);
-
-	/* undo effects of setting up yytext */
-	*yy_cp = (yy_hold_char);
-
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		register int number_to_move = (yy_n_chars) + 2;
-		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		register char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
-
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
-
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
-
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
-
-	*--yy_cp = (char) c;
-
-	(yytext_ptr) = yy_bp;
-	(yy_hold_char) = *yy_cp;
-	(yy_c_buf_p) = yy_cp;
 }
 
 #ifndef YY_NO_INPUT
@@ -2002,7 +2016,9 @@ static void yyensure_buffer_stack (void)
 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
 								(num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
-		
+		if ( ! (yy_buffer_stack) )
+			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
+								  
 		memset((yy_buffer_stack), 0, num_to_alloc * sizeof(struct yy_buffer_state*));
 				
 		(yy_buffer_stack_max) = num_to_alloc;
@@ -2020,6 +2036,8 @@ static void yyensure_buffer_stack (void)
 								((yy_buffer_stack),
 								num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
+		if ( ! (yy_buffer_stack) )
+			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
 
 		/* zero only the new slots.*/
 		memset((yy_buffer_stack) + (yy_buffer_stack_max), 0, grow_size * sizeof(struct yy_buffer_state*));
@@ -2078,8 +2096,8 @@ YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
  * scan from a @e copy of @a bytes.
- * @param bytes the byte buffer to scan
- * @param len the number of bytes in the buffer pointed to by @a bytes.
+ * @param yybytes the byte buffer to scan
+ * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
@@ -2318,13 +2336,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 133 "analyze.l"
+#line 137 "analyze.l"
 
 
 #include "ksyms.h"
 #include <linux/keyboard.h>
 
-void
+void attr_noreturn
 stringovfl(void) {
 	lkfatal("string too long");
 }

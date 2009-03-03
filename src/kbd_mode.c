@@ -14,7 +14,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void
+static void attr_noreturn
 usage(void){
     fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"));
     exit(1);

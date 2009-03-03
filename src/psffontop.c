@@ -181,9 +181,9 @@ readpsffont(FILE *fontf, char **allbufp, int *allszp,
 	    int *fontwidthp, int *fontlenp, int fontpos0,
 	    struct unicode_list **uclistheadsp) {
 	char *inputbuf = NULL;
-	int inputbuflth = 0;
-	int inputlth, fontlen, fontwidth, charsize, hastable, ftoffset, utf8;
-	int i, k, n;
+	size_t inputbuflth = 0;
+	size_t inputlth, fontlen, fontwidth, charsize, hastable, ftoffset, utf8;
+	size_t i, k, n;
 
 	/*
 	 * We used to look at the length of the input file
@@ -446,9 +446,10 @@ writepsffontheader(FILE *ofil, int width, int height, int fontlen,
 
 
 int
-writepsffont(FILE *ofil, char *fontbuf, int width, int height, int fontlen,
+writepsffont(FILE *ofil, char *fontbuf, int width, int height, size_t fontlen,
 	     int psftype, struct unicode_list *uclistheads) {
-	int bytewidth, charsize, flags, utf8, i;
+	int bytewidth, charsize, flags, utf8;
+	size_t i;
 
 	bytewidth = (width+7)/8;
 	charsize = bytewidth * height;

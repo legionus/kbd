@@ -67,7 +67,7 @@ findpartialfont(char *fnam) {
     return findfile(fnam, partfontdirpath, partfontsuffixes);
 }
 
-static void
+static void attr_noreturn
 usage(void)
 {
         fprintf(stderr, _(
@@ -247,7 +247,7 @@ static int erase_mode = 1;
 
 static void
 do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
-	    int fontsize, char *pathname) {
+	    int fontsize, char *filename) {
 	unsigned char *buf;
 	int i, buflen;
 	int bytewidth = (width+7)/8;
@@ -306,15 +306,15 @@ do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 	}
 
 	if (verbose) {
-		if (height == hwunit && pathname)
+		if (height == hwunit && filename)
 			printf(_("Loading %d-char %dx%d font from file %s\n"),
-			       fontsize, width, height, pathname);
+			       fontsize, width, height, filename);
 		else if (height == hwunit)
 			printf(_("Loading %d-char %dx%d font\n"),
 			       fontsize, width, height);
-		else if (pathname)
+		else if (filename)
 			printf(_("Loading %d-char %dx%d (%d) font from file %s\n"),
-			       fontsize, width, height, hwunit, pathname);
+			       fontsize, width, height, hwunit, filename);
 		else
 			printf(_("Loading %d-char %dx%d (%d) font\n"),
 			       fontsize, width, height, hwunit);

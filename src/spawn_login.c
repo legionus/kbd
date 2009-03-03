@@ -13,8 +13,10 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
+#include "kbd.h"
+
 static void
-sighup(int n) {
+sighup(attr_unused int n) {
     if (system("openvt -s -l -- login -h spawn") == -1) {
 	perror("system");
 	exit(1);

@@ -178,8 +178,14 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	return 1;			/* success! */
 }
 
+#ifndef KIOCSRATE
+#define arg_state attr_unused
+#else
+#define arg_state
+#endif
+
 static int
-KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
+KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int silent) {
 #ifdef KIOCSRATE
 	struct kbd_rate kbdrate_s;
 	int fd;
@@ -212,7 +218,7 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent) {
 }
 
 static void
-sigalrmhandler( int sig ) {
+sigalrmhandler( attr_unused int sig ) {
 	fprintf( stderr, "kbdrate: Failed waiting for kbd controller!\n" );
 	raise( SIGINT );
 }
@@ -232,7 +238,7 @@ main( int argc, char **argv ) {
 	int         fd;
 	char        data;
 	int         c;
-	int         i;
+	unsigned int i;
 	extern char *optarg;
 
 	set_progname(argv[0]);

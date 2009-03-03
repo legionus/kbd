@@ -13,7 +13,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void
+static void attr_noreturn
 usage(void)
 {
     fprintf(stderr, _(
@@ -85,7 +85,7 @@ main(int argc, char **argv) {
     }
 
     nmeta = 0;			/* make gcc happy */
-    for (mp = metas; mp-metas < SIZE(metas); mp++) {
+    for (mp = metas; (unsigned) (mp-metas) < SIZE(metas); mp++) {
 	if(!strcmp(argv[1], mp->name)) {
 	    nmeta = mp->val;
 	    goto fnd;

@@ -14,7 +14,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void
+static void attr_noreturn
 usage(void)
 {
     fprintf(stderr, _(
@@ -79,8 +79,8 @@ struct led {
 };
 
 static void
-getleds(char *leds) {
-    if (ioctl(0, KDGETLED, leds)) {
+getleds(char *cur_leds) {
+    if (ioctl(0, KDGETLED, cur_leds)) {
 	perror("KDGETLED");
 	fprintf(stderr,
 	  _("Error reading current led setting. Maybe stdin is not a VT?\n"));
@@ -89,8 +89,8 @@ getleds(char *leds) {
 }
 
 static int
-setleds(char leds) {
-    if (ioctl(0, KDSETLED, leds)) {
+setleds(char cur_leds) {
+    if (ioctl(0, KDSETLED, cur_leds)) {
 	perror("KDSETLED");
 	return -1;
     }
@@ -110,10 +110,16 @@ getflags(char *flags) {
 
 static int sunkbdfd = -1;
 
-static void
-sungetleds(char *leds) {
+#ifndef KIOCGLED
+#define arg_state attr_unused
+#else
+#define arg_state
+#endif
+
+static void attr_noreturn
+sungetleds(arg_state char *cur_leds) {
 #ifdef KIOCGLED
-    if (ioctl(sunkbdfd, KIOCGLED, leds)) {
+    if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
 	perror("KIOCGLED");
 	fprintf(stderr,
 	  _("Error reading current led setting from /dev/kbd.\n"));
@@ -125,10 +131,16 @@ sungetleds(char *leds) {
 #endif
 }
 
-static void
-sunsetleds(char *leds) {
+#ifndef KIOCSLED
+#define arg_state attr_unused
+#else
+#define arg_state
+#endif
+
+static void attr_noreturn
+sunsetleds(arg_state char *cur_leds) {
 #ifdef KIOCSLED
-    if (ioctl(sunkbdfd, KIOCSLED, leds)) {
+    if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {
 	perror("KIOCSLED");
 	fprintf(stderr,
 	  _("Error reading current led setting from /dev/kbd.\n"));
@@ -236,7 +248,7 @@ main(int argc, char **argv) {
 	    sign = 0;
 	    ap++;
 	}
-	for (lp = leds; lp-leds < sizeof(leds)/sizeof(leds[0]); lp++) {
+	for (lp = leds; (unsigned) (lp-leds) < sizeof(leds)/sizeof(leds[0]); lp++) {
 	    if(!strcmp(ap, lp->name)) {
 		if(sign) {
 		  nval |= lp->bit;

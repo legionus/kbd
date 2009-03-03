@@ -107,16 +107,16 @@ print_keymaps(void) {
 }
 
 static int
-get_bind(u_char index, u_char table) {
+get_bind(u_char kb_index, u_char kb_table) {
 	struct kbentry ke;
 
-	ke.kb_index = index;
-	ke.kb_table = table;
+	ke.kb_index = kb_index;
+	ke.kb_table = kb_table;
 	if (ioctl(fd, KDGKBENT, (unsigned long)&ke)) {
-		if (index < 128) {
+		if (kb_index < 128) {
 			perror("KDGKBENT");
 			fprintf(stderr, _("KDGKBENT error at index %d in table %d\n"),
-				index, table);
+				kb_index, kb_table);
 			exit(1);
 		} else
 			return -1;
@@ -126,7 +126,7 @@ get_bind(u_char index, u_char table) {
 
 static void
 print_keysym(int code, char numeric) {
-	int t;
+	unsigned int t;
 	int v;
 	const char *p;
 	int plus;
@@ -229,7 +229,7 @@ nr_of_diacs(void) {
 
 static void
 dump_diacs(void) {
-	int i;
+	unsigned int i;
 
 	get_diacs();
 	for (i = 0; i < kd.kb_cnt; i++) {
@@ -288,7 +288,7 @@ static struct {
 
 static void
 dump_symbols(void) {
-	int t;
+	unsigned int t;
 	int v;
 	const char *p;
 
@@ -316,7 +316,7 @@ dump_symbols(void) {
 
 static void
 print_mod(int x) {
-	int t;
+	unsigned int t;
 
 	if (!x)
 		printf("plain\t");
@@ -443,12 +443,12 @@ no_shorthands:
 		    zapped[j] = 0;
 	    if (alt_is_meta) {
 		 for(j = 0; j < keymapnr; j++) {
-		      int ka, ja, typ;
+		      int ka, ja, ktyp;
 		      k = good_keymap[j];
 		      ka = (k | M_ALT);
 		      ja = keymap_index[ka];
 		      if (k != ka && ja >= 0
-		       && ((typ=KTYP(buf[j])) == KT_LATIN || typ == KT_LETTER)
+		       && ((ktyp=KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER)
 		       && KVAL(buf[j]) < 128) {
 			   if (buf[ja] != K(KT_META, KVAL(buf[j])))
 				fprintf(stderr, _("impossible: not meta?\n"));
@@ -526,7 +526,7 @@ dump_funcs(void) {
 	}
 }
 
-static void
+static void attr_noreturn
 usage(void) {
 	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
 	fprintf(stderr, _("\

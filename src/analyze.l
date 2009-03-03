@@ -1,7 +1,12 @@
+%option outfile="analyze.c"
+%option nounput
 %{
+#define YY_NO_INPUT 1
+
 #include <stdlib.h>
 #include <linux/kd.h>
 #include "ksyms.h"
+#include "kbd.h"
 #include "xmalloc.h"
 
 extern int line_nr;
@@ -134,7 +139,7 @@ To                      to|To|TO
 #include "ksyms.h"
 #include <linux/keyboard.h>
 
-void
+void attr_noreturn
 stringovfl(void) {
 	lkfatal("string too long");
 }
