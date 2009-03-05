@@ -1262,7 +1262,7 @@ mktable () {
 	printf("char *func_table[MAX_NR_FUNC] = {\n");
 	for (i = 0; i < maxfunc; i++) {
 	    if (func_table[i])
-	      printf("\tfunc_buf + %d,\n", func_table[i] - func_buf);
+	      printf("\tfunc_buf + %ld,\n", (long) (func_table[i] - func_buf));
 	    else
 	      printf("\t0,\n");
 	}
