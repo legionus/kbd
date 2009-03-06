@@ -142,15 +142,7 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
-#ifdef __ia64__
-/* On IA-64, the buffer size is 16k, not 8k.
- * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
- * Ditto for the __ia64__ case accordingly.
- */
-#define YY_BUF_SIZE 32768
-#else
 #define YY_BUF_SIZE 16384
-#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -807,6 +799,7 @@ char *yytext;
 #include <stdlib.h>
 #include <linux/kd.h>
 #include "ksyms.h"
+#include "kbd.h"
 #include "xmalloc.h"
 
 extern int line_nr;
@@ -826,7 +819,7 @@ extern void open_include(char *s);
 
 
 
-#line 830 "analyze.c"
+#line 823 "analyze.c"
 
 #define INITIAL 0
 #define RVALUE 1
@@ -908,12 +901,7 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
-#ifdef __ia64__
-/* On IA-64, the buffer size is 16k, not 8k */
-#define YY_READ_BUF_SIZE 16384
-#else
 #define YY_READ_BUF_SIZE 8192
-#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1011,10 +999,10 @@ extern int yylex (void);
 YY_DECL
 {
 	register yy_state_type yy_current_state;
-	register char *yy_cp = NULL, *yy_bp = NULL;
+	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 64 "analyze.l"
+#line 65 "analyze.l"
 
 
 /* To protect from wrong code in the higher level parser (loadkeys.y), 
@@ -1029,7 +1017,7 @@ YY_DECL
  * yylval to YYLVAL_UNDEF. Then it might be overwritten by specific rules. */
   yylval = YYLVAL_UNDEF;
 
-#line 1033 "analyze.c"
+#line 1021 "analyze.c"
 
 	if ( !(yy_init) )
 		{
@@ -1114,12 +1102,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 78 "analyze.l"
+#line 79 "analyze.l"
 {BEGIN(INCLSTR);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 79 "analyze.l"
+#line 80 "analyze.l"
 { int l; char *s;
 			 l = strlen(yytext);
 			 s = xmalloc(l);
@@ -1132,7 +1120,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 87 "analyze.l"
+#line 88 "analyze.l"
 {
 			  yyerror("expected filename between quotes");
 			  BEGIN(0); }
@@ -1140,18 +1128,18 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 90 "analyze.l"
+#line 91 "analyze.l"
 {line_nr++;}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 91 "analyze.l"
+#line 92 "analyze.l"
 {line_nr++;BEGIN(0);return(EOL);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 92 "analyze.l"
+#line 93 "analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1160,219 +1148,219 @@ case 7:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 93 "analyze.l"
+#line 94 "analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 94 "analyze.l"
+#line 95 "analyze.l"
 {BEGIN(RVALUE);rvalct=0;return(EQUALS);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 95 "analyze.l"
+#line 96 "analyze.l"
 {return(DASH);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 96 "analyze.l"
+#line 97 "analyze.l"
 {return(COMMA);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 97 "analyze.l"
+#line 98 "analyze.l"
 {return(PLUS);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 98 "analyze.l"
+#line 99 "analyze.l"
 {yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal1("unicode keysym out of range: %s",yytext);return(UNUMBER);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 99 "analyze.l"
+#line 100 "analyze.l"
 {yylval=strtol(yytext,NULL,0);return(NUMBER);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 100 "analyze.l"
+#line 101 "analyze.l"
 {return((yylval=ksymtocode(yytext))==-1?ERROR:LITERAL);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 101 "analyze.l"
+#line 102 "analyze.l"
 {return(CHARSET);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 102 "analyze.l"
+#line 103 "analyze.l"
 {return(KEYMAPS);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 103 "analyze.l"
+#line 104 "analyze.l"
 {return(KEYCODE);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 104 "analyze.l"
+#line 105 "analyze.l"
 {BEGIN(RVALUE);return(STRING);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 105 "analyze.l"
+#line 106 "analyze.l"
 {return(PLAIN);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 106 "analyze.l"
+#line 107 "analyze.l"
 {return(SHIFT);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 107 "analyze.l"
+#line 108 "analyze.l"
 {return(CONTROL);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 108 "analyze.l"
+#line 109 "analyze.l"
 {return(ALT);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 109 "analyze.l"
+#line 110 "analyze.l"
 {return(ALTGR);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 110 "analyze.l"
+#line 111 "analyze.l"
 {return(SHIFTL);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 111 "analyze.l"
+#line 112 "analyze.l"
 {return(SHIFTR);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 112 "analyze.l"
+#line 113 "analyze.l"
 {return(CTRLL);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 113 "analyze.l"
+#line 114 "analyze.l"
 {return(CTRLR);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 114 "analyze.l"
+#line 115 "analyze.l"
 {return(CAPSSHIFT);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 115 "analyze.l"
+#line 116 "analyze.l"
 {return(ALT_IS_META);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 116 "analyze.l"
+#line 117 "analyze.l"
 {return(STRINGS);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 117 "analyze.l"
+#line 118 "analyze.l"
 {return(COMPOSE);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 118 "analyze.l"
+#line 119 "analyze.l"
 {return(AS);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 119 "analyze.l"
+#line 120 "analyze.l"
 {return(USUAL);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 120 "analyze.l"
+#line 121 "analyze.l"
 {BEGIN(RVALUE); return(TO);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 121 "analyze.l"
+#line 122 "analyze.l"
 {return(ON);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 122 "analyze.l"
+#line 123 "analyze.l"
 {return(FOR);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 123 "analyze.l"
+#line 124 "analyze.l"
 {yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 124 "analyze.l"
+#line 125 "analyze.l"
 {yylval = yytext[2]; return(CCHAR);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 125 "analyze.l"
+#line 126 "analyze.l"
 {yylval = yytext[1]; return(CCHAR);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 126 "analyze.l"
+#line 127 "analyze.l"
 {p=(char *) kbs_buf.kb_string;
 				pmax=p+sizeof(kbs_buf.kb_string)-1;
 				BEGIN(STR);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 129 "analyze.l"
+#line 130 "analyze.l"
 {if(p>=pmax)stringovfl();*p++=strtol(yytext+1,NULL,8);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 130 "analyze.l"
+#line 131 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='"';}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 131 "analyze.l"
+#line 132 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='\\';}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 132 "analyze.l"
+#line 133 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='\n';}
 	YY_BREAK
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 133 "analyze.l"
+#line 134 "analyze.l"
 {char *ptmp=p;p+=strlen(yytext);
 				if(p>pmax)stringovfl();strcpy(ptmp,yytext);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 135 "analyze.l"
+#line 136 "analyze.l"
 {*p='\0';BEGIN(0);return(STRLITERAL);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 136 "analyze.l"
+#line 137 "analyze.l"
 {return(ERROR); /* report any unknown characters */}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 137 "analyze.l"
+#line 138 "analyze.l"
 ECHO;
 	YY_BREAK
-#line 1376 "analyze.c"
+#line 1364 "analyze.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
@@ -1888,9 +1876,9 @@ static void yy_load_buffer_state  (void)
 	yyfree((void *) b  );
 }
 
-#ifndef __cplusplus
+#if defined(YY_NO_UNISTD_H) && !defined(__cplusplus)
 extern int isatty (int );
-#endif /* __cplusplus */
+#endif /* YY_NO_UNISTD_H && !__cplusplus */
     
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
@@ -2336,7 +2324,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 137 "analyze.l"
+#line 138 "analyze.l"
 
 
 #include "ksyms.h"
