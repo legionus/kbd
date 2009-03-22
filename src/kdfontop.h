@@ -1,3 +1,5 @@
+#ifndef _KDFONTOP_H
+#define _KDFONTOP_H
 /*
  * Read kernel font into BUF with room for COUNT 32x32 glyphs.
  * Return 0 on success -1 on failure.
@@ -27,3 +29,5 @@ extern int getfontsize(int fd);
  * Restore font (doesn't work).
  */
 extern int restorefont(int fd);
+
+#endif /* _KDFONTOP_H */

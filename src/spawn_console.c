@@ -18,8 +18,10 @@
 #include <sys/ioctl.h>	/* ioctl */
 #include <unistd.h>	/* sleep */
 
+#include "kbd.h"
+
 static void
-sighup(int n) {
+sighup(attr_unused int n) {
     if (system("openvt -s -l bash") == -1) {
       perror("system");
       exit(1);

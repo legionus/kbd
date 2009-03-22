@@ -1613,8 +1613,8 @@ synonyms[] = {
 	{ "rightanglequote",    "guillemotright" }
 };
 
-const int syms_size = sizeof(syms) / sizeof(syms_entry);
-const int syn_size = sizeof(synonyms) / sizeof(synonyms[0]);
+const unsigned int syms_size = sizeof(syms) / sizeof(syms_entry);
+const unsigned int syn_size = sizeof(synonyms) / sizeof(synonyms[0]);
 
 struct cs {
     const char *charset;
@@ -1649,7 +1649,8 @@ static const char *chosen_charset = NULL;
 
 void
 list_charsets(FILE *f) {
-	int i,j,lth,ct;
+	int lth,ct;
+	unsigned int i, j;
 	char *mm[] = { "iso-8859-", "koi8-" };
 
 	for (j=0; j<sizeof(mm)/sizeof(mm[0]); j++) {
@@ -1662,7 +1663,7 @@ list_charsets(FILE *f) {
 			if(!strncmp(charsets[i].charset, mm[j], lth)) {
 				if(ct++)
 					fprintf(f, ",");
-				fprintf(f, charsets[i].charset+lth);
+				fprintf(f, "%s", charsets[i].charset+lth);
 			}
 		}
 		fprintf(f, "}");
@@ -1682,7 +1683,7 @@ list_charsets(FILE *f) {
 int
 set_charset(const char *charset) {
 	sym *p;
-	int i;
+	unsigned int i;
 
 	if (!strcasecmp(charset, "unicode")) {
 		prefer_unicode = 1;
@@ -1710,7 +1711,8 @@ set_charset(const char *charset) {
 
 const char *
 unicodetoksym(int code) {
-	int i, j;
+	unsigned int i;
+	int j;
 	sym *p;
 
 	if (code < 0)
@@ -1733,7 +1735,7 @@ int unicode_used = 0;
 
 int
 ksymtocode(const char *s) {
-	int i;
+	unsigned int i;
 	int j, jmax;
 	int keycode;
 	sym *p;
@@ -1839,7 +1841,7 @@ add_capslock(int code)
 
 	if (KTYP(code) == KT_LATIN)
 		return K(KT_LETTER, KVAL(code));
-	if (KTYP(code) >= syms_size) {
+	if ((unsigned) KTYP(code) >= syms_size) {
 		if ((p = unicodetoksym(code ^ 0xf000)) == NULL) {
 			sprintf(buf, "U+%04x", code ^ 0xf000);
 			p = buf;

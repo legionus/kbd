@@ -4,12 +4,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sysexits.h>
+#include "kbd.h"
 #include "nls.h"
 #include "xmalloc.h"
 
 extern char *progname;
 
-static void
+static void attr_noreturn
 nomem(void) {
 	fprintf(stderr, _("%s: out of memory\n"), progname);
 	exit(EX_OSERR);

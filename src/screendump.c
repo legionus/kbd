@@ -32,7 +32,8 @@ main(int argc, char **argv) {
     char infile[20];
     unsigned char header[4];
     unsigned int rows, cols;
-    int fd, i, j;
+    int fd;
+    unsigned int i, j;
     char *inbuf, *outbuf, *p, *q;
 
     set_progname(argv[0]);
@@ -74,7 +75,7 @@ main(int argc, char **argv) {
     inbuf = xmalloc(rows*cols*2);
     outbuf = xmalloc(rows*(cols+1));
 
-    if (read(fd, inbuf, rows*cols*2) != rows*cols*2) {
+    if (read(fd, inbuf, rows*cols*2) != (ssize_t) (rows*cols*2)) {
         fprintf(stderr, _("Error reading %s\n"), infile);
         exit(1);
     }

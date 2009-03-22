@@ -1,4 +1,11 @@
-AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
+WERROR = -Werror
+
+WARNINGS = -Wall -Wextra -Wmissing-noreturn -Wdisabled-optimization \
+	-Wcast-align -Wshadow -Wmissing-format-attribute -Wmissing-prototypes \
+	-Wstrict-prototypes -Wmissing-declarations $(WERROR)
+
+AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" $(WARNINGS) \
+	-funit-at-a-time
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
@@ -28,7 +35,7 @@ EXTRA_DIST = \
 	README.cad README.init README.openvt \
 	cad
 
-ALL_S   = modifiers.h nls.h paths.h version.h
+ALL_S   = modifiers.h nls.h paths.h version.h kbd.h
 FIND_S  = findfile.c findfile.h
 GETFD_S = getfd.c getfd.h
 KDMA_S  = kdmapop.c kdmapop.h

@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "kbd.h"
 #include "../config.h"
 
 char *progname;
@@ -13,7 +14,7 @@ set_progname(char *name) {
 	progname = (p ? p+1 : name);
 }
 
-static inline void
+static inline void attr_noreturn
 print_version_and_exit(void) {
 	printf(_("%s from %s\n"), progname, PACKAGE_STRING);
 	exit(0);

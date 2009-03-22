@@ -84,6 +84,14 @@ extern struct kbsentry kbs_buf;
 int yyerror(const char *s);
 extern void lkfatal(const char *s);
 extern void lkfatal1(const char *s, const char *s2);
+void lk_push(void);
+int lk_pop(void);
+void lk_scan_string(char *s);
+void lk_end_string(void);
+
+FILE *find_incl_file_near_fn(char *s, char *fn);
+FILE *find_standard_incl_file(char *s);
+FILE *find_incl_file(char *s);
 
 #include "ksyms.h"
 int yylex (void);
@@ -246,7 +254,7 @@ rvalue		: NUMBER
 
 #include "analyze.c"
 
-void
+static void attr_noreturn
 usage(void) {
 	fprintf(stderr, _("loadkeys version %s\n"
 "\n"
@@ -364,11 +372,11 @@ main(int argc, char *argv[]) {
 	        while (      *s == ' ' || *s == '\t' || *s == ',') s++;
 		e = s;
 		while (*e && *e != ' ' && *e != '\t' && *e != ',') e++;
-		char c = *e;
+		char ch = *e;
 		*e = '\0';
 		if (verbose) printf("%s\n", s);
 	        loadkeys(s, &warned);
-		*e = c;
+		*e = ch;
 		s = e;
 	      }
 	    free(buf);
@@ -390,13 +398,13 @@ yyerror(const char *s) {
 }
 
 /* fatal errors - change to varargs next time */
-void
+void attr_noreturn
 lkfatal(const char *s) {
 	fprintf(stderr, "%s: %s:%d: %s\n", progname, filename, line_nr, s);
 	exit(1);
 }
 
-void
+void attr_noreturn
 lkfatal0(const char *s, int d) {
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
 	fprintf(stderr, s, d);
@@ -404,7 +412,7 @@ lkfatal0(const char *s, int d) {
 	exit(1);
 }
 
-void
+void attr_noreturn
 lkfatal1(const char *s, const char *s2) {
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
 	fprintf(stderr, s, s2);
@@ -515,8 +523,8 @@ FILE *find_standard_incl_file(char *s) {
 
 	/* If filename is a symlink, also look near its target. */
 	if (!f) {
-		char buf[1024], path[1024], *p;
-		int n;
+		char buf[1024], path[1024], *ptr;
+		unsigned int n;
 
 		n = readlink(filename, buf, sizeof(buf));
 		if (n > 0 && n < sizeof(buf)) {
@@ -526,9 +534,9 @@ FILE *find_standard_incl_file(char *s) {
 		     else if (strlen(filename) + n < sizeof(path)) {
 			  strcpy(path, filename);
 			  path[sizeof(path)-1] = 0;
-			  p = rindex(path, '/');
-			  if (p)
-			       p[1] = 0;
+			  ptr = rindex(path, '/');
+			  if (ptr)
+			       ptr[1] = 0;
 			  strcat(path, buf);
 			  f = find_incl_file_near_fn(s, path);
 		     }
@@ -682,67 +690,67 @@ addmap(int i, int explicit) {
 
 /* unset a key */
 static void
-killkey(int index, int table) {
-	/* roughly: addkey(index, table, K_HOLE); */
+killkey(int k_index, int k_table) {
+	/* roughly: addkey(k_index, k_table, K_HOLE); */
 
-        if (index < 0 || index >= NR_KEYS)
-	        lkfatal0(_("killkey called with bad index %d"), index);
-        if (table < 0 || table >= MAX_NR_KEYMAPS)
-	        lkfatal0(_("killkey called with bad table %d"), table);
-	if (key_map[table])
-		(key_map[table])[index] = K_HOLE;
-	if (keymap_was_set[table])
-		(keymap_was_set[table])[index] = 0;
+        if (k_index < 0 || k_index >= NR_KEYS)
+	        lkfatal0(_("killkey called with bad index %d"), k_index);
+        if (k_table < 0 || k_table >= MAX_NR_KEYMAPS)
+	        lkfatal0(_("killkey called with bad table %d"), k_table);
+	if (key_map[k_table])
+		(key_map[k_table])[k_index] = K_HOLE;
+	if (keymap_was_set[k_table])
+		(keymap_was_set[k_table])[k_index] = 0;
 }
 
 static void
-addkey(int index, int table, int keycode) {
+addkey(int k_index, int k_table, int keycode) {
 	int i;
 
 	if (keycode == CODE_FOR_UNKNOWN_KSYM)
 	  /* is safer not to be silent in this case, 
 	   * it can be caused by coding errors as well. */
 	        lkfatal0(_("addkey called with bad keycode %d"), keycode);
-        if (index < 0 || index >= NR_KEYS)
-	        lkfatal0(_("addkey called with bad index %d"), index);
-        if (table < 0 || table >= MAX_NR_KEYMAPS)
-	        lkfatal0(_("addkey called with bad table %d"), table);
+        if (k_index < 0 || k_index >= NR_KEYS)
+	        lkfatal0(_("addkey called with bad index %d"), k_index);
+        if (k_table < 0 || k_table >= MAX_NR_KEYMAPS)
+	        lkfatal0(_("addkey called with bad table %d"), k_table);
 
-	if (!defining[table])
-		addmap(table, 0);
-	if (!key_map[table]) {
-	        key_map[table] = (u_short *)xmalloc(NR_KEYS * sizeof(u_short));
+	if (!defining[k_table])
+		addmap(k_table, 0);
+	if (!key_map[k_table]) {
+	        key_map[k_table] = (u_short *)xmalloc(NR_KEYS * sizeof(u_short));
 		for (i = 0; i < NR_KEYS; i++)
-		  (key_map[table])[i] = K_HOLE;
+		  (key_map[k_table])[i] = K_HOLE;
 	}
-	if (!keymap_was_set[table]) {
-	        keymap_was_set[table] = (char *) xmalloc(NR_KEYS);
+	if (!keymap_was_set[k_table]) {
+	        keymap_was_set[k_table] = (char *) xmalloc(NR_KEYS);
 		for (i = 0; i < NR_KEYS; i++)
-		  (keymap_was_set[table])[i] = 0;
+		  (keymap_was_set[k_table])[i] = 0;
 	}
 
-	if (alt_is_meta && keycode == K_HOLE && (keymap_was_set[table])[index])
+	if (alt_is_meta && keycode == K_HOLE && (keymap_was_set[k_table])[k_index])
 		return;
 
-	(key_map[table])[index] = keycode;
-	(keymap_was_set[table])[index] = 1;
+	(key_map[k_table])[k_index] = keycode;
+	(keymap_was_set[k_table])[k_index] = 1;
 
 	if (alt_is_meta) {
-	     int alttable = table | M_ALT;
+	     int alttable = k_table | M_ALT;
 	     int type = KTYP(keycode);
 	     int val = KVAL(keycode);
-	     if (alttable != table && defining[alttable] &&
+	     if (alttable != k_table && defining[alttable] &&
 		 (!keymap_was_set[alttable] ||
-		  !(keymap_was_set[alttable])[index]) &&
+		  !(keymap_was_set[alttable])[k_index]) &&
 		 (type == KT_LATIN || type == KT_LETTER) && val < 128)
-		  addkey(index, alttable, K(KT_META, val));
+		  addkey(k_index, alttable, K(KT_META, val));
 	}
 }
 
 static void
 addfunc(struct kbsentry kbs) {
 	int sh, i, x;
-	char *p, *q, *r;
+	char *ptr, *q, *r;
 
 	x = kbs.kb_func;
 
@@ -755,9 +763,9 @@ addfunc(struct kbsentry kbs) {
 	q = func_table[x];
 	if (q) {			/* throw out old previous def */
 	        sh = strlen(q) + 1;
-		p = q + sh;
-		while (p < fp)
-		        *q++ = *p++;
+		ptr = q + sh;
+		while (ptr < fp)
+		        *q++ = *ptr++;
 		fp -= sh;
 
 		for (i = x + 1; i < MAX_NR_FUNC; i++)
@@ -765,13 +773,13 @@ addfunc(struct kbsentry kbs) {
 			  func_table[i] -= sh;
 	}
 
-	p = func_buf;                        /* find place for new def */
+	ptr = func_buf;                        /* find place for new def */
 	for (i = 0; i < x; i++)
 	        if (func_table[i]) {
-		        p = func_table[i];
-			while(*p++);
+		        ptr = func_table[i];
+			while(*ptr++);
 		}
-	func_table[x] = p;
+	func_table[x] = ptr;
         sh = strlen((char *) kbs.kb_string) + 1;
 	if (fp + sh > func_buf + sizeof(func_buf)) {
 	        fprintf(stderr,
@@ -781,9 +789,9 @@ addfunc(struct kbsentry kbs) {
 	q = fp;
 	fp += sh;
 	r = fp;
-	while (q > p)
+	while (q > ptr)
 	        *--r = *--q;
-	strcpy(p, (char *) kbs.kb_string);
+	strcpy(ptr, (char *) kbs.kb_string);
 	for (i = x + 1; i < MAX_NR_FUNC; i++)
 	        if (func_table[i])
 		        func_table[i] += sh;
@@ -791,15 +799,15 @@ addfunc(struct kbsentry kbs) {
 
 static void
 compose(int diacr, int base, int res) {
-        struct kbdiacr *p;
+        struct kbdiacr *ptr;
         if (accent_table_size == MAX_DIACR) {
 	        fprintf(stderr, _("compose table overflow\n"));
 		exit(1);
 	}
-	p = &accent_table[accent_table_size++];
-	p->diacr = diacr;
-	p->base = base;
-	p->result = res;
+	ptr = &accent_table[accent_table_size++];
+	ptr->diacr = diacr;
+	ptr->base = base;
+	ptr->result = res;
 }
 
 static int
@@ -937,15 +945,15 @@ ostr(char *s) {
 static int
 deffuncs(int fd){
         int i, ct = 0;
-	char *p;
+	char *ptr;
 
         for (i = 0; i < MAX_NR_FUNC; i++) {
 	    kbs_buf.kb_func = i;
-	    if ((p = func_table[i])) {
-		strcpy((char *) kbs_buf.kb_string, p);
+	    if ((ptr = func_table[i])) {
+		strcpy((char *) kbs_buf.kb_string, ptr);
 		if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf))
 		  fprintf(stderr, _("failed to bind string '%s' to function %s\n"),
-			  ostr(kbs_buf.kb_string), syms[KT_FN].table[kbs_buf.kb_func]);
+			  ostr((char *) kbs_buf.kb_string), syms[KT_FN].table[kbs_buf.kb_func]);
 		else
 		  ct++;
 	    } else if (opts) {
@@ -963,7 +971,7 @@ deffuncs(int fd){
 static int
 defdiacs(int fd){
         struct kbdiacrs kd;
-	int i;
+	unsigned int i;
 
 	kd.kb_cnt = accent_table_size;
 	if (kd.kb_cnt > MAX_DIACR) {
@@ -1133,8 +1141,8 @@ compose_as_usual(char *charset) {
 		};
 		int i;
 		for(i=0; i<68; i++) {
-			struct ccc p = def_latin1_composes[i];
-			compose(p.c1, p.c2, p.c3);
+			struct ccc ptr = def_latin1_composes[i];
+			compose(ptr.c1, ptr.c2, ptr.c3);
 		}
 	}
 }
@@ -1147,15 +1155,15 @@ static char *modifiers[8] = {
     "shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
 };
 
-static char *mk_mapname(char mod) {
+static char *mk_mapname(char modifier) {
     static char buf[60];
     int i;
 
-    if (!mod)
+    if (!modifier)
       return "plain";
     buf[0] = 0;
     for (i=0; i<8; i++)
-      if (mod & (1<<i)) {
+      if (modifier & (1<<i)) {
 	  if (buf[0])
 	    strcat(buf, "_");
 	  strcat(buf, modifiers[i]);
@@ -1172,12 +1180,13 @@ outchar (unsigned char c, int comma) {
 	printf(comma ? "', " : "'");
 }
 
-static void
+static void attr_noreturn
 mktable () {
-	int i, imax, j;
+	int j;
+	unsigned int i, imax;
 
-	u_char *p;
-	int maxfunc;
+	char *ptr;
+	unsigned int maxfunc;
 	unsigned int keymap_count = 0;
 
 	printf(
@@ -1232,11 +1241,11 @@ mktable () {
 
 	printf("char func_buf[] = {\n");
 	for (i = 0; i < maxfunc; i++) {
-	    p = func_table[i];
-	    if (p) {
+	    ptr = func_table[i];
+	    if (ptr) {
 		printf("\t");
-		for ( ; *p; p++)
-		        outchar(*p, 1);
+		for ( ; *ptr; ptr++)
+		        outchar(*ptr, 1);
 		printf("0, \n");
 	    }
 	}
@@ -1253,7 +1262,7 @@ mktable () {
 	printf("char *func_table[MAX_NR_FUNC] = {\n");
 	for (i = 0; i < maxfunc; i++) {
 	    if (func_table[i])
-	      printf("\tfunc_buf + %d,\n", func_table[i] - func_buf);
+	      printf("\tfunc_buf + %ld,\n", (long) (func_table[i] - func_buf));
 	    else
 	      printf("\t0,\n");
 	}
@@ -1278,11 +1287,11 @@ mktable () {
 	exit(0);
 }
 
-static void
+static void attr_noreturn
 bkeymap () {
 	int i, j;
 
-	u_char *p;
+	//u_char *p;
 	char flag, magic[] = "bkeymap";
 	unsigned short v;
 

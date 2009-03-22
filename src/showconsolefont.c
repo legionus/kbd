@@ -26,7 +26,7 @@ int fd = 0;
 int have_obuf = 0;
 int have_ounimap = 0;
 
-static void
+static void attr_noreturn
 leave(int n) {
 	if (have_obuf && loaduniscrnmap(fd,obuf)) {
 		fprintf(stderr,
@@ -58,7 +58,7 @@ settrivialscreenmap(void) {
 	}
 }
 
-static void
+static void attr_noreturn
 out_of_memory(void) {
 	fprintf(stderr, _("%s: out of memory?\n"), progname);
 	leave(1);
@@ -98,7 +98,7 @@ setnewunicodemap(int *list, int cnt) {
 		leave(1);
 }
 
-static void
+static void attr_noreturn
 usage(void) {
 	fprintf(stderr,
 		_("usage: showconsolefont -V|--version\n"
@@ -188,9 +188,9 @@ main (int argc, char **argv) {
 		printf("    ");
 		for(j=0; j < cols && i+j*rows < n; j++) {
 			putchar(BASE + (i%nr)*cols+j);
-			printf(sep);
+			printf("%s", sep);
 			if (j%8 == 7)
-				printf(sep);
+				printf("%s", sep);
 		}
 		putchar('\n');
 		if (i%8 == 7)

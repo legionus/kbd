@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.60)
-AC_INIT(kbd, 1.14.1, gladkov.alexey@gmail.com)
+AC_INIT(kbd, 1.15, gladkov.alexey@gmail.com)
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/showkey.c])
 AC_CONFIG_HEADERS(config.h)

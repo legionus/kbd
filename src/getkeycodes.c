@@ -13,7 +13,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void
+static void attr_noreturn
 usage(void) {
     fprintf(stderr, _("usage: getkeycodes\n"));
     exit(1);
@@ -21,7 +21,8 @@ usage(void) {
 
 int
 main(int argc, char **argv) {
-	int fd, sc, sc0;
+	int fd;
+	unsigned int sc, sc0;
 	struct kbkeycode a;
 	int old_kernel = 0;
 

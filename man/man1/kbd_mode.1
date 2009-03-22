@@ -6,6 +6,8 @@ kbd_mode \- report or set the keyboard mode
 .B kbd_mode
 [
 .I -a | -u | -k | -s 
+] [
+.I -C CONSOLE
 ]
 .SH DESCRIPTION
 .IX "kbd_mode command" "" "\fLkbd_mode\fR command"  
@@ -29,6 +31,9 @@ and these chars are transmitted to the kernel as 1, 2, or 3 bytes
 (following the UTF-8 coding).
 In these latter two modes the key mapping defined by loadkeys(1)
 is used.
+
+kbd_mode operates on the console specified by the "\-C" option; if there
+is none, the console associated with stdin is used.
 
 Warning: changing the keyboard mode, other than between ASCII and
 Unicode, will probably make your keyboard unusable.

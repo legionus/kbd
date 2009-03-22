@@ -37,7 +37,7 @@ int verbose = 0;
 int force = 0;
 int debug = 0;
 
-static void
+static void attr_noreturn
 usage(void) {
         fprintf(stderr,
 		_("Usage:\n\t%s [-C console] [-o map.orig]\n"), progname);
@@ -301,24 +301,24 @@ loadunicodemap(int fd, char *tblname) {
 
 static struct unimapdesc
 getunicodemap(int fd) {
-  struct unimapdesc descr;
+  struct unimapdesc unimap_descr;
 
-  if (getunimap(fd, &descr))
+  if (getunimap(fd, &unimap_descr))
 	  exit(1);
 
 #ifdef MAIN
-  fprintf(stderr, "# %d %s\n", descr.entry_ct,
-	 (descr.entry_ct == 1) ? _("entry") : _("entries"));
+  fprintf(stderr, "# %d %s\n", unimap_descr.entry_ct,
+	 (unimap_descr.entry_ct == 1) ? _("entry") : _("entries"));
 #endif
 
-  return descr;
+  return unimap_descr;
 }
 
 void
 saveunicodemap(int fd, char *oufil) {
   FILE *fpo;
-  struct unimapdesc descr;
-  struct unipair *list;
+  struct unimapdesc unimap_descr;
+  struct unipair *unilist;
   int i;
 
   if ((fpo = fopen(oufil, "w")) == NULL) {
@@ -326,11 +326,11 @@ saveunicodemap(int fd, char *oufil) {
       exit(1);
   }
 
-  descr = getunicodemap(fd);
-  list = descr.entries;
+  unimap_descr = getunicodemap(fd);
+  unilist = unimap_descr.entries;
 
-  for(i=0; i<descr.entry_ct; i++)
-      fprintf(fpo, "0x%02x\tU+%04x\n", list[i].fontpos, list[i].unicode);
+  for(i=0; i<unimap_descr.entry_ct; i++)
+      fprintf(fpo, "0x%02x\tU+%04x\n", unilist[i].fontpos, unilist[i].unicode);
   fclose(fpo);
 
   if (verbose)
@@ -339,30 +339,30 @@ saveunicodemap(int fd, char *oufil) {
 
 void
 appendunicodemap(int fd, FILE *fp, int fontsize, int utf8) {
-	struct unimapdesc descr;
-	struct unipair *list;
+	struct unimapdesc unimap_descr;
+	struct unipair *unilist;
 	int i, j;
 
-	descr = getunicodemap(fd);
-	list = descr.entries;
+	unimap_descr = getunicodemap(fd);
+	unilist = unimap_descr.entries;
 
 		
 	for(i=0; i<fontsize; i++) {
 #if 0
 		/* More than one mapping is not a sequence! */
 		int no = 0;
-		for(j=0; j<descr.entry_ct; j++) 
-			if (list[j].fontpos == i)
+		for(j=0; j<unimap_descr.entry_ct; j++) 
+			if (unilist[j].fontpos == i)
 				no++;
 		if (no > 1)
 			appendseparator(fp, 1, utf8);
 #endif		
 		if (debug) printf ("\nchar %03x: ", i);
-		for(j=0; j<descr.entry_ct; j++)
-			if (list[j].fontpos == i) {
+		for(j=0; j<unimap_descr.entry_ct; j++)
+			if (unilist[j].fontpos == i) {
 				if (debug)
-					printf ("%04x ", list[j].unicode);
-				appendunicode(fp, list[j].unicode, utf8);
+					printf ("%04x ", unilist[j].unicode);
+				appendunicode(fp, unilist[j].unicode, utf8);
 			}
 		appendseparator(fp, 0, utf8);
 	}

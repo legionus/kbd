@@ -26,7 +26,7 @@ extern int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 		       struct unicode_list **uclistheadsp);
 
 extern int writepsffont(FILE *ofil, char *fontbuf,
-			 int width, int height, int fontlen, int psftype,
+			 int width, int height, size_t fontlen, int psftype,
 			 struct unicode_list *uclistheads);
 
 #define WPSFH_HASTAB	1

@@ -1,3 +1,5 @@
+#ifndef _PATHS_H
+#define _PATHS_H
 /*
  * All data is in subdirectories of DATADIR, by default /usr/lib/kbd
  * The following five subdirectories are defined:
@@ -29,3 +31,5 @@ extern void fpclose(FILE *fp);
 
 extern int verbose;
 extern int debug;
+
+#endif /* _PATHS_H */
