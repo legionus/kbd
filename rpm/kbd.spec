@@ -1,12 +1,12 @@
 Name: kbd
 Serial: 0
-Version: 1.14.1.20081023
+Version: 1.15
 Release: alt1
 
 Group: Terminals
 Summary: Tools for managing the Linux console
 License: GPL
-Url: ftp://ftp.win.tue.nl/pub/linux-local/utils/kbd/
+Url: ftp://ftp.kernel.org/pub/linux/utils/kbd/
 # HOWTO at http://www.win.tue.nl/~aeb/linux/kbd/
 
 Packager: Alexey Gladkov <legion@altlinux.ru>
@@ -351,6 +351,23 @@ done
 /bin/kbdrate
 
 %changelog
+* Sun Mar 22 2009 Alexey Gladkov <legion@altlinux.ru> 0:1.15-alt1
+- New release version (1.15).
+- Fix build warnings.
+- Add warning for on U+xxxx keysym specifications >= 0xf000.
+- Update 8859-7_to_uni.trans.
+- Keymaps:
+  + bg_pho-utf8 keycode 38 assignment fix.
+  + be-latin1 keycode 7 assignment fix (thx Herton Ronaldo Krzesinski).
+- Fonts:
+  + iso07u-16.psfu: Update font (thx Lefteris Dimitroulakis).
+  + UniCyrExt_8x16.psf, lat1-16.psfu: Add U+2010, U+2012, U+2013, U+2018, 
+    U+2019, U+2212 to the embedded character table.
+- Use "BuildArch: noarch" for console-scripts and
+  kbdrate-usermode (thx Dmitry V. Levin).
+- console-scripts/console.{csh,sh}: Do nothing if $DISPLAY is
+  set (thx Dmitry V. Levin).
+
 * Fri Oct 24 2008 Alexey Gladkov <legion@altlinux.ru> 0:1.14.1.20081023-alt1
 - New release version (1.14.1).
 - Print an error message when calls to exec* functions fail (thx Michael Schutte).
