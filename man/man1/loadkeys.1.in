@@ -19,6 +19,8 @@ loadkeys \- load keyboard translation tables
 ] [
 .I -m --mktable
 ] [
+.I -q --quiet
+] [
 .I -s --clearstrings
 ] [
 .I -v --verbose
@@ -148,6 +150,10 @@ command (and does not modify the current keymap).
 .B loadkeys
 prints its version number and a short usage message to the programs
 standard error output and exits.
+.TP
+.B \-q \-\-quiet
+.B loadkeys
+suppresses all normal output.
 .SH WARNING
 Note that anyone having read access to
 .B /dev/console
