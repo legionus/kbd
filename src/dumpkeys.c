@@ -135,11 +135,10 @@ print_keysym(int code, char numeric) {
 	t = KTYP(code);
 	v = KVAL(code);
 	if (t >= syms_size) {
-		code = code ^ 0xf000;
-		if (!numeric && (p = unicodetoksym(code)) != NULL)
+		if (!numeric && (p = codetoksym(code)) != NULL)
 			printf("%-16s", p);
 		else
-			printf("U+%04x          ", code);
+			printf("U+%04x          ", code ^ 0xf000);
 		return;
 	}
 	plus = 0;

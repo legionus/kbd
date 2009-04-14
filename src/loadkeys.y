@@ -63,7 +63,7 @@ static void killkey(int index, int table);
 static void compose(int diacr, int base, int res);
 static void do_constant(void);
 static void do_constant_key (int, u_short);
-static void loadkeys(char *console, int *warned);
+static void loadkeys(char *console);
 static void mktable(void);
 static void bkeymap(void);
 static void strings_as_usual(void);
@@ -73,10 +73,10 @@ static void strings_as_usual(void);
 static void compose_as_usual(char *charset);
 static void lkfatal0(const char *, int);
 extern int set_charset(const char *charset);
+extern int prefer_unicode;
 extern char *xstrdup(char *);
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
-extern int unicode_used;
 int private_error_ct = 0;
 
 extern int rvalct;
@@ -240,11 +240,13 @@ rvalue1		: rvalue
 			}
 		;
 rvalue		: NUMBER
-			{$$=$1;}
-		| UNUMBER
-			{$$=($1 ^ 0xf000); unicode_used=1;}
+			{$$=convert_code($1);}
                 | PLUS NUMBER
                         {$$=add_capslock($2);}
+		| UNUMBER
+			{$$=convert_code($1^0xf000);}
+		| PLUS UNUMBER
+			{$$=add_capslock($2^0xf000);}
 		| LITERAL
 			{$$=$1;}
                 | PLUS LITERAL
@@ -270,7 +272,7 @@ usage(void) {
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
 "  -s --clearstrings  clear kernel string table\n"
-"  -u --unicode       implicit conversion to Unicode\n"
+"  -u --unicode       force conversion to Unicode\n"
 "  -v --verbose       report the changes\n"), PACKAGE_VERSION, DEFMAP);
 	exit(1);
 }
@@ -302,8 +304,9 @@ main(int argc, char *argv[]) {
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
+	int fd;
+	int mode;
 	char *console = NULL;
-        int warned = 0;
 
 	set_progname(argv[0]);
 
@@ -333,7 +336,7 @@ main(int argc, char *argv[]) {
 				opts = 1;
 				break;
 			case 'u':
-				set_charset("unicode");
+				prefer_unicode = 1;
 				break;
 			case 'q':
 				quiet = 1;
@@ -349,8 +352,20 @@ main(int argc, char *argv[]) {
 		}
 	}
 
+	if (!optm && !prefer_unicode) {
+		/* no -u option: auto-enable it if console is in Unicode mode */
+		fd = getfd(NULL);
+		if (ioctl(fd, KDGKBMODE, &mode)) {
+			perror("KDGKBMODE");
+			fprintf(stderr, _("loadkeys: error reading keyboard mode\n"));
+			exit(1);
+		}
+		if (mode == K_UNICODE)
+			prefer_unicode = 1;
+		close(fd);
+	}
+
 	args = argv + optind - 1;
-	unicode_used = 0;
 	yywrap();	/* set up the first input file, if any */
 	if (yyparse() || private_error_ct) {
 		fprintf(stderr, _("syntax error in map file\n"));
@@ -375,14 +390,14 @@ main(int argc, char *argv[]) {
 		char ch = *e;
 		*e = '\0';
 		if (verbose) printf("%s\n", s);
-	        loadkeys(s, &warned);
+	        loadkeys(s);
 		*e = ch;
 		s = e;
 	      }
 	    free(buf);
 	  }
 	else
-	  loadkeys(NULL, &warned);
+	  loadkeys(NULL);
 	exit(0);
 }
 
@@ -811,20 +826,10 @@ compose(int diacr, int base, int res) {
 }
 
 static int
-defkeys(int fd, char *cons, int *warned) {
+defkeys(int fd) {
 	struct kbentry ke;
 	int ct = 0;
 	int i,j,fail;
-	int oldm;
-
-	if (unicode_used) {
-	     /* Switch keyboard mode for a moment -
-		do not complain about errors.
-		Do not attempt a reset if the change failed. */
-	     if (ioctl(fd, KDGKBMODE, &oldm)
-	        || (oldm != K_UNICODE && ioctl(fd, KDSKBMODE, K_UNICODE)))
-		  oldm = K_UNICODE;
-	}
 
 	for(i=0; i<MAX_NR_KEYMAPS; i++) {
 	    if (key_map[i]) {
@@ -891,27 +896,6 @@ defkeys(int fd, char *cons, int *warned) {
 	    }
 	}
 
-	if(unicode_used && oldm != K_UNICODE) {
-	     if (ioctl(fd, KDSKBMODE, oldm)) {
-		  fprintf(stderr, _("%s: failed to restore keyboard mode\n"),
-			  progname);
-	     }
-
-	     if (!warned++)
-	       {
-		     int kd_mode = -1;
-		     if (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS))
-		       {
-			 /*
-			  * It is okay for the graphics console to have a non-unicode mode.
-			  * only talk about other consoles
-			  */
-			 fprintf(stderr, _("%s: warning: this map uses Unicode symbols, %s mode=%d\n"
-				     "    (perhaps you want to do `kbd_mode -u'?)\n"),
-			     progname, cons ? cons : "NULL", kd_mode);
-		       }
-	       }
-	}
 	return ct;
 }
 
@@ -1044,12 +1028,12 @@ do_constant (void) {
 }
 
 static void
-loadkeys (char *console, int *warned) {
+loadkeys (char *console) {
         int fd;
         int keyct, funcct, diacct = 0;
 
 	fd = getfd(console);
-	keyct = defkeys(fd, console, warned);
+	keyct = defkeys(fd);
 	funcct = deffuncs(fd);
 	if (verbose) {
 	        printf(_("\nChanged %d %s and %d %s.\n"),

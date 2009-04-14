@@ -26,10 +26,10 @@ extern const unsigned int syn_size;
 #define CODE_FOR_UNKNOWN_KSYM (-1)
 
 extern int set_charset(const char *name);
-extern const char *unicodetoksym(int code);
+extern const char *codetoksym(int code);
 extern void list_charsets(FILE *f);
 extern int ksymtocode(const char *s);
-extern int unicodetocode(int code);
+extern int convert_code(int code);
 extern int add_capslock(int code);
 
 #endif

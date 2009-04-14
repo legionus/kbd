@@ -1644,7 +1644,7 @@ struct cs {
 
 /* Functions for both dumpkeys and loadkeys. */
 
-static int prefer_unicode = 0;
+int prefer_unicode = 0;
 static const char *chosen_charset = NULL;
 
 void
@@ -1685,11 +1685,6 @@ set_charset(const char *charset) {
 	sym *p;
 	unsigned int i;
 
-	if (!strcasecmp(charset, "unicode")) {
-		prefer_unicode = 1;
-		return 0;
-	}
-
 	for (i = 1; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
 		if (!strcasecmp(charsets[i].charset, charset)) {
 			charsets[0].charset = charsets[i].charset;
@@ -1700,7 +1695,7 @@ set_charset(const char *charset) {
 				if(p->name[0])
 					syms[0].table[i] = p->name;
 			}
-			chosen_charset = charset;
+			chosen_charset = strdup(charset);
 			return 0;
 		}
 	}
@@ -1710,28 +1705,53 @@ set_charset(const char *charset) {
 }
 
 const char *
-unicodetoksym(int code) {
+codetoksym(int code) {
 	unsigned int i;
 	int j;
 	sym *p;
 
 	if (code < 0)
 		return NULL;
-	if (code < 0x80)
-		return iso646_syms[code];
-	for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
-		p = charsets[i].charnames;
-		for (j = charsets[i].start; j < 256; j++, p++) {
-			if (p->uni == code && p->name[0])
+
+	if (code < 0x1000) {	/* "traditional" keysym */
+		if (KTYP(code) == KT_META)
+			return NULL;
+		if (KTYP(code) == KT_LETTER)
+			code = K(KT_LATIN, KVAL(code));
+		if (KTYP(code) > KT_LATIN)
+			return syms[KTYP(code)].table[KVAL(code)];
+
+		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+			p = charsets[i].charnames;
+			if (!p)
+				continue;
+			p += KVAL(code) - charsets[i].start;
+			if (p->name[0])
 				return p->name;
 		}
 	}
+
+	else {			/* Unicode keysym */
+		code ^= 0xf000;
+
+		if (code < 0x80)
+			return iso646_syms[code];
+
+		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+			p = charsets[i].charnames;
+			if (!p)
+				continue;
+			for (j = charsets[i].start; j < 256; j++, p++) {
+				if (p->uni == code && p->name[0])
+					return p->name;
+			}
+		}
+	}
+
 	return NULL;
 }
 
 /* Functions for loadkeys. */
-
-int unicode_used = 0;
 
 int
 ksymtocode(const char *s) {
@@ -1739,9 +1759,13 @@ ksymtocode(const char *s) {
 	int j, jmax;
 	int keycode;
 	sym *p;
+	int save_prefer_unicode;
 
 	if (!strncmp(s, "Meta_", 5)) {
+		save_prefer_unicode = prefer_unicode;
+		prefer_unicode = 0;
 		keycode = ksymtocode(s+5);
+		prefer_unicode = save_prefer_unicode;
 		if (KTYP(keycode) == KT_LATIN)
 			return K(KT_META, KVAL(keycode));
 
@@ -1767,10 +1791,8 @@ ksymtocode(const char *s) {
 		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
 			p = charsets[i].charnames;
 			for (j = charsets[i].start; j < 256; j++, p++)
-				if (!strcmp(s,p->name)) {
-					unicode_used = 1;
-					return (p->uni ^ 0xf000); /* %%% */
-				}
+				if (!strcmp(s,p->name))
+					return (p->uni ^ 0xf000);
 		}
 	} else /* if (!chosen_charset) */ {
 		/* note: some keymaps use latin1 but with euro,
@@ -1821,38 +1843,33 @@ ksymtocode(const char *s) {
 }
 
 int
-unicodetocode(int code) {
-	const char *s;
+convert_code(int code)
+{
+	const char *ksym;
 
-	s = unicodetoksym(code);
-	if (s)
-		return ksymtocode(s);
-	else {
-		unicode_used = 1;
-		return (code ^ 0xf000); /* %%% */
-	}
+	if (KTYP(code) == KT_META)
+		return code;
+	else if (prefer_unicode == (code >= 0x1000))
+		return code;		/* no conversion necessary */
+
+	/* depending on prefer_unicode, this will give us either an 8-bit
+	 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
+	ksym = codetoksym(code);
+	if (ksym)
+		return ksymtocode(ksym);
+	else
+		return code;
 }
 
 int
 add_capslock(int code)
 {
-	char buf[7];
-	const char *p;
-
-	if (KTYP(code) == KT_LATIN)
+	if (KTYP(code) == KT_LATIN && (!prefer_unicode || code < 0x80))
 		return K(KT_LETTER, KVAL(code));
-	if ((unsigned) KTYP(code) >= syms_size) {
-		if ((p = unicodetoksym(code ^ 0xf000)) == NULL) {
-			sprintf(buf, "U+%04x", code ^ 0xf000);
-			p = buf;
-		}
-	} else {
-		sprintf(buf, "0x%04x", code);
-		p = buf;
-	}
-#if 0
-	/* silence the common usage  dumpkeys | loadkeys -u  */
-	fprintf(stderr, _("plus before %s ignored\n"), p);
-#endif
-	return code;
+	else if ((code ^ 0xf000) < 0x100)
+		/* Unicode Latin-1 Supplement */
+		/* a bit dirty to use KT_LETTER here, but it should work */
+		return K(KT_LETTER, code ^ 0xf000);
+	else
+		return convert_code(code);
 }
