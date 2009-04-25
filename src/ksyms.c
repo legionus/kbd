@@ -1,6 +1,7 @@
 #include <linux/keyboard.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "ksyms.h"
 #include "nls.h"
 
@@ -1645,7 +1646,7 @@ struct cs {
 /* Functions for both dumpkeys and loadkeys. */
 
 int prefer_unicode = 0;
-static const char *chosen_charset = NULL;
+static char *chosen_charset = NULL;
 
 void
 list_charsets(FILE *f) {
@@ -1695,6 +1696,8 @@ set_charset(const char *charset) {
 				if(p->name[0])
 					syms[0].table[i] = p->name;
 			}
+			if (chosen_charset)
+				free(chosen_charset);
 			chosen_charset = strdup(charset);
 			return 0;
 		}
@@ -1714,6 +1717,8 @@ codetoksym(int code) {
 		return NULL;
 
 	if (code < 0x1000) {	/* "traditional" keysym */
+		if (code < 0x80)
+			return iso646_syms[code];
 		if (KTYP(code) == KT_META)
 			return NULL;
 		if (KTYP(code) == KT_LETTER)
