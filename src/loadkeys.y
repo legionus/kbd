@@ -240,11 +240,11 @@ rvalue1		: rvalue
 			}
 		;
 rvalue		: NUMBER
-			{$$=convert_code($1);}
+			{$$=convert_code($1, TO_AUTO);}
                 | PLUS NUMBER
                         {$$=add_capslock($2);}
 		| UNUMBER
-			{$$=convert_code($1^0xf000);}
+			{$$=convert_code($1^0xf000, TO_AUTO);}
 		| PLUS UNUMBER
 			{$$=add_capslock($2^0xf000);}
 		| LITERAL

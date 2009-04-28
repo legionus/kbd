@@ -98,7 +98,7 @@ To                      to|To|TO
 \+			{return(PLUS);}
 {Unicode}		{yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal1("unicode keysym out of range: %s",yytext);return(UNUMBER);}
 {Decimal}|{Octal}|{Hex}	{yylval=strtol(yytext,NULL,0);return(NUMBER);}
-<RVALUE>{Literal}	{return((yylval=ksymtocode(yytext))==-1?ERROR:LITERAL);}
+<RVALUE>{Literal}	{return((yylval=ksymtocode(yytext, TO_AUTO))==-1?ERROR:LITERAL);}
 {Charset}		{return(CHARSET);}
 {Keymaps}		{return(KEYMAPS);}
 {Keycode}		{return(KEYCODE);}

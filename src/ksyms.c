@@ -1759,30 +1759,29 @@ codetoksym(int code) {
 /* Functions for loadkeys. */
 
 int
-ksymtocode(const char *s) {
+ksymtocode(const char *s, int direction) {
 	unsigned int i;
 	int j, jmax;
 	int keycode;
 	sym *p;
-	int save_prefer_unicode;
+
+	if (direction < 0)
+		direction = prefer_unicode;
 
 	if (!strncmp(s, "Meta_", 5)) {
-		save_prefer_unicode = prefer_unicode;
-		prefer_unicode = 0;
-		keycode = ksymtocode(s+5);
-		prefer_unicode = save_prefer_unicode;
+		keycode = ksymtocode(s+5, TO_8BIT);
 		if (KTYP(keycode) == KT_LATIN)
 			return K(KT_META, KVAL(keycode));
 
 		/* Avoid error messages for Meta_acute with UTF-8 */
-		else if(prefer_unicode)
+		else if(direction)
 		        return (0);
 
 		/* fall through to error printf */
 	}
 
 	for (i = 0; i < syms_size; i++) {
-		jmax = ((i == 0 && prefer_unicode) ? 128 : syms[i].size);
+		jmax = ((i == 0 && direction) ? 128 : syms[i].size);
 		for (j = 0; j < jmax; j++)
 			if (!strcmp(s,syms[i].table[j]))
 				return K(i, j);
@@ -1790,9 +1789,9 @@ ksymtocode(const char *s) {
 
 	for (i = 0; i < syn_size; i++)
 		if (!strcmp(s, synonyms[i].synonym))
-			return ksymtocode(synonyms[i].official_name);
+			return ksymtocode(synonyms[i].official_name, direction);
 
-	if (prefer_unicode) {
+	if (direction) {
 		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
 			p = charsets[i].charnames;
 			for (j = charsets[i].start; j < 256; j++, p++)
@@ -1848,22 +1847,37 @@ ksymtocode(const char *s) {
 }
 
 int
-convert_code(int code)
+convert_code(int code, int direction)
 {
 	const char *ksym;
 
+	if (direction < 0)
+		direction = prefer_unicode;
+
 	if (KTYP(code) == KT_META)
 		return code;
-	else if (prefer_unicode == (code >= 0x1000))
-		return code;		/* no conversion necessary */
+	else if (direction == (code >= 0x1000))
+		result = code;		/* no conversion necessary */
+	else if (code < 0x80)
+		result = direction ? (code ^ 0xf000) : code;
+	else if ((code ^ 0xf000) < 0x80)
+		result = direction ? code : (code ^ 0xf000);
+	else {
+		/* depending on direction, this will give us either an 8-bit
+		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
+		ksym = codetoksym(code);
+		if (ksym)
+			result = ksymtocode(ksym, direction);
+		else
+			result = code;
+	}
 
-	/* depending on prefer_unicode, this will give us either an 8-bit
-	 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
-	ksym = codetoksym(code);
-	if (ksym)
-		return ksymtocode(ksym);
+	/* if direction was TO_UNICODE from the beginning, we return the true
+	 * Unicode value (without the 0xf000 mask) */
+	if (unicode_forced && result >= 0x1000)
+		return result ^ 0xf000;
 	else
-		return code;
+		return result;
 }
 
 int
@@ -1876,5 +1890,5 @@ add_capslock(int code)
 		/* a bit dirty to use KT_LETTER here, but it should work */
 		return K(KT_LETTER, code ^ 0xf000);
 	else
-		return convert_code(code);
+		return convert_code(code, TO_AUTO);
 }
