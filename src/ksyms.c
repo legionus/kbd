@@ -1850,6 +1850,8 @@ int
 convert_code(int code, int direction)
 {
 	const char *ksym;
+	int unicode_forced = (direction == TO_UNICODE);
+	int result;
 
 	if (direction < 0)
 		direction = prefer_unicode;

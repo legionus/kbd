@@ -122,8 +122,8 @@ To                      to|To|TO
 {On}			{return(ON);}
 {For}			{return(FOR);}
 '\\{Octa}'              {yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
-'\\.'                   {yylval = yytext[2]; return(CCHAR);}
-'.'                     {yylval = yytext[1]; return(CCHAR);}
+'\\.'                   {yylval = (unsigned char) yytext[2]; return(CCHAR);}
+'.'                     {yylval = (unsigned char) yytext[1]; return(CCHAR);}
 \"			{p=(char *) kbs_buf.kb_string;
 				pmax=p+sizeof(kbs_buf.kb_string)-1;
 				BEGIN(STR);}

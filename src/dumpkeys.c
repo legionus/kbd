@@ -207,16 +207,28 @@ outchar (unsigned char c) {
 	printf("'");
 }
 
+#ifdef KDGKBDIACRUC
+static struct kbdiacrsuc kd;
+#else
 static struct kbdiacrs kd;
+#endif
 
 static void
 get_diacs(void) {
 	static int got_diacs = 0;
 
+#ifdef KDGKBDIACRUC
+	if(!got_diacs && ioctl(fd, KDGKBDIACRUC, (unsigned long)&kd)) {
+	    perror("KDGKBDIACRUC");
+	    exit(1);
+	}
+#else
 	if(!got_diacs && ioctl(fd, KDGKBDIACR, (unsigned long)&kd)) {
 	    perror("KDGKBDIACR");
 	    exit(1);
 	}
+#endif
+
 	got_diacs = 1;
 }
 
@@ -231,6 +243,17 @@ dump_diacs(void) {
 	unsigned int i;
 
 	get_diacs();
+#ifdef KDGKBDIACRUC
+	for (i = 0; i < kd.kb_cnt; i++) {
+		printf("compose ");
+		outchar(kd.kbdiacruc[i].diacr & 0xff);
+		printf(" ");
+		outchar(kd.kbdiacruc[i].base & 0xff);
+		printf(" to ");
+		outchar(convert_code(kd.kbdiacruc[i].result ^ 0xf000, TO_8BIT));
+		printf("\n");
+	}
+#else
 	for (i = 0; i < kd.kb_cnt; i++) {
 		printf("compose ");
 		outchar(kd.kbdiacr[i].diacr);
@@ -240,8 +263,9 @@ dump_diacs(void) {
 		outchar(kd.kbdiacr[i].result);
 		printf("\n");
 	}
+#endif
 }
-#endif        
+#endif
 
 static void
 show_short_info(void) {
