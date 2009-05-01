@@ -1,24 +1,23 @@
-/* A Bison parser, made by GNU Bison 2.3.  */
+
+/* A Bison parser, made by GNU Bison 2.4.1.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
-
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
    Free Software Foundation, Inc.
-
-   This program is free software; you can redistribute it and/or modify
+   
+   This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
-
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-
+   
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -29,7 +28,7 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-
+   
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
@@ -47,7 +46,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.3"
+#define YYBISON_VERSION "2.4.1"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -55,9 +54,134 @@
 /* Pure parsers.  */
 #define YYPURE 0
 
+/* Push parsers.  */
+#define YYPUSH 0
+
+/* Pull parsers.  */
+#define YYPULL 1
+
 /* Using locations.  */
 #define YYLSP_NEEDED 0
 
+
+
+/* Copy the first part of user declarations.  */
+
+/* Line 189 of yacc.c  */
+#line 12 "loadkeys.y"
+
+#include <errno.h>
+#include <stdio.h>
+#include <getopt.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <sys/ioctl.h>
+#include <linux/kd.h>
+#include <linux/keyboard.h>
+#include <unistd.h>		/* readlink */
+#include "paths.h"
+#include "getfd.h"
+#include "findfile.h"
+#include "modifiers.h"
+#include "nls.h"
+#include "version.h"
+
+#ifndef KT_LETTER
+#define KT_LETTER KT_LATIN
+#endif
+
+#undef NR_KEYS
+#define NR_KEYS 256
+
+/* What keymaps are we defining? */
+char defining[MAX_NR_KEYMAPS];
+char keymaps_line_seen = 0;
+int max_keymap = 0;		/* from here on, defining[] is false */
+int alt_is_meta = 0;
+
+/* the kernel structures we want to set or print */
+u_short *key_map[MAX_NR_KEYMAPS];
+char *func_table[MAX_NR_FUNC];
+#ifdef KDSKBDIACRUC
+typedef struct kbdiacruc accent_entry;
+#else
+typedef struct kbdiacr accent_entry;
+#endif
+accent_entry accent_table[MAX_DIACR];
+unsigned int accent_table_size = 0;
+
+char key_is_constant[NR_KEYS];
+char *keymap_was_set[MAX_NR_KEYMAPS];
+char func_buf[4096];		/* should be allocated dynamically */
+char *fp = func_buf;
+
+#define U(x) ((x) ^ 0xf000)
+
+#undef ECHO
+
+static void addmap(int map, int explicit);
+static void addkey(int index, int table, int keycode);
+static void addfunc(struct kbsentry kbs_buf);
+static void killkey(int index, int table);
+static void compose(int diacr, int base, int res);
+static void do_constant(void);
+static void do_constant_key (int, u_short);
+static void loadkeys(char *console);
+static void mktable(void);
+static void bkeymap(void);
+static void strings_as_usual(void);
+/* static void keypad_as_usual(char *keyboard); */
+/* static void function_keys_as_usual(char *keyboard); */
+/* static void consoles_as_usual(char *keyboard); */
+static void compose_as_usual(char *charset);
+static void lkfatal0(const char *, int);
+extern int set_charset(const char *charset);
+extern int prefer_unicode;
+extern char *xstrdup(char *);
+int key_buf[MAX_NR_KEYMAPS];
+int mod;
+int private_error_ct = 0;
+
+extern int rvalct;
+extern struct kbsentry kbs_buf;
+int yyerror(const char *s);
+extern void lkfatal(const char *s);
+extern void lkfatal1(const char *s, const char *s2);
+void lk_push(void);
+int lk_pop(void);
+void lk_scan_string(char *s);
+void lk_end_string(void);
+
+FILE *find_incl_file_near_fn(char *s, char *fn);
+FILE *find_standard_incl_file(char *s);
+FILE *find_incl_file(char *s);
+
+#include "ksyms.h"
+int yylex (void);
+
+
+/* Line 189 of yacc.c  */
+#line 167 "loadkeys.c"
+
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+
+/* Enabling verbose error messages.  */
+#ifdef YYERROR_VERBOSE
+# undef YYERROR_VERBOSE
+# define YYERROR_VERBOSE 1
+#else
+# define YYERROR_VERBOSE 0
+#endif
+
+/* Enabling the token table.  */
+#ifndef YYTOKEN_TABLE
+# define YYTOKEN_TABLE 0
+#endif
 
 
 /* Tokens.  */
@@ -139,128 +263,19 @@
 
 
 
-/* Copy the first part of user declarations.  */
-#line 12 "loadkeys.y"
-
-#include <errno.h>
-#include <stdio.h>
-#include <getopt.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <ctype.h>
-#include <sys/ioctl.h>
-#include <linux/kd.h>
-#include <linux/keyboard.h>
-#include <unistd.h>		/* readlink */
-#include "paths.h"
-#include "getfd.h"
-#include "findfile.h"
-#include "modifiers.h"
-#include "nls.h"
-#include "version.h"
-
-#ifndef KT_LETTER
-#define KT_LETTER KT_LATIN
-#endif
-
-#undef NR_KEYS
-#define NR_KEYS 256
-
-/* What keymaps are we defining? */
-char defining[MAX_NR_KEYMAPS];
-char keymaps_line_seen = 0;
-int max_keymap = 0;		/* from here on, defining[] is false */
-int alt_is_meta = 0;
-
-/* the kernel structures we want to set or print */
-u_short *key_map[MAX_NR_KEYMAPS];
-char *func_table[MAX_NR_FUNC];
-struct kbdiacr accent_table[MAX_DIACR];
-unsigned int accent_table_size = 0;
-
-char key_is_constant[NR_KEYS];
-char *keymap_was_set[MAX_NR_KEYMAPS];
-char func_buf[4096];		/* should be allocated dynamically */
-char *fp = func_buf;
-
-#define U(x) ((x) ^ 0xf000)
-
-#undef ECHO
-
-static void addmap(int map, int explicit);
-static void addkey(int index, int table, int keycode);
-static void addfunc(struct kbsentry kbs_buf);
-static void killkey(int index, int table);
-static void compose(int diacr, int base, int res);
-static void do_constant(void);
-static void do_constant_key (int, u_short);
-static void loadkeys(char *console);
-static void mktable(void);
-static void bkeymap(void);
-static void strings_as_usual(void);
-/* static void keypad_as_usual(char *keyboard); */
-/* static void function_keys_as_usual(char *keyboard); */
-/* static void consoles_as_usual(char *keyboard); */
-static void compose_as_usual(char *charset);
-static void lkfatal0(const char *, int);
-extern int set_charset(const char *charset);
-extern int prefer_unicode;
-extern char *xstrdup(char *);
-int key_buf[MAX_NR_KEYMAPS];
-int mod;
-int private_error_ct = 0;
-
-extern int rvalct;
-extern struct kbsentry kbs_buf;
-int yyerror(const char *s);
-extern void lkfatal(const char *s);
-extern void lkfatal1(const char *s, const char *s2);
-void lk_push(void);
-int lk_pop(void);
-void lk_scan_string(char *s);
-void lk_end_string(void);
-
-FILE *find_incl_file_near_fn(char *s, char *fn);
-FILE *find_standard_incl_file(char *s);
-FILE *find_incl_file(char *s);
-
-#include "ksyms.h"
-int yylex (void);
-
-
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 0
-#endif
-
-/* Enabling the token table.  */
-#ifndef YYTOKEN_TABLE
-# define YYTOKEN_TABLE 0
-#endif
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
-# define YYSTYPE_IS_TRIVIAL 1
 #endif
-
 
 
 /* Copy the second part of user declarations.  */
 
 
-/* Line 216 of yacc.c.  */
-#line 264 "loadkeys.c"
+/* Line 264 of yacc.c  */
+#line 279 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -335,14 +350,14 @@ typedef short int yytype_int16;
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static int
-YYID (int i)
+YYID (int yyi)
 #else
 static int
-YYID (i)
-    int i;
+YYID (yyi)
+    int yyi;
 #endif
 {
-  return i;
+  return yyi;
 }
 #endif
 
@@ -423,9 +438,9 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yytype_int16 yyss;
-  YYSTYPE yyvs;
-  };
+  yytype_int16 yyss_alloc;
+  YYSTYPE yyvs_alloc;
+};
 
 /* The size of the maximum gap between one aligned stack and the next.  */
 # define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
@@ -459,12 +474,12 @@ union yyalloc
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Stack)					\
+# define YYSTACK_RELOCATE(Stack_alloc, Stack)				\
     do									\
       {									\
 	YYSIZE_T yynewbytes;						\
-	YYCOPY (&yyptr->Stack, Stack, yysize);				\
-	Stack = &yyptr->Stack;						\
+	YYCOPY (&yyptr->Stack_alloc, Stack, yysize);			\
+	Stack = &yyptr->Stack_alloc;					\
 	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
 	yyptr += yynewbytes / sizeof (*yyptr);				\
       }									\
@@ -563,14 +578,14 @@ static const yytype_int8 yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,   101,   101,   102,   104,   105,   106,   107,   108,   109,
-     110,   111,   112,   113,   115,   120,   125,   130,   134,   139,
-     144,   145,   147,   153,   158,   167,   171,   176,   176,   181,
-     186,   187,   189,   190,   191,   192,   193,   194,   195,   196,
-     197,   199,   232,   233,   235,   242,   244,   246,   248,   250,
-     252
+       0,   106,   106,   107,   109,   110,   111,   112,   113,   114,
+     115,   116,   117,   118,   120,   125,   130,   135,   139,   144,
+     149,   150,   152,   158,   163,   172,   176,   181,   181,   186,
+     191,   192,   194,   195,   196,   197,   198,   199,   200,   201,
+     202,   204,   237,   238,   240,   247,   249,   251,   253,   255,
+     257
 };
 #endif
 
@@ -586,7 +601,7 @@ static const char *const yytname[] =
   "PLUS", "UNUMBER", "ALT_IS_META", "STRINGS", "AS", "USUAL", "ON", "FOR",
   "$accept", "keytable", "line", "charsetline", "altismetaline",
   "usualstringsline", "usualcomposeline", "keymapline", "range", "range0",
-  "strline", "compline", "singleline", "@1", "modifiers", "modifier",
+  "strline", "compline", "singleline", "$@1", "modifiers", "modifier",
   "fullline", "rvalue0", "rvalue1", "rvalue", 0
 };
 #endif
@@ -899,17 +914,20 @@ yy_symbol_print (yyoutput, yytype, yyvaluep)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_stack_print (yytype_int16 *bottom, yytype_int16 *top)
+yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
 #else
 static void
-yy_stack_print (bottom, top)
-    yytype_int16 *bottom;
-    yytype_int16 *top;
+yy_stack_print (yybottom, yytop)
+    yytype_int16 *yybottom;
+    yytype_int16 *yytop;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
-  for (; bottom <= top; ++bottom)
-    YYFPRINTF (stderr, " %d", *bottom);
+  for (; yybottom <= yytop; yybottom++)
+    {
+      int yybot = *yybottom;
+      YYFPRINTF (stderr, " %d", yybot);
+    }
   YYFPRINTF (stderr, "\n");
 }
 
@@ -943,11 +961,11 @@ yy_reduce_print (yyvsp, yyrule)
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
-      fprintf (stderr, "   $%d = ", yyi + 1);
+      YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
 		       &(yyvsp[(yyi + 1) - (yynrhs)])
 		       		       );
-      fprintf (stderr, "\n");
+      YYFPRINTF (stderr, "\n");
     }
 }
 
@@ -1227,10 +1245,8 @@ yydestruct (yymsg, yytype, yyvaluep)
 	break;
     }
 }
-
 
 /* Prevent warnings from -Wmissing-prototypes.  */
-
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
 int yyparse (void *YYPARSE_PARAM);
@@ -1246,11 +1262,10 @@ int yyparse ();
 #endif /* ! YYPARSE_PARAM */
 
 
-
-/* The look-ahead symbol.  */
+/* The lookahead symbol.  */
 int yychar;
 
-/* The semantic value of the look-ahead symbol.  */
+/* The semantic value of the lookahead symbol.  */
 YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
@@ -1258,9 +1273,9 @@ int yynerrs;
 
 
 
-/*----------.
-| yyparse.  |
-`----------*/
+/*-------------------------.
+| yyparse or yypush_parse.  |
+`-------------------------*/
 
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
@@ -1284,14 +1299,39 @@ yyparse ()
 #endif
 #endif
 {
-  
-  int yystate;
+
+
+    int yystate;
+    /* Number of tokens to shift before error messages enabled.  */
+    int yyerrstatus;
+
+    /* The stacks and their tools:
+       `yyss': related to states.
+       `yyvs': related to semantic values.
+
+       Refer to the stacks thru separate pointers, to allow yyoverflow
+       to reallocate them elsewhere.  */
+
+    /* The state stack.  */
+    yytype_int16 yyssa[YYINITDEPTH];
+    yytype_int16 *yyss;
+    yytype_int16 *yyssp;
+
+    /* The semantic value stack.  */
+    YYSTYPE yyvsa[YYINITDEPTH];
+    YYSTYPE *yyvs;
+    YYSTYPE *yyvsp;
+
+    YYSIZE_T yystacksize;
+
   int yyn;
   int yyresult;
-  /* Number of tokens to shift before error messages enabled.  */
-  int yyerrstatus;
-  /* Look-ahead token as an internal (translated) token number.  */
-  int yytoken = 0;
+  /* Lookahead token as an internal (translated) token number.  */
+  int yytoken;
+  /* The variables used to return semantic value and location from the
+     action routines.  */
+  YYSTYPE yyval;
+
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
@@ -1299,51 +1339,28 @@ yyparse ()
   YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
-  /* Three stacks and their tools:
-     `yyss': related to states,
-     `yyvs': related to semantic values,
-     `yyls': related to locations.
-
-     Refer to the stacks thru separate pointers, to allow yyoverflow
-     to reallocate them elsewhere.  */
-
-  /* The state stack.  */
-  yytype_int16 yyssa[YYINITDEPTH];
-  yytype_int16 *yyss = yyssa;
-  yytype_int16 *yyssp;
-
-  /* The semantic value stack.  */
-  YYSTYPE yyvsa[YYINITDEPTH];
-  YYSTYPE *yyvs = yyvsa;
-  YYSTYPE *yyvsp;
-
-
-
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
-
-  YYSIZE_T yystacksize = YYINITDEPTH;
-
-  /* The variables used to return semantic value and location from the
-     action routines.  */
-  YYSTYPE yyval;
-
 
   /* The number of symbols on the RHS of the reduced rule.
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
+
+  yytoken = 0;
+  yyss = yyssa;
+  yyvs = yyvsa;
+  yystacksize = YYINITDEPTH;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
-  yychar = YYEMPTY;		/* Cause a token to be read.  */
+  yychar = YYEMPTY; /* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
      so that they stay on the same level as the state stack.
      The wasted elements are never initialized.  */
-
   yyssp = yyss;
   yyvsp = yyvs;
 
@@ -1373,7 +1390,6 @@ yyparse ()
 	YYSTYPE *yyvs1 = yyvs;
 	yytype_int16 *yyss1 = yyss;
 
-
 	/* Each stack pointer address is followed by the size of the
 	   data in use in that stack, in bytes.  This used to be a
 	   conditional around just the two extra args, but that might
@@ -1381,7 +1397,6 @@ yyparse ()
 	yyoverflow (YY_("memory exhausted"),
 		    &yyss1, yysize * sizeof (*yyssp),
 		    &yyvs1, yysize * sizeof (*yyvsp),
-
 		    &yystacksize);
 
 	yyss = yyss1;
@@ -1404,9 +1419,8 @@ yyparse ()
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
 	  goto yyexhaustedlab;
-	YYSTACK_RELOCATE (yyss);
-	YYSTACK_RELOCATE (yyvs);
-
+	YYSTACK_RELOCATE (yyss_alloc, yyss);
+	YYSTACK_RELOCATE (yyvs_alloc, yyvs);
 #  undef YYSTACK_RELOCATE
 	if (yyss1 != yyssa)
 	  YYSTACK_FREE (yyss1);
@@ -1417,7 +1431,6 @@ yyparse ()
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
-
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
 		  (unsigned long int) yystacksize));
 
@@ -1427,6 +1440,9 @@ yyparse ()
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
+  if (yystate == YYFINAL)
+    YYACCEPT;
+
   goto yybackup;
 
 /*-----------.
@@ -1435,16 +1451,16 @@ yyparse ()
 yybackup:
 
   /* Do appropriate processing given the current state.  Read a
-     look-ahead token if we need one and don't already have one.  */
+     lookahead token if we need one and don't already have one.  */
 
-  /* First try to decide what to do without reference to look-ahead token.  */
+  /* First try to decide what to do without reference to lookahead token.  */
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a look-ahead token if don't already have one.  */
+  /* Not known => get a lookahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -1476,20 +1492,16 @@ yybackup:
       goto yyreduce;
     }
 
-  if (yyn == YYFINAL)
-    YYACCEPT;
-
   /* Count tokens shifted since error; after three, turn off error
      status.  */
   if (yyerrstatus)
     yyerrstatus--;
 
-  /* Shift the look-ahead token.  */
+  /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
-  /* Discard the shifted token unless it is eof.  */
-  if (yychar != YYEOF)
-    yychar = YYEMPTY;
+  /* Discard the shifted token.  */
+  yychar = YYEMPTY;
 
   yystate = yyn;
   *++yyvsp = yylval;
@@ -1529,49 +1541,63 @@ yyreduce:
   switch (yyn)
     {
         case 14:
-#line 116 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 121 "loadkeys.y"
     {
 			    set_charset((char *) kbs_buf.kb_string);
 			}
     break;
 
   case 15:
-#line 121 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 126 "loadkeys.y"
     {
 			    alt_is_meta = 1;
 			}
     break;
 
   case 16:
-#line 126 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 131 "loadkeys.y"
     {
 			    strings_as_usual();
 			}
     break;
 
   case 17:
-#line 131 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 136 "loadkeys.y"
     {
 			    compose_as_usual((char *) kbs_buf.kb_string);
 			}
     break;
 
   case 18:
-#line 135 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 140 "loadkeys.y"
     {
 			    compose_as_usual(0);
 			}
     break;
 
   case 19:
-#line 140 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 145 "loadkeys.y"
     {
 			    keymaps_line_seen = 1;
 			}
     break;
 
   case 22:
-#line 148 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 153 "loadkeys.y"
     {
 			    int i;
 			    for (i = (yyvsp[(1) - (3)]); i<= (yyvsp[(3) - (3)]); i++)
@@ -1580,14 +1606,18 @@ yyreduce:
     break;
 
   case 23:
-#line 154 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 159 "loadkeys.y"
     {
 			    addmap((yyvsp[(1) - (1)]),1);
 			}
     break;
 
   case 24:
-#line 159 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 164 "loadkeys.y"
     {
 			    if (KTYP((yyvsp[(2) - (5)])) != KT_FN)
 				lkfatal1(_("'%s' is not a function key symbol"),
@@ -1598,85 +1628,115 @@ yyreduce:
     break;
 
   case 25:
-#line 168 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 173 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
     break;
 
   case 26:
-#line 172 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 177 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
     break;
 
   case 27:
-#line 176 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 181 "loadkeys.y"
     { mod = 0; }
     break;
 
   case 28:
-#line 178 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 183 "loadkeys.y"
     {
 			    addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)]));
 			}
     break;
 
   case 29:
-#line 182 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 187 "loadkeys.y"
     {
 			    addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)]));
 			}
     break;
 
   case 32:
-#line 189 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 194 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 33:
-#line 190 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 195 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 34:
-#line 191 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 196 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 35:
-#line 192 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 197 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 36:
-#line 193 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 198 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 37:
-#line 194 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 199 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 38:
-#line 195 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 200 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 39:
-#line 196 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 201 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 40:
-#line 197 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 202 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 41:
-#line 200 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 205 "loadkeys.y"
     {
 	    int i, j;
 
@@ -1710,7 +1770,9 @@ yyreduce:
     break;
 
   case 44:
-#line 236 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 241 "loadkeys.y"
     {
 			    if (rvalct >= MAX_NR_KEYMAPS)
 				lkfatal(_("too many key definitions on one line"));
@@ -1719,38 +1781,51 @@ yyreduce:
     break;
 
   case 45:
-#line 243 "loadkeys.y"
-    {(yyval)=convert_code((yyvsp[(1) - (1)]));}
+
+/* Line 1455 of yacc.c  */
+#line 248 "loadkeys.y"
+    {(yyval)=convert_code((yyvsp[(1) - (1)]), TO_AUTO);}
     break;
 
   case 46:
-#line 245 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 250 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
   case 47:
-#line 247 "loadkeys.y"
-    {(yyval)=convert_code((yyvsp[(1) - (1)])^0xf000);}
+
+/* Line 1455 of yacc.c  */
+#line 252 "loadkeys.y"
+    {(yyval)=convert_code((yyvsp[(1) - (1)])^0xf000, TO_AUTO);}
     break;
 
   case 48:
-#line 249 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 254 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)])^0xf000);}
     break;
 
   case 49:
-#line 251 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 256 "loadkeys.y"
     {(yyval)=(yyvsp[(1) - (1)]);}
     break;
 
   case 50:
-#line 253 "loadkeys.y"
+
+/* Line 1455 of yacc.c  */
+#line 258 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
 
-/* Line 1267 of yacc.c.  */
-#line 1754 "loadkeys.c"
+
+/* Line 1455 of yacc.c  */
+#line 1829 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1760,7 +1835,6 @@ yyreduce:
   YY_STACK_PRINT (yyss, yyssp);
 
   *++yyvsp = yyval;
-
 
   /* Now `shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
@@ -1826,7 +1900,7 @@ yyerrlab:
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse look-ahead token after an
+      /* If just tried and failed to reuse lookahead token after an
 	 error, discard it.  */
 
       if (yychar <= YYEOF)
@@ -1843,7 +1917,7 @@ yyerrlab:
 	}
     }
 
-  /* Else will try to reuse look-ahead token after shifting the error
+  /* Else will try to reuse lookahead token after shifting the error
      token.  */
   goto yyerrlab1;
 
@@ -1900,9 +1974,6 @@ yyerrlab1:
       YY_STACK_PRINT (yyss, yyssp);
     }
 
-  if (yyn == YYFINAL)
-    YYACCEPT;
-
   *++yyvsp = yylval;
 
 
@@ -1927,7 +1998,7 @@ yyabortlab:
   yyresult = 1;
   goto yyreturn;
 
-#ifndef yyoverflow
+#if !defined(yyoverflow) || YYERROR_VERBOSE
 /*-------------------------------------------------.
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
@@ -1938,7 +2009,7 @@ yyexhaustedlab:
 #endif
 
 yyreturn:
-  if (yychar != YYEOF && yychar != YYEMPTY)
+  if (yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
 		 yytoken, &yylval);
   /* Do not reclaim the symbols of the rule which action triggered
@@ -1964,7 +2035,9 @@ yyreturn:
 }
 
 
-#line 255 "loadkeys.y"
+
+/* Line 1675 of yacc.c  */
+#line 260 "loadkeys.y"
 			
 
 #include "analyze.c"
@@ -2527,15 +2600,24 @@ addfunc(struct kbsentry kbs) {
 
 static void
 compose(int diacr, int base, int res) {
-        struct kbdiacr *ptr;
+        accent_entry *ptr;
+	int direction;
+
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode)
+		direction = TO_UNICODE;
+	else
+#endif
+		direction = TO_8BIT;
+
         if (accent_table_size == MAX_DIACR) {
 	        fprintf(stderr, _("compose table overflow\n"));
 		exit(1);
 	}
 	ptr = &accent_table[accent_table_size++];
-	ptr->diacr = diacr;
-	ptr->base = base;
-	ptr->result = res;
+	ptr->diacr = convert_code(diacr, direction);
+	ptr->base = convert_code(base, direction);
+	ptr->result = convert_code(res, direction);
 }
 
 static int
@@ -2667,21 +2749,46 @@ deffuncs(int fd){
 
 static int
 defdiacs(int fd){
-        struct kbdiacrs kd;
-	unsigned int i;
+	unsigned int i, count;
+	struct kbdiacrs kd;
+#ifdef KDSKBDIACRUC
+	struct kbdiacrsuc kdu;
+#endif
 
-	kd.kb_cnt = accent_table_size;
-	if (kd.kb_cnt > MAX_DIACR) {
-	    kd.kb_cnt = MAX_DIACR;
+	count = accent_table_size;
+	if (count > MAX_DIACR) {
+	    count = MAX_DIACR;
 	    fprintf(stderr, _("too many compose definitions\n"));
 	}
-	for (i = 0; i < kd.kb_cnt; i++)
-	    kd.kbdiacr[i] = accent_table[i];
 
-	if(ioctl(fd, KDSKBDIACR, (unsigned long) &kd)) {
-	    perror("KDSKBDIACR");
-	    exit(1);
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode) {
+		kdu.kb_cnt = count;
+		for (i = 0; i < kdu.kb_cnt; i++) {
+		    kdu.kbdiacruc[i].diacr = accent_table[i].diacr;
+		    kdu.kbdiacruc[i].base = accent_table[i].base;
+		    kdu.kbdiacruc[i].result = accent_table[i].result;
+		}
+		if(ioctl(fd, KDSKBDIACRUC, (unsigned long) &kdu)) {
+		    perror("KDSKBDIACRUC");
+		    exit(1);
+		}
 	}
+	else
+#endif
+	{
+		kd.kb_cnt = count;
+		for (i = 0; i < kd.kb_cnt; i++) {
+		    kd.kbdiacr[i].diacr = accent_table[i].diacr;
+		    kd.kbdiacr[i].base = accent_table[i].base;
+		    kd.kbdiacr[i].result = accent_table[i].result;
+		}
+		if(ioctl(fd, KDSKBDIACR, (unsigned long) &kd)) {
+		    perror("KDSKBDIACR");
+		    exit(1);
+		}
+	}
+
 	return kd.kb_cnt;
 }
 
@@ -2967,17 +3074,34 @@ mktable () {
 	  printf("\t0,\n");
 	printf("};\n");
 
-	printf("\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
-	for (i = 0; i < accent_table_size; i++) {
-	        printf("\t{");
-	        outchar(accent_table[i].diacr, 1);
-		outchar(accent_table[i].base, 1);
-		outchar(accent_table[i].result, 0);
-		printf("},");
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode) {
+		printf("\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < accent_table_size; i++) {
+			printf("\t{");
+			outchar(accent_table[i].diacr, 1);
+			outchar(accent_table[i].base, 1);
+			printf("0x%04x},", accent_table[i].result);
+			if(i%2) printf("\n");
+		}
 		if(i%2) printf("\n");
+		printf("};\n\n");
 	}
-	if(i%2) printf("\n");
-	printf("};\n\n");
+	else
+#endif
+	{
+		printf("\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < accent_table_size; i++) {
+			printf("\t{");
+			outchar(accent_table[i].diacr, 1);
+			outchar(accent_table[i].base, 1);
+			outchar(accent_table[i].result, 0);
+			printf("},");
+			if(i%2) printf("\n");
+		}
+		if(i%2) printf("\n");
+		printf("};\n\n");
+	}
 	printf("unsigned int accent_table_size = %d;\n",
 	       accent_table_size);
 

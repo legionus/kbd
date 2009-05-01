@@ -142,7 +142,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -349,11 +357,7 @@ extern char *yytext;
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
 static int yy_get_next_buffer (void );
-#ifdef __GNUC__
-static void yy_fatal_error (yyconst char msg[]  ) __attribute__((noreturn));
-#else
 static void yy_fatal_error (yyconst char msg[]  );
-#endif
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
@@ -819,7 +823,7 @@ extern void open_include(char *s);
 
 
 
-#line 823 "analyze.c"
+#line 827 "analyze.c"
 
 #define INITIAL 0
 #define RVALUE 1
@@ -901,7 +905,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1017,7 +1026,7 @@ YY_DECL
  * yylval to YYLVAL_UNDEF. Then it might be overwritten by specific rules. */
   yylval = YYLVAL_UNDEF;
 
-#line 1021 "analyze.c"
+#line 1030 "analyze.c"
 
 	if ( !(yy_init) )
 		{
@@ -1184,7 +1193,7 @@ YY_RULE_SETUP
 case 14:
 YY_RULE_SETUP
 #line 101 "analyze.l"
-{return((yylval=ksymtocode(yytext))==-1?ERROR:LITERAL);}
+{return((yylval=ksymtocode(yytext, TO_AUTO))==-1?ERROR:LITERAL);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
@@ -1304,12 +1313,12 @@ YY_RULE_SETUP
 case 38:
 YY_RULE_SETUP
 #line 125 "analyze.l"
-{yylval = yytext[2]; return(CCHAR);}
+{yylval = (unsigned char) yytext[2]; return(CCHAR);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 126 "analyze.l"
-{yylval = yytext[1]; return(CCHAR);}
+{yylval = (unsigned char) yytext[1]; return(CCHAR);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
@@ -1360,7 +1369,7 @@ YY_RULE_SETUP
 #line 138 "analyze.l"
 ECHO;
 	YY_BREAK
-#line 1364 "analyze.c"
+#line 1373 "analyze.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
@@ -1876,9 +1885,9 @@ static void yy_load_buffer_state  (void)
 	yyfree((void *) b  );
 }
 
-#if defined(YY_NO_UNISTD_H) && !defined(__cplusplus)
+#ifndef __cplusplus
 extern int isatty (int );
-#endif /* YY_NO_UNISTD_H && !__cplusplus */
+#endif /* __cplusplus */
     
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
@@ -2123,7 +2132,7 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )
 #define YY_EXIT_FAILURE 2
 #endif
 
-static void yy_fatal_error (yyconst char* msg )
+static void attr_noreturn yy_fatal_error (yyconst char* msg )
 {
     	(void) fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
