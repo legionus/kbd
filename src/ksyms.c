@@ -1765,8 +1765,8 @@ ksymtocode(const char *s, int direction) {
 	int keycode;
 	sym *p;
 
-	if (direction < 0)
-		direction = prefer_unicode;
+	if (direction == TO_AUTO)
+		direction = prefer_unicode ? TO_UNICODE : TO_8BIT;
 
 	if (!strncmp(s, "Meta_", 5)) {
 		keycode = ksymtocode(s+5, TO_8BIT);
@@ -1774,14 +1774,14 @@ ksymtocode(const char *s, int direction) {
 			return K(KT_META, KVAL(keycode));
 
 		/* Avoid error messages for Meta_acute with UTF-8 */
-		else if(direction)
+		else if(direction == TO_UNICODE)
 		        return (0);
 
 		/* fall through to error printf */
 	}
 
 	for (i = 0; i < syms_size; i++) {
-		jmax = ((i == 0 && direction) ? 128 : syms[i].size);
+		jmax = ((i == 0 && direction == TO_UNICODE) ? 128 : syms[i].size);
 		for (j = 0; j < jmax; j++)
 			if (!strcmp(s,syms[i].table[j]))
 				return K(i, j);
@@ -1791,7 +1791,7 @@ ksymtocode(const char *s, int direction) {
 		if (!strcmp(s, synonyms[i].synonym))
 			return ksymtocode(synonyms[i].official_name, direction);
 
-	if (direction) {
+	if (direction == TO_UNICODE) {
 		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
 			p = charsets[i].charnames;
 			for (j = charsets[i].start; j < 256; j++, p++)
@@ -1851,19 +1851,24 @@ convert_code(int code, int direction)
 {
 	const char *ksym;
 	int unicode_forced = (direction == TO_UNICODE);
+	int input_is_unicode = (code >= 0x1000);
 	int result;
 
-	if (direction < 0)
-		direction = prefer_unicode;
+	if (direction == TO_AUTO)
+		direction = prefer_unicode ? TO_UNICODE : TO_8BIT;
 
 	if (KTYP(code) == KT_META)
 		return code;
-	else if (direction == (code >= 0x1000))
-		result = code;		/* no conversion necessary */
-	else if (code < 0x80)
-		result = direction ? (code ^ 0xf000) : code;
-	else if ((code ^ 0xf000) < 0x80)
-		result = direction ? code : (code ^ 0xf000);
+	else if ((input_is_unicode && direction == TO_UNICODE) ||
+		 (!input_is_unicode && direction == TO_8BIT))
+		/* no conversion necessary */
+		result = code;
+	else if (!input_is_unicode && code < 0x80)
+		/* convert ASCII chars without looking them up */
+		result = (direction == TO_UNICODE) ? (code ^ 0xf000) : code;
+	else if (input_is_unicode && (code ^ 0xf000) < 0x80)
+		/* same for Unicode "Basic Latin" */
+		result = (direction == TO_UNICODE) ? code : (code ^ 0xf000);
 	else {
 		/* depending on direction, this will give us either an 8-bit
 		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
