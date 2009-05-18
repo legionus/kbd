@@ -23,6 +23,8 @@ loadkeys \- load keyboard translation tables
 ] [
 .I -s --clearstrings
 ] [
+.I -u --unicode
+] [
 .I -v --verbose
 ] [
 .I filename...
@@ -144,6 +146,23 @@ prints to the standard output a file that may be used as a binary
 keymap as expected by Busybox
 .B loadkmap
 command (and does not modify the current keymap).
+.SH "UNICODE MODE"
+.B loadkeys
+automatically detects whether the console is in Unicode or
+ASCII (XLATE) mode.  When a keymap is loaded, literal
+keysyms (such as
+.BR section )
+are resolved accordingly; numerical keysyms are converted to
+fit the current console mode, regardless of the way they are
+specified (decimal, octal, hexadecimal or Unicode).
+.LP
+The
+.I -u
+(or
+.IR --unicode )
+switch tells
+.B loadkeys
+to bypass the check and assume that the console is in Unicode mode.
 .SH "OTHER OPTIONS"
 .TP
 .B \-h \-\-help

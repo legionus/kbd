@@ -44,7 +44,12 @@ int alt_is_meta = 0;
 /* the kernel structures we want to set or print */
 u_short *key_map[MAX_NR_KEYMAPS];
 char *func_table[MAX_NR_FUNC];
-struct kbdiacr accent_table[MAX_DIACR];
+#ifdef KDSKBDIACRUC
+typedef struct kbdiacruc accent_entry;
+#else
+typedef struct kbdiacr accent_entry;
+#endif
+accent_entry accent_table[MAX_DIACR];
 unsigned int accent_table_size = 0;
 
 char key_is_constant[NR_KEYS];
@@ -63,7 +68,7 @@ static void killkey(int index, int table);
 static void compose(int diacr, int base, int res);
 static void do_constant(void);
 static void do_constant_key (int, u_short);
-static void loadkeys(char *console, int *warned);
+static void loadkeys(char *console);
 static void mktable(void);
 static void bkeymap(void);
 static void strings_as_usual(void);
@@ -73,10 +78,10 @@ static void strings_as_usual(void);
 static void compose_as_usual(char *charset);
 static void lkfatal0(const char *, int);
 extern int set_charset(const char *charset);
+extern int prefer_unicode;
 extern char *xstrdup(char *);
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
-extern int unicode_used;
 int private_error_ct = 0;
 
 extern int rvalct;
@@ -240,11 +245,13 @@ rvalue1		: rvalue
 			}
 		;
 rvalue		: NUMBER
-			{$$=$1;}
-		| UNUMBER
-			{$$=($1 ^ 0xf000); unicode_used=1;}
+			{$$=convert_code($1, TO_AUTO);}
                 | PLUS NUMBER
                         {$$=add_capslock($2);}
+		| UNUMBER
+			{$$=convert_code($1^0xf000, TO_AUTO);}
+		| PLUS UNUMBER
+			{$$=add_capslock($2^0xf000);}
 		| LITERAL
 			{$$=$1;}
                 | PLUS LITERAL
@@ -270,7 +277,7 @@ usage(void) {
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
 "  -s --clearstrings  clear kernel string table\n"
-"  -u --unicode       implicit conversion to Unicode\n"
+"  -u --unicode       force conversion to Unicode\n"
 "  -v --verbose       report the changes\n"), PACKAGE_VERSION, DEFMAP);
 	exit(1);
 }
@@ -302,8 +309,9 @@ main(int argc, char *argv[]) {
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
+	int fd;
+	int mode;
 	char *console = NULL;
-        int warned = 0;
 
 	set_progname(argv[0]);
 
@@ -333,7 +341,7 @@ main(int argc, char *argv[]) {
 				opts = 1;
 				break;
 			case 'u':
-				set_charset("unicode");
+				prefer_unicode = 1;
 				break;
 			case 'q':
 				quiet = 1;
@@ -349,8 +357,20 @@ main(int argc, char *argv[]) {
 		}
 	}
 
+	if (!optm && !prefer_unicode) {
+		/* no -u option: auto-enable it if console is in Unicode mode */
+		fd = getfd(NULL);
+		if (ioctl(fd, KDGKBMODE, &mode)) {
+			perror("KDGKBMODE");
+			fprintf(stderr, _("loadkeys: error reading keyboard mode\n"));
+			exit(1);
+		}
+		if (mode == K_UNICODE)
+			prefer_unicode = 1;
+		close(fd);
+	}
+
 	args = argv + optind - 1;
-	unicode_used = 0;
 	yywrap();	/* set up the first input file, if any */
 	if (yyparse() || private_error_ct) {
 		fprintf(stderr, _("syntax error in map file\n"));
@@ -375,14 +395,14 @@ main(int argc, char *argv[]) {
 		char ch = *e;
 		*e = '\0';
 		if (verbose) printf("%s\n", s);
-	        loadkeys(s, &warned);
+	        loadkeys(s);
 		*e = ch;
 		s = e;
 	      }
 	    free(buf);
 	  }
 	else
-	  loadkeys(NULL, &warned);
+	  loadkeys(NULL);
 	exit(0);
 }
 
@@ -799,32 +819,31 @@ addfunc(struct kbsentry kbs) {
 
 static void
 compose(int diacr, int base, int res) {
-        struct kbdiacr *ptr;
+        accent_entry *ptr;
+	int direction;
+
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode)
+		direction = TO_UNICODE;
+	else
+#endif
+		direction = TO_8BIT;
+
         if (accent_table_size == MAX_DIACR) {
 	        fprintf(stderr, _("compose table overflow\n"));
 		exit(1);
 	}
 	ptr = &accent_table[accent_table_size++];
-	ptr->diacr = diacr;
-	ptr->base = base;
-	ptr->result = res;
+	ptr->diacr = convert_code(diacr, direction);
+	ptr->base = convert_code(base, direction);
+	ptr->result = convert_code(res, direction);
 }
 
 static int
-defkeys(int fd, char *cons, int *warned) {
+defkeys(int fd) {
 	struct kbentry ke;
 	int ct = 0;
 	int i,j,fail;
-	int oldm;
-
-	if (unicode_used) {
-	     /* Switch keyboard mode for a moment -
-		do not complain about errors.
-		Do not attempt a reset if the change failed. */
-	     if (ioctl(fd, KDGKBMODE, &oldm)
-	        || (oldm != K_UNICODE && ioctl(fd, KDSKBMODE, K_UNICODE)))
-		  oldm = K_UNICODE;
-	}
 
 	for(i=0; i<MAX_NR_KEYMAPS; i++) {
 	    if (key_map[i]) {
@@ -891,27 +910,6 @@ defkeys(int fd, char *cons, int *warned) {
 	    }
 	}
 
-	if(unicode_used && oldm != K_UNICODE) {
-	     if (ioctl(fd, KDSKBMODE, oldm)) {
-		  fprintf(stderr, _("%s: failed to restore keyboard mode\n"),
-			  progname);
-	     }
-
-	     if (!warned++)
-	       {
-		     int kd_mode = -1;
-		     if (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS))
-		       {
-			 /*
-			  * It is okay for the graphics console to have a non-unicode mode.
-			  * only talk about other consoles
-			  */
-			 fprintf(stderr, _("%s: warning: this map uses Unicode symbols, %s mode=%d\n"
-				     "    (perhaps you want to do `kbd_mode -u'?)\n"),
-			     progname, cons ? cons : "NULL", kd_mode);
-		       }
-	       }
-	}
 	return ct;
 }
 
@@ -970,21 +968,46 @@ deffuncs(int fd){
 
 static int
 defdiacs(int fd){
-        struct kbdiacrs kd;
-	unsigned int i;
+	unsigned int i, count;
+	struct kbdiacrs kd;
+#ifdef KDSKBDIACRUC
+	struct kbdiacrsuc kdu;
+#endif
 
-	kd.kb_cnt = accent_table_size;
-	if (kd.kb_cnt > MAX_DIACR) {
-	    kd.kb_cnt = MAX_DIACR;
+	count = accent_table_size;
+	if (count > MAX_DIACR) {
+	    count = MAX_DIACR;
 	    fprintf(stderr, _("too many compose definitions\n"));
 	}
-	for (i = 0; i < kd.kb_cnt; i++)
-	    kd.kbdiacr[i] = accent_table[i];
 
-	if(ioctl(fd, KDSKBDIACR, (unsigned long) &kd)) {
-	    perror("KDSKBDIACR");
-	    exit(1);
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode) {
+		kdu.kb_cnt = count;
+		for (i = 0; i < kdu.kb_cnt; i++) {
+		    kdu.kbdiacruc[i].diacr = accent_table[i].diacr;
+		    kdu.kbdiacruc[i].base = accent_table[i].base;
+		    kdu.kbdiacruc[i].result = accent_table[i].result;
+		}
+		if(ioctl(fd, KDSKBDIACRUC, (unsigned long) &kdu)) {
+		    perror("KDSKBDIACRUC");
+		    exit(1);
+		}
 	}
+	else
+#endif
+	{
+		kd.kb_cnt = count;
+		for (i = 0; i < kd.kb_cnt; i++) {
+		    kd.kbdiacr[i].diacr = accent_table[i].diacr;
+		    kd.kbdiacr[i].base = accent_table[i].base;
+		    kd.kbdiacr[i].result = accent_table[i].result;
+		}
+		if(ioctl(fd, KDSKBDIACR, (unsigned long) &kd)) {
+		    perror("KDSKBDIACR");
+		    exit(1);
+		}
+	}
+
 	return kd.kb_cnt;
 }
 
@@ -1044,12 +1067,12 @@ do_constant (void) {
 }
 
 static void
-loadkeys (char *console, int *warned) {
+loadkeys (char *console) {
         int fd;
         int keyct, funcct, diacct = 0;
 
 	fd = getfd(console);
-	keyct = defkeys(fd, console, warned);
+	keyct = defkeys(fd);
 	funcct = deffuncs(fd);
 	if (verbose) {
 	        printf(_("\nChanged %d %s and %d %s.\n"),
@@ -1270,17 +1293,34 @@ mktable () {
 	  printf("\t0,\n");
 	printf("};\n");
 
-	printf("\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
-	for (i = 0; i < accent_table_size; i++) {
-	        printf("\t{");
-	        outchar(accent_table[i].diacr, 1);
-		outchar(accent_table[i].base, 1);
-		outchar(accent_table[i].result, 0);
-		printf("},");
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode) {
+		printf("\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < accent_table_size; i++) {
+			printf("\t{");
+			outchar(accent_table[i].diacr, 1);
+			outchar(accent_table[i].base, 1);
+			printf("0x%04x},", accent_table[i].result);
+			if(i%2) printf("\n");
+		}
 		if(i%2) printf("\n");
+		printf("};\n\n");
 	}
-	if(i%2) printf("\n");
-	printf("};\n\n");
+	else
+#endif
+	{
+		printf("\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < accent_table_size; i++) {
+			printf("\t{");
+			outchar(accent_table[i].diacr, 1);
+			outchar(accent_table[i].base, 1);
+			outchar(accent_table[i].result, 0);
+			printf("},");
+			if(i%2) printf("\n");
+		}
+		if(i%2) printf("\n");
+		printf("};\n\n");
+	}
 	printf("unsigned int accent_table_size = %d;\n",
 	       accent_table_size);
 
