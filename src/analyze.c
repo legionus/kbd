@@ -805,6 +805,9 @@ char *yytext;
 #include "ksyms.h"
 #include "kbd.h"
 #include "xmalloc.h"
+#ifdef __klibc__
+#include "klibc_compat.h"
+#endif
 
 extern int line_nr;
 int	yylval;
