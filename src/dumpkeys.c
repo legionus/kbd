@@ -249,9 +249,7 @@ dump_diacs(void) {
 		outchar(kd.kbdiacruc[i].diacr & 0xff);
 		printf(" ");
 		outchar(kd.kbdiacruc[i].base & 0xff);
-		printf(" to ");
-		outchar(convert_code(kd.kbdiacruc[i].result ^ 0xf000, TO_8BIT));
-		printf("\n");
+		printf(" to U+%04x\n", kd.kbdiacruc[i].result);
 	}
 #else
 	for (i = 0; i < kd.kb_cnt; i++) {
