@@ -163,7 +163,7 @@ int yylex (void);
 
 
 /* Line 189 of yacc.c  */
-#line 167 "loadkeys.c"
+#line 167 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -275,7 +275,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 279 "loadkeys.c"
+#line 279 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -1825,7 +1825,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1829 "loadkeys.c"
+#line 1829 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2057,6 +2057,7 @@ usage(void) {
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+"  -q --quiet         suppress all normal output\n"
 "  -s --clearstrings  clear kernel string table\n"
 "  -u --unicode       force conversion to Unicode\n"
 "  -v --verbose       report the changes\n"), PACKAGE_VERSION, DEFMAP);
