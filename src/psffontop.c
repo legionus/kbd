@@ -12,6 +12,10 @@
 #include "utf8.h"
 #include "paths.h"
 
+#ifdef __klibc__
+#include "klibc_compat.h"
+#endif
+
 extern char *progname;
 
 static void

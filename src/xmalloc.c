@@ -8,6 +8,10 @@
 #include "nls.h"
 #include "xmalloc.h"
 
+#ifdef __klibc__
+#include "klibc_compat.h"
+#endif
+
 extern char *progname;
 
 static void attr_noreturn

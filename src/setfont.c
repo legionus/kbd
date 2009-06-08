@@ -11,7 +11,9 @@
  */
 
 #include <stdio.h>
+#ifndef __klibc__
 #include <memory.h>
+#endif
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -108,10 +110,11 @@ main(int argc, char *argv[]) {
 	int restore = 0;
 
 	set_progname(argv[0]);
-
+#ifndef __klibc__
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
+#endif
 
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;

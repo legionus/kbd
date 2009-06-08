@@ -13,14 +13,17 @@ char pathname[1024];
 static int ispipe;
 
 void fpclose(FILE *fp) {
+#ifndef __klibc__
 	if (ispipe)
 	     pclose(fp);
 	else
+#endif /* __klibc__ */
 	     fclose(fp);
 }
 
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))
 
+#ifndef __klibc__
 static struct decompressor {
 	char *ext;		/* starts with `.', has no other dots */
 	char *cmd;
@@ -43,12 +46,14 @@ pipe_open(struct decompressor *dc) {
 		fprintf(stderr, _("error executing  %s\n"), pipe_cmd);
 	return fp;
 }
+#endif /* __klibc__ */
 
 /* If a file PATHNAME exists, then open it.
    If is has a `compressed' extension, then open a pipe reading it */
 static FILE *
 maybe_pipe_open(void) {
 	FILE *fp;
+#ifndef __klibc__
 	char *t;
 	struct decompressor *dc;
 
@@ -62,6 +67,9 @@ maybe_pipe_open(void) {
 		    }
 	    }
 	}
+#else
+	fp = fopen(pathname, "r");
+#endif /* __klibc__ */
 	return fp;
 }
 
@@ -71,7 +79,9 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	DIR *d;
 	struct dirent *de;
 	char *ff, *fdir, *p, *q, **sp;
+#ifndef __klibc__
 	struct decompressor *dc;
+#endif /* __klibc__ */
 	int secondpass = 0;
 
 	ispipe = 0;
@@ -142,17 +152,21 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	    /* Does tail consist of a known suffix and possibly
 	       a compression suffix? */
 	    for(sp = suf; *sp; sp++) {
+#ifndef __klibc__
 		    int l;
+#endif /* __klibc__ */
 
 		    if (!strcmp(p, *sp))
 			    return maybe_pipe_open();
 
+#ifndef __klibc__
 		    l = strlen(*sp);
 		    if (strncmp(p,*sp,l) == 0) {
 			for (dc = &decompressors[0]; dc->cmd; dc++)
 			    if (strcmp(p+l, dc->ext) == 0)
 				return pipe_open(dc);
 		    }
+#endif /* __klibc__ */
 	    }
 	}
 	closedir(d);
@@ -168,7 +182,9 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
         char **dp, *dir, **sp;
 	FILE *fp;
 	int dl, recdepth;
+#ifndef __klibc__
 	struct decompressor *dc;
+#endif /* __klibc__ */
 
 	if (strlen(fnam) >= sizeof(pathname))
 		return NULL;
@@ -195,6 +211,7 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
 		    return fp;
 	    }
 
+#ifndef __klibc__
 	    for (sp = suffixes; *sp; sp++) {
 		for (dc = &decompressors[0]; dc->cmd; dc++) {
 		    if (strlen(fnam) + strlen(*sp)
@@ -209,6 +226,7 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
 		    }
 		}
 	    }
+#endif /* __klibc__ */
 
 	    return NULL;
 	}

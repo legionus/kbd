@@ -76,6 +76,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <signal.h>
+#include <sys/io.h>
 #include <sys/ioctl.h>
 #if (__GNU_LIBRARY__ >= 6)
 #include <sys/perm.h>
@@ -119,10 +120,11 @@ main(int argc, char **argv) {
     char *defaultfont;
 
     set_progname(argv[0]);
-
+#ifndef __klibc__
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE_NAME, LOCALEDIR);
     textdomain(PACKAGE_NAME);
+#endif
 
     if (argc < 2)
       usage();
@@ -349,13 +351,13 @@ usage() {
 /* Port I/O macros. Note that these are not compatible with the ones */
 /* defined in the kernel header files. */
 
-static inline void outb( int port, int value )
+static inline void my_outb( int port, int value )
 {
 	__asm__ volatile ("outb %0,%1"
 	: : "a" ((unsigned char)value), "d" ((unsigned short)port));
 }
 
-static inline int inb( int port )
+static inline int my_inb( int port )
 {
 	unsigned char value;
 	__asm__ volatile ("inb %1,%0"
@@ -376,112 +378,112 @@ static void vga_init_io() {
 		exit(1);
 	}
 	crtcport = 0x3d4;
-	if ((inb(0x3cc) & 0x01) == 0)
+	if ((my_inb(0x3cc) & 0x01) == 0)
 		crtcport = 0x3b4;
 }
 
 static void vga_set_fontheight( int h ) {
-	outb(crtcport, 0x09);
-	outb(crtcport + 1, (inb(crtcport + 1) & 0xe0) | (h - 1));
+	my_outb(crtcport, 0x09);
+	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xe0) | (h - 1));
 }
 
 static int vga_get_fontheight() {
-	outb(crtcport, 0x09);
-	return (inb(crtcport + 1) & 0x1f) + 1;
+	my_outb(crtcport, 0x09);
+	return (my_inb(crtcport + 1) & 0x1f) + 1;
 }
 
 static void vga_set_cursor( int top, int bottom ) {
-	outb(crtcport, 0x0a);
-	outb(crtcport + 1, (inb(crtcport + 1) & 0xc0) | top);
-	outb(crtcport, 0x0b);
-	outb(crtcport + 1, (inb(crtcport + 1) & 0xe0) | bottom);
+	my_outb(crtcport, 0x0a);
+	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xc0) | top);
+	my_outb(crtcport, 0x0b);
+	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xe0) | bottom);
 }
 
 static void vga_set_verticaldisplayend_lowbyte( int byte ) {
 	/* CRTC register 0x12 */
 	/* vertical display end */
-	outb(crtcport, 0x12);
-	outb(crtcport + 1, byte);
+	my_outb(crtcport, 0x12);
+	my_outb(crtcport + 1, byte);
 }
 
 static void vga_480_scanlines() {
 	/* CRTC register 0x11 */
 	/* vertical sync end (also unlocks CR0-7) */
-	outb(crtcport, 0x11);
-	outb(crtcport + 1, 0x0c);
+	my_outb(crtcport, 0x11);
+	my_outb(crtcport + 1, 0x0c);
 
 	/* CRTC register 0x06 */
 	/* vertical total */
-	outb(crtcport, 0x06);
-	outb(crtcport + 1, 0x0b);
+	my_outb(crtcport, 0x06);
+	my_outb(crtcport + 1, 0x0b);
 
 	/* CRTC register 0x07 */
 	/* (vertical) overflow */
-	outb(crtcport, 0x07);
-	outb(crtcport + 1, 0x3e);
+	my_outb(crtcport, 0x07);
+	my_outb(crtcport + 1, 0x3e);
 
 	/* CRTC register 0x10 */
 	/* vertical sync start */
-	outb(crtcport, 0x10);
-	outb(crtcport + 1, 0xea);
+	my_outb(crtcport, 0x10);
+	my_outb(crtcport + 1, 0xea);
 
 	/* CRTC register 0x12 */
 	/* vertical display end */
-	outb(crtcport, 0x12);
-	outb(crtcport + 1, 0xdf);
+	my_outb(crtcport, 0x12);
+	my_outb(crtcport + 1, 0xdf);
 
 	/* CRTC register 0x15 */
 	/* vertical blank start */
-	outb(crtcport, 0x15);
-	outb(crtcport + 1, 0xe7);
+	my_outb(crtcport, 0x15);
+	my_outb(crtcport + 1, 0xe7);
 
 	/* CRTC register 0x16 */
 	/* vertical blank end */
-	outb(crtcport, 0x16);
-	outb(crtcport + 1, 0x04);
+	my_outb(crtcport, 0x16);
+	my_outb(crtcport + 1, 0x04);
 
 	/* Misc Output register */
 	/* Preserver clock select bits and set correct sync polarity */
-	outb(0x3c2, (inb(0x3cc) & 0x0d) | 0xe2);
+	my_outb(0x3c2, (my_inb(0x3cc) & 0x0d) | 0xe2);
 }
 
 static void vga_400_scanlines() {
 	/* CRTC register 0x11 */
 	/* vertical sync end (also unlocks CR0-7) */
-	outb(crtcport, 0x11);
-	outb(crtcport + 1, 0x0e);
+	my_outb(crtcport, 0x11);
+	my_outb(crtcport + 1, 0x0e);
 
 	/* CRTC register 0x06 */
 	/* vertical total */
-	outb(crtcport, 0x06);
-	outb(crtcport + 1, 0xbf);
+	my_outb(crtcport, 0x06);
+	my_outb(crtcport + 1, 0xbf);
 
 	/* CRTC register 0x07 */
 	/* (vertical) overflow */
-	outb(crtcport, 0x07);
-	outb(crtcport + 1, 0x1f);
+	my_outb(crtcport, 0x07);
+	my_outb(crtcport + 1, 0x1f);
 
 	/* CRTC register 0x10 */
 	/* vertical sync start */
-	outb(crtcport, 0x10);
-	outb(crtcport + 1, 0x9c);
+	my_outb(crtcport, 0x10);
+	my_outb(crtcport + 1, 0x9c);
 
 	/* CRTC register 0x12 */
 	/* vertical display end */
-	outb(crtcport, 0x12);
-	outb(crtcport + 1, 0x8f);
+	my_outb(crtcport, 0x12);
+	my_outb(crtcport + 1, 0x8f);
 
 	/* CRTC register 0x15 */
 	/* vertical blank start */
-	outb(crtcport, 0x15);
-	outb(crtcport + 1, 0x96);
+	my_outb(crtcport, 0x15);
+	my_outb(crtcport + 1, 0x96);
 
 	/* CRTC register 0x16 */
 	/* vertical blank end */
-	outb(crtcport, 0x16);
-	outb(crtcport + 1, 0xb9);
+	my_outb(crtcport, 0x16);
+	my_outb(crtcport + 1, 0xb9);
 
 	/* Misc Output register */
 	/* Preserver clock select bits and set correct sync polarity */
-	outb(0x3c2, (inb(0x3cc) & 0x0d) | 0x62);
+	my_outb(0x3c2, (my_inb(0x3cc) & 0x0d) | 0x62);
 }

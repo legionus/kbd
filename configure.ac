@@ -7,6 +7,9 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/showkey.c])
 AC_CONFIG_HEADERS(config.h)
 
+m4_include(m4/klibc.m4)
+AC_CHECK_KLIBC
+
 # Checks for programs.
 AC_PROG_YACC
 AC_PROG_CC
