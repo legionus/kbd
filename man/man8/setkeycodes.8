@@ -20,7 +20,7 @@ recognize.
 .SH THEORY
 The usual PC keyboard produces a series of scancodes for each
 key press and key release. (Scancodes are shown by
-\fBshowkey -s\fP, see showkey(1).)
+\fBshowkey \-s\fP, see showkey(1).)
 The kernel parses this stream of scancodes, and converts it to
 a stream of keycodes (key press/release events).
 (Keycodes are shown by \fBshowkey\fP.)
@@ -46,7 +46,7 @@ In 2.6 kernels key codes lie in the range 1-255, instead of 1-127.
 (It might be best to confine oneself to the range 1-239.)
 .LP
 In 2.6 kernels raw mode, or scancode mode, is not very raw at all.
-The code returned by showkey -s will change after use of setkeycodes.
+The code returned by showkey \-s will change after use of setkeycodes.
 A kernel bug. See also
 .BR showkey (1).
 .SH OPTIONS

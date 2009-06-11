@@ -17,23 +17,23 @@ Without arguments,
 prints the current settings.
 With arguments, it sets or clears the indicated flags
 (and leaves the others unchanged). The settings before
-and after the change are reported if the -v flag is given.
+and after the change are reported if the \-v flag is given.
 .LP
 The led flag settings are specific for each VT (and the VT
 corresponding to stdin is used).
 .LP
-By default (or with option -F),
+By default (or with option \-F),
 .B setleds
 will only change the VT flags (and their setting may be
 reflected by the keyboard leds).
 .LP
-With option -D,
+With option \-D,
 .B setleds
 will change both the VT flags and their default settings
 (so that a subsequent reset will not undo the change).
 This might be useful for people who always want to have numlock set.
 .LP
-With option -L,
+With option \-L,
 .B setleds
 will not touch the VT flags, but only change the leds.
 From this moment on, the leds will no longer reflect the VT flags
@@ -53,7 +53,7 @@ INITTY=/dev/tty[1-8]
 for tty in $INITTY; do
 .br
 .in +5m
-setleds -D +num < $tty
+setleds \-D +num < $tty
 .br
 .in -5m
 done
