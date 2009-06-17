@@ -1512,7 +1512,9 @@ static const char *brl_syms[] = {
 	"Brl_dot5",
 	"Brl_dot6",
 	"Brl_dot7",
-	"Brl_dot8"
+	"Brl_dot8",
+	"Brl_dot9",
+	"Brl_dot10"
 };
 
 #define E(x) { x, sizeof(x) / sizeof(x[0]) }
