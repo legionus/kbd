@@ -1861,16 +1861,16 @@ convert_code(int code, int direction)
 
 	if (KTYP(code) == KT_META)
 		return code;
+	else if (!input_is_unicode && code < 0x80)
+		/* basic ASCII is fine in every situation */
+		return code;
+	else if (input_is_unicode && (code ^ 0xf000) < 0x80)
+		/* so is Unicode "Basic Latin" */
+		return code ^ 0xf000;
 	else if ((input_is_unicode && direction == TO_UNICODE) ||
 		 (!input_is_unicode && direction == TO_8BIT))
 		/* no conversion necessary */
 		result = code;
-	else if (!input_is_unicode && code < 0x80)
-		/* convert ASCII chars without looking them up */
-		result = (direction == TO_UNICODE) ? (code ^ 0xf000) : code;
-	else if (input_is_unicode && (code ^ 0xf000) < 0x80)
-		/* same for Unicode "Basic Latin" */
-		result = (direction == TO_UNICODE) ? code : (code ^ 0xf000);
 	else {
 		/* depending on direction, this will give us either an 8-bit
 		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
