@@ -169,15 +169,20 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 			    addfunc(kbs_buf);
 			}
 		;
-compline        : COMPOSE CCHAR CCHAR TO CCHAR EOL
+compline        : COMPOSE compsym compsym TO compsym EOL
                         {
 			    compose($2, $3, $5);
 			}
-		 | COMPOSE CCHAR CCHAR TO rvalue EOL
+		 | COMPOSE compsym compsym TO rvalue EOL
 			{
 			    compose($2, $3, $5);
 			}
                 ;
+compsym		: CCHAR
+			{ $$ = $1; }
+		| UNUMBER
+			{ $$ = $1 ^ 0xf000; }
+		;
 singleline	:	{ mod = 0; }
 		  modifiers KEYCODE NUMBER EQUALS rvalue EOL
 			{
