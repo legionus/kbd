@@ -2,9 +2,6 @@
 #ifndef _KLIBC_COMPAT_H
 #define _KLIBC_COMPAT_H
 
-#undef _MALLOC_H
-#undef malloc
-#undef realloc
 #include <malloc.h>
 
 #define signal sysv_signal
