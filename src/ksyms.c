@@ -1,6 +1,7 @@
 #include <linux/keyboard.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "ksyms.h"
 #include "nls.h"
 
@@ -1511,7 +1512,9 @@ static const char *brl_syms[] = {
 	"Brl_dot5",
 	"Brl_dot6",
 	"Brl_dot7",
-	"Brl_dot8"
+	"Brl_dot8",
+	"Brl_dot9",
+	"Brl_dot10"
 };
 
 #define E(x) { x, sizeof(x) / sizeof(x[0]) }
@@ -1640,12 +1643,14 @@ struct cs {
     { "iso-10646-18",	iso_10646_18_syms, 159 },	/* ethiopic */
     { "iso-ir-197",	iso_ir_197_syms, 160 },		/* sami */
     { "iso-ir-209",	iso_ir_209_syms, 160 },		/* sami */
+    /* When you add a new charset with a long (> 15 chars) name,
+     * please update the chosen_charset definition below. */
 };
 
 /* Functions for both dumpkeys and loadkeys. */
 
-static int prefer_unicode = 0;
-static const char *chosen_charset = NULL;
+int prefer_unicode = 0;
+static char chosen_charset[16] = "";
 
 void
 list_charsets(FILE *f) {
@@ -1685,11 +1690,6 @@ set_charset(const char *charset) {
 	sym *p;
 	unsigned int i;
 
-	if (!strcasecmp(charset, "unicode")) {
-		prefer_unicode = 1;
-		return 0;
-	}
-
 	for (i = 1; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
 		if (!strcasecmp(charsets[i].charset, charset)) {
 			charsets[0].charset = charsets[i].charset;
@@ -1700,7 +1700,7 @@ set_charset(const char *charset) {
 				if(p->name[0])
 					syms[0].table[i] = p->name;
 			}
-			chosen_charset = charset;
+			strcpy(chosen_charset, charset);
 			return 0;
 		}
 	}
@@ -1710,50 +1710,80 @@ set_charset(const char *charset) {
 }
 
 const char *
-unicodetoksym(int code) {
+codetoksym(int code) {
 	unsigned int i;
 	int j;
 	sym *p;
 
 	if (code < 0)
 		return NULL;
-	if (code < 0x80)
-		return iso646_syms[code];
-	for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
-		p = charsets[i].charnames;
-		for (j = charsets[i].start; j < 256; j++, p++) {
-			if (p->uni == code && p->name[0])
+
+	if (code < 0x1000) {	/* "traditional" keysym */
+		if (code < 0x80)
+			return iso646_syms[code];
+		if (KTYP(code) == KT_META)
+			return NULL;
+		if (KTYP(code) == KT_LETTER)
+			code = K(KT_LATIN, KVAL(code));
+		if (KTYP(code) > KT_LATIN)
+			return syms[KTYP(code)].table[KVAL(code)];
+
+		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+			p = charsets[i].charnames;
+			if (!p)
+				continue;
+			p += KVAL(code) - charsets[i].start;
+			if (p->name[0])
 				return p->name;
 		}
 	}
+
+	else {			/* Unicode keysym */
+		code ^= 0xf000;
+
+		if (code < 0x80)
+			return iso646_syms[code];
+
+		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+			p = charsets[i].charnames;
+			if (!p)
+				continue;
+			for (j = charsets[i].start; j < 256; j++, p++) {
+				if (p->uni == code && p->name[0])
+					return p->name;
+			}
+		}
+	}
+
 	return NULL;
 }
 
 /* Functions for loadkeys. */
 
-int unicode_used = 0;
-
 int
-ksymtocode(const char *s) {
+ksymtocode(const char *s, int direction) {
 	unsigned int i;
 	int j, jmax;
 	int keycode;
 	sym *p;
 
+	if (direction == TO_AUTO)
+		direction = prefer_unicode ? TO_UNICODE : TO_8BIT;
+
 	if (!strncmp(s, "Meta_", 5)) {
-		keycode = ksymtocode(s+5);
+		keycode = ksymtocode(s+5, TO_8BIT);
 		if (KTYP(keycode) == KT_LATIN)
 			return K(KT_META, KVAL(keycode));
 
 		/* Avoid error messages for Meta_acute with UTF-8 */
-		else if(prefer_unicode)
+		else if(direction == TO_UNICODE)
 		        return (0);
 
 		/* fall through to error printf */
 	}
 
 	for (i = 0; i < syms_size; i++) {
-		jmax = ((i == 0 && prefer_unicode) ? 128 : syms[i].size);
+		jmax = ((i == 0 && direction == TO_UNICODE) ? 128 : syms[i].size);
 		for (j = 0; j < jmax; j++)
 			if (!strcmp(s,syms[i].table[j]))
 				return K(i, j);
@@ -1761,23 +1791,21 @@ ksymtocode(const char *s) {
 
 	for (i = 0; i < syn_size; i++)
 		if (!strcmp(s, synonyms[i].synonym))
-			return ksymtocode(synonyms[i].official_name);
+			return ksymtocode(synonyms[i].official_name, direction);
 
-	if (prefer_unicode) {
+	if (direction == TO_UNICODE) {
 		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
 			p = charsets[i].charnames;
 			for (j = charsets[i].start; j < 256; j++, p++)
-				if (!strcmp(s,p->name)) {
-					unicode_used = 1;
-					return (p->uni ^ 0xf000); /* %%% */
-				}
+				if (!strcmp(s,p->name))
+					return (p->uni ^ 0xf000);
 		}
-	} else /* if (!chosen_charset) */ {
+	} else /* if (!chosen_charset[0]) */ {
 		/* note: some keymaps use latin1 but with euro,
 		   so set_charset() would fail */
 		/* note: some keymaps with charset line still use
 		   symbols from more than one character set,
-		   so we cannot have the  `if (!chosen_charset)'  here */
+		   so we cannot have the  `if (!chosen_charset[0])'  here */
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin1_syms[i].name)) {
@@ -1821,38 +1849,55 @@ ksymtocode(const char *s) {
 }
 
 int
-unicodetocode(int code) {
-	const char *s;
+convert_code(int code, int direction)
+{
+	const char *ksym;
+	int unicode_forced = (direction == TO_UNICODE);
+	int input_is_unicode = (code >= 0x1000);
+	int result;
 
-	s = unicodetoksym(code);
-	if (s)
-		return ksymtocode(s);
+	if (direction == TO_AUTO)
+		direction = prefer_unicode ? TO_UNICODE : TO_8BIT;
+
+	if (KTYP(code) == KT_META)
+		return code;
+	else if (!input_is_unicode && code < 0x80)
+		/* basic ASCII is fine in every situation */
+		return code;
+	else if (input_is_unicode && (code ^ 0xf000) < 0x80)
+		/* so is Unicode "Basic Latin" */
+		return code ^ 0xf000;
+	else if ((input_is_unicode && direction == TO_UNICODE) ||
+		 (!input_is_unicode && direction == TO_8BIT))
+		/* no conversion necessary */
+		result = code;
 	else {
-		unicode_used = 1;
-		return (code ^ 0xf000); /* %%% */
+		/* depending on direction, this will give us either an 8-bit
+		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
+		ksym = codetoksym(code);
+		if (ksym)
+			result = ksymtocode(ksym, direction);
+		else
+			result = code;
 	}
+
+	/* if direction was TO_UNICODE from the beginning, we return the true
+	 * Unicode value (without the 0xf000 mask) */
+	if (unicode_forced && result >= 0x1000)
+		return result ^ 0xf000;
+	else
+		return result;
 }
 
 int
 add_capslock(int code)
 {
-	char buf[7];
-	const char *p;
-
-	if (KTYP(code) == KT_LATIN)
+	if (KTYP(code) == KT_LATIN && (!prefer_unicode || code < 0x80))
 		return K(KT_LETTER, KVAL(code));
-	if ((unsigned) KTYP(code) >= syms_size) {
-		if ((p = unicodetoksym(code ^ 0xf000)) == NULL) {
-			sprintf(buf, "U+%04x", code ^ 0xf000);
-			p = buf;
-		}
-	} else {
-		sprintf(buf, "0x%04x", code);
-		p = buf;
-	}
-#if 0
-	/* silence the common usage  dumpkeys | loadkeys -u  */
-	fprintf(stderr, _("plus before %s ignored\n"), p);
-#endif
-	return code;
+	else if ((code ^ 0xf000) < 0x100)
+		/* Unicode Latin-1 Supplement */
+		/* a bit dirty to use KT_LETTER here, but it should work */
+		return K(KT_LETTER, code ^ 0xf000);
+	else
+		return convert_code(code, TO_AUTO);
 }

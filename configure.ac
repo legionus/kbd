@@ -2,10 +2,13 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.60)
-AC_INIT(kbd, 1.15, gladkov.alexey@gmail.com)
+AC_INIT(kbd, 1.15.1, gladkov.alexey@gmail.com)
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/showkey.c])
 AC_CONFIG_HEADERS(config.h)
+
+m4_include(m4/klibc.m4)
+AC_CHECK_KLIBC
 
 # Checks for programs.
 AC_PROG_YACC
@@ -39,13 +42,10 @@ AC_FUNC_CHOWN
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
 AC_PROG_GCC_TRADITIONAL
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
-AC_FUNC_SETPGRP
 AC_TYPE_SIGNAL
 AC_FUNC_STAT
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
-strspn strstr strtol strtoul])
+strspn strstr strtol strtoul setpgrp malloc realloc])
 
 case $host_cpu in
 	m68*|sparc*) KEYCODES_PROGS=no ;;

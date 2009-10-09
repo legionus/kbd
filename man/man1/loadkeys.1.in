@@ -19,7 +19,11 @@ loadkeys \- load keyboard translation tables
 ] [
 .I -m --mktable
 ] [
+.I -q --quiet
+] [
 .I -s --clearstrings
+] [
+.I -u --unicode
 ] [
 .I -v --verbose
 ] [
@@ -94,7 +98,7 @@ compose ',' 'c' to ccedilla
 .LP
 means that <ComposeKey><,><c> must be combined to <ccedilla>.
 The current content of this table can be see
-using `dumpkeys --compose-only'.
+using `dumpkeys \-\-compose\-only'.
 .SH "LOAD KERNEL STRING TABLE"
 The option
 .I -s
@@ -142,12 +146,33 @@ prints to the standard output a file that may be used as a binary
 keymap as expected by Busybox
 .B loadkmap
 command (and does not modify the current keymap).
+.SH "UNICODE MODE"
+.B loadkeys
+automatically detects whether the console is in Unicode or
+ASCII (XLATE) mode.  When a keymap is loaded, literal
+keysyms (such as
+.BR section )
+are resolved accordingly; numerical keysyms are converted to
+fit the current console mode, regardless of the way they are
+specified (decimal, octal, hexadecimal or Unicode).
+.LP
+The
+.I -u
+(or
+.IR --unicode )
+switch tells
+.B loadkeys
+to bypass the check and assume that the console is in Unicode mode.
 .SH "OTHER OPTIONS"
 .TP
 .B \-h \-\-help
 .B loadkeys
 prints its version number and a short usage message to the programs
 standard error output and exits.
+.TP
+.B \-q \-\-quiet
+.B loadkeys
+suppresses all normal output.
 .SH WARNING
 Note that anyone having read access to
 .B /dev/console

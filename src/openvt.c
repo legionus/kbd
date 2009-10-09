@@ -231,10 +231,14 @@ got_vtno:
       /* leave current vt */
       if (!direct_exec) {
 #ifdef   ESIX_5_3_2_D
+#ifdef HAVE_SETPGRP
          if (setpgrp() < 0) {
 #else
+         if (1) {
+#endif /* HAVE_SETPGRP */
+#else
          if (setsid() < 0) {
-#endif
+#endif /* ESIX_5_3_2_D */
            int errsv = errno;
            fprintf(stderr, _("openvt: Unable to set new session (%s)\n"),
 		   strerror(errsv));

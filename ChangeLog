@@ -1,3 +1,33 @@
+Changes for 1.15.1 (legion)
+
+o Build system:
+  - Add klibc support.
+  - Fix errors when building with -Werror=format-security
+    gcc option (Herton Ronaldo Krzesinski).
+  - Fix cross-compiling problems.
+
+o Programs:
+  - loadkeys: Auto-convert “traditional”/Unicode keysyms (Michael Schutte).
+  - loadkeys: Support bidirectional conversion of keysyms (Michael Schutte).
+  - loadkeys: Support Unicode compose tables (Michael Schutte).
+  - showconsolefont: Print adequate space chars (Michael Schutte).
+  - dumpkeys: Use U+… in “compose” lines if KDGKBDIACRUC is available (Michael Schutte).
+  - Add support for Brl_dot9 and Brl_dot10 (Michael Schutte).
+  - Never handle plain ASCII characters as Unicode (Michael Schutte).
+  - Enable UNUMBERs in compose definitions (Michael Schutte).
+
+o Keymaps:
+  - bg_pho-utf8 keycode 38 assignment fix.
+  - Add keymap for Colemak.
+  - Add keymap for German Intel based Macs.
+  - Add UK keymap for the Sun Type-6 keyboard.
+  - Add French keymap Dvorak.
+  - Add Kirghiz keymap.
+
+o Fonts:
+  - Add U+2010, U+2012, U+2013, U+2018, U+2019, U+2212
+    to the embedded character table.
+
 Changes for 1.15 (legion)
 
 o Build system:

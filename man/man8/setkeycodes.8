@@ -20,7 +20,7 @@ recognize.
 .SH THEORY
 The usual PC keyboard produces a series of scancodes for each
 key press and key release. (Scancodes are shown by
-\fBshowkey -s\fP, see showkey(1).)
+\fBshowkey \-s\fP, see showkey(1).)
 The kernel parses this stream of scancodes, and converts it to
 a stream of keycodes (key press/release events).
 (Keycodes are shown by \fBshowkey\fP.)
@@ -29,10 +29,8 @@ the sequence produced by the Pause key, and apart from shiftstate
 related scancodes, and apart from the key up/down bit,
 the stream of scancodes consists of unescaped
 scancodes xx (7 bits) and escaped scancodes e0 xx (8+7 bits).
-It is hardwired in the current kernel that in the range 1-88
-(0x01-0x58) keycode equals scancode. For the remaining scancodes
-(0x59-0x7f) or scancode pairs (0xe0 0x00 - 0xe0 0x7f) a
-corresponding keycode can be assigned (in the range 1-127).
+To these scancodes or scancode pairs, a corresponding keycode can be
+assigned (in the range 1-127).
 For example, if you have a Macro key that produces e0 6f according
 to showkey(1), the command
 .RS
@@ -40,13 +38,17 @@ to showkey(1), the command
 .RE
 will assign the keycode 112 to it, and then loadkeys(1) can be used
 to define the function of this key.
+.LP
+Some older kernels might hardwire a low scancode range to the
+equivalent keycodes; setkeycodes will fail when you try to remap
+these.
 
 .SH "2.6 KERNELS"
 In 2.6 kernels key codes lie in the range 1-255, instead of 1-127.
 (It might be best to confine oneself to the range 1-239.)
 .LP
 In 2.6 kernels raw mode, or scancode mode, is not very raw at all.
-The code returned by showkey -s will change after use of setkeycodes.
+The code returned by showkey \-s will change after use of setkeycodes.
 A kernel bug. See also
 .BR showkey (1).
 .SH OPTIONS

@@ -8,6 +8,9 @@
 #include "ksyms.h"
 #include "kbd.h"
 #include "xmalloc.h"
+#ifdef __klibc__
+#include "klibc_compat.h"
+#endif
 
 extern int line_nr;
 int	yylval;
@@ -98,7 +101,7 @@ To                      to|To|TO
 \+			{return(PLUS);}
 {Unicode}		{yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal1("unicode keysym out of range: %s",yytext);return(UNUMBER);}
 {Decimal}|{Octal}|{Hex}	{yylval=strtol(yytext,NULL,0);return(NUMBER);}
-<RVALUE>{Literal}	{return((yylval=ksymtocode(yytext))==-1?ERROR:LITERAL);}
+<RVALUE>{Literal}	{return((yylval=ksymtocode(yytext, TO_AUTO))==-1?ERROR:LITERAL);}
 {Charset}		{return(CHARSET);}
 {Keymaps}		{return(KEYMAPS);}
 {Keycode}		{return(KEYCODE);}
@@ -122,8 +125,8 @@ To                      to|To|TO
 {On}			{return(ON);}
 {For}			{return(FOR);}
 '\\{Octa}'              {yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
-'\\.'                   {yylval = yytext[2]; return(CCHAR);}
-'.'                     {yylval = yytext[1]; return(CCHAR);}
+'\\.'                   {yylval = (unsigned char) yytext[2]; return(CCHAR);}
+'.'                     {yylval = (unsigned char) yytext[1]; return(CCHAR);}
 \"			{p=(char *) kbs_buf.kb_string;
 				pmax=p+sizeof(kbs_buf.kb_string)-1;
 				BEGIN(STR);}
