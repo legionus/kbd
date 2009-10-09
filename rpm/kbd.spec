@@ -1,6 +1,6 @@
 Name: kbd
 Serial: 0
-Version: 1.15
+Version: 1.15.1
 Release: alt1
 
 Group: Terminals
@@ -256,6 +256,9 @@ mkdir -p -- %buildroot/%_sysconfdir/sysconfig/console
 cd %buildroot/%_sysconfdir/sysconfig
 touch consolefont keyboard console/setterm
 
+# Set default font
+echo 'SYSFONT=UniCyrExt_8x16' > consolefont
+
 %triggerpostun -n %name-data -- console-data
 [ $2 = 0 ] || exit 0
 [ ! -d '%_libdir/%name' ] ||
@@ -351,6 +354,26 @@ done
 /bin/kbdrate
 
 %changelog
+* Fri Oct 09 2009 Alexey Gladkov <legion@altlinux.ru> 0:1.15.1-alt1
+- New release version (1.15.1).
+- Add default font (ALT#17171).
+- loadkeys: Auto-convert "traditional"/Unicode keysyms.
+- loadkeys: Support bidirectional conversion of keysyms.
+- loadkeys: Support Unicode compose tables.
+- showconsolefont: Print adequate space chars.
+- dumpkeys: Use U+... in "compose" lines if KDGKBDIACRUC is available.
+- Add support for Brl_dot9 and Brl_dot10.
+- Never handle plain ASCII characters as Unicode.
+- Enable UNUMBERs in compose definitions.
+- Keymaps:
+  + bg_pho-utf8 keycode 38 assignment fix.
+  + Add keymap for Colemak.
+  + Add keymap for German Intel based Macs.
+  + Add UK keymap for the Sun Type-6 keyboard.
+  + Add French keymap Dvorak.
+  + Add Kirghiz keymap.
+  + Add Tajik keymap.
+
 * Sun Mar 22 2009 Alexey Gladkov <legion@altlinux.ru> 0:1.15-alt1
 - New release version (1.15).
 - Fix build warnings.
