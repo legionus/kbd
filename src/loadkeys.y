@@ -68,7 +68,7 @@ static void killkey(int index, int table);
 static void compose(int diacr, int base, int res);
 static void do_constant(void);
 static void do_constant_key (int, u_short);
-static void loadkeys(char *console);
+static void loadkeys(char *console, int kbd_mode);
 static void mktable(void);
 static void bkeymap(void);
 static void strings_as_usual(void);
@@ -293,6 +293,7 @@ int optb = 0;
 int optd = 0;
 int optm = 0;
 int opts = 0;
+int optu = 0;
 int verbose = 0;
 int quiet = 0;
 int nocompose = 0;
@@ -316,7 +317,8 @@ main(int argc, char *argv[]) {
 	};
 	int c;
 	int fd;
-	int mode;
+	int kbd_mode;
+	int kd_mode;
 	char *console = NULL;
 
 	set_progname(argv[0]);
@@ -348,7 +350,7 @@ main(int argc, char *argv[]) {
 				opts = 1;
 				break;
 			case 'u':
-				prefer_unicode = 1;
+				optu = 1;
 				break;
 			case 'q':
 				quiet = 1;
@@ -364,16 +366,26 @@ main(int argc, char *argv[]) {
 		}
 	}
 
-	if (!optm && !prefer_unicode) {
-		/* no -u option: auto-enable it if console is in Unicode mode */
+	prefer_unicode = optu;
+	if (!optm) {
+		/* check whether the keyboard is in Unicode mode */
 		fd = getfd(NULL);
-		if (ioctl(fd, KDGKBMODE, &mode)) {
+		if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
 			perror("KDGKBMODE");
-			fprintf(stderr, _("loadkeys: error reading keyboard mode\n"));
+			fprintf(stderr, _("%s: error reading keyboard mode\n"), progname);
 			exit(1);
 		}
-		if (mode == K_UNICODE)
+
+		if (kbd_mode == K_UNICODE) {
 			prefer_unicode = 1;
+			/* reset -u option if keyboard is in K_UNICODE anyway */
+			optu = 0;
+		}
+		else if (optu && (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS)))
+			fprintf(stderr, _("%s: warning: loading Unicode keymap on non-Unicode console\n"
+					  "    (perhaps you want to do `kbd_mode -u'?)\n"),
+				progname);
+
 		close(fd);
 	}
 
@@ -402,14 +414,14 @@ main(int argc, char *argv[]) {
 		char ch = *e;
 		*e = '\0';
 		if (verbose) printf("%s\n", s);
-	        loadkeys(s);
+	        loadkeys(s, kbd_mode);
 		*e = ch;
 		s = e;
 	      }
 	    free(buf);
 	  }
 	else
-	  loadkeys(NULL);
+	  loadkeys(NULL, kbd_mode);
 	exit(0);
 }
 
@@ -847,10 +859,19 @@ compose(int diacr, int base, int res) {
 }
 
 static int
-defkeys(int fd) {
+defkeys(int fd, int kbd_mode) {
 	struct kbentry ke;
 	int ct = 0;
 	int i,j,fail;
+
+	if (optu) {
+		/* temporarily switch to K_UNICODE while defining keys */
+		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
+			perror("KDSKBMODE");
+			fprintf(stderr, _("%s: could not switch to Unicode mode\n"), progname);
+			exit(1);
+		}
+	}
 
 	for(i=0; i<MAX_NR_KEYMAPS; i++) {
 	    if (key_map[i]) {
@@ -915,6 +936,13 @@ defkeys(int fd) {
 		    }
 		}
 	    }
+	}
+
+	if (optu && ioctl(fd, KDSKBMODE, kbd_mode)) {
+		perror("KDSKBMODE");
+		fprintf(stderr, _("%s: could not return to original keyboard mode\n"),
+			progname);
+		exit(1);
 	}
 
 	return ct;
@@ -1074,12 +1102,12 @@ do_constant (void) {
 }
 
 static void
-loadkeys (char *console) {
+loadkeys (char *console, int kbd_mode) {
         int fd;
         int keyct, funcct, diacct = 0;
 
 	fd = getfd(console);
-	keyct = defkeys(fd);
+	keyct = defkeys(fd, kbd_mode);
 	funcct = deffuncs(fd);
 	if (verbose) {
 	        printf(_("\nChanged %d %s and %d %s.\n"),
