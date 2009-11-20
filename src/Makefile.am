@@ -1,12 +1,6 @@
-WERROR = -Werror
-
 WARNINGS = -Wall -Wextra -Wmissing-noreturn -Wdisabled-optimization \
 	-Wcast-align -Wshadow -Wmissing-format-attribute -Wmissing-prototypes \
 	-Wstrict-prototypes -Wmissing-declarations
-
-if ! KLIBC
-WARNINGS += $(WERROR)
-endif
 
 AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" $(WARNINGS) \
 	-funit-at-a-time
@@ -16,7 +10,7 @@ PROGS = \
 	dumpkeys loadkeys showkey setfont showconsolefont \
 	setleds setmetamode kbd_mode psfxtable fgconsole
 
-if ! KLIBC
+if !KLIBC
 PROGS += kbdrate chvt deallocvt openvt
 endif
 
@@ -31,7 +25,8 @@ endif
 if OPTIONAL_PROGS
 PROGS += \
 	setlogcons setvesablank getunimap clrunimap outpsfheader setpalette
-if ! KLIBC
+
+if !KLIBC
 PROGS += screendump spawn_console spawn_login
 endif
 endif
