@@ -1,14 +1,14 @@
 # Pesan bahasa indonesia untuk kbd.
 # Copyright (C) 2008 Arif E. Nugroho <arif_endro@yahoo.com>.
 # This file is distributed under the same license as the kbd package.
-# Arif E. Nugroho <arif_endro@yahoo.com>, 2008.
+# Arif E. Nugroho <arif_endro@yahoo.com>, 2008, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 1.15\n"
+"Project-Id-Version: kbd 1.15.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-09-21 15:30+0400\n"
-"PO-Revision-Date: 2008-11-30 17:00+0700\n"
+"PO-Revision-Date: 2009-11-22 21:00+0700\n"
 "Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "penggunaan: chvt N\n"
 #: src/deallocvt.c:33
 #, c-format
 msgid "%s: unknown option\n"
-msgstr "%s: opsi tidak diketahui\n"
+msgstr "%s: pilihan tidak diketahui\n"
 
 #: src/deallocvt.c:45
 #, c-format
@@ -181,9 +181,9 @@ msgid ""
 "\t-c --charset="
 msgstr ""
 "\n"
-"penggunaan: dumpkeys [opsi...]\n"
+"penggunaan: dumpkeys [pilihan...]\n"
 "\n"
-"opsi yang valid adalah:\n"
+"pilihan yang valid adalah:\n"
 "\n"
 "\t-h --help\t   tampilkan teks bantuan ini\n"
 "\t-i --short-info\t   tampilkan informasi mengenai driver papan ketik\n"
@@ -220,9 +220,9 @@ msgid ""
 msgstr ""
 "%s versi %s\n"
 "\n"
-"Penggunaan: %s [opsi]\n"
+"Penggunaan: %s [pilihan]\n"
 "\n"
-"Opsi valid adalah:\n"
+"Pilihan valid adalah:\n"
 "\n"
 "\t-h --help            tampilkan teks bantuan ini\n"
 "\t-V --version         tampilkan informasi versi\n"
@@ -411,7 +411,7 @@ msgid "too many key definitions on one line"
 msgstr "terlalu banyak definisi tombol dalam satu baris"
 
 #: loadkeys.y:271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -433,9 +433,9 @@ msgid ""
 msgstr ""
 "loadkeys version %s\n"
 "\n"
-"Penggunaan: loadkeys [opsi...] [berkas-peta...]\n"
+"Penggunaan: loadkeys [pilihan...] [berkas-peta...]\n"
 "\n"
-"Opsi valid adalah:\n"
+"Pilihan valid adalah:\n"
 "\n"
 "  -b --bkeymap       keluarkan sebuah peta-kunci binari ke stdout\n"
 "  -c --clearcompose  hapus tabel compose kernel\n"
@@ -444,14 +444,15 @@ msgstr ""
 "  -d --default       load \"%s\"\n"
 "  -h --help          tampilkan teks bantuan ini\n"
 "  -m --mktable       keluarkan sebuah \"defkeymap.c\" ke stdout\n"
+"  -q --quiet         tekan seluruh keluaran normal\n"
 "  -s --clearstrings  hapus tabel string kernel\n"
 "  -u --unicode       konversi implisit ke Unicode\n"
 "  -v --verbose       laporkan perubahan\n"
 
 #: loadkeys.y:372
-#, fuzzy, c-format
+#, c-format
 msgid "loadkeys: error reading keyboard mode\n"
-msgstr "kbd_mode: error membaca mode keyboard\n"
+msgstr "loadkeys: error membaca mode keyboard\n"
 
 #: loadkeys.y:383
 #, c-format
@@ -707,7 +708,7 @@ msgid ""
 "(if you insist: use option -f to override)\n"
 msgstr ""
 "%s: tidak meload unimap kosong\n"
-"(jika anda tetap memaksa: gunakan opsi -f untuk override)\n"
+"(jika anda tetap memaksa: gunakan pilihan -f untuk memaksa)\n"
 
 #: src/loadunimap.c:312
 msgid "entry"
@@ -785,7 +786,7 @@ msgstr "openvt: %s: nomor vt tidak legal\n"
 #: src/openvt.c:102
 #, c-format
 msgid "openvt: only root can use the -u flag.\n"
-msgstr "openvt: hanya root yang dapat menggunakan opsi -u.\n"
+msgstr "openvt: hanya root yang dapat menggunakan pilihan -u.\n"
 
 #: src/openvt.c:136
 #, c-format
@@ -1131,17 +1132,17 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Penggunaan: setfont [opsi-tulis] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
-"  opsi-tulis (mengambil tempat sebelum berkas meload):\n"
+"Penggunaan: setfont [pilihan-tulis] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"  pilihan-tulis (mengambil tempat sebelum berkas meload):\n"
 "    -o  <filename>  Tulis font sekarang ke <nama berkas>\n"
 "    -O  <filename>  Tulis font sekarang dan peta unicode ke <nama berkas>\n"
 "    -om <filename>  Tulis peta console sekarang ke <nama berkas>\n"
 "    -ou <filename>  Tulis peta unicode sekarang ke <nama berkas>\n"
-"Jika tidak ada newfont dan no -[o|O|om|ou|m|u] opsi yang diberikan,\n"
+"Jika tidak ada newfont dan no -[o|O|om|ou|m|u] pilihan yang diberikan,\n"
 "sebuah font baku diload:\n"
 "    setfont         Load font \"default[.gz]\"\n"
 "    setfont         Load font \"default8x<N>[.gz]\"\n"
-"Opsi -<N> memilih sebuah font dari sebuah kode halaman yang berisi tiga font:\n"
+"Pilihan -<N> memilih sebuah font dari sebuah kode halaman yang berisi tiga font:\n"
 "    setfont -{8|14|16} codepage.cp[.gz] Load 8x<n> font dari codepage.cp\n"
 "Secara eksplisit (dengan -m atau -u) atau secara implisit (dalam berkas font) diberikan pemetaan\n"
 "yang akan diload dan, dalam kasus consolemaps, diaktivasikan.\n"
@@ -1293,7 +1294,7 @@ msgid ""
 "using an option -8 or -14 or -16 which one you want loaded.\n"
 msgstr ""
 "File ini berisi 3 fonts: 8x8, 8x14, dan 8x16. Mohon indikasikan\n"
-"dengan menggunakan sebuah opsi -8 atau -14 atau -16 mana yang anda ingin load.\n"
+"dengan menggunakan sebuah pilihan -8 atau -14 atau -16 mana yang anda ingin load.\n"
 
 #: src/setfont.c:631
 #, c-format
@@ -1360,12 +1361,12 @@ msgstr ""
 "\tsetleds +caps -num\n"
 "akan menset CapsLock, menhapus NumLock dan meninggalkan ScrollLock tidak berubah.\n"
 "Konfigurasi sebelum dan setelah perubahan (jika ada) akan dilaporkan\n"
-"ketika opsi -v diberikan atau ketika tidak ada perubahan diminta.\n"
-"Secara normal, setleds mempengaruhi konfigurasi opsi vt\n"
+"ketika pilihan -v diberikan atau ketika tidak ada perubahan diminta.\n"
+"Secara normal, setleds mempengaruhi konfigurasi pilihan vt\n"
 "(dan ini biasanya terefleksi dalam leds).\n"
-"Dengan -L, setleds hanya menset leds, dan meninggalkan opsi sendiri.\n"
-"Dengan -D, setleds menset baik opsi dan opsi baku, jadi\n"
-"reset selanjutnya tidak akan mengubah opsi.\n"
+"Dengan -L, setleds hanya menset leds, dan meninggalkan pilihan sendiri.\n"
+"Dengan -D, setleds menset baik pilihan dan pilihan baku, jadi\n"
+"reset selanjutnya tidak akan mengubah pilihan.\n"
 
 #: src/setleds.c:43
 msgid "on "
@@ -1383,7 +1384,7 @@ msgstr "Error membaca konfigurasi led sekarang. Mungkin stdin bukan sebuah VT?\n
 #: src/setleds.c:105
 #, c-format
 msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Error membaca konfigurasi opsi sekarang. Mungkin anda tidak berada di konsole?\n"
+msgstr "Error membaca konfigurasi pilihan sekarang. Mungkin anda tidak berada di konsole?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1413,12 +1414,12 @@ msgstr "Error mereset mode led\n"
 #: src/setleds.c:219
 #, c-format
 msgid "Current default flags:  "
-msgstr "Opsi baku sekarang:  "
+msgstr "Pilihan baku sekarang:  "
 
 #: src/setleds.c:223
 #, c-format
 msgid "Current flags:          "
-msgstr "Opsi sekarang:          "
+msgstr "Pilihan sekarang:          "
 
 #: src/setleds.c:227
 #, c-format
@@ -1437,22 +1438,22 @@ msgstr ""
 #: src/setleds.c:272
 #, c-format
 msgid "Old default flags:    "
-msgstr "Opsi baku lama:       "
+msgstr "Pilihan baku lama:       "
 
 #: src/setleds.c:274
 #, c-format
 msgid "New default flags:    "
-msgstr "Opsi baku baru:       "
+msgstr "Pilihan baku baru:       "
 
 #: src/setleds.c:281
 #, c-format
 msgid "Old flags:            "
-msgstr "Opsi lama:            "
+msgstr "Pilihan lama:            "
 
 #: src/setleds.c:283
 #, c-format
 msgid "New flags:            "
-msgstr "Opsi baru:            "
+msgstr "Pilihan baru:            "
 
 #: src/setleds.c:297 src/setleds.c:306
 #, c-format
@@ -1550,7 +1551,7 @@ msgstr ""
 "            showconsolefont [-C tty] [-v] [-i]\n"
 "(mungkin setelah meload sebuah font dengan `setfont font')\n"
 "\n"
-"Opsi valid adalah:\n"
+"Pilihan valid adalah:\n"
 " -C tty   Perangkat untuk membaca font dari. Baku: tty sekarang.\n"
 " -v       Lebih verbose.\n"
 " -i       Jangan tampilkan tabel font, hanya perlihatkan\n"
@@ -1619,9 +1620,9 @@ msgid ""
 msgstr ""
 "showkeys versi %s\n"
 "\n"
-"penggunaan: showkeys [opsi...]\n"
+"penggunaan: showkeys [pilihan...]\n"
 "\n"
-"opsi valid adalah:\n"
+"pilihan valid adalah:\n"
 "\n"
 "\t-h --help\ttampilkan pesan bantuan ini\n"
 "\t-a --ascii\ttampilkan nilai desimal/oktal/heksa dari tombol\n"
