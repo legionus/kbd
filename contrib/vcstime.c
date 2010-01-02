@@ -20,10 +20,11 @@ number_of_columns() {
     int fda;
     unsigned char rc[2];	/* unsigned: Ranty@soon.com */
 
-    if((fda = open("/dev/vcsa0", O_RDONLY)) < 0)
-	fatal("/dev/vcsa0");
+    if((fda = open("/dev/vcsa", O_RDONLY)) < 0
+	    && (fda = open("/dev/vcsa0", O_RDONLY)) < 0)
+	fatal("/dev/vcsa");
     if(read(fda, rc, 2) != 2)
-	fatal("/dev/vcsa0");
+	fatal("/dev/vcsa");
     close(fda);
     return rc[1];
 }
@@ -36,8 +37,9 @@ main(){
     struct tm *t;
     char tijd[10];
 
-    if((fd = open("/dev/vcs0", O_WRONLY)) < 0)
-	fatal("/dev/vcs0");
+    if((fd = open("/dev/vcs", O_WRONLY)) < 0
+	    && (fd = open("/dev/vcs0", O_WRONLY)) < 0)
+	fatal("/dev/vcs");
 
     while(1) {
 	lseek(fd, cols-10, 0);
