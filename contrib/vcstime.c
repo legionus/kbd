@@ -5,6 +5,7 @@
  * aeb, 951202, following a suggestion by Miguel de Icaza.
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
