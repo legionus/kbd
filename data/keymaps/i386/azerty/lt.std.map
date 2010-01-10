@@ -1,0 +1,167 @@
+# Lithuanian standard keymap
+# Created by Gediminas Paulauskas <menesis@delfi.lt>
+# Re-encoded for UTF-8 by Rimas Kudelis <rq@akl.lt>
+# The standard can be found at http://ims.mii.lt/klav/ 
+#
+#  ____                                          ________ _________ _______
+# | S A| S = Shift,  A = altgr + Shift          | Spausd | Slinkti | Pauzė |
+# | s a| s = normal, a = altgr                  |  SysRq |         |       |
+#  ====                                          ======== ========= =======
+#  ____ ____ ____ ____ ____ ____ ____  ____ ____ ____ ____ ____ ____ _______
+# | ~  | 1  | 2  | 3  | 4  | 5  | 6  ¦| 7  | 8  | 9  | 0  | +  | X  | <--  |
+# | `  | ! @| - _| / #| ; $| : §| , ^|| . &| = *| ( [| ) ]| ? '|   %|      |
+#  ========================================================================
+# | |<-  | Ą  | Ž  | E  | R  | T  | Y  | U  | I  | O  | P  | Į  | W  |   , |
+# |  ->| |    |    |   €|    |    |    |    |    |    |    |   {|   }| <-' |
+#  ===================================================================¬    |
+# |       | A  | S  | D  | Š  | G  | H  | J  | K  | L  | Ų  | Ė  | Q  |    |
+# | Didž  |    |    |    |    |    |    |    |    |    |    |   "|   ||    |
+#  ========================================================================
+# | ^      | >  | Z  | Ū  | C  | V  | B  | N  | M  | Č  | F  | Ę  | ^      |
+# | | Lyg2 | < -|   <|   >|   -|    |    |    |    |   „|   “|   \| | Lyg2 |
+#  ========================================================================
+# |      |      |      |                       |       |      |     |      |
+# | Vald |      | Alt  | Tarpas  Jungiamasis t.| Lyg 3 |      |     | Vald |
+#  ====== ====== ====== ======================= ======= ====== ===== ======
+
+keymaps 0-2,4,8,12
+include "azerty-layout"
+strings as usual
+
+# If you want to have right Alt as normal Alt, and have Win keys to act as
+# AltGr (for typing 3rd level characters), uncomment the following lines:
+
+# keycode 100 = Alt
+# keycode 125 = AltGr
+# keycode 126 = AltGr
+
+# -- Row 1 -----------------------------------------------------------------
+#  [Esc] [F1][F2][F3] [F4][F5][F6][F7] [F8][F9][F10][F11][F12] [PS][Sc][Pu]
+# --------------------------------------------------------------------------
+
+		keycode   1 = Escape
+alt		keycode   1 = Meta_Escape
+	        
+# -- Row 2 -----------------------------------------------------------------
+# [`~][1!@][2-_][3/#][4;$][5:][6,^][7.&][8=*][9([][0)]][+?'][=+][X%][Backspace]
+# --------------------------------------------------------------------------
+
+		keycode  41 = grave	asciitilde
+alt		keycode  41 = Meta_grave
+		
+		keycode   2 = exclam	one	at
+alt		keycode   2 = Meta_one
+
+		keycode   3 = minus	two	underscore
+control		keycode   3 = Control_underscore
+alt		keycode   3 = Meta_two
+
+		keycode   4 = slash	three	numbersign
+alt		keycode   4 = Meta_three
+
+		keycode   5 = semicolon	four	dollar
+alt		keycode   5 = Meta_four
+
+		keycode   6 = colon	five 	section
+alt		keycode   6 = Meta_five 
+
+		keycode   7 = comma	six  	asciicircum	
+alt		keycode   7 = Meta_six  
+control		keycode  11 = Control_asciicircum
+
+		keycode   8 = period	seven	ampersand
+alt		keycode   8 = Meta_seven
+
+		keycode   9 = equal	eight	asterisk
+alt		keycode   9 = Meta_eight
+
+		keycode  10 = parenleft	nine	bracketleft
+alt		keycode  10 = Meta_nine
+
+		keycode  11 = parenright	zero	bracketright
+alt		keycode  11 = Meta_zero
+control		keycode  11 = Control_bracketright
+
+		keycode  12 = question		plus	apostrophe
+alt		keycode  12 = Meta_question
+
+		keycode  13 = +x	+X	percent
+alt		keycode  13 = Meta_x
+control		keycode  13 = Control_x
+
+		keycode  14 = Delete
+alt		keycode  14 = Meta_Delete
+
+# -- Row 3 -----------------------------------------------------------------
+#  [Tab][Ą][Ž][E€][R][T][Y][U][I][O][P][Į{][W}][Enter]
+# --------------------------------------------------------------------------
+
+		keycode  15 = Tab
+alt		keycode  15 = Meta_Tab
+
+		keycode  16 = U+0105	U+0104
+		keycode  17 = U+017e	U+017d
+		keycode  18 = +e	+E	U+20ac
+control		keycode  18 = Control_e
+altgr		keycode  19 = nul
+altgr		keycode  20 = nul
+altgr		keycode  21 = nul
+altgr		keycode  22 = nul
+		
+		keycode  26 = U+012f	U+012e	braceleft
+control		keycode  26 = Escape
+alt		keycode  26 = Meta_bracketleft
+
+		keycode  27 = +w	+W	braceright
+control		keycode  27 = Control_w
+
+# -- Row 4 -----------------------------------------------------------------
+#  [CapsLock][A][S][D][Š][G][H][J][K][L][Ų][Ė"][Enter]
+# --------------------------------------------------------------------------
+
+		keycode  58 = Caps_Lock
+
+		keycode  30 = a
+		keycode  33 = U+0161	U+0160
+		
+		keycode  39 = U+0173	U+0172
+		keycode  40 = U+0117	U+0116	quotedbl
+
+		keycode  43 = +q	+Q	bar
+control		keycode  43 = Control_q
+
+# -- Row 5 -----------------------------------------------------------------
+#  [LShift][<>-][Z<][Ū>][C-][V][B][N][M][Č„][F“][Ę\][RShift]
+# --------------------------------------------------------------------------
+
+		keycode  42 = Shift
+		
+		keycode  86 = less	greater	minus
+		keycode  44 = +z	+Z	less
+control		keycode  44 = Control_z
+		keycode  45 = U+016b	U+016a	greater
+		keycode  46 = +c	+C	minus
+control		keycode  46 = Control_c
+
+		keycode  51 = U+010d	U+010c	U+201e
+		
+		keycode  52 = +f	+F	U+201c
+control		keycode  52 = Control_f
+		
+		keycode  53 = U+0119	U+0118	backslash
+control		keycode  53 = Control_backslash
+		
+		keycode  54 = Shift
+
+# -- Row 6 -----------------------------------------------------------------
+#  [LCtrl] [Lalt][Space][Ralt] [RCtrl]
+# --------------------------------------------------------------------------
+
+		keycode  29 = Control
+		keycode  56 = Alt
+		
+		keycode  57 = space
+altgr		keycode  57 = nobreakspace
+alt		keycode  57 = Meta_space
+		
+		keycode  97 = Control
