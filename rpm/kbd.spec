@@ -1,6 +1,6 @@
 Name: kbd
 Serial: 0
-Version: 1.15.1
+Version: 1.15.2
 Release: alt1
 
 Group: Terminals
@@ -38,7 +38,7 @@ Patch23: man_pages.diff
 Patch100: kbd-1.12-alt-unicode_start_vs_setfont.patch
 
 # Automatically added by buildreq on Mon Jan 07 2008 (-bi)
-BuildRequires: flex libpam-devel
+BuildRequires: flex libpam-devel cvs
 
 %description
 This package contains tools for managing the Linux console
@@ -155,7 +155,7 @@ This package contains usermode bindings for kbdrate.
 %patch100 -p1 -b .unicode_start_vs_setfont
 
 %build
-%autoreconf
+%autoreconf -I m4
 %configure \
 	--bindir=/bin \
 	--datadir=/lib/%name \
@@ -354,6 +354,19 @@ done
 /bin/kbdrate
 
 %changelog
+* Wed Apr 07 2010 Alexey Gladkov <legion@altlinux.ru> 0:1.15.2-alt1
+- New release version (1.15.2).
+- Use automake to build translations.
+- Fix colemak installation.
+- psffontop: Fix possible alignment issues, wrt -Wcast-align.
+- vcstime: Fix build warning.
+- loadkeys -u: Switch to Unicode mode, if necessary (Michael Schutte).
+- Use either /dev/vcs[a] or /dev/vcs[a]0 (Michael Schutte)
+- Keymaps:
+  + Add "mobii" specific keymap (Richard Zidlicky).
+- Fonts:
+  + Add georgian font.
+
 * Fri Oct 09 2009 Alexey Gladkov <legion@altlinux.ru> 0:1.15.1-alt1
 - New release version (1.15.1).
 - Add default font (ALT#17171).
