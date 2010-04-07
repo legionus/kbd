@@ -160,9 +160,21 @@ The
 .I -u
 (or
 .IR --unicode )
-switch tells
+switch forces
 .B loadkeys
-to bypass the check and assume that the console is in Unicode mode.
+to convert all keymaps to Unicode.  If the keyboard is in a
+non-Unicode mode, such as XLATE,
+.B loadkeys
+will change it to Unicode for the time of its execution.  A
+warning message will be printed in this case.
+.LP
+It is recommended to run
+.BR kbd_mode (1)
+before
+.B loadkeys
+instead of using the
+.I -u
+option.
 .SH "OTHER OPTIONS"
 .TP
 .B \-h \-\-help

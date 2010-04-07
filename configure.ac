@@ -1,13 +1,16 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
+AC_INIT(kbd, 1.15.2, gladkov.alexey@gmail.com)
 
 AC_PREREQ(2.60)
-AC_INIT(kbd, 1.15.1, gladkov.alexey@gmail.com)
-AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/showkey.c])
+
+AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_MACRO_DIR([m4])
+
+AM_INIT_AUTOMAKE([check-news -Wall foreign 1.9])
+AC_CONFIG_SRCDIR([src/loadkeys.y])
 AC_CONFIG_HEADERS(config.h)
 
-m4_include(m4/klibc.m4)
 AC_CHECK_KLIBC
 
 # Checks for programs.
@@ -20,6 +23,10 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_CANONICAL_HOST
+
+AM_GNU_GETTEXT_VERSION([0.14.1])
+AM_GNU_GETTEXT([external])
+ALL_LINGUAS=`cd $srcdir/po > /dev/null && echo *.po | sed 's/\.po//g'`
 
 # Checks for libraries.
 
@@ -64,27 +71,6 @@ AC_ARG_ENABLE(optional-progs,
 	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])
 AM_CONDITIONAL(OPTIONAL_PROGS, test "$OPTIONAL_PROGS" = "yes")
 
-# For lib/nls.h: do we have <libintl.h> and gettext() ?
-AC_ARG_ENABLE(nls, AS_HELP_STRING(--enable-nls, [NLS support]),
-	[enable_nls=$enableval], [enable_nls=no])
-
-if test "$enable_nls" = "yes"; then
-	AC_DEFINE(ENABLE_NLS, 1, [Enable Native Language Support])
-fi
-
-# Does xgettext exist and take the option --foreign-user?
-FOREIGN=
-HAVE_XGETTEXT=no
-if (test "$enable_nls" = "yes" && type xgettext > /dev/null 2>&1); then
-	msg=`xgettext --foreign-user 2>&1 | grep unrecognized`
-	if test -z "$msg"; then
-		FOREIGN="--foreign-user"
-	fi
-	HAVE_XGETTEXT=yes
-fi
-AC_SUBST(FOREIGN)
-AC_SUBST(HAVE_XGETTEXT)
-
 AC_CONFIG_FILES([Makefile
 		data/Makefile
 		man/Makefile
@@ -98,6 +84,6 @@ AC_CONFIG_FILES([Makefile
 		man/man8/mapscrn.8
 		man/man8/setfont.8
 		man/man8misc/Makefile
-		po/Makefile
+		po/Makefile.in
 		src/Makefile])
 AC_OUTPUT
