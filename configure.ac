@@ -7,7 +7,7 @@ AC_PREREQ(2.60)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([check-news -Wall foreign 1.9])
+AM_INIT_AUTOMAKE([1.9 -Wall])
 AC_CONFIG_SRCDIR([src/loadkeys.y])
 AC_CONFIG_HEADERS(config.h)
 
