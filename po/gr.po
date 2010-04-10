@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.08\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-21 15:30+0400\n"
+"Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
+"POT-Creation-Date: 2010-04-11 01:15+0400\n"
 "PO-Revision-Date: 2003-02-16 20:56+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -434,203 +434,217 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:372
+#: loadkeys.y:375
 #, fuzzy, c-format
-msgid "loadkeys: error reading keyboard mode\n"
-msgstr "kbd_mode: σφάλμα ανάγνωσης καταστάσεως πληκτρολογίου\n"
+msgid "%s: error reading keyboard mode\n"
+msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
 
-#: loadkeys.y:383
+#: loadkeys.y:385
+#, c-format
+msgid ""
+"%s: warning: loading Unicode keymap on non-Unicode console\n"
+"    (perhaps you want to do `kbd_mode -u'?)\n"
+msgstr ""
+
+#: loadkeys.y:395
 #, fuzzy, c-format
 msgid "syntax error in map file\n"
 msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
 
-#: loadkeys.y:385
+#: loadkeys.y:397
 #, c-format
 msgid "key bindings not changed\n"
 msgstr ""
 
-#: loadkeys.y:462
+#: loadkeys.y:474
 msgid "includes are nested too deeply"
 msgstr ""
 
-#. start reading include file
-#: loadkeys.y:617
+#: loadkeys.y:629
 #, c-format
 msgid "switching to %s\n"
 msgstr ""
 
-#: loadkeys.y:623
+#: loadkeys.y:635
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
 
-#: loadkeys.y:670
+#: loadkeys.y:682
 #, fuzzy, c-format
 msgid "Cannot find %s\n"
 msgstr "Αδυνατώ να βρω τη γραμματοσειρά %s\n"
 
-#: loadkeys.y:683
+#: loadkeys.y:695
 #, fuzzy, c-format
 msgid "cannot open file %s\n"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
 
-#: loadkeys.y:694
+#: loadkeys.y:706
 #, fuzzy, c-format
 msgid "Loading %s\n"
 msgstr "Σφάλμα ανάγνωσης %s\n"
 
-#: loadkeys.y:706
+#: loadkeys.y:718
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:710
+#: loadkeys.y:722
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: loadkeys.y:724
+#: loadkeys.y:736
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:726
+#: loadkeys.y:738
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr ""
 
-#. is safer not to be silent in this case,
-#. * it can be caused by coding errors as well.
-#: loadkeys.y:740
+#: loadkeys.y:752
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr ""
 
-#: loadkeys.y:742
+#: loadkeys.y:754
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:744
+#: loadkeys.y:756
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:785
+#: loadkeys.y:797
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr ""
 
-#: loadkeys.y:813
+#: loadkeys.y:825
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr ""
 
-#: loadkeys.y:840
+#: loadkeys.y:852
 #, c-format
 msgid "compose table overflow\n"
 msgstr ""
 
-#: loadkeys.y:867
+#: loadkeys.y:871
+#, fuzzy, c-format
+msgid "%s: could not switch to Unicode mode\n"
+msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
+
+#: loadkeys.y:888
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr ""
 
-#: loadkeys.y:875
+#: loadkeys.y:896
 #, fuzzy, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "κωδικός πλήκτρου %3d %s\n"
 
-#: loadkeys.y:876
+#: loadkeys.y:897
 msgid "    FAILED"
 msgstr ""
 
-#: loadkeys.y:879
+#: loadkeys.y:900
 #, fuzzy, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
 
-#: loadkeys.y:890
+#: loadkeys.y:911
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:896
+#: loadkeys.y:917
 #, fuzzy, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: loadkeys.y:911
+#: loadkeys.y:932
 #, fuzzy, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: loadkeys.y:960
+#: loadkeys.y:943
+#, fuzzy, c-format
+msgid "%s: could not return to original keyboard mode\n"
+msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
+
+#: loadkeys.y:988
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
 
-#: loadkeys.y:967
+#: loadkeys.y:995
 #, fuzzy, c-format
 msgid "failed to clear string %s\n"
 msgstr "αποτυχία αποκατάστασης αρχικού unimap\n"
 
-#: loadkeys.y:987
+#: loadkeys.y:1015
 #, fuzzy, c-format
 msgid "too many compose definitions\n"
 msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
 
-#: loadkeys.y:1069
+#: loadkeys.y:1097
 msgid "impossible error in do_constant"
 msgstr ""
 
-#: loadkeys.y:1085
+#: loadkeys.y:1113
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "key"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "keys"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "string"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "strings"
 msgstr ""
 
-#: loadkeys.y:1092
+#: loadkeys.y:1120
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definition"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definitions"
 msgstr ""
 
-#: loadkeys.y:1098
+#: loadkeys.y:1126
 #, fuzzy, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
 
-#: loadkeys.y:1130
+#: loadkeys.y:1158
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr ""
 
-#: loadkeys.y:1362 src/mapscrn.c:278 src/mapscrn.c:283
+#: loadkeys.y:1390 src/mapscrn.c:278 src/mapscrn.c:283
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
@@ -862,82 +876,82 @@ msgstr ""
 msgid "Couldn't find owner of current tty!\n"
 msgstr ""
 
-#: src/psffontop.c:72
+#: src/psffontop.c:73
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s: λειψός πίνακας unicode usc2\n"
 
-#: src/psffontop.c:93
+#: src/psffontop.c:94
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s: λειψός πίνακας utf8 unicode\n"
 
-#: src/psffontop.c:96
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s: εσφαλμένο utf8\n"
 
-#: src/psffontop.c:99
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s: άγνωστο σφάλμα utf8\n"
 
-#: src/psffontop.c:129
+#: src/psffontop.c:130
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s: λειψός πίνακας unicode\n"
 
-#: src/psffontop.c:209
+#: src/psffontop.c:210
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s: Σφάλμα κατά την ανάγνωση της γραμματοσειράς"
 
-#: src/psffontop.c:223
+#: src/psffontop.c:224
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s: Εσφαλμένη κλήση της readpsffont\n"
 
-#: src/psffontop.c:238
+#: src/psffontop.c:239
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s: Μη υποστηριζόμενη κατάσταση αρχείου psf (%d)\n"
 
-#: src/psffontop.c:256
+#: src/psffontop.c:257
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s: Μή υποστηριζόμενη έκδοση psf (%d)\n"
 
-#: src/psffontop.c:272
+#: src/psffontop.c:273
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s: μηδέν μήκος γραμματοσειράς εισόδου;\n"
 
-#: src/psffontop.c:277
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s: μηδέν μέγεθος χαρακτήρα εισόδου;\n"
 
-#: src/psffontop.c:283
+#: src/psffontop.c:284
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s: Αρχείο εισόδου: εσφαλμένο μήκος εισόδου (%d)\n"
 
-#: src/psffontop.c:315
+#: src/psffontop.c:316
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s: Αρχείο εισόδου: σκουπίδια στο τέλος\n"
 
-#: src/psffontop.c:353
+#: src/psffontop.c:354
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode: παράτυπο unicode %u\n"
 
-#: src/psffontop.c:446
+#: src/psffontop.c:447
 #, c-format
 msgid "Cannot write font file header"
 msgstr "Αδυναμία εγγραφής της επικεφαλίδας του αρχείου γραμματοσειράς"
 
-#: src/psffontop.c:472 src/setfont.c:680
+#: src/psffontop.c:473 src/setfont.c:680
 #, c-format
 msgid "Cannot write font file"
 msgstr "Δε μπορώ να γράψω στο αρχείο της γραμματοσειράς"
@@ -1089,9 +1103,6 @@ msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr ""
 "αδυναμία ανάγνωσης του %s, και δε μπορώ να το εμφανίσω με την ioctl()\n"
 
-#. we tried this just to be sure, but TIOCLINUX
-#. function 0 has been disabled since 1.1.92
-#. Do not mention `ioctl dump' in error msg
 #: src/screendump.c:133
 #, c-format
 msgid "couldn't read %s\n"
@@ -1286,12 +1297,6 @@ msgstr "Δεν υπάρχει τελική νέα γραμμή στο συνδι
 msgid "Too many files to combine\n"
 msgstr "Πάρα πολλά αρχεία για συνδιασμό\n"
 
-#. restorefont -w writes a SVGA font to file
-#. restorefont -r restores it
-#. These fonts have size 32768, for two 512-char fonts.
-#. In fact, when BROKEN_GRAPHICS_PROGRAMS is defined,
-#. and it always is, there is no default font that is saved,
-#. so probably the second half is always garbage.
 #: src/setfont.c:579
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
@@ -1677,6 +1682,10 @@ msgstr "κωδικός πλήκτρου %3d %s\n"
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s από %s\n"
+
+#, fuzzy
+#~ msgid "loadkeys: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: σφάλμα ανάγνωσης καταστάσεως πληκτρολογίου\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "συν πριν το %s αγνοήθηκε\n"

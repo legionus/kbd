@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.14.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-21 15:30+0400\n"
+"Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
+"POT-Creation-Date: 2010-04-11 01:15+0400\n"
 "PO-Revision-Date: 2008-04-06 13:50+0200\n"
 "Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -431,203 +431,217 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:372
+#: loadkeys.y:375
 #, fuzzy, c-format
-msgid "loadkeys: error reading keyboard mode\n"
-msgstr "kbd_mode: chyba při čtení režimu klávesnice\n"
+msgid "%s: error reading keyboard mode\n"
+msgstr "%s: chyba při nastavování režimu klávesnice\n"
 
-#: loadkeys.y:383
+#: loadkeys.y:385
+#, c-format
+msgid ""
+"%s: warning: loading Unicode keymap on non-Unicode console\n"
+"    (perhaps you want to do `kbd_mode -u'?)\n"
+msgstr ""
+
+#: loadkeys.y:395
 #, fuzzy, c-format
 msgid "syntax error in map file\n"
 msgstr "Chyba při zápisu mapy do souboru\n"
 
-#: loadkeys.y:385
+#: loadkeys.y:397
 #, c-format
 msgid "key bindings not changed\n"
 msgstr ""
 
-#: loadkeys.y:462
+#: loadkeys.y:474
 msgid "includes are nested too deeply"
 msgstr ""
 
-#. start reading include file
-#: loadkeys.y:617
+#: loadkeys.y:629
 #, c-format
 msgid "switching to %s\n"
 msgstr ""
 
-#: loadkeys.y:623
+#: loadkeys.y:635
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "Nemohu otevřít soubor písma %s\n"
 
-#: loadkeys.y:670
+#: loadkeys.y:682
 #, fuzzy, c-format
 msgid "Cannot find %s\n"
 msgstr "Nemohu najít písmo %s\n"
 
-#: loadkeys.y:683
+#: loadkeys.y:695
 #, fuzzy, c-format
 msgid "cannot open file %s\n"
 msgstr "Nemohu otevřít soubor písma %s\n"
 
-#: loadkeys.y:694
+#: loadkeys.y:706
 #, fuzzy, c-format
 msgid "Loading %s\n"
 msgstr "Chyba při čtení %s\n"
 
-#: loadkeys.y:706
+#: loadkeys.y:718
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:710
+#: loadkeys.y:722
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: loadkeys.y:724
+#: loadkeys.y:736
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:726
+#: loadkeys.y:738
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr ""
 
-#. is safer not to be silent in this case,
-#. * it can be caused by coding errors as well.
-#: loadkeys.y:740
+#: loadkeys.y:752
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr ""
 
-#: loadkeys.y:742
+#: loadkeys.y:754
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:744
+#: loadkeys.y:756
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:785
+#: loadkeys.y:797
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr ""
 
-#: loadkeys.y:813
+#: loadkeys.y:825
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr ""
 
-#: loadkeys.y:840
+#: loadkeys.y:852
 #, c-format
 msgid "compose table overflow\n"
 msgstr ""
 
-#: loadkeys.y:867
+#: loadkeys.y:871
+#, fuzzy, c-format
+msgid "%s: could not switch to Unicode mode\n"
+msgstr "%s: nemohu dealokovat konzolu %d\n"
+
+#: loadkeys.y:888
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr ""
 
-#: loadkeys.y:875
+#: loadkeys.y:896
 #, fuzzy, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "kód klávesy %3d %s\n"
 
-#: loadkeys.y:876
+#: loadkeys.y:897
 msgid "    FAILED"
 msgstr ""
 
-#: loadkeys.y:879
+#: loadkeys.y:900
 #, fuzzy, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "nemohu nastavit scankód %x na kód klávesy %d\n"
 
-#: loadkeys.y:890
+#: loadkeys.y:911
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:896
+#: loadkeys.y:917
 #, fuzzy, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr "%s: nemohu dealokovat konzolu %d\n"
 
-#: loadkeys.y:911
+#: loadkeys.y:932
 #, fuzzy, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s: nemohu dealokovat konzolu %d\n"
 
-#: loadkeys.y:960
+#: loadkeys.y:943
+#, fuzzy, c-format
+msgid "%s: could not return to original keyboard mode\n"
+msgstr "%s: chyba při nastavování režimu klávesnice\n"
+
+#: loadkeys.y:988
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
 
-#: loadkeys.y:967
+#: loadkeys.y:995
 #, fuzzy, c-format
 msgid "failed to clear string %s\n"
 msgstr "nemohu obnovit původní unimap\n"
 
-#: loadkeys.y:987
+#: loadkeys.y:1015
 #, fuzzy, c-format
 msgid "too many compose definitions\n"
 msgstr "maximální počet definic compose: %d\n"
 
-#: loadkeys.y:1069
+#: loadkeys.y:1097
 msgid "impossible error in do_constant"
 msgstr ""
 
-#: loadkeys.y:1085
+#: loadkeys.y:1113
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "key"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "keys"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "string"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "strings"
 msgstr ""
 
-#: loadkeys.y:1092
+#: loadkeys.y:1120
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definition"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definitions"
 msgstr ""
 
-#: loadkeys.y:1098
+#: loadkeys.y:1126
 #, fuzzy, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr "maximální počet definic compose: %d\n"
 
-#: loadkeys.y:1130
+#: loadkeys.y:1158
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr ""
 
-#: loadkeys.y:1362 src/mapscrn.c:278 src/mapscrn.c:283
+#: loadkeys.y:1390 src/mapscrn.c:278 src/mapscrn.c:283
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Chyba při zápisu mapy do souboru\n"
@@ -663,8 +677,12 @@ msgstr "%s: Špatný rozsah Unicode odpovídající rozsahu pozic písma 0x%x-0x
 
 #: src/loadunimap.c:239 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Rozsah Unicode U+%x-U+%x není stejné délky jako rozsah pozic písma 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%"
+"x-0x%x\n"
+msgstr ""
+"%s: Rozsah Unicode U+%x-U+%x není stejné délky jako rozsah pozic písma 0x%x-"
+"0x%x\n"
 
 #: src/loadunimap.c:258 src/psfxtable.c:203
 #, c-format
@@ -840,7 +858,8 @@ msgstr "openvt: nemohu dealokovat konzolu %d\n"
 
 #: src/openvt.c:336
 #, c-format
-msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+msgid ""
+"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
 msgstr ""
 
 #: src/openvt.c:416
@@ -848,82 +867,82 @@ msgstr ""
 msgid "Couldn't find owner of current tty!\n"
 msgstr ""
 
-#: src/psffontop.c:72
+#: src/psffontop.c:73
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s: krátká tabulka unicode ucs2\n"
 
-#: src/psffontop.c:93
+#: src/psffontop.c:94
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s: krátká tabulka unicode utf8\n"
 
-#: src/psffontop.c:96
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s: špatné utf8\n"
 
-#: src/psffontop.c:99
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s: neznámá chyba utf8\n"
 
-#: src/psffontop.c:129
+#: src/psffontop.c:130
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s: krátká tabulka unicode\n"
 
-#: src/psffontop.c:209
+#: src/psffontop.c:210
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s: Chyba při čtení vstupního písma"
 
-#: src/psffontop.c:223
+#: src/psffontop.c:224
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s: Špatné volání readpsffont\n"
 
-#: src/psffontop.c:238
+#: src/psffontop.c:239
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s: Nepodporovaný režim souboru psf (%d)\n"
 
-#: src/psffontop.c:256
+#: src/psffontop.c:257
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s: Nepodporovaná verze psf (%d)\n"
 
-#: src/psffontop.c:272
+#: src/psffontop.c:273
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s: nulová délka vstupního písma?\n"
 
-#: src/psffontop.c:277
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s: nulová velikost vstupního znaku?\n"
 
-#: src/psffontop.c:283
+#: src/psffontop.c:284
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s: Vstupní soubor: špatná délka vstupu (%d)\n"
 
-#: src/psffontop.c:315
+#: src/psffontop.c:316
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s: Vstupní soubor: smetí na konci\n"
 
-#: src/psffontop.c:353
+#: src/psffontop.c:354
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode: neplatné unicode %u\n"
 
-#: src/psffontop.c:446
+#: src/psffontop.c:447
 #, c-format
 msgid "Cannot write font file header"
 msgstr "Nemohu zapsat hlavičku souboru písma"
 
-#: src/psffontop.c:472 src/setfont.c:680
+#: src/psffontop.c:473 src/setfont.c:680
 #, c-format
 msgid "Cannot write font file"
 msgstr "Nemohu zapsat soubor písma"
@@ -950,7 +969,9 @@ msgstr "%s: Špatný konec rozsahu (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr "%s: Měl by existovat rozsah Unicode odpovídající rozsahu pozic písma\n"
 
 #: src/psfxtable.c:258
@@ -1032,19 +1053,23 @@ msgstr "resizecons: příkaz `%s' selhal\n"
 
 #: src/resizecons.c:326
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: nezapomeňte změnit TERM (možná na con%dx%d nebo linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: nezapomeňte změnit TERM (možná na con%dx%d nebo linux-%dx%d)\n"
 
 #: src/resizecons.c:339
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "volání je:  resizecons SLOUPCŮxŘÁDKŮ  nebo:  resizecons SLOUPCŮ ŘÁDKŮ\n"
-"nebo: resizecons -lines ŘÁDKŮ, ke ŘÁDKŮ je jedno z 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"nebo: resizecons -lines ŘÁDKŮ, ke ŘÁDKŮ je jedno z 25, 28, 30, 34, 36, 40, "
+"44, 50, 60\n"
 
 #: src/resizecons.c:377
 #, c-format
@@ -1066,9 +1091,6 @@ msgstr "Chyba při čtení %s\n"
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "nemohu načíst %s a nemohu ioctl dump\n"
 
-#. we tried this just to be sure, but TIOCLINUX
-#. function 0 has been disabled since 1.1.92
-#. Do not mention `ioctl dump' in error msg
 #: src/screendump.c:133
 #, c-format
 msgid "couldn't read %s\n"
@@ -1087,7 +1109,8 @@ msgstr "Chyba při zápisu zachycení obrazovky\n"
 #: src/setfont.c:76
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1111,10 +1134,12 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Použití: setfont [přep-z] [-<N>] [novépísmo..] [-m mapakonzoly] [-u mapaunicode]\n"
+"Použití: setfont [přep-z] [-<N>] [novépísmo..] [-m mapakonzoly] [-u "
+"mapaunicode]\n"
 "  přep-z (mají vliv před načítáním souboru):\n"
 "    -o  <názevsouboru>\tZapsat aktuální písmo do <názevsouboru>\n"
-"    -O  <názevsouboru>\tZapsat aktuální písmo a mapu unicode do <názevsouboru>\n"
+"    -O  <názevsouboru>\tZapsat aktuální písmo a mapu unicode do "
+"<názevsouboru>\n"
 "    -om <názevsouboru>\tZapsat aktuální mapu konzoly do <názevsouboru>\n"
 "    -ou <názevsouboru>\tZapsat aktuální mapu unicode do <názevsouboru>\n"
 "Není-li zadáno novépísmo ani přepínač -[o|O|om|ou|m|u],\n"
@@ -1123,7 +1148,8 @@ msgstr ""
 "    setfont -<N>        Načíst písmo \"default8x<N>[.gz]\"\n"
 "Přepínač -<N> vybírá písmo z codepage, která obsahuje tři písma:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Načíst písmo 8×<N> z codepage.cp\n"
-"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná mapování\n"
+"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná "
+"mapování\n"
 "budou načtena a v případě map konzoly aktivována.\n"
 "    -h<N>       (bez mezery) Vnutit výšku písma.\n"
 "    -m <fn>     Načíst mapu obrazovky konzoly.\n"
@@ -1142,8 +1168,12 @@ msgstr "setfont: příliš mnoho vstupních souborů\n"
 
 #: src/setfont.c:188
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: nemohu zároveň obnovovat z ROM znaků a ze souboru. Písmo nezměněno.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: nemohu zároveň obnovovat z ROM znaků a ze souboru. Písmo "
+"nezměněno.\n"
 
 #: src/setfont.c:262
 #, c-format
@@ -1250,12 +1280,6 @@ msgstr "Chybí koncový konec řádku v souboru combine\n"
 msgid "Too many files to combine\n"
 msgstr "Příliš mnoho souborů pro kombinování\n"
 
-#. restorefont -w writes a SVGA font to file
-#. restorefont -r restores it
-#. These fonts have size 32768, for two 512-char fonts.
-#. In fact, when BROKEN_GRAPHICS_PROGRAMS is defined,
-#. and it always is, there is no default font that is saved,
-#. so probably the second half is always garbage.
 #: src/setfont.c:579
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
@@ -1362,8 +1386,10 @@ msgstr "Chyba při čtení aktuálního nastavení led. Možná stdin není VT?\
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Chyba při čtení aktuálního nastavení příznaku. Možná nejste na konzole?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Chyba při čtení aktuálního nastavení příznaku. Možná nejste na konzole?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1533,7 +1559,8 @@ msgstr ""
 "Platné přepínače jsou:\n"
 " -C tty   Zařízení, ze kterého číst písmo.  Implicitně aktuální tty.\n"
 " -v       Být podrobnější.\n"
-" -i       Nevypisovat tabulku písma, jen zobrazit ŘÁDKŮxSLOUPCŮxPOČET a skončit.\n"
+" -i       Nevypisovat tabulku písma, jen zobrazit ŘÁDKŮxSLOUPCŮxPOČET a "
+"skončit.\n"
 
 #: src/showconsolefont.c:171
 #, fuzzy, c-format
@@ -1619,7 +1646,9 @@ msgstr ""
 #: src/showkey.c:232
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku klávesy)...\n"
+msgstr ""
+"stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku "
+"klávesy)...\n"
 
 #: src/showkey.c:256
 msgid "release"
@@ -1638,6 +1667,10 @@ msgstr "kód klávesy %3d %s\n"
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s z %s\n"
+
+#, fuzzy
+#~ msgid "loadkeys: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: chyba při čtení režimu klávesnice\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "plus před %s ignorováno\n"

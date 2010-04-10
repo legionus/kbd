@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU kbd 1.14.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-21 15:30+0400\n"
+"Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
+"POT-Creation-Date: 2010-04-11 01:15+0400\n"
 "PO-Revision-Date: 2008-04-25 18:51+0100\n"
 "Last-Translator: Jean-Baka Domelevo Entfellner <domelevo@gmail.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -60,7 +60,9 @@ msgstr "%s : impossible de trouver la moindre configuration de clavier\n"
 #: src/dumpkeys.c:84
 #, c-format
 msgid "%s: plain map not allocated? very strange ...\n"
-msgstr "%s : une configuration de clavier basique n'a pas été allouée ? Vraiment étrange...\n"
+msgstr ""
+"%s : une configuration de clavier basique n'a pas été allouée ? Vraiment "
+"étrange...\n"
 
 #: src/dumpkeys.c:118
 #, c-format
@@ -70,17 +72,21 @@ msgstr "Erreur KDGKBENT à l'index %d dans la table %d\n"
 #: src/dumpkeys.c:272
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr "étendue des codes clavier pris en charge par le noyau :           1 - %d\n"
+msgstr ""
+"étendue des codes clavier pris en charge par le noyau :           1 - %d\n"
 
 #: src/dumpkeys.c:274
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
-msgstr "nombre maximum d'actions pouvant être associées à une touche :         %d\n"
+msgstr ""
+"nombre maximum d'actions pouvant être associées à une touche :         %d\n"
 
 #: src/dumpkeys.c:277
 #, c-format
 msgid "number of keymaps in actual use:                 %d\n"
-msgstr "nombre de configurations de clavier actuellement en usage :                 %d\n"
+msgstr ""
+"nombre de configurations de clavier actuellement en usage :                 %"
+"d\n"
 
 #: src/dumpkeys.c:280
 #, c-format
@@ -105,7 +111,8 @@ msgstr "nombre maximal de définitions de combinaisons de touches : %d\n"
 #: src/dumpkeys.c:291
 #, c-format
 msgid "nr of compose definitions in actual use: %d\n"
-msgstr "nombre de définitions de combinaisons de touches actuellement en usage : %d\n"
+msgstr ""
+"nombre de définitions de combinaisons de touches actuellement en usage : %d\n"
 
 #: src/dumpkeys.c:316
 #, c-format
@@ -146,7 +153,9 @@ msgstr ""
 #: src/dumpkeys.c:398
 #, c-format
 msgid "# not alt_is_meta: on keymap %d key %d is bound to"
-msgstr "# n'est pas \"alt=meta\" : sur la configuration de clavier %d la touche %d est liée à"
+msgstr ""
+"# n'est pas \"alt=meta\" : sur la configuration de clavier %d la touche %d "
+"est liée à"
 
 #: src/dumpkeys.c:475
 #, c-format
@@ -188,13 +197,16 @@ msgstr ""
 "Les options valides sont :\n"
 "\n"
 "   -h --help            affiche l'aide et quitter\n"
-"   -i --short-info      affiche les informations au sujet du pilote de clavier\n"
+"   -i --short-info      affiche les informations au sujet du pilote de "
+"clavier\n"
 "   -l --long-info       affiche les informations précédentes et\n"
 "                        les symboles connus de loadkeys\n"
 "   -n --numeric         affiche la table des touches en hexadécimal\n"
-"   -f --full-table      n'utilise pas de notation abrégée, une rangée par code clavier\n"
+"   -f --full-table      n'utilise pas de notation abrégée, une rangée par "
+"code clavier\n"
 "   -1 --separate-lines  une ligne par paire (modificateur, code de touche)\n"
-"      --funcs-only      affiche seulement les chaînes de touches de fonction\n"
+"      --funcs-only      affiche seulement les chaînes de touches de "
+"fonction\n"
 "      --keys-only       affiche seulement les touches simples\n"
 "      --compose-only    affiche seulement les combinaisons de touches\n"
 "   -c --charset="
@@ -248,7 +260,8 @@ msgstr "Ne peut ouvrir %s\n"
 #: src/getfd.c:88 src/openvt.c:124
 #, fuzzy, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Ne peut obtenir le descripteur de fichier faisant référence à la console\n"
+msgstr ""
+"Ne peut obtenir le descripteur de fichier faisant référence à la console\n"
 
 #: src/getkeycodes.c:18
 #, c-format
@@ -263,7 +276,9 @@ msgstr "scancodes bruts xx (hex) contre codes clavier (dec)\n"
 #: src/getkeycodes.c:60
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 est une erreur ; les scancodes de 1 à 88 (0x01-0x58) sont égaux aux codes clavier\n"
+msgstr ""
+"0 est une erreur ; les scancodes de 1 à 88 (0x01-0x58) sont égaux aux codes "
+"clavier\n"
 
 #: src/getkeycodes.c:63
 #, c-format
@@ -357,7 +372,9 @@ msgstr "bug : getfont a été appelé avec un compteur < 256\n"
 #: src/kdfontop.c:201
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
-msgstr "bug : l'utilisation de GIO_FONT avec getfont nécessite la mise en mémoire tampon.\n"
+msgstr ""
+"bug : l'utilisation de GIO_FONT avec getfont nécessite la mise en mémoire "
+"tampon.\n"
 
 #: src/kdfontop.c:258 src/xmalloc.c:19
 #, c-format
@@ -435,203 +452,217 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:372
+#: loadkeys.y:375
 #, fuzzy, c-format
-msgid "loadkeys: error reading keyboard mode\n"
-msgstr "kbd_mode : erreur lors de la lecture du mode du clavier\n"
+msgid "%s: error reading keyboard mode\n"
+msgstr "%s : erreur lors de la définition du mode du clavier\n"
 
-#: loadkeys.y:383
+#: loadkeys.y:385
+#, c-format
+msgid ""
+"%s: warning: loading Unicode keymap on non-Unicode console\n"
+"    (perhaps you want to do `kbd_mode -u'?)\n"
+msgstr ""
+
+#: loadkeys.y:395
 #, fuzzy, c-format
 msgid "syntax error in map file\n"
 msgstr "Erreur d'écriture de la map dans le fichier\n"
 
-#: loadkeys.y:385
+#: loadkeys.y:397
 #, c-format
 msgid "key bindings not changed\n"
 msgstr ""
 
-#: loadkeys.y:462
+#: loadkeys.y:474
 msgid "includes are nested too deeply"
 msgstr ""
 
-#. start reading include file
-#: loadkeys.y:617
+#: loadkeys.y:629
 #, c-format
 msgid "switching to %s\n"
 msgstr ""
 
-#: loadkeys.y:623
+#: loadkeys.y:635
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "Ne peut ouvrir le fichier de fonte %s\n"
 
-#: loadkeys.y:670
+#: loadkeys.y:682
 #, fuzzy, c-format
 msgid "Cannot find %s\n"
 msgstr "Ne peut repérer la fonte %s\n"
 
-#: loadkeys.y:683
+#: loadkeys.y:695
 #, fuzzy, c-format
 msgid "cannot open file %s\n"
 msgstr "Ne peut ouvrir le fichier de fonte %s\n"
 
-#: loadkeys.y:694
+#: loadkeys.y:706
 #, fuzzy, c-format
 msgid "Loading %s\n"
 msgstr "Erreur de lecture sur %s\n"
 
-#: loadkeys.y:706
+#: loadkeys.y:718
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:710
+#: loadkeys.y:722
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: loadkeys.y:724
+#: loadkeys.y:736
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:726
+#: loadkeys.y:738
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr ""
 
-#. is safer not to be silent in this case,
-#. * it can be caused by coding errors as well.
-#: loadkeys.y:740
+#: loadkeys.y:752
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr ""
 
-#: loadkeys.y:742
+#: loadkeys.y:754
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:744
+#: loadkeys.y:756
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:785
+#: loadkeys.y:797
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr ""
 
-#: loadkeys.y:813
+#: loadkeys.y:825
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr ""
 
-#: loadkeys.y:840
+#: loadkeys.y:852
 #, c-format
 msgid "compose table overflow\n"
 msgstr ""
 
-#: loadkeys.y:867
+#: loadkeys.y:871
+#, fuzzy, c-format
+msgid "%s: could not switch to Unicode mode\n"
+msgstr "%s : ne peut désallouer la console %d\n"
+
+#: loadkeys.y:888
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr ""
 
-#: loadkeys.y:875
+#: loadkeys.y:896
 #, fuzzy, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "code clavier %3d %s\n"
 
-#: loadkeys.y:876
+#: loadkeys.y:897
 msgid "    FAILED"
 msgstr ""
 
-#: loadkeys.y:879
+#: loadkeys.y:900
 #, fuzzy, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "échec d'initialisation du scancode %x au keycode %d\n"
 
-#: loadkeys.y:890
+#: loadkeys.y:911
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:896
+#: loadkeys.y:917
 #, fuzzy, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr "%s : ne peut désallouer la console %d\n"
 
-#: loadkeys.y:911
+#: loadkeys.y:932
 #, fuzzy, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s : ne peut désallouer la console %d\n"
 
-#: loadkeys.y:960
+#: loadkeys.y:943
+#, fuzzy, c-format
+msgid "%s: could not return to original keyboard mode\n"
+msgstr "%s : erreur lors de la définition du mode du clavier\n"
+
+#: loadkeys.y:988
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
 
-#: loadkeys.y:967
+#: loadkeys.y:995
 #, fuzzy, c-format
 msgid "failed to clear string %s\n"
 msgstr "échec de restauration de la map unimap originale\n"
 
-#: loadkeys.y:987
+#: loadkeys.y:1015
 #, fuzzy, c-format
 msgid "too many compose definitions\n"
 msgstr "nombre maximal de définitions de combinaisons de touches : %d\n"
 
-#: loadkeys.y:1069
+#: loadkeys.y:1097
 msgid "impossible error in do_constant"
 msgstr ""
 
-#: loadkeys.y:1085
+#: loadkeys.y:1113
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "key"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "keys"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "string"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "strings"
 msgstr ""
 
-#: loadkeys.y:1092
+#: loadkeys.y:1120
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definition"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definitions"
 msgstr ""
 
-#: loadkeys.y:1098
+#: loadkeys.y:1126
 #, fuzzy, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr "nombre maximal de définitions de combinaisons de touches : %d\n"
 
-#: loadkeys.y:1130
+#: loadkeys.y:1158
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr ""
 
-#: loadkeys.y:1362 src/mapscrn.c:278 src/mapscrn.c:283
+#: loadkeys.y:1390 src/mapscrn.c:278 src/mapscrn.c:283
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Erreur d'écriture de la map dans le fichier\n"
@@ -653,7 +684,8 @@ msgstr "Ligne d'entrée erronée : %s\n"
 #: src/loadunimap.c:196
 #, c-format
 msgid "%s: Glyph number (0x%x) larger than font length\n"
-msgstr "%s : le numéro de glyphe (0x%x) est plus grand que la longueur de la fonte\n"
+msgstr ""
+"%s : le numéro de glyphe (0x%x) est plus grand que la longueur de la fonte\n"
 
 #: src/loadunimap.c:202
 #, c-format
@@ -663,12 +695,17 @@ msgstr "%s : borne supérieure erronée (0x%x)\n"
 #: src/loadunimap.c:232 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s : plage Unicode erronée correspondant aux fontes en position 0x%x à 0x%x\n"
+msgstr ""
+"%s : plage Unicode erronée correspondant aux fontes en position 0x%x à 0x%x\n"
 
 #: src/loadunimap.c:239 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s : la plage Unicode U+%x-U+%x n'a pas la même longueur que la plage des fontes allant de 0x%x à 0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%"
+"x-0x%x\n"
+msgstr ""
+"%s : la plage Unicode U+%x-U+%x n'a pas la même longueur que la plage des "
+"fontes allant de 0x%x à 0x%x\n"
 
 #: src/loadunimap.c:258 src/psfxtable.c:203
 #, c-format
@@ -730,7 +767,8 @@ msgstr "Ne peut évaluer le fichier par stat()"
 #: src/mapscrn.c:147
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s\n"
-msgstr "Chargement de la map d'écran direct-à-la-fonte à partir du fichier %s\n"
+msgstr ""
+"Chargement de la map d'écran direct-à-la-fonte à partir du fichier %s\n"
 
 #: src/mapscrn.c:152 src/mapscrn.c:163
 #, c-format
@@ -750,7 +788,9 @@ msgstr "Chargement de la map symbolique d'écran à partir du fichier %s\n"
 #: src/mapscrn.c:174
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
-msgstr "Erreur d'analyse syntaxique de la map symbolique à partir de « %s », ligne %d\n"
+msgstr ""
+"Erreur d'analyse syntaxique de la map symbolique à partir de « %s », ligne %"
+"d\n"
 
 #: src/mapscrn.c:287
 #, c-format
@@ -844,7 +884,8 @@ msgstr "openvt : impossible de désallouer la console %d\n"
 
 #: src/openvt.c:336
 #, c-format
-msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+msgid ""
+"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
 msgstr ""
 
 #: src/openvt.c:416
@@ -852,82 +893,82 @@ msgstr ""
 msgid "Couldn't find owner of current tty!\n"
 msgstr ""
 
-#: src/psffontop.c:72
+#: src/psffontop.c:73
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s : table abrégée ucs2 unicode\n"
 
-#: src/psffontop.c:93
+#: src/psffontop.c:94
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s : table abrégée utf8 unicode\n"
 
-#: src/psffontop.c:96
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s : utf8 erroné\n"
 
-#: src/psffontop.c:99
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s : erreur utf8 inconnue\n"
 
-#: src/psffontop.c:129
+#: src/psffontop.c:130
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s : table abrégée unicode\n"
 
-#: src/psffontop.c:209
+#: src/psffontop.c:210
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s : erreur lors de la lecture de la fonte"
 
-#: src/psffontop.c:223
+#: src/psffontop.c:224
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s : appel erroné à readpsffont\n"
 
-#: src/psffontop.c:238
+#: src/psffontop.c:239
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s : mode du fichier psf non pris en charge (%d)\n"
 
-#: src/psffontop.c:256
+#: src/psffontop.c:257
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s : version psf non prise en charge (%d)\n"
 
-#: src/psffontop.c:272
+#: src/psffontop.c:273
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s : longueur nulle pour la fonte d'entrée ?\n"
 
-#: src/psffontop.c:277
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s : caractère entré de taille nulle ?\n"
 
-#: src/psffontop.c:283
+#: src/psffontop.c:284
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s : fichier d'entrée : longueur erronée (%d)\n"
 
-#: src/psffontop.c:315
+#: src/psffontop.c:316
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s : fichier d'entrée: rebut à la fin\n"
 
-#: src/psffontop.c:353
+#: src/psffontop.c:354
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode : unicode illégal %u\n"
 
-#: src/psffontop.c:446
+#: src/psffontop.c:447
 #, c-format
 msgid "Cannot write font file header"
 msgstr "Ne peut écrire l'en-tête du fichier de fontes"
 
-#: src/psffontop.c:472 src/setfont.c:680
+#: src/psffontop.c:473 src/setfont.c:680
 #, c-format
 msgid "Cannot write font file"
 msgstr "Ne peut écrire le fichier de fonte"
@@ -954,8 +995,12 @@ msgstr "%s : borne finale erronée (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-msgstr "%s : en correspondance avec une plage de positions de fontes, il devrait y avoir une plage Unicode\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
+msgstr ""
+"%s : en correspondance avec une plage de positions de fontes, il devrait y "
+"avoir une plage Unicode\n"
 
 #: src/psfxtable.c:258
 #, c-format
@@ -991,7 +1036,8 @@ msgid ""
 "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 "Usage :\n"
-"\t%s [-i fonte_entree] [-o fonte_sortie] [-it table_entree] [-ot table_sortie] [-nt]\n"
+"\t%s [-i fonte_entree] [-o fonte_sortie] [-it table_entree] [-ot "
+"table_sortie] [-nt]\n"
 
 #: src/psfxtable.c:361
 #, c-format
@@ -1026,7 +1072,8 @@ msgstr "Ancien mode : %dx%d  Nouveau mode: %dx%d\n"
 #: src/resizecons.c:242
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Ancien #scanlines: %d  Nouveau #scanlines: %d  Hauteur des caractères: %d\n"
+msgstr ""
+"Ancien #scanlines: %d  Nouveau #scanlines: %d  Hauteur des caractères: %d\n"
 
 #: src/resizecons.c:253
 #, c-format
@@ -1035,19 +1082,23 @@ msgstr "resizecons : échec de la commande « %s »\n"
 
 #: src/resizecons.c:326
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: ne pas oublier de changer TERM (soit con%dx%d ou linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: ne pas oublier de changer TERM (soit con%dx%d ou linux-%dx%d)\n"
 
 #: src/resizecons.c:339
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "l'appel est resizecons COLSxLIGNES ou resizecons COLS LIGNES\n"
-"ou resizecons -lines LIGNES où LIGNES vaut 25, 28, 30, 34, 36, 40, 44, 50 ou 60\n"
+"ou resizecons -lines LIGNES où LIGNES vaut 25, 28, 30, 34, 36, 40, 44, 50 ou "
+"60\n"
 
 #: src/resizecons.c:377
 #, c-format
@@ -1069,9 +1120,6 @@ msgstr "Erreur de lecture sur %s\n"
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "ne peut lire %s, et ne peut effectuer une vidange ioctl()\n"
 
-#. we tried this just to be sure, but TIOCLINUX
-#. function 0 has been disabled since 1.1.92
-#. Do not mention `ioctl dump' in error msg
 #: src/screendump.c:133
 #, c-format
 msgid "couldn't read %s\n"
@@ -1090,7 +1138,8 @@ msgstr "Erreur lors de la production de la vidange screendump\n"
 #: src/setfont.c:76
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1114,24 +1163,31 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Syntaxe : setfont [options-d-écriture] [-<N>] [nouvelle-fonte..] [-m consolemap] [-u unicodemap]\n"
-"Options d'écriture (elles sont prises en compte avant tout chargement de fichiers) :\n"
+"Syntaxe : setfont [options-d-écriture] [-<N>] [nouvelle-fonte..] [-m "
+"consolemap] [-u unicodemap]\n"
+"Options d'écriture (elles sont prises en compte avant tout chargement de "
+"fichiers) :\n"
 "    -o  <fichier>       écrire la fonte courante dans <fichier>\n"
-"    -O  <fichier>       écrire la fonte courante et la map unicode dans <fichier>\n"
+"    -O  <fichier>       écrire la fonte courante et la map unicode dans "
+"<fichier>\n"
 "    -om <fichier>       écrire la consolemap courante dans <fichier>\n"
 "    -ou <fichier>       écrire la unicodemap courante dans <fichier>\n"
-"Si aucune nouvelle fonte et si aucune des options -[o|O|om|ou|m|u] n'est fournie, la fonte par défaut est chargée:\n"
+"Si aucune nouvelle fonte et si aucune des options -[o|O|om|ou|m|u] n'est "
+"fournie, la fonte par défaut est chargée:\n"
 "    setfont             charger la fonte \"default[.gz]\"\n"
 "    setfont -<N>        charger la fonte \"default8x<N>[.gz]\"\n"
-"L'option -<N> sélectionne une fonte à partir d'un codepage qui contient 3 fontes:\n"
+"L'option -<N> sélectionne une fonte à partir d'un codepage qui contient 3 "
+"fontes:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]\n"
 "                        charger la fonte 8x<N> à partir du codepage.cp\n"
-"Explicitement (avec -m ou -u) ou implicitement (dans le fichier de fonte) la map donnée\n"
+"Explicitement (avec -m ou -u) ou implicitement (dans le fichier de fonte) la "
+"map donnée\n"
 "sera chargée et, dans le cas d'une consolemaps, sera activée.\n"
 "    -h<N>              (sans espace) écrase la hauteur de fonte.\n"
 "    -m <fn>            charge la map d'écran de la console.\n"
 "    -u <fn>            charge la map de fonte unicode.\n"
-"    -m none            supprime le chargement et l'activation de la map d'écran.\n"
+"    -m none            supprime le chargement et l'activation de la map "
+"d'écran.\n"
 "    -u none            supprime le chargement de la map unicode.\n"
 "    -v                 travaille en mode verbeux.\n"
 "    -C <cons>          indique la console à utiliser.\n"
@@ -1145,8 +1201,12 @@ msgstr "setfont: trop de fichiers à l'entrée\n"
 
 #: src/setfont.c:188
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: ne peut restaurer les caractères de la ROM et du fichier. Fonte inchangée.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: ne peut restaurer les caractères de la ROM et du fichier. Fonte "
+"inchangée.\n"
 
 #: src/setfont.c:262
 #, c-format
@@ -1186,7 +1246,8 @@ msgstr "Chargement de %d carac. de la fonte %dx%d\n"
 #: src/setfont.c:319
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s\n"
-msgstr "Chargement de %d carac. de la fonte %dx%d (%d) à partir du fichier %s\n"
+msgstr ""
+"Chargement de %d carac. de la fonte %dx%d (%d) à partir du fichier %s\n"
 
 #: src/setfont.c:322
 #, c-format
@@ -1211,7 +1272,9 @@ msgstr "Ne peut ouvrir le fichier de fonte %s\n"
 #: src/setfont.c:428
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "Lors du chargement de plusieurs fontes, elles doivent toutes être des fontes psf - %s ne l'est pas\n"
+msgstr ""
+"Lors du chargement de plusieurs fontes, elles doivent toutes être des fontes "
+"psf - %s ne l'est pas\n"
 
 #: src/setfont.c:438
 #, c-format
@@ -1221,12 +1284,16 @@ msgstr "Lecture de %d carac. de la fonte %dx%d à partir du fichier %s\n"
 #: src/setfont.c:444
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
-msgstr "Lors du chargement de plusieurs fontes, elles doivent toutes avoir la même hauteur\n"
+msgstr ""
+"Lors du chargement de plusieurs fontes, elles doivent toutes avoir la même "
+"hauteur\n"
 
 #: src/setfont.c:451
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr "Lors du chargement de plusieurs fontes, elles doivent toutes avoir la même largeur\n"
+msgstr ""
+"Lors du chargement de plusieurs fontes, elles doivent toutes avoir la même "
+"largeur\n"
 
 #: src/setfont.c:490
 #, c-format
@@ -1253,16 +1320,12 @@ msgstr "Pas de ligne finale dans le ficheir combiné\n"
 msgid "Too many files to combine\n"
 msgstr "Trop de fichiers à combiner\n"
 
-#. restorefont -w writes a SVGA font to file
-#. restorefont -r restores it
-#. These fonts have size 32768, for two 512-char fonts.
-#. In fact, when BROKEN_GRAPHICS_PROGRAMS is defined,
-#. and it always is, there is no default font that is saved,
-#. so probably the second half is always garbage.
 #: src/setfont.c:579
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
-msgstr "Euh - une police à partir d'un restorefont ? On utilisera la première moitié.\n"
+msgstr ""
+"Euh - une police à partir d'un restorefont ? On utilisera la première "
+"moitié.\n"
 
 #: src/setfont.c:596
 #, c-format
@@ -1281,7 +1344,9 @@ msgstr ""
 #: src/setfont.c:631
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "Vous avez demandé une taille de fonte %d, mais seul 8, 14, 16 est possible ici.\n"
+msgstr ""
+"Vous avez demandé une taille de fonte %d, mais seul 8, 14, 16 est possible "
+"ici.\n"
 
 #: src/setfont.c:676
 #, c-format
@@ -1343,11 +1408,14 @@ msgstr ""
 "   setleds +caps -num\n"
 "initialisera CapsLock, libérera NumLock et laissera ScrollLock inchangé.\n"
 "Les paramètres avant et après modification (s'il y en a) seront rapportés\n"
-"lorsque l'option -v est fournie ou lorsque qu'aucune modification n'est demandée.\n"
-"Normalement, setleds a un effet sur le paramétrage des fanions du terminal virtuel\n"
+"lorsque l'option -v est fournie ou lorsque qu'aucune modification n'est "
+"demandée.\n"
+"Normalement, setleds a un effet sur le paramétrage des fanions du terminal "
+"virtuel\n"
 "(et ceux-ci sont habituellement équivalents à la luminosité des leds).\n"
 "Avec -L, les leds sont modifiées sans affecter les fanions.\n"
-"Avec -D, les fanions et les fanions par défaut sont affectés, de telle sorte\n"
+"Avec -D, les fanions et les fanions par défaut sont affectés, de telle "
+"sorte\n"
 "qu'une réinitialisation subséquente n'affectera par les fanions.\n"
 
 #: src/setleds.c:43
@@ -1361,17 +1429,23 @@ msgstr "off"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr "Erreur de lectrure des paramètres courant des leds. Peut-être stdin n'est pas un terminal virtuel ?\n"
+msgstr ""
+"Erreur de lectrure des paramètres courant des leds. Peut-être stdin n'est "
+"pas un terminal virtuel ?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Erreur de lecture des paramètres courants de fanions. Peut-être n'êtes vous pas sur la console ?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Erreur de lecture des paramètres courants de fanions. Peut-être n'êtes vous "
+"pas sur la console ?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
 msgid "Error reading current led setting from /dev/kbd.\n"
-msgstr "Erreur de lecture des paramètres courants des leds à partir de /dev/kbd.\n"
+msgstr ""
+"Erreur de lecture des paramètres courants des leds à partir de /dev/kbd.\n"
 
 #: src/setleds.c:129
 #, c-format
@@ -1479,7 +1553,9 @@ msgstr "Mode étrange pour une touche Méta ?\n"
 #: src/setmetamode.c:79
 #, c-format
 msgid "Error reading current setting. Maybe stdin is not a VT?\n"
-msgstr "Erreur de lecture des paramètres courants. Peut-être stdin n'est-il pas un terminal virtuel ?\n"
+msgstr ""
+"Erreur de lecture des paramètres courants. Peut-être stdin n'est-il pas un "
+"terminal virtuel ?\n"
 
 #: src/setmetamode.c:99
 #, c-format
@@ -1534,7 +1610,8 @@ msgstr ""
 "(en général après avoir chargé une fonte avec `setfont fonte')\n"
 "\n"
 "Les options valides sont :\n"
-" -C tty   Périphérique à partir duquel lire la fonte. Par défaut, c'est la console courante.\n"
+" -C tty   Périphérique à partir duquel lire la fonte. Par défaut, c'est la "
+"console courante.\n"
 " -v       Sortie verbeuse.\n"
 " -i       Ne pas imprimer la table de fonte, afficher simplement\n"
 "          LIGNESxCOLSxCOMPTEUR et quitter.\n"
@@ -1605,9 +1682,11 @@ msgstr ""
 "valid options are:\n"
 "\n"
 "   -h --help      affiche l'aide et quitter\n"
-"   -a --ascii     affiche les touches en valeurs décimales/octales/hexadécimales\n"
+"   -a --ascii     affiche les touches en valeurs décimales/octales/"
+"hexadécimales\n"
 "   -s --scancodes affiche seulement les scancodes bruts\n"
-"   -k --keycodes  affiche seulement les codes clavier interprétés (comportement par défaut)\n"
+"   -k --keycodes  affiche seulement les codes clavier interprétés "
+"(comportement par défaut)\n"
 
 #: src/showkey.c:163
 #, c-format
@@ -1623,7 +1702,9 @@ msgstr ""
 #: src/showkey.c:232
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "appuyer sur n'importe quelle touche (le programme terminera 10s après la dernière touche enfoncée)...\n"
+msgstr ""
+"appuyer sur n'importe quelle touche (le programme terminera 10s après la "
+"dernière touche enfoncée)...\n"
 
 #: src/showkey.c:256
 msgid "release"
@@ -1642,6 +1723,10 @@ msgstr "code clavier %3d %s\n"
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s à partir de %s\n"
+
+#, fuzzy
+#~ msgid "loadkeys: error reading keyboard mode\n"
+#~ msgstr "kbd_mode : erreur lors de la lecture du mode du clavier\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "plus avant %s est ignoré\n"

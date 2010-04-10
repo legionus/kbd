@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.14.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-21 15:30+0400\n"
+"Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
+"POT-Creation-Date: 2010-04-11 01:15+0400\n"
 "PO-Revision-Date: 2008-07-28 10:51+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -262,7 +262,8 @@ msgstr "Enkle aflæsningskoder xx (hex) mod tastekoder (dec)\n"
 #: src/getkeycodes.c:60
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 er en fejl, for 1-88 (0x01-0x58) er aflæsningskoden lig med tastekoden\n"
+msgstr ""
+"0 er en fejl, for 1-88 (0x01-0x58) er aflæsningskoden lig med tastekoden\n"
 
 #: src/getkeycodes.c:63
 #, c-format
@@ -434,203 +435,217 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:372
+#: loadkeys.y:375
 #, fuzzy, c-format
-msgid "loadkeys: error reading keyboard mode\n"
-msgstr "kbd_mode: fejl ved læsning af tastaturstilstand\n"
+msgid "%s: error reading keyboard mode\n"
+msgstr "%s: fejl da tastaturstilstand sattes\n"
 
-#: loadkeys.y:383
+#: loadkeys.y:385
+#, c-format
+msgid ""
+"%s: warning: loading Unicode keymap on non-Unicode console\n"
+"    (perhaps you want to do `kbd_mode -u'?)\n"
+msgstr ""
+
+#: loadkeys.y:395
 #, fuzzy, c-format
 msgid "syntax error in map file\n"
 msgstr "Fejl ved skrivning af tabel til fil\n"
 
-#: loadkeys.y:385
+#: loadkeys.y:397
 #, c-format
 msgid "key bindings not changed\n"
 msgstr ""
 
-#: loadkeys.y:462
+#: loadkeys.y:474
 msgid "includes are nested too deeply"
 msgstr ""
 
-#. start reading include file
-#: loadkeys.y:617
+#: loadkeys.y:629
 #, c-format
 msgid "switching to %s\n"
 msgstr ""
 
-#: loadkeys.y:623
+#: loadkeys.y:635
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "Kan ikke åbne skrifttypefilen %s\n"
 
-#: loadkeys.y:670
+#: loadkeys.y:682
 #, fuzzy, c-format
 msgid "Cannot find %s\n"
 msgstr "Kan ikke finde skrifttypen %s\n"
 
-#: loadkeys.y:683
+#: loadkeys.y:695
 #, fuzzy, c-format
 msgid "cannot open file %s\n"
 msgstr "Kan ikke åbne skrifttypefilen %s\n"
 
-#: loadkeys.y:694
+#: loadkeys.y:706
 #, fuzzy, c-format
 msgid "Loading %s\n"
 msgstr "Fejl ved læsning af %s\n"
 
-#: loadkeys.y:706
+#: loadkeys.y:718
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:710
+#: loadkeys.y:722
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: loadkeys.y:724
+#: loadkeys.y:736
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:726
+#: loadkeys.y:738
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr ""
 
-#. is safer not to be silent in this case,
-#. * it can be caused by coding errors as well.
-#: loadkeys.y:740
+#: loadkeys.y:752
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr ""
 
-#: loadkeys.y:742
+#: loadkeys.y:754
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:744
+#: loadkeys.y:756
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:785
+#: loadkeys.y:797
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr ""
 
-#: loadkeys.y:813
+#: loadkeys.y:825
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr ""
 
-#: loadkeys.y:840
+#: loadkeys.y:852
 #, c-format
 msgid "compose table overflow\n"
 msgstr ""
 
-#: loadkeys.y:867
+#: loadkeys.y:871
+#, fuzzy, c-format
+msgid "%s: could not switch to Unicode mode\n"
+msgstr "%s: kunne ikke deallokere konsol %d\n"
+
+#: loadkeys.y:888
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr ""
 
-#: loadkeys.y:875
+#: loadkeys.y:896
 #, fuzzy, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "tastekode %3d %s\n"
 
-#: loadkeys.y:876
+#: loadkeys.y:897
 msgid "    FAILED"
 msgstr ""
 
-#: loadkeys.y:879
+#: loadkeys.y:900
 #, fuzzy, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "kunne ikke sætte aflæsningskoden %x til tastekoden %d\n"
 
-#: loadkeys.y:890
+#: loadkeys.y:911
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:896
+#: loadkeys.y:917
 #, fuzzy, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr "%s: kunne ikke deallokere konsol %d\n"
 
-#: loadkeys.y:911
+#: loadkeys.y:932
 #, fuzzy, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s: kunne ikke deallokere konsol %d\n"
 
-#: loadkeys.y:960
+#: loadkeys.y:943
+#, fuzzy, c-format
+msgid "%s: could not return to original keyboard mode\n"
+msgstr "%s: fejl da tastaturstilstand sattes\n"
+
+#: loadkeys.y:988
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
 
-#: loadkeys.y:967
+#: loadkeys.y:995
 #, fuzzy, c-format
 msgid "failed to clear string %s\n"
 msgstr "mislykkedes med at genskabe originalucstabel\n"
 
-#: loadkeys.y:987
+#: loadkeys.y:1015
 #, fuzzy, c-format
 msgid "too many compose definitions\n"
 msgstr "største antal kompositionsdefinitioner: %d\n"
 
-#: loadkeys.y:1069
+#: loadkeys.y:1097
 msgid "impossible error in do_constant"
 msgstr ""
 
-#: loadkeys.y:1085
+#: loadkeys.y:1113
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "key"
 msgstr ""
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "keys"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "string"
 msgstr ""
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "strings"
 msgstr ""
 
-#: loadkeys.y:1092
+#: loadkeys.y:1120
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definition"
 msgstr ""
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definitions"
 msgstr ""
 
-#: loadkeys.y:1098
+#: loadkeys.y:1126
 #, fuzzy, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr "største antal kompositionsdefinitioner: %d\n"
 
-#: loadkeys.y:1130
+#: loadkeys.y:1158
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr ""
 
-#: loadkeys.y:1362 src/mapscrn.c:278 src/mapscrn.c:283
+#: loadkeys.y:1390 src/mapscrn.c:278 src/mapscrn.c:283
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Fejl ved skrivning af tabel til fil\n"
@@ -662,12 +677,18 @@ msgstr "%s: Fejlagtigt slut på interval (0x%x)\n"
 #: src/loadunimap.c:232 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: Fejlagtigt UCS-interval som modsvarer skrifttypepositionsinterval 0x%x-0x%x\n"
+msgstr ""
+"%s: Fejlagtigt UCS-interval som modsvarer skrifttypepositionsinterval 0x%x-0x"
+"%x\n"
 
 #: src/loadunimap.c:239 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: UCS-interval U+%x-U+%x er ikke af samme længde som skrifttypespositionsinterval 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%"
+"x-0x%x\n"
+msgstr ""
+"%s: UCS-interval U+%x-U+%x er ikke af samme længde som "
+"skrifttypespositionsinterval 0x%x-0x%x\n"
 
 #: src/loadunimap.c:258 src/psfxtable.c:203
 #, c-format
@@ -843,7 +864,8 @@ msgstr "openvt: kunne ikke deallokere konsol %d\n"
 
 #: src/openvt.c:336
 #, c-format
-msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+msgid ""
+"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
 msgstr ""
 
 #: src/openvt.c:416
@@ -851,82 +873,82 @@ msgstr ""
 msgid "Couldn't find owner of current tty!\n"
 msgstr ""
 
-#: src/psffontop.c:72
+#: src/psffontop.c:73
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s: kort ucs2-tabel\n"
 
-#: src/psffontop.c:93
+#: src/psffontop.c:94
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s: kort utf8-tabel\n"
 
-#: src/psffontop.c:96
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s: fejlagtig utf8\n"
 
-#: src/psffontop.c:99
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s: ukendt utf8-fejl\n"
 
-#: src/psffontop.c:129
+#: src/psffontop.c:130
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s: kort UCS-tabel\n"
 
-#: src/psffontop.c:209
+#: src/psffontop.c:210
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s: Fejl ved læsning af inddataskrifttype"
 
-#: src/psffontop.c:223
+#: src/psffontop.c:224
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s: Fejlagtigt kald af readpsffont\n"
 
-#: src/psffontop.c:238
+#: src/psffontop.c:239
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s: psf-filtilstand (%d) understøttes ikke\n"
 
-#: src/psffontop.c:256
+#: src/psffontop.c:257
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s: psf-version (%d) understøttes ikke\n"
 
-#: src/psffontop.c:272
+#: src/psffontop.c:273
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s: længde af inddataskrifttype er nul?\n"
 
-#: src/psffontop.c:277
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s: størrelse af inddatategn er nul?\n"
 
-#: src/psffontop.c:283
+#: src/psffontop.c:284
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s: Inddatafil: ugyldig inddatalængde (%d)\n"
 
-#: src/psffontop.c:315
+#: src/psffontop.c:316
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s: Inddatafil: efterfølgende snavs\n"
 
-#: src/psffontop.c:353
+#: src/psffontop.c:354
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode: ugyldig UCS %u\n"
 
-#: src/psffontop.c:446
+#: src/psffontop.c:447
 #, c-format
 msgid "Cannot write font file header"
 msgstr "Kan ikke skrive skrifttypefilhoved"
 
-#: src/psffontop.c:472 src/setfont.c:680
+#: src/psffontop.c:473 src/setfont.c:680
 #, c-format
 msgid "Cannot write font file"
 msgstr "Kan ikke skrive til skrifttypefilen"
@@ -953,8 +975,12 @@ msgstr "%s: Fejlagtigt slut på interval (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-msgstr "%s: Til et modsvarende interval af skrifttypespositioner burde der findes et UCS-interval\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
+msgstr ""
+"%s: Til et modsvarende interval af skrifttypespositioner burde der findes et "
+"UCS-interval\n"
 
 #: src/psfxtable.c:258
 #, c-format
@@ -990,7 +1016,8 @@ msgid ""
 "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 "Brug:\n"
-"\t%s [-i inddataskrifttype] [-o uddataskrifttype] [-it indtabel] [-ot udtabel] [-nt]\n"
+"\t%s [-i inddataskrifttype] [-o uddataskrifttype] [-it indtabel] [-ot "
+"udtabel] [-nt]\n"
 
 #: src/psfxtable.c:361
 #, c-format
@@ -1025,7 +1052,8 @@ msgstr "Gammel tilstand: %d×%d  Ny tilstand: %d×%d\n"
 #: src/resizecons.c:242
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Gammelt antal skanlinjer: %d  Nyt antal skanlinjer: %d  Tegnhøjde: %d\n"
+msgstr ""
+"Gammelt antal skanlinjer: %d  Nyt antal skanlinjer: %d  Tegnhøjde: %d\n"
 
 #: src/resizecons.c:253
 #, c-format
@@ -1034,19 +1062,23 @@ msgstr "resizecons: kommandoen \"%s\" mislykkedes\n"
 
 #: src/resizecons.c:326
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: glem ikke at ændre TERM (måske til con%dx%d eller linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: glem ikke at ændre TERM (måske til con%dx%d eller linux-%dx%d)\n"
 
 #: src/resizecons.c:339
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "kald: resizecons KOLONNERxLINJER  eller: resizecons KOLONNER LINJER\n"
-"eller: resizecons -lines LINJER, hvor LINJER er en af 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"eller: resizecons -lines LINJER, hvor LINJER er en af 25, 28, 30, 34, 36, "
+"40, 44, 50, 60\n"
 
 #: src/resizecons.c:377
 #, c-format
@@ -1068,9 +1100,6 @@ msgstr "Fejl ved læsning af %s\n"
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "kunne ikke læse %s, og kan ikke køre \"ioctl dump\"\n"
 
-#. we tried this just to be sure, but TIOCLINUX
-#. function 0 has been disabled since 1.1.92
-#. Do not mention `ioctl dump' in error msg
 #: src/screendump.c:133
 #, c-format
 msgid "couldn't read %s\n"
@@ -1089,7 +1118,8 @@ msgstr "Fejl ved skrivning af skærmdump\n"
 #: src/setfont.c:76
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1113,7 +1143,8 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Brug: setfont [skriveflag] [-<N>] [nyskrifttype..] [-m konsoltabel] [-u UCS-tabel]\n"
+"Brug: setfont [skriveflag] [-<N>] [nyskrifttype..] [-m konsoltabel] [-u UCS-"
+"tabel]\n"
 "  skriveflag (sker før filer læses):\n"
 "    -o  <filnavn>\tSkriv nuværende skrifttype til <filnavn>\n"
 "    -O  <filnavn>\tSkriv nuværende skrifttype og UCS-tabel til <filnavn>\n"
@@ -1123,9 +1154,12 @@ msgstr ""
 "indlæses en standardskrifttype:\n"
 "    setfont             Indlæs skrifttype \"default[.gz]\"\n"
 "    setfont -<N>        Indlæs skrifttype \"default8x<N>[.gz]\"\n"
-"-<N>-flaget vælger en skrifttype fra en tegntabel som indeholder tre skrifttyper:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Indlæs 8×<N>-skrifttypen fra codepage.cp\n"
-"Eksplicit (med -m eller -u) eller implicit (i skrifttypefilen) givne tabeller\n"
+"-<N>-flaget vælger en skrifttype fra en tegntabel som indeholder tre "
+"skrifttyper:\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Indlæs 8×<N>-skrifttypen fra "
+"codepage.cp\n"
+"Eksplicit (med -m eller -u) eller implicit (i skrifttypefilen) givne "
+"tabeller\n"
 "vil blive læst ind og, hvis det er konsoltabeller, aktiveres.\n"
 "    -h<N>      (intet blanktegn) tilsidesæt skrifttypehøjde.\n"
 "    -m <fn>    Indlæs konsolskærmstabel.\n"
@@ -1144,8 +1178,11 @@ msgstr "setfont: for mange inddatafiler\n"
 
 #: src/setfont.c:188
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: kan ikke både genskabe fra tegn-ROM og fra fil. Fonten uændret.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: kan ikke både genskabe fra tegn-ROM og fra fil. Fonten uændret.\n"
 
 #: src/setfont.c:262
 #, c-format
@@ -1210,7 +1247,9 @@ msgstr "Kan ikke åbne skrifttypefilen %s\n"
 #: src/setfont.c:428
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "Når flere skrifttyper læses ind skal alle være psf-skrifttyper - %s er det ikke\n"
+msgstr ""
+"Når flere skrifttyper læses ind skal alle være psf-skrifttyper - %s er det "
+"ikke\n"
 
 #: src/setfont.c:438
 #, c-format
@@ -1252,12 +1291,6 @@ msgstr "Intet endeligt nylinjestegn i kombinationsfilen\n"
 msgid "Too many files to combine\n"
 msgstr "For mange filer at kombinere\n"
 
-#. restorefont -w writes a SVGA font to file
-#. restorefont -r restores it
-#. These fonts have size 32768, for two 512-char fonts.
-#. In fact, when BROKEN_GRAPHICS_PROGRAMS is defined,
-#. and it always is, there is no default font that is saved,
-#. so probably the second half is always garbage.
 #: src/setfont.c:579
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
@@ -1280,7 +1313,8 @@ msgstr ""
 #: src/setfont.c:631
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "Du bad om skrifttypesstørrelsen %d, men kun 8, 14 og 16 er mulige her.\n"
+msgstr ""
+"Du bad om skrifttypesstørrelsen %d, men kun 8, 14 og 16 er mulige her.\n"
 
 #: src/setfont.c:676
 #, c-format
@@ -1360,12 +1394,17 @@ msgstr "fra"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr "Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en VT?\n"
+msgstr ""
+"Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en "
+"VT?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Fejl ved læsning af nuværende flagindstilling. Du er måske ikke på konsollen?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Fejl ved læsning af nuværende flagindstilling. Du er måske ikke på "
+"konsollen?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1478,7 +1517,9 @@ msgstr "Mærkelig tilstand for Metatasten?\n"
 #: src/setmetamode.c:79
 #, c-format
 msgid "Error reading current setting. Maybe stdin is not a VT?\n"
-msgstr "Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en VT?\n"
+msgstr ""
+"Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en "
+"VT?\n"
 
 #: src/setmetamode.c:99
 #, c-format
@@ -1533,7 +1574,8 @@ msgstr ""
 "(formentligt efter at have indlæst en skrifttype med `setfont font')\n"
 "\n"
 "Gyldige tilvalg er:\n"
-" -C tty   Enhed du vil læse skrifttypen fra. Standard: Aktuel Konsol-enhed (tty).\n"
+" -C tty   Enhed du vil læse skrifttypen fra. Standard: Aktuel Konsol-enhed "
+"(tty).\n"
 " -v       Vær mere snaksaglig.\n"
 " -i       Udskriv ikke skrifttypetabellen, bare vis\n"
 "          RÆKKERxKOLONNExANTAL og afslut.\n"
@@ -1622,7 +1664,9 @@ msgstr ""
 #: src/showkey.c:232
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "tryk en vilkårlig tast (programmet afsluttes 10 s efter sidste tastetrykning)...\n"
+msgstr ""
+"tryk en vilkårlig tast (programmet afsluttes 10 s efter sidste "
+"tastetrykning)...\n"
 
 #: src/showkey.c:256
 msgid "release"
@@ -1641,6 +1685,10 @@ msgstr "tastekode %3d %s\n"
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s fra %s\n"
+
+#, fuzzy
+#~ msgid "loadkeys: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: fejl ved læsning af tastaturstilstand\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "plus før %s ignoreret\n"

@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-21 15:30+0400\n"
+"Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
+"POT-Creation-Date: 2010-04-11 01:15+0400\n"
 "PO-Revision-Date: 2008-12-10 23:24+0800\n"
 "Last-Translator: Jarod Wang <jarodwang.cn@gmail.com>\n"
-"Language-Team: Chinese (simplified) <translation-team-zh-cn@lists.sourceforge.net>\n"
+"Language-Team: Chinese (simplified) <translation-team-zh-cn@lists."
+"sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -448,157 +449,173 @@ msgstr ""
 "  -u --unicode       隐式转换为 Unicode\n"
 "  -v --verbose       报告任何改变\n"
 
-#: loadkeys.y:372
+#: loadkeys.y:375
 #, fuzzy, c-format
-msgid "loadkeys: error reading keyboard mode\n"
-msgstr "kbd_mode: 读取键盘模式出错\n"
+msgid "%s: error reading keyboard mode\n"
+msgstr "%s: 设置键盘模式出错\n"
 
-#: loadkeys.y:383
+#: loadkeys.y:385
+#, fuzzy, c-format
+msgid ""
+"%s: warning: loading Unicode keymap on non-Unicode console\n"
+"    (perhaps you want to do `kbd_mode -u'?)\n"
+msgstr ""
+"%s: 警告:映射使用了 Unicode 标志，%s 模式=%d\n"
+"    (或许你想 `kbd_mode -u'？)\n"
+
+#: loadkeys.y:395
 #, c-format
 msgid "syntax error in map file\n"
 msgstr "映射文件中存在语法错误\n"
 
-#: loadkeys.y:385
+#: loadkeys.y:397
 #, c-format
 msgid "key bindings not changed\n"
 msgstr "键绑定未被改变\n"
 
-#: loadkeys.y:462
+#: loadkeys.y:474
 msgid "includes are nested too deeply"
 msgstr "包含文件嵌套太深"
 
-#. start reading include file
-#: loadkeys.y:617
+#: loadkeys.y:629
 #, c-format
 msgid "switching to %s\n"
 msgstr "切换到 %s\n"
 
-#: loadkeys.y:623
+#: loadkeys.y:635
 #, c-format
 msgid "cannot open include file %s"
 msgstr "无法打开包含文件 %s"
 
-#: loadkeys.y:670
+#: loadkeys.y:682
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "无法找到 %s\n"
 
-#: loadkeys.y:683
+#: loadkeys.y:695
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "无法打开文件 %s\n"
 
-#: loadkeys.y:694
+#: loadkeys.y:706
 #, c-format
 msgid "Loading %s\n"
 msgstr "正在加载 %s\n"
 
-#: loadkeys.y:706
+#: loadkeys.y:718
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr "调用 addmap 时使用了错误的索引 %d"
 
-#: loadkeys.y:710
+#: loadkeys.y:722
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "添加映射 %d 违反了显式键映射行"
 
-#: loadkeys.y:724
+#: loadkeys.y:736
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr "调用 killkey 时使用了错误的索引 %d"
 
-#: loadkeys.y:726
+#: loadkeys.y:738
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr "调用 killkey 时使用了错误的表 %d"
 
-#. is safer not to be silent in this case,
-#. * it can be caused by coding errors as well.
-#: loadkeys.y:740
+#: loadkeys.y:752
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr "调用 addkey 时使用了错误的键码 %d"
 
-#: loadkeys.y:742
+#: loadkeys.y:754
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr "调用 addkey 时使用了错误的索引 %d"
 
-#: loadkeys.y:744
+#: loadkeys.y:756
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr "调用 addkey 时使用了错误的表 %d"
 
-#: loadkeys.y:785
+#: loadkeys.y:797
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr "%s: 调用 addfunc 时使用了错误的函数 %d\n"
 
-#: loadkeys.y:813
+#: loadkeys.y:825
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr "%s: addfunc: func_buf 溢出\n"
 
-#: loadkeys.y:840
+#: loadkeys.y:852
 #, c-format
 msgid "compose table overflow\n"
 msgstr "组合表溢出\n"
 
-#: loadkeys.y:867
+#: loadkeys.y:871
+#, fuzzy, c-format
+msgid "%s: could not switch to Unicode mode\n"
+msgstr "%s: 无法回收控制台 %d\n"
+
+#: loadkeys.y:888
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr "键映射 %d: 权限不足\n"
 
-#: loadkeys.y:875
+#: loadkeys.y:896
 #, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "键码 %d, 表 %d = %d%s\n"
 
-#: loadkeys.y:876
+#: loadkeys.y:897
 msgid "    FAILED"
 msgstr "    失败"
 
-#: loadkeys.y:879
+#: loadkeys.y:900
 #, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "将键 %d 绑定到值 %d 失败\n"
 
-#: loadkeys.y:890
+#: loadkeys.y:911
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr "回收键映射 %d\n"
 
-#: loadkeys.y:896
+#: loadkeys.y:917
 #, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr "%s: 无法回收键映射 %d\n"
 
-#: loadkeys.y:911
+#: loadkeys.y:932
 #, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s: 无法回收或清除键映射\n"
 
-#: loadkeys.y:960
+#: loadkeys.y:943
+#, fuzzy, c-format
+msgid "%s: could not return to original keyboard mode\n"
+msgstr "%s: 恢复键盘模式失败\n"
+
+#: loadkeys.y:988
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr "将字符串 '%s' 绑定到函数 %s 失败\n"
 
-#: loadkeys.y:967
+#: loadkeys.y:995
 #, c-format
 msgid "failed to clear string %s\n"
 msgstr "清除字符串 %s 失败\n"
 
-#: loadkeys.y:987
+#: loadkeys.y:1015
 #, c-format
 msgid "too many compose definitions\n"
 msgstr "太多组合定义\n"
 
-#: loadkeys.y:1069
+#: loadkeys.y:1097
 msgid "impossible error in do_constant"
 msgstr "do_constant 中发生不可能的错误"
 
-#: loadkeys.y:1085
+#: loadkeys.y:1113
 #, c-format
 msgid ""
 "\n"
@@ -607,46 +624,46 @@ msgstr ""
 "\n"
 "已修改 %d %s 和 %d %s.\n"
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "key"
 msgstr "个键"
 
-#: loadkeys.y:1086
+#: loadkeys.y:1114
 msgid "keys"
 msgstr "个键"
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "string"
 msgstr "个字符串"
 
-#: loadkeys.y:1087
+#: loadkeys.y:1115
 msgid "strings"
 msgstr "个字符串"
 
-#: loadkeys.y:1092
+#: loadkeys.y:1120
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr "已加载 %d 个组合 %s.\n"
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definition"
 msgstr "定义"
 
-#: loadkeys.y:1093
+#: loadkeys.y:1121
 msgid "definitions"
 msgstr "定义"
 
-#: loadkeys.y:1098
+#: loadkeys.y:1126
 #, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr "(组合定义没有改变。)\n"
 
-#: loadkeys.y:1130
+#: loadkeys.y:1158
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr "loadkeys: 不知道如何为 %s 进行组合\n"
 
-#: loadkeys.y:1362 src/mapscrn.c:278 src/mapscrn.c:283
+#: loadkeys.y:1390 src/mapscrn.c:278 src/mapscrn.c:283
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "将映射写入文件失败\n"
@@ -682,8 +699,11 @@ msgstr "%s: 错误的 Unicode 范围对应于字体位置范围 0x%x-0x%x\n"
 
 #: src/loadunimap.c:239 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Unicode 范围 U+%x-U+%x 的长度和字体位置范围 0x%x-0x%x 的长度不一致\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%"
+"x-0x%x\n"
+msgstr ""
+"%s: Unicode 范围 U+%x-U+%x 的长度和字体位置范围 0x%x-0x%x 的长度不一致\n"
 
 #: src/loadunimap.c:258 src/psfxtable.c:203
 #, c-format
@@ -861,7 +881,8 @@ msgstr "openvt: 无法回收控制台 %d\n"
 
 #: src/openvt.c:336
 #, c-format
-msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+msgid ""
+"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
 msgstr "用法: openvt [-c VT 号] [-f] [-l] [-u] [-s] [-v] [-w] -- 命令行\n"
 
 #: src/openvt.c:416
@@ -869,82 +890,82 @@ msgstr "用法: openvt [-c VT 号] [-f] [-l] [-u] [-s] [-v] [-w] -- 命令行\n"
 msgid "Couldn't find owner of current tty!\n"
 msgstr "无法找到当前 tty 的所有者！\n"
 
-#: src/psffontop.c:72
+#: src/psffontop.c:73
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s: 短 ucs2 unicode 表\n"
 
-#: src/psffontop.c:93
+#: src/psffontop.c:94
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s: 短 utf8 unicode 表\n"
 
-#: src/psffontop.c:96
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s: 错误的 utf8\n"
 
-#: src/psffontop.c:99
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s: 未知的 utf8 错误\n"
 
-#: src/psffontop.c:129
+#: src/psffontop.c:130
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s: 短 unicode 表\n"
 
-#: src/psffontop.c:209
+#: src/psffontop.c:210
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s: 读取输入字体出错"
 
-#: src/psffontop.c:223
+#: src/psffontop.c:224
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s: 对 readpsffont 的错误调用\n"
 
-#: src/psffontop.c:238
+#: src/psffontop.c:239
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s: 不支持的 psf 文件模式 (%d)\n"
 
-#: src/psffontop.c:256
+#: src/psffontop.c:257
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s: 不支持的 psf 版本 (%d)\n"
 
-#: src/psffontop.c:272
+#: src/psffontop.c:273
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s: 输入字体的长度为 0？\n"
 
-#: src/psffontop.c:277
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s: 输入字符的大小为 0？\n"
 
-#: src/psffontop.c:283
+#: src/psffontop.c:284
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s: 输入文件: 错误的输入长度 (%d)\n"
 
-#: src/psffontop.c:315
+#: src/psffontop.c:316
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s: 输入文件: 尾部无用信息\n"
 
-#: src/psffontop.c:353
+#: src/psffontop.c:354
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode: 非法的 unicode %u\n"
 
-#: src/psffontop.c:446
+#: src/psffontop.c:447
 #, c-format
 msgid "Cannot write font file header"
 msgstr "无法写入字体文件头部"
 
-#: src/psffontop.c:472 src/setfont.c:680
+#: src/psffontop.c:473 src/setfont.c:680
 #, c-format
 msgid "Cannot write font file"
 msgstr "无法写入字体文件"
@@ -971,7 +992,9 @@ msgstr "%s: 错误的范围结束值 (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr "%s: 对应于一个字体位置的范围，应该存在一个 Unicode 范围\n"
 
 #: src/psfxtable.c:258
@@ -1052,7 +1075,8 @@ msgstr "resizecons: 命令 '%s' 失败\n"
 
 #: src/resizecons.c:326
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr "resizecons: 不要忘记修改 TERM (也许修改为 con%dx%d 或 linux-%dx%d)\n"
 
 #: src/resizecons.c:339
@@ -1060,11 +1084,13 @@ msgstr "resizecons: 不要忘记修改 TERM (也许修改为 con%dx%d 或 linux-
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "调用方法为: resizecons COLSxROWS 或: resizecons COLS ROWS\n"
-"或: resizecons -lines ROWS, 其中 ROWS 为 25, 28, 30, 34, 36, 40, 44, 50, 60 中的一个\n"
+"或: resizecons -lines ROWS, 其中 ROWS 为 25, 28, 30, 34, 36, 40, 44, 50, 60 "
+"中的一个\n"
 
 #: src/resizecons.c:377
 #, c-format
@@ -1086,9 +1112,6 @@ msgstr "读取 %s 出错\n"
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "无法读取 %s, 并且不能 ioctl 转储\n"
 
-#. we tried this just to be sure, but TIOCLINUX
-#. function 0 has been disabled since 1.1.92
-#. Do not mention `ioctl dump' in error msg
 #: src/screendump.c:133
 #, c-format
 msgid "couldn't read %s\n"
@@ -1107,7 +1130,8 @@ msgstr "写入屏幕转储出错\n"
 #: src/setfont.c:76
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1131,7 +1155,8 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"用法; setfont [写入选项] [-<N>] [新字体..] [-m 控制台映射] [-u unicode 映射]\n"
+"用法; setfont [写入选项] [-<N>] [新字体..] [-m 控制台映射] [-u unicode 映"
+"射]\n"
 "  write-options (在文件加载之前进行):\n"
 "    -o  <文件名>  将当前字体写入<文件名>\n"
 "    -O  <文件名>  将当前字体和 unicode 映射写入<文件名>\n"
@@ -1162,7 +1187,9 @@ msgstr "setfont: 太多的输入文件\n"
 
 #: src/setfont.c:188
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
 msgstr "setfont: 无法既从字符 ROM 进行恢复又从文件进行恢复。字体不变。\n"
 
 #: src/setfont.c:262
@@ -1270,12 +1297,6 @@ msgstr "合并文件结尾处没有新的行\n"
 msgid "Too many files to combine\n"
 msgstr "太多的文件需要合并\n"
 
-#. restorefont -w writes a SVGA font to file
-#. restorefont -r restores it
-#. These fonts have size 32768, for two 512-char fonts.
-#. In fact, when BROKEN_GRAPHICS_PROGRAMS is defined,
-#. and it always is, there is no default font that is saved,
-#. so probably the second half is always garbage.
 #: src/setfont.c:579
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
@@ -1382,7 +1403,8 @@ msgstr "读取当前 LED 设置出错。也许标准输入不是一个 VT？\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
 msgstr "读取当前标志设置出错。也许你不是在控制台上？\n"
 
 #: src/setleds.c:125 src/setleds.c:146
@@ -1662,15 +1684,9 @@ msgstr "键码 %3d %s\n"
 msgid "%s from %s\n"
 msgstr "%s 来自 %s\n"
 
+#, fuzzy
+#~ msgid "loadkeys: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: 读取键盘模式出错\n"
+
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "%s 前面的加号已被忽略\n"
-
-#~ msgid "%s: failed to restore keyboard mode\n"
-#~ msgstr "%s: 恢复键盘模式失败\n"
-
-#~ msgid ""
-#~ "%s: warning: this map uses Unicode symbols, %s mode=%d\n"
-#~ "    (perhaps you want to do `kbd_mode -u'?)\n"
-#~ msgstr ""
-#~ "%s: 警告:映射使用了 Unicode 标志，%s 模式=%d\n"
-#~ "    (或许你想 `kbd_mode -u'？)\n"
