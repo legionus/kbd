@@ -2090,7 +2090,7 @@ main(int argc, char *argv[]) {
 	}
 
 	prefer_unicode = optu;
-	if (!optm) {
+	if (!optm && !optb) {
 		/* check whether the keyboard is in Unicode mode */
 		fd = getfd(NULL);
 		if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
