@@ -274,6 +274,7 @@ usage(void) {
 "\n"
 "Valid options are:\n"
 "\n"
+"  -a --ascii         force conversion to ASCII\n"
 "  -b --bkeymap       output a binary keymap to stdout\n"
 "  -c --clearcompose  clear kernel compose table\n"
 "  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
@@ -289,6 +290,7 @@ usage(void) {
 }
 
 char **args;
+int opta = 0;
 int optb = 0;
 int optd = 0;
 int optm = 0;
@@ -300,8 +302,9 @@ int nocompose = 0;
 
 int
 main(int argc, char *argv[]) {
-	const char *short_opts = "bcC:dhmsuqvV";
+	const char *short_opts = "abcC:dhmsuqvV";
 	const struct option long_opts[] = {
+		{ "ascii",      no_argument, NULL, 'a' },
 		{ "bkeymap",    no_argument, NULL, 'b' },
 		{ "clearcompose", no_argument, NULL, 'c' },
 		{ "console",    1, NULL, 'C' },
@@ -331,6 +334,9 @@ main(int argc, char *argv[]) {
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+			case 'a':
+				opta = 1;
+				break;
 		        case 'b':
 		                optb = 1;
 				break;
@@ -366,6 +372,12 @@ main(int argc, char *argv[]) {
 		}
 	}
 
+	if (optu && opta) {
+		fprintf(stderr, _("%s: Options --unicode and --ascii are mutually exclusive\n"),
+		        progname);
+		exit(1);
+	}
+
 	prefer_unicode = optu;
 	if (!optm && !optb) {
 		/* check whether the keyboard is in Unicode mode */
@@ -377,7 +389,16 @@ main(int argc, char *argv[]) {
 		}
 
 		if (kbd_mode == K_UNICODE) {
-			prefer_unicode = 1;
+			if (opta) {
+				fprintf(stderr,
+				        _("%s: warning: loading non-Unicode keymap on Unicode console\n"
+					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
+				        progname);
+			}
+			else {
+				prefer_unicode = 1;
+			}
+
 			/* reset -u option if keyboard is in K_UNICODE anyway */
 			optu = 0;
 		}
