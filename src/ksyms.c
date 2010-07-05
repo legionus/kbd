@@ -1701,6 +1701,12 @@ set_charset(const char *charset) {
 					syms[0].table[i] = p->name;
 			}
 			strcpy(chosen_charset, charset);
+
+			/* Unicode: The first 256 code points were made
+			   identical to the content of ISO 8859-1 */
+			if (prefer_unicode && !strcasecmp(charset, "iso-8859-1"))
+				prefer_unicode = 0;
+
 			return 0;
 		}
 	}
