@@ -140,7 +140,7 @@ main(int argc, char **argv) {
     	rr = atoi(argv[2]);
     }
     else
-    if (argc == 2 && (p = index(argv[1], 'x')) != 0)
+    if (argc == 2 && (p = strchr(argv[1], 'x')) != 0)
       rr = atoi(p+1);
     else if(argc == 3)
       rr = atoi(argv[2]);

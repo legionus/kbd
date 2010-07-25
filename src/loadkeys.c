@@ -2345,7 +2345,7 @@ FILE *find_incl_file_near_fn(char *s, char *fn) {
 		return NULL;
 
 	t = xstrdup(fn);
-	te = rindex(t, '/');
+	te = strrchr(t, '/');
 	if (te) {
 		te[1] = 0;
 		include_dirpath2[0] = t;
@@ -2383,7 +2383,7 @@ FILE *find_standard_incl_file(char *s) {
 		     else if (strlen(filename) + n < sizeof(path)) {
 			  strcpy(path, filename);
 			  path[sizeof(path)-1] = 0;
-			  ptr = rindex(path, '/');
+			  ptr = strrchr(path, '/');
 			  if (ptr)
 			       ptr[1] = 0;
 			  strcat(path, buf);
@@ -2409,7 +2409,7 @@ FILE *find_incl_file(char *s) {
 		/* try user-specified path */
 		char *user_dir[2] = { 0, 0 };
 		while(ev) {
-			char *t = index(ev, ':');
+			char *t = strchr(ev, ':');
 			char sv = 0;
 			if (t) {
 				sv = *t;

@@ -58,7 +58,7 @@ maybe_pipe_open(void) {
 	struct decompressor *dc;
 
 	if ((fp = fopen(pathname, "r")) != NULL) {
-	    t = rindex(pathname, '.');
+	    t = strrchr(pathname, '.');
 	    if (t) {
 		for (dc = &decompressors[0]; dc->cmd; dc++)
 		    if (strcmp(t, dc->ext) == 0) {
@@ -86,7 +86,7 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 
 	ispipe = 0;
 
-	ff = index(fnam, '/');
+	ff = strchr(fnam, '/');
 	if (ff) {
 		fdir = xstrdup(fnam);
 		fdir[ff-fnam] = 0; 	/* caller guarantees fdir != "" */

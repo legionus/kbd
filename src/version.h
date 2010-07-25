@@ -12,7 +12,7 @@ static inline void
 set_progname(char *name) {
 	char *p;
 
-	p = rindex(name, '/');
+	p = strrchr(name, '/');
 	progname = (p ? p+1 : name);
 }
 
