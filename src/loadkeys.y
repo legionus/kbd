@@ -1181,7 +1181,7 @@ compose_as_usual(char *charset) {
 		exit(1);
 	} else {
 		struct ccc {
-			char c1, c2, c3;
+			unsigned char c1, c2, c3;
 		} def_latin1_composes[68] = {
 			{ '`', 'A', 0300 }, { '`', 'a', 0340 },
 			{ '\'', 'A', 0301 }, { '\'', 'a', 0341 },
