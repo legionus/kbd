@@ -11,8 +11,6 @@ AM_INIT_AUTOMAKE([1.9 -Wall])
 AC_CONFIG_SRCDIR([src/loadkeys.y])
 AC_CONFIG_HEADERS(config.h)
 
-AC_CHECK_KLIBC
-
 # Checks for programs.
 AC_PROG_YACC
 AC_PROG_CC

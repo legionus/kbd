@@ -31,11 +31,10 @@ main(int argc, char **argv) {
 	struct kbkeycode a;
 
 	set_progname(argv[0]);
-#ifndef __klibc__
+
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 		print_version_and_exit();

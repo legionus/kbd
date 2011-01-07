@@ -18,11 +18,9 @@ main(int argc, char *argv[]) {
 	int fd;
 	char *console = NULL;
 
-#ifndef __klibc__
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	if (argc >= 3 && !strcmp(argv[1], "-C"))
 		console = argv[2];

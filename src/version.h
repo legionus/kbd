@@ -1,8 +1,5 @@
 #include "kbd.h"
 #include "../config.h"
-#ifdef __klibc__
-#include "klibc_compat.h"
-#endif
 #include <string.h>
 #include <stdlib.h>
 

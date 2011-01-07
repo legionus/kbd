@@ -1,10 +1,9 @@
-
-/* A Bison parser, made by GNU Bison 2.4.1.  */
+/* A Bison parser, made by GNU Bison 2.4.3.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+   2009, 2010 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,7 +45,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.1"
+#define YYBISON_VERSION "2.4.3"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -163,7 +162,7 @@ int yylex (void);
 
 
 /* Line 189 of yacc.c  */
-#line 167 "loadkeys.c"
+#line 166 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -275,7 +274,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 279 "loadkeys.c"
+#line 278 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -325,7 +324,7 @@ typedef short int yytype_int16;
 #define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
-# if YYENABLE_NLS
+# if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -749,9 +748,18 @@ static const yytype_uint8 yystos[] =
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
-   Once GCC version 2 has supplanted version 1, this can go.  */
+   Once GCC version 2 has supplanted version 1, this can go.  However,
+   YYFAIL appears to be in use.  Nevertheless, it is formally deprecated
+   in Bison 2.4.2's NEWS entry, where a plan to phase it out is
+   discussed.  */
 
 #define YYFAIL		goto yyerrlab
+#if defined YYFAIL
+  /* This is here to suppress warnings from the GCC cpp's
+     -Wunused-macros.  Normally we don't worry about that warning, but
+     some users do, and we want to make it easy for users to remove
+     YYFAIL uses, which will produce warnings from Bison 2.5.  */
+#endif
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
@@ -808,7 +816,7 @@ while (YYID (0))
    we won't break user code: when these are the locations we know.  */
 
 #ifndef YY_LOCATION_PRINT
-# if YYLTYPE_IS_TRIVIAL
+# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
 #  define YY_LOCATION_PRINT(File, Loc)			\
      fprintf (File, "%d.%d-%d.%d",			\
 	      (Loc).first_line, (Loc).first_column,	\
@@ -1547,7 +1555,7 @@ yyreduce:
     {
         case 14:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 121 "loadkeys.y"
     {
 			    set_charset((char *) kbs_buf.kb_string);
@@ -1556,7 +1564,7 @@ yyreduce:
 
   case 15:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 126 "loadkeys.y"
     {
 			    alt_is_meta = 1;
@@ -1565,7 +1573,7 @@ yyreduce:
 
   case 16:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 131 "loadkeys.y"
     {
 			    strings_as_usual();
@@ -1574,7 +1582,7 @@ yyreduce:
 
   case 17:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 136 "loadkeys.y"
     {
 			    compose_as_usual((char *) kbs_buf.kb_string);
@@ -1583,7 +1591,7 @@ yyreduce:
 
   case 18:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 140 "loadkeys.y"
     {
 			    compose_as_usual(0);
@@ -1592,7 +1600,7 @@ yyreduce:
 
   case 19:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 145 "loadkeys.y"
     {
 			    keymaps_line_seen = 1;
@@ -1601,7 +1609,7 @@ yyreduce:
 
   case 22:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 153 "loadkeys.y"
     {
 			    int i;
@@ -1612,7 +1620,7 @@ yyreduce:
 
   case 23:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 159 "loadkeys.y"
     {
 			    addmap((yyvsp[(1) - (1)]),1);
@@ -1621,7 +1629,7 @@ yyreduce:
 
   case 24:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 164 "loadkeys.y"
     {
 			    if (KTYP((yyvsp[(2) - (5)])) != KT_FN)
@@ -1634,7 +1642,7 @@ yyreduce:
 
   case 25:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 173 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
@@ -1643,7 +1651,7 @@ yyreduce:
 
   case 26:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 177 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
@@ -1652,28 +1660,28 @@ yyreduce:
 
   case 27:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 182 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]); }
     break;
 
   case 28:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 184 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]) ^ 0xf000; }
     break;
 
   case 29:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 186 "loadkeys.y"
     { mod = 0; }
     break;
 
   case 30:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 188 "loadkeys.y"
     {
 			    addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)]));
@@ -1682,7 +1690,7 @@ yyreduce:
 
   case 31:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 192 "loadkeys.y"
     {
 			    addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)]));
@@ -1691,70 +1699,70 @@ yyreduce:
 
   case 34:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 199 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 35:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 200 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 36:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 201 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 37:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 202 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 38:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 203 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 204 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 205 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 41:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 206 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 42:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 207 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 210 "loadkeys.y"
     {
 	    int i, j;
@@ -1790,7 +1798,7 @@ yyreduce:
 
   case 46:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 246 "loadkeys.y"
     {
 			    if (rvalct >= MAX_NR_KEYMAPS)
@@ -1801,50 +1809,50 @@ yyreduce:
 
   case 47:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 253 "loadkeys.y"
     {(yyval)=convert_code((yyvsp[(1) - (1)]), TO_AUTO);}
     break;
 
   case 48:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 255 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
   case 49:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 257 "loadkeys.y"
     {(yyval)=convert_code((yyvsp[(1) - (1)])^0xf000, TO_AUTO);}
     break;
 
   case 50:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 259 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)])^0xf000);}
     break;
 
   case 51:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 261 "loadkeys.y"
     {(yyval)=(yyvsp[(1) - (1)]);}
     break;
 
   case 52:
 
-/* Line 1455 of yacc.c  */
+/* Line 1464 of yacc.c  */
 #line 263 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
 
 
-/* Line 1455 of yacc.c  */
-#line 1848 "loadkeys.c"
+/* Line 1464 of yacc.c  */
+#line 1856 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2055,7 +2063,7 @@ yyreturn:
 
 
 
-/* Line 1675 of yacc.c  */
+/* Line 1684 of yacc.c  */
 #line 265 "loadkeys.y"
 			
 
@@ -2120,11 +2128,10 @@ main(int argc, char *argv[]) {
 	char *console = NULL;
 
 	set_progname(argv[0]);
-#ifndef __klibc__
+
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
@@ -2165,6 +2172,12 @@ main(int argc, char *argv[]) {
 			case '?':
 				usage();
 		}
+	}
+
+	if (optu && opta) {
+		fprintf(stderr, _("%s: Options --unicode and --ascii are mutually exclusive\n"),
+		        progname);
+		exit(1);
 	}
 
 	prefer_unicode = optu;
@@ -2970,7 +2983,7 @@ compose_as_usual(char *charset) {
 		exit(1);
 	} else {
 		struct ccc {
-			char c1, c2, c3;
+			unsigned char c1, c2, c3;
 		} def_latin1_composes[68] = {
 			{ '`', 'A', 0300 }, { '`', 'a', 0340 },
 			{ '\'', 'A', 0301 }, { '\'', 'a', 0341 },
