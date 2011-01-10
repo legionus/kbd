@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -9,7 +10,7 @@
 #include "findfile.h"
 #include "nls.h"
 
-char pathname[1024];
+char pathname[MAXPATHLEN];
 static int ispipe;
 
 void fpclose(FILE *fp) {

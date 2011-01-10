@@ -17,6 +17,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <sys/param.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
@@ -582,7 +583,7 @@ FILE *find_standard_incl_file(char *s) {
 
 	/* If filename is a symlink, also look near its target. */
 	if (!f) {
-		char buf[1024], path[1024], *ptr;
+		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
 		unsigned int n;
 
 		n = readlink(filename, buf, sizeof(buf));
