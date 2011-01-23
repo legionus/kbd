@@ -83,6 +83,7 @@ To                      to|To|TO
 			 strcpy(s, yytext+1);
 			 s[l-2] = 0;		/* wipe out " */
 			 open_include(s);
+			 free(s);
 			 BEGIN(0);
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{

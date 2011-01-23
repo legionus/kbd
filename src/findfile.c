@@ -42,6 +42,7 @@ pipe_open(struct decompressor *dc) {
 	fp = popen(pipe_cmd, "r");
 	if (fp == NULL)
 		fprintf(stderr, _("error executing  %s\n"), pipe_cmd);
+	xfree(pipe_cmd);
 	return fp;
 }
 
@@ -90,8 +91,10 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	   contains the file we are looking for. */
  StartScan:
 	d = opendir(dir);
-	if (d == NULL)
+	if (d == NULL) {
+	    xfree(fdir);
 	    return NULL;
+	}
 	while ((de = readdir(d)) != NULL) {
 	    struct stat statbuf;
 	    int okdir;
@@ -116,10 +119,14 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 				fp = findfile_in_dir(ff+1, a, 0, suf);
 			if (!fp && recdepth)
 				fp = findfile_in_dir(fnam, a, recdepth-1, suf);
-			if (fp)
+			if (fp) {
+				xfree(a);
+				xfree(fdir);
+				closedir(d);
 				return fp;
+			}
 		}
-		free(a);
+		xfree(a);
 	    }
 
 	    if (secondpass)
@@ -145,14 +152,20 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	    for(sp = suf; *sp; sp++) {
 		    int l;
 
-		    if (!strcmp(p, *sp))
+		    if (!strcmp(p, *sp)) {
+		            xfree(fdir);
+		            closedir(d);
 			    return maybe_pipe_open();
+		    }
 
 		    l = strlen(*sp);
 		    if (strncmp(p,*sp,l) == 0) {
 			for (dc = &decompressors[0]; dc->cmd; dc++)
-			    if (strcmp(p+l, dc->ext) == 0)
+			    if (strcmp(p+l, dc->ext) == 0) {
+			        xfree(fdir);
+			        closedir(d);
 				return pipe_open(dc);
+			    }
 		    }
 	    }
 	}
@@ -161,6 +174,7 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 		secondpass = 1;
 		goto StartScan;
 	}
+	xfree(fdir);
 	return NULL;
 }
 
@@ -226,12 +240,14 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
 		    recdepth++;
 	    }
 	    if (dl == 0) {
-		    dir = ".";
+	            xfree(dir);
+		    dir = xstrdup(".");
 	    } else if (dl > 1 && dir[dl-1] == '/') {
 		    dir[dl-1] = 0;
 	    }
 
 	    fp = findfile_in_dir(fnam, dir, recdepth, suffixes);
+	    xfree(dir);
 	    if (fp)
 		    return fp;
 	}

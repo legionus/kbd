@@ -5,5 +5,6 @@
 extern void *xmalloc(size_t sz);
 extern void *xrealloc(void *p, size_t sz);
 extern char *xstrdup(char *p);
+extern void *xfree(void *p);
 
 #endif /* _XMALLOC_H */

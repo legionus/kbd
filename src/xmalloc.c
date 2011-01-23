@@ -39,3 +39,10 @@ xstrdup(char *p) {
 		nomem();
 	return q;
 }
+
+void *
+xfree(void *p) {
+	if (p != NULL)
+		free(p);
+	return NULL;
+}

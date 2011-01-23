@@ -447,7 +447,7 @@ main(int argc, char *argv[]) {
 }
 
 extern char pathname[];
-char *filename;
+char *filename = NULL;
 int line_nr = 1;
 
 int
@@ -461,6 +461,7 @@ yyerror(const char *s) {
 void attr_noreturn
 lkfatal(const char *s) {
 	fprintf(stderr, "%s: %s:%d: %s\n", progname, filename, line_nr, s);
+	xfree(filename);
 	exit(1);
 }
 
@@ -469,6 +470,7 @@ lkfatal0(const char *s, int d) {
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
 	fprintf(stderr, s, d);
 	fprintf(stderr, "\n");
+	xfree(filename);
 	exit(1);
 }
 
@@ -477,6 +479,7 @@ lkfatal1(const char *s, const char *s2) {
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
 	fprintf(stderr, s, s2);
 	fprintf(stderr, "\n");
+	xfree(filename);
 	exit(1);
 }
 
@@ -568,9 +571,10 @@ FILE *find_incl_file_near_fn(char *s, char *fn) {
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
 		f = findfile(s, include_dirpath2, include_suffixes);
-		if (f)
-			return f;
+		xfree(t1);
+		xfree(t2);
 	}
+	xfree(t);
 	return f;
 }
 
@@ -654,6 +658,7 @@ open_include(char *s) {
 	yyin = find_incl_file(s);
 	if (!yyin)
 		lkfatal1(_("cannot open include file %s"), s);
+	xfree(filename);
 	filename = xstrdup(pathname);
 	line_nr = 1;
 	yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
@@ -922,6 +927,8 @@ defkeys(int fd, int kbd_mode) {
 				  j, (key_map[i])[j]);
 		    }
 		}
+		xfree(key_map[i]);
+		xfree(keymap_was_set[i]);
 	    } else if (keymaps_line_seen && !defining[i]) {
 		/* deallocate keymap */
 		ke.kb_index = 0;
