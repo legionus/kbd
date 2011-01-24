@@ -179,9 +179,10 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 }
 
 /* find input file; leave name in pathname[] */
-FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
+FILE *
+findfile(char *fnam, char **dirpath, char **suffixes) {
         char **dp, *dir, **sp;
-	FILE *fp;
+	FILE *fp = NULL;
 	int dl, recdepth;
 	struct decompressor *dc;
 
@@ -229,28 +230,25 @@ FILE *findfile(char *fnam, char **dirpath, char **suffixes) {
 	}
 
 	/* Search a list of directories and directory hierarchies */
-	for (dp = dirpath; *dp; dp++) {
+	for (dp = dirpath; (*dp && !fp); dp++) {
+		recdepth = 0;
+		dl = strlen(*dp);
 
-	    /* delete trailing slashes; trailing stars denote recursion */
-	    dir = xstrdup(*dp);
-	    dl = strlen(dir);
-	    recdepth = 0;
-	    while (dl && dir[dl-1] == '*') {
-		    dir[--dl] = 0;
-		    recdepth++;
-	    }
-	    if (dl == 0) {
-	            xfree(dir);
-		    dir = xstrdup(".");
-	    } else if (dl > 1 && dir[dl-1] == '/') {
-		    dir[dl-1] = 0;
-	    }
+		/* trailing stars denote recursion */
+		while (dl && (*dp)[dl-1] == '*')
+			dl--, recdepth++;
 
-	    fp = findfile_in_dir(fnam, dir, recdepth, suffixes);
-	    xfree(dir);
-	    if (fp)
-		    return fp;
+		/* delete trailing slashes */
+		while (dl && (*dp)[dl-1] == '/')
+			dl--;
+
+		if (dl)
+			dir = xstrndup(*dp, dl);
+		else
+			dir = xstrdup(".");
+
+		fp = findfile_in_dir(fnam, dir, recdepth, suffixes);
+		xfree(dir);
 	}
-
-	return NULL;
+	return fp;
 }
