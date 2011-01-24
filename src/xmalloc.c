@@ -40,6 +40,14 @@ xstrdup(char *p) {
 	return q;
 }
 
+char *
+xstrndup(char *p, size_t n) {
+	char *q = strndup(p, n);
+	if (q == NULL)
+		nomem();
+	return q;
+}
+
 void *
 xfree(void *p) {
 	if (p != NULL)
