@@ -68,6 +68,48 @@ maybe_pipe_open(void) {
 }
 
 static FILE *
+findfile_by_fullname(char *fnam, char **suffixes) {
+	FILE *fp = NULL;
+	const char **sp;
+	struct stat st;
+	struct decompressor *dc;
+	size_t fnam_len, sp_len;
+
+	fnam_len = strlen(fnam);
+
+	for (sp = suffixes; *sp; sp++) {
+		if (*sp == 0)
+			continue; /* we tried it already */
+
+		sp_len = strlen(*sp);
+
+		if (fnam_len + sp_len + 1 > sizeof(pathname))
+			continue;
+
+		sprintf(pathname, "%s%s", fnam, *sp);
+
+		if(stat(pathname, &st) == 0
+		   && S_ISREG(st.st_mode)
+		   && (fp = fopen(pathname, "r")) != NULL)
+			return fp;
+
+		for (dc = &decompressors[0]; dc->cmd; dc++) {
+			if (fnam_len + sp_len + strlen(dc->ext) + 1 > sizeof(pathname))
+				continue;
+
+			sprintf(pathname, "%s%s%s", fnam, *sp, dc->ext);
+
+			if (stat(pathname, &st) == 0
+			    && S_ISREG(st.st_mode)
+			    && access(pathname, R_OK) == 0)
+				return pipe_open(dc);
+		}
+	}
+
+	return NULL;
+}
+
+static FILE *
 findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	FILE *fp = NULL;
 	DIR *d;
@@ -181,10 +223,9 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 /* find input file; leave name in pathname[] */
 FILE *
 findfile(char *fnam, char **dirpath, char **suffixes) {
-        char **dp, *dir, **sp;
+	char **dp, *dir;
 	FILE *fp = NULL;
 	int dl, recdepth;
-	struct decompressor *dc;
 
 	if (strlen(fnam) >= sizeof(pathname))
 		return NULL;
@@ -197,37 +238,8 @@ findfile(char *fnam, char **dirpath, char **suffixes) {
 
 	/* Test for full pathname - opening it failed, so need suffix */
 	/* (This is just nonsense, for backwards compatibility.) */
-	if (*fnam == '/') {
-	    struct stat statbuf;
-
-	    for (sp = suffixes; *sp; sp++) {
-		if (strlen(fnam) + strlen(*sp) + 1 > sizeof(pathname))
-		    continue;
-		if (*sp == 0)
-		    continue;	/* we tried it already */
-		sprintf(pathname, "%s%s", fnam, *sp);
-		if(stat(pathname, &statbuf) == 0 && S_ISREG(statbuf.st_mode)
-		   && (fp = fopen(pathname, "r")) != NULL)
-		    return fp;
-	    }
-
-	    for (sp = suffixes; *sp; sp++) {
-		for (dc = &decompressors[0]; dc->cmd; dc++) {
-		    if (strlen(fnam) + strlen(*sp)
-			+ strlen(dc->ext) + 1 > sizeof(pathname))
-			    continue;
-		    sprintf(pathname, "%s%s%s", fnam, *sp, dc->ext);
-		    if (stat(pathname, &statbuf) == 0
-			&& S_ISREG(statbuf.st_mode)
-			&& (fp = fopen(pathname, "r")) != NULL) {
-			    fclose(fp);
-			    return pipe_open(dc);
-		    }
-		}
-	    }
-
-	    return NULL;
-	}
+	if (*fnam == '/')
+		return findfile_by_fullname(fnam, suffixes);
 
 	/* Search a list of directories and directory hierarchies */
 	for (dp = dirpath; (*dp && !fp); dp++) {
