@@ -25,9 +25,8 @@
 # define KERNDIR "/usr/src/linux/drivers/char"
 #endif
 
-extern FILE *findfile(char *fnam, char **dirpath, char **suffixes);
+#include "findfile.h"
 extern char pathname[];
-extern void fpclose(FILE *fp);
 
 extern int verbose;
 extern int debug;
