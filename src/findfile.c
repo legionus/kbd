@@ -70,7 +70,7 @@ maybe_pipe_open(void) {
 static FILE *
 findfile_by_fullname(char *fnam, char **suffixes) {
 	FILE *fp = NULL;
-	const char **sp;
+	char **sp;
 	struct stat st;
 	struct decompressor *dc;
 	size_t fnam_len, sp_len;
@@ -117,55 +117,58 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 	char *ff, *fdir, *p, *q, **sp;
 	struct decompressor *dc;
 	int secondpass = 0;
+	size_t dir_len;
 
 	ispipe = 0;
 
-	ff = strchr(fnam, '/');
-	if (ff) {
-		fdir = xstrdup(fnam);
-		fdir[ff-fnam] = 0; 	/* caller guarantees fdir != "" */
-	} else
-		fdir = 0;		/* just to please gcc */
+	if ((d = opendir(dir)) == NULL)
+	    return NULL;
+
+	dir_len = strlen(dir);
+
+	fdir = NULL;
+	if ((ff = strchr(fnam, '/')) != NULL)
+		fdir = xstrndup(fnam, ff - fnam);
 
 	/* Scan the directory twice: first for files, then
 	   for subdirectories, so that we do never search
 	   a subdirectory when the directory itself already
 	   contains the file we are looking for. */
- StartScan:
-	d = opendir(dir);
-	if (d == NULL) {
-	    xfree(fdir);
-	    return NULL;
-	}
+StartScan:
 	while ((de = readdir(d)) != NULL) {
-	    struct stat statbuf;
+	    struct stat st;
 	    int okdir;
+	    size_t d_len;
 
-	    if (strcmp(de->d_name, ".") == 0 ||
-		strcmp(de->d_name, "..") == 0)
-		continue;
+	    d_len = strlen(de->d_name);
+	    if (d_len < 3) {
+		    if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
+			continue;
+	    }
 
-	    if (strlen(dir) + strlen(de->d_name) + 2 > sizeof(pathname))
+	    if (dir_len + d_len + 2 > sizeof(pathname)) {
+	    	fprintf(stderr, _("Warning: path too long: %s/%s\n"), dir, de->d_name);
 		continue;
+	    }
 
 	    okdir = (ff && strcmp(de->d_name, fdir) == 0);
 
 	    if ((secondpass && recdepth) || okdir) {
 		char *a;
 
-		a = xmalloc(strlen(dir) + strlen(de->d_name) + 2);
+		a = xmalloc(dir_len + d_len + 2);
 		sprintf(a, "%s/%s", dir, de->d_name);
-		if (stat(a, &statbuf) == 0 &&
-		    S_ISDIR(statbuf.st_mode)) {
+
+		if (stat(a, &st) == 0 && S_ISDIR(st.st_mode)) {
 			if (okdir)
 				fp = findfile_in_dir(ff+1, a, 0, suf);
+
 			if (!fp && recdepth)
 				fp = findfile_in_dir(fnam, a, recdepth-1, suf);
+
 			if (fp) {
 				xfree(a);
-				xfree(fdir);
-				closedir(d);
-				return fp;
+				goto EndScan;
 			}
 		}
 		xfree(a);
@@ -186,38 +189,40 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
 		    continue;
 
 	    sprintf(pathname, "%s/%s", dir, de->d_name);
-	    if (stat(pathname, &statbuf) != 0 || !S_ISREG(statbuf.st_mode))
+	    if (stat(pathname, &st) != 0 || !S_ISREG(st.st_mode))
 		    continue;
 
 	    /* Does tail consist of a known suffix and possibly
 	       a compression suffix? */
 	    for(sp = suf; *sp; sp++) {
-		    int l;
+		    size_t l;
 
 		    if (!strcmp(p, *sp)) {
-		            xfree(fdir);
-		            closedir(d);
-			    return maybe_pipe_open();
+	    		fp = maybe_pipe_open();
+	    		goto EndScan;
 		    }
 
 		    l = strlen(*sp);
-		    if (strncmp(p,*sp,l) == 0) {
+		    if (!strncmp(p, *sp, l)) {
 			for (dc = &decompressors[0]; dc->cmd; dc++)
 			    if (strcmp(p+l, dc->ext) == 0) {
-			        xfree(fdir);
-			        closedir(d);
-				return pipe_open(dc);
+			    	fp = pipe_open(dc);
+			    	goto EndScan;
 			    }
 		    }
 	    }
 	}
-	closedir(d);
+
 	if (recdepth > 0 && !secondpass) {
 		secondpass = 1;
+		seekdir(d, 0);
 		goto StartScan;
 	}
+
+EndScan:
 	xfree(fdir);
-	return NULL;
+	closedir(d);
+	return fp;
 }
 
 /* find input file; leave name in pathname[] */
