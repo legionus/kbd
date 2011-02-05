@@ -2221,6 +2221,9 @@ main(int argc, char *argv[]) {
 		  fprintf(stderr, _("key bindings not changed\n"));
 		exit(1);
 	}
+	fpclose(yyin);
+	xfree(filename);
+
 	do_constant();
 	if(optb) {
 		bkeymap();
@@ -2313,6 +2316,8 @@ lk_pop(void) {
 		filename = infile_stack[infile_stack_ptr].filename;
 		line_nr = infile_stack[infile_stack_ptr].linenr;
 		yy_delete_buffer(YY_CURRENT_BUFFER);
+		fpclose(yyin);
+
 		yy_switch_to_buffer(infile_stack[infile_stack_ptr].bs);
 		return 0;
 	}
@@ -2529,14 +2534,16 @@ yywrap(void) {
 		other situations, hence the flag.
 	*/
       gotf:
+	xfree(filename);
 	filename = xstrdup(pathname);
 	if (!quiet && !optm)
 		fprintf(stdout, _("Loading %s\n"), pathname);
 	if (first_file) {
 		yyin = f;
 		first_file = 0;
-	} else
+	} else {
 		yyrestart(f);
+	}
 	return 0;
 }
 

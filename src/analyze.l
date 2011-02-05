@@ -89,6 +89,9 @@ To                      to|To|TO
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
 			  yyerror("expected filename between quotes");
 			  BEGIN(0); }
+<<EOF>>			{yypop_buffer_state();
+			 if (!YY_CURRENT_BUFFER) yyterminate();
+			}
 {Continuation}		{line_nr++;}
 {Eol}			{line_nr++;BEGIN(0);return(EOL);}
 {Blank}+		; /* do nothing */

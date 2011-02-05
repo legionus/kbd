@@ -1126,21 +1126,30 @@ YY_RULE_SETUP
 			  yyerror("expected filename between quotes");
 			  BEGIN(0); }
 	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+case YY_STATE_EOF(RVALUE):
+case YY_STATE_EOF(STR):
+case YY_STATE_EOF(INCLSTR):
+#line 92 "analyze.l"
+{yypop_buffer_state();
+			 if (!YY_CURRENT_BUFFER) yyterminate();
+			}
+	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 92 "analyze.l"
+#line 95 "analyze.l"
 {line_nr++;}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 93 "analyze.l"
+#line 96 "analyze.l"
 {line_nr++;BEGIN(0);return(EOL);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 94 "analyze.l"
+#line 97 "analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1149,226 +1158,219 @@ case 7:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 95 "analyze.l"
+#line 98 "analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 96 "analyze.l"
+#line 99 "analyze.l"
 {BEGIN(RVALUE);rvalct=0;return(EQUALS);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 97 "analyze.l"
+#line 100 "analyze.l"
 {return(DASH);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 98 "analyze.l"
+#line 101 "analyze.l"
 {return(COMMA);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 99 "analyze.l"
+#line 102 "analyze.l"
 {return(PLUS);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 100 "analyze.l"
+#line 103 "analyze.l"
 {yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal1("unicode keysym out of range: %s",yytext);return(UNUMBER);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 101 "analyze.l"
+#line 104 "analyze.l"
 {yylval=strtol(yytext,NULL,0);return(NUMBER);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 102 "analyze.l"
+#line 105 "analyze.l"
 {return((yylval=ksymtocode(yytext, TO_AUTO))==-1?ERROR:LITERAL);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 103 "analyze.l"
+#line 106 "analyze.l"
 {return(CHARSET);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 104 "analyze.l"
+#line 107 "analyze.l"
 {return(KEYMAPS);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 105 "analyze.l"
+#line 108 "analyze.l"
 {return(KEYCODE);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 106 "analyze.l"
+#line 109 "analyze.l"
 {BEGIN(RVALUE);return(STRING);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 107 "analyze.l"
+#line 110 "analyze.l"
 {return(PLAIN);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 108 "analyze.l"
+#line 111 "analyze.l"
 {return(SHIFT);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 109 "analyze.l"
+#line 112 "analyze.l"
 {return(CONTROL);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 110 "analyze.l"
+#line 113 "analyze.l"
 {return(ALT);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 111 "analyze.l"
+#line 114 "analyze.l"
 {return(ALTGR);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 112 "analyze.l"
+#line 115 "analyze.l"
 {return(SHIFTL);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 113 "analyze.l"
+#line 116 "analyze.l"
 {return(SHIFTR);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 114 "analyze.l"
+#line 117 "analyze.l"
 {return(CTRLL);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 115 "analyze.l"
+#line 118 "analyze.l"
 {return(CTRLR);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 116 "analyze.l"
+#line 119 "analyze.l"
 {return(CAPSSHIFT);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 117 "analyze.l"
+#line 120 "analyze.l"
 {return(ALT_IS_META);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 118 "analyze.l"
+#line 121 "analyze.l"
 {return(STRINGS);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 119 "analyze.l"
+#line 122 "analyze.l"
 {return(COMPOSE);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 120 "analyze.l"
+#line 123 "analyze.l"
 {return(AS);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 121 "analyze.l"
+#line 124 "analyze.l"
 {return(USUAL);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 122 "analyze.l"
+#line 125 "analyze.l"
 {BEGIN(RVALUE); return(TO);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 123 "analyze.l"
+#line 126 "analyze.l"
 {return(ON);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 124 "analyze.l"
+#line 127 "analyze.l"
 {return(FOR);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 125 "analyze.l"
+#line 128 "analyze.l"
 {yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 126 "analyze.l"
+#line 129 "analyze.l"
 {yylval = (unsigned char) yytext[2]; return(CCHAR);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 127 "analyze.l"
+#line 130 "analyze.l"
 {yylval = (unsigned char) yytext[1]; return(CCHAR);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 128 "analyze.l"
+#line 131 "analyze.l"
 {p=(char *) kbs_buf.kb_string;
 				pmax=p+sizeof(kbs_buf.kb_string)-1;
 				BEGIN(STR);}
 	YY_BREAK
-case YY_STATE_EOF(INITIAL):
-case YY_STATE_EOF(RVALUE):
-case YY_STATE_EOF(STR):
-case YY_STATE_EOF(INCLSTR):
-#line 131 "analyze.l"
-{yyterminate();}
-	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 132 "analyze.l"
+#line 134 "analyze.l"
 {if(p>=pmax)stringovfl();*p++=strtol(yytext+1,NULL,8);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 133 "analyze.l"
+#line 135 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='"';}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 134 "analyze.l"
+#line 136 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='\\';}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 135 "analyze.l"
+#line 137 "analyze.l"
 {if(p>=pmax)stringovfl();*p++='\n';}
 	YY_BREAK
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 136 "analyze.l"
+#line 138 "analyze.l"
 {char *ptmp=p;p+=strlen(yytext);
 				if(p>pmax)stringovfl();strcpy(ptmp,yytext);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 138 "analyze.l"
+#line 140 "analyze.l"
 {*p='\0';BEGIN(0);return(STRLITERAL);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 139 "analyze.l"
+#line 141 "analyze.l"
 {return(ERROR); /* report any unknown characters */}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 140 "analyze.l"
+#line 142 "analyze.l"
 ECHO;
 	YY_BREAK
-#line 1372 "analyze.c"
+#line 1374 "analyze.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2327,7 +2329,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 140 "analyze.l"
+#line 142 "analyze.l"
 
 
 #include "ksyms.h"
