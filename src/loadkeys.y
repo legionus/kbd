@@ -22,12 +22,17 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 #include <unistd.h>		/* readlink */
+
 #include "paths.h"
 #include "getfd.h"
 #include "findfile.h"
+#include "ksyms.h"
 #include "modifiers.h"
+#include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
+
+#include "loadkeys.actions.h"
 
 #ifndef KT_LETTER
 #define KT_LETTER KT_LATIN
@@ -45,11 +50,7 @@ int alt_is_meta = 0;
 /* the kernel structures we want to set or print */
 u_short *key_map[MAX_NR_KEYMAPS];
 char *func_table[MAX_NR_FUNC];
-#ifdef KDSKBDIACRUC
-typedef struct kbdiacruc accent_entry;
-#else
-typedef struct kbdiacr accent_entry;
-#endif
+
 accent_entry accent_table[MAX_DIACR];
 unsigned int accent_table_size = 0;
 
@@ -57,8 +58,6 @@ char key_is_constant[NR_KEYS];
 char *keymap_was_set[MAX_NR_KEYMAPS];
 char func_buf[4096];		/* should be allocated dynamically */
 char *fp = func_buf;
-
-#define U(x) ((x) ^ 0xf000)
 
 #undef ECHO
 
@@ -70,17 +69,16 @@ static void compose(int diacr, int base, int res);
 static void do_constant(void);
 static void do_constant_key (int, u_short);
 static void loadkeys(char *console, int kbd_mode);
-static void mktable(void);
-static void bkeymap(void);
 static void strings_as_usual(void);
-/* static void keypad_as_usual(char *keyboard); */
-/* static void function_keys_as_usual(char *keyboard); */
-/* static void consoles_as_usual(char *keyboard); */
 static void compose_as_usual(char *charset);
-static void lkfatal0(const char *, int);
+
+void lkfatal0(const char *, int);
+void lkfatal(const char *s);
+void lkfatal1(const char *s, const char *s2);
+
 extern int set_charset(const char *charset);
 extern int prefer_unicode;
-extern char *xstrdup(char *);
+
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
 int private_error_ct = 0;
@@ -88,19 +86,21 @@ int private_error_ct = 0;
 extern int rvalct;
 extern struct kbsentry kbs_buf;
 int yyerror(const char *s);
-extern void lkfatal(const char *s);
-extern void lkfatal1(const char *s, const char *s2);
-void lk_push(void);
-int lk_pop(void);
-void lk_scan_string(char *s);
-void lk_end_string(void);
 
 FILE *find_incl_file_near_fn(char *s, char *fn);
 FILE *find_standard_incl_file(char *s);
 FILE *find_incl_file(char *s);
+void open_include(char *s);
+
+extern char *filename;
+extern int line_nr;
+
+extern void stack_push(FILE *fd, int ispipe, char *filename);
+extern int stack_pop(void);
+
 
 #include "ksyms.h"
-int yylex (void);
+int yylex(void);
 %}
 
 %%
@@ -263,9 +263,7 @@ rvalue		: NUMBER
                 | PLUS LITERAL
                         {$$=add_capslock($2);}
 		;
-%%			
-
-#include "analyze.c"
+%%
 
 static void attr_noreturn
 usage(void) {
@@ -289,6 +287,9 @@ usage(void) {
 "  -v --verbose       report the changes\n"), PACKAGE_VERSION, DEFMAP);
 	exit(1);
 }
+
+char *dirpath[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
+char *suffixes[] = { "", ".kmap", ".map", 0 };
 
 char **args;
 int opta = 0;
@@ -319,7 +320,7 @@ main(int argc, char *argv[]) {
 		{ "version",	no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
-	int c;
+	int c, i;
 	int fd;
 	int kbd_mode;
 	int kd_mode;
@@ -410,21 +411,50 @@ main(int argc, char *argv[]) {
 		close(fd);
 	}
 
-	args = argv + optind - 1;
-	yywrap();	/* set up the first input file, if any */
-	if (yyparse() || private_error_ct) {
-		fprintf(stderr, _("syntax error in map file\n"));
-		if(!optm)
-		  fprintf(stderr, _("key bindings not changed\n"));
-		exit(1);
+	for (i = optind; argv[i]; i++) {
+		FILE *f;
+
+		if (optd) {
+	        	/* first read default map - search starts in . */
+	        	optd = 0;
+	        	if((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
+		    		fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
+		    		exit(1);
+			}
+			goto gotf;
+		}
+
+		if (!strcmp(argv[i], "-")) {
+			f = stdin;
+			strcpy(pathname, "<stdin>");
+
+		} else if ((f = findfile(argv[i], dirpath, suffixes)) == NULL) {
+			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
+			exit(1);
+		}
+
+gotf:
+		if (!quiet && !optm)
+			fprintf(stdout, _("Loading %s\n"), pathname);
+
+		stack_push(f, 0, pathname);
+
+		if (yyparse()) {
+			fprintf(stderr, _("syntax error in map file\n"));
+
+			if (!optm)
+		  		fprintf(stderr, _("key bindings not changed\n"));
+			exit(1);
+		}
 	}
-	fpclose(yyin);
+
+	//exit(0);
 
 	do_constant();
 	if(optb) {
-		bkeymap();
+		bkeymap(key_map);
 	} else if(optm) {
-	        mktable();
+	        mktable(key_map, func_table);
 	} else if (console)
 	  {
 	    char *buf = strdup(console);	/* make writable */
@@ -447,10 +477,6 @@ main(int argc, char *argv[]) {
 	  loadkeys(NULL, kbd_mode);
 	exit(0);
 }
-
-extern char pathname[];
-char *filename = NULL;
-int line_nr = 1;
 
 int
 yyerror(const char *s) {
@@ -483,41 +509,6 @@ lkfatal1(const char *s, const char *s2) {
 	fprintf(stderr, "\n");
 	xfree(filename);
 	exit(1);
-}
-
-/* Include file handling - unfortunately flex-specific. */
-#define MAX_INCLUDE_DEPTH 20
-struct infile {
-	int linenr;
-	char *filename;
-	YY_BUFFER_STATE bs;
-} infile_stack[MAX_INCLUDE_DEPTH];
-int infile_stack_ptr = 0;
-
-void
-lk_push(void) {
-	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
-		lkfatal(_("includes are nested too deeply"));
-
-	/* preserve current state */
-	infile_stack[infile_stack_ptr].filename = filename;
-	infile_stack[infile_stack_ptr].linenr = line_nr;
-	infile_stack[infile_stack_ptr++].bs =
-		YY_CURRENT_BUFFER;
-}
-
-int
-lk_pop(void) {
-	if (--infile_stack_ptr >= 0) {
-		filename = infile_stack[infile_stack_ptr].filename;
-		line_nr = infile_stack[infile_stack_ptr].linenr;
-		yy_delete_buffer(YY_CURRENT_BUFFER);
-		fpclose(yyin);
-
-		yy_switch_to_buffer(infile_stack[infile_stack_ptr].bs);
-		return 0;
-	}
-	return 1;
 }
 
 /*
@@ -652,95 +643,18 @@ FILE *find_incl_file(char *s) {
 
 void
 open_include(char *s) {
+	FILE *fd;
 
 	if (verbose)
-		/* start reading include file */
 		fprintf(stdout, _("switching to %s\n"), s);
 
-	lk_push();
-
-	yyin = find_incl_file(s);
-	if (!yyin)
+	fd = find_incl_file(s);
+	if (!fd)
 		lkfatal1(_("cannot open include file %s"), s);
-	xfree(filename);
-	filename = xstrdup(pathname);
-	line_nr = 1;
-	yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
-}
 
-/* String file handling - flex-specific. */
-int in_string = 0;
+	xfree(s);
 
-void
-lk_scan_string(char *s) {
-	lk_push();
-	in_string = 1;
-	yy_scan_string(s);
-}
-
-void
-lk_end_string(void) {
-	lk_pop();
-	in_string = 0;
-}
-
-char *dirpath[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
-char *suffixes[] = { "", ".kmap", ".map", 0 };
-
-#undef yywrap
-int
-yywrap(void) {
-	FILE *f;
-	static int first_file = 1; /* ugly kludge flag */
-
-	if (in_string) {
-		lk_end_string();
-		return 0;
-	}
-
-	if (infile_stack_ptr > 0) {
-		lk_pop();
-		return 0;
-	}
-
-	line_nr = 1;
-	if (optd) {
-	        /* first read default map - search starts in . */
-	        optd = 0;
-	        if((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
-		    fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-		    exit(1);
-		}
-		goto gotf;
-	}
-	if (*args)
-		args++;
-	if (!*args)
-		return 1;
-	if (!strcmp(*args, "-")) {
-		f = stdin;
-		strcpy(pathname, "<stdin>");
-	} else if ((f = findfile(*args, dirpath, suffixes)) == NULL) {
-		fprintf(stderr, _("cannot open file %s\n"), *args);
-		exit(1);
-	}
-	/*
-		Can't use yyrestart if this is called before entering yyparse()
-		I think assigning directly to yyin isn't necessarily safe in
-		other situations, hence the flag.
-	*/
-      gotf:
-	xfree(filename);
-	filename = xstrdup(pathname);
-	if (!quiet && !optm)
-		fprintf(stdout, _("Loading %s\n"), pathname);
-	if (first_file) {
-		yyin = f;
-		first_file = 0;
-	} else {
-		yyrestart(f);
-	}
-	return 0;
+	stack_push(fd, ispipe, pathname);
 }
 
 static void
@@ -1115,8 +1029,8 @@ do_constant_key (int i, u_short key) {
 	}
 }
 
-static void
-do_constant (void) {
+void
+do_constant(void) {
 	int i, r0 = 0;
 
 	if (keymaps_line_seen)
@@ -1158,6 +1072,7 @@ loadkeys (char *console, int kbd_mode) {
 	  if (verbose)
 	    printf(_("(No change in compose definitions.)\n"));
 }
+
 
 static void strings_as_usual(void) {
 	/*
@@ -1238,188 +1153,3 @@ compose_as_usual(char *charset) {
 	}
 }
 
-/*
- * mktable.c
- *
- */
-static char *modifiers[8] = {
-    "shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
-};
-
-static char *mk_mapname(char modifier) {
-    static char buf[60];
-    int i;
-
-    if (!modifier)
-      return "plain";
-    buf[0] = 0;
-    for (i=0; i<8; i++)
-      if (modifier & (1<<i)) {
-	  if (buf[0])
-	    strcat(buf, "_");
-	  strcat(buf, modifiers[i]);
-      }
-    return buf;
-}
-
-
-static void
-outchar (unsigned char c, int comma) {
-        printf("'");
-        printf((c == '\'' || c == '\\') ? "\\%c" : isgraph(c) ? "%c"
-	       : "\\%03o", c);
-	printf(comma ? "', " : "'");
-}
-
-static void attr_noreturn
-mktable () {
-	int j;
-	unsigned int i, imax;
-
-	char *ptr;
-	unsigned int maxfunc;
-	unsigned int keymap_count = 0;
-
-	printf(
-/* not to be translated... */
-"/* Do not edit this file! It was automatically generated by   */\n");
-	printf(
-"/*    loadkeys --mktable defkeymap.map > defkeymap.c          */\n\n");
-	printf("#include <linux/types.h>\n");
-	printf("#include <linux/keyboard.h>\n");
-	printf("#include <linux/kd.h>\n\n");
-
-	for (i = 0; i < MAX_NR_KEYMAPS; i++)
-	  if (key_map[i]) {
-	      keymap_count++;
-	      if (i)
-		   printf("static ");
-	      printf("u_short %s_map[NR_KEYS] = {", mk_mapname(i));
-	      for (j = 0; j < NR_KEYS; j++) {
-		  if (!(j % 8))
-		    printf("\n");
-		  printf("\t0x%04x,", U((key_map[i])[j]));
-	      }
-	      printf("\n};\n\n");
-	  }
-
-	for (imax = MAX_NR_KEYMAPS-1; imax > 0; imax--)
-	  if (key_map[imax])
-	    break;
-	printf("ushort *key_maps[MAX_NR_KEYMAPS] = {");
-	for (i = 0; i <= imax; i++) {
-	    printf((i%4) ? " " : "\n\t");
-	    if (key_map[i])
-	      printf("%s_map,", mk_mapname(i));
-	    else
-	      printf("0,");
-	}
-	if (imax < MAX_NR_KEYMAPS-1)
-	  printf("\t0");
-	printf("\n};\n\nunsigned int keymap_count = %d;\n\n", keymap_count);
-
-/* uglified just for xgettext - it complains about nonterminated strings */
-	printf(
-"/*\n"
-" * Philosophy: most people do not define more strings, but they who do\n"
-" * often want quite a lot of string space. So, we statically allocate\n"
-" * the default and allocate dynamically in chunks of 512 bytes.\n"
-" */\n"
-"\n");
-	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--)
-	  if(func_table[maxfunc-1])
-	    break;
-
-	printf("char func_buf[] = {\n");
-	for (i = 0; i < maxfunc; i++) {
-	    ptr = func_table[i];
-	    if (ptr) {
-		printf("\t");
-		for ( ; *ptr; ptr++)
-		        outchar(*ptr, 1);
-		printf("0, \n");
-	    }
-	}
-	if (!maxfunc)
-	  printf("\t0\n");
-	printf("};\n\n");
-
-	printf(
-"char *funcbufptr = func_buf;\n"
-"int funcbufsize = sizeof(func_buf);\n"
-"int funcbufleft = 0;          /* space left */\n"
-"\n");
-
-	printf("char *func_table[MAX_NR_FUNC] = {\n");
-	for (i = 0; i < maxfunc; i++) {
-	    if (func_table[i])
-	      printf("\tfunc_buf + %ld,\n", (long) (func_table[i] - func_buf));
-	    else
-	      printf("\t0,\n");
-	}
-	if (maxfunc < MAX_NR_FUNC)
-	  printf("\t0,\n");
-	printf("};\n");
-
-#ifdef KDSKBDIACRUC
-	if (prefer_unicode) {
-		printf("\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < accent_table_size; i++) {
-			printf("\t{");
-			outchar(accent_table[i].diacr, 1);
-			outchar(accent_table[i].base, 1);
-			printf("0x%04x},", accent_table[i].result);
-			if(i%2) printf("\n");
-		}
-		if(i%2) printf("\n");
-		printf("};\n\n");
-	}
-	else
-#endif
-	{
-		printf("\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < accent_table_size; i++) {
-			printf("\t{");
-			outchar(accent_table[i].diacr, 1);
-			outchar(accent_table[i].base, 1);
-			outchar(accent_table[i].result, 0);
-			printf("},");
-			if(i%2) printf("\n");
-		}
-		if(i%2) printf("\n");
-		printf("};\n\n");
-	}
-	printf("unsigned int accent_table_size = %d;\n",
-	       accent_table_size);
-
-	exit(0);
-}
-
-static void attr_noreturn
-bkeymap () {
-	int i, j;
-
-	//u_char *p;
-	char flag, magic[] = "bkeymap";
-	unsigned short v;
-
-	if (write(1, magic, 7) == -1)
-		goto fail;
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		flag = key_map[i] ? 1 : 0;
-		if (write(1, &flag, 1) == -1)
-			goto fail;
-	}
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (key_map[i]) {
-			for (j = 0; j < NR_KEYS / 2; j++) {
-				v = key_map[i][j];
-				if (write(1, &v, 2) == -1)
-					goto fail;
-			}
-		}
-	}
-	exit(0);
-fail:	fprintf(stderr, _("Error writing map to file\n"));
-	exit(1);
-}

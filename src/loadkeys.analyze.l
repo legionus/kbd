@@ -1,5 +1,6 @@
-%option outfile="analyze.c"
+%option noyywrap
 %option nounput
+%option noinput
 %{
 #define YY_NO_INPUT 1
 
@@ -8,21 +9,37 @@
 #include "ksyms.h"
 #include "kbd.h"
 #include "xmalloc.h"
+#include "findfile.h"
+#include "loadkeys.h"
 
-extern int line_nr;
-int	yylval;
 int	rvalct;
 struct kbsentry kbs_buf;
 char *p, *pmax;
-char *filename;
 
-#undef yywrap
-extern int yywrap(void);
 extern int yyerror(const char *s);
 extern void stringovfl(void);
 extern void lkfatal(const char *s);
 extern void lkfatal1(const char *s, const char *s2);
 extern void open_include(char *s);
+
+/* Include file handling - unfortunately flex-specific. */
+#define MAX_INCLUDE_DEPTH 20
+struct infile {
+	FILE *fd;
+	int  pipe;
+	char *filename;
+	int  linenr;
+	YY_BUFFER_STATE buffer;
+
+} infile_stack[MAX_INCLUDE_DEPTH];
+
+char *filename = NULL;
+int  line_nr = 1;
+int  infile_stack_ptr = -1;
+
+void stack_push(FILE *fd, int ispipe, char *filename);
+int stack_pop(void);
+
 %}
 
 %s RVALUE
@@ -76,20 +93,17 @@ To                      to|To|TO
  * yylval to YYLVAL_UNDEF. Then it might be overwritten by specific rules. */
   yylval = YYLVAL_UNDEF;
 %}
+
 {Include}               {BEGIN(INCLSTR);}
-<INCLSTR>\"[^"\n]+\"	{ int l; char *s;
-			 l = strlen(yytext);
-			 s = xmalloc(l);
-			 strcpy(s, yytext+1);
-			 s[l-2] = 0;		/* wipe out " */
+<INCLSTR>\"[^\"\n]+\"	{char *s = xstrndup(yytext+1, strlen(yytext)-2);
+			  /* use static pathname to store *s ? */
 			 open_include(s);
-			 free(s);
 			 BEGIN(0);
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
 			  yyerror("expected filename between quotes");
 			  BEGIN(0); }
-<<EOF>>			{yypop_buffer_state();
+<<EOF>>			{stack_pop();
 			 if (!YY_CURRENT_BUFFER) yyterminate();
 			}
 {Continuation}		{line_nr++;}
@@ -135,15 +149,70 @@ To                      to|To|TO
 <STR>\\\"               {if(p>=pmax)stringovfl();*p++='"';}
 <STR>\\\\               {if(p>=pmax)stringovfl();*p++='\\';}
 <STR>\\n		{if(p>=pmax)stringovfl();*p++='\n';}
-<STR>[^"\\]*		{char *ptmp=p;p+=strlen(yytext);
+<STR>[^\"\\]*		{char *ptmp=p;p+=strlen(yytext); 
 				if(p>pmax)stringovfl();strcpy(ptmp,yytext);}
 <STR>\"			{*p='\0';BEGIN(0);return(STRLITERAL);}
 .			{return(ERROR); /* report any unknown characters */}
+
 %%
+
 #include "ksyms.h"
 #include <linux/keyboard.h>
 
-void attr_noreturn
+void
 stringovfl(void) {
 	lkfatal("string too long");
 }
+
+void
+stack_push(FILE *fd, int is_pipe, char *fname) {
+	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
+		lkfatal("includes are nested too deeply");
+
+	infile_stack_ptr++;
+
+	printf("Stack push %s\n", fname);
+
+	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd, YY_BUF_SIZE);
+	infile_stack[infile_stack_ptr].fd       = fd;
+	infile_stack[infile_stack_ptr].pipe     = is_pipe;
+	infile_stack[infile_stack_ptr].filename = strdup(fname);
+	infile_stack[infile_stack_ptr].linenr   = line_nr;
+
+	yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
+
+	// Set global variables
+	filename = infile_stack[infile_stack_ptr].filename;
+	line_nr  = 1;
+}
+
+int
+stack_pop(void) {
+	fpclose1(infile_stack[infile_stack_ptr].fd, infile_stack[infile_stack_ptr].pipe);
+	printf("Stack pop %s\n", infile_stack[infile_stack_ptr].filename);
+
+	// Free previous filename
+	xfree(infile_stack[infile_stack_ptr].filename);
+
+	// Destroy previous buffer
+	yy_delete_buffer(infile_stack[infile_stack_ptr].buffer);
+
+	infile_stack_ptr--;
+
+	if (infile_stack_ptr >= 0) {
+		// Set new state
+		//yyin     = infile_stack[infile_stack_ptr].fd; // ???
+		ispipe   = infile_stack[infile_stack_ptr].pipe;
+		filename = infile_stack[infile_stack_ptr].filename;
+		line_nr  = infile_stack[infile_stack_ptr].linenr;
+
+		printf("Stack change %s\n", infile_stack[infile_stack_ptr].filename);
+
+		// Switch to new buffer
+		yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
+		return 0;
+	}
+
+	return 1;
+}
+
