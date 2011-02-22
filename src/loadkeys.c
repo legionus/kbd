@@ -73,6 +73,7 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <fcntl.h>
 #include <ctype.h>
@@ -131,9 +132,7 @@ static void loadkeys(char *console, int kbd_mode);
 static void strings_as_usual(void);
 static void compose_as_usual(char *charset);
 
-void lkfatal0(const char *, int);
-void lkfatal(const char *s);
-void lkfatal1(const char *s, const char *s2);
+void lkfatal(const char *fmt, ...);
 
 extern int set_charset(const char *charset);
 extern int prefer_unicode;
@@ -163,7 +162,7 @@ int yylex(void);
 
 
 /* Line 189 of yacc.c  */
-#line 167 "loadkeys.c"
+#line 166 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -275,7 +274,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 279 "loadkeys.c"
+#line 278 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -580,12 +579,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   107,   107,   108,   110,   111,   112,   113,   114,   115,
-     116,   117,   118,   119,   121,   126,   131,   136,   140,   145,
-     150,   151,   153,   159,   164,   173,   177,   182,   184,   187,
-     187,   192,   197,   198,   200,   201,   202,   203,   204,   205,
-     206,   207,   208,   210,   243,   244,   246,   253,   255,   257,
-     259,   261,   263
+       0,   106,   106,   107,   109,   110,   111,   112,   113,   114,
+     115,   116,   117,   118,   120,   125,   130,   135,   139,   144,
+     149,   150,   152,   158,   163,   172,   176,   181,   183,   186,
+     186,   191,   196,   197,   199,   200,   201,   202,   203,   204,
+     205,   206,   207,   209,   242,   243,   245,   252,   254,   256,
+     258,   260,   262
 };
 #endif
 
@@ -1557,7 +1556,7 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 122 "loadkeys.y"
+#line 121 "loadkeys.y"
     {
 			    set_charset((char *) kbs_buf.kb_string);
 			}
@@ -1566,7 +1565,7 @@ yyreduce:
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 127 "loadkeys.y"
+#line 126 "loadkeys.y"
     {
 			    alt_is_meta = 1;
 			}
@@ -1575,7 +1574,7 @@ yyreduce:
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 132 "loadkeys.y"
+#line 131 "loadkeys.y"
     {
 			    strings_as_usual();
 			}
@@ -1584,7 +1583,7 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 137 "loadkeys.y"
+#line 136 "loadkeys.y"
     {
 			    compose_as_usual((char *) kbs_buf.kb_string);
 			}
@@ -1593,7 +1592,7 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 141 "loadkeys.y"
+#line 140 "loadkeys.y"
     {
 			    compose_as_usual(0);
 			}
@@ -1602,7 +1601,7 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 146 "loadkeys.y"
+#line 145 "loadkeys.y"
     {
 			    keymaps_line_seen = 1;
 			}
@@ -1611,7 +1610,7 @@ yyreduce:
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 154 "loadkeys.y"
+#line 153 "loadkeys.y"
     {
 			    int i;
 			    for (i = (yyvsp[(1) - (3)]); i<= (yyvsp[(3) - (3)]); i++)
@@ -1622,7 +1621,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 160 "loadkeys.y"
+#line 159 "loadkeys.y"
     {
 			    addmap((yyvsp[(1) - (1)]),1);
 			}
@@ -1631,10 +1630,10 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 165 "loadkeys.y"
+#line 164 "loadkeys.y"
     {
 			    if (KTYP((yyvsp[(2) - (5)])) != KT_FN)
-				lkfatal1(_("'%s' is not a function key symbol"),
+				lkfatal(_("'%s' is not a function key symbol"),
 					syms[KTYP((yyvsp[(2) - (5)]))].table[KVAL((yyvsp[(2) - (5)]))]);
 			    kbs_buf.kb_func = KVAL((yyvsp[(2) - (5)]));
 			    addfunc(kbs_buf);
@@ -1644,7 +1643,7 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 174 "loadkeys.y"
+#line 173 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
@@ -1653,7 +1652,7 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 178 "loadkeys.y"
+#line 177 "loadkeys.y"
     {
 			    compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
@@ -1662,28 +1661,28 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 183 "loadkeys.y"
+#line 182 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]); }
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 185 "loadkeys.y"
+#line 184 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]) ^ 0xf000; }
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 187 "loadkeys.y"
+#line 186 "loadkeys.y"
     { mod = 0; }
     break;
 
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 189 "loadkeys.y"
+#line 188 "loadkeys.y"
     {
 			    addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)]));
 			}
@@ -1692,7 +1691,7 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 193 "loadkeys.y"
+#line 192 "loadkeys.y"
     {
 			    addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)]));
 			}
@@ -1701,70 +1700,70 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 200 "loadkeys.y"
+#line 199 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 201 "loadkeys.y"
+#line 200 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 202 "loadkeys.y"
+#line 201 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 203 "loadkeys.y"
+#line 202 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 204 "loadkeys.y"
+#line 203 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 205 "loadkeys.y"
+#line 204 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 206 "loadkeys.y"
+#line 205 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 207 "loadkeys.y"
+#line 206 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 208 "loadkeys.y"
+#line 207 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 211 "loadkeys.y"
+#line 210 "loadkeys.y"
     {
 	    int i, j;
 
@@ -1790,7 +1789,7 @@ yyreduce:
 		      i++;
 		  }
 		if (i < rvalct)
-		    lkfatal0(_("too many (%d) entries on one line"), rvalct);
+		    lkfatal(_("too many (%d) entries on one line"), rvalct);
 	    } else
 	      for (i = 0; i < rvalct; i++)
 		addkey((yyvsp[(2) - (5)]), i, key_buf[i]);
@@ -1800,7 +1799,7 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 247 "loadkeys.y"
+#line 246 "loadkeys.y"
     {
 			    if (rvalct >= MAX_NR_KEYMAPS)
 				lkfatal(_("too many key definitions on one line"));
@@ -1811,49 +1810,49 @@ yyreduce:
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 254 "loadkeys.y"
+#line 253 "loadkeys.y"
     {(yyval)=convert_code((yyvsp[(1) - (1)]), TO_AUTO);}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 256 "loadkeys.y"
+#line 255 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 258 "loadkeys.y"
+#line 257 "loadkeys.y"
     {(yyval)=convert_code((yyvsp[(1) - (1)])^0xf000, TO_AUTO);}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 260 "loadkeys.y"
+#line 259 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)])^0xf000);}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 262 "loadkeys.y"
+#line 261 "loadkeys.y"
     {(yyval)=(yyvsp[(1) - (1)]);}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 264 "loadkeys.y"
+#line 263 "loadkeys.y"
     {(yyval)=add_capslock((yyvsp[(2) - (2)]));}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 1857 "loadkeys.c"
+#line 1856 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2065,7 +2064,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 266 "loadkeys.y"
+#line 265 "loadkeys.y"
 
 
 static void attr_noreturn
@@ -2288,30 +2287,15 @@ yyerror(const char *s) {
 	return(0);
 }
 
-/* fatal errors - change to varargs next time */
-void attr_noreturn
-lkfatal(const char *s) {
-	fprintf(stderr, "%s: %s:%d: %s\n", progname, filename, line_nr, s);
-	xfree(filename);
-	exit(1);
-}
-
-void attr_noreturn
-lkfatal0(const char *s, int d) {
+void attr_noreturn attr_format_1_2
+lkfatal(const char *fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
-	fprintf(stderr, s, d);
+	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, "\n");
-	xfree(filename);
-	exit(1);
-}
-
-void attr_noreturn
-lkfatal1(const char *s, const char *s2) {
-	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
-	fprintf(stderr, s, s2);
-	fprintf(stderr, "\n");
-	xfree(filename);
-	exit(1);
+	va_end(ap);
+	exit(EXIT_FAILURE);
 }
 
 /*
@@ -2453,7 +2437,7 @@ open_include(char *s) {
 
 	fd = find_incl_file(s);
 	if (!fd)
-		lkfatal1(_("cannot open include file %s"), s);
+		lkfatal(_("cannot open include file %s"), s);
 
 	xfree(s);
 
@@ -2463,11 +2447,11 @@ open_include(char *s) {
 static void
 addmap(int i, int explicit) {
 	if (i < 0 || i >= MAX_NR_KEYMAPS)
-	    lkfatal0(_("addmap called with bad index %d"), i);
+	    lkfatal(_("addmap called with bad index %d"), i);
 
 	if (!defining[i]) {
 	    if (keymaps_line_seen && !explicit)
-		lkfatal0(_("adding map %d violates explicit keymaps line"), i);
+		lkfatal(_("adding map %d violates explicit keymaps line"), i);
 
 	    defining[i] = 1;
 	    if (max_keymap <= i)
@@ -2481,9 +2465,9 @@ killkey(int k_index, int k_table) {
 	/* roughly: addkey(k_index, k_table, K_HOLE); */
 
         if (k_index < 0 || k_index >= NR_KEYS)
-	        lkfatal0(_("killkey called with bad index %d"), k_index);
+	        lkfatal(_("killkey called with bad index %d"), k_index);
         if (k_table < 0 || k_table >= MAX_NR_KEYMAPS)
-	        lkfatal0(_("killkey called with bad table %d"), k_table);
+	        lkfatal(_("killkey called with bad table %d"), k_table);
 	if (key_map[k_table])
 		(key_map[k_table])[k_index] = K_HOLE;
 	if (keymap_was_set[k_table])
@@ -2497,11 +2481,11 @@ addkey(int k_index, int k_table, int keycode) {
 	if (keycode == CODE_FOR_UNKNOWN_KSYM)
 	  /* is safer not to be silent in this case, 
 	   * it can be caused by coding errors as well. */
-	        lkfatal0(_("addkey called with bad keycode %d"), keycode);
+	        lkfatal(_("addkey called with bad keycode %d"), keycode);
         if (k_index < 0 || k_index >= NR_KEYS)
-	        lkfatal0(_("addkey called with bad index %d"), k_index);
+	        lkfatal(_("addkey called with bad index %d"), k_index);
         if (k_table < 0 || k_table >= MAX_NR_KEYMAPS)
-	        lkfatal0(_("addkey called with bad table %d"), k_table);
+	        lkfatal(_("addkey called with bad table %d"), k_table);
 
 	if (!defining[k_table])
 		addmap(k_table, 0);

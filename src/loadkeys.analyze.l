@@ -18,8 +18,7 @@ char *p, *pmax;
 
 extern int yyerror(const char *s);
 extern void stringovfl(void);
-extern void lkfatal(const char *s);
-extern void lkfatal1(const char *s, const char *s2);
+extern void lkfatal(const char *fmt, ...);
 extern void open_include(char *s);
 
 /* Include file handling - unfortunately flex-specific. */
@@ -114,7 +113,7 @@ To                      to|To|TO
 \-			{return(DASH);}
 \,			{return(COMMA);}
 \+			{return(PLUS);}
-{Unicode}		{yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal1("unicode keysym out of range: %s",yytext);return(UNUMBER);}
+{Unicode}		{yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal("unicode keysym out of range: %s",yytext);return(UNUMBER);}
 {Decimal}|{Octal}|{Hex}	{yylval=strtol(yytext,NULL,0);return(NUMBER);}
 <RVALUE>{Literal}	{return((yylval=ksymtocode(yytext, TO_AUTO))==-1?ERROR:LITERAL);}
 {Charset}		{return(CHARSET);}

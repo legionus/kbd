@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <fcntl.h>
 #include <ctype.h>
@@ -72,9 +73,7 @@ static void loadkeys(char *console, int kbd_mode);
 static void strings_as_usual(void);
 static void compose_as_usual(char *charset);
 
-void lkfatal0(const char *, int);
-void lkfatal(const char *s);
-void lkfatal1(const char *s, const char *s2);
+void lkfatal(const char *fmt, ...);
 
 extern int set_charset(const char *charset);
 extern int prefer_unicode;
@@ -164,7 +163,7 @@ range0		: NUMBER DASH NUMBER
 strline		: STRING LITERAL EQUALS STRLITERAL EOL
 			{
 			    if (KTYP($2) != KT_FN)
-				lkfatal1(_("'%s' is not a function key symbol"),
+				lkfatal(_("'%s' is not a function key symbol"),
 					syms[KTYP($2)].table[KVAL($2)]);
 			    kbs_buf.kb_func = KVAL($2);
 			    addfunc(kbs_buf);
@@ -233,7 +232,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 		      i++;
 		  }
 		if (i < rvalct)
-		    lkfatal0(_("too many (%d) entries on one line"), rvalct);
+		    lkfatal(_("too many (%d) entries on one line"), rvalct);
 	    } else
 	      for (i = 0; i < rvalct; i++)
 		addkey($2, i, key_buf[i]);
@@ -485,30 +484,15 @@ yyerror(const char *s) {
 	return(0);
 }
 
-/* fatal errors - change to varargs next time */
-void attr_noreturn
-lkfatal(const char *s) {
-	fprintf(stderr, "%s: %s:%d: %s\n", progname, filename, line_nr, s);
-	xfree(filename);
-	exit(1);
-}
-
-void attr_noreturn
-lkfatal0(const char *s, int d) {
+void attr_noreturn attr_format_1_2
+lkfatal(const char *fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
 	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
-	fprintf(stderr, s, d);
+	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, "\n");
-	xfree(filename);
-	exit(1);
-}
-
-void attr_noreturn
-lkfatal1(const char *s, const char *s2) {
-	fprintf(stderr, "%s: %s:%d: ", progname, filename, line_nr);
-	fprintf(stderr, s, s2);
-	fprintf(stderr, "\n");
-	xfree(filename);
-	exit(1);
+	va_end(ap);
+	exit(EXIT_FAILURE);
 }
 
 /*
@@ -650,7 +634,7 @@ open_include(char *s) {
 
 	fd = find_incl_file(s);
 	if (!fd)
-		lkfatal1(_("cannot open include file %s"), s);
+		lkfatal(_("cannot open include file %s"), s);
 
 	xfree(s);
 
@@ -660,11 +644,11 @@ open_include(char *s) {
 static void
 addmap(int i, int explicit) {
 	if (i < 0 || i >= MAX_NR_KEYMAPS)
-	    lkfatal0(_("addmap called with bad index %d"), i);
+	    lkfatal(_("addmap called with bad index %d"), i);
 
 	if (!defining[i]) {
 	    if (keymaps_line_seen && !explicit)
-		lkfatal0(_("adding map %d violates explicit keymaps line"), i);
+		lkfatal(_("adding map %d violates explicit keymaps line"), i);
 
 	    defining[i] = 1;
 	    if (max_keymap <= i)
@@ -678,9 +662,9 @@ killkey(int k_index, int k_table) {
 	/* roughly: addkey(k_index, k_table, K_HOLE); */
 
         if (k_index < 0 || k_index >= NR_KEYS)
-	        lkfatal0(_("killkey called with bad index %d"), k_index);
+	        lkfatal(_("killkey called with bad index %d"), k_index);
         if (k_table < 0 || k_table >= MAX_NR_KEYMAPS)
-	        lkfatal0(_("killkey called with bad table %d"), k_table);
+	        lkfatal(_("killkey called with bad table %d"), k_table);
 	if (key_map[k_table])
 		(key_map[k_table])[k_index] = K_HOLE;
 	if (keymap_was_set[k_table])
@@ -694,11 +678,11 @@ addkey(int k_index, int k_table, int keycode) {
 	if (keycode == CODE_FOR_UNKNOWN_KSYM)
 	  /* is safer not to be silent in this case, 
 	   * it can be caused by coding errors as well. */
-	        lkfatal0(_("addkey called with bad keycode %d"), keycode);
+	        lkfatal(_("addkey called with bad keycode %d"), keycode);
         if (k_index < 0 || k_index >= NR_KEYS)
-	        lkfatal0(_("addkey called with bad index %d"), k_index);
+	        lkfatal(_("addkey called with bad index %d"), k_index);
         if (k_table < 0 || k_table >= MAX_NR_KEYMAPS)
-	        lkfatal0(_("addkey called with bad table %d"), k_table);
+	        lkfatal(_("addkey called with bad table %d"), k_table);
 
 	if (!defining[k_table])
 		addmap(k_table, 0);
