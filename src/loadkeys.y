@@ -286,7 +286,7 @@ static void attr_noreturn usage(void)
 			  "  -u --unicode       force conversion to Unicode\n"
 			  "  -v --verbose       report the changes\n"),
 		PACKAGE_VERSION, DEFMAP);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 char *dirpath[]  = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
@@ -377,7 +377,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr,
 			_("%s: Options --unicode and --ascii are mutually exclusive\n"),
 			progname);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	prefer_unicode = optu;
@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
 			perror("KDGKBMODE");
 			fprintf(stderr, _("%s: error reading keyboard mode\n"),
 				progname);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 		if (kbd_mode == K_UNICODE) {
@@ -423,7 +423,7 @@ int main(int argc, char *argv[])
 			optd = 0;
 			if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
 				fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 			goto gotf;
 		}
@@ -434,7 +434,7 @@ int main(int argc, char *argv[])
 
 		} else if ((f = findfile(argv[i], dirpath, suffixes)) == NULL) {
 			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
  gotf:
@@ -449,7 +449,7 @@ int main(int argc, char *argv[])
 			if (!optm)
 				fprintf(stderr,
 					_("key bindings not changed\n"));
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -488,7 +488,7 @@ int main(int argc, char *argv[])
 	} else {
 		loadkeys(NULL, kbd_mode);
 	}
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 int yyerror(const char *s)
@@ -758,7 +758,7 @@ static void addfunc(struct kbsentry kbs)
 	if (x >= MAX_NR_FUNC) {
 		fprintf(stderr, _("%s: addfunc called with bad func %d\n"),
 			progname, kbs.kb_func);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	q = func_table[x];
@@ -788,7 +788,7 @@ static void addfunc(struct kbsentry kbs)
 
 	if (fp + sh > func_buf + sizeof(func_buf)) {
 		fprintf(stderr, _("%s: addfunc: func_buf overflow\n"), progname);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	q = fp;
 	fp += sh;
@@ -816,7 +816,7 @@ static void compose(int diacr, int base, int res)
 
 	if (accent_table_size == MAX_DIACR) {
 		fprintf(stderr, _("compose table overflow\n"));
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	ptr = &accent_table[accent_table_size++];
@@ -836,7 +836,7 @@ static int defkeys(int fd, int kbd_mode)
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			perror("KDSKBMODE");
 			fprintf(stderr, _("%s: could not switch to Unicode mode\n"), progname);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -891,7 +891,7 @@ static int defkeys(int fd, int kbd_mode)
 					fprintf(stderr,
 						_("%s: could not deallocate keymap %d\n"),
 						progname, i);
-					exit(1);
+					exit(EXIT_FAILURE);
 				}
 				/* probably an old kernel */
 				/* clear keymap by hand */
@@ -908,7 +908,7 @@ static int defkeys(int fd, int kbd_mode)
 						fprintf(stderr,
 							_("%s: cannot deallocate or clear keymap\n"),
 							progname);
-						exit(1);
+						exit(EXIT_FAILURE);
 					}
 				}
 			}
@@ -920,7 +920,7 @@ static int defkeys(int fd, int kbd_mode)
 		fprintf(stderr,
 			_("%s: could not return to original keyboard mode\n"),
 			progname);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	return ct;
@@ -1007,7 +1007,7 @@ static int defdiacs(int fd)
 
 		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu)) {
 			perror("KDSKBDIACRUC");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	} else
 #endif
@@ -1021,7 +1021,7 @@ static int defdiacs(int fd)
 
 		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd)) {
 			perror("KDSKBDIACR");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -1157,7 +1157,7 @@ static void compose_as_usual(char *charset)
 	if (charset && strcmp(charset, "iso-8859-1")) {
 		fprintf(stderr, _("loadkeys: don't know how to compose for %s\n"),
 			charset);
-		exit(1);
+		exit(EXIT_FAILURE);
 
 	} else {
 		struct ccc {
