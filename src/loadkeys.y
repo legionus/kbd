@@ -22,7 +22,7 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <unistd.h>		/* readlink */
+#include <unistd.h>
 
 #include "paths.h"
 #include "getfd.h"
@@ -33,7 +33,13 @@
 #include "nls.h"
 #include "version.h"
 
-#include "loadkeys.actions.h"
+#define U(x) ((x) ^ 0xf000)
+
+#ifdef KDSKBDIACRUC
+typedef struct kbdiacruc accent_entry;
+#else
+typedef struct kbdiacr accent_entry;
+#endif
 
 #ifndef KT_LETTER
 #define KT_LETTER KT_LATIN
@@ -60,24 +66,6 @@ char *keymap_was_set[MAX_NR_KEYMAPS];
 char func_buf[4096];	/* should be allocated dynamically */
 char *fp = func_buf;
 
-#undef ECHO
-
-static void addmap(int map, int explicit);
-static void addkey(int index, int table, int keycode);
-static void addfunc(struct kbsentry kbs_buf);
-static void killkey(int index, int table);
-static void compose(int diacr, int base, int res);
-static void do_constant(void);
-static void do_constant_key(int, u_short);
-static void loadkeys(char *console, int kbd_mode);
-static void strings_as_usual(void);
-static void compose_as_usual(char *charset);
-
-void lkfatal(const char *fmt, ...);
-
-extern int set_charset(const char *charset);
-extern int prefer_unicode;
-
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
 int private_error_ct = 0;
@@ -85,185 +73,17 @@ int private_error_ct = 0;
 extern int rvalct;
 extern struct kbsentry kbs_buf;
 
+void lkfatal(const char *fmt, ...);
 int yyerror(const char *s);
-
-FILE *find_incl_file_near_fn(char *s, char *fn);
-FILE *find_standard_incl_file(char *s);
-FILE *find_incl_file(char *s);
-void open_include(char *s);
 
 extern char *filename;
 extern int line_nr;
 
 extern void stack_push(FILE *fd, int ispipe, char *filename);
-extern int stack_pop(void);
+extern int prefer_unicode;
 
 #include "ksyms.h"
 int yylex(void);
-
-%}
-
-%%
-keytable	:
-		| keytable line
-		;
-line		: EOL
-		| charsetline
-		| altismetaline
-		| usualstringsline
-		| usualcomposeline
-		| keymapline
-		| fullline
-		| singleline
-		| strline
-                | compline
-		;
-charsetline	: CHARSET STRLITERAL EOL
-			{
-				set_charset((char *) kbs_buf.kb_string);
-			}
-		;
-altismetaline	: ALT_IS_META EOL
-			{
-				alt_is_meta = 1;
-			}
-		;
-usualstringsline: STRINGS AS USUAL EOL
-			{
-				strings_as_usual();
-			}
-		;
-usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
-			{
-				compose_as_usual((char *) kbs_buf.kb_string);
-			}
-		  | COMPOSE AS USUAL EOL
-			{
-				compose_as_usual(0);
-			}
-		;
-keymapline	: KEYMAPS range EOL
-			{
-				keymaps_line_seen = 1;
-			}
-		;
-range		: range COMMA range0
-		| range0
-		;
-range0		: NUMBER DASH NUMBER
-			{
-				int i;
-				for (i = $1; i <= $3; i++)
-					addmap(i,1);
-			}
-		| NUMBER
-			{
-				addmap($1,1);
-			}
-		;
-strline		: STRING LITERAL EQUALS STRLITERAL EOL
-			{
-				if (KTYP($2) != KT_FN)
-					lkfatal(_("'%s' is not a function key symbol"),
-						syms[KTYP($2)].table[KVAL($2)]);
-				kbs_buf.kb_func = KVAL($2);
-				addfunc(kbs_buf);
-			}
-		;
-compline        : COMPOSE compsym compsym TO compsym EOL
-                        {
-				compose($2, $3, $5);
-			}
-		 | COMPOSE compsym compsym TO rvalue EOL
-			{
-				compose($2, $3, $5);
-			}
-                ;
-compsym		: CCHAR		{	$$ = $1;		}
-		| UNUMBER	{	$$ = $1 ^ 0xf000;	}
-		;
-singleline	:	{
-				mod = 0;
-			}
-		  modifiers KEYCODE NUMBER EQUALS rvalue EOL
-			{
-				addkey($4, mod, $6);
-			}
-		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
-			{
-				addkey($3, 0, $5);
-			}
-		;
-modifiers	: modifiers modifier
-		| modifier
-		;
-modifier	: SHIFT		{ mod |= M_SHIFT;	}
-		| CONTROL	{ mod |= M_CTRL;	}
-		| ALT		{ mod |= M_ALT;		}
-		| ALTGR		{ mod |= M_ALTGR;	}
-		| SHIFTL	{ mod |= M_SHIFTL;	}
-		| SHIFTR	{ mod |= M_SHIFTR;	}
-		| CTRLL		{ mod |= M_CTRLL;	}
-		| CTRLR		{ mod |= M_CTRLR;	}
-		| CAPSSHIFT	{ mod |= M_CAPSSHIFT;	}
-		;
-fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
-			{
-				int i, j;
-
-				if (rvalct == 1) {
-					/* Some files do not have a keymaps line, and
-					 * we have to wait until all input has been read
-					 * before we know which maps to fill. */
-					key_is_constant[$2] = 1;
-
-					/* On the other hand, we now have include files,
-					 * and it should be possible to override lines
-					 * from an include file. So, kill old defs. */
-					for (j = 0; j < max_keymap; j++) {
-						if (defining[j])
-							killkey($2, j);
-					}
-				}
-
-				if (keymaps_line_seen) {
-					i = 0;
-
-					for (j = 0; j < max_keymap; j++) {
-						if (defining[j]) {
-							if (rvalct != 1 || i == 0)
-								addkey($2, j, (i < rvalct) ? key_buf[i] : K_HOLE);
-							i++;
-						}
-					}
-
-					if (i < rvalct)
-						lkfatal(_("too many (%d) entries on one line"), rvalct);
-				} else {
-					for (i = 0; i < rvalct; i++)
-						addkey($2, i, key_buf[i]);
-				}
-			}
-		;
-
-rvalue0		: 
-		| rvalue1 rvalue0
-		;
-rvalue1		: rvalue
-			{
-				if (rvalct >= MAX_NR_KEYMAPS)
-					lkfatal(_("too many key definitions on one line"));
-				key_buf[rvalct++] = $1;
-			}
-		;
-rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
-                | PLUS NUMBER	{ $$ = add_capslock($2);			}
-		| UNUMBER	{ $$ = convert_code($1^0xf000, TO_AUTO);	}
-		| PLUS UNUMBER	{ $$ = add_capslock($2^0xf000);			}
-		| LITERAL	{ $$ = $1;					}
-                | PLUS LITERAL	{ $$ = add_capslock($2);			}
-		;
-%%
 
 static void attr_noreturn usage(void)
 {
@@ -303,194 +123,6 @@ int verbose = 0;
 int quiet = 0;
 int nocompose = 0;
 
-int main(int argc, char *argv[])
-{
-	const char *short_opts = "abcC:dhmsuqvV";
-	const struct option long_opts[] = {
-		{ "console", required_argument, NULL, 'C'},
-		{ "ascii",		no_argument, NULL, 'a' },
-		{ "bkeymap",		no_argument, NULL, 'b' },
-		{ "clearcompose",	no_argument, NULL, 'c' },
-		{ "default",		no_argument, NULL, 'd' },
-		{ "help",		no_argument, NULL, 'h' },
-		{ "mktable",		no_argument, NULL, 'm' },
-		{ "clearstrings",	no_argument, NULL, 's' },
-		{ "unicode",		no_argument, NULL, 'u' },
-		{ "quiet",		no_argument, NULL, 'q' },
-		{ "verbose",		no_argument, NULL, 'v' },
-		{ "version",		no_argument, NULL, 'V' },
-		{ NULL, 0, NULL, 0 }
-	};
-	int c, i;
-	int fd;
-	int kbd_mode;
-	int kd_mode;
-	char *console = NULL;
-
-	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
-
-	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
-		switch (c) {
-		case 'a':
-			opta = 1;
-			break;
-		case 'b':
-			optb = 1;
-			break;
-		case 'c':
-			nocompose = 1;
-			break;
-		case 'C':
-			console = optarg;
-			break;
-		case 'd':
-			optd = 1;
-			break;
-		case 'm':
-			optm = 1;
-			break;
-		case 's':
-			opts = 1;
-			break;
-		case 'u':
-			optu = 1;
-			break;
-		case 'q':
-			quiet = 1;
-			break;
-		case 'v':
-			verbose++;
-			break;
-		case 'V':
-			print_version_and_exit();
-		case 'h':
-		case '?':
-			usage();
-		}
-	}
-
-	if (optu && opta) {
-		fprintf(stderr,
-			_("%s: Options --unicode and --ascii are mutually exclusive\n"),
-			progname);
-		exit(EXIT_FAILURE);
-	}
-
-	prefer_unicode = optu;
-
-	if (!optm && !optb) {
-		/* check whether the keyboard is in Unicode mode */
-		fd = getfd(NULL);
-
-		if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
-			perror("KDGKBMODE");
-			fprintf(stderr, _("%s: error reading keyboard mode\n"),
-				progname);
-			exit(EXIT_FAILURE);
-		}
-
-		if (kbd_mode == K_UNICODE) {
-			if (opta) {
-				fprintf(stderr,
-					_("%s: warning: loading non-Unicode keymap on Unicode console\n"
-					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
-					progname);
-			} else {
-				prefer_unicode = 1;
-			}
-
-			/* reset -u option if keyboard is in K_UNICODE anyway */
-			optu = 0;
-		} else if (optu
-			   && (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS)))
-			fprintf(stderr,
-				_("%s: warning: loading Unicode keymap on non-Unicode console\n"
-				  "    (perhaps you want to do `kbd_mode -u'?)\n"),
-				progname);
-
-		close(fd);
-	}
-
-	for (i = optind; argv[i]; i++) {
-		FILE *f;
-
-		if (optd) {
-			/* first read default map - search starts in . */
-			optd = 0;
-			if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
-				fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-				exit(EXIT_FAILURE);
-			}
-			goto gotf;
-		}
-
-		if (!strcmp(argv[i], "-")) {
-			f = stdin;
-			strcpy(pathname, "<stdin>");
-
-		} else if ((f = findfile(argv[i], dirpath, suffixes)) == NULL) {
-			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
-			exit(EXIT_FAILURE);
-		}
-
- gotf:
-		if (!quiet && !optm)
-			fprintf(stdout, _("Loading %s\n"), pathname);
-
-		stack_push(f, 0, pathname);
-
-		if (yyparse()) {
-			fprintf(stderr, _("syntax error in map file\n"));
-
-			if (!optm)
-				fprintf(stderr,
-					_("key bindings not changed\n"));
-			exit(EXIT_FAILURE);
-		}
-	}
-
-	do_constant();
-
-	if (optb) {
-		bkeymap(key_map);
-
-	} else if (optm) {
-		mktable(key_map, func_table);
-
-	} else if (console) {
-		char *buf = strdup(console);	/* make writable */
-		char *e, *s = buf;
-		while (*s) {
-			char ch;
-
-			while (*s == ' ' || *s == '\t' || *s == ',')
-				s++;
-			e = s;
-			while (*e && *e != ' ' && *e != '\t' && *e != ',')
-				e++;
-			ch = *e;
-			*e = '\0';
-
-			if (verbose)
-				printf("%s\n", s);
-
-			loadkeys(s, kbd_mode);
-
-			*e = ch;
-			s = e;
-		}
-		free(buf);
-
-	} else {
-		loadkeys(NULL, kbd_mode);
-	}
-	exit(EXIT_SUCCESS);
-}
-
 int yyerror(const char *s)
 {
 	fprintf(stderr, "%s:%d: %s\n", filename, line_nr, s);
@@ -507,161 +139,6 @@ void attr_noreturn attr_format_1_2 lkfatal(const char *fmt, ...)
 	fprintf(stderr, "\n");
 	va_end(ap);
 	exit(EXIT_FAILURE);
-}
-
-/*
- * Where shall we look for an include file?
- * Current strategy (undocumented, may change):
- *
- * 1. Look for a user-specified LOADKEYS_INCLUDE_PATH
- * 2. Try . and ../include and ../../include
- * 3. Try D and D/../include and D/../../include
- *    where D is the directory from where we are loading the current file.
- * 4. Try KD/include and KD/#/include where KD = DATADIR/KEYMAPDIR.
- *
- * Expected layout:
- * KD has subdirectories amiga, atari, i386, mac, sun, include
- * KD/include contains architecture-independent stuff
- * like strings and iso-8859-x compose tables.
- * KD/i386 has subdirectories qwerty, ... and include;
- * this latter include dir contains stuff with keycode=...
- *
- * (Of course, if the present setup turns out to be reasonable,
- * then later also the other architectures will grow and get
- * subdirectories, and the hard-coded i386 below will go again.)
- *
- * People that dislike a dozen lookups for loadkeys
- * can easily do "loadkeys file_with_includes; dumpkeys > my_keymap"
- * and afterwards use only "loadkeys /fullpath/mykeymap", where no
- * lookups are required.
- */
-char *include_dirpath0[] = { "", 0 };
-char *include_dirpath1[] = { "", "../include/", "../../include/", 0 };
-char *include_dirpath2[] = { 0, 0, 0, 0 };
-char *include_dirpath3[] = {
-	DATADIR "/" KEYMAPDIR "/include/",
-	DATADIR "/" KEYMAPDIR "/i386/include/",
-	DATADIR "/" KEYMAPDIR "/mac/include/", 0
-};
-
-char *include_suffixes[] = { "", ".inc", 0 };
-
-FILE *find_incl_file_near_fn(char *s, char *fn)
-{
-	FILE *f = NULL;
-	char *t, *te, *t1, *t2;
-	int len;
-
-	if (!fn)
-		return NULL;
-
-	t = xstrdup(fn);
-	te = strrchr(t, '/');
-	if (te) {
-		te[1] = 0;
-		include_dirpath2[0] = t;
-		len = strlen(t);
-		include_dirpath2[1] = t1 = xmalloc(len + 12);
-		include_dirpath2[2] = t2 = xmalloc(len + 15);
-		strcpy(t1, t);
-		strcat(t1, "../include/");
-		strcpy(t2, t);
-		strcat(t2, "../../include/");
-		f = findfile(s, include_dirpath2, include_suffixes);
-		xfree(t1);
-		xfree(t2);
-	}
-	xfree(t);
-	return f;
-}
-
-FILE *find_standard_incl_file(char *s)
-{
-	FILE *f;
-
-	f = findfile(s, include_dirpath1, include_suffixes);
-	if (!f)
-		f = find_incl_file_near_fn(s, filename);
-
-	/* If filename is a symlink, also look near its target. */
-	if (!f) {
-		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
-		unsigned int n;
-
-		n = readlink(filename, buf, sizeof(buf));
-		if (n > 0 && n < sizeof(buf)) {
-			buf[n] = 0;
-			if (buf[0] == '/') {
-				f = find_incl_file_near_fn(s, buf);
-
-			} else if (strlen(filename) + n < sizeof(path)) {
-				strcpy(path, filename);
-				path[sizeof(path) - 1] = 0;
-				ptr = strrchr(path, '/');
-				if (ptr)
-					ptr[1] = 0;
-				strcat(path, buf);
-				f = find_incl_file_near_fn(s, path);
-			}
-		}
-	}
-
-	if (!f)
-		f = findfile(s, include_dirpath3, include_suffixes);
-	return f;
-}
-
-FILE *find_incl_file(char *s)
-{
-	FILE *f;
-	char *ev;
-
-	if (!s || !*s)
-		return NULL;
-
-	if (*s == '/')		/* no path required */
-		return (findfile(s, include_dirpath0, include_suffixes));
-
-	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
-		/* try user-specified path */
-		char *user_dir[2] = { 0, 0 };
-		while (ev) {
-			char *t = strchr(ev, ':');
-			char sv = 0;
-			if (t) {
-				sv = *t;
-				*t = 0;
-			}
-			user_dir[0] = ev;
-			if (*ev)
-				f = findfile(s, user_dir, include_suffixes);
-			else	/* empty string denotes system path */
-				f = find_standard_incl_file(s);
-			if (f)
-				return f;
-			if (t)
-				*t++ = sv;
-			ev = t;
-		}
-		return NULL;
-	}
-	return find_standard_incl_file(s);
-}
-
-void open_include(char *s)
-{
-	FILE *fd;
-
-	if (verbose)
-		fprintf(stdout, _("switching to %s\n"), s);
-
-	fd = find_incl_file(s);
-	if (!fd)
-		lkfatal(_("cannot open include file %s"), s);
-
-	xfree(s);
-
-	stack_push(fd, ispipe, pathname);
 }
 
 static void addmap(int i, int explicit)
@@ -1028,7 +505,7 @@ static int defdiacs(int fd)
 	return kd.kb_cnt;
 }
 
-void do_constant_key(int i, u_short key)
+static void do_constant_key(int i, u_short key)
 {
 	int typ, val, j;
 
@@ -1071,7 +548,7 @@ void do_constant_key(int i, u_short key)
 	}
 }
 
-void do_constant(void)
+static void do_constant(void)
 {
 	int i, r0 = 0;
 
@@ -1204,4 +681,542 @@ static void compose_as_usual(char *charset)
 			compose(ptr.c1, ptr.c2, ptr.c3);
 		}
 	}
+}
+
+/*
+ * mktable.c
+ *
+ */
+static char *modifiers[8] = {
+	"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
+};
+
+static char *mk_mapname(char modifier)
+{
+	static char buf[60];
+	int i;
+
+	if (!modifier)
+		return "plain";
+	buf[0] = 0;
+	for (i = 0; i < 8; i++)
+		if (modifier & (1 << i)) {
+			if (buf[0])
+				strcat(buf, "_");
+			strcat(buf, modifiers[i]);
+		}
+	return buf;
+}
+
+static void outchar(unsigned char c, int comma)
+{
+	printf("'");
+	printf((c == '\'' || c == '\\') ? "\\%c" : isgraph(c) ? "%c"
+	       : "\\%03o", c);
+	printf(comma ? "', " : "'");
+}
+
+static void attr_noreturn mktable(void)
+{
+	int j;
+	unsigned int i, imax;
+
+	char *ptr;
+	unsigned int maxfunc;
+	unsigned int keymap_count = 0;
+
+	printf(
+/* not to be translated... */
+		      "/* Do not edit this file! It was automatically generated by   */\n");
+	printf
+	    ("/*    loadkeys --mktable defkeymap.map > defkeymap.c          */\n\n");
+	printf("#include <linux/types.h>\n");
+	printf("#include <linux/keyboard.h>\n");
+	printf("#include <linux/kd.h>\n\n");
+
+	for (i = 0; i < MAX_NR_KEYMAPS; i++)
+		if (key_map[i]) {
+			keymap_count++;
+			if (i)
+				printf("static ");
+			printf("u_short %s_map[NR_KEYS] = {", mk_mapname(i));
+			for (j = 0; j < NR_KEYS; j++) {
+				if (!(j % 8))
+					printf("\n");
+				printf("\t0x%04x,", U((key_map[i])[j]));
+			}
+			printf("\n};\n\n");
+		}
+
+	for (imax = MAX_NR_KEYMAPS - 1; imax > 0; imax--)
+		if (key_map[imax])
+			break;
+	printf("ushort *key_maps[MAX_NR_KEYMAPS] = {");
+	for (i = 0; i <= imax; i++) {
+		printf((i % 4) ? " " : "\n\t");
+		if (key_map[i])
+			printf("%s_map,", mk_mapname(i));
+		else
+			printf("0,");
+	}
+	if (imax < MAX_NR_KEYMAPS - 1)
+		printf("\t0");
+	printf("\n};\n\nunsigned int keymap_count = %d;\n\n", keymap_count);
+
+/* uglified just for xgettext - it complains about nonterminated strings */
+	printf("/*\n"
+	       " * Philosophy: most people do not define more strings, but they who do\n"
+	       " * often want quite a lot of string space. So, we statically allocate\n"
+	       " * the default and allocate dynamically in chunks of 512 bytes.\n"
+	       " */\n" "\n");
+	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--)
+		if (func_table[maxfunc - 1])
+			break;
+
+	printf("char func_buf[] = {\n");
+	for (i = 0; i < maxfunc; i++) {
+		ptr = func_table[i];
+		if (ptr) {
+			printf("\t");
+			for (; *ptr; ptr++)
+				outchar(*ptr, 1);
+			printf("0, \n");
+		}
+	}
+	if (!maxfunc)
+		printf("\t0\n");
+	printf("};\n\n");
+
+	printf("char *funcbufptr = func_buf;\n"
+	       "int funcbufsize = sizeof(func_buf);\n"
+	       "int funcbufleft = 0;          /* space left */\n" "\n");
+
+	printf("char *func_table[MAX_NR_FUNC] = {\n");
+	for (i = 0; i < maxfunc; i++) {
+		if (func_table[i])
+			printf("\tfunc_buf + %ld,\n",
+			       (long)(func_table[i] - func_buf));
+		else
+			printf("\t0,\n");
+	}
+	if (maxfunc < MAX_NR_FUNC)
+		printf("\t0,\n");
+	printf("};\n");
+
+#ifdef KDSKBDIACRUC
+	if (prefer_unicode) {
+		printf("\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < accent_table_size; i++) {
+			printf("\t{");
+			outchar(accent_table[i].diacr, 1);
+			outchar(accent_table[i].base, 1);
+			printf("0x%04x},", accent_table[i].result);
+			if (i % 2)
+				printf("\n");
+		}
+		if (i % 2)
+			printf("\n");
+		printf("};\n\n");
+	} else
+#endif
+	{
+		printf("\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < accent_table_size; i++) {
+			printf("\t{");
+			outchar(accent_table[i].diacr, 1);
+			outchar(accent_table[i].base, 1);
+			outchar(accent_table[i].result, 0);
+			printf("},");
+			if (i % 2)
+				printf("\n");
+		}
+		if (i % 2)
+			printf("\n");
+		printf("};\n\n");
+	}
+	printf("unsigned int accent_table_size = %d;\n", accent_table_size);
+
+	exit(0);
+}
+
+static void attr_noreturn bkeymap(void)
+{
+	int i, j;
+
+	//u_char *p;
+	char flag, magic[] = "bkeymap";
+	unsigned short v;
+
+	if (write(1, magic, 7) == -1)
+		goto fail;
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		flag = key_map[i] ? 1 : 0;
+		if (write(1, &flag, 1) == -1)
+			goto fail;
+	}
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (key_map[i]) {
+			for (j = 0; j < NR_KEYS / 2; j++) {
+				v = key_map[i][j];
+				if (write(1, &v, 2) == -1)
+					goto fail;
+			}
+		}
+	}
+	exit(0);
+
+ fail:	fprintf(stderr, _("Error writing map to file\n"));
+	exit(1);
+}
+
+%}
+
+%%
+keytable	:
+		| keytable line
+		;
+line		: EOL
+		| charsetline
+		| altismetaline
+		| usualstringsline
+		| usualcomposeline
+		| keymapline
+		| fullline
+		| singleline
+		| strline
+                | compline
+		;
+charsetline	: CHARSET STRLITERAL EOL
+			{
+				set_charset((char *) kbs_buf.kb_string);
+			}
+		;
+altismetaline	: ALT_IS_META EOL
+			{
+				alt_is_meta = 1;
+			}
+		;
+usualstringsline: STRINGS AS USUAL EOL
+			{
+				strings_as_usual();
+			}
+		;
+usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
+			{
+				compose_as_usual((char *) kbs_buf.kb_string);
+			}
+		  | COMPOSE AS USUAL EOL
+			{
+				compose_as_usual(0);
+			}
+		;
+keymapline	: KEYMAPS range EOL
+			{
+				keymaps_line_seen = 1;
+			}
+		;
+range		: range COMMA range0
+		| range0
+		;
+range0		: NUMBER DASH NUMBER
+			{
+				int i;
+				for (i = $1; i <= $3; i++)
+					addmap(i,1);
+			}
+		| NUMBER
+			{
+				addmap($1,1);
+			}
+		;
+strline		: STRING LITERAL EQUALS STRLITERAL EOL
+			{
+				if (KTYP($2) != KT_FN)
+					lkfatal(_("'%s' is not a function key symbol"),
+						syms[KTYP($2)].table[KVAL($2)]);
+				kbs_buf.kb_func = KVAL($2);
+				addfunc(kbs_buf);
+			}
+		;
+compline        : COMPOSE compsym compsym TO compsym EOL
+                        {
+				compose($2, $3, $5);
+			}
+		 | COMPOSE compsym compsym TO rvalue EOL
+			{
+				compose($2, $3, $5);
+			}
+                ;
+compsym		: CCHAR		{	$$ = $1;		}
+		| UNUMBER	{	$$ = $1 ^ 0xf000;	}
+		;
+singleline	:	{
+				mod = 0;
+			}
+		  modifiers KEYCODE NUMBER EQUALS rvalue EOL
+			{
+				addkey($4, mod, $6);
+			}
+		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
+			{
+				addkey($3, 0, $5);
+			}
+		;
+modifiers	: modifiers modifier
+		| modifier
+		;
+modifier	: SHIFT		{ mod |= M_SHIFT;	}
+		| CONTROL	{ mod |= M_CTRL;	}
+		| ALT		{ mod |= M_ALT;		}
+		| ALTGR		{ mod |= M_ALTGR;	}
+		| SHIFTL	{ mod |= M_SHIFTL;	}
+		| SHIFTR	{ mod |= M_SHIFTR;	}
+		| CTRLL		{ mod |= M_CTRLL;	}
+		| CTRLR		{ mod |= M_CTRLR;	}
+		| CAPSSHIFT	{ mod |= M_CAPSSHIFT;	}
+		;
+fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
+			{
+				int i, j;
+
+				if (rvalct == 1) {
+					/* Some files do not have a keymaps line, and
+					 * we have to wait until all input has been read
+					 * before we know which maps to fill. */
+					key_is_constant[$2] = 1;
+
+					/* On the other hand, we now have include files,
+					 * and it should be possible to override lines
+					 * from an include file. So, kill old defs. */
+					for (j = 0; j < max_keymap; j++) {
+						if (defining[j])
+							killkey($2, j);
+					}
+				}
+
+				if (keymaps_line_seen) {
+					i = 0;
+
+					for (j = 0; j < max_keymap; j++) {
+						if (defining[j]) {
+							if (rvalct != 1 || i == 0)
+								addkey($2, j, (i < rvalct) ? key_buf[i] : K_HOLE);
+							i++;
+						}
+					}
+
+					if (i < rvalct)
+						lkfatal(_("too many (%d) entries on one line"), rvalct);
+				} else {
+					for (i = 0; i < rvalct; i++)
+						addkey($2, i, key_buf[i]);
+				}
+			}
+		;
+
+rvalue0		:
+		| rvalue1 rvalue0
+		;
+rvalue1		: rvalue
+			{
+				if (rvalct >= MAX_NR_KEYMAPS)
+					lkfatal(_("too many key definitions on one line"));
+				key_buf[rvalct++] = $1;
+			}
+		;
+rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
+                | PLUS NUMBER	{ $$ = add_capslock($2);			}
+		| UNUMBER	{ $$ = convert_code($1^0xf000, TO_AUTO);	}
+		| PLUS UNUMBER	{ $$ = add_capslock($2^0xf000);			}
+		| LITERAL	{ $$ = $1;					}
+                | PLUS LITERAL	{ $$ = add_capslock($2);			}
+		;
+%%
+
+int main(int argc, char *argv[])
+{
+	const char *short_opts = "abcC:dhmsuqvV";
+	const struct option long_opts[] = {
+		{ "console", required_argument, NULL, 'C'},
+		{ "ascii",		no_argument, NULL, 'a' },
+		{ "bkeymap",		no_argument, NULL, 'b' },
+		{ "clearcompose",	no_argument, NULL, 'c' },
+		{ "default",		no_argument, NULL, 'd' },
+		{ "help",		no_argument, NULL, 'h' },
+		{ "mktable",		no_argument, NULL, 'm' },
+		{ "clearstrings",	no_argument, NULL, 's' },
+		{ "unicode",		no_argument, NULL, 'u' },
+		{ "quiet",		no_argument, NULL, 'q' },
+		{ "verbose",		no_argument, NULL, 'v' },
+		{ "version",		no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
+	int c, i;
+	int fd;
+	int kbd_mode;
+	int kd_mode;
+	char *console = NULL;
+
+	set_progname(argv[0]);
+
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
+
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
+		switch (c) {
+		case 'a':
+			opta = 1;
+			break;
+		case 'b':
+			optb = 1;
+			break;
+		case 'c':
+			nocompose = 1;
+			break;
+		case 'C':
+			console = optarg;
+			break;
+		case 'd':
+			optd = 1;
+			break;
+		case 'm':
+			optm = 1;
+			break;
+		case 's':
+			opts = 1;
+			break;
+		case 'u':
+			optu = 1;
+			break;
+		case 'q':
+			quiet = 1;
+			break;
+		case 'v':
+			verbose++;
+			break;
+		case 'V':
+			print_version_and_exit();
+		case 'h':
+		case '?':
+			usage();
+		}
+	}
+
+	if (optu && opta) {
+		fprintf(stderr,
+			_("%s: Options --unicode and --ascii are mutually exclusive\n"),
+			progname);
+		exit(EXIT_FAILURE);
+	}
+
+	prefer_unicode = optu;
+
+	if (!optm && !optb) {
+		/* check whether the keyboard is in Unicode mode */
+		fd = getfd(NULL);
+
+		if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
+			perror("KDGKBMODE");
+			fprintf(stderr, _("%s: error reading keyboard mode\n"),
+				progname);
+			exit(EXIT_FAILURE);
+		}
+
+		if (kbd_mode == K_UNICODE) {
+			if (opta) {
+				fprintf(stderr,
+					_("%s: warning: loading non-Unicode keymap on Unicode console\n"
+					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
+					progname);
+			} else {
+				prefer_unicode = 1;
+			}
+
+			/* reset -u option if keyboard is in K_UNICODE anyway */
+			optu = 0;
+		} else if (optu
+			   && (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS)))
+			fprintf(stderr,
+				_("%s: warning: loading Unicode keymap on non-Unicode console\n"
+				  "    (perhaps you want to do `kbd_mode -u'?)\n"),
+				progname);
+
+		close(fd);
+	}
+
+	for (i = optind; argv[i]; i++) {
+		FILE *f;
+
+		if (optd) {
+			/* first read default map - search starts in . */
+			optd = 0;
+			if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
+				fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
+				exit(EXIT_FAILURE);
+			}
+			goto gotf;
+		}
+
+		if (!strcmp(argv[i], "-")) {
+			f = stdin;
+			strcpy(pathname, "<stdin>");
+
+		} else if ((f = findfile(argv[i], dirpath, suffixes)) == NULL) {
+			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
+			exit(EXIT_FAILURE);
+		}
+
+ gotf:
+		if (!quiet && !optm)
+			fprintf(stdout, _("Loading %s\n"), pathname);
+
+		stack_push(f, 0, pathname);
+
+		if (yyparse()) {
+			fprintf(stderr, _("syntax error in map file\n"));
+
+			if (!optm)
+				fprintf(stderr,
+					_("key bindings not changed\n"));
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	do_constant();
+
+	if (optb) {
+		bkeymap();
+
+	} else if (optm) {
+		mktable();
+
+	} else if (console) {
+		char *buf = strdup(console);	/* make writable */
+		char *e, *s = buf;
+		while (*s) {
+			char ch;
+
+			while (*s == ' ' || *s == '\t' || *s == ',')
+				s++;
+			e = s;
+			while (*e && *e != ' ' && *e != '\t' && *e != ',')
+				e++;
+			ch = *e;
+			*e = '\0';
+
+			if (verbose)
+				printf("%s\n", s);
+
+			loadkeys(s, kbd_mode);
+
+			*e = ch;
+			s = e;
+		}
+		free(buf);
+
+	} else {
+		loadkeys(NULL, kbd_mode);
+	}
+	exit(EXIT_SUCCESS);
 }

@@ -379,61 +379,61 @@ struct yy_trans_info
 static yyconst flex_int16_t yy_accept[504] =
     {   0,
         0,    0,    0,    0,   45,   45,    0,    0,   49,   47,
-        6,    5,   47,   40,   47,   11,   10,    9,   13,   13,
+        6,    5,   47,   40,   47,   16,   15,   14,   12,   12,
         8,   47,   47,   47,   47,   47,   47,   47,   47,   47,
        47,   47,   47,   47,   47,   47,   47,   47,   47,   47,
-       47,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   45,   46,   48,    3,   48,    6,    0,    7,    0,
-        0,   13,    0,   13,    0,   32,    0,    0,    0,    0,
+       47,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   45,   46,   48,    3,   48,    6,    0,    7,    0,
+        0,   12,    0,   12,    0,   33,    0,    0,    0,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,   35,
-        0,    0,    0,    0,    0,    0,   34,    0,    0,    0,
+        0,    0,    0,    0,    0,    0,   10,    0,    0,    0,
 
         4,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   45,   42,   41,   43,   44,    0,    3,
-       39,    0,   39,    0,   13,   22,    0,   22,    0,    0,
+        0,    0,    0,    0,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   10,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   45,   42,   41,   43,   44,    0,    3,
+       39,    0,   39,    0,   12,   23,    0,   23,    0,    0,
         0,    0,    0,    0,    0,    0,    0,    0,   36,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-       22,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+       23,    0,    0,    0,    0,    0,    0,    0,    0,    0,
 
-        0,    0,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   41,    2,
+        0,    0,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   41,    2,
        38,   37,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
+        0,    0,    0,    0,    0,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
 
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   41,   37,    0,    0,
-       23,    0,    0,    0,    0,   26,   27,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,    0,   19,
-       20,    0,   20,    0,    0,   33,    0,    0,    0,    0,
-        0,    0,    0,   20,    0,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   41,   37,    0,    0,
+       24,    0,    0,    0,    0,   27,   28,    0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,   20,
+       21,    0,   21,    0,    0,   34,    0,    0,    0,    0,
+        0,    0,    0,   21,    0,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
 
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,   24,   25,   18,
-       18,   12,    0,    0,    0,    0,    0,    0,    0,   18,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,   14,   14,    0,
-        0,   15,   31,   21,    0,    0,   17,   16,   30,    0,
-        1,   14,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,    1,    0,    0,    0,    0,    0,    1,   14,
-       14,   14,   14,   14,    0,   28,   14,   14,    0,   14,
+        0,    0,    0,    0,    0,    0,    0,   25,   26,    9,
+        9,   11,    0,    0,    0,    0,    0,    0,    0,    9,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,   13,   13,   13,   13,   13,   13,   13,    9,
+        9,   13,   13,   13,   13,   13,   13,   13,    9,    0,
+        0,   17,   32,   22,    0,    0,   19,   18,   31,    0,
+        1,   13,   13,   13,   13,   13,   13,   13,   13,   13,
+       13,   13,    1,    0,    0,    0,    0,    0,    1,   13,
+       13,   13,   13,   13,    0,   29,   13,   13,    0,   13,
 
-       29,   14,    0
+       30,   13,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -800,25 +800,32 @@ char *yytext;
 #define YY_NO_INPUT 1
 
 #include <stdlib.h>
+#include <unistd.h> /* readlink */
+#include <sys/param.h>
 #include <linux/kd.h>
+#include <linux/keyboard.h>
+
 #include "ksyms.h"
+#include "nls.h"
 #include "kbd.h"
+#include "paths.h"
 #include "xmalloc.h"
 #include "findfile.h"
 #include "loadkeys.h"
 
-int	rvalct;
+int rvalct;
 struct kbsentry kbs_buf;
-char *p, *pmax;
+static char *p, *pmax;
 
+extern int verbose;
 extern int yyerror(const char *s);
-extern void stringovfl(void);
 extern void lkfatal(const char *fmt, ...);
-extern void open_include(char *s);
+
+void stack_push(FILE *fd, int is_pipe, char *fname);
 
 /* Include file handling - unfortunately flex-specific. */
 #define MAX_INCLUDE_DEPTH 20
-struct infile {
+static struct infile {
 	FILE *fd;
 	int  pipe;
 	char *filename;
@@ -829,15 +836,217 @@ struct infile {
 
 char *filename = NULL;
 int  line_nr = 1;
-int  infile_stack_ptr = -1;
+static int  infile_stack_ptr = -1;
 
-void stack_push(FILE *fd, int ispipe, char *filename);
-int stack_pop(void);
+void stack_push(FILE *fd, int is_pipe, char *fname) {
+	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
+		lkfatal(_("includes are nested too deeply"));
+
+	infile_stack_ptr++;
+
+	printf("Stack push %s\n", fname);
+
+	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd,YY_BUF_SIZE);
+	infile_stack[infile_stack_ptr].fd       = fd;
+	infile_stack[infile_stack_ptr].pipe     = is_pipe;
+	infile_stack[infile_stack_ptr].filename = strdup(fname);
+	infile_stack[infile_stack_ptr].linenr   = line_nr;
+
+	yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
+
+	// Set global variables
+	filename = infile_stack[infile_stack_ptr].filename;
+	line_nr  = 1;
+}
+
+static int stack_pop(void) {
+	fpclose1(infile_stack[infile_stack_ptr].fd, infile_stack[infile_stack_ptr].pipe);
+	printf("Stack pop %s\n", infile_stack[infile_stack_ptr].filename);
+
+	// Free previous filename
+	xfree(infile_stack[infile_stack_ptr].filename);
+
+	// Destroy previous buffer
+	yy_delete_buffer(infile_stack[infile_stack_ptr].buffer);
+
+	infile_stack_ptr--;
+
+	if (infile_stack_ptr >= 0) {
+		// Set new state
+		//yyin     = infile_stack[infile_stack_ptr].fd; // ???
+		ispipe   = infile_stack[infile_stack_ptr].pipe;
+		filename = infile_stack[infile_stack_ptr].filename;
+		line_nr  = infile_stack[infile_stack_ptr].linenr;
+
+		printf("Stack change %s\n", infile_stack[infile_stack_ptr].filename);
+
+		// Switch to new buffer
+		yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
+		return 0;
+	}
+
+	return 1;
+}
+
+/*
+ * Where shall we look for an include file?
+ * Current strategy (undocumented, may change):
+ *
+ * 1. Look for a user-specified LOADKEYS_INCLUDE_PATH
+ * 2. Try . and ../include and ../../include
+ * 3. Try D and D/../include and D/../../include
+ *    where D is the directory from where we are loading the current file.
+ * 4. Try KD/include and KD/#/include where KD = DATADIR/KEYMAPDIR.
+ *
+ * Expected layout:
+ * KD has subdirectories amiga, atari, i386, mac, sun, include
+ * KD/include contains architecture-independent stuff
+ * like strings and iso-8859-x compose tables.
+ * KD/i386 has subdirectories qwerty, ... and include;
+ * this latter include dir contains stuff with keycode=...
+ *
+ * (Of course, if the present setup turns out to be reasonable,
+ * then later also the other architectures will grow and get
+ * subdirectories, and the hard-coded i386 below will go again.)
+ *
+ * People that dislike a dozen lookups for loadkeys
+ * can easily do "loadkeys file_with_includes; dumpkeys > my_keymap"
+ * and afterwards use only "loadkeys /fullpath/mykeymap", where no
+ * lookups are required.
+ */
+static char *include_dirpath0[] = { "", 0 };
+static char *include_dirpath1[] = { "", "../include/", "../../include/", 0 };
+static char *include_dirpath2[] = { 0, 0, 0, 0 };
+static char *include_dirpath3[] = {
+	DATADIR "/" KEYMAPDIR "/include/",
+	DATADIR "/" KEYMAPDIR "/i386/include/",
+	DATADIR "/" KEYMAPDIR "/mac/include/", 0
+};
+
+static char *include_suffixes[] = { "", ".inc", 0 };
+
+static FILE *find_incl_file_near_fn(char *s, char *fn)
+{
+	FILE *f = NULL;
+	char *t, *te, *t1, *t2;
+	int len;
+
+	if (!fn)
+		return NULL;
+
+	t = xstrdup(fn);
+	te = strrchr(t, '/');
+	if (te) {
+		te[1] = 0;
+		len = strlen(t);
+		include_dirpath2[0] = t;
+		include_dirpath2[1] = t1 = xmalloc(len + 12);
+		include_dirpath2[2] = t2 = xmalloc(len + 15);
+		strcpy(t1, t);
+		strcat(t1, "../include/");
+		strcpy(t2, t);
+		strcat(t2, "../../include/");
+		f = findfile(s, include_dirpath2, include_suffixes);
+		xfree(t1);
+		xfree(t2);
+	}
+	xfree(t);
+	return f;
+}
+
+static FILE *find_standard_incl_file(char *s)
+{
+	FILE *f;
+
+	f = findfile(s, include_dirpath1, include_suffixes);
+	if (!f)
+		f = find_incl_file_near_fn(s, filename);
+
+	/* If filename is a symlink, also look near its target. */
+	if (!f) {
+		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
+		unsigned int n;
+
+		n = readlink(filename, buf, sizeof(buf));
+		if (n > 0 && n < sizeof(buf)) {
+			buf[n] = 0;
+			if (buf[0] == '/') {
+				f = find_incl_file_near_fn(s, buf);
+
+			} else if (strlen(filename) + n < sizeof(path)) {
+				strcpy(path, filename);
+				path[sizeof(path) - 1] = 0;
+				ptr = strrchr(path, '/');
+				if (ptr)
+					ptr[1] = 0;
+				strcat(path, buf);
+				f = find_incl_file_near_fn(s, path);
+			}
+		}
+	}
+
+	if (!f)
+		f = findfile(s, include_dirpath3, include_suffixes);
+	return f;
+}
+
+static FILE *find_incl_file(char *s)
+{
+	FILE *f;
+	char *ev;
+
+	if (!s || !*s)
+		return NULL;
+
+	if (*s == '/')		/* no path required */
+		return (findfile(s, include_dirpath0, include_suffixes));
+
+	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
+		/* try user-specified path */
+		char *user_dir[2] = { 0, 0 };
+		while (ev) {
+			char *t = strchr(ev, ':');
+			char sv = 0;
+			if (t) {
+				sv = *t;
+				*t = 0;
+			}
+			user_dir[0] = ev;
+			if (*ev)
+				f = findfile(s, user_dir, include_suffixes);
+			else	/* empty string denotes system path */
+				f = find_standard_incl_file(s);
+			if (f)
+				return f;
+			if (t)
+				*t++ = sv;
+			ev = t;
+		}
+		return NULL;
+	}
+	return find_standard_incl_file(s);
+}
+
+static void open_include(char *s)
+{
+	FILE *fd;
+
+	if (verbose)
+		fprintf(stdout, _("switching to %s\n"), s);
+
+	fd = find_incl_file(s);
+	if (!fd)
+		lkfatal(_("cannot open include file %s"), s);
+
+	xfree(s);
+
+	stack_push(fd, ispipe, pathname);
+}
 
 
 
 
-#line 841 "loadkeys.analyze.c"
+#line 1050 "loadkeys.analyze.c"
 
 #define INITIAL 0
 #define RVALUE 1
@@ -1020,7 +1229,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 81 "loadkeys.analyze.l"
+#line 289 "loadkeys.analyze.l"
 
 
 /* To protect from wrong code in the higher level parser (loadkeys.y), 
@@ -1036,7 +1245,7 @@ YY_DECL
   yylval = YYLVAL_UNDEF;
 
 
-#line 1040 "loadkeys.analyze.c"
+#line 1249 "loadkeys.analyze.c"
 
 	if ( !(yy_init) )
 		{
@@ -1121,50 +1330,62 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 96 "loadkeys.analyze.l"
-{BEGIN(INCLSTR);}
+#line 304 "loadkeys.analyze.l"
+{
+				BEGIN(INCLSTR);
+			}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 97 "loadkeys.analyze.l"
-{char *s = xstrndup(yytext+1, strlen(yytext)-2);
-			  /* use static pathname to store *s ? */
-			 open_include(s);
-			 BEGIN(0);
+#line 307 "loadkeys.analyze.l"
+{
+				char *s = xstrndup(yytext+1, strlen(yytext)-2);
+				/* use static pathname to store *s ? */
+				open_include(s);
+				BEGIN(0);
 			}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 102 "loadkeys.analyze.l"
+#line 313 "loadkeys.analyze.l"
 {
-			  yyerror("expected filename between quotes");
-			  BEGIN(0); }
+				yyerror(_("expected filename between quotes"));
+				BEGIN(0);
+			}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
 case YY_STATE_EOF(INCLSTR):
-#line 105 "loadkeys.analyze.l"
-{stack_pop();
-			 if (!YY_CURRENT_BUFFER) yyterminate();
+#line 317 "loadkeys.analyze.l"
+{
+				stack_pop();
+				if (!YY_CURRENT_BUFFER)
+					yyterminate();
 			}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 108 "loadkeys.analyze.l"
-{line_nr++;}
+#line 322 "loadkeys.analyze.l"
+{
+				line_nr++;
+			}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 109 "loadkeys.analyze.l"
-{line_nr++;BEGIN(0);return(EOL);}
+#line 325 "loadkeys.analyze.l"
+{
+				line_nr++;
+				BEGIN(0);
+				return(EOL);
+			}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 110 "loadkeys.analyze.l"
+#line 330 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1173,219 +1394,275 @@ case 7:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 111 "loadkeys.analyze.l"
+#line 331 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 112 "loadkeys.analyze.l"
-{BEGIN(RVALUE);rvalct=0;return(EQUALS);}
+#line 332 "loadkeys.analyze.l"
+{
+				BEGIN(RVALUE);
+				rvalct = 0;
+				return(EQUALS);
+			}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 113 "loadkeys.analyze.l"
-{return(DASH);}
+#line 337 "loadkeys.analyze.l"
+{
+				BEGIN(RVALUE);
+				return(STRING);
+			}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 114 "loadkeys.analyze.l"
-{return(COMMA);}
+#line 341 "loadkeys.analyze.l"
+{
+				BEGIN(RVALUE);
+				return(TO);
+			}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 115 "loadkeys.analyze.l"
-{return(PLUS);}
+#line 345 "loadkeys.analyze.l"
+{
+				yylval = strtol(yytext + 1, NULL, 16);
+				if (yylval >= 0xf000)
+					lkfatal(_("unicode keysym out of range: %s"), yytext);
+				return(UNUMBER);
+			}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 116 "loadkeys.analyze.l"
-{yylval=strtol(yytext+1,NULL,16);if(yylval>=0xf000)lkfatal("unicode keysym out of range: %s",yytext);return(UNUMBER);}
+#line 351 "loadkeys.analyze.l"
+{
+				yylval = strtol(yytext, NULL, 0);
+				return(NUMBER);
+			}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 117 "loadkeys.analyze.l"
-{yylval=strtol(yytext,NULL,0);return(NUMBER);}
+#line 355 "loadkeys.analyze.l"
+{	return((yylval = ksymtocode(yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 118 "loadkeys.analyze.l"
-{return((yylval=ksymtocode(yytext, TO_AUTO))==-1?ERROR:LITERAL);}
+#line 356 "loadkeys.analyze.l"
+{	return(DASH);		}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 119 "loadkeys.analyze.l"
-{return(CHARSET);}
+#line 357 "loadkeys.analyze.l"
+{	return(COMMA);		}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 120 "loadkeys.analyze.l"
-{return(KEYMAPS);}
+#line 358 "loadkeys.analyze.l"
+{	return(PLUS);		}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 121 "loadkeys.analyze.l"
-{return(KEYCODE);}
+#line 359 "loadkeys.analyze.l"
+{	return(CHARSET);	}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 122 "loadkeys.analyze.l"
-{BEGIN(RVALUE);return(STRING);}
+#line 360 "loadkeys.analyze.l"
+{	return(KEYMAPS);	}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 123 "loadkeys.analyze.l"
-{return(PLAIN);}
+#line 361 "loadkeys.analyze.l"
+{	return(KEYCODE);	}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 124 "loadkeys.analyze.l"
-{return(SHIFT);}
+#line 362 "loadkeys.analyze.l"
+{	return(PLAIN);		}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 125 "loadkeys.analyze.l"
-{return(CONTROL);}
+#line 363 "loadkeys.analyze.l"
+{	return(SHIFT);		}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 126 "loadkeys.analyze.l"
-{return(ALT);}
+#line 364 "loadkeys.analyze.l"
+{	return(CONTROL);	}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 127 "loadkeys.analyze.l"
-{return(ALTGR);}
+#line 365 "loadkeys.analyze.l"
+{	return(ALT);		}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 128 "loadkeys.analyze.l"
-{return(SHIFTL);}
+#line 366 "loadkeys.analyze.l"
+{	return(ALTGR);		}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 129 "loadkeys.analyze.l"
-{return(SHIFTR);}
+#line 367 "loadkeys.analyze.l"
+{	return(SHIFTL);		}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 130 "loadkeys.analyze.l"
-{return(CTRLL);}
+#line 368 "loadkeys.analyze.l"
+{	return(SHIFTR);		}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 131 "loadkeys.analyze.l"
-{return(CTRLR);}
+#line 369 "loadkeys.analyze.l"
+{	return(CTRLL);		}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 132 "loadkeys.analyze.l"
-{return(CAPSSHIFT);}
+#line 370 "loadkeys.analyze.l"
+{	return(CTRLR);		}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 133 "loadkeys.analyze.l"
-{return(ALT_IS_META);}
+#line 371 "loadkeys.analyze.l"
+{	return(CAPSSHIFT);	}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 134 "loadkeys.analyze.l"
-{return(STRINGS);}
+#line 372 "loadkeys.analyze.l"
+{	return(ALT_IS_META);	}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 135 "loadkeys.analyze.l"
-{return(COMPOSE);}
+#line 373 "loadkeys.analyze.l"
+{	return(STRINGS);	}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 136 "loadkeys.analyze.l"
-{return(AS);}
+#line 374 "loadkeys.analyze.l"
+{	return(COMPOSE);	}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 137 "loadkeys.analyze.l"
-{return(USUAL);}
+#line 375 "loadkeys.analyze.l"
+{	return(AS);		}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 138 "loadkeys.analyze.l"
-{BEGIN(RVALUE); return(TO);}
+#line 376 "loadkeys.analyze.l"
+{	return(USUAL);		}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 139 "loadkeys.analyze.l"
-{return(ON);}
+#line 377 "loadkeys.analyze.l"
+{	return(ON);		}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 140 "loadkeys.analyze.l"
-{return(FOR);}
+#line 378 "loadkeys.analyze.l"
+{	return(FOR);		}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 141 "loadkeys.analyze.l"
-{yylval = strtol(yytext+2,NULL,8); return(CCHAR);}
+#line 379 "loadkeys.analyze.l"
+{
+				yylval = strtol(yytext + 2, NULL, 8);
+				return(CCHAR);
+			}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 142 "loadkeys.analyze.l"
-{yylval = (unsigned char) yytext[2]; return(CCHAR);}
+#line 383 "loadkeys.analyze.l"
+{
+				yylval = (unsigned char) yytext[2];
+				return(CCHAR);
+			}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 143 "loadkeys.analyze.l"
-{yylval = (unsigned char) yytext[1]; return(CCHAR);}
+#line 387 "loadkeys.analyze.l"
+{
+				yylval = (unsigned char) yytext[1];
+				return(CCHAR);
+			}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 144 "loadkeys.analyze.l"
-{p=(char *) kbs_buf.kb_string;
-				pmax=p+sizeof(kbs_buf.kb_string)-1;
-				BEGIN(STR);}
+#line 391 "loadkeys.analyze.l"
+{
+				p = (char *) kbs_buf.kb_string;
+				pmax = p + sizeof(kbs_buf.kb_string) - 1;
+				BEGIN(STR);
+			}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 147 "loadkeys.analyze.l"
-{if(p>=pmax)stringovfl();*p++=strtol(yytext+1,NULL,8);}
+#line 396 "loadkeys.analyze.l"
+{
+				if (p >= pmax)
+					lkfatal(_("string too long"));
+				*p++ = strtol(yytext + 1, NULL, 8);
+			}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 148 "loadkeys.analyze.l"
-{if(p>=pmax)stringovfl();*p++='"';}
+#line 401 "loadkeys.analyze.l"
+{
+				if (p >= pmax)
+					lkfatal(_("string too long"));
+				*p++ = '"';
+			}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 149 "loadkeys.analyze.l"
-{if(p>=pmax)stringovfl();*p++='\\';}
+#line 406 "loadkeys.analyze.l"
+{
+				if (p >= pmax)
+					lkfatal(_("string too long"));
+				*p++ = '\\';
+			}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 150 "loadkeys.analyze.l"
-{if(p>=pmax)stringovfl();*p++='\n';}
+#line 411 "loadkeys.analyze.l"
+{
+				if (p >= pmax)
+					lkfatal(_("string too long"));
+				*p++ = '\n';
+			}
 	YY_BREAK
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 151 "loadkeys.analyze.l"
-{char *ptmp=p;p+=strlen(yytext); 
-				if(p>pmax)stringovfl();strcpy(ptmp,yytext);}
+#line 416 "loadkeys.analyze.l"
+{
+				char *ptmp = p;
+				p += strlen(yytext); 
+				if (p > pmax)
+					lkfatal(_("string too long"));
+				strcpy(ptmp, yytext);
+			}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 153 "loadkeys.analyze.l"
-{*p='\0';BEGIN(0);return(STRLITERAL);}
+#line 423 "loadkeys.analyze.l"
+{
+				*p = '\0';
+				BEGIN(0);
+				return(STRLITERAL);
+			}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 154 "loadkeys.analyze.l"
-{return(ERROR); /* report any unknown characters */}
+#line 428 "loadkeys.analyze.l"
+{
+				return(ERROR); /* report any unknown characters */
+			}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 156 "loadkeys.analyze.l"
+#line 431 "loadkeys.analyze.l"
 ECHO;
 	YY_BREAK
-#line 1389 "loadkeys.analyze.c"
+#line 1666 "loadkeys.analyze.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2344,68 +2621,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 156 "loadkeys.analyze.l"
+#line 431 "loadkeys.analyze.l"
 
-
-
-#include "ksyms.h"
-#include <linux/keyboard.h>
-
-void
-stringovfl(void) {
-	lkfatal("string too long");
-}
-
-void
-stack_push(FILE *fd, int is_pipe, char *fname) {
-	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
-		lkfatal("includes are nested too deeply");
-
-	infile_stack_ptr++;
-
-	printf("Stack push %s\n", fname);
-
-	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd,YY_BUF_SIZE);
-	infile_stack[infile_stack_ptr].fd       = fd;
-	infile_stack[infile_stack_ptr].pipe     = is_pipe;
-	infile_stack[infile_stack_ptr].filename = strdup(fname);
-	infile_stack[infile_stack_ptr].linenr   = line_nr;
-
-	yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
-
-	// Set global variables
-	filename = infile_stack[infile_stack_ptr].filename;
-	line_nr  = 1;
-}
-
-int
-stack_pop(void) {
-	fpclose1(infile_stack[infile_stack_ptr].fd, infile_stack[infile_stack_ptr].pipe);
-	printf("Stack pop %s\n", infile_stack[infile_stack_ptr].filename);
-
-	// Free previous filename
-	xfree(infile_stack[infile_stack_ptr].filename);
-
-	// Destroy previous buffer
-	yy_delete_buffer(infile_stack[infile_stack_ptr].buffer);
-
-	infile_stack_ptr--;
-
-	if (infile_stack_ptr >= 0) {
-		// Set new state
-		//yyin     = infile_stack[infile_stack_ptr].fd; // ???
-		ispipe   = infile_stack[infile_stack_ptr].pipe;
-		filename = infile_stack[infile_stack_ptr].filename;
-		line_nr  = infile_stack[infile_stack_ptr].linenr;
-
-		printf("Stack change %s\n", infile_stack[infile_stack_ptr].filename);
-
-		// Switch to new buffer
-		yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
-		return 0;
-	}
-
-	return 1;
-}
 
 
