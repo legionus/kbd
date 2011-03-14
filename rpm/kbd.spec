@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.15.2
-Release: alt1
+Release: alt2
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -257,7 +257,7 @@ cd %buildroot/%_sysconfdir/sysconfig
 touch consolefont keyboard console/setterm
 
 # Set default font
-echo 'SYSFONT=UniCyrExt_8x16' > consolefont
+echo 'SYSFONT=UniCyr_8x16' > consolefont
 
 %triggerpostun -n %name-data -- console-data
 [ $2 = 0 ] || exit 0
@@ -354,6 +354,9 @@ done
 /bin/kbdrate
 
 %changelog
+* Mon Mar 14 2011 Alexey Gladkov <legion@altlinux.ru> 0:1.15.2-alt2
+- Change default console font to UniCyr_8x16 (ALT#25225).
+
 * Wed Apr 07 2010 Alexey Gladkov <legion@altlinux.ru> 0:1.15.2-alt1
 - New release version (1.15.2).
 - Use automake to build translations.
