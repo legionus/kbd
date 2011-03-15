@@ -109,7 +109,9 @@ static void attr_noreturn usage(void)
 	exit(EXIT_FAILURE);
 }
 
-char *dirpath[]  = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
+char **dirpath;
+char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
+char *dirpath2[] = { 0, 0 };
 char *suffixes[] = { "", ".kmap", ".map", 0 };
 
 char **args;
@@ -1147,6 +1149,16 @@ int main(int argc, char *argv[])
 
 	for (i = optind; argv[i]; i++) {
 		FILE *f;
+		char *ev;
+
+		dirpath = dirpath1;
+		if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
+			if (!quiet && !optm)
+				fprintf(stdout, _("Searching in %s\n"), ev);
+
+			dirpath2[0] = ev;
+			dirpath = dirpath2;
+		}
 
 		if (optd) {
 			/* first read default map - search starts in . */
