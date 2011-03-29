@@ -48,8 +48,6 @@ void stack_push(FILE *fd, int is_pipe, char *fname) {
 
 	infile_stack_ptr++;
 
-	printf("Stack push %s\n", fname);
-
 	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd, YY_BUF_SIZE);
 	infile_stack[infile_stack_ptr].fd       = fd;
 	infile_stack[infile_stack_ptr].pipe     = is_pipe;
@@ -65,7 +63,6 @@ void stack_push(FILE *fd, int is_pipe, char *fname) {
 
 static int stack_pop(void) {
 	fpclose1(infile_stack[infile_stack_ptr].fd, infile_stack[infile_stack_ptr].pipe);
-	printf("Stack pop %s\n", infile_stack[infile_stack_ptr].filename);
 
 	// Free previous filename
 	xfree(infile_stack[infile_stack_ptr].filename);
@@ -81,8 +78,6 @@ static int stack_pop(void) {
 		ispipe   = infile_stack[infile_stack_ptr].pipe;
 		filename = infile_stack[infile_stack_ptr].filename;
 		line_nr  = infile_stack[infile_stack_ptr].linenr;
-
-		printf("Stack change %s\n", infile_stack[infile_stack_ptr].filename);
 
 		// Switch to new buffer
 		yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
