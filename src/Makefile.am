@@ -9,7 +9,7 @@ OLDPROGS = mapscrn loadunimap
 PROGS = \
 	dumpkeys loadkeys showkey setfont showconsolefont \
 	setleds setmetamode kbd_mode psfxtable fgconsole \
-	kbdrate chvt deallocvt openvt
+	kbdrate chvt deallocvt openvt kbdinfo
 
 if KEYCODES_PROGS
 PROGS += getkeycodes setkeycodes
@@ -65,6 +65,7 @@ setpalette_SOURCES      = $(ALL_S) setpalette.c $(GETFD_S)
 setvesablank_SOURCES    = $(ALL_S) setvesablank.c $(GETFD_S)
 showconsolefont_SOURCES = $(ALL_S) showconsolefont.c $(GETFD_S) $(XMAL_S) $(KDMA_S) kdfontop.c kdfontop.h
 showkey_SOURCES         = $(ALL_S) showkey.c $(GETFD_S)
+kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c $(GETFD_S)
 
 mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
