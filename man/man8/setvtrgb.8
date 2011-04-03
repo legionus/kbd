@@ -1,0 +1,37 @@
+.\" @(#)man/man8/setvtrgb.8	1.0 Mar  3 12:32:18 CST 2011
+.TH SETVTRGB 8 "3 Mar 2011" "Set Virtual Terminal RGB Colors"
+.SH NAME
+setvtrgb \- set the virtual terminal RGB colors
+.SH SYNOPSIS
+.B setvtrgb
+.I vga|FILE|\-
+.SH DESCRIPTION
+The
+.I setvtrgb
+command takes a single argument, either the string
+.B vga
+, or a path to a file
+containing the red, green, and blue colors to be used by the Linux virtual terminals.
+
+If you use the
+.B FILE
+parameter,
+.B FILE
+should be exactly 3 lines of 16
+comma-separated decimal values for RED, GREEN, and BLUE.
+
+To seed a valid
+.B FILE
+:
+.RS
+.B "cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE"
+.RE
+
+And then edit the values in
+.B FILE
+
+.SH AUTHOR
+The utility is written by Alexey Gladkov, Seth Forshee, Dustin Kirkland.
+
+.SH DOCUMENTATION
+Documentation by Dustin Kirkland.
