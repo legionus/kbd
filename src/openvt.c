@@ -298,7 +298,14 @@ main(int argc, char *argv[])
 	}
 
 	if (do_wait) {
+		int retval = 0; /* actual value returned form process */
+
 		wait(NULL);
+		waitpid(pid, &retval, 0);
+
+		/* we need to clean up our file descriptors if we want dallocation to work later */
+		close(fd0);
+
 		if (show) {	/* Switch back... */
 			if (ioctl(consfd, VT_ACTIVATE, vtstat.v_active)) {
 				perror("VT_ACTIVATE");
@@ -314,6 +321,13 @@ main(int argc, char *argv[])
 				return (8);
 			}
 		}
+
+		/* if all our stuff went right, we want to return the exit code of the command we ran
+		   super vital for scripting loops etc */
+		return(retval);
+
+	} else {
+		close(fd0);
 	}
 
 	return 0;
