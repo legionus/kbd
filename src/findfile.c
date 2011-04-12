@@ -11,13 +11,20 @@
 #include "nls.h"
 
 char pathname[MAXPATHLEN];
-static int ispipe;
+int ispipe;
 
 void fpclose(FILE *fp) {
 	if (ispipe)
 	     pclose(fp);
 	else
 	     fclose(fp);
+}
+
+void fpclose1(FILE *fp, int is_pipe) {
+	if (is_pipe)
+		pclose(fp);
+	else
+		fclose(fp);
 }
 
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))

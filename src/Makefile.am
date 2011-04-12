@@ -51,7 +51,6 @@ fgconsole_SOURCES       = $(ALL_S) fgconsole.c $(GETFD_S)
 getkeycodes_SOURCES     = $(ALL_S) getkeycodes.c $(GETFD_S)
 getunimap_SOURCES       = $(ALL_S) getunimap.c $(GETFD_S) $(KDMA_S)
 kbd_mode_SOURCES        = $(ALL_S) kbd_mode.c $(GETFD_S)
-loadkeys_SOURCES        = $(ALL_S) loadkeys.y $(GETFD_S) $(KSYMS_S) $(XMAL_S) $(FIND_S)
 loadunimap_SOURCES      = $(ALL_S) loadunimap.c $(FIND_S) $(PSF_S) $(UTF8_S) $(XMAL_S) $(GETFD_S) $(KDMA_S)
 mapscrn_SOURCES         = $(ALL_S) mapscrn.c $(FIND_S) $(UTF8_S) $(XMAL_S) $(GETFD_S) $(KDMA_S)
 openvt_SOURCES          = $(ALL_S) openvt.c openvt.h $(GETFD_S)
@@ -70,6 +69,10 @@ kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c $(GETFD_S)
 
 mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
+
+AM_YFLAGS = -d
+BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h
+loadkeys_SOURCES = loadkeys.y loadkeys.analyze.l $(GETFD_S) $(KSYMS_S) $(XMAL_S) $(FIND_S)
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \
