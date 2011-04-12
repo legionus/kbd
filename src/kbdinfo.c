@@ -14,10 +14,12 @@ static const char *value  = NULL;
 
 static void attr_noreturn
 usage(int code) {
-	fprintf(stderr, _("Usage: %s [-C DEVICE] getmode [text|graphics]\n"), progname);
-	fprintf(stderr, _("   or: %s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"), progname);
-	fprintf(stderr, _("   or: %s [-C DEVICE] gkbmeta [metabit|escprefix]\n"), progname);
-	fprintf(stderr, _("   or: %s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"), progname);
+	fprintf(stderr,
+		_("Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
+		  "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
+	          "   or: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
+	          "   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"),
+		progname);
 	exit(code);
 }
 
