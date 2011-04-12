@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT(kbd, 1.15.2, gladkov.alexey@gmail.com)
+AC_INIT(kbd, 1.15.3wip, gladkov.alexey@gmail.com)
 
 AC_PREREQ(2.60)
 

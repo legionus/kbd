@@ -1,3 +1,20 @@
+Changes for 1.15.3 (legion)
+
+o Build system:
+  - Drop klibc support.
+o Programs:
+  - kbdinfo: New utility to obtain information about console.
+  - setvtrgb: New utility to set the virtual terminal RGB colors.
+  - loadkeys: Add LOADKEYS_KEYMAP_PATH env variable.
+  - loadkeys: Fix some memory leaks.
+  - loadkeys: Do not set prefer_unicode for iso-8859-1.
+  - loadkeys -a: Switch to ASCII mode.
+  - loadkeys: Fix "compose as usual" for Unicode diacritics (Michael Schutte).
+o Keymaps:
+  - Add dvorak-ru keymap.
+o Fonts:
+  - Add LatGrkCyr fonts.
+
 Changes for 1.15.2 (legion)
 
 o Build system:
@@ -5,14 +22,11 @@ o Build system:
   - Fix colemak installation.
   - psffontop: Fix possible alignment issues, wrt -Wcast-align.
   - vcstime: Fix build warning.
-
 o Programs:
   - loadkeys -u: Switch to Unicode mode, if necessary (Michael Schutte).
   - Use either /dev/vcs[a] or /dev/vcs[a]0 (Michael Schutte)
-
 o Keymaps:
   - Add "mobii" specific keymap (Richard Zidlicky).
-
 o Fonts:
   - Add georgian font.
 
@@ -23,7 +37,6 @@ o Build system:
   - Fix errors when building with -Werror=format-security
     gcc option (Herton Ronaldo Krzesinski).
   - Fix cross-compiling problems.
-
 o Programs:
   - loadkeys: Auto-convert “traditional”/Unicode keysyms (Michael Schutte).
   - loadkeys: Support bidirectional conversion of keysyms (Michael Schutte).
@@ -33,7 +46,6 @@ o Programs:
   - Add support for Brl_dot9 and Brl_dot10 (Michael Schutte).
   - Never handle plain ASCII characters as Unicode (Michael Schutte).
   - Enable UNUMBERs in compose definitions (Michael Schutte).
-
 o Keymaps:
   - bg_pho-utf8 keycode 38 assignment fix.
   - Add keymap for Colemak.
@@ -41,7 +53,6 @@ o Keymaps:
   - Add UK keymap for the Sun Type-6 keyboard.
   - Add French keymap Dvorak.
   - Add Kirghiz keymap.
-
 o Fonts:
   - Add U+2010, U+2012, U+2013, U+2018, U+2019, U+2212
     to the embedded character table.
@@ -52,7 +63,6 @@ o Build system:
   - Use automake.
   - Add --enable-strip configure option.
   - Propagates configure options (Charles Clément)
-
 o Programs:
   - Fix internationalization (Benno Schulenberg).
   - unicode_start: Without any arguments utility will only set unicode mode.
@@ -62,17 +72,14 @@ o Programs:
   - openvt: Print an error message when calls to exec* functions fail.
   - loadkeys: dump binary keymap (Michel Stempin).
   - loadunimap should use UNIMAPDIR.
-
 o Keymaps:
   - Add qwerty/cz.map keymap.
   - Recognize Ctrl-[ as Escape.
   - ruwin_*: Use qwerty-layout.inc.
   - Revert "include/*euro.map: Change 'currency' to 'euro' symbol".
   - be-latin1 keycode 7 assignment fix (Herton Ronaldo Krzesinski).
-
 o Fonts:
   - iso07u-16.psfu: Update font (Lefteris Dimitroulakis)
-
 o Unimaps:
   - Update 8859-7_to_uni.trans
 
