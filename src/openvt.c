@@ -25,6 +25,11 @@
  * Applied patch by damjan@legolas (-e option), aeb, 2004-01-03.
  */
 
+#include <unistd.h>
+#include <sys/file.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+
 #include "kbd.h"
 #include "openvt.h"
 #include "nls.h"
@@ -35,19 +40,34 @@ const char *version = "openvt 1.4b - (c) Jon Tombs 1994";
 #error vt device name must be defined in openvt.h
 #endif
 
+static int
+open_vt(char *vtname, int force)
+{
+	int fd;
+
+	if ((fd = open(vtname, O_RDWR)) == -1)
+		return -1;
+
+	if (ioctl(fd, TIOCSCTTY, force) == -1) {
+		close(fd);
+		return -1;
+	}
+
+	return fd;
+}
+
 int
 main(int argc, char *argv[])
 {
 	int opt, pid, i;
 	struct vt_stat vtstat;
 	int vtno = -1;
-	int fd0 = -1;
-	int fd1 = -1;
+	int fd  = -1;
 	int consfd = -1;
+	int force = 0;
 	char optc = FALSE;
 	char show = FALSE;
 	char login = FALSE;
-	char force = FALSE;
 	char verbose = FALSE;
 	char direct_exec = FALSE;
 	char do_wait = FALSE;
@@ -86,7 +106,7 @@ main(int argc, char *argv[])
 				verbose = TRUE;
 				break;
 			case 'f':
-				force = TRUE;
+				force = 1;
 				break;
 			case 'e':
 				direct_exec = TRUE;
@@ -146,55 +166,9 @@ main(int argc, char *argv[])
 		}
 	}
 
-	sprintf(vtname, VTNAME, vtno);
-
-	/* Can we open the vt we want? */
-	if ((fd0 = open(vtname, O_RDWR)) == -1) {
-		int errsv = errno;
-		if (!optc) {
-			/* We found vtno ourselves - it is free according
-			   to the kernel, but we cannot open it. Maybe X
-			   used it and did a chown.  Try a few vt's more
-			   before giving up. Note: the 16 is a kernel limitation. */
-			for (i = vtno + 1; i < 16; i++) {
-				if ((vtstat.v_state & (1 << i)) == 0) {
-					sprintf(vtname, VTNAME, i);
-					if ((fd0 = open(vtname, O_RDWR)) >= 0) {
-						vtno = i;
-						goto got_vtno;
-					}
-				}
-			}
-			sprintf(vtname, VTNAME, vtno);
-		}
-		fprintf(stderr, _("openvt: Unable to open %s: %s\n"),
-			vtname, strerror(errsv));
-		return (5);
-	}
- got_vtno:
-
-	/* Maybe we are suid root, and the -c option was given.
-	   Check that the real user can access this VT.
-	   We assume getty has made any in use VT non accessable */
-	if (access(vtname, R_OK | W_OK) < 0) {
-		int errsv = errno;
-		fprintf(stderr, _("openvt: Cannot open %s read/write (%s)\n"),
-			vtname, strerror(errsv));
-		return (5);
-	}
-
 	if (as_user)
 		username = authenticate_user(vtstat.v_active);
 	else {
-		if (!geteuid()) {
-			uid_t uid = getuid();
-			if (chown(vtname, uid, getgid()) == -1) {
-				perror("chown");
-				return (5);
-			}
-			setuid(uid);
-		}
-
 		if (!(argc > optind)) {
 			def_cmd = getenv("SHELL");
 			if (def_cmd == NULL)
@@ -239,43 +213,75 @@ main(int argc, char *argv[])
 				fprintf(stderr, _("openvt: Unable to set new session (%s)\n"), strerror(errsv));
 			}
 		}
-		close(0);	/* so that new vt becomes stdin */
 
-		/* and grab new one */
-		if ((fd1 = open(vtname, O_RDWR)) == -1) {	/* strange ... */
+		sprintf(vtname, VTNAME, vtno);
+
+		/* Can we open the vt we want? */
+		if ((fd = open_vt(vtname, force)) == -1) {
 			int errsv = errno;
-			fprintf(stderr, _("\nopenvt: could not open %s R/W (%s)\n"), vtname, strerror(errsv));
-			fflush(stderr);
-			_exit(1);	/* maybe above user limit? */
+			if (!optc) {
+				/* We found vtno ourselves - it is free according
+				   to the kernel, but we cannot open it. Maybe X
+				   used it and did a chown.  Try a few vt's more
+				   before giving up. Note: the 16 is a kernel limitation. */
+				for (i = vtno + 1; i < 16; i++) {
+					if ((vtstat.v_state & (1 << i)) == 0) {
+						sprintf(vtname, VTNAME, i);
+						if ((fd = open_vt(vtname, force)) >= 0) {
+							vtno = i;
+							goto got_vtno;
+						}
+					}
+				}
+				sprintf(vtname, VTNAME, vtno);
+			}
+			fprintf(stderr, _("openvt: Unable to open %s: %s\n"),
+				vtname, strerror(errsv));
+			_exit(5);
+		}
+ got_vtno:
+
+		/* Maybe we are suid root, and the -c option was given.
+		   Check that the real user can access this VT.
+		   We assume getty has made any in use VT non accessable */
+		if (access(vtname, R_OK | W_OK) < 0) {
+			int errsv = errno;
+			fprintf(stderr, _("openvt: Cannot open %s read/write (%s)\n"),
+				vtname, strerror(errsv));
+			_exit(5);
+		}
+
+		if (!as_user && !geteuid()) {
+			uid_t uid = getuid();
+			if (chown(vtname, uid, getgid()) == -1) {
+				perror("chown");
+				_exit(5);
+			}
+			setuid(uid);
 		}
 
 		if (show) {
-			if (ioctl(fd1, VT_ACTIVATE, vtno)) {
+			if (ioctl(fd, VT_ACTIVATE, vtno)) {
 				int errsv = errno;
 				fprintf(stderr, _("\nopenvt: could not activate vt %d (%s)\n"), vtno, strerror(errsv));
 				fflush(stderr);
 				_exit(1);	/* probably fd does not refer to a tty device file */
 			}
 
-			if (ioctl(fd1, VT_WAITACTIVE, vtno)) {
+			if (ioctl(fd, VT_WAITACTIVE, vtno)) {
 				int errsv = errno;
 				fprintf(stderr, _("\nopenvt: activation interrupted? (%s)\n"), strerror(errsv));
 				fflush(stderr);
 				_exit(1);
 			}
 		}
+		close(0);
 		close(1);
 		close(2);
-		close(fd0);
 		close(consfd);
-		if ((dup(fd1) == -1) || (dup(fd1) == -1)) {
-			perror("dup");
-			fflush(stderr);
-			_exit(1);
-		}
 
-		if (ioctl(fd1, TIOCSCTTY, (char *)1)) {
-			perror("ioctl TIOCSCTTY");
+		if ((dup2(fd, 0) == -1) || (dup2(fd, 1) == -1) || (dup2(fd, 2) == -1)) {
+			perror("dup");
 			fflush(stderr);
 			_exit(1);
 		}
@@ -303,9 +309,6 @@ main(int argc, char *argv[])
 		wait(NULL);
 		waitpid(pid, &retval, 0);
 
-		/* we need to clean up our file descriptors if we want dallocation to work later */
-		close(fd0);
-
 		if (show) {	/* Switch back... */
 			if (ioctl(consfd, VT_ACTIVATE, vtstat.v_active)) {
 				perror("VT_ACTIVATE");
@@ -325,9 +328,6 @@ main(int argc, char *argv[])
 		/* if all our stuff went right, we want to return the exit code of the command we ran
 		   super vital for scripting loops etc */
 		return(retval);
-
-	} else {
-		close(fd0);
 	}
 
 	return 0;
