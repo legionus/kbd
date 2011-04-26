@@ -1116,7 +1116,7 @@ int main(int argc, char *argv[])
 
 	if (!optm && !optb) {
 		/* check whether the keyboard is in Unicode mode */
-		fd = getfd(NULL);
+		fd = getfd(console);
 
 		if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
 			perror("KDGKBMODE");
