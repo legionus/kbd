@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
-Version: 1.15.2
-Release: alt2
+Version: 1.15.3
+Release: alt0.20110427
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -28,7 +28,7 @@ Provides: console-tools = %version
 Conflicts: interactivesystem < 1:sisyphus-alt12
 Conflicts: console-common-scripts <= 0.2.2-alt1.4
 
-Source0: ftp://ftp.kernel.org/pub/linux/utils/kbd/kbd-%version.tar.bz2
+Source0: kbd-%version.tar
 
 # Debian kbd-1.12-10 patches (according to debian/patches/series):
 Patch22: po_makefile.diff
@@ -177,9 +177,9 @@ This package contains usermode bindings for kbdrate.
 # Backward compatibility link
 mkdir -p -- %buildroot/%_bindir %buildroot/%_libdir
 ln -s -- /lib/%name %buildroot/%_libdir/%name
-for binary in setfont dumpkeys kbd_mode unicode_start unicode_stop \
-		chvt openvt deallocvt fgconsole; do
-	ln -s /bin/$binary %buildroot/%_bindir/$binary
+for binary in setfont dumpkeys kbd_mode unicode_start unicode_stop chvt openvt deallocvt fgconsole; do
+	t=$(relative /bin/$binary %_bindir/$binary)
+	ln -s $t %buildroot/%_bindir/$binary
 done
 
 # Set up kbdrate to be userhelpered.
@@ -354,6 +354,9 @@ done
 /bin/kbdrate
 
 %changelog
+* Wed Apr 27 2011 Alexey Gladkov <legion@altlinux.ru> 0:1.15.3-alt0.20110427
+- New snapshot (1.15.3pre).
+
 * Mon Mar 14 2011 Alexey Gladkov <legion@altlinux.ru> 0:1.15.2-alt2
 - Change default console font to UniCyr_8x16 (ALT#25225).
 
