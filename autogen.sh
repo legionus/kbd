@@ -3,7 +3,7 @@
 OPT=
 [ "${1-}" != '-f' ] || OPT=-f
 
-autoreconf -I m4 -isv $OPT
+autoreconf -isv $OPT
 
 echo
 echo "Now type '${0%/*}/configure' and 'make' to compile."

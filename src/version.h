@@ -1,8 +1,5 @@
 #include "kbd.h"
 #include "../config.h"
-#ifdef __klibc__
-#include "klibc_compat.h"
-#endif
 #include <string.h>
 #include <stdlib.h>
 
@@ -12,7 +9,7 @@ static inline void
 set_progname(char *name) {
 	char *p;
 
-	p = rindex(name, '/');
+	p = strrchr(name, '/');
 	progname = (p ? p+1 : name);
 }
 

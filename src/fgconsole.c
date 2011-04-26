@@ -38,11 +38,9 @@ main(int argc, char **argv){
 	   { "next-available", no_argument, NULL, 'n' },
 	   { NULL, 0, NULL, 0 } };
 
-#ifndef __klibc__
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	set_progname(argv[0]);
 	while (( c = getopt_long (argc, argv, "Vhn", long_opts, NULL)) != EOF) {

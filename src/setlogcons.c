@@ -17,11 +17,9 @@ main(int argc, char **argv){
 	int fd, cons;
 	struct { char fn, subarg; } arg;
 
-#ifndef __klibc__
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	if (argc == 2)
 		cons = atoi(argv[1]);

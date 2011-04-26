@@ -8,10 +8,6 @@
 #include "nls.h"
 #include "xmalloc.h"
 
-#ifdef __klibc__
-#include "klibc_compat.h"
-#endif
-
 extern char *progname;
 
 static void attr_noreturn
@@ -42,4 +38,19 @@ xstrdup(char *p) {
 	if (q == NULL)
 		nomem();
 	return q;
+}
+
+char *
+xstrndup(char *p, size_t n) {
+	char *q = strndup(p, n);
+	if (q == NULL)
+		nomem();
+	return q;
+}
+
+void *
+xfree(void *p) {
+	if (p != NULL)
+		free(p);
+	return NULL;
 }

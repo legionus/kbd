@@ -162,11 +162,10 @@ main(int argc, char **argv) {
     struct led *lp;
 
     set_progname(argv[0]);
-#ifndef __klibc__
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE_NAME, LOCALEDIR);
     textdomain(PACKAGE_NAME);
-#endif
 
     if (argc == 2 && (!strcmp("-V", argv[1]) || !strcmp("--version", argv[1])))
 	print_version_and_exit();

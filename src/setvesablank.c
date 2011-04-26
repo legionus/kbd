@@ -15,11 +15,9 @@ main(int argc, char *argv[]) {
 	int fd;
 	struct { char ten, onoff; } arg;
 
-#ifndef __klibc__
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	if (argc != 2) {
 		fprintf(stderr, _("usage: %s\n"), "setvesablank ON|on|off");

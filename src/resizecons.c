@@ -120,11 +120,10 @@ main(int argc, char **argv) {
     char *defaultfont;
 
     set_progname(argv[0]);
-#ifndef __klibc__
+
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE_NAME, LOCALEDIR);
     textdomain(PACKAGE_NAME);
-#endif
 
     if (argc < 2)
       usage();
@@ -140,7 +139,7 @@ main(int argc, char **argv) {
     	rr = atoi(argv[2]);
     }
     else
-    if (argc == 2 && (p = index(argv[1], 'x')) != 0)
+    if (argc == 2 && (p = strchr(argv[1], 'x')) != 0)
       rr = atoi(p+1);
     else if(argc == 3)
       rr = atoi(argv[2]);

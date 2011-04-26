@@ -5,10 +5,8 @@
 #define LOCALEDIR "/usr/share/locale"
 #endif
 
-#ifndef __klibc__
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
-#endif
 #endif
 
 #ifdef ENABLE_NLS

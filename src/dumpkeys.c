@@ -603,11 +603,10 @@ main (int argc, char *argv[]) {
 	char diac_only = 0;
 
 	set_progname(argv[0]);
-#ifndef __klibc__
+
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
-#endif
 
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
