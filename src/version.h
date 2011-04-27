@@ -1,4 +1,5 @@
 #include "kbd.h"
+#include "nls.h"
 #include "../config.h"
 #include <stdio.h>
 #include <string.h>
