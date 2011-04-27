@@ -72,7 +72,7 @@ main(int argc, char *argv[])
 	char direct_exec = FALSE;
 	char do_wait = FALSE;
 	char as_user = FALSE;
-	char vtname[sizeof VTNAME + 2];	/* allow 999 possible VTs */
+	char vtname[sizeof(VTNAME) + 2]; /* allow 999 possible VTs */
 	char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
 	setlocale(LC_ALL, "");
@@ -192,11 +192,6 @@ main(int argc, char *argv[])
 			argv[optind] = cmd++;
 	}
 
-	if (verbose)
-		fprintf(stderr, _("openvt: using VT %s\n"), vtname);
-
-	fflush(stderr);
-
 	if (direct_exec || ((pid = fork()) == 0)) {
 		/* leave current vt */
 		if (!direct_exec) {
@@ -240,6 +235,10 @@ main(int argc, char *argv[])
 			_exit(5);
 		}
  got_vtno:
+		if (verbose) {
+			fprintf(stderr, _("openvt: using VT %s\n"), vtname);
+			fflush(stderr);
+		}
 
 		/* Maybe we are suid root, and the -c option was given.
 		   Check that the real user can access this VT.
