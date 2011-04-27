@@ -30,8 +30,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-#include "kbd.h"
+#include "version.h"
 #include "openvt.h"
+#include "xmalloc.h"
 #include "nls.h"
 
 const char *version = "openvt 1.4b - (c) Jon Tombs 1994";
@@ -173,9 +174,9 @@ main(int argc, char *argv[])
 			def_cmd = getenv("SHELL");
 			if (def_cmd == NULL)
 				usage(0);
-			cmd = malloc(strlen(def_cmd + 2));
+			cmd = xmalloc(strlen(def_cmd) + 2);
 		} else {
-			cmd = malloc(strlen(argv[optind] + 2));
+			cmd = xmalloc(strlen(argv[optind]) + 2);
 		}
 
 		if (login)
