@@ -1,30 +1,3 @@
-/*
- *       openvt.c open a vt to run a new command (or shell).
- *       
- *	 Copyright (c) 1994 by Jon Tombs <jon@gtex02.us.es>
- *
- *       This program is free software; you can redistribute it and/or
- *       modify it under the terms of the GNU General Public License
- *       as published by the Free Software Foundation; either version
- *       2 of the License, or (at your option) any later version.
- */
-
-/*
- * Added the not-in-use check, aeb@cwi.nl, 940924.
- *
- *   [Accidentally starting a process on a VT that is in use
- *    yields unfortunate effects: two processes reading the keyboard.
- *    This can be a disaster if the old process was in scancode mode.]
- *
- * Added the -u (`as user') stuff for use from inittab,
- *  Joshua Spoerri <josh@cooper.edu>, 1996-07-18
- *
- * Fixed some bugs; made it a bit more robust; renamed to openvt
- *  aeb@cwi.nl, 1998-06-06.
- * Applied patch by Chuck Martin <cmartin@bigfoot.com>, i18n, aeb, 990316.
- * Applied patch by damjan@legolas (-e option), aeb, 2004-01-03.
- */
-
 #include <stdarg.h>
 #include <unistd.h>
 #include <sys/file.h>
