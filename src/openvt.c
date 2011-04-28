@@ -37,10 +37,25 @@
 #error vt device name must be defined in openvt.h
 #endif
 
-static void attr_noreturn
-usage(int ret)
+static void
+__attribute__ ((noreturn))
+print_help(int ret)
 {
-	fprintf(stderr, _("Usage: %s [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] [-V] -- command_line\n"), progname);
+	printf(_("Usage: %s [OPTIONS] -- command\n"
+	       "\n"
+	       "This utility help you to start a program on a new virtual terminal (VT).\n"
+	       "\n"
+	       "Options:\n"
+	       "  -c, --console=NUM   use the given VT number;\n"
+	       "  -f, --force         force opening a VT without checking;\n"
+	       "  -l, --login         make the command a login shell;\n"
+	       "  -u, --user          figure out the owner of the current VT;\n"
+	       "  -s, --switch        switch to the new VT;\n"
+	       "  -w, --wait          wait for command to complete;\n"
+	       "  -v, --verbose       print a message for each action;\n"
+	       "  -V, --version       print program version and exit;\n"
+	       "  -h, --help          output a brief help message.\n"
+	       "\n"), progname);
 	exit(ret);
 }
 
@@ -185,18 +200,26 @@ main(int argc, char *argv[])
 	char vtname[sizeof(VTNAME) + 2]; /* allow 999 possible VTs */
 	char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
+	struct option long_options[] = {
+		{ "help",	no_argument,		0, 'h' },
+		{ "version",	no_argument,		0, 'V' },
+		{ "verbose",	no_argument,		0, 'v' },
+		{ "force",	no_argument,		0, 'f' },
+		{ "login",	no_argument,		0, 'l' },
+		{ "user",	no_argument,		0, 'u' },
+		{ "switch",	no_argument,		0, 's' },
+		{ "wait",	no_argument,		0, 'w' },
+		{ "console",	required_argument,	0, 'c' },
+		{ 0, 0, 0, 0 }
+	};
+
 	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
 
-	/*
-	 * I don't like using getopt for this, but otherwise this gets messy.
-	 * POSIX/Gnu getopt forces the use of -- to separate child/program
-	 * options. RTFM.
-	 */
-	while ((opt = getopt(argc, argv, "c:lsvfuewV")) != -1) {
+	while ((opt = getopt_long(argc, argv, "c:lsfuewhvV", long_options, NULL)) != -1) {
 		switch (opt) {
 			case 'c':
 				optc = 1;	/* vtno was specified by the user */
@@ -237,8 +260,9 @@ main(int argc, char *argv[])
 				print_version_and_exit();
 				break;
 			default:
-				usage(1);
-
+			case 'h':
+				print_help(EXIT_SUCCESS);
+				break;
 		}
 	}
 
@@ -275,7 +299,7 @@ main(int argc, char *argv[])
 		if (!(argc > optind)) {
 			def_cmd = getenv("SHELL");
 			if (def_cmd == NULL)
-				usage(0);
+				openvt_fatal(7, 0, _("Unable to find command."));
 			cmd = xmalloc(strlen(def_cmd) + 2);
 		} else {
 			cmd = xmalloc(strlen(argv[optind]) + 2);
