@@ -1,19 +1,44 @@
+#include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <getopt.h>
+#include <dirent.h>
+#include <pwd.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/vt.h>
+#include <sys/wait.h>
 #include <sys/file.h>
-#include <sys/types.h>
-#include <sys/socket.h>
 
 #include "version.h"
-#include "openvt.h"
 #include "xmalloc.h"
-#include "nls.h"
+#include "getfd.h"
 
-const char *version = "openvt 1.4b - (c) Jon Tombs 1994";
+#ifndef NAME_MAX
+#define NAME_MAX 255
+#endif
+
+// There must be a universal way to find these!
+#define TRUE (1)
+#define FALSE (0)
+
+#ifdef ESIX_5_3_2_D
+#define	VTBASE "/dev/vt%02d"
+#endif
+
+// Where your VTs are hidden
+#ifdef __linux__
+#define VTNAME "/dev/tty%d"
+#define VTNAME2 "/dev/vc/%d"
+#endif
 
 #ifndef VTNAME
 #error vt device name must be defined in openvt.h
 #endif
+
+void usage(int);
+char *authenticate_user(int);
 
 static void
 __attribute__ ((format (printf, 1, 2)))
