@@ -37,8 +37,12 @@
 #error vt device name must be defined in openvt.h
 #endif
 
-void usage(int);
-char *authenticate_user(int);
+static void attr_noreturn
+usage(int ret)
+{
+	fprintf(stderr, _("Usage: %s [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] [-V] -- command_line\n"), progname);
+	exit(ret);
+}
 
 static void
 __attribute__ ((format (printf, 1, 2)))
@@ -68,6 +72,83 @@ openvt_fatal(const int exitnum, const int errnum, const char *fmt, ...) {
 	exit(exitnum);
 }
 
+/*
+ * Support for Spawn_Console: openvt running from init
+ * added by Joshua Spoerri, Thu Jul 18 21:13:16 EDT 1996
+ *
+ *  -u     Figure  out  the  owner  of the current VT, and run
+ *         login as that user.  Suitable to be called by init.
+ *         Shouldn't be used with -c or -l.
+ *         Sample inittab line:
+ *                kb::kbrequest:/usr/bin/openvt -us
+ *
+ * It is the job of authenticate_user() to find out who
+ * produced this keyboard signal.  It is called only as root.
+ *
+ * Note that there is a race condition: curvt may not be the vt
+ * from which the keyboard signal was produced.
+ * (Possibly the signal was not produced at the keyboard at all,
+ * but by a "kill -SIG 1".  However, only root can do this.)
+ *
+ * Conclusion: do not use this in high security environments.
+ * Or fix the code below to be more suspicious.
+ *
+ * Maybe it is better to just start a login at the new vt,
+ * instead of pre-authenticating the user with "login -f".
+ */
+
+static char *
+authenticate_user(int curvt)
+{
+	DIR *dp;
+	struct dirent *dentp;
+	struct stat buf;
+	dev_t console_dev;
+	ino_t console_ino;
+	uid_t console_uid;
+	char filename[NAME_MAX + 12];
+	struct passwd *pwnam;
+
+	if (!(dp = opendir("/proc")))
+		openvt_fatal(1, errno, "opendir(/proc)");
+
+	/* get the current tty */
+	/* try /dev/ttyN, then /dev/vc/N */
+	sprintf(filename, VTNAME, curvt);
+	if (stat(filename, &buf)) {
+		int errsv = errno;
+		sprintf(filename, VTNAME2, curvt);
+		if (stat(filename, &buf)) {
+			/* give error message for first attempt */
+			sprintf(filename, VTNAME, curvt);
+			openvt_fatal(1, errsv, "%s", filename);
+		}
+	}
+	console_dev = buf.st_dev;
+	console_ino = buf.st_ino;
+	console_uid = buf.st_uid;
+
+	/* get the owner of current tty */
+	if (!(pwnam = getpwuid(console_uid)))
+		openvt_fatal(1, errno, "getpwuid");
+
+	/* check to make sure that user has a process on that tty */
+	/* this will fail for example when X is running on the tty */
+	while ((dentp = readdir(dp))) {
+		sprintf(filename, "/proc/%s/fd/0", dentp->d_name);
+
+		if (stat(filename, &buf))
+			continue;
+
+		if (buf.st_dev == console_dev && buf.st_ino == console_ino && buf.st_uid == console_uid)
+			goto got_a_process;
+	}
+
+	openvt_fatal(1, 0, _("Couldn't find owner of current tty!"));
+
+ got_a_process:
+	return pwnam->pw_name;
+}
 
 static int
 open_vt(char *vtname, int force)
@@ -323,89 +404,4 @@ main(int argc, char *argv[])
 	}
 
 	return EXIT_SUCCESS;
-}
-
-void attr_noreturn
-usage(int ret)
-{
-	fprintf(stderr, _("Usage: %s [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] [-V] -- command_line\n"), progname);
-	exit(ret);
-}
-
-/*
- * Support for Spawn_Console: openvt running from init
- * added by Joshua Spoerri, Thu Jul 18 21:13:16 EDT 1996
- *
- *  -u     Figure  out  the  owner  of the current VT, and run
- *         login as that user.  Suitable to be called by init.
- *         Shouldn't be used with -c or -l.
- *         Sample inittab line:
- *                kb::kbrequest:/usr/bin/openvt -us
- *
- * It is the job of authenticate_user() to find out who
- * produced this keyboard signal.  It is called only as root.
- *
- * Note that there is a race condition: curvt may not be the vt
- * from which the keyboard signal was produced.
- * (Possibly the signal was not produced at the keyboard at all,
- * but by a "kill -SIG 1".  However, only root can do this.)
- *
- * Conclusion: do not use this in high security environments.
- * Or fix the code below to be more suspicious.
- *
- * Maybe it is better to just start a login at the new vt,
- * instead of pre-authenticating the user with "login -f".
- */
-
-char *
-authenticate_user(int curvt)
-{
-	DIR *dp;
-	struct dirent *dentp;
-	struct stat buf;
-	dev_t console_dev;
-	ino_t console_ino;
-	uid_t console_uid;
-	char filename[NAME_MAX + 12];
-	struct passwd *pwnam;
-
-	if (!(dp = opendir("/proc")))
-		openvt_fatal(1, errno, "opendir(/proc)");
-
-	/* get the current tty */
-	/* try /dev/ttyN, then /dev/vc/N */
-	sprintf(filename, VTNAME, curvt);
-	if (stat(filename, &buf)) {
-		int errsv = errno;
-		sprintf(filename, VTNAME2, curvt);
-		if (stat(filename, &buf)) {
-			/* give error message for first attempt */
-			sprintf(filename, VTNAME, curvt);
-			openvt_fatal(1, errsv, "%s", filename);
-		}
-	}
-	console_dev = buf.st_dev;
-	console_ino = buf.st_ino;
-	console_uid = buf.st_uid;
-
-	/* get the owner of current tty */
-	if (!(pwnam = getpwuid(console_uid)))
-		openvt_fatal(1, errno, "getpwuid");
-
-	/* check to make sure that user has a process on that tty */
-	/* this will fail for example when X is running on the tty */
-	while ((dentp = readdir(dp))) {
-		sprintf(filename, "/proc/%s/fd/0", dentp->d_name);
-
-		if (stat(filename, &buf))
-			continue;
-
-		if (buf.st_dev == console_dev && buf.st_ino == console_ino && buf.st_uid == console_uid)
-			goto got_a_process;
-	}
-
-	openvt_fatal(1, 0, _("Couldn't find owner of current tty!"));
-
- got_a_process:
-	return pwnam->pw_name;
 }
