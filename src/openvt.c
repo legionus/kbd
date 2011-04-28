@@ -117,7 +117,7 @@ main(int argc, char *argv[])
 	 * POSIX/Gnu getopt forces the use of -- to separate child/program
 	 * options. RTFM.
 	 */
-	while ((opt = getopt(argc, argv, "c:lsvfuew")) != -1) {
+	while ((opt = getopt(argc, argv, "c:lsvfuewV")) != -1) {
 		switch (opt) {
 			case 'c':
 				optc = 1;	/* vtno was specified by the user */
@@ -153,6 +153,9 @@ main(int argc, char *argv[])
 					openvt_fatal(EXIT_FAILURE, 0, _("Only root can use the -u flag."));
 
 				as_user = TRUE;
+				break;
+			case 'V':
+				print_version_and_exit();
 				break;
 			default:
 				usage(1);
@@ -327,7 +330,7 @@ main(int argc, char *argv[])
 void attr_noreturn
 usage(int ret)
 {
-	fprintf(stderr, _("Usage: %s [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"), progname);
+	fprintf(stderr, _("Usage: %s [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] [-V] -- command_line\n"), progname);
 	exit(ret);
 }
 
