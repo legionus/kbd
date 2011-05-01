@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
 Version: 1.15.3
-Release: alt0.20110427
+Release: alt0.20110502
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -354,6 +354,10 @@ done
 /bin/kbdrate
 
 %changelog
+* Mon May 02 2011 Alexey Gladkov <legion@altlinux.ru> 0:1.15.3-alt0.20110502
+- New snapshot.
+- openvt: Fix -v option.
+
 * Wed Apr 27 2011 Alexey Gladkov <legion@altlinux.ru> 0:1.15.3-alt0.20110427
 - New snapshot (1.15.3pre).
 
