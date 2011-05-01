@@ -204,6 +204,7 @@ main(int argc, char *argv[])
 		{ "help",	no_argument,		0, 'h' },
 		{ "version",	no_argument,		0, 'V' },
 		{ "verbose",	no_argument,		0, 'v' },
+		{ "exec",	no_argument,		0, 'e' },
 		{ "force",	no_argument,		0, 'f' },
 		{ "login",	no_argument,		0, 'l' },
 		{ "user",	no_argument,		0, 'u' },
