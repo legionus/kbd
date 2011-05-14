@@ -1,14 +1,14 @@
 # Pesan bahasa indonesia untuk kbd.
 # Copyright (C) 2008 Arif E. Nugroho <arif_endro@yahoo.com>.
 # This file is distributed under the same license as the kbd package.
-# Arif E. Nugroho <arif_endro@yahoo.com>, 2008, 2009.
+# Arif E. Nugroho <arif_endro@yahoo.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 1.15.1\n"
+"Project-Id-Version: kbd 1.15.2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-04-12 15:14+0400\n"
-"PO-Revision-Date: 2009-11-22 21:00+0700\n"
+"POT-Creation-Date: 2011-05-08 01:06+0400\n"
+"PO-Revision-Date: 2010-07-07 23:30+0700\n"
 "Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "Language: id\n"
@@ -190,10 +190,8 @@ msgstr ""
 "\t-i --short-info\t   tampilkan informasi mengenai driver papan ketik\n"
 "\t-l --long-info\t   tampilkan diatas dan simbol yang diketahui ke loadkeys\n"
 "\t-n --numeric\t   tampilkan tabel tombol dalam notasi heksa desimal\n"
-"\t-f --full-table\t   jangan gunakan notasi singkatan, satu baris setiap "
-"kode tombol\n"
-"\t-1 --separate-lines   satu baris setiap (pemodifikasi, kode tombol) "
-"pasangan\n"
+"\t-f --full-table\t   jangan gunakan notasi singkatan, satu baris setiap kode tombol\n"
+"\t-1 --separate-lines   satu baris setiap (pemodifikasi, kode tombol) pasangan\n"
 "\t   --funcs-only\t   tampilkan hanya string kunci string\n"
 "\t   --key-only\t   tampilkan hanya pengikatan tombol\n"
 "\t   --compose-only   tampilkan hanya kombinasi tombol compose\n"
@@ -250,11 +248,10 @@ msgstr "%s: Peringatan: baris terlalu panjang\n"
 msgid "Couldn't open %s\n"
 msgstr "Tidak dapat membuka %s\n"
 
-#: src/getfd.c:88 src/openvt.c:121
+#: src/getfd.c:88
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr ""
-"Tidak dapat memperoleh deskripsi berkas yang mereferensikan ke konsole\n"
+msgstr "Tidak dapat memperoleh deskripsi berkas yang mereferensikan ke konsole\n"
 
 #: src/getkeycodes.c:18
 #, c-format
@@ -269,8 +266,7 @@ msgstr "Plain scancodes xx (hex) lawan keycodes (dec)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr ""
-"0 adalah sebuah error; untuk 1-88 (0x01-0x58) scancode sama dengan keycode\n"
+msgstr "0 adalah sebuah error; untuk 1-88 (0x01-0x58) scancode sama dengan keycode\n"
 
 #: src/getkeycodes.c:62
 #, c-format
@@ -559,9 +555,9 @@ msgid "compose table overflow\n"
 msgstr "tabel compose overflow\n"
 
 #: loadkeys.y:317
-#, fuzzy, c-format
+#, c-format
 msgid "%s: could not switch to Unicode mode\n"
-msgstr "%s: tidak dapat didealokasikan console %d\n"
+msgstr "%s: tidak dapat mengubah ke mode Unicode\n"
 
 #: loadkeys.y:336
 #, c-format
@@ -598,9 +594,9 @@ msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s: tidak dapat dealokasikan atau menghapus peta-tombol\n"
 
 #: loadkeys.y:400
-#, fuzzy, c-format
+#, c-format
 msgid "%s: could not return to original keyboard mode\n"
-msgstr "%s: gagal untuk mengembalikan mode keyboard\n"
+msgstr "%s: tidak dapat kembali ke mode keyboard asli\n"
 
 #: loadkeys.y:447
 #, c-format
@@ -694,9 +690,9 @@ msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
 #: loadkeys.y:1123
-#, fuzzy, c-format
+#, c-format
 msgid "%s: error reading keyboard mode\n"
-msgstr "%s: error menset mode keyboard\n"
+msgstr "%s: error membaca mode keyboard\n"
 
 #: loadkeys.y:1131
 #, fuzzy, c-format
@@ -704,16 +700,16 @@ msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
-"%s: peringatan: peta ini menggunakan simbol Unicode, %s mode=%d\n"
+"%s: peringatan: memuat peta-kunci Unicode dalam console tidak-Unicode\n"
 "    (mungkin anda ingin melakukan `kbd_mode -u'?)\n"
 
 #: loadkeys.y:1143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
-"%s: peringatan: peta ini menggunakan simbol Unicode, %s mode=%d\n"
+"%s: peringatan: memuat peta-kunci Unicode dalam console tidak-Unicode\n"
 "    (mungkin anda ingin melakukan `kbd_mode -u'?)\n"
 
 #: loadkeys.y:1157
@@ -773,18 +769,12 @@ msgstr "%s: Akhir dari jangkauan (0x%x) buruk\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr ""
-"%s: Jangkauan unicode yang berhubungan ke posisi font dalam daerah 0x%x-0x%x "
-"buruk\n"
+msgstr "%s: Jangkauan unicode yang berhubungan ke posisi font dalam daerah 0x%x-0x%x buruk\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x\n"
-msgstr ""
-"%s: Daerah unicoe U+%x-U+%x tidak dari panjang yang sama seperti posisi font "
-"daerah 0x%x-0x%x\n"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
+msgstr "%s: Daerah unicoe U+%x-U+%x tidak dari panjang yang sama seperti posisi font daerah 0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -878,100 +868,103 @@ msgstr "Tidak dapat membaca peta console\n"
 msgid "Saved screen map in `%s'\n"
 msgstr "Peta layar disimpan dalam `%s'\n"
 
-#: src/openvt.c:73
+#: src/openvt.c:44
 #, c-format
-msgid "openvt: %s: illegal vt number\n"
+msgid ""
+"Usage: %s [OPTIONS] -- command\n"
+"\n"
+"This utility help you to start a program on a new virtual terminal (VT).\n"
+"\n"
+"Options:\n"
+"  -c, --console=NUM   use the given VT number;\n"
+"  -f, --force         force opening a VT without checking;\n"
+"  -l, --login         make the command a login shell;\n"
+"  -u, --user          figure out the owner of the current VT;\n"
+"  -s, --switch        switch to the new VT;\n"
+"  -w, --wait          wait for command to complete;\n"
+"  -v, --verbose       print a message for each action;\n"
+"  -V, --version       print program version and exit;\n"
+"  -h, --help          output a brief help message.\n"
+"\n"
+msgstr ""
+
+#: src/openvt.c:162
+#, fuzzy
+msgid "Couldn't find owner of current tty!"
+msgstr "Tidak dapat menemukan pemilik dari tty sekarang!\n"
+
+#: src/openvt.c:230
+#, fuzzy, c-format
+msgid "%s: Illegal vt number"
 msgstr "openvt: %s: nomor vt tidak legal\n"
 
-#: src/openvt.c:100
-#, c-format
-msgid "openvt: only root can use the -u flag.\n"
+#: src/openvt.c:256
+#, fuzzy
+msgid "Only root can use the -u flag."
 msgstr "openvt: hanya root yang dapat menggunakan pilihan -u.\n"
 
-#: src/openvt.c:133
-#, c-format
-msgid "openvt: cannot find a free vt\n"
+#: src/openvt.c:278
+#, fuzzy
+msgid "Couldn't get a file descriptor referring to the console"
+msgstr "Tidak dapat memperoleh deskripsi berkas yang mereferensikan ke konsole\n"
+
+#: src/openvt.c:285
+#, fuzzy
+msgid "Cannot find a free vt"
 msgstr "openvt: tidak dapat menemukan sebuah free vt\n"
 
-#: src/openvt.c:138
-#, c-format
-msgid "openvt: cannot check whether vt %d is free\n"
+#: src/openvt.c:289
+#, fuzzy, c-format
+msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: tidak dapat memeriksa apakah vt %d bebas\n"
 
-#: src/openvt.c:139 src/openvt.c:144
-#, c-format
-msgid "        use `openvt -f' to force.\n"
-msgstr "        gunakan `openvt -f' untuk memaksa.\n"
-
-#: src/openvt.c:143
-#, c-format
-msgid "openvt: vt %d is in use; command aborted\n"
+#: src/openvt.c:293
+#, fuzzy, c-format
+msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: vt %d sedang digunakan; perintah dibatalkan\n"
 
-#: src/openvt.c:170
-#, c-format
-msgid "openvt: Unable to open %s: %s\n"
-msgstr "openvt: Tidak dapat membuka %s: %s\n"
+#: src/openvt.c:303
+msgid "Unable to find command."
+msgstr ""
 
-#: src/openvt.c:181
-#, c-format
-msgid "openvt: Cannot open %s read/write (%s)\n"
-msgstr "openvt: Tidak dapat membuka %s baca/tulis (%s)\n"
-
-#: src/openvt.c:222
-#, c-format
-msgid "openvt: using VT %s\n"
-msgstr "openvt: menggunakan VT %s\n"
-
-#: src/openvt.c:239
-#, c-format
-msgid "openvt: Unable to set new session (%s)\n"
+#: src/openvt.c:335
+#, fuzzy
+msgid "Unable to set new session"
 msgstr "openvt: Tidak dapat menset sesi baru (%s)\n"
 
-#: src/openvt.c:247
-#, c-format
-msgid ""
-"\n"
-"openvt: could not open %s R/W (%s)\n"
-msgstr ""
-"\n"
-"openvt: tidak dapat membuka %s R/W (%s)\n"
+#: src/openvt.c:359
+#, fuzzy, c-format
+msgid "Unable to open %s"
+msgstr "openvt: Tidak dapat membuka %s: %s\n"
 
-#: src/openvt.c:255
-#, c-format
-msgid ""
-"\n"
-"openvt: could not activate vt %d (%s)\n"
+#: src/openvt.c:363
+#, fuzzy, c-format
+msgid "Using VT %s"
+msgstr "openvt: menggunakan VT %s\n"
+
+#: src/openvt.c:369
+#, fuzzy, c-format
+msgid "Cannot open %s read/write"
+msgstr "openvt: Tidak dapat membuka %s baca/tulis (%s)\n"
+
+#: src/openvt.c:380
+#, fuzzy, c-format
+msgid "Couldn't activate vt %d"
 msgstr ""
 "\n"
 "openvt: tidak dapat mengaktifkan vt %d (%s)\n"
 
-#: src/openvt.c:262
-#, c-format
-msgid ""
-"\n"
-"openvt: activation interrupted? (%s)\n"
+#: src/openvt.c:383
+#, fuzzy
+msgid "Activation interrupted?"
 msgstr ""
 "\n"
 "openvt: aktivasi terinterupsi? (%s)\n"
 
-#: src/openvt.c:320
-#, c-format
-msgid "openvt: could not deallocate console %d\n"
-msgstr "openvt: tidak dapat mendealokasikan konsole %d\n"
-
-#: src/openvt.c:339
-#, c-format
-msgid ""
-"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-msgstr ""
-"Penggunaan: openvt [-c nomor-vt] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-"baris_perintah\n"
-
-#: src/openvt.c:421
-#, c-format
-msgid "Couldn't find owner of current tty!\n"
-msgstr "Tidak dapat menemukan pemilik dari tty sekarang!\n"
+#: src/openvt.c:423
+#, fuzzy, c-format
+msgid "Couldn't deallocate console %d"
+msgstr "%s: tidak dapat didealokasikan console %d\n"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1075,12 +1068,8 @@ msgstr "%s: Akhir dari jangkauan buruk (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid ""
-"%s: Corresponding to a range of font positions, there should be a Unicode "
-"range\n"
-msgstr ""
-"%s: Sebuah daerah dari posisi font yang berkorespondensi, seharusnya sebuah "
-"jangkauan Unicode\n"
+msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgstr "%s: Sebuah daerah dari posisi font yang berkorespondensi, seharusnya sebuah jangkauan Unicode\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1116,8 +1105,7 @@ msgid ""
 "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 "Penggunaan:\n"
-"\t%s [-i font-masukan] [-o font-keluaran] [-it tabel-masukan] [-ot tabel-"
-"keluaran] [-nt]\n"
+"\t%s [-i font-masukan] [-o font-keluaran] [-it tabel-masukan] [-ot tabel-keluaran] [-nt]\n"
 
 #: src/psfxtable.c:360
 #, c-format
@@ -1161,24 +1149,19 @@ msgstr "resizecons: perintah `%s' gagal\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: jangan lupa untuk mengubah TERM (mungkin ke con%dx%d atau linux-"
-"%dx%d)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: jangan lupa untuk mengubah TERM (mungkin ke con%dx%d atau linux-%dx%d)\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
 "panggilan adalah: resizecons COLSxROWS atau: resizecons COLS ROWS\n"
-"atau: resizecons -lines ROWS, dengan ROWS satu dari 25, 28, 30, 34, 36, 40, "
-"44, 50, 60\n"
+"atau: resizecons -lines ROWS, dengan ROWS satu dari 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 
 #: src/resizecons.c:376
 #, c-format
@@ -1218,8 +1201,7 @@ msgstr "Error menulis screendump\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1243,8 +1225,7 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Penggunaan: setfont [pilihan-tulis] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Penggunaan: setfont [pilihan-tulis] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  pilihan-tulis (mengambil tempat sebelum berkas meload):\n"
 "    -o  <filename>  Tulis font sekarang ke <nama berkas>\n"
 "    -O  <filename>  Tulis font sekarang dan peta unicode ke <nama berkas>\n"
@@ -1254,11 +1235,9 @@ msgstr ""
 "sebuah font baku diload:\n"
 "    setfont         Load font \"default[.gz]\"\n"
 "    setfont         Load font \"default8x<N>[.gz]\"\n"
-"Pilihan -<N> memilih sebuah font dari sebuah kode halaman yang berisi tiga "
-"font:\n"
+"Pilihan -<N> memilih sebuah font dari sebuah kode halaman yang berisi tiga font:\n"
 "    setfont -{8|14|16} codepage.cp[.gz] Load 8x<n> font dari codepage.cp\n"
-"Secara eksplisit (dengan -m atau -u) atau secara implisit (dalam berkas "
-"font) diberikan pemetaan\n"
+"Secara eksplisit (dengan -m atau -u) atau secara implisit (dalam berkas font) diberikan pemetaan\n"
 "yang akan diload dan, dalam kasus consolemaps, diaktivasikan.\n"
 "    -h<N>      (tidak ada spasi) Override tinggi font.\n"
 "    -m <fn>    Load console screen map.\n"
@@ -1277,12 +1256,8 @@ msgstr "setfont: terlalu banyak berkas masukan\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid ""
-"setfont: cannot both restore from character ROM and from file. Font "
-"unchanged.\n"
-msgstr ""
-"setfont: tidak dapat baik mengembalikan dari karakter ROM dan dari berkas."
-"Font tidak berubah.\n"
+msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
+msgstr "setfont: tidak dapat baik mengembalikan dari karakter ROM dan dari berkas.Font tidak berubah.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1392,9 +1367,7 @@ msgstr "Terlalu banyak berkas untuk dikombinasikan\n"
 #: src/setfont.c:576
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
-msgstr ""
-"Hmm - sebuah font dari restorefont? Menggunakan potongan setengah yang "
-"pertama.\n"
+msgstr "Hmm - sebuah font dari restorefont? Menggunakan potongan setengah yang pertama.\n"
 
 #: src/setfont.c:593
 #, c-format
@@ -1408,15 +1381,12 @@ msgid ""
 "using an option -8 or -14 or -16 which one you want loaded.\n"
 msgstr ""
 "File ini berisi 3 fonts: 8x8, 8x14, dan 8x16. Mohon indikasikan\n"
-"dengan menggunakan sebuah pilihan -8 atau -14 atau -16 mana yang anda ingin "
-"load.\n"
+"dengan menggunakan sebuah pilihan -8 atau -14 atau -16 mana yang anda ingin load.\n"
 
 #: src/setfont.c:628
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"Anda bertanya untuk ukuran font %d, tetapi hanya 8, 14, 16 yang memungkinkan "
-"disini.\n"
+msgstr "Anda bertanya untuk ukuran font %d, tetapi hanya 8, 14, 16 yang memungkinkan disini.\n"
 
 #: src/setfont.c:673
 #, c-format
@@ -1476,8 +1446,7 @@ msgstr ""
 "\tsetleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
 "Jadi,\n"
 "\tsetleds +caps -num\n"
-"akan menset CapsLock, menhapus NumLock dan meninggalkan ScrollLock tidak "
-"berubah.\n"
+"akan menset CapsLock, menhapus NumLock dan meninggalkan ScrollLock tidak berubah.\n"
 "Konfigurasi sebelum dan setelah perubahan (jika ada) akan dilaporkan\n"
 "ketika pilihan -v diberikan atau ketika tidak ada perubahan diminta.\n"
 "Secara normal, setleds mempengaruhi konfigurasi pilihan vt\n"
@@ -1497,16 +1466,12 @@ msgstr "mati"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr ""
-"Error membaca konfigurasi led sekarang. Mungkin stdin bukan sebuah VT?\n"
+msgstr "Error membaca konfigurasi led sekarang. Mungkin stdin bukan sebuah VT?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr ""
-"Error membaca konfigurasi pilihan sekarang. Mungkin anda tidak berada di "
-"konsole?\n"
+msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr "Error membaca konfigurasi pilihan sekarang. Mungkin anda tidak berada di konsole?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1800,9 +1765,7 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr ""
-"tekan tombol apapun (aplikasi akan berakhir setelah 10 detik dari penekanan "
-"tombol terakhir)...\n"
+msgstr "tekan tombol apapun (aplikasi akan berakhir setelah 10 detik dari penekanan tombol terakhir)...\n"
 
 #: src/showkey.c:250
 msgid "release"
@@ -1822,10 +1785,26 @@ msgstr "keycode %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "penggunaan: getkeycodes\n"
 
-#: src/version.h:18
+#: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s dari %s\n"
+
+#~ msgid "        use `openvt -f' to force.\n"
+#~ msgstr "        gunakan `openvt -f' untuk memaksa.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "openvt: could not open %s R/W (%s)\n"
+#~ msgstr ""
+#~ "\n"
+#~ "openvt: tidak dapat membuka %s R/W (%s)\n"
+
+#~ msgid "openvt: could not deallocate console %d\n"
+#~ msgstr "openvt: tidak dapat mendealokasikan konsole %d\n"
+
+#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+#~ msgstr "Penggunaan: openvt [-c nomor-vt] [-f] [-l] [-u] [-s] [-v] [-w] -- baris_perintah\n"
 
 #~ msgid "loadkeys: error reading keyboard mode\n"
 #~ msgstr "loadkeys: error membaca mode keyboard\n"

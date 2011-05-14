@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.15.1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-04-12 15:14+0400\n"
+"POT-Creation-Date: 2011-05-08 01:06+0400\n"
 "PO-Revision-Date: 2009-09-26 20:18+0200\n"
 "Last-Translator: Michael Schutte <m.schutte.jr@gmail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -67,8 +67,7 @@ msgstr "%s: Kann keine Keymap finden.\n"
 #: src/dumpkeys.c:84
 #, c-format
 msgid "%s: plain map not allocated? very strange ...\n"
-msgstr ""
-"%s: Eine einfache Tastaturtabelle wurde nicht zugeteilt. Eigenartig ...\n"
+msgstr "%s: Eine einfache Tastaturtabelle wurde nicht zugeteilt. Eigenartig ...\n"
 
 #: src/dumpkeys.c:118
 #, c-format
@@ -257,7 +256,7 @@ msgstr "%s: Warnung: Die Zeile ist zu lang.\n"
 msgid "Couldn't open %s\n"
 msgstr "Kann %s nicht öffnen.\n"
 
-#: src/getfd.c:88 src/openvt.c:121
+#: src/getfd.c:88
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr "Konnte keinen Dateideskriptor finden, der auf die Konsole verweist.\n"
@@ -275,14 +274,12 @@ msgstr "Einfache Scancodes xx (hexadezimal) und Tastencodes (dezimal):\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr ""
-"0 ist ein Fehler; für 1-88 (0x01-0x58) ist Scancode gleich Tastencode\n"
+msgstr "0 ist ein Fehler; für 1-88 (0x01-0x58) ist Scancode gleich Tastencode\n"
 
 #: src/getkeycodes.c:62
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr ""
-"0 ist ein Fehler; für 1-%d (0x01-0x%02x) ist Scancode gleich Tastencode\n"
+msgstr "0 ist ein Fehler; für 1-%d (0x01-0x%02x) ist Scancode gleich Tastencode\n"
 
 #: src/getkeycodes.c:68
 #, c-format
@@ -373,8 +370,7 @@ msgstr "%s: Fehler beim Einstellen des Tastaturmodus\n"
 #: src/kbdrate.c:156 src/kbdrate.c:175 src/kbdrate.c:339
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
-msgstr ""
-"Die Wiederholrate ist auf %.1f Zeichen/s gesetzt (Verzögerung = %d ms).\n"
+msgstr "Die Wiederholrate ist auf %.1f Zeichen/s gesetzt (Verzögerung = %d ms).\n"
 
 #: src/kbdrate.c:267
 #, c-format
@@ -780,12 +776,8 @@ msgstr "%s: Ungültiger Unicode-Bereich zum Font-Bereich 0x%x-0x%x.\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x\n"
-msgstr ""
-"%s: Der Unicode-Bereich U+%x-U+%x ist nicht gleich lang wie der Font-Bereich "
-"0x%x-0x%x\n"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
+msgstr "%s: Der Unicode-Bereich U+%x-U+%x ist nicht gleich lang wie der Font-Bereich 0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -879,100 +871,103 @@ msgstr "Kann Konsolentabelle nicht lesen.\n"
 msgid "Saved screen map in `%s'\n"
 msgstr "Speichere Bildschirmtabelle in `%s'.\n"
 
-#: src/openvt.c:73
+#: src/openvt.c:44
 #, c-format
-msgid "openvt: %s: illegal vt number\n"
+msgid ""
+"Usage: %s [OPTIONS] -- command\n"
+"\n"
+"This utility help you to start a program on a new virtual terminal (VT).\n"
+"\n"
+"Options:\n"
+"  -c, --console=NUM   use the given VT number;\n"
+"  -f, --force         force opening a VT without checking;\n"
+"  -l, --login         make the command a login shell;\n"
+"  -u, --user          figure out the owner of the current VT;\n"
+"  -s, --switch        switch to the new VT;\n"
+"  -w, --wait          wait for command to complete;\n"
+"  -v, --verbose       print a message for each action;\n"
+"  -V, --version       print program version and exit;\n"
+"  -h, --help          output a brief help message.\n"
+"\n"
+msgstr ""
+
+#: src/openvt.c:162
+#, fuzzy
+msgid "Couldn't find owner of current tty!"
+msgstr "Konnte Eigentümer des aktuellen Terminals nicht finden!\n"
+
+#: src/openvt.c:230
+#, fuzzy, c-format
+msgid "%s: Illegal vt number"
 msgstr "openvt: %s: Ungültige VT-Nummer.\n"
 
-#: src/openvt.c:100
-#, c-format
-msgid "openvt: only root can use the -u flag.\n"
+#: src/openvt.c:256
+#, fuzzy
+msgid "Only root can use the -u flag."
 msgstr "openvt: Nur root darf die Option -u benutzen.\n"
 
-#: src/openvt.c:133
-#, c-format
-msgid "openvt: cannot find a free vt\n"
+#: src/openvt.c:278
+#, fuzzy
+msgid "Couldn't get a file descriptor referring to the console"
+msgstr "Konnte keinen Dateideskriptor finden, der auf die Konsole verweist.\n"
+
+#: src/openvt.c:285
+#, fuzzy
+msgid "Cannot find a free vt"
 msgstr "openvt: Kann kein freies VT finden.\n"
 
-#: src/openvt.c:138
-#, c-format
-msgid "openvt: cannot check whether vt %d is free\n"
+#: src/openvt.c:289
+#, fuzzy, c-format
+msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: Kann die Verfügbarkeit des VT %d nicht überprüfen.\n"
 
-#: src/openvt.c:139 src/openvt.c:144
-#, c-format
-msgid "        use `openvt -f' to force.\n"
-msgstr "        Benutzen Sie \"openvt -f\", um die Aktion zu erzwingen.\n"
-
-#: src/openvt.c:143
-#, c-format
-msgid "openvt: vt %d is in use; command aborted\n"
+#: src/openvt.c:293
+#, fuzzy, c-format
+msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: VT %d wird bereits benutzt; das Kommando wurde abgebrochen.\n"
 
-#: src/openvt.c:170
-#, c-format
-msgid "openvt: Unable to open %s: %s\n"
-msgstr "openvt: Kann %s nicht öffnen: %s\n"
+#: src/openvt.c:303
+msgid "Unable to find command."
+msgstr ""
 
-#: src/openvt.c:181
-#, c-format
-msgid "openvt: Cannot open %s read/write (%s)\n"
-msgstr "openvt: Kann %s nicht zum Schreiben und Lesen öffnen (%s).\n"
-
-#: src/openvt.c:222
-#, c-format
-msgid "openvt: using VT %s\n"
-msgstr "openvt: Benutze VT %s.\n"
-
-#: src/openvt.c:239
-#, c-format
-msgid "openvt: Unable to set new session (%s)\n"
+#: src/openvt.c:335
+#, fuzzy
+msgid "Unable to set new session"
 msgstr "openvt: Kann keine neue Sitzung erzeugen (%s).\n"
 
-#: src/openvt.c:247
-#, c-format
-msgid ""
-"\n"
-"openvt: could not open %s R/W (%s)\n"
-msgstr ""
-"\n"
-"openvt: Kann %s nicht mit Schreib- und Leserecht öffnen (%s).\n"
+#: src/openvt.c:359
+#, fuzzy, c-format
+msgid "Unable to open %s"
+msgstr "openvt: Kann %s nicht öffnen: %s\n"
 
-#: src/openvt.c:255
-#, c-format
-msgid ""
-"\n"
-"openvt: could not activate vt %d (%s)\n"
+#: src/openvt.c:363
+#, fuzzy, c-format
+msgid "Using VT %s"
+msgstr "openvt: Benutze VT %s.\n"
+
+#: src/openvt.c:369
+#, fuzzy, c-format
+msgid "Cannot open %s read/write"
+msgstr "openvt: Kann %s nicht zum Schreiben und Lesen öffnen (%s).\n"
+
+#: src/openvt.c:380
+#, fuzzy, c-format
+msgid "Couldn't activate vt %d"
 msgstr ""
 "\n"
 "openvt: Kann VT %d (%s) nicht aktivieren.\n"
 
-#: src/openvt.c:262
-#, c-format
-msgid ""
-"\n"
-"openvt: activation interrupted? (%s)\n"
+#: src/openvt.c:383
+#, fuzzy
+msgid "Activation interrupted?"
 msgstr ""
 "\n"
 "openvt: Aktivierungsvorgang unterbrochen? (%s)\n"
 
-#: src/openvt.c:320
-#, c-format
-msgid "openvt: could not deallocate console %d\n"
-msgstr "openvt: Kann die Konsole %d nicht freigeben.\n"
-
-#: src/openvt.c:339
-#, c-format
-msgid ""
-"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-msgstr ""
-"Verwendung: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-"Kommandozeile\n"
-
-#: src/openvt.c:421
-#, c-format
-msgid "Couldn't find owner of current tty!\n"
-msgstr "Konnte Eigentümer des aktuellen Terminals nicht finden!\n"
+#: src/openvt.c:423
+#, fuzzy, c-format
+msgid "Couldn't deallocate console %d"
+msgstr "%s: Konnte die Konsole %d nicht freigeben.\n"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1076,12 +1071,8 @@ msgstr "%s: Falsches Bereichsende (0x%lx).\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid ""
-"%s: Corresponding to a range of font positions, there should be a Unicode "
-"range\n"
-msgstr ""
-"%s: Zu einem Bereich von Font-Positionen sollte auch ein Unicode-Bereich "
-"existieren.\n"
+msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgstr "%s: Zu einem Bereich von Font-Positionen sollte auch ein Unicode-Bereich existieren.\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1162,19 +1153,15 @@ msgstr "resizecons: Das Kommando `%s' schlug fehl.\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: Vergessen Sie nicht, TERM zu ändern (z.B. zu con%dx%d oder linux-"
-"%dx%d).\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: Vergessen Sie nicht, TERM zu ändern (z.B. zu con%dx%d oder linux-%dx%d).\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
 "Verwendung:  resizecons SPALTENxZEILEN\n"
@@ -1220,8 +1207,7 @@ msgstr "Fehler beim Schreiben des Bildschirminhalts.\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1245,8 +1231,7 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Verwendung: setfont [Schreib-Optionen] [-<N>] [neuer_font..] [-m Konsolen-"
-"Map] [-u Unicode-Map]\n"
+"Verwendung: setfont [Schreib-Optionen] [-<N>] [neuer_font..] [-m Konsolen-Map] [-u Unicode-Map]\n"
 "  Schreib-Optionen (werden vor dem Laden von Dateien aktiviert):\n"
 "    -o  <Dateiname>\tSchreibe den aktuellen Font nach <Dateiname>.\n"
 "    -O  <Dateiname>\tSchreibe zusätzlich die Unicode-Map nach <Dateiname>.\n"
@@ -1258,8 +1243,7 @@ msgstr ""
 "    setfont -<N>        Lade Font \"default8x<N>[.gz]\"\n"
 "Die Option -<N> wählt einen Font aus einer Codepage die drei Fonts enthält:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Lade 8x<N> Font aus codepage.cp\n"
-"Explizit (mit -m or -u) oder implizit (in der Fontdatei) gegebene "
-"Zuordnungen\n"
+"Explizit (mit -m or -u) oder implizit (in der Fontdatei) gegebene Zuordnungen\n"
 "werden geladen und, im Fall von Konsolen-Maps, aktiviert.\n"
 "    -h<N>      (ohne Leerzeichen) Überschreibe Fonthöhe.\n"
 "    -m <fn>   Lade Konsolen-Map.\n"
@@ -1278,12 +1262,8 @@ msgstr "setfont: Zu viele Eingabedateien.\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid ""
-"setfont: cannot both restore from character ROM and from file. Font "
-"unchanged.\n"
-msgstr ""
-"setfont: Kann den Font nicht zugleich von ROM und Datei wiederherstellen. "
-"Vorgang abgebrochen.\n"
+msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
+msgstr "setfont: Kann den Font nicht zugleich von ROM und Datei wiederherstellen. Vorgang abgebrochen.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1348,8 +1328,7 @@ msgstr "Kann Font-Datei %s nicht lesen.\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr ""
-"Gleichzeitig geladene Fonts müssen im PSF Format sein - %s ist es nicht.\n"
+msgstr "Gleichzeitig geladene Fonts müssen im PSF Format sein - %s ist es nicht.\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1359,14 +1338,12 @@ msgstr "Lese %d-Zeichen %dx%d aus der Datei %s.\n"
 #: src/setfont.c:441
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
-msgstr ""
-"Wenn mehrere Fonts geladen werden, müssen sie die gleiche Höhe haben.\n"
+msgstr "Wenn mehrere Fonts geladen werden, müssen sie die gleiche Höhe haben.\n"
 
 #: src/setfont.c:448
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr ""
-"Wenn mehrere Fonts geladen werden, müssen alle die gleiche Breite haben.\n"
+msgstr "Wenn mehrere Fonts geladen werden, müssen alle die gleiche Breite haben.\n"
 
 #: src/setfont.c:487
 #, c-format
@@ -1415,9 +1392,7 @@ msgstr ""
 #: src/setfont.c:628
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"Die Zeichengröße %d wurde verlangt, es sind aber nur 8, 14 und 16 "
-"verfügbar.\n"
+msgstr "Die Zeichengröße %d wurde verlangt, es sind aber nur 8, 14 und 16 verfügbar.\n"
 
 #: src/setfont.c:673
 #, c-format
@@ -1504,10 +1479,8 @@ msgstr ""
 
 #: src/setleds.c:105
 #, c-format
-msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr ""
-"Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?\n"
+msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr "Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1677,9 +1650,7 @@ msgstr "%s: %s: Warnung: Die Zeile ist zu lang.\n"
 #: src/showconsolefont.c:33
 #, c-format
 msgid "failed to restore original translation table\n"
-msgstr ""
-"Das Wiederherstellen der ursprünglichen Übersetzungstabelle ist "
-"fehlgeschlagen.\n"
+msgstr "Das Wiederherstellen der ursprünglichen Übersetzungstabelle ist fehlgeschlagen.\n"
 
 #: src/showconsolefont.c:38
 #, c-format
@@ -1807,8 +1778,7 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr ""
-"Drücken Sie eine Taste (Programmende 10 s nach dem letzten Tastendruck)...\n"
+msgstr "Drücken Sie eine Taste (Programmende 10 s nach dem letzten Tastendruck)...\n"
 
 #: src/showkey.c:250
 msgid "release"
@@ -1828,10 +1798,26 @@ msgstr "Tastencode %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "Verwendung: getkeycodes\n"
 
-#: src/version.h:18
+#: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s von %s\n"
 
 #~ msgid "loadkeys: error reading keyboard mode\n"
 #~ msgstr "loadkeys: Fehler beim Lesen des Tastaturmodus.\n"
+
+#~ msgid "        use `openvt -f' to force.\n"
+#~ msgstr "        Benutzen Sie \"openvt -f\", um die Aktion zu erzwingen.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "openvt: could not open %s R/W (%s)\n"
+#~ msgstr ""
+#~ "\n"
+#~ "openvt: Kann %s nicht mit Schreib- und Leserecht öffnen (%s).\n"
+
+#~ msgid "openvt: could not deallocate console %d\n"
+#~ msgstr "openvt: Kann die Konsole %d nicht freigeben.\n"
+
+#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+#~ msgstr "Verwendung: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- Kommandozeile\n"

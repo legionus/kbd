@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.10\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-04-12 15:14+0400\n"
+"POT-Creation-Date: 2011-05-08 01:06+0400\n"
 "PO-Revision-Date: 2004-01-21 06:15+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -239,7 +239,7 @@ msgstr "%s: Uyari: satir cok uzun\n"
 msgid "Couldn't open %s\n"
 msgstr "%s acilamadi\n"
 
-#: src/getfd.c:88 src/openvt.c:121
+#: src/getfd.c:88
 #, fuzzy, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr "Konsolu hedef alan bir dosya betimleyici (fd) alinamadi\n"
@@ -257,16 +257,12 @@ msgstr "Tu$ kodlarina (onluk) kar$i du$en basit tarama kodlari (onaltilik)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr ""
-"0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu "
-"icin\n"
+msgstr "0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu icin\n"
 
 #: src/getkeycodes.c:62
 #, fuzzy, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr ""
-"0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu "
-"icin\n"
+msgstr "0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu icin\n"
 
 #: src/getkeycodes.c:68
 #, c-format
@@ -741,15 +737,11 @@ msgstr "%s: aralik sonu hatali (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr ""
-"%s: Unicode araliginin 0x%x-0x%x yazitipi konumlari araligi ile ili"
-"$kilendirilmesi hatali\n"
+msgstr "%s: Unicode araliginin 0x%x-0x%x yazitipi konumlari araligi ile ili$kilendirilmesi hatali\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x\n"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
 msgstr ""
 "%s: Unicode araligi U+%x-U+%x,\n"
 "yazitipi konumlari araligi 0x%x-0x%x\n"
@@ -847,99 +839,100 @@ msgstr "konsol e$lemi okunamiyor\n"
 msgid "Saved screen map in `%s'\n"
 msgstr "Ekran e$lemi `%s' dosyasina kaydedildi\n"
 
+#: src/openvt.c:44
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] -- command\n"
+"\n"
+"This utility help you to start a program on a new virtual terminal (VT).\n"
+"\n"
+"Options:\n"
+"  -c, --console=NUM   use the given VT number;\n"
+"  -f, --force         force opening a VT without checking;\n"
+"  -l, --login         make the command a login shell;\n"
+"  -u, --user          figure out the owner of the current VT;\n"
+"  -s, --switch        switch to the new VT;\n"
+"  -w, --wait          wait for command to complete;\n"
+"  -v, --verbose       print a message for each action;\n"
+"  -V, --version       print program version and exit;\n"
+"  -h, --help          output a brief help message.\n"
+"\n"
+msgstr ""
+
+#: src/openvt.c:162
+msgid "Couldn't find owner of current tty!"
+msgstr ""
+
 # Dikkat: utf-8 ve iso kiplerde karakter kaybina ugramadan
 # iletilerin duzgun okunabilmesi icin sadece bu pakette
 # Turkce'ye ozgu karakterlerden kacinilmi$tir.
-#: src/openvt.c:73
-#, c-format
-msgid "openvt: %s: illegal vt number\n"
+#: src/openvt.c:230
+#, fuzzy, c-format
+msgid "%s: Illegal vt number"
 msgstr "openvt: %s: kuraldisi sanal terminal (vt) numarasi\n"
 
-#: src/openvt.c:100
-#, c-format
-msgid "openvt: only root can use the -u flag.\n"
+#: src/openvt.c:256
+#, fuzzy
+msgid "Only root can use the -u flag."
 msgstr "openvt: -u bayragini sadece root kullanabilir.\n"
 
-#: src/openvt.c:133
-#, c-format
-msgid "openvt: cannot find a free vt\n"
+#: src/openvt.c:278
+#, fuzzy
+msgid "Couldn't get a file descriptor referring to the console"
+msgstr "Konsolu hedef alan bir dosya betimleyici (fd) alinamadi\n"
+
+#: src/openvt.c:285
+#, fuzzy
+msgid "Cannot find a free vt"
 msgstr "openvt: serbest bir sanal terminal (vt) bulunamiyor\n"
 
-#: src/openvt.c:138
-#, c-format
-msgid "openvt: cannot check whether vt %d is free\n"
+#: src/openvt.c:289
+#, fuzzy, c-format
+msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: sanal terminal (vt) %d serbest mi denetlenemiyor\n"
 
-#: src/openvt.c:139 src/openvt.c:144
-#, c-format
-msgid "        use `openvt -f' to force.\n"
-msgstr "        sorunu a$mak icin `openvt -f' kullanin.\n"
-
-#: src/openvt.c:143
-#, c-format
-msgid "openvt: vt %d is in use; command aborted\n"
+#: src/openvt.c:293
+#, fuzzy, c-format
+msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: sanal terminal (vt) %d kullanimda; komut iptal edildi\n"
 
-#: src/openvt.c:170
-#, c-format
-msgid "openvt: Unable to open %s: %s\n"
-msgstr "openvt: %s acilamiyor: %s\n"
+#: src/openvt.c:303
+msgid "Unable to find command."
+msgstr ""
 
-#: src/openvt.c:181
-#, c-format
-msgid "openvt: Cannot open %s read/write (%s)\n"
-msgstr "openvt: %s oku/yaz kipinde acilamiyor (%s)\n"
-
-#: src/openvt.c:222
-#, c-format
-msgid "openvt: using VT %s\n"
-msgstr "openvt: VT %s kullanarak\n"
-
-#: src/openvt.c:239
-#, c-format
-msgid "openvt: Unable to set new session (%s)\n"
+#: src/openvt.c:335
+#, fuzzy
+msgid "Unable to set new session"
 msgstr "openvt: yeni oturum (%s) ayarlanamiyor\n"
 
-#: src/openvt.c:247
-#, c-format
-msgid ""
-"\n"
-"openvt: could not open %s R/W (%s)\n"
-msgstr ""
-"\n"
-"openvt: %s oku/yaz kipinde acilamadi (%s)\n"
-
-#: src/openvt.c:255
+#: src/openvt.c:359
 #, fuzzy, c-format
-msgid ""
-"\n"
-"openvt: could not activate vt %d (%s)\n"
-msgstr ""
-"\n"
-"openvt: %s oku/yaz kipinde acilamadi (%s)\n"
+msgid "Unable to open %s"
+msgstr "openvt: %s acilamiyor: %s\n"
 
-#: src/openvt.c:262
-#, c-format
-msgid ""
-"\n"
-"openvt: activation interrupted? (%s)\n"
-msgstr ""
+#: src/openvt.c:363
+#, fuzzy, c-format
+msgid "Using VT %s"
+msgstr "openvt: VT %s kullanarak\n"
 
-#: src/openvt.c:320
-#, c-format
-msgid "openvt: could not deallocate console %d\n"
-msgstr "openvt: %d konsolu kaldirilamadi\n"
+#: src/openvt.c:369
+#, fuzzy, c-format
+msgid "Cannot open %s read/write"
+msgstr "openvt: %s oku/yaz kipinde acilamiyor (%s)\n"
 
-#: src/openvt.c:339
+#: src/openvt.c:380
 #, c-format
-msgid ""
-"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+msgid "Couldn't activate vt %d"
 msgstr ""
 
-#: src/openvt.c:421
-#, c-format
-msgid "Couldn't find owner of current tty!\n"
+#: src/openvt.c:383
+msgid "Activation interrupted?"
 msgstr ""
+
+#: src/openvt.c:423
+#, fuzzy, c-format
+msgid "Couldn't deallocate console %d"
+msgstr "%s: %d konsolu kaldirilamadi\n"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1043,9 +1036,7 @@ msgstr "%s: Aralik sonu hatali (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid ""
-"%s: Corresponding to a range of font positions, there should be a Unicode "
-"range\n"
+msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
 msgstr ""
 "%s: Bir yazitipi konumlari araligi ile ili$kilendirilen\n"
 "bir Unicode araligi olmaliydi.\n"
@@ -1132,8 +1123,7 @@ msgstr "resizecons: komut `%s' ba$arisiz\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: TERM cevre degi$kenini degi$tirmeyi unutmayin\n"
 "(con%dx%d veya linux-%dx%d olabilir)\n"
@@ -1143,8 +1133,7 @@ msgstr ""
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
 "kullanimi:  resizecons SUTUN-SAYISIxSATIR-SAYISI\n"
@@ -1190,8 +1179,7 @@ msgstr "screendump yazmada ba$arisiz\n"
 #: src/setfont.c:74
 #, fuzzy, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1227,10 +1215,8 @@ msgstr ""
 "    setfont             \"default[.gz]\" yazitipi yuklenir\n"
 "    setfont -<N>        \"default8x<N>[.gz]\" yazitipi yuklenir\n"
 "-<N> ile uc yazitipi iceren bir karakter kumesinden bir yazitipi secilir:\n"
-"   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi "
-"yuklenir\n"
-"Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) "
-"verilen\n"
+"   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi yuklenir\n"
+"Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) verilen\n"
 "e$lemler yuklenir ve konsol e$lemi kapsaminda etkinle$tirilir.\n"
 "    -h<N>      (bo$luk birakmadan) <N> yazitipi yuksekligine zorlar.\n"
 "    -m DOSYA   belirtilen konsol ekran e$lemini yukler.\n"
@@ -1249,12 +1235,8 @@ msgstr "setfont: cok fazla girdi dosyasi\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid ""
-"setfont: cannot both restore from character ROM and from file. Font "
-"unchanged.\n"
-msgstr ""
-"setfont: hem ekran kartindan hem de dosyadan yuklenemez. Yazitipi degi"
-"$medi.\n"
+msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
+msgstr "setfont: hem ekran kartindan hem de dosyadan yuklenemez. Yazitipi degi$medi.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1319,8 +1301,7 @@ msgstr "%s yazitipi dosyasi acilamiyor\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr ""
-"Ayri ayri yazitipleri yuklenirken tumu psf yazitipi olmali - %s degil\n"
+msgstr "Ayri ayri yazitipleri yuklenirken tumu psf yazitipi olmali - %s degil\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1466,16 +1447,12 @@ msgstr "kapali"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr ""
-"$u anki led durumlari okunurken hata olu$tu. Standard girdi bir VT "
-"olmayabilir mi?\n"
+msgstr "$u anki led durumlari okunurken hata olu$tu. Standard girdi bir VT olmayabilir mi?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr ""
-"Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
+msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr "Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1790,14 +1767,23 @@ msgstr "tu$ kodu %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "kullanimi: getkeycodes\n"
 
-#: src/version.h:18
+#: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s (%s den)\n"
 
-#, fuzzy
-#~ msgid "loadkeys: error reading keyboard mode\n"
-#~ msgstr "kbd_mode: klavye kipi okunurken hata\n"
+#~ msgid "        use `openvt -f' to force.\n"
+#~ msgstr "        sorunu a$mak icin `openvt -f' kullanin.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "openvt: could not open %s R/W (%s)\n"
+#~ msgstr ""
+#~ "\n"
+#~ "openvt: %s oku/yaz kipinde acilamadi (%s)\n"
+
+#~ msgid "openvt: could not deallocate console %d\n"
+#~ msgstr "openvt: %d konsolu kaldirilamadi\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "arti %s oncesi yoksayildi\n"
@@ -1807,8 +1793,7 @@ msgstr "%s (%s den)\n"
 #~ "(probably after loading a font with `setfont font')\n"
 #~ msgstr ""
 #~ "kullanimi: showconsolefont [-v|-V]\n"
-#~ "(Genelde `setfont yazitipi' ile bir yazitipini yukledikten sonra "
-#~ "kullanilir)\n"
+#~ "(Genelde `setfont yazitipi' ile bir yazitipini yukledikten sonra kullanilir)\n"
 
 #~ msgid "usage: %s [-o map.orig] [map-file]\n"
 #~ msgstr "kullanimi: %s [-o e$lem.ozgun] [e$lem-dosyasi]\n"
