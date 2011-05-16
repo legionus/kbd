@@ -29,7 +29,7 @@ dist_bin_SCRIPTS = unicode_start unicode_stop
 bin_PROGRAMS = $(OLDPROGS) $(PROGS)
 
 EXTRA_DIST = \
-	analyze.c analyze.l wctomb.c totextmode.c \
+	loadkeys.analyze.c loadkeys.analyze.l wctomb.c totextmode.c \
 	README.cad README.init README.openvt \
 	cad
 
