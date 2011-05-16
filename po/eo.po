@@ -189,7 +189,8 @@ msgstr ""
 "\n"
 "\t-h --help\t    montri tiun ĉi helpo-tekston\n"
 "\t-i --short-info\t    montri informon pri la klavar-pelilo\n"
-"\t-l --long-info\t    montri --short-info plus simbolojn konatajn de loadkeys\n"
+"\t-l --long-info\t    montri --short-info plus simbolojn konatajn de "
+"loadkeys\n"
 "\t-n --numeric\t    montri klavtabelon laŭ sesdekuma nombrosistemo\n"
 "\t-f --full-table\t    ne uzi mallongigojn, po unu linio por klavkodo\n"
 "\t-1 --separate-lines po unu linio por (modifilo,klavkodo) paro\n"
@@ -774,12 +775,17 @@ msgstr "%s: Malĝusta fino de rango (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: Malĝusta Unikoda rango koresponda al pozicia rango de tiparo 0x%x-0x%x\n"
+msgstr ""
+"%s: Malĝusta Unikoda rango koresponda al pozicia rango de tiparo 0x%x-0x%x\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Unikoda rango U+%x-U+%x ne longas same ol pozicia rango de fonto 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Unikoda rango U+%x-U+%x ne longas same ol pozicia rango de fonto 0x%x-0x"
+"%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -1078,7 +1084,9 @@ msgstr "%s: Malĝusta fino de rango (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr "%s: Korespone al rango de tipar-pozicioj, devus esti Unikoda rango\n"
 
 #: src/psfxtable.c:257
@@ -1159,7 +1167,8 @@ msgstr "resizecons: la komando '%s' malsukcesis\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr "resizecons: ne forgesu ŝanĝi TERM (eble al con%dx%d aŭ linux-%dx%d)\n"
 
 #: src/resizecons.c:338
@@ -1167,11 +1176,13 @@ msgstr "resizecons: ne forgesu ŝanĝi TERM (eble al con%dx%d aŭ linux-%dx%d)\n
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "alvoko estas:  resizecons KOLxLIN  aŭ:  resizecons KOL LIN\n"
-"aŭ: resizecons -lines LIN, kie LIN estu unu el 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"aŭ: resizecons -lines LIN, kie LIN estu unu el 25, 28, 30, 34, 36, 40, 44, "
+"50, 60\n"
 
 #: src/resizecons.c:376
 #, c-format
@@ -1211,7 +1222,8 @@ msgstr "Eraro dum skribado de ekrankopio\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1235,10 +1247,12 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Uzado: setfont [skrib-elektebloj] [-<N>] [novtiparo..] [-m konzolmapo] [-u unikodmapo]\n"
+"Uzado: setfont [skrib-elektebloj] [-<N>] [novtiparo..] [-m konzolmapo] [-u "
+"unikodmapo]\n"
 "  skrib-elektebloj (okazas antaŭ ol ŝargado je dosiero):\n"
 "    -o  <dosiernomo>  Skribi aktualan tiparon al <dosiernomo>\n"
-"    -O  <dosiernomo>  Skribi aktualan tiparon kaj unikod-mapon al <dosiernomo>\n"
+"    -O  <dosiernomo>  Skribi aktualan tiparon kaj unikod-mapon al "
+"<dosiernomo>\n"
 "    -om <dosiernomo>  Skribi aktualan konzol-mapon al <dosiernomo>\n"
 "    -ou <dosiernomo>  Skribi aktualan unikod-mapon al <dosiernomo>\n"
 "Se neniu novtiparo kaj neniu elekteblo -[o|O|om|ou|m|u] estos indikitaj,\n"
@@ -1246,7 +1260,8 @@ msgstr ""
 "    setfont         Ŝargi je tiparo \"default[.gz]\"\n"
 "    setfont -<N>    Ŝargi je tiparo \"default8x<N>[.gz]\"\n"
 "La elekteblon -<N> prenas tiparon el kodpaĝo, kiu enhavas tri tiparojn:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Ŝargi je tiparo 8x<N> el codepage.cp\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Ŝargi je tiparo 8x<N> el codepage."
+"cp\n"
 "Malimplice (kun -m aŭ -u) aŭ implice (en la tipardosiero) indikitaj mapigoj\n"
 "estos ŝargataj kaj, okaze de konzolmapoj, aktivataj.\n"
 "    -h<N>      (sen spaco) Preterpasi tiparan alton.\n"
@@ -1266,8 +1281,12 @@ msgstr "setfont: tro da enig-dosieroj\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: ne povas kaj restarigi el signeca ROM kaj el dosiero. Tiparo neŝanĝita.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: ne povas kaj restarigi el signeca ROM kaj el dosiero. Tiparo "
+"neŝanĝita.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1480,7 +1499,8 @@ msgstr "Eraro dum legado de aktuala lumdioda stato. Eble stdin ne estas VT?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
 msgstr "Eraro dum legado de aktuala flag-stato. Eble vi ne estas ĉe konzolo?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
@@ -1823,5 +1843,9 @@ msgstr "%s el %s\n"
 #~ msgid "openvt: could not deallocate console %d\n"
 #~ msgstr "openvt: ne povis liberigi konzolon %d\n"
 
-#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-#~ msgstr "Uzado: openvt [-c vtnumero] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+#~ msgid ""
+#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"
+#~ msgstr ""
+#~ "Uzado: openvt [-c vtnumero] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"

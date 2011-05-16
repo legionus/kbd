@@ -772,8 +772,11 @@ msgstr "%s: 错误的 Unicode 范围对应于字体位置范围 0x%x-0x%x\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Unicode 范围 U+%x-U+%x 的长度和字体位置范围 0x%x-0x%x 的长度不一致\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Unicode 范围 U+%x-U+%x 的长度和字体位置范围 0x%x-0x%x 的长度不一致\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -1067,7 +1070,9 @@ msgstr "%s: 错误的范围结束值 (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr "%s: 对应于一个字体位置的范围，应该存在一个 Unicode 范围\n"
 
 #: src/psfxtable.c:257
@@ -1148,7 +1153,8 @@ msgstr "resizecons: 命令 '%s' 失败\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr "resizecons: 不要忘记修改 TERM (也许修改为 con%dx%d 或 linux-%dx%d)\n"
 
 #: src/resizecons.c:338
@@ -1156,11 +1162,13 @@ msgstr "resizecons: 不要忘记修改 TERM (也许修改为 con%dx%d 或 linux-
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "调用方法为: resizecons COLSxROWS 或: resizecons COLS ROWS\n"
-"或: resizecons -lines ROWS, 其中 ROWS 为 25, 28, 30, 34, 36, 40, 44, 50, 60 中的一个\n"
+"或: resizecons -lines ROWS, 其中 ROWS 为 25, 28, 30, 34, 36, 40, 44, 50, 60 "
+"中的一个\n"
 
 #: src/resizecons.c:376
 #, c-format
@@ -1200,7 +1208,8 @@ msgstr "写入屏幕转储出错\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1224,7 +1233,8 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"用法; setfont [写入选项] [-<N>] [新字体..] [-m 控制台映射] [-u unicode 映射]\n"
+"用法; setfont [写入选项] [-<N>] [新字体..] [-m 控制台映射] [-u unicode 映"
+"射]\n"
 "  write-options (在文件加载之前进行):\n"
 "    -o  <文件名>  将当前字体写入<文件名>\n"
 "    -O  <文件名>  将当前字体和 unicode 映射写入<文件名>\n"
@@ -1255,7 +1265,9 @@ msgstr "setfont: 太多的输入文件\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
 msgstr "setfont: 无法既从字符 ROM 进行恢复又从文件进行恢复。字体不变。\n"
 
 #: src/setfont.c:259
@@ -1469,7 +1481,8 @@ msgstr "读取当前 LED 设置出错。也许标准输入不是一个 VT？\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
 msgstr "读取当前标志设置出错。也许你不是在控制台上？\n"
 
 #: src/setleds.c:125 src/setleds.c:146
@@ -1805,5 +1818,7 @@ msgstr "%s 来自 %s\n"
 #~ msgid "openvt: could not deallocate console %d\n"
 #~ msgstr "openvt: 无法回收控制台 %d\n"
 
-#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+#~ msgid ""
+#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"
 #~ msgstr "用法: openvt [-c VT 号] [-f] [-l] [-u] [-s] [-v] [-w] -- 命令行\n"

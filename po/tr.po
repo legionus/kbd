@@ -257,12 +257,16 @@ msgstr "Tu$ kodlarina (onluk) kar$i du$en basit tarama kodlari (onaltilik)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu icin\n"
+msgstr ""
+"0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu "
+"icin\n"
 
 #: src/getkeycodes.c:62
 #, fuzzy, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu icin\n"
+msgstr ""
+"0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu "
+"icin\n"
 
 #: src/getkeycodes.c:68
 #, c-format
@@ -737,11 +741,15 @@ msgstr "%s: aralik sonu hatali (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: Unicode araliginin 0x%x-0x%x yazitipi konumlari araligi ile ili$kilendirilmesi hatali\n"
+msgstr ""
+"%s: Unicode araliginin 0x%x-0x%x yazitipi konumlari araligi ile ili"
+"$kilendirilmesi hatali\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
 msgstr ""
 "%s: Unicode araligi U+%x-U+%x,\n"
 "yazitipi konumlari araligi 0x%x-0x%x\n"
@@ -1036,7 +1044,9 @@ msgstr "%s: Aralik sonu hatali (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr ""
 "%s: Bir yazitipi konumlari araligi ile ili$kilendirilen\n"
 "bir Unicode araligi olmaliydi.\n"
@@ -1123,7 +1133,8 @@ msgstr "resizecons: komut `%s' ba$arisiz\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: TERM cevre degi$kenini degi$tirmeyi unutmayin\n"
 "(con%dx%d veya linux-%dx%d olabilir)\n"
@@ -1133,7 +1144,8 @@ msgstr ""
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "kullanimi:  resizecons SUTUN-SAYISIxSATIR-SAYISI\n"
@@ -1179,7 +1191,8 @@ msgstr "screendump yazmada ba$arisiz\n"
 #: src/setfont.c:74
 #, fuzzy, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1215,8 +1228,10 @@ msgstr ""
 "    setfont             \"default[.gz]\" yazitipi yuklenir\n"
 "    setfont -<N>        \"default8x<N>[.gz]\" yazitipi yuklenir\n"
 "-<N> ile uc yazitipi iceren bir karakter kumesinden bir yazitipi secilir:\n"
-"   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi yuklenir\n"
-"Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) verilen\n"
+"   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi "
+"yuklenir\n"
+"Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) "
+"verilen\n"
 "e$lemler yuklenir ve konsol e$lemi kapsaminda etkinle$tirilir.\n"
 "    -h<N>      (bo$luk birakmadan) <N> yazitipi yuksekligine zorlar.\n"
 "    -m DOSYA   belirtilen konsol ekran e$lemini yukler.\n"
@@ -1235,8 +1250,12 @@ msgstr "setfont: cok fazla girdi dosyasi\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: hem ekran kartindan hem de dosyadan yuklenemez. Yazitipi degi$medi.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: hem ekran kartindan hem de dosyadan yuklenemez. Yazitipi degi"
+"$medi.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1301,7 +1320,8 @@ msgstr "%s yazitipi dosyasi acilamiyor\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "Ayri ayri yazitipleri yuklenirken tumu psf yazitipi olmali - %s degil\n"
+msgstr ""
+"Ayri ayri yazitipleri yuklenirken tumu psf yazitipi olmali - %s degil\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1447,12 +1467,16 @@ msgstr "kapali"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr "$u anki led durumlari okunurken hata olu$tu. Standard girdi bir VT olmayabilir mi?\n"
+msgstr ""
+"$u anki led durumlari okunurken hata olu$tu. Standard girdi bir VT "
+"olmayabilir mi?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1793,7 +1817,8 @@ msgstr "%s (%s den)\n"
 #~ "(probably after loading a font with `setfont font')\n"
 #~ msgstr ""
 #~ "kullanimi: showconsolefont [-v|-V]\n"
-#~ "(Genelde `setfont yazitipi' ile bir yazitipini yukledikten sonra kullanilir)\n"
+#~ "(Genelde `setfont yazitipi' ile bir yazitipini yukledikten sonra "
+#~ "kullanilir)\n"
 
 #~ msgid "usage: %s [-o map.orig] [map-file]\n"
 #~ msgstr "kullanimi: %s [-o e$lem.ozgun] [e$lem-dosyasi]\n"

@@ -257,7 +257,8 @@ msgstr "Enkla avläsningskoder xx (hex) mot tangentkoder (dec)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 är ett fel, för 1-88 (0x01-0x58) är avläsningskoden lika med tangentkoden\n"
+msgstr ""
+"0 är ett fel, för 1-88 (0x01-0x58) är avläsningskoden lika med tangentkoden\n"
 
 #: src/getkeycodes.c:62
 #, c-format
@@ -737,12 +738,18 @@ msgstr "%s: Felaktigt slut på intervall (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: Felaktigt Unicodeintervall som motsvarar typsnittspositionsintervall 0x%x-0x%x\n"
+msgstr ""
+"%s: Felaktigt Unicodeintervall som motsvarar typsnittspositionsintervall 0x"
+"%x-0x%x\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Unicodeintervall U+%x-U+%x är inte av samma längd som typsnittspositionsintervall 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Unicodeintervall U+%x-U+%x är inte av samma längd som "
+"typsnittspositionsintervall 0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -1030,8 +1037,12 @@ msgstr "%s: Felaktigt slut av intervall (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-msgstr "%s: Till ett motsvarande intervall av typsnittspositioner borde det finnas ett Unicodeintervall\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
+msgstr ""
+"%s: Till ett motsvarande intervall av typsnittspositioner borde det finnas "
+"ett Unicodeintervall\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1102,7 +1113,8 @@ msgstr "Gammalt läge: %d×%d  Nytt läge: %d×%d\n"
 #: src/resizecons.c:241
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Gammalt antal skannlinjer: %d  Nytt antal skannlinjer: %d  Teckenhöjd: %d\n"
+msgstr ""
+"Gammalt antal skannlinjer: %d  Nytt antal skannlinjer: %d  Teckenhöjd: %d\n"
 
 #: src/resizecons.c:252
 #, c-format
@@ -1111,19 +1123,23 @@ msgstr "resizecons: kommandot \"%s\" misslyckades\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: glöm inte ändra TERM (kanske till con%dx%d eller linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: glöm inte ändra TERM (kanske till con%dx%d eller linux-%dx%d)\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "anrop: resizecons KOLUMNERxRADER  eller: resizecons KOLUMNER RADER\n"
-"eller: resizecons -lines RADER, där RADER är en av 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"eller: resizecons -lines RADER, där RADER är en av 25, 28, 30, 34, 36, 40, "
+"44, 50, 60\n"
 
 #: src/resizecons.c:376
 #, c-format
@@ -1163,7 +1179,8 @@ msgstr "Fel vid skrivning av skärmdump\n"
 #: src/setfont.c:74
 #, fuzzy, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1187,7 +1204,8 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Användning: setfont [skrivflaggor] [-<N>] [nyttypsnitt..] [-m konsolltabell] [-u unicodetabell]\n"
+"Användning: setfont [skrivflaggor] [-<N>] [nyttypsnitt..] [-m konsolltabell] "
+"[-u unicodetabell]\n"
 "  skrivflaggor (händer före filer läses):\n"
 "    -o  <filnamn> Skriv nuvarande typsnitt till <filnamn>\n"
 "    -O  <filnamn> Skriv nuvarande typsnitt och unicodetabell till <filnamn>\n"
@@ -1197,8 +1215,10 @@ msgstr ""
 "läses ett standardtypsnitt in:\n"
 "    setfont       Läs in typsnitt \"default[.gz]\"\n"
 "    setfont -<N>  Läs in typsnitt \"default8x<N>[.gz]\"\n"
-"-<N>-flaggan väljer ett typsnitt från en teckentabell som innehåller tre typsnitt:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Läs in 8×<N>-typsnitt från codepage.cp\n"
+"-<N>-flaggan väljer ett typsnitt från en teckentabell som innehåller tre "
+"typsnitt:\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Läs in 8×<N>-typsnitt från "
+"codepage.cp\n"
 "Explicit (med -m eller -u) eller implicit (i typsnittsfilen) givna tabeller\n"
 "kommer läsas in och, om det gäller konsolltabeller, aktiveras.\n"
 "    -h<N>      (inget blanktecken) åsidosätt typsnittshöjd.\n"
@@ -1217,8 +1237,12 @@ msgstr "setfont: för många indatafiler\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: kan inte både återställa från tecken-ROM och från fil. Fonten oförändrad.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: kan inte både återställa från tecken-ROM och från fil. Fonten "
+"oförändrad.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1283,7 +1307,8 @@ msgstr "Kan inte öppna typsnittsfilen %s\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "När flera typsnitt läses in måste alla vara psf-typsnitt - %s är inte det\n"
+msgstr ""
+"När flera typsnitt läses in måste alla vara psf-typsnitt - %s är inte det\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1347,7 +1372,8 @@ msgstr ""
 #: src/setfont.c:628
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "Du bad om typsnittsstorleken %d, men bara 8, 14 och 16 är möjliga här.\n"
+msgstr ""
+"Du bad om typsnittsstorleken %d, men bara 8, 14 och 16 är möjliga här.\n"
 
 #: src/setfont.c:673
 #, c-format
@@ -1427,12 +1453,16 @@ msgstr "av"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr "Fel vid läsning av nuvarande inställning. Standard in kanske inte är en VT?\n"
+msgstr ""
+"Fel vid läsning av nuvarande inställning. Standard in kanske inte är en VT?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Fel vid läsning av nuvarande flagginställning. Du kanske inte är på konsollen?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Fel vid läsning av nuvarande flagginställning. Du kanske inte är på "
+"konsollen?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1545,7 +1575,8 @@ msgstr "Konstigt läge för Metatangenten?\n"
 #: src/setmetamode.c:78
 #, c-format
 msgid "Error reading current setting. Maybe stdin is not a VT?\n"
-msgstr "Fel vid läsning av nuvarande inställning. Standard in kanske inte är en VT?\n"
+msgstr ""
+"Fel vid läsning av nuvarande inställning. Standard in kanske inte är en VT?\n"
 
 #: src/setmetamode.c:98
 #, c-format
@@ -1715,7 +1746,9 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "tryck någon tangent (programmet avslutas 10 s efter sista tangenttryckning)...\n"
+msgstr ""
+"tryck någon tangent (programmet avslutas 10 s efter sista "
+"tangenttryckning)...\n"
 
 #: src/showkey.c:250
 msgid "release"

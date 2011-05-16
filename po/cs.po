@@ -749,8 +749,12 @@ msgstr "%s: Špatný rozsah Unicode odpovídající rozsahu pozic písma 0x%x-0x
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Rozsah Unicode U+%x-U+%x není stejné délky jako rozsah pozic písma 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Rozsah Unicode U+%x-U+%x není stejné délky jako rozsah pozic písma 0x"
+"%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -1038,7 +1042,9 @@ msgstr "%s: Špatný konec rozsahu (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr "%s: Měl by existovat rozsah Unicode odpovídající rozsahu pozic písma\n"
 
 #: src/psfxtable.c:257
@@ -1120,19 +1126,23 @@ msgstr "resizecons: příkaz `%s' selhal\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: nezapomeňte změnit TERM (možná na con%dx%d nebo linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: nezapomeňte změnit TERM (možná na con%dx%d nebo linux-%dx%d)\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "volání je:  resizecons SLOUPCŮxŘÁDKŮ  nebo:  resizecons SLOUPCŮ ŘÁDKŮ\n"
-"nebo: resizecons -lines ŘÁDKŮ, ke ŘÁDKŮ je jedno z 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"nebo: resizecons -lines ŘÁDKŮ, ke ŘÁDKŮ je jedno z 25, 28, 30, 34, 36, 40, "
+"44, 50, 60\n"
 
 #: src/resizecons.c:376
 #, c-format
@@ -1172,7 +1182,8 @@ msgstr "Chyba při zápisu zachycení obrazovky\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1196,10 +1207,12 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Použití: setfont [přep-z] [-<N>] [novépísmo..] [-m mapakonzoly] [-u mapaunicode]\n"
+"Použití: setfont [přep-z] [-<N>] [novépísmo..] [-m mapakonzoly] [-u "
+"mapaunicode]\n"
 "  přep-z (mají vliv před načítáním souboru):\n"
 "    -o  <názevsouboru>\tZapsat aktuální písmo do <názevsouboru>\n"
-"    -O  <názevsouboru>\tZapsat aktuální písmo a mapu unicode do <názevsouboru>\n"
+"    -O  <názevsouboru>\tZapsat aktuální písmo a mapu unicode do "
+"<názevsouboru>\n"
 "    -om <názevsouboru>\tZapsat aktuální mapu konzoly do <názevsouboru>\n"
 "    -ou <názevsouboru>\tZapsat aktuální mapu unicode do <názevsouboru>\n"
 "Není-li zadáno novépísmo ani přepínač -[o|O|om|ou|m|u],\n"
@@ -1208,7 +1221,8 @@ msgstr ""
 "    setfont -<N>        Načíst písmo \"default8x<N>[.gz]\"\n"
 "Přepínač -<N> vybírá písmo z codepage, která obsahuje tři písma:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Načíst písmo 8×<N> z codepage.cp\n"
-"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná mapování\n"
+"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná "
+"mapování\n"
 "budou načtena a v případě map konzoly aktivována.\n"
 "    -h<N>       (bez mezery) Vnutit výšku písma.\n"
 "    -m <fn>     Načíst mapu obrazovky konzoly.\n"
@@ -1227,8 +1241,12 @@ msgstr "setfont: příliš mnoho vstupních souborů\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: nemohu zároveň obnovovat z ROM znaků a ze souboru. Písmo nezměněno.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: nemohu zároveň obnovovat z ROM znaků a ze souboru. Písmo "
+"nezměněno.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1441,8 +1459,10 @@ msgstr "Chyba při čtení aktuálního nastavení led. Možná stdin není VT?\
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Chyba při čtení aktuálního nastavení příznaku. Možná nejste na konzole?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Chyba při čtení aktuálního nastavení příznaku. Možná nejste na konzole?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1647,7 +1667,8 @@ msgstr ""
 "Platné přepínače jsou:\n"
 " -C tty   Zařízení, ze kterého číst písmo.  Implicitně aktuální tty.\n"
 " -v       Být podrobnější.\n"
-" -i       Nevypisovat tabulku písma, jen zobrazit ŘÁDKŮxSLOUPCŮxPOČET a skončit.\n"
+" -i       Nevypisovat tabulku písma, jen zobrazit ŘÁDKŮxSLOUPCŮxPOČET a "
+"skončit.\n"
 
 #: src/showconsolefont.c:170
 #, fuzzy, c-format
@@ -1733,7 +1754,9 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku klávesy)...\n"
+msgstr ""
+"stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku "
+"klávesy)...\n"
 
 #: src/showkey.c:250
 msgid "release"

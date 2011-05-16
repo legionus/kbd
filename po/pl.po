@@ -191,7 +191,8 @@ msgstr ""
 "\t-n --numeric\t    wy¶wietlenie tablicy klawiatury w notacji szesnastkowej\n"
 "\t-f --full-table\t    nie u¿ywanie notacji skróconych, jeden wiersz na kod\n"
 "\t-1 --separate-lines jedna linia na parê (modyfikator,kod)\n"
-"\t   --funcs-only\t    wy¶wietlenie tylko ³añcuchów dla klawiszy funkcyjnych\n"
+"\t   --funcs-only\t    wy¶wietlenie tylko ³añcuchów dla klawiszy "
+"funkcyjnych\n"
 "\t   --keys-only\t    wy¶wietlenie tylko przypisañ klawiszy\n"
 "\t   --compose-only   wy¶wietlenie tylko kombinacji compose\n"
 "\t-c --charset="
@@ -265,7 +266,8 @@ msgstr "Zwyk³e skankody xx (hex) a kody klawiszy (dec)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 jest b³êdem; dla 1-88 (0x01-0x58) skankod jest równy kodowi klawisza\n"
+msgstr ""
+"0 jest b³êdem; dla 1-88 (0x01-0x58) skankod jest równy kodowi klawisza\n"
 
 #: src/getkeycodes.c:62
 #, c-format
@@ -363,7 +365,8 @@ msgstr "%s: b³±d podczas ustawiania trybu klawiatury\n"
 #: src/kbdrate.c:156 src/kbdrate.c:175 src/kbdrate.c:339
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
-msgstr "Czêstotliwo¶æ powtarzania ustawiono na %.1f zn/sek (opó¼nienie = %d ms)\n"
+msgstr ""
+"Czêstotliwo¶æ powtarzania ustawiono na %.1f zn/sek (opó¼nienie = %d ms)\n"
 
 #: src/kbdrate.c:267
 #, c-format
@@ -495,7 +498,8 @@ msgstr ""
 "Poprawne opcje to:\n"
 "\n"
 "  -a --ascii         wymuszenie konwersji do ASCII\n"
-"  -b --bkeymap       wypisanie binarnej mapy klawiszy na standardowe wyj¶cie\n"
+"  -b --bkeymap       wypisanie binarnej mapy klawiszy na standardowe "
+"wyj¶cie\n"
 "  -c --clearcompose  wyczyszczenie tabeli compose w j±drze\n"
 "  -C <kons1,kons2,...> --console=<kons1,kons2,...>\n"
 "                     urz±dzenia konsol do u¿ycia\n"
@@ -774,12 +778,17 @@ msgstr "%s: B³êdny koniec przedzia³u (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: B³êdny przedzia³ Unikodu odpowiadaj±cy przedzia³owi 0x%x-0x%x w foncie\n"
+msgstr ""
+"%s: B³êdny przedzia³ Unikodu odpowiadaj±cy przedzia³owi 0x%x-0x%x w foncie\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Przedzia³ Unikodu U+%x-U+%x nie jest tej samej d³ugo¶ci co 0x%x-0x%x w foncie\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Przedzia³ Unikodu U+%x-U+%x nie jest tej samej d³ugo¶ci co 0x%x-0x%x w "
+"foncie\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -932,12 +941,16 @@ msgstr "Nie mo¿na znale¼æ wolnego vt"
 #: src/openvt.c:289
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "Nie mo¿na sprawdziæ, czy vt %d jest wolny; mo¿na u¿yæ `%s -f' w celu wymuszenia."
+msgstr ""
+"Nie mo¿na sprawdziæ, czy vt %d jest wolny; mo¿na u¿yæ `%s -f' w celu "
+"wymuszenia."
 
 #: src/openvt.c:293
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr "vt %d jest u¿ywany, polecenie przerwano; mo¿na u¿yæ `%s -f' w celu wymuszenia."
+msgstr ""
+"vt %d jest u¿ywany, polecenie przerwano; mo¿na u¿yæ `%s -f' w celu "
+"wymuszenia."
 
 #: src/openvt.c:303
 msgid "Unable to find command."
@@ -1078,7 +1091,9 @@ msgstr "%s: B³êdny koniec przedzia³u (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
 msgstr "%s: przedzia³owi w foncie powinien odpowiadaæ przedzia³ Unikodu\n"
 
 #: src/psfxtable.c:257
@@ -1159,7 +1174,8 @@ msgstr "resizecons: polecenie `%s' nie powiod³o siê\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr "resizecons: trzeba zmieniæ TERM (mo¿e na con%dx%d lub linux-%dx%d)\n"
 
 #: src/resizecons.c:338
@@ -1167,7 +1183,8 @@ msgstr "resizecons: trzeba zmieniæ TERM (mo¿e na con%dx%d lub linux-%dx%d)\n"
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "sk³adnia:  resizecons KOLUMNYxWIERSZE  lub resizecons KOLUMNY WIERSZE\n"
@@ -1212,7 +1229,8 @@ msgstr "B³±d podczas zapisu zrzutu ekranu\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1236,7 +1254,8 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Sk³adnia: setfont [opcje-zapisu] [-<N>] [nowyfont...] [-m mapakon] [-u unimapa]\n"
+"Sk³adnia: setfont [opcje-zapisu] [-<N>] [nowyfont...] [-m mapakon] [-u "
+"unimapa]\n"
 "  opcje-zapisu (uwzglêdniane przed wczytywaniem pliku):\n"
 "    -o  <plik>      Zapisanie aktualnego fontu do <pliku>\n"
 "    -O  <plik>      Zapisanie aktualnego fontu i unimapy do <pliku>\n"
@@ -1247,7 +1266,8 @@ msgstr ""
 "    setfont         Wczytanie fontu \"default[.gz]\"\n"
 "    setfont -<N>    Wczytanie fontu \"default8x<N>[.gz]\"\n"
 "Opcja -<N> wybiera font ze strony kodowej zawieraj±cej trzy fonty:\n"
-"    setfont -{8|14|16} strona.cp[.gz]     Wczytanie fontu 8x<N> ze strona.cp\n"
+"    setfont -{8|14|16} strona.cp[.gz]     Wczytanie fontu 8x<N> ze strona."
+"cp\n"
 "Bezpo¶rednio (przez -m lub -u) lub po¶rednio (w pliku fontu) podane\n"
 "odwzorowania s± wczytywane i, w przypadku map konsolowych, uaktywniane.\n"
 "    -h<N>      (bez spacji) Wymuszenie wysoko¶ci fontu.\n"
@@ -1267,8 +1287,12 @@ msgstr "setfont: zbyt du¿o plików wej¶ciowych\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: nie mo¿na jednocze¶nie odtworzyæ z ROM-u i z pliku. Font nie zmieniony.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: nie mo¿na jednocze¶nie odtworzyæ z ROM-u i z pliku. Font nie "
+"zmieniony.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1348,7 +1372,8 @@ msgstr "Przy wczytywaniu kilku fontów, wszystkie musz± mieæ tê sam± wysoko¶æ\n"
 #: src/setfont.c:448
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr "Przy wczytywaniu kilku fontów, wszystkie musz± mieæ tê sam± szeroko¶æ\n"
+msgstr ""
+"Przy wczytywaniu kilku fontów, wszystkie musz± mieæ tê sam± szeroko¶æ\n"
 
 #: src/setfont.c:487
 #, c-format
@@ -1477,12 +1502,16 @@ msgstr "wy³."
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr "B³±d podczas odczytu aktualnych ustawieñ diod. Mo¿e stdin nie jest VT?\n"
+msgstr ""
+"B³±d podczas odczytu aktualnych ustawieñ diod. Mo¿e stdin nie jest VT?\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "B³±d podczas odczytu aktualnych ustawieñ flag. Mo¿e wywo³anie nie na konsoli?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"B³±d podczas odczytu aktualnych ustawieñ flag. Mo¿e wywo³anie nie na "
+"konsoli?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1629,7 +1658,8 @@ msgstr ""
 "Sk³adnia: %s vga|PLIK|-\n"
 "\n"
 "W przypadku u¿ycia parametru PLIK, PLIK powinien mieæ dok³adnie 3 linie\n"
-"oddzielonych przecinkami warto¶ci dziesiêtnych CZERWIENI, ZIELENI i B£ÊKITU.\n"
+"oddzielonych przecinkami warto¶ci dziesiêtnych CZERWIENI, ZIELENI i "
+"B£ÊKITU.\n"
 "\n"
 "Aby utworzyæ poprawny PLIK mo¿na wykonaæ:\n"
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > PLIK\n"
@@ -1786,7 +1816,8 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "proszê nacisn±æ dowolny klawisz (program zakoñczy siê 10s po ostatnim)...\n"
+msgstr ""
+"proszê nacisn±æ dowolny klawisz (program zakoñczy siê 10s po ostatnim)...\n"
 
 #: src/showkey.c:250
 msgid "release"

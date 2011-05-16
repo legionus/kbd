@@ -67,7 +67,8 @@ msgstr "%s: Kann keine Keymap finden.\n"
 #: src/dumpkeys.c:84
 #, c-format
 msgid "%s: plain map not allocated? very strange ...\n"
-msgstr "%s: Eine einfache Tastaturtabelle wurde nicht zugeteilt. Eigenartig ...\n"
+msgstr ""
+"%s: Eine einfache Tastaturtabelle wurde nicht zugeteilt. Eigenartig ...\n"
 
 #: src/dumpkeys.c:118
 #, c-format
@@ -274,12 +275,14 @@ msgstr "Einfache Scancodes xx (hexadezimal) und Tastencodes (dezimal):\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 ist ein Fehler; für 1-88 (0x01-0x58) ist Scancode gleich Tastencode\n"
+msgstr ""
+"0 ist ein Fehler; für 1-88 (0x01-0x58) ist Scancode gleich Tastencode\n"
 
 #: src/getkeycodes.c:62
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "0 ist ein Fehler; für 1-%d (0x01-0x%02x) ist Scancode gleich Tastencode\n"
+msgstr ""
+"0 ist ein Fehler; für 1-%d (0x01-0x%02x) ist Scancode gleich Tastencode\n"
 
 #: src/getkeycodes.c:68
 #, c-format
@@ -370,7 +373,8 @@ msgstr "%s: Fehler beim Einstellen des Tastaturmodus\n"
 #: src/kbdrate.c:156 src/kbdrate.c:175 src/kbdrate.c:339
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
-msgstr "Die Wiederholrate ist auf %.1f Zeichen/s gesetzt (Verzögerung = %d ms).\n"
+msgstr ""
+"Die Wiederholrate ist auf %.1f Zeichen/s gesetzt (Verzögerung = %d ms).\n"
 
 #: src/kbdrate.c:267
 #, c-format
@@ -776,8 +780,12 @@ msgstr "%s: Ungültiger Unicode-Bereich zum Font-Bereich 0x%x-0x%x.\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Der Unicode-Bereich U+%x-U+%x ist nicht gleich lang wie der Font-Bereich 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Der Unicode-Bereich U+%x-U+%x ist nicht gleich lang wie der Font-Bereich "
+"0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -1071,8 +1079,12 @@ msgstr "%s: Falsches Bereichsende (0x%lx).\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-msgstr "%s: Zu einem Bereich von Font-Positionen sollte auch ein Unicode-Bereich existieren.\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
+msgstr ""
+"%s: Zu einem Bereich von Font-Positionen sollte auch ein Unicode-Bereich "
+"existieren.\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1153,15 +1165,19 @@ msgstr "resizecons: Das Kommando `%s' schlug fehl.\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: Vergessen Sie nicht, TERM zu ändern (z.B. zu con%dx%d oder linux-%dx%d).\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: Vergessen Sie nicht, TERM zu ändern (z.B. zu con%dx%d oder linux-"
+"%dx%d).\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "Verwendung:  resizecons SPALTENxZEILEN\n"
@@ -1207,7 +1223,8 @@ msgstr "Fehler beim Schreiben des Bildschirminhalts.\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1231,7 +1248,8 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Verwendung: setfont [Schreib-Optionen] [-<N>] [neuer_font..] [-m Konsolen-Map] [-u Unicode-Map]\n"
+"Verwendung: setfont [Schreib-Optionen] [-<N>] [neuer_font..] [-m Konsolen-"
+"Map] [-u Unicode-Map]\n"
 "  Schreib-Optionen (werden vor dem Laden von Dateien aktiviert):\n"
 "    -o  <Dateiname>\tSchreibe den aktuellen Font nach <Dateiname>.\n"
 "    -O  <Dateiname>\tSchreibe zusätzlich die Unicode-Map nach <Dateiname>.\n"
@@ -1243,7 +1261,8 @@ msgstr ""
 "    setfont -<N>        Lade Font \"default8x<N>[.gz]\"\n"
 "Die Option -<N> wählt einen Font aus einer Codepage die drei Fonts enthält:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Lade 8x<N> Font aus codepage.cp\n"
-"Explizit (mit -m or -u) oder implizit (in der Fontdatei) gegebene Zuordnungen\n"
+"Explizit (mit -m or -u) oder implizit (in der Fontdatei) gegebene "
+"Zuordnungen\n"
 "werden geladen und, im Fall von Konsolen-Maps, aktiviert.\n"
 "    -h<N>      (ohne Leerzeichen) Überschreibe Fonthöhe.\n"
 "    -m <fn>   Lade Konsolen-Map.\n"
@@ -1262,8 +1281,12 @@ msgstr "setfont: Zu viele Eingabedateien.\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: Kann den Font nicht zugleich von ROM und Datei wiederherstellen. Vorgang abgebrochen.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: Kann den Font nicht zugleich von ROM und Datei wiederherstellen. "
+"Vorgang abgebrochen.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1328,7 +1351,8 @@ msgstr "Kann Font-Datei %s nicht lesen.\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "Gleichzeitig geladene Fonts müssen im PSF Format sein - %s ist es nicht.\n"
+msgstr ""
+"Gleichzeitig geladene Fonts müssen im PSF Format sein - %s ist es nicht.\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1338,12 +1362,14 @@ msgstr "Lese %d-Zeichen %dx%d aus der Datei %s.\n"
 #: src/setfont.c:441
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
-msgstr "Wenn mehrere Fonts geladen werden, müssen sie die gleiche Höhe haben.\n"
+msgstr ""
+"Wenn mehrere Fonts geladen werden, müssen sie die gleiche Höhe haben.\n"
 
 #: src/setfont.c:448
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr "Wenn mehrere Fonts geladen werden, müssen alle die gleiche Breite haben.\n"
+msgstr ""
+"Wenn mehrere Fonts geladen werden, müssen alle die gleiche Breite haben.\n"
 
 #: src/setfont.c:487
 #, c-format
@@ -1392,7 +1418,9 @@ msgstr ""
 #: src/setfont.c:628
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "Die Zeichengröße %d wurde verlangt, es sind aber nur 8, 14 und 16 verfügbar.\n"
+msgstr ""
+"Die Zeichengröße %d wurde verlangt, es sind aber nur 8, 14 und 16 "
+"verfügbar.\n"
 
 #: src/setfont.c:673
 #, c-format
@@ -1479,8 +1507,10 @@ msgstr ""
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1650,7 +1680,9 @@ msgstr "%s: %s: Warnung: Die Zeile ist zu lang.\n"
 #: src/showconsolefont.c:33
 #, c-format
 msgid "failed to restore original translation table\n"
-msgstr "Das Wiederherstellen der ursprünglichen Übersetzungstabelle ist fehlgeschlagen.\n"
+msgstr ""
+"Das Wiederherstellen der ursprünglichen Übersetzungstabelle ist "
+"fehlgeschlagen.\n"
 
 #: src/showconsolefont.c:38
 #, c-format
@@ -1778,7 +1810,8 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "Drücken Sie eine Taste (Programmende 10 s nach dem letzten Tastendruck)...\n"
+msgstr ""
+"Drücken Sie eine Taste (Programmende 10 s nach dem letzten Tastendruck)...\n"
 
 #: src/showkey.c:250
 msgid "release"
@@ -1819,5 +1852,9 @@ msgstr "%s von %s\n"
 #~ msgid "openvt: could not deallocate console %d\n"
 #~ msgstr "openvt: Kann die Konsole %d nicht freigeben.\n"
 
-#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-#~ msgstr "Verwendung: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- Kommandozeile\n"
+#~ msgid ""
+#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"
+#~ msgstr ""
+#~ "Verwendung: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "Kommandozeile\n"

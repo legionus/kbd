@@ -192,7 +192,8 @@ msgstr ""
 "\t-i --short-info\t    вивести інформацію про драйвер клавіатури\n"
 "\t-l --long-info\t    вивести вказане вище та символи, що відомі loadkeys\n"
 "\t-n --numeric\t    вивести таблицю клавіш к шістнадцятковому вигляді\n"
-"\t-f --full-table\t    не вживати короткі нотації, один рядок на код клавіші\n"
+"\t-f --full-table\t    не вживати короткі нотації, один рядок на код "
+"клавіші\n"
 "\t-1 --separate-lines одна лінія на пару (модифікатор, код клавіші)\n"
 "\t   --funcs-only\t    вивести лише рядки функцій клавіш\n"
 "\t   --keys-only\t    вивести лише прив'язки клавіш\n"
@@ -346,12 +347,14 @@ msgstr "Клавіатура знаходиться у напівсирому р
 #: src/kbd_mode.c:91
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode\n"
-msgstr "Клавіатура знаходиться у звичайному режимі (надсилає ASCII-коди знаків)\n"
+msgstr ""
+"Клавіатура знаходиться у звичайному режимі (надсилає ASCII-коди знаків)\n"
 
 #: src/kbd_mode.c:94
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode\n"
-msgstr "Клавіатура знаходиться у режимі Unicode (надсилає коди знаків у UTF-8)\n"
+msgstr ""
+"Клавіатура знаходиться у режимі Unicode (надсилає коди знаків у UTF-8)\n"
 
 #: src/kbd_mode.c:97
 #, c-format
@@ -775,12 +778,18 @@ msgstr "%s: Неправильний кінець діапазону (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: Неприпустимий Unicode-діапазон, що відповідає діапазону шрифту 0x%x--0x%x\n"
+msgstr ""
+"%s: Неприпустимий Unicode-діапазон, що відповідає діапазону шрифту 0x%x--0x"
+"%x\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: Довжина Unicode-діапазону U+%x-U+%x відрізняється від довжини діапазону шрифту 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: Довжина Unicode-діапазону U+%x-U+%x відрізняється від довжини діапазону "
+"шрифту 0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -895,7 +904,8 @@ msgid ""
 msgstr ""
 "Використання: %s [ПАРАМЕТРИ] -- command\n"
 "\n"
-"За допомогою цієї програми можна запустити програму на новому віртуальному терміналі (VT).\n"
+"За допомогою цієї програми можна запустити програму на новому віртуальному "
+"терміналі (VT).\n"
 "\n"
 "Параметри:\n"
 "  -c, --console=НОМЕР використати VT з вказаним номером;\n"
@@ -905,7 +915,8 @@ msgstr ""
 "  -s, --switch        перемкнутися на новий VT;\n"
 "  -w, --wait          зачекати на завершення виконання команди;\n"
 "  -v, --verbose       повідомляти про кожну дію;\n"
-"  -V, --version       показати дані щодо версії програми і завершити роботу;\n"
+"  -V, --version       показати дані щодо версії програми і завершити "
+"роботу;\n"
 "  -h, --help          показати коротке довідкове повідомлення.\n"
 "\n"
 
@@ -933,12 +944,16 @@ msgstr "не вдалося знайти вільний VT"
 #: src/openvt.c:289
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "не вдалося перевірити, чи вільний VT %d; скористайтеся командою «%s -f» для встановлення у примусовому режимі."
+msgstr ""
+"не вдалося перевірити, чи вільний VT %d; скористайтеся командою «%s -f» для "
+"встановлення у примусовому режимі."
 
 #: src/openvt.c:293
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr "vt %d вже використовується; виконання команди перервано; скористайтеся командою «%s -f» для встановлення у примусовому режимі."
+msgstr ""
+"vt %d вже використовується; виконання команди перервано; скористайтеся "
+"командою «%s -f» для встановлення у примусовому режимі."
 
 #: src/openvt.c:303
 msgid "Unable to find command."
@@ -1079,8 +1094,11 @@ msgstr "%s: неправильний кінець діапазону (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-msgstr "%s: Діапазону позицій шрифту має відповідати певний діапазон у Unicode\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
+msgstr ""
+"%s: Діапазону позицій шрифту має відповідати певний діапазон у Unicode\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1151,7 +1169,9 @@ msgstr "Попередній режим: %dx%d  Новий режим: %dx%d\n"
 #: src/resizecons.c:241
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Рядків розгортки у попередньому режимі: %d    У новому: %d    Висота шрифту: %d\n"
+msgstr ""
+"Рядків розгортки у попередньому режимі: %d    У новому: %d    Висота шрифту: "
+"%d\n"
 
 #: src/resizecons.c:252
 #, c-format
@@ -1160,15 +1180,18 @@ msgstr "resizecons: помилка команди `%s'\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: не забудьте змінити TERM (можливо, на con%dx%d або linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: не забудьте змінити TERM (можливо, на con%dx%d або linux-%dx%d)\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "виклик: resizecons СТОВПЧИКІВxРЯДКІВ   або:  resizecons СТОВПЧИКІВ РЯДКІВ\n"
@@ -1213,7 +1236,8 @@ msgstr "Помилка запису екранного дампу\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1237,10 +1261,12 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Використання: setfont [параметри-запису] [-<N>] [новий_шрифт..] [-m consolemap] [-u unicodemap]\n"
+"Використання: setfont [параметри-запису] [-<N>] [новий_шрифт..] [-m "
+"consolemap] [-u unicodemap]\n"
 "  параметри запису (застосовуються перед завантаженням):\n"
 "    -o  <файл>      Записати поточний шрифт у <filename>\n"
-"    -O  <файл>      Записати поточний шрифт та схему відображення Unicode у <файл>\n"
+"    -O  <файл>      Записати поточний шрифт та схему відображення Unicode у "
+"<файл>\n"
 "    -om <файл>      Записати поточну схему показу консолі у <файл>\n"
 "    -ou <файл>      Записати поточну схему показу unicode у <файл>\n"
 "Якщо не вказано новий_шрифт та не вказано параметр -[o|O|om|ou|m|u],\n"
@@ -1248,7 +1274,8 @@ msgstr ""
 "    setfont         Завантажити шрифт \"default[.gz]\"\n"
 "    setfont -<N>    Завантажити шрифт \"default8x<N>[.gz]\"\n"
 "Параметр -<N> вибирає шрифт з кодової сторінки, яка містить три шрифти:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Завантажити шрифт 8x<N> з codepage.cp\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Завантажити шрифт 8x<N> з codepage."
+"cp\n"
 "Явно (використовуючи -m чи -u) або неявно (у fontfile) вказані схеми\n"
 "будуть завантажені та, у випадку consolemaps, активовані.\n"
 "    -h<N>      (без пробілу) Перевизначити висоту шрифту.\n"
@@ -1268,8 +1295,12 @@ msgstr "setfont: надто багато вхідних файлів\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: не вдалося ставити шрифт одразу з ПЗУ, та з файлу. Шрифт НЕ змінено.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: не вдалося ставити шрифт одразу з ПЗУ, та з файлу. Шрифт НЕ "
+"змінено.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1334,7 +1365,9 @@ msgstr "Не вдалося відкрити файл %s\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "При завантаженні кількох шрифтів, усі мають бути psf-шрифтами - %s не є таким\n"
+msgstr ""
+"При завантаженні кількох шрифтів, усі мають бути psf-шрифтами - %s не є "
+"таким\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1349,7 +1382,8 @@ msgstr "При завантаженні кількох шрифтів, усі м
 #: src/setfont.c:448
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr "При завантаженні кількох шрифті, усі повинні мати однакову ширину символів\n"
+msgstr ""
+"При завантаженні кількох шрифті, усі повинні мати однакову ширину символів\n"
 
 #: src/setfont.c:487
 #, c-format
@@ -1483,7 +1517,8 @@ msgstr "Помилка читання поточного стану індика
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
 msgstr "Помилка читання поточного стану ознак. Можливо ядро застаре?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
@@ -1791,7 +1826,9 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "натисніть будь-яку клавішу (програма завершиться через 10 секунд після останнього натискання клавіші)\n"
+msgstr ""
+"натисніть будь-яку клавішу (програма завершиться через 10 секунд після "
+"останнього натискання клавіші)\n"
 
 #: src/showkey.c:250
 msgid "release"

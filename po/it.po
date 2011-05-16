@@ -189,7 +189,8 @@ msgstr ""
 "\n"
 "\t-h --help\t    Visualizza questo aiuto testuale\n"
 "\t-i --short-info\t    Visualizza le informazioni sul driver della tastiera\n"
-"\t-l --long-info\t    Visualizza come sopra compresi i simboli noti a loadkeys\n"
+"\t-l --long-info\t    Visualizza come sopra compresi i simboli noti a "
+"loadkeys\n"
 "\t-n --numeric\t    Visualizza la tabella tasti in notazione esadecimale\n"
 "\t-f --full-table\t    Non usa notazioni brevi, una riga per codice tasto\n"
 "\t-1 --separate-lines Una riga per coppia di (modificatore,codice tasto)\n"
@@ -228,7 +229,8 @@ msgstr ""
 "\n"
 "\t-h --help            Mostra questo aiuto testuale\n"
 "\t-V --version         Mostra la versione del programma\n"
-"\t-n --next-available  Mostra il numero di terminale virtuale non allocato successivo\n"
+"\t-n --next-available  Mostra il numero di terminale virtuale non allocato "
+"successivo\n"
 
 #: src/fgconsole.c:66
 msgid "Couldn't read VTNO: "
@@ -252,7 +254,8 @@ msgstr "Impossibile aprire %s\n"
 #: src/getfd.c:88
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Impossibile ottenere un descrittore di file che si riferisce alla console\n"
+msgstr ""
+"Impossibile ottenere un descrittore di file che si riferisce alla console\n"
 
 #: src/getkeycodes.c:18
 #, c-format
@@ -267,12 +270,15 @@ msgstr "Codici di scansione xx in chiaro (hex) contro codici di tasto (dec)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 è un errore; per 1-88 (0x01-0x58) il codice di scansione è uguale al codice di tasto\n"
+msgstr ""
+"0 è un errore; per 1-88 (0x01-0x58) il codice di scansione è uguale al "
+"codice di tasto\n"
 
 #: src/getkeycodes.c:62
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "per 1-%d (0x01-0x%02x) il codice di scansione è uguale al codice di tasto\n"
+msgstr ""
+"per 1-%d (0x01-0x%02x) il codice di scansione è uguale al codice di tasto\n"
 
 #: src/getkeycodes.c:68
 #, c-format
@@ -288,7 +294,8 @@ msgstr ""
 #: src/getkeycodes.c:93
 #, c-format
 msgid "failed to get keycode for scancode 0x%x\n"
-msgstr "recupero del codice di tasto per il codice di scansione 0x%x non riuscito\n"
+msgstr ""
+"recupero del codice di tasto per il codice di scansione 0x%x non riuscito\n"
 
 #: src/getunimap.c:29
 #, c-format
@@ -404,7 +411,8 @@ msgstr ""
 #: src/ksyms.c:1713
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
-msgstr "set di caratteri %s sconosciuto - richiesta del set di caratteri ignorata\n"
+msgstr ""
+"set di caratteri %s sconosciuto - richiesta del set di caratteri ignorata\n"
 
 #: src/ksyms.c:1819
 #, c-format
@@ -760,7 +768,8 @@ msgstr "Riga di input errata: %s\n"
 #: src/loadunimap.c:195
 #, c-format
 msgid "%s: Glyph number (0x%x) larger than font length\n"
-msgstr "%s: numero di glifo (0x%x) più grande della lunghezza del tipo di carattere\n"
+msgstr ""
+"%s: numero di glifo (0x%x) più grande della lunghezza del tipo di carattere\n"
 
 #: src/loadunimap.c:201
 #, c-format
@@ -770,12 +779,18 @@ msgstr "%s: fine dell'intervallo errata (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr "%s: intervallo Unicode errato in corrispondenza dell'intervallo di posizione del carattere 0x%x-0x%x\n"
+msgstr ""
+"%s: intervallo Unicode errato in corrispondenza dell'intervallo di posizione "
+"del carattere 0x%x-0x%x\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgstr "%s: l'intervallo Unicode U+%x-U+%x non ha la stessa lunghezza dell'intervallo di posizione del carattere 0x%x-0x%x\n"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x\n"
+msgstr ""
+"%s: l'intervallo Unicode U+%x-U+%x non ha la stessa lunghezza "
+"dell'intervallo di posizione del carattere 0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -907,7 +922,8 @@ msgstr "openvt: solo root può usare l'opzione -u.\n"
 #: src/openvt.c:278
 #, fuzzy
 msgid "Couldn't get a file descriptor referring to the console"
-msgstr "Impossibile ottenere un descrittore di file che si riferisce alla console\n"
+msgstr ""
+"Impossibile ottenere un descrittore di file che si riferisce alla console\n"
 
 #: src/openvt.c:285
 #, fuzzy
@@ -1069,8 +1085,12 @@ msgstr "%s: fine dell'intervallo errata (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-msgstr "%s: in corrispondenza di un intervallo di posizioni carattere dovrebbe esserci un intervallo Unicode\n"
+msgid ""
+"%s: Corresponding to a range of font positions, there should be a Unicode "
+"range\n"
+msgstr ""
+"%s: in corrispondenza di un intervallo di posizioni carattere dovrebbe "
+"esserci un intervallo Unicode\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1106,7 +1126,8 @@ msgid ""
 "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 "Uso:\n"
-"\t%s [-i caratterein] [-o carattereout] [-it tabellain] [-ot tabellaout] [-nt]\n"
+"\t%s [-i caratterein] [-o carattereout] [-it tabellain] [-ot tabellaout] [-"
+"nt]\n"
 
 #: src/psfxtable.c:360
 #, c-format
@@ -1150,19 +1171,24 @@ msgstr "resizecons: comando \"%s\" non riuscito\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: non dimenticarsi di cambiare TERM (forse in con%dx%d o linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: non dimenticarsi di cambiare TERM (forse in con%dx%d o linux-%dx"
+"%d)\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "uso:  resizecons COLONNExRIGHE  o:  resizecons COLONNE RIGHE\n"
-"o: resizecons -lines RIGHE, con RIGHE uno tra 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"o: resizecons -lines RIGHE, con RIGHE uno tra 25, 28, 30, 34, 36, 40, 44, "
+"50, 60\n"
 
 #: src/resizecons.c:376
 #, c-format
@@ -1202,7 +1228,8 @@ msgstr "Errore in scrittura di screendump\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1226,19 +1253,25 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Uso: setfont [opzioni-scrittura] [-<N>] [nuovotipocarattere..] [-m mappaconsole] [-u mappaunicode]\n"
+"Uso: setfont [opzioni-scrittura] [-<N>] [nuovotipocarattere..] [-m "
+"mappaconsole] [-u mappaunicode]\n"
 "  opzioni-scrittura (operano prima del caricamente del file):\n"
 "    -o  <nomefile>  Scrive il tipo di carattere corrente in <nomefile>\n"
-"    -O  <nomefile>  Scrive il tipo di carattere corrente e la mappa Unicode in <nomefile>\n"
+"    -O  <nomefile>  Scrive il tipo di carattere corrente e la mappa Unicode "
+"in <nomefile>\n"
 "    -om <nomefile>  Scrive la mappa console corrente in <nomefile>\n"
 "    -ou <nomefile>  Scrive la mappa Unicode corrente in <nomefile>\n"
-"Se non è fornito né alcun tipo di carattere nuovo né alcuna opzione -[o|O|om|ou|m|u],\n"
+"Se non è fornito né alcun tipo di carattere nuovo né alcuna opzione -[o|O|om|"
+"ou|m|u],\n"
 "viene caricato un tipo di carattere predefinito:\n"
 "    setfont         Carica il tipo di carattere \"default[.gz]\"\n"
 "    setfont -<N>    Carica il tipo di carattere \"default8x<N>[.gz]\"\n"
-"L'opzione -<N> seleziona un tipo di carattere da una pagina codici che ne contiene tre:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Carica il tipo di carattere 8x<N> da codepage.cp\n"
-"Le mappature esplicitamente (con -m o -u) o implicitamente (nel file carattere) fornite\n"
+"L'opzione -<N> seleziona un tipo di carattere da una pagina codici che ne "
+"contiene tre:\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Carica il tipo di carattere 8x<N> "
+"da codepage.cp\n"
+"Le mappature esplicitamente (con -m o -u) o implicitamente (nel file "
+"carattere) fornite\n"
 "verranno caricate e, in caso di mappe console, attivate.\n"
 "    -h<N>      (nessuno spazio) Sovrascrive l'altezza dei caratteri.\n"
 "    -m <fn>    Carica la mappa schermo della console.\n"
@@ -1257,8 +1290,12 @@ msgstr "setfont: troppi file di input\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
-msgstr "setfont: impossibile ripristinare sia dalla ROM caratteri che dal file. Carattere non modificato.\n"
+msgid ""
+"setfont: cannot both restore from character ROM and from file. Font "
+"unchanged.\n"
+msgstr ""
+"setfont: impossibile ripristinare sia dalla ROM caratteri che dal file. "
+"Carattere non modificato.\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1323,7 +1360,9 @@ msgstr "Impossibile aprire il file di carattere %s\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr "Quando vengono caricati diversi tipi di carattere, devono essere tutti di tipo psf - %s non lo è\n"
+msgstr ""
+"Quando vengono caricati diversi tipi di carattere, devono essere tutti di "
+"tipo psf - %s non lo è\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1333,12 +1372,16 @@ msgstr "Lettura dei caratteri di tipo %d-char %dx%d dal file %s\n"
 #: src/setfont.c:441
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
-msgstr "Quando vengono aperti diversi tipi di carattere, devono avere tutti la stessa altezza\n"
+msgstr ""
+"Quando vengono aperti diversi tipi di carattere, devono avere tutti la "
+"stessa altezza\n"
 
 #: src/setfont.c:448
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr "Quando vengono aperti diversi tipi di carattere, devono avere tutti la stessa larghezza\n"
+msgstr ""
+"Quando vengono aperti diversi tipi di carattere, devono avere tutti la "
+"stessa larghezza\n"
 
 #: src/setfont.c:487
 #, c-format
@@ -1368,7 +1411,8 @@ msgstr "Troppi file da unire\n"
 #: src/setfont.c:576
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
-msgstr "Hmm - un tipo di carattere da restorefont. Ne viene usata la prima metà.\n"
+msgstr ""
+"Hmm - un tipo di carattere da restorefont. Ne viene usata la prima metà.\n"
 
 #: src/setfont.c:593
 #, c-format
@@ -1387,7 +1431,9 @@ msgstr ""
 #: src/setfont.c:628
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "È stato richiesto %d come dimensione di carattere, ma i valori possibili sono solo 8, 14 e 16.\n"
+msgstr ""
+"È stato richiesto %d come dimensione di carattere, ma i valori possibili "
+"sono solo 8, 14 e 16.\n"
 
 #: src/setfont.c:673
 #, c-format
@@ -1425,7 +1471,8 @@ msgstr "codice fuori dai limiti"
 #: src/setkeycodes.c:68
 #, c-format
 msgid "failed to set scancode %x to keycode %d\n"
-msgstr "impostazione del codice di scansione %x al codice di tasto %d non riuscita\n"
+msgstr ""
+"impostazione del codice di scansione %x al codice di tasto %d non riuscita\n"
 
 #: src/setleds.c:21
 #, c-format
@@ -1448,9 +1495,11 @@ msgstr ""
 "Perciò,\n"
 "\tsetleds +caps -num\n"
 "imposta il BlocMaiusc, libera il BlocNum e lascia invariato il BlocScorr.\n"
-"Le impostazioni precedenti e successive alla modifica (se presente) sono riportate\n"
+"Le impostazioni precedenti e successive alla modifica (se presente) sono "
+"riportate\n"
 "quando viene fornita l'opzione -v o quando non è richiesta alcuna modifica.\n"
-"Normalmente setleds influenza le impostazioni dei flag del terminale virtuale\n"
+"Normalmente setleds influenza le impostazioni dei flag del terminale "
+"virtuale\n"
 "(che di solito si riflettono nei led).\n"
 "Con -L, setleds imposta solo i led e lascia invariati i flag.\n"
 "Con -D, setleds imposta sia i flag che i flag predefiniti, in modo\n"
@@ -1467,12 +1516,17 @@ msgstr "spento"
 #: src/setleds.c:86
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgstr "Errore nella lettura dell'impostazione corrente dei led. Forse lo standard input non è un terminale virtuale.\n"
+msgstr ""
+"Errore nella lettura dell'impostazione corrente dei led. Forse lo standard "
+"input non è un terminale virtuale.\n"
 
 #: src/setleds.c:105
 #, c-format
-msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-msgstr "Errore nella lettura dell'impostazione corrente dei flag. Forse non ci si trova su una console.\n"
+msgid ""
+"Error reading current flags setting. Maybe you are not on the console?\n"
+msgstr ""
+"Errore nella lettura dell'impostazione corrente dei flag. Forse non ci si "
+"trova su una console.\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
@@ -1585,7 +1639,9 @@ msgstr "Modalità inusuale per il tasto Meta\n"
 #: src/setmetamode.c:78
 #, c-format
 msgid "Error reading current setting. Maybe stdin is not a VT?\n"
-msgstr "Errore nella lettura delle impostazioni correnti. Forse lo stdin non è un terminale virtuale.\n"
+msgstr ""
+"Errore nella lettura delle impostazioni correnti. Forse lo stdin non è un "
+"terminale virtuale.\n"
 
 #: src/setmetamode.c:98
 #, c-format
@@ -1672,10 +1728,12 @@ msgid ""
 msgstr ""
 "uso: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
-"(probabilmente dopo il caricamento di un carattere con \"setfont tipo-carattere\")\n"
+"(probabilmente dopo il caricamento di un carattere con \"setfont tipo-"
+"carattere\")\n"
 "\n"
 "Opzioni valide sono:\n"
-" -C tty   Il device dal quale leggere il tipo di carattere. Predefinito: tty corrente.\n"
+" -C tty   Il device dal quale leggere il tipo di carattere. Predefinito: tty "
+"corrente.\n"
 " -v       Modalità più prolissa.\n"
 " -i       Non stampa la tabella caratteri, mostra solo\n"
 "          RIGHExCOLONNExCONTATORE ed esce.\n"
@@ -1766,7 +1824,9 @@ msgstr ""
 #: src/showkey.c:226
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "premere un tasto (il programma terminerà 10s dopo l'ultima pressione del tasto)...\n"
+msgstr ""
+"premere un tasto (il programma terminerà 10s dopo l'ultima pressione del "
+"tasto)...\n"
 
 #: src/showkey.c:250
 msgid "release"
@@ -1804,5 +1864,9 @@ msgstr "%s da %s\n"
 #~ msgid "openvt: could not deallocate console %d\n"
 #~ msgstr "openvt: impossibile deallocare la console %d\n"
 
-#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-#~ msgstr "Uso: openvt [-c numero-termvirt] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+#~ msgid ""
+#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"
+#~ msgstr ""
+#~ "Uso: openvt [-c numero-termvirt] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"
