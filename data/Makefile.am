@@ -44,11 +44,13 @@ install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 # compress data files - do not touch the distribution but copy first
 $(KEYMAPDIR)_Z:
 	cp -r $(srcdir)/$(KEYMAPDIR) $(KEYMAPDIR)_Z
+	chmod -R u+w $(KEYMAPDIR)_Z
 	cd $(KEYMAPDIR)_Z && $(MYGZIP) */*.map */*/*.map
 
 $(FONTDIR)_Z:
 	cp -r $(srcdir)/$(FONTDIR) $(FONTDIR)_Z
 	cp -r $(srcdir)/$(PARTIALDIR) $(PARTIALDIR)_Z
+	chmod -R u+w $(FONTDIR)_Z $(PARTIALDIR)_Z
 	cd $(FONTDIR)_Z && $(MYGZIP) * && gunzip ERRORS* README*
 	cd $(PARTIALDIR)_Z && $(MYGZIP) *
 # (not yet screenmaps - some other time)
