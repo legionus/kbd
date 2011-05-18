@@ -5,6 +5,8 @@ WARNINGS = -Wall -Wextra -Wmissing-noreturn -Wdisabled-optimization \
 AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" $(WARNINGS) \
 	-funit-at-a-time
 
+SUBDIRS = vlock
+
 OLDPROGS = mapscrn loadunimap
 PROGS = \
 	dumpkeys loadkeys showkey setfont showconsolefont \

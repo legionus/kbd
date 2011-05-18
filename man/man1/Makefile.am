@@ -4,6 +4,10 @@ dist_man_MANS = chvt.1 deallocvt.1 fgconsole.1 kbd_mode.1 openvt.1 \
 		setleds.1 setmetamode.1 showkey.1 unicode_start.1 unicode_stop.1 \
 		$(gen_MANS)
 
+if VLOCK
+dist_man_MANS += vlock.1
+endif
+
 install-data-hook:
 	cd $(DESTDIR)$(mandir)/man1 && \
 	for f in $(gen_MANS); do \
