@@ -1035,6 +1035,22 @@ rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
 		;
 %%
 
+static void parse_keymap(FILE *fd) {
+	if (!quiet && !optm)
+		fprintf(stdout, _("Loading %s\n"), pathname);
+
+	stack_push(fd, 0, pathname);
+
+	if (yyparse()) {
+		fprintf(stderr, _("syntax error in map file\n"));
+
+		if (!optm)
+			fprintf(stderr,
+				_("key bindings not changed\n"));
+		exit(EXIT_FAILURE);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	const char *short_opts = "abcC:dhmsuqvV";
@@ -1180,19 +1196,12 @@ int main(int argc, char *argv[])
 		}
 
  gotf:
-		if (!quiet && !optm)
-			fprintf(stdout, _("Loading %s\n"), pathname);
+		parse_keymap(f);
+	}
 
-		stack_push(f, 0, pathname);
-
-		if (yyparse()) {
-			fprintf(stderr, _("syntax error in map file\n"));
-
-			if (!optm)
-				fprintf(stderr,
-					_("key bindings not changed\n"));
-			exit(EXIT_FAILURE);
-		}
+	if (optind == argc) {
+		strcpy(pathname, "<stdin>");
+		parse_keymap(stdin);
 	}
 
 	do_constant();
