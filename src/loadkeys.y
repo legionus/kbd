@@ -352,8 +352,6 @@ static int defkeys(int fd, int kbd_mode)
 							j, (key_map[i])[j]);
 				}
 			}
-			xfree(key_map[i]);
-			xfree(keymap_was_set[i]);
 
 		} else if (keymaps_line_seen && !defining[i]) {
 			/* deallocate keymap */
