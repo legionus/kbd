@@ -2899,6 +2899,8 @@ int main(int argc, char *argv[])
 	int kbd_mode;
 	int kd_mode;
 	char *console = NULL;
+	char *ev;
+	FILE *f;
 
 	set_progname(argv[0]);
 
@@ -2987,29 +2989,26 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	dirpath = dirpath1;
+	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
+		if (!quiet && !optm)
+			fprintf(stdout, _("Searching in %s\n"), ev);
+
+		dirpath2[0] = ev;
+		dirpath = dirpath2;
+	}
+
+	if (optd) {
+		/* first read default map - search starts in . */
+
+		if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
+			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
+			exit(EXIT_FAILURE);
+		}
+		parse_keymap(f);
+	}
+
 	for (i = optind; argv[i]; i++) {
-		FILE *f;
-		char *ev;
-
-		dirpath = dirpath1;
-		if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
-			if (!quiet && !optm)
-				fprintf(stdout, _("Searching in %s\n"), ev);
-
-			dirpath2[0] = ev;
-			dirpath = dirpath2;
-		}
-
-		if (optd) {
-			/* first read default map - search starts in . */
-			optd = 0;
-			if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
-				fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-				exit(EXIT_FAILURE);
-			}
-			goto gotf;
-		}
-
 		if (!strcmp(argv[i], "-")) {
 			f = stdin;
 			strcpy(pathname, "<stdin>");
@@ -3019,7 +3018,6 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 
- gotf:
 		parse_keymap(f);
 	}
 
