@@ -3006,6 +3006,10 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 		parse_keymap(f);
+
+	} else if (optind == argc) {
+		strcpy(pathname, "<stdin>");
+		parse_keymap(stdin);
 	}
 
 	for (i = optind; argv[i]; i++) {
@@ -3019,11 +3023,6 @@ int main(int argc, char *argv[])
 		}
 
 		parse_keymap(f);
-	}
-
-	if (optind == argc) {
-		strcpy(pathname, "<stdin>");
-		parse_keymap(stdin);
 	}
 
 	do_constant();
