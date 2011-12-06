@@ -69,6 +69,26 @@ AC_ARG_ENABLE(optional-progs,
 	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])
 AM_CONDITIONAL(OPTIONAL_PROGS, test "$OPTIONAL_PROGS" = "yes")
 
+AC_ARG_ENABLE(vlock,
+	AS_HELP_STRING(--enable-vlock, [Locks virtual console]),
+	[VLOCK_PROG=$enableval],[VLOCK_PROG=no])
+AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
+
+if test "$VLOCK_PROG" = "yes"; then
+	AC_CHECK_LIB(pam, pam_start, [
+                AC_CHECK_HEADER([security/pam_appl.h],
+				[have_pam=1],
+                                AC_MSG_ERROR([Can't find required header files.]))])
+	AC_CHECK_LIB(pam_misc, misc_conv, [
+                AC_CHECK_HEADER([security/pam_misc.h],
+				[have_pam_misc=1],
+                                AC_MSG_ERROR([Can't find required header files.]))])
+	if test -z "$have_pam" -o -z "$have_pam_misc"; then
+		AC_MSG_ERROR([libpam-devel required.])
+	fi
+	AC_SUBST(PAM_LIBS, "-lpam -lpam_misc")
+fi
+
 AC_CONFIG_FILES([Makefile
 		data/Makefile
 		man/Makefile
@@ -83,5 +103,6 @@ AC_CONFIG_FILES([Makefile
 		man/man8/setfont.8
 		man/man8misc/Makefile
 		po/Makefile.in
-		src/Makefile])
+		src/Makefile
+		src/vlock/Makefile])
 AC_OUTPUT
