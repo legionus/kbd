@@ -47,6 +47,7 @@ print_help(int ret)
 	       "\n"
 	       "Options:\n"
 	       "  -c, --console=NUM   use the given VT number;\n"
+	       "  -e, --exec          execute the command, without forking;\n"
 	       "  -f, --force         force opening a VT without checking;\n"
 	       "  -l, --login         make the command a login shell;\n"
 	       "  -u, --user          figure out the owner of the current VT;\n"
