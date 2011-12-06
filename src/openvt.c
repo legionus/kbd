@@ -34,7 +34,7 @@
 #endif
 
 #ifndef VTNAME
-#error vt device name must be defined in openvt.h
+#error vt device name must be defined
 #endif
 
 static void
