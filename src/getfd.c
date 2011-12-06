@@ -8,6 +8,16 @@
 #include "nls.h"
 #include "getfd.h"
 
+static char *conspath[] = {
+	"/proc/self/fd/0",
+	"/dev/tty",
+	"/dev/tty0",
+	"/dev/vc/0",
+	"/dev/systty",
+	"/dev/console",
+	NULL
+};
+
 /*
  * getfd.c
  *
@@ -41,44 +51,30 @@ open_a_console(const char *fnam) {
 		fd = open(fnam, O_RDONLY);
 	if (fd < 0)
 		return -1;
-	if (!is_a_console(fd)) {
-		close(fd);
-		return -1;
-	}
 	return fd;
 }
 
-int getfd(const char *fnam) {
-	int fd;
+int
+getfd(const char *fnam) {
+	int fd, i;
 
 	if (fnam) {
-		fd = open_a_console(fnam);
-		if (fd >= 0)
-			return fd;
-		fprintf(stderr,
-			_("Couldn't open %s\n"), fnam);
+		if ((fd = open_a_console(fnam)) >= 0) {
+			if (is_a_console(fd))
+				return fd;
+			close(fd);
+		}
+		fprintf(stderr, _("Couldn't open %s\n"), fnam);
 		exit(1);
 	}
 
-	fd = open_a_console("/proc/self/fd/0");
-	if (fd >= 0)
-		return fd;
-
-	fd = open_a_console("/dev/tty");
-	if (fd >= 0)
-		return fd;
-
-	fd = open_a_console("/dev/tty0");
-	if (fd >= 0)
-		return fd;
-
-	fd = open_a_console("/dev/vc/0");
-	if (fd >= 0)
-		return fd;
-
-	fd = open_a_console("/dev/console");
-	if (fd >= 0)
-		return fd;
+	for (i = 0; conspath[i]; i++) {
+		if ((fd = open_a_console(conspath[i])) >= 0) {
+			if (is_a_console(fd))
+				return fd;
+			close(fd);
+		}
+	}
 
 	for (fd = 0; fd < 3; fd++)
 		if (is_a_console(fd))
@@ -86,5 +82,7 @@ int getfd(const char *fnam) {
 
 	fprintf(stderr,
 		_("Couldn't get a file descriptor referring to the console\n"));
-	exit(1);		/* total failure */
+
+	/* total failure */
+	exit(1);
 }
