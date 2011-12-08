@@ -1,0 +1,91 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SETMETAMODE</TITLE>
+</HEAD><BODY>
+<H1>SETMETAMODE</H1>
+Section: User Commands  (1)<BR>Updated: 30 Jan 1994<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+setmetamode - define the keyboard meta key handling
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>setmetamode</B>
+
+[
+<I>{meta|bit|metabit | esc|prefix|escprefix}</I>
+
+]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAB"></A>
+<P>
+
+Without argument,
+<B>setmetamode</B>
+
+prints the current Meta key mode.
+With argument, it sets the Meta key mode as indicated.
+The setting before and after the change are reported.
+<P>
+
+The Meta key mode is specific for each VT (and the VT
+corresponding to stdin is used).
+One might use
+<B>setmetamode</B>
+
+in /etc/rc to define the initial state of the Meta key mode,
+e.g. by
+<BR>
+
+
+INITTY=/dev/tty[1-8]
+<BR>
+
+for tty in $INITTY; do
+<BR>
+
+
+setmetamode escprefix &lt; $tty
+<BR>
+
+
+done
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<DL COMPACT>
+<DT>esc prefix escprefix<DD>
+The Meta key sends an Escape prefix.
+<DT>meta bit metabit<DD>
+The Meta key sets the high order bit of the character.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

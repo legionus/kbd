@@ -1,0 +1,97 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of PSFADDTABLE</TITLE>
+</HEAD><BODY>
+<H1>PSFADDTABLE</H1>
+Section: User Commands  (1)<BR>Updated: 25 Oct 1994<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+psfaddtable - add a Unicode character table to a console font
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>psfaddtable</B>
+
+<I>fontfile tablefile outfile</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAB"></A>
+<P>
+
+<B>psfaddtable</B>
+
+takes a console font in .psf format given by
+<I>fontfile</I>
+
+and merges it with the Unicode character table given by
+<I>tablefile</I>
+
+to produce a font file with an embedded character table, which is
+written to
+<I>outfile</I>.
+
+An input file name of &quot;-&quot; denotes standard input,
+and an output file name of &quot;-&quot; denotes standard output.
+If the
+<I>fontfile</I>
+
+already contains an embedded character table, it is ignored.
+<A NAME="lbAE">&nbsp;</A>
+<H2>TABLE FILE FORMAT</H2>
+
+Each line in the
+<I>tablefile</I>
+
+should be either blank, contain a comment (preceded by
+<I>#</I>),
+
+or contain a sequence of numbers in either decimal (default), octal
+(preceded by
+<I>0</I>),
+
+or hexadecimal (preceded by
+<I>0x</I>)
+
+format, separated by spaces or tabs.
+The first number on each line indicates the glyph slot in the
+font that is being referred to, this is between 0 and 0xff for a
+256-character font and 0 and 0x1ff for a 512-character font.  Any
+subsequent numbers on the same line are Unicodes matched by this
+specific glyph slot.  Instead of a single Unicode one may have
+a sequence of Unicodes separates by commas, to denote that the
+glyph depicts the corresponding composed symbol.
+It is permissible to have multiple lines for the same glyph.
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man8/setfont.8.html">setfont</A></B>(8),
+
+<B><A HREF="../man1/psfgettable.1.html">psfgettable</A></B>(1),
+
+<B><A HREF="../man1/psfstriptable.1.html">psfstriptable</A></B>(1),
+
+<B><A HREF="../man1/psfxtable.1.html">psfxtable</A></B>(1)
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">TABLE FILE FORMAT</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

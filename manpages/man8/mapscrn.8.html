@@ -1,0 +1,193 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of MAPSCRN</TITLE>
+</HEAD><BODY>
+<H1>MAPSCRN</H1>
+Section: International Support (8)<BR>Updated: 20 March 1993<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+mapscrn - load screen output mapping table
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>mapscrn</B> [<B>-v</B>] [<B>-o</B>
+
+<I>map.orig</I>]
+
+<I>mapfile</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<B>mapscrn</B>
+
+command is obsolete - its function is now built-in into setfont.
+However, for backwards compatibility it is still available
+as a separate command.
+<P>
+
+The
+<I>mapscrn</I>
+
+command loads a user defined output character mapping table into the
+console driver. The console driver may be later put into
+<B>use user-defined mapping table</B>
+
+mode by outputting a special escape sequence to the console device.
+This sequence is
+<I>&lt;esc&gt;(K</I>
+
+for the
+<B>G0 </B>
+
+character set and
+<I>&lt;esc&gt;)K</I>
+
+for the
+<B>G1</B>
+
+character set.
+When the
+<I>-o</I>
+
+option is given, the old map is saved in
+<I>map.orig.</I>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>USE</H2>
+
+There are two kinds of mapping tables: direct-to-font tables,
+that give a font position for each user byte value, and user-to-unicode
+tables that give a unicode value for each user byte. The corresponding
+glyph is now found using the unicode index of the font.
+The command
+<DL COMPACT><DT><DD>
+mapscrn trivial
+</DL>
+
+sets up a one-to-one direct-to-font table where user bytes
+directly address the font. This is useful for fonts that are
+in the same order as the character set one uses.
+A command like
+<DL COMPACT><DT><DD>
+mapscrn 8859-2
+</DL>
+
+sets up a user-to-unicode table that assumes that the user
+uses ISO 8859-2.
+<A NAME="lbAF">&nbsp;</A>
+<H2>INPUT FORMAT</H2>
+
+The
+<I>mapscrn</I>
+
+command can read the map in either of two formats:
+<BR>
+
+1. 256 or 512 bytes binary data
+<BR>
+
+2. two-column text file
+<BR>
+
+Format (1) is a direct image of the translation 
+<I>table. The 256-bytes tables are direct-to-font,</I>
+
+the 512-bytes tables are user-to-unicode tables.
+Format (2) is used to fill the 
+<I>table</I>
+
+as follows: cell with offset mentioned in the first column is filled
+with the value mentioned in the second column.
+When values larger than 255 occur, or values are written using
+the U+xxxx notation, the table is assumed to be a user-to-unicode
+table, otherwise it is a direct-to-font table.
+<P>
+
+Values in the file may be specified in one of several
+<B>formats:</B>
+
+<BR>
+
+<B>1. Decimal: </B>
+
+String of decimal digits not starting with '0'
+<BR>
+
+<B>2. Octal: </B>
+
+String of octal digits beginning with '0'.
+<BR>
+
+<B>3. Hexadecimal: </B>
+
+String of hexadecimal digits preceded by &quot;0x&quot;.
+<BR>
+
+<B>4. Unicode:</B>
+
+String of four hexadecimal digits preceded by &quot;U+&quot;.
+<BR>
+
+<B>5. Character: </B>
+
+Single character enclosed in single quotes. (And the binary value is used.)
+Note that blank, comma, tab character and '#' cannot be specified
+with this format.
+<BR>
+
+<B>6. UTF-8 Character:</B>
+
+Single (possibly multi-byte) UTF-8 character, enclosed in single quotes.
+<P>
+
+Note that control characters (with codes &lt; 32) cannot be re-mapped with
+<I>mapscrn</I>
+
+because they have special meaning for the driver.
+<A NAME="lbAG">&nbsp;</A>
+<H2>FILES</H2>
+
+<I>@DATADIR@/consoletrans</I>
+
+is the default directory for screen mappings.
+<A NAME="lbAH">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<I><A HREF="../man8/setfont.8.html">setfont</A></I>(8)
+
+<A NAME="lbAI">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Copyright (C) 1993 Eugene G. Crosser
+<BR>
+
+&lt;<A HREF="mailto:crosser@pccross.msk.su">crosser@pccross.msk.su</A>&gt;
+<BR>
+
+This software and documentation may be distributed freely.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">USE</A><DD>
+<DT><A HREF="#lbAF">INPUT FORMAT</A><DD>
+<DT><A HREF="#lbAG">FILES</A><DD>
+<DT><A HREF="#lbAH">SEE ALSO</A><DD>
+<DT><A HREF="#lbAI">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:15:50 GMT, October 30, 2011
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of OPENVT</TITLE>
+</HEAD><BODY>
+<H1>OPENVT</H1>
+Section: Linux 1.x (1)<BR>Updated: V1.4<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+openvt - start a program on a new virtual terminal (VT).
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>openvt </B>
+
+[-c vtnumber] [OPTIONS] [--] command
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>openvt</B>
+
+will find the first available VT, and run on it the given 
+<B>command</B>
+
+with the given 
+<B>command options,</B>
+
+standard input, output and error are directed to that terminal. The current
+search path ($PATH) is used to find the requested command. If no command is
+specified then the environment variable $SHELL is used.
+<A NAME="lbAE">&nbsp;</A>
+<H3>OPTIONS</H3>
+
+<DL COMPACT>
+<DT><I>-c, --console=VTNUMBER</I>
+
+<DD>
+Use the given VT number and not the first available. Note you
+must have write access to the supplied VT for this to work;
+<DT><I>-f, --force</I>
+
+<DD>
+Force opening a VT without checking whether it is already in use;
+<DT><I>-e, --exec</I>
+
+<DD>
+Directly execute the given command, without forking.
+This option is meant for use in
+<I>/etc/inittab</I>;
+
+<DT><I>-s, --switch</I>
+
+<DD>
+Switch to the new VT when starting the command. The VT of the new command
+will be made the new current VT;
+<DT><I>-u, --user</I>
+
+<DD>
+Figure out the owner of the current VT, and run login as that user.
+Suitable to be called by init. Shouldn't be used with -c or -l;
+<DT><I>-l, --login</I>
+
+<DD>
+Make the command a login shell. A - is prepended to the name of the command
+to be executed;
+<DT><I>-v, --verbose</I>
+
+<DD>
+Be a bit more verbose;
+<DT><I>-w, --wait</I>
+
+<DD>
+wait for command to complete. If -w and -s are used together then
+<B>openvt</B>
+
+will switch back to the controlling terminal when the command completes;
+<DT><I>-V, --version</I>
+
+<DD>
+print program version and exit;
+<DT><I>-h, --help</I>
+
+<DD>
+show this text and exit.
+<DT><I>-- </I>
+
+<DD>
+end of options to
+<B>openvt</B>.
+
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>NOTE</H2>
+
+If
+<B>openvt</B>
+
+is compiled with a getopt_long() and you wish to set
+options to the command to be run, then you must supply
+the end of options -- flag before the command.
+<B>.SH</B>EXAMPLES
+
+<B>openvt</B>
+
+can be used to start a shell on the next free VT, by using the command:
+<DL COMPACT>
+<DT><I>openvt bash</I>
+
+<DD>
+<DT><DD>
+To start the shell as a login shell, use:
+<DT><I>openvt -l bash</I>
+
+<DD>
+<DT><DD>
+To get a long listing you must supply the -- separator:
+<DT><I>openvt -- ls -l</I>
+
+<DD>
+
+
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>HISTORY</H2>
+
+Earlier,
+<B>openvt</B>
+
+was called
+<B>open</B>.
+
+It was written by Jon Tombs &lt;<A HREF="mailto:jon@gtex02.us.es">jon@gtex02.us.es</A> or <A HREF="mailto:jon@robots.ox.ac.uk">jon@robots.ox.ac.uk</A>&gt;.
+The -w idea is from &quot;sam&quot;.
+<P>
+<A NAME="lbAH">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/chvt.1.html">chvt</A></B>(1),
+
+<B><A HREF="../man8/doshell.8.html">doshell</A></B>(8),
+
+<B><A HREF="../man1/login.1.html">login</A></B>(1)
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DL>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+</DL>
+<DT><A HREF="#lbAF">NOTE</A><DD>
+<DT><A HREF="#lbAG">HISTORY</A><DD>
+<DT><A HREF="#lbAH">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

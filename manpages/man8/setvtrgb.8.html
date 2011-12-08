@@ -1,0 +1,81 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SETVTRGB</TITLE>
+</HEAD><BODY>
+<H1>SETVTRGB</H1>
+Section: Maintenance Commands (8)<BR>Updated: 3 Mar 2011<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+setvtrgb - set the virtual terminal RGB colors
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>setvtrgb</B>
+
+<I>vga|FILE|-</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<I>setvtrgb</I>
+
+command takes a single argument, either the string
+<B>vga</B>
+
+, or a path to a file
+containing the red, green, and blue colors to be used by the Linux virtual terminals.
+<P>
+If you use the
+<B>FILE</B>
+
+parameter,
+<B>FILE</B>
+
+should be exactly 3 lines of 16
+comma-separated decimal values for RED, GREEN, and BLUE.
+<P>
+To seed a valid
+<B>FILE</B>
+
+:
+<DL COMPACT><DT><DD>
+<B>cat /sys/module/vt/parameters/default_{red,grn,blu} &gt; FILE</B>
+
+</DL>
+
+<P>
+And then edit the values in
+<B>FILE</B>
+
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+The utility is written by Alexey Gladkov, Seth Forshee, Dustin Kirkland.
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>DOCUMENTATION</H2>
+
+Documentation by Dustin Kirkland.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">AUTHOR</A><DD>
+<DT><A HREF="#lbAF">DOCUMENTATION</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:15:50 GMT, October 30, 2011
+</BODY>
+</HTML>

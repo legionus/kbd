@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <META http-equiv=Content-Type content="text/html; charset=shift_jis">
+ <TITLE>Keyboard scancodes: Japanese keyboards</TITLE>
+ <LINK HREF="scancodes-9.html" REL=next>
+ <LINK HREF="scancodes-7.html" REL=previous>
+ <LINK HREF="scancodes.html#toc8" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="scancodes-9.html">Next</A>
+<A HREF="scancodes-7.html">Previous</A>
+<A HREF="scancodes.html#toc8">Contents</A>
+<HR>
+<H2><A NAME="japanese"></A> <A NAME="s8">8. Japanese keyboards</A></H2>
+
+<P>
+<P>
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="jp106.jpg">
+</FIGURE>
+
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="jp106-with-scancodes.jpg">
+</FIGURE>
+<P>
+<H2><A NAME="ss8.1">8.1 Japanese 86/106 keyboards</A>
+</H2>
+
+<P>(Information from Barry Yip &lt;<CODE>g609296@cc.win.or.jp</CODE>&gt;,
+Norman Diamond, NIIBE Yutaka and H. Peter Anvin, who
+contributed the photographs of his
+JP106 keyboard above and of his
+<A HREF="jplaptop.jpg">Japanese laptop</A>.)
+<P>Common Japanese keyboards have five additional keys
+(106-key, or 86-key for a notebook; these days there may also
+be 3 extra Windows keys). These keys have scancodes
+<B>70</B> (hiragana/katakana),
+<B>73</B> (backslash/underscore),
+<B>79</B> (henkan/zenkouho),
+<B>7b</B> (muhenkan),
+<B>7d</B> (yen/vertical bar).
+<P>
+<A NAME="japusdiffs"></A> 
+Different keycaps:
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+USB</TD><TD> Scancode </TD><TD>Japanese </TD><TD>US </TD><TD></TD><TD>USB</TD><TD> Scancode </TD><TD> Japanese </TD><TD>US </TD></TR><TR><TD>
+53</TD><TD><B>29</B></TD><TD>(hankaku/zenkaku)</TD><TD>(` / ~)</TD><TD></TD><TD> 47</TD><TD><B>1a</B></TD><TD>(@ / `)</TD><TD>([ / {) </TD></TR><TR><TD>
+31</TD><TD><B>03</B> </TD><TD> (2 / ") </TD><TD> (2 / @)</TD><TD></TD><TD> 48</TD><TD><B>1b</B></TD><TD>([ / {) </TD><TD>(] / }) </TD></TR><TR><TD>
+35</TD><TD><B>07</B> </TD><TD> (6 / &amp;) </TD><TD> (6 / ^) </TD><TD></TD><TD> 51</TD><TD><B>27</B></TD><TD>(; / +) </TD><TD> (; / :) </TD></TR><TR><TD>
+36</TD><TD><B>08</B> </TD><TD> (7 / ') </TD><TD> (7 / &amp;) </TD><TD></TD><TD> 52</TD><TD><B>28</B></TD><TD>(: / *) </TD><TD> (' / ") </TD></TR><TR><TD>
+37</TD><TD><B>09</B> </TD><TD> (8 / () </TD><TD> (8 / *) </TD><TD></TD><TD> 29</TD><TD><B>2b</B></TD><TD>(] / }) </TD><TD> (backslash / |) </TD></TR><TR><TD>
+38</TD><TD><B>0a</B> </TD><TD> (9 / )) </TD><TD> (9 / () </TD><TD></TD><TD>135</TD><TD><B>73</B></TD><TD>(backslash / _)</TD><TD> </TD></TR><TR><TD>
+39</TD><TD><B>0b</B> </TD><TD> (0 / ~)</TD><TD> (0 / )) </TD><TD></TD><TD>139</TD><TD><B>7b</B></TD><TD>(muhenkan) </TD><TD> </TD></TR><TR><TD>
+45</TD><TD><B>0c</B> </TD><TD> (- / =) </TD><TD> (- / _)</TD><TD></TD><TD>138</TD><TD><B>79</B></TD><TD>(henkan/zenkouho)</TD><TD> </TD></TR><TR><TD>
+46</TD><TD><B>0d</B> </TD><TD> (^ / overbar)</TD><TD> (= / +) </TD><TD></TD><TD>136</TD><TD><B>70</B></TD><TD>(hiragana/katakana) </TD><TD> </TD></TR><TR><TD>
+137</TD><TD><B>7d</B> </TD><TD> (\  / |) </TD><TD> </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>ASCII and JIS-Roman differ in two or three points: the code positions
+where ASCII has backslash, tilde, broken bar,
+JIS-Roman uses yen, overbar and vertical bar, respectively.
+<P>Some keyboards have the tilde printed on the keycap for the 0 key, some don't.
+Similarly, some keyboards have the backslash printed on the keycap for the _ key
+and some don't, but in all cases you need Shift to get _.
+<P>
+<H2><A NAME="ss8.2">8.2 Description of the all-Japanese keys</A>
+</H2>
+
+<P>Norman Diamond adds to the previous section:
+<P><I>To the left of the spacebar,</I>
+(Shift-JIS) 無変換
+<I>(muhenkan) means no conversion
+from kana to kanji.  To the right of the spacebar,
+変換
+(henkan) means conversion from kana to kanji. In Microsoft systems
+it converts the most recently input sequence of kana to the system's
+first guess at a string of kanji/kana/etc. with the correct pronunciation
+and a guess at the meaning. Repeated keypresses change it to other
+possible guesses which are either less common or less recently used,
+depending on the situation. The shifted version of this key is
+前侯補
+(zenkouho) which means "previous candidate" -- "zen" means "previous",
+while "kouho" means "candidate"</I> (explanation courtesy of NIIBE Yutaka)
+<I>-- it rotates back to earlier guesses for kanji conversion.
+The alt version of this key is
+全侯補
+also pronounced (zenkouho), which means "all candidates" -- here,
+"zen" means "all" -- it displays a menu of all known guesses.
+I never use the latter two functions of the key, because after
+pushing the henkan key about three times and not getting the desired guess,
+it displays a menu of all known guesses anyway.</I>
+<P><I>Next on the right,
+ひらがな
+(hiragana) means that
+phonetic input uses one conventional Japanese phonetic alphabet,
+which of course can be converted to kanji by pressing the henkan key later.
+The shifted version is
+カタカナ
+(katakana) which means the other Japanese phonetic alphabet,
+and the alt version is
+ローマ字
+(ro-maji) which means the Roman alphabet.</I>
+<P><I>Near the upper left,
+半/全
+(han/zen) means switch between hankaku
+(half-size, the same size as an ASCII character) and zenkaku
+(full-size, since the amount of space occupied by a kanji
+is approximately a square, twice as fat as an ASCII character).
+It only affects katakana and a few other characters
+(for example there's a full-width copy of each ASCII character
+in addition to the single-byte half-width encodings).
+The alt version of this is
+漢字
+(kanji) which
+actually causes typed Roman phonetic keys to be displayed as Japanese
+phonetic kana (either hiragana or katakana depending on one of the other
+keys described above) and doesn't cause conversion to kanji.</I>
+<P>
+<H2><A NAME="bradford"></A> <A NAME="ss8.3">8.3 A Japanese keyboard that imitates a US one</A>
+</H2>
+
+<P>John Bradford reports that he has a Japanese keyboard
+(an IBM 5576 KEYBOARD-2, part number 94X1110) that by default
+simulates US key layout. Thus, pressing the @ key yields scancodes
+<B>2a</B> <B>03</B> (fake shift followed by digit 2),
+pressing Shift - yields scancodes <B>b6</B> <B>0d</B>
+(fake shift down, =) with release <B>8d</B> <B>36</B>, etc.
+<P>Thus, the (translated Set 2) scancodes can be read off the
+<A HREF="#japusdiffs">table</A> with differences between the
+Japanese and the US layout.
+<P>In this state the non-ASCII keys (Yen and overline) yield an error
+(<B>ff</B>). The Japanese keys hankaku, kanji/katakana, muhenkan,
+zenkoho/henkan, hiragana, zenmen ki, yield the codes expected from
+keys in that position on a US keyboard: <B>29</B> (`/~),
+<B>38</B> (LAlt), <B>39</B> (space), <B>39</B> (space),
+<B>39</B> (space), <B>e0</B> <B>38</B> (RAlt), respectively.
+<P>Switching the keyboard to Set 3 enables the Japanese keys.
+In untranslated Set 3 these give codes: hankaku <B>0e</B>,
+Yen <B>13</B>, overline (shift ^), kanji/katakana <B>19</B>,
+muhenkan <B>85</B>, zenkoho/henkan <B>86</B>,
+hiragana <B>87</B>, zenmen ki <B>39</B>.
+(Also: backslash/underscore <B>5c</B>, bracketright/braceright <B>53</B>.)
+<P>This is the only keyboard I know that gives more information in Set 3
+than in Set 2. It reports 
+<A HREF="scancodes-10.html#keyboardid">keyboard ID</A>
+<B>ab</B> <B>90</B>.
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="imb5576-2.jpg">
+</FIGURE>
+<P>
+<HR>
+<A HREF="scancodes-9.html">Next</A>
+<A HREF="scancodes-7.html">Previous</A>
+<A HREF="scancodes.html#toc8">Contents</A>
+</BODY>
+</HTML>

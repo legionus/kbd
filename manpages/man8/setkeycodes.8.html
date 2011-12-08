@@ -1,0 +1,114 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SETKEYCODES</TITLE>
+</HEAD><BODY>
+<H1>SETKEYCODES</H1>
+Section: Keyboard Support (8)<BR>Updated: 8 Nov 1994<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+setkeycodes - load kernel scancode-to-keycode mapping table entries
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>setkeycodes</B>
+
+<I>scancode keycode ...</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<I>setkeycodes</I>
+
+command reads its arguments two at a time, each pair of arguments
+consisting of a scancode (given in hexadecimal) and a keycode (given
+in decimal). For each such pair, it tells the kernel keyboard driver
+to map the specified scancode to the specified keycode.
+<P>
+This command is useful only for people with slightly unusual keyboards,
+that have a few keys which produce scancodes that the kernel does not
+recognize.
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H2>THEORY</H2>
+
+The usual PC keyboard produces a series of scancodes for each
+key press and key release. (Scancodes are shown by
+<B>showkey -s</B>, see <A HREF="../man1/showkey.1.html">showkey</A>(1).)
+The kernel parses this stream of scancodes, and converts it to
+a stream of keycodes (key press/release events).
+(Keycodes are shown by <B>showkey</B>.)
+Apart from a few scancodes with special meaning, and apart from
+the sequence produced by the Pause key, and apart from shiftstate
+related scancodes, and apart from the key up/down bit,
+the stream of scancodes consists of unescaped
+scancodes xx (7 bits) and escaped scancodes e0 xx (8+7 bits).
+To these scancodes or scancode pairs, a corresponding keycode can be
+assigned (in the range 1-127).
+For example, if you have a Macro key that produces e0 6f according
+to <A HREF="../man1/showkey.1.html">showkey</A>(1), the command
+<DL COMPACT><DT><DD>
+<B>setkeycodes e06f 112</B>
+
+</DL>
+
+will assign the keycode 112 to it, and then <A HREF="../man1/loadkeys.1.html">loadkeys</A>(1) can be used
+to define the function of this key.
+<P>
+
+Some older kernels might hardwire a low scancode range to the
+equivalent keycodes; setkeycodes will fail when you try to remap
+these.
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>2.6 KERNELS</H2>
+
+In 2.6 kernels key codes lie in the range 1-255, instead of 1-127.
+(It might be best to confine oneself to the range 1-239.)
+<P>
+
+In 2.6 kernels raw mode, or scancode mode, is not very raw at all.
+The code returned by showkey -s will change after use of setkeycodes.
+A kernel bug. See also
+<B><A HREF="../man1/showkey.1.html">showkey</A></B>(1).
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+None.
+<A NAME="lbAH">&nbsp;</A>
+<H2>BUGS</H2>
+
+The keycodes of X have nothing to do with those of Linux.
+Unusual keys can be made visible under Linux, but not under X.
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<I>dumpkeys (1), loadkeys (1), showkey (1), getkeycodes (8)</I>
+
+<P>
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">THEORY</A><DD>
+<DT><A HREF="#lbAF">2.6 KERNELS</A><DD>
+<DT><A HREF="#lbAG">OPTIONS</A><DD>
+<DT><A HREF="#lbAH">BUGS</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:15:50 GMT, October 30, 2011
+</BODY>
+</HTML>

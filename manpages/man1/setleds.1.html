@@ -1,0 +1,141 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SETLEDS</TITLE>
+</HEAD><BODY>
+<H1>SETLEDS</H1>
+Section: User Commands  (1)<BR>Updated: 24 Sep 1994<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+setleds - set the keyboard leds
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>setleds</B>
+
+[<I>-v</I>] [<I>-L</I>] [<I>-D</I>] [<I>-F</I>]
+
+[<I>{+|-}num</I>] [<I>{+|-}caps</I>] [<I>{+|-}scroll</I>]
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAB"></A>
+<P>
+
+<B>Setleds</B>
+
+reports and changes the led flag settings of a VT
+(namely NumLock, CapsLock and ScrollLock).
+Without arguments,
+<B>setleds</B>
+
+prints the current settings.
+With arguments, it sets or clears the indicated flags
+(and leaves the others unchanged). The settings before
+and after the change are reported if the -v flag is given.
+<P>
+
+The led flag settings are specific for each VT (and the VT
+corresponding to stdin is used).
+<P>
+
+By default (or with option -F),
+<B>setleds</B>
+
+will only change the VT flags (and their setting may be
+reflected by the keyboard leds).
+<P>
+
+With option -D,
+<B>setleds</B>
+
+will change both the VT flags and their default settings
+(so that a subsequent reset will not undo the change).
+This might be useful for people who always want to have numlock set.
+<P>
+
+With option -L,
+<B>setleds</B>
+
+will not touch the VT flags, but only change the leds.
+From this moment on, the leds will no longer reflect the VT flags
+(but display whatever is put into them). The command
+<B>setleds -L</B>
+
+(without further arguments) will restore the situation in which
+the leds reflect the VT flags.
+<P>
+
+One might use
+<B>setleds</B>
+
+in /etc/rc to define the initial and default state of NumLock,
+e.g. by
+<BR>
+
+
+INITTY=/dev/tty[1-8]
+<BR>
+
+for tty in $INITTY; do
+<BR>
+
+
+setleds -D +num &lt; $tty
+<BR>
+
+
+done
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<DL COMPACT>
+<DT>-num +num<DD>
+Clear or set NumLock.
+(At present, the NumLock setting influences the
+interpretation of keypad keys.
+Pressing the NumLock key complements the NumLock setting.)
+<DT>-caps +caps<DD>
+Clear or set CapsLock.
+(At present, the CapsLock setting complements the Shift key
+when applied to letters.
+Pressing the CapsLock key complements the CapsLock setting.)
+<DT>-scroll +scroll<DD>
+Clear or set ScrollLock.
+(At present, pressing the ScrollLock key (or ^S/^Q) stops/starts
+console output.)
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>BUGS</H2>
+
+In keyboard application mode the NumLock key does not
+influence the NumLock flag setting.
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">BUGS</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

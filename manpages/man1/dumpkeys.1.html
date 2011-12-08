@@ -1,0 +1,349 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of DUMPKEYS</TITLE>
+</HEAD><BODY>
+<H1>DUMPKEYS</H1>
+Section: User Commands  (1)<BR>Updated: 1 Sep 1993<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+dumpkeys - dump keyboard translation tables
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>dumpkeys</B>
+
+[
+<B>-hilfn</B>
+
+<B>-c</B><I>charset</I>
+
+<B>--help --short-info --long-info --numeric --full-table --funcs-only --keys-only --compose-only</B>
+
+<B>--charset=</B><I>charset</I>
+
+]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAB"></A>
+<P>
+
+<B>dumpkeys</B>
+
+writes, to the standard output, the current contents of the keyboard
+driver's translation tables, in the format specified by
+<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5).
+
+<P>
+
+Using the various options, the format of the output can be controlled
+and also other information from the kernel and the programs
+<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1)
+
+and
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+can be obtained.
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<DL COMPACT>
+<DT><B>-h --help</B>
+
+<DD>
+Prints the program's version number and a short usage message to the
+program's standard error output and exits.
+<DT><B>-i --short-info</B>
+
+<DD>
+Prints some characteristics of the kernel's keyboard driver. The items
+shown are:
+</DL>
+<P>
+
+<DL COMPACT><DT><DD>
+Keycode range supported by the kernel
+<P>
+
+<DL COMPACT><DT><DD>
+This tells what values can be used after the
+<B>keycode</B>
+
+keyword in keytable files. See
+<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5)
+
+for more information and the syntax of these files.
+</DL>
+
+<P>
+
+Number of actions bindable to a key
+<P>
+
+<DL COMPACT><DT><DD>
+This tells how many different actions a single key can output using
+various modifier keys. If the value is 16 for example, you can define up
+to 16 different actions to a key combined with modifiers. When the value
+is 16, the kernel probably knows about four modifier keys, which you can
+press in different combinations with the key to access all the bound
+actions.
+</DL>
+
+<P>
+
+Ranges of action codes supported by the kernel
+<P>
+
+<DL COMPACT><DT><DD>
+This item contains a list of action code ranges in hexadecimal notation.
+These are the values that can be used in the right hand side of a key
+definition, ie. the
+<I>vv</I>'s
+
+in a line
+<P>
+
+<DL COMPACT><DT><DD>
+<B>keycode</B>
+
+<I>xx</I>
+
+=
+<I>vv vv vv vv</I>
+
+</DL>
+
+<P>
+
+(see
+<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5)
+
+for more information about the format of key definition lines).
+<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1)
+
+and
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+support a symbolic notation, which is preferable to the numeric one, as
+the action codes may vary from kernel to kernel while the symbolic names
+usually remain the same. However, the list of action code ranges can be
+used to determine, if the kernel actually supports all the symbols
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+knows, or are there maybe some actions supported by the kernel that
+have no symbolic name in your
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+program. To see this, you compare the range list with the action symbol
+list, see option
+<B>--long-info</B>
+
+below.
+</DL>
+
+<P>
+
+Number of function keys supported by kernel
+<P>
+
+<DL COMPACT><DT><DD>
+This tells the number of action codes that can be used to output
+strings of characters. These action codes are traditionally bound to
+the various function and editing keys of the keyboard and are defined
+to send standard escape sequences. However, you can redefine these to
+send common command lines, email addresses or whatever you like.
+Especially if the number of this item is greater than the number of
+function and editing keys in your keyboard, you may have some &quot;spare&quot;
+action codes that you can bind to AltGr-letter combinations, for example,
+to send some useful strings. See
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+for more details.
+</DL>
+
+<P>
+
+Function strings
+<P>
+
+<DL COMPACT><DT><DD>
+You can see you current function key definitions with the command
+<P>
+
+<DL COMPACT><DT><DD>
+<B>dumpkeys --funcs-only</B>
+
+</DL>
+
+<P>
+
+</DL>
+
+</DL>
+
+<P>
+
+<DL COMPACT>
+<DT><B>-l --long-info</B>
+
+<DD>
+This option instructs
+<B>dumpkeys</B>
+
+to print a long information listing. The output is the same as with the
+<B>--short-info</B>
+
+appended with the list of action symbols supported by
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+and
+<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1),
+
+along with the symbols' numeric values.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-n --numeric</B>
+
+<DD>
+This option causes
+<B>dumpkeys</B>
+
+to by-pass the conversion of action code values to symbolic notation and
+to print the in hexadecimal format instead.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-f --full-table</B>
+
+<DD>
+This makes
+<B>dumpkeys</B>
+
+skip all the short-hand heuristics (see
+<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5))
+
+and output the key bindings in the canonical form. First a keymaps
+line describing the currently defined modifier combinations
+is printed. Then for each key a row with a column for each
+modifier combination is printed. For
+example, if the current keymap in use uses seven modifiers,
+every row will have seven action code columns. This format
+can be useful for example to programs that post-process the
+output of
+<B>dumpkeys</B>.
+
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>--funcs-only</B>
+
+<DD>
+When this option is given,
+<B>dumpkeys</B>
+
+prints only the function key string definitions. Normally
+<B>dumpkeys</B>
+
+prints both the key bindings and the string definitions.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>--keys-only</B>
+
+<DD>
+When this option is given,
+<B>dumpkeys</B>
+
+prints only the key bindings. Normally
+<B>dumpkeys</B>
+
+prints both the key bindings and the string definitions.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>--compose-only</B>
+
+<DD>
+When this option is given,
+<B>dumpkeys</B>
+
+prints only the compose key combinations.
+This option is available only if your kernel has compose key support.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-c</B><I>charset</I><B> </B><I> </I><B>--charset=</B><I>charset</I>
+
+<DD>
+This instructs
+<B>dumpkeys</B>
+
+to interpret character code values according to the specified character
+set. This affects only the translation of character code values to
+symbolic names. Valid values for
+<I>charset</I>
+
+currently are
+<B>iso-8859-X</B>,
+
+Where X is a digit in 1-9.  If no
+<I>charset</I>
+
+is specified,
+<B>iso-8859-1</B>
+
+is used as a default.
+This option produces an output line `charset &quot;iso-8859-X&quot;', telling
+loadkeys how to interpret the keymap. (For example, &quot;division&quot; is
+0xf7 in iso-8859-1 but 0xba in iso-8859-8.)
+</DL>
+<P>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>FILES</H2>
+
+
+<DL COMPACT>
+<DT><B>@DATADIR@/keymaps</B>
+
+<DD>
+recommended directory for keytable files
+
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1),
+
+<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5)
+
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">FILES</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

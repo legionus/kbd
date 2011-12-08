@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Keyboard scancodes: The PS/2 Mouse</TITLE>
+ <LINK HREF="scancodes-14.html" REL=next>
+ <LINK HREF="scancodes-12.html" REL=previous>
+ <LINK HREF="scancodes.html#toc13" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="scancodes-14.html">Next</A>
+<A HREF="scancodes-12.html">Previous</A>
+<A HREF="scancodes.html#toc13">Contents</A>
+<HR>
+<H2><A NAME="s13">13. The PS/2 Mouse</A></H2>
+
+<P>
+<P>Mice come in various flavours - serial mice, PS/2 mice, busmice, USB mice.
+Below a little about mice using the PS/2 protocol, since these also use
+the keyboard controller.
+<P>A mouse has a number of buttons (1-5 is common) and must report
+button presses. It has some way of detecting motion, and must report
+the amount of movement in the X and Y direction, usually as differences
+with the previously reported position, in a (dx,dy) pair.
+Touchpads can also report absolute position.
+<P>Reports come in the form of mouse packets of between 1 and 8 bytes.
+Various protocols are in use.
+<P>
+<H2><A NAME="mousemodes"></A> <A NAME="ss13.1">13.1 Modes</A>
+</H2>
+
+<P>A PS/2 mouse can be in <I>stream mode</I> (the default).
+In this mode it produces a stream of packets indicating mouse movements
+and button presses. Or it can be in <I>remote mode</I>.
+In this mode the mouse only sends a packet when the host
+requests one, using the <B>
+<A HREF="#mceb">eb</A></B> command.
+Finally, it can be in <I>echo</I> ("wrap") <I>mode</I>,
+in which everything the host sends is echoed back, until
+either a reset (<B>ff</B>) or clear echo mode (<B>ec</B>)
+is received.
+<P>
+<H2><A NAME="ss13.2">13.2 Scaling</A>
+</H2>
+
+<P>Scaling can be set to 1:1 or 2:1. This affects stream mode only.
+In 2:1 scaling: If the unscaled absolute value of dx or dy is 6 or more,
+it is doubled. Otherwise, for the unscaled value 0,1,2,3,4,5,6, the
+scaled value 0,1,1,3,6,9,12 is sent.
+<P>
+<H2><A NAME="ss13.3">13.3 PS/2 mouse protocol</A>
+</H2>
+
+<P>
+<H3>The default protocol</H3>
+
+<P>The standard PS/2 protocol uses 3-byte packets, as follows:
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+Yovfl </TD><TD> Xovfl </TD><TD> dy8 </TD><TD> dx8 </TD><TD> 1 </TD><TD> Middle Btn </TD><TD> Right Btn </TD><TD> Left Btn </TD></TR><TR><TD>
+dx7 </TD><TD> dx6 </TD><TD> dx5 </TD><TD> dx4 </TD><TD> dx3 </TD><TD> dx2 </TD><TD> dx1 </TD><TD> dx0 </TD></TR><TR><TD>
+dy7 </TD><TD> dy6 </TD><TD> dy5 </TD><TD> dy4 </TD><TD> dy3 </TD><TD> dy2 </TD><TD> dy1 </TD><TD> dy0 </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>It gives the movement in the X and Y direction in 9-bit two's complement
+notation (range -256 to +255) and an overflow indicator.
+It also gives the status of the three mouse buttons.
+When this protocol is used, the <B>f2</B> Read mouse ID command
+is answered by <B>00</B>.
+<P>
+<H3>Intellimouse</H3>
+
+<P>The Microsoft Intellimouse uses the above protocol until scrolling wheel
+mode is activated by sending the magic sequence
+<B>f3</B> <B>c8</B> <B>f3</B> <B>64</B> <B>f3</B> <B>50</B>
+(set sample rate 200, 100, 80). In this mode, the Read mouse ID command
+returns <B>03</B>, and 4-byte packets are used:
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+Yovfl </TD><TD> Xovfl </TD><TD> dy8 </TD><TD> dx8 </TD><TD> 1 </TD><TD> Middle Btn </TD><TD> Right Btn </TD><TD> Left Btn </TD></TR><TR><TD>
+dx7 </TD><TD> dx6 </TD><TD> dx5 </TD><TD> dx4 </TD><TD> dx3 </TD><TD> dx2 </TD><TD> dx1 </TD><TD> dx0 </TD></TR><TR><TD>
+dy7 </TD><TD> dy6 </TD><TD> dy5 </TD><TD> dy4 </TD><TD> dy3 </TD><TD> dy2 </TD><TD> dy1 </TD><TD> dy0 </TD></TR><TR><TD>
+dz3 </TD><TD> dz3 </TD><TD> dz3 </TD><TD> dz3 </TD><TD> dz3 </TD><TD> dz2 </TD><TD> dz1 </TD><TD> dz0 </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>Here the last byte gives the movement of the scrolling wheel in
+4-bit two's complement notation (range -8 to +7) and the leading
+four bits are just copies of the sign bit.
+<P>
+<H3>Intellimouse Explorer mouse</H3>
+
+<P>The Explorer mouse protocol allows for scrolling wheel and five buttons.
+It is activated by first sending the magic sequence for Intellimouse,
+and then, when the Intellimouse ID has been seen, sending the magic sequence
+<B>f3</B> <B>c8</B> <B>f3</B> <B>c8</B> <B>f3</B> <B>50</B>
+(set sample rate 200, 200, 80). In this mode, the Read mouse ID command
+returns <B>04</B>, and 4-byte packets are used:
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+Yovfl </TD><TD> Xovfl </TD><TD> dy8 </TD><TD> dx8 </TD><TD> 1 </TD><TD> Middle Btn </TD><TD> Right Btn </TD><TD> Left Btn </TD></TR><TR><TD>
+dx7 </TD><TD> dx6 </TD><TD> dx5 </TD><TD> dx4 </TD><TD> dx3 </TD><TD> dx2 </TD><TD> dx1 </TD><TD> dx0 </TD></TR><TR><TD>
+dy7 </TD><TD> dy6 </TD><TD> dy5 </TD><TD> dy4 </TD><TD> dy3 </TD><TD> dy2 </TD><TD> dy1 </TD><TD> dy0 </TD></TR><TR><TD>
+0 </TD><TD> 0 </TD><TD> 5th Btn </TD><TD> 4th Btn </TD><TD> dz3 </TD><TD> dz2 </TD><TD> dz1 </TD><TD> dz0 </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>Lots of other protocols occur, and only incomplete data is known
+about most of them. Some examples.
+<P>
+<H3>Typhoon mouse</H3>
+
+<P>The Typhoon optical mouse is reported to send 6-byte packets.
+Bytes 1-3 are as for the default PS/2 protocol.
+Byte 4 equals byte 1. Byte 5 gives the Z axis movement, one of
+<B>ff</B>, <B>00</B>, <B>01</B>. Byte 6 is 0.
+Of course the idea is that this packet looks like two ordinary packets
+and ordinary PS/2 mouse drivers will handle it.
+The 6-byte mode is activated by sending the magic sequence
+<B>f3</B> <B>c8</B> <B>f3</B> <B>64</B> <B>f3</B> <B>50</B>
+<B>f3</B> <B>3c</B> <B>f3</B> <B>28</B> <B>f3</B> <B>14</B>
+(set sample rate 200, 100, 80, 60, 40, 20).
+It is recognized by the ID <B>08</B>.
+<P>
+<H2><A NAME="ss13.4">13.4 Mouse Commands</A>
+</H2>
+
+<P>Every command or data byte sent to the mouse (except for the
+resend command <B>fe</B>) is ACKed with <B>fa</B>.
+If the command or data is invalid, it is NACKed with <B>fe</B>.
+If the next byte is again invalid, the reply is ERROR: <B>fc</B>.
+<P>
+<P><I>Command <B>d0</B>: Read extended ID</I>
+<P>Read up to 256 bytes.
+<P><I>Commands <B>d1</B>-<B>df</B>: Vendor unique commands</I>
+<P>
+<P><I>Command <B>d1</B>: Logitech PS/2++ command</I>
+<P>This command was to be used, followed by an arbitrary data sequence.
+Now replaced by the 
+<A HREF="#sliced">sliced commands</A> using
+<B>e8</B>.
+<P><I>Command <B>e1</B>: Read secondary ID</I>
+<P>
+<BLOCKQUOTE>
+Replies with two bytes.
+An IBM TrackPoint returns <B>01</B> as first byte,
+and a second byte depending on the model.
+</BLOCKQUOTE>
+<P><I>Command <B>e2</B>: IBM TrackPoint command</I>
+<P>
+<BLOCKQUOTE>
+Followed by several parameter bytes. For details, see
+<A HREF="http://trackpoint.almaden.ibm.com/files/ykt3dext.pdf">ykt3dext.pdf</A>.
+</BLOCKQUOTE>
+<P><I>Command <B>e6</B>: 
+<A NAME="mce6"></A> Set mouse scaling to 1:1</I>
+<P>
+<BLOCKQUOTE>
+Often ingredient in magic sequences.
+</BLOCKQUOTE>
+<P><I>Command <B>e7</B>: 
+<A NAME="mce7"></A> Set mouse scaling to 2:1</I>
+<P>
+<BLOCKQUOTE>
+Often ingredient in magic sequences.
+</BLOCKQUOTE>
+<P><I>Command <B>e8</B>: 
+<A NAME="mce8"></A> Set mouse resolution</I>
+<P>
+<BLOCKQUOTE>
+This command is followed by a byte indicating the resolution
+(0, 1, 2, 3: 1, 2, 4, 8 units per mm, respectively).
+It is used in magic sequences to transport two bits,
+so that four of these are needed to send a byte to the mouse.
+See 
+<A HREF="#sliced">below</A>.
+</BLOCKQUOTE>
+<P><I>Command <B>e9</B>: 
+<A NAME="mce9"></A> Status request</I>
+<P>
+<BLOCKQUOTE>
+This command returns three bytes:
+<P>First a status byte:
+Bit 7: unused, 0.
+Bit 6: 0: 
+<A HREF="#mousemodes">stream mode</A>,
+1: 
+<A HREF="#mousemodes">remote mode</A>.
+Bit 5: 0: disabled, 1: enabled.
+Bit 4: 0: scaling set to 1:1, 1: scaling set to 2:1.
+Bit 3: unused, 0.
+Bit 2: 1: left button pressed.
+Bit 1: 1: middle button pressed. 
+Bit 0: 1: right button pressed.
+<P>Then a resolution byte:
+0, 1, 2, 3: 1, 2, 4, 8 units per mm, respectively.
+<P>Finally a sample rate (in Hz).
+<P>See below for special 
+<A HREF="#synaptics">Synaptics Touchpad</A> handling.
+</BLOCKQUOTE>
+<P><I>Command <B>ea</B>: Set 
+<A HREF="#mousemodes">stream mode</A></I>
+<P>
+<P><I>Command <B>eb</B>: 
+<A NAME="mceb"></A> Read data</I>
+<P>
+<BLOCKQUOTE>
+Read a mouse packet.
+Needed in 
+<A HREF="#mousemodes">remote mode</A> to ask the mouse for data.
+Also functions in 
+<A HREF="#mousemodes">stream mode</A>.
+</BLOCKQUOTE>
+<P><I>Command <B>ec</B>: Clear 
+<A HREF="#mousemodes">echo mode</A></I>
+<P>
+<P><I>Command <B>ee</B>: Set 
+<A HREF="#mousemodes">echo mode</A></I>
+<P>
+<P><I>Command <B>f0</B>: Set 
+<A HREF="#mousemodes">remote mode</A></I>
+<P>
+<P><I>Command <B>f2</B>: 
+<A NAME="mcf2"></A> Read mouse ID</I>
+<P>
+<BLOCKQUOTE>
+(Only supported on some systems.)
+This command reads a 1-byte mouse ID. The reply is a single byte <B>00</B>.
+Wait at least 10ms after issuing this command.
+<P>For the keyboard reply, see 
+<A HREF="scancodes-12.html#kcf2">above</A>.
+<P>BallPoint (trackball) devices return a single byte <B>02</B>,
+Intellimouse returns <B>03</B>,
+Explorer Mouse returns <B>04</B>,
+4d Mouse returns <B>06</B>,
+4dplus Mouse returns <B>08</B>,as does the Typhoon mouse.
+</BLOCKQUOTE>
+<P><I>Command <B>f3</B>: 
+<A NAME="mcf3"></A> Set mouse sample rate</I>
+<P>
+<BLOCKQUOTE>
+(Only supported on some systems.)
+Set mouse sample rate in Hz.
+If the given sampling rate is acceptable the ACK is <B>fa</B>.
+Otherwise the NACK is <B>fe</B>, and the host can correct.
+If it is incorrect again <B>fc</B> is sent.
+Correct values are, e.g., 10, 20, 40, 60, 80, 100, 200.
+</BLOCKQUOTE>
+<P><I>Command <B>f4</B>: 
+<A NAME="mcf4"></A> Mouse enable</I>
+<P>
+<BLOCKQUOTE>
+The stream mode mouse data reporting is disabled after a reset and after
+the 
+<A HREF="#mcf5">disable</A> command. This command enables it again.
+</BLOCKQUOTE>
+<P><I>Command <B>f5</B>: 
+<A NAME="mcf5"></A> Mouse disable</I>
+<P>
+<BLOCKQUOTE>
+This stops mouse data reporting in 
+<A HREF="#mousemodes">stream mode</A>.
+In stream mode, this command should be sent before sending any other commands.
+</BLOCKQUOTE>
+<P><I>Command <B>f6</B>: 
+<A NAME="mcf6"></A> Set defaults</I>
+<P>
+<BLOCKQUOTE>
+If this command is recognized, a reset is done (set sampling rate 100 Hz,
+resolution 4 counts/mm, 
+<A HREF="#mousemodes">stream mode</A>,
+disabled, scaling 1:1), but no diagnostics are performed.
+For some enhanced mice that require a magic sequence to get into
+enhanced mode, this command will reset them to default PS/2 mode.
+</BLOCKQUOTE>
+<P><I>Command <B>fe</B>: Resend</I>
+<P>
+<BLOCKQUOTE>
+If this command is recognized, the last mouse packet (possibly several bytes)
+is resent. There is no ACK to this command, but if the last reply was ACK,
+it is sent.
+</BLOCKQUOTE>
+<P><I>Command <B>ff</B>: 
+<A NAME="mcff"></A> Mouse reset</I>
+<P>
+<BLOCKQUOTE>
+A self-test is performed. When OK, the response is <B>aa</B> <B>00</B>.
+On error, the response is <B>fc</B> <B>00</B>.
+The mouse is reset to default PS/2 mode.
+</BLOCKQUOTE>
+<P>
+<H2><A NAME="sliced"></A> <A NAME="ss13.5">13.5 Sliced parameters</A>
+</H2>
+
+<P>For more advanced mouse modes it is necessary to send data to the mouse.
+There is now a commonly accepted way.
+<P>First Logitech tried to use the <B>d1</B> command followed by an
+arbitrary data sequence.
+While the IBM specs reserve <B>d1</B>-<B>df</B> for vendor unique commands,
+it turns out that not all BIOSes will transmit such codes.
+So Logitech drops the <B>d1</B> and uses the sequence
+<B>e8</B> <I>aa</I> <B>e8</B> <I>bb</I> <B>e8</B> <I>cc</I>
+<B>e8</B> <I>dd</I> to transmit the byte <I>aabbccdd</I>, where
+<I>aa</I>, <I>bb</I>, <I>cc</I>, <I>dd</I> are 2-bit quantities.
+In this way an arbitrarily long sequence of bytes can be transmitted.
+<P>For synchronization purposes it is possible to separate such groups
+of four <B>e8</B> commands by an <B>e6</B> command.
+Indeed, such separation may be required: Synaptics Touchpads react to
+<B>e9</B> or <B>f3</B> commands preceded by precisely four
+<B>e8</B> commands.
+<P>
+<H3>Magic knock</H3>
+
+<P>For example, the "magic knock" <B>d1</B> <B>39</B> <B>db</B>
+that sets a device that understands it in PS/2++ mode,
+becomes <B>e8</B> <B>00</B> <B>e8</B> <B>03</B>
+<B>e8</B> <B>02</B> <B>e8</B> <B>01</B> <B>e6</B>
+<B>e8</B> <B>03</B> <B>e8</B> <B>01</B>
+<B>e8</B> <B>02</B> <B>e8</B> <B>03</B>,
+abbreviated {E8}0321 {E6} {E8}3123.
+Note that 0321 and 3123 do not have repeated symbols. If they had,
+too intelligent intermediate hardware transmitting these sequences
+might see a superfluous command and suppress it.
+<P>
+<H3>Magic unknock</H3>
+
+<P>PS/2++ mode is cleared again by the "magic unknock"
+{E8} 0323 or D1 3B from an external device, and
+{E8} 0321 or D1 39 from an internal device.
+(These commands differ so that in setups where the same commands are
+sent to internal and external devices, they can be commanded separately.)
+<P>For a decription of the PS/2++ format, see
+<A HREF="http://www.dqcs.com/logitech/ps2ppspec.htm">ps2ppspec.htm</A>.
+<P>
+<H2><A NAME="synaptics"></A> <A NAME="ss13.6">13.6 Synaptics Touchpad</A>
+</H2>
+
+<P>A few sketchy details. For nice precise information, get
+the 
+<A HREF="http://www.synaptics.com/decaf/utilities/ACF126.pdf">Synaptics interfacing guide</A>.
+<P>
+<H3>Status request</H3>
+
+<P>When preceded by an 8-bit request number encoded via four
+<B>
+<A HREF="#mce8">e8</A></B>
+commands, the <B>
+<A HREF="#mce9">e9</A></B> status request
+returns modified output, somewhat dependent on the Touchpad model.
+<P>
+<P><I>Request <B>00</B>: Identify Touchpad</I>
+<P>This request returns three bytes, of which the middle one
+is the constant <B>47</B>. This is the way to recognize
+a Touchpad. The low order four bits of the third word contain
+the major model version number, the first word contains the
+minor version number, and the high order four bits of the
+third word contain the (obsolete) model code.
+<P>
+<P><I>Request <B>01</B>: Read Touchpad Modes</I>
+<P>This request returns three bytes, of which the first two
+are the constants <B>3b</B> and <B>47</B>.
+The last byte is the mode byte
+<P>
+<CENTER><TABLE BORDER><TR><TD>
+ABS </TD><TD> Rate </TD><TD> - </TD><TD> - </TD><TD> Baud/Sleep </TD><TD> DisGest </TD><TD> PackSize </TD><TD> Wmode </TD></TR><TR><TD>
+
+</TD></TR></TABLE></CENTER>
+<P>Here ABS indicates <I>absolute mode</I> (instead of the default
+relative mode).
+<P>Rate is 0 for 40 packets/sec, 1 for 80 packets/sec.
+The PS/2 sampling rate value is ignored.
+<P>Baud/Sleep indicates the baud rate when used with a serial protocol
+(0: 1200 baud, 1: 9600 baud). It must be set whenever ABS or Rate is set.
+When used with the PS/2 protocol this bit indicates <I>sleep mode</I> -
+a low power mode in which finger activity is ignored and only button
+presses are reported.
+<P>DisGest is the "disable gestures" bit. When set, we have classical
+mouse behaviour. When cleared, "tap" and "drag" processing is enabled.
+<P>PackSize is used for the serial protocol only (and then chooses between
+6-, 7- and 8-byte packets, also depending on the Wmode bit).
+<P>Wmode is used in absolute mode only. When set the packets also
+contain the W value. (This value indicates the amount of contact:
+0: two-finger contact, 1: three-finger contact, 2: pen contact,
+3: reserved, 4-7: ordinary finger contact, 8-15: wide finger or palm contact.)
+<P>This described Touchpad 4.x. Earlier models had up to four mode bytes.
+This request would return mode bytes 1 and 2 in the first and last result byte,
+and request <B>02</B> would return mode bytes 3 and 4.
+<P>
+<P><I>Request <B>02</B>: Read Capabilities</I>
+<P>This request returns three bytes, of which the middle one is
+the constant <B>47</B>. The first and third byte are the high-order
+and low-order parts of the capability word.
+(Thus on Touchpad 4.x. On earlier models mode bytes 3 and 4 are returned.)
+<P>This capability word has 16 bits. Bit 15 indicates that capabilities
+are supported. Bit 4 indicates that Sleep is supported (for the PS/2
+protocol). Bit 3 indicates that four buttons (Left, Right, Up, Down)
+are supported. Bit 1 indicates that multi-finger detection is supported.
+Bit 0 indicates that palm detection is supported.
+<P>
+<P><I>Request <B>03</B>: Read Model ID</I>
+<P>
+<P><I>Request <B>06</B>: Read Serial Number Prefix</I>
+<P>
+<P><I>Request <B>07</B>: Read Serial Number Suffix</I>
+<P>
+<P><I>Request <B>08</B>: Read Resolution</I>
+<P>
+<P>
+<H3>Mode setting</H3>
+
+<P>When preceded by an 8-bit request number encoded via four <B>e8</B>
+commands, the <B>
+<A HREF="#mcf3">f3</A></B> <B>14</B>
+(set sample rate 20) command sets the mode byte to the
+encoded number. (Thus on Touchpads 4.x. Older models have more mode
+bytes and several such commands.)
+<P>
+<P>
+<H2><A NAME="ss13.7">13.7 Vendor extensions</A>
+</H2>
+
+<P>There is a complicated forest of "magic sequences" that enable
+vendor extensions. Recognizing all of these is a very obscure activity.
+<P>(Moreover, recognizing these may be counterproductive:
+if the mouse has special capabilities which are activated
+by a special sequence, and it is connected to the computer
+via a KVM switch that does not know about this special protocol,
+then switching away and back will leave the mouse in the non-special
+state. This leads to non-functioning mice.)
+<P>A 2002 Logitech file describes the following procedure for recognizing
+the mouse type:
+<P>Stage 1: Send <B>ff</B>: reset.
+The reply is ignored. (Most common is <B>aa</B> <B>00</B>.)
+<P>Stage 2: Send <B>f3</B> <B>0a</B> <B>f2</B>: set sample rate
+and ask for ID. If the reply is <B>02</B>, we have a trackball -
+it has its own protocol. (The usual reply is <B>00</B>.)
+<P>Stage 3: Send <B>e8</B> <B>00</B> <B>e6</B> <B>e6</B> <B>e6</B>
+<B>e9</B>: set resolution and scaling (three times), and request status.
+The reply consists of three bytes <I>s1</I> <I>s2</I> <I>s3</I>.
+An old-fashioned mouse would report 0 in the second status byte <I>s2</I>
+(since that is the resolution and we just set it).
+<P>If <I>s2</I> is nonzero then: <I>s2</I> is the number of buttons,
+<I>s3</I> is the firmware revision,
+<I>s1</I> has the firmware ID (device type) bits 6-0 in bits 3-0,6-4,
+while bit 7 of s1 indicates support for the
+<B>e7</B> <B>e7</B> <B>e7</B> <B>e9</B> command.
+<P>If <I>s1</I>=<B>d0</B> and <I>s2</I>=<B>03</B> and
+<I>s3</I>=<B>c8</B>, suspect Synaptics.
+<P>If <I>s1</I> and <I>s2</I> are zero but <I>s3</I> equals <B>0a</B>,
+suspect Alps. (<I>s3</I>=<B>0a</B> is as expected, but <I>s1</I>=0
+is not)
+<P>Stage 4: If bit 7 of <I>s1</I> is set, or if we suspect Alps,
+send <B>e8</B> <B>00</B> <B>e7</B> <B>e7</B> <B>e7</B> <B>e9</B>:
+set resolution and scaling (three times), and request status.
+The reply consists of three bytes <I>t1</I> <I>t2</I> <I>t3</I>.
+Of course, we already know that this is not an old-fashioned mouse.
+<P>If <I>t2</I>=<B>01</B> and FirmwareID &lt; 0x10 and
+<I>t1</I> &gt;&gt; 6 = 1, then conclude that we have a
+Cordless MouseMan (RA12).
+<P>If <I>t2</I>=<B>01</B> and FirmwareID &lt; 0x10 and
+<I>t1</I> &gt;&gt; 6 = 3, then conclude that we have a
+Cordless MouseMan (RB24).
+<P>Other cases with <I>t2</I>=<B>01</B> are for new cordless mice.
+<P>If we suspect Synaptics and <I>t2</I>=0 and <I>t3</I>=<B>0a</B>,
+then conclude that we have a Synaptics touchpad.
+<P>If we suspect Alps and <I>t1</I>=<B>33</B>, then conclude that
+we have an Alps touchpad.
+<P>Stage 5: If we don't know the type yet, send <B>f3</B> <B>c8</B>
+<B>f3</B> <B>64</B> <B>f3</B> <B>50</B> <B>f2</B>:
+Set sampling rate to 200, 100, 80 Hz, and ask for ID.
+The reply is a single byte.
+If we get 3, conclude that we have an IntelliMouse.
+(And this sequence is the initialization sequence for the IntelliMouse.)
+<P>Stage 6: Send <B>ff</B>: reset. Now the device is no longer in any
+special state.
+<P>Stage 7: If we don't know the type yet, send <B>e8</B> <B>00</B>
+<B>e8</B> <B>00</B> <B>e8</B> <B>00</B> <B>e8</B> <B>00</B>
+<B>e9</B>: set resolution to 0 (four times), and ask for status.
+The reply consists of three bytes <I>u1</I> <I>u2</I> <I>u3</I>.
+If <I>u2</I>=<B>47</B> and <I>u3</I>=<B>13</B>, then conclude
+that we have a new Synaptics touchpad.
+<P>Stage 7a: At this point we can narrow down to model type.
+If the thing is Synaptics or Alps, then Logitech is no longer interested.
+If it has 3 buttons, FirmwareID 1 and firmware revision <B>50</B>,
+then conclude that it is a Logitech Mouseman.
+<P>Stage 8: If we think it is a touchpad, detect whether it has programmable RAM.
+Send <B>e6</B> <B>e8</B> <B>00</B> <B>e8</B> <B>00</B> <B>e8</B>
+<B>00</B> <B>e8</B> <B>00</B> <B>e9</B>. The reply consists of three
+bytes <I>v1</I> <I>v2</I> <I>v3</I>.
+If <I>v1</I>=<B>06</B> and <I>v2</I>=<B>00</B>, then conclude
+that we have a Touchpad TP3 with programmable RAM.
+<P>Stage 9: Test whether the device understands the Logitech PS/2++ protocol.
+Send the "magic knock" <B>f5</B> <B>e8</B> <B>00</B> <B>e8</B>
+<B>03</B> <B>e8</B> <B>02</B> <B>e8</B> <B>01</B> <B>e6</B>
+<B>e8</B> <B>03</B> <B>e8</B> <B>01</B> <B>e8</B> <B>02</B>
+<B>e8</B> <B>03</B> <B>f4</B>.
+Check whether the device replies with an extended report.
+<P>
+<HR>
+<A HREF="scancodes-14.html">Next</A>
+<A HREF="scancodes-12.html">Previous</A>
+<A HREF="scancodes.html#toc13">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>Keyboard scancodes: Special keyboards - XT keyboards</TITLE>
+ <LINK HREF="scancodes-3.html" REL=next>
+ <LINK HREF="scancodes-1.html" REL=previous>
+ <LINK HREF="scancodes.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="scancodes-3.html">Next</A>
+<A HREF="scancodes-1.html">Previous</A>
+<A HREF="scancodes.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2. Special keyboards - XT keyboards</A></H2>
+
+<P><I>First keyboards with an XT interface.
+There is no keyboard controller, no commands to the keyboard.
+On a modern computer these will usually yield "keyboard error"
+or "KB/interface error" or some such, but sometimes they can be
+used nevertheless.</I>
+<P>The IBM PC (all models) and the IBM XT (models 68, 78, 86, 87, 88,
+267, 277) came with this 83-key keyboard.
+The IBM AT (models 68, 99, 239, 319) came with an 84-key keyboard.
+The IBM XT (models 89, 268, 278, 286) and the IBM AT model 339
+came with a 101-key keyboard.
+<P>The original IBM 83-key PC/XT keyboard did not have LEDs.
+The original IBM 84-key AT keyboard has LEDs, separates the
+keypad from the main area, moves the Esc key to the right,
+and adds the SysReq key.
+The original IBM 101-key keyboard moves the ten function keys
+from the left to the top row and adds two more. The Esc key is moved
+in front of this row of function keys. The "number" and "cursor"
+functions of the keypad are separated. There are duplicate Ctrl and Alt
+keys. 
+<P>
+<H2><A NAME="ss2.1">2.1 XT keyboard</A>
+</H2>
+
+<P>The 
+<A HREF="xtkbd.jpg">XT keyboard</A>
+has 83 keys, nicely numbered 1-83, that is, with scancodes
+<B>01</B>-<B>53</B>. No escaped scancodes.
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="xtkbd-s.jpg">
+</FIGURE>
+<P>
+<H2><A NAME="ss2.2">2.2 Victor keyboard</A>
+</H2>
+
+<P>This 
+<A HREF="victor.jpg">Victor keyboard</A>
+is very similar. The keypad is separated here, and the Esc key
+has been moved to the keypad. The frontside of the ScrollLock key
+says Break. It resembles an AT keyboard but has only 83 keys,
+the SysRq is still missing.
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="victor-s.jpg">
+</FIGURE>
+<P>
+<H2><A NAME="ss2.3">2.3 Olivetti M24 keyboard</A>
+</H2>
+
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="m24.jpg">
+</FIGURE>
+
+The Olivetti M24 (also sold under the names Logabax 1600 and
+ATT PC-6300) was an IBM compatible manufactured in 1984.
+<P>John Elliott writes:
+The Olivetti M24 is an XT sort-of clone. It
+has two possible keyboards - the normal (83-key) IBM one,
+and a "deluxe" one (102 keys) with 18 function keys. 
+<P>Unlike a normal XT keyboard, it is possible to send commands to it.
+The BIOS does this twice:
+(1) Command 01h makes the keyboard perform a self-test.
+(2) Command 05h makes the keyboard return a 1-byte ID. The least signficant
+bit is set for a "deluxe" layout.
+<P>The keyboard connector is DE-9 rather than DIN. Pins are:
+<PRE>
+1   KBDATA
+2   KBCLOCK
+3   GND
+4   GND
+5  +12V
+6   -RESET1
+7   Keyboard/-Typewriter
+8   TEST0
+9   +5V
+</PRE>
+
+(pins 6-9 are not used by the supplied keyboards).
+<P>Attached 
+<A HREF="m24kbd.png">the diagram</A>
+of the 'deluxe' keyboard, which shows its scancodes in decimal.
+<P>A mouse can be attached to the keyboard. The following is based
+on disassembling attmouse.drv from Windows 1.0.
+<P>Windows initialises the mouse by sending the following bytes to the
+keyboard: 0x12, 0x77, 0x78, 0x79, 0x00.
+The 0x12 is almost certainly a command byte; 0x77, 0x78 and 0x79 are the
+scancodes to be returned by the three mouse buttons. I don't know what the
+0x00 is for.
+<P>It then handles the following scancodes:
+0xFE -- mouse movement. The next two scancodes are delta X, then delta Y,
+in ones' complement.
+0x77, 0x78, 0x79 (and 0xF7, 0xF8, 0xF9) -- button presses / releases.
+<P>When shutting down the mouse, it sends these bytes to the keyboard:
+0x11, 0x1C, 0x53, 0x01, 0x4B, 0x4D, 0x48, 0x50, 0x02, 0x04.
+My guesses here are:
+0x11: Mouse movement becomes simulated keypresses.
+0x1C, 0x53, 0x01: Scancodes to be returned by mouse button presses.
+0x4B, 0x4D, 0x48, 0x50: Scancodes to be returned by mouse movement.
+0x02, 0x04: Don't know.
+<P>
+<H2><A NAME="telerate"></A> <A NAME="ss2.4">2.4 Telerate keyboard</A>
+</H2>
+
+<P>The 
+<A HREF="telerate.jpg">Telerate keyboard</A> was used
+for financial applications, as is clear from the keycaps.
+This keyboard (in the old XT version, without <B>e0</B> prefixes)
+has four additional keys, with scancodes <B>61</B>,
+<B>62</B>, <B>63</B>, <B>64</B>. The F11 and F12 keys have
+scancodes <B>54</B> and <B>55</B> (instead of the common <B>57</B>
+and <B>58</B>). There are two LEDs (for CapsLock and NumLock).
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="telerate-s.jpg">
+</FIGURE>
+<P>
+<H2><A NAME="ss2.5">2.5 NCR keyboard</A>
+</H2>
+
+<P>Also with an XT interface this 
+<A HREF="ncr.jpg">NCR keyboard</A>,
+still with ten function keys on the left, but already with a separate
+block of keys between the ordinary keys and the numeric keypad.
+This middle block has on top five keys
+Ctrl (<B>1d</B>, same as the Ctrl on the left),
+Del (<B>53</B>, same as Keypad-Del/.),
+PgUp (<B>49</B>, same as Keypad-9/PgUp),
+End (<B>4f</B>, same as Keypad-1/End),
+PgDn (<B>51</B>, same as Keypad-3/PgDn), and below five cursor keys
+(<B>48</B>, same as Keypad-8/Up;
+<B>4b</B>, same as Keypad-4/Left;
+<B>47</B>, same as Keypad-7/Home;
+<B>4d</B>, same as Keypad-6/Right;
+<B>50</B>, same as Keypad-2/Down).
+Enter and Keypad-enter are both <B>1c</B>.
+Below the Enter key PrtScn/* (<B>37</B>), and below that again
+Ins (<B>52</B>, same as Keypad-0/Ins).
+CapsLock and NumLock have a built-in LED.
+<P>
+<FIGURE>
+<EPS FILE="absent">
+<IMG SRC="ncr-s.jpg">
+</FIGURE>
+<P>
+<P>
+<H2><A NAME="cherry80"></A> <A NAME="ss2.6">2.6 Cherry G80-0777</A>
+</H2>
+
+<P>According to 
+<A HREF="http://titan.informatik.uni-bonn.de/~frinke/FreeKEYB/kbdinfo.html">FreeKEYB/kbdinfo.html</A>
+this keyboard has five additional keys with scancodes
+<B>55</B> (F11), <B>56</B> (F12),
+<B>57</B> (F13), <B>58</B> (F14), <B>59</B> (F15).
+<P>
+<P>
+<HR>
+<A HREF="scancodes-3.html">Next</A>
+<A HREF="scancodes-1.html">Previous</A>
+<A HREF="scancodes.html#toc2">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,103 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SCREENDUMP</TITLE>
+</HEAD><BODY>
+<H1>SCREENDUMP</H1>
+Section: Linux Console (1)<BR>Updated: 2002-02-24<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<P>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+screendump - dump the contents of a virtual console to stdout
+<P>
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>screendump </B>
+
+[
+<I>N</I>
+
+]
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<B>screendump</B>
+
+command dumps the contents of virtual console 
+<B>N</B>
+
+, (or the current console if N is omitted)
+to standard out.
+<P>
+Just saying
+<DL COMPACT><DT><DD>
+cat /dev/vcsN
+</DL>
+
+has a similar effect.
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H2>NOTES</H2>
+
+For security reasons,
+<B>screendump</B>
+
+uses linux devices &quot;virtual console screen&quot; and 
+&quot;virtual console screen with attributes&quot; to give access for screendump.
+
+Ensure these files exist, using
+<P>
+
+<DL COMPACT><DT><DD>
+cd /dev
+for i in 0 1 2 3 ...; do
+<BR>
+
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>mknod vcs$i c 7 $i<BR>
+<BR>
+
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>mknod vcsa$i c 7 `expr 128 + $i`<BR>
+<BR>
+
+done
+</DL>
+
+<P>
+(filling in the ellipses) and give the device files appropriate
+permissions, or run 
+<B>screendump</B>
+
+as root.
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A HREF="../man1/setterm.1.html">setterm</A>(1)
+<P>
+
+
+
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">NOTES</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:13:18 GMT, October 30, 2011
+</BODY>
+</HTML>

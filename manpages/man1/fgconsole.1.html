@@ -1,0 +1,84 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of FGCONSOLE</TITLE>
+</HEAD><BODY>
+<H1>FGCONSOLE</H1>
+Section: Linux User's Manual (1)<BR>Updated: 14 Feburary 2002<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<P>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+fgconsole - print the number of the active VT.
+<P>
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>fgconsole</B>
+
+<B>[</B><I>--help</I><B>|</B><I>--version</I><B>|</B><I>--next-available</I><B>]</B>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+If the active Virtual Terminal is
+<I>/dev/ttyN</I>,
+
+then prints
+<I>N</I>
+
+on standard output.
+<P>
+If the console is a serial console, then 
+&quot;serial&quot; 
+is printed instead.
+<DL COMPACT>
+<DT><I>--next-available</I>
+
+<DD>
+Will show the next unallocated virtual terminal. Normally 6 virtual
+terminals are allocated, with number 7 used for X; this will return
+&quot;8&quot; in this case.
+<P>
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>NOTES</H2>
+
+Under 
+<I>devfs</I>,
+
+the consoles are in 
+<I>/dev/vc/N</I>.
+
+<I>devfsd</I>
+
+may maintain symlinks for compatibility.
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/chvt.1.html">chvt</A></B>(1).
+
+
+
+
+
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">NOTES</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

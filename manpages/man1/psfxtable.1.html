@@ -1,0 +1,111 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of PSFXTABLE</TITLE>
+</HEAD><BODY>
+<H1>PSFXTABLE</H1>
+Section: User Commands  (1)<BR>Updated: 9 Dec 1999<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+psfxtable - handle Unicode character tables for console fonts
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>psfxtable</B>
+
+[<B>-i</B>
+
+<I>infont</I>]
+
+[<B>-o</B>
+
+<I>outfont</I>]
+
+[<B>-it</B>
+
+<I>intable</I>]
+
+[<B>-ot</B>
+
+<I>outtable</I>]
+
+[<B>-nt</B>]
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAB"></A>
+<P>
+
+<B>psfxtable</B>
+
+handles the embedded Unicode character table for .psf format
+console fonts. It reads a font and possibly a table
+and writes a font and/or a table.
+<B><A HREF="../man1/psfaddtable.1.html">psfaddtable</A></B>(1),
+
+<B><A HREF="../man1/psfgettable.1.html">psfgettable</A></B>(1)
+
+and
+<B><A HREF="../man1/psfstriptable.1.html">psfstriptable</A></B>(1)
+
+are links to it.
+<P>
+Each of the filenames
+<I>infont</I>,
+
+<I>outfont</I>,
+
+<I>intable</I>,
+
+and
+<I>outtable</I>
+
+may be replaced by a single dash (-), in which case
+standard input or standard output is used.
+If no -i option is given, the font is read from standard input.
+If no -it or -o or -ot option is given,
+no input table is read or no output font or output table is written.
+<P>
+By default the output font (if any) will have a Unicode table
+when either the input font has one, or an explicit table
+(which overrides an input font table) has been provided.
+The option -nt causes output of a font without table.
+When
+<I>outfont</I>
+
+is requested it will get a psf1 header when infont has
+a psf1 header and
+<I>intable</I>
+
+does not have sequences and a psf2 header otherwise.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man8/setfont.8.html">setfont</A></B>(8),
+
+<B><A HREF="../man1/psfaddtable.1.html">psfaddtable</A></B>(1),
+
+<B><A HREF="../man1/psfgettable.1.html">psfgettable</A></B>(1),
+
+<B><A HREF="../man1/psfstriptable.1.html">psfstriptable</A></B>(1)
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

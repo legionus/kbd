@@ -1,0 +1,88 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of KBD_MODE</TITLE>
+</HEAD><BODY>
+<H1>KBD_MODE</H1>
+Section: User Commands  (1)<BR>Updated: 6 Apr 1994<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+kbd_mode - report or set the keyboard mode
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>kbd_mode</B>
+
+[
+<I>-a | -u | -k | -s </I>
+
+] [
+<I>-C CONSOLE</I>
+
+]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAB"></A>
+<P>
+
+Without argument,
+<B>kbd_mode</B>
+
+prints the current keyboard mode (RAW, MEDIUMRAW or XLATE).
+With argument, it sets the keyboard mode as indicated:
+<P>
+
+-s: scancode mode (RAW),
+<P>
+
+-k: keycode mode (MEDIUMRAW),
+<P>
+
+-a: ASCII mode (XLATE),
+<P>
+
+-u: UTF-8 mode (UNICODE).
+<P>
+
+Of course the &quot;-a&quot; is only traditional, and the code used can be any
+8-bit character set.  With &quot;-u&quot; a 16-bit character set is expected,
+and these chars are transmitted to the kernel as 1, 2, or 3 bytes
+(following the UTF-8 coding).
+In these latter two modes the key mapping defined by <A HREF="../man1/loadkeys.1.html">loadkeys</A>(1)
+is used.
+<P>
+kbd_mode operates on the console specified by the &quot;-C&quot; option; if there
+is none, the console associated with stdin is used.
+<P>
+Warning: changing the keyboard mode, other than between ASCII and
+Unicode, will probably make your keyboard unusable.
+This command is only meant for use (say via remote login)
+when some program left your keyboard in the wrong state.
+Note that in some obsolete versions of this program the &quot;-u&quot;
+option was a synonym for &quot;-s&quot;.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

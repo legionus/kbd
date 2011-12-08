@@ -1,0 +1,59 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of CHVT</TITLE>
+</HEAD><BODY>
+<H1>CHVT</H1>
+Section: User Commands  (1)<BR>Updated: 26 January 1997<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+chvt - change foreground virtual terminal
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>chvt</B>
+
+<I>N</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The command
+<B>chvt</B>
+
+<I>N</I>
+
+makes
+<I>/dev/ttyN</I>
+
+the foreground terminal.
+(The corresponding screen is created if it did not exist yet.
+To get rid of unused VTs,
+use
+<B><A HREF="../man1/deallocvt.1.html">deallocvt</A></B>(1).)
+
+The key combination
+(Ctrl-)LeftAlt-F<I>N</I>
+
+(with
+<I>N</I>
+
+in the range 1-12) usually has a similar effect.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

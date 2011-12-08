@@ -1,0 +1,66 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of DEALLOCVT</TITLE>
+</HEAD><BODY>
+<H1>DEALLOCVT</H1>
+Section: User Commands  (1)<BR>Updated: 17 Mar 1997<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+deallocvt - deallocate unused virtual consoles
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>deallocvt</B>
+
+[<I>N</I> ...]
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<P>
+
+The command
+<B>deallocvt</B>
+
+deallocates kernel memory and data structures
+for all unused virtual consoles.
+If one or more arguments
+<I>N</I> ...
+
+are given, only the corresponding consoles
+<I>/dev/ttyN</I>
+
+are deallocated.
+<P>
+A virtual console is unused if it is not the foreground console,
+and no process has it open for reading or writing, and no text
+has been selected on its screen.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/chvt.1.html">chvt</A></B>(1),
+
+<B><A HREF="../man1/openvt.1.html">openvt</A></B>(1)
+
+<P>
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:03:38 GMT, October 30, 2011
+</BODY>
+</HTML>

@@ -1,0 +1,82 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of MK_MODMAP</TITLE>
+</HEAD><BODY>
+<H1>MK_MODMAP</H1>
+Section: Maintenance Commands (8)<BR>Updated: 2002-02-22<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<P>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+mk_modmap - translate a Linux keytable file into an xmodmap file
+<P>
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>mk_modmap</B>
+
+[ 
+<B>-v</B>
+
+]
+keymap_file
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<B>mk_modmap</B>
+
+command tries to translate a Linux console keytable file into
+a file that can be parsed by xmodmap, and used within X.
+It outputs the results to standard out.
+
+If the 
+<B>-v</B>
+
+flag is used, verbose output is given.
+
+It requires the X header files to be installed.
+(In Debian, these are in the &quot;xlibs-dev&quot; package).
+<A NAME="lbAE">&nbsp;</A>
+<H2>NOTES</H2>
+
+Since XFree version 2.1, X initialises its keymap using the Linux
+keymap, so xmodmap will often be superflous.
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1),
+
+<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5),
+
+<B><A HREF="../man1/xmodmap.1.html">xmodmap</A>(1)</B>
+
+<P>
+<P>
+
+
+
+
+
+
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">NOTES</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:15:55 GMT, October 30, 2011
+</BODY>
+</HTML>

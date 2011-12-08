@@ -1,0 +1,125 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of RESIZECONS</TITLE>
+</HEAD><BODY>
+<H1>RESIZECONS</H1>
+Section: Console Support (8)<BR>Updated: 17 Jan 1995<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+resizecons - change kernel idea of the console size
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>resizecons </B><I>COLSxROWS</I>
+
+<BR>
+
+<B>resizecons -lines </B><I>ROWS</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<I>resizecons</I>
+
+command tries to change the videomode of the console.
+There are several aspects to this: (a) the kernel must know about it,
+(b) the hardware must know about it, (c) user programs must know
+about it, (d) the console font may have to be adapted.
+<P>
+(a) The kernel is told about the change using the ioctl VT_RESIZE.
+This causes the kernel to reallocate console screen memory for
+all virtual consoles, and might fail if there is not enough memory.
+(In that case, try to disallocate some virtual consoles first.)
+If this ioctl succeeds, but a later step fails (e.g., because
+you do not have root permissions), you may be left with a very messy
+screen.
+<P>
+The most difficult part of this is (b), since it requires detailed
+knowledge of the video card hardware, and the setting of numerous
+registers. Only changing the number of rows is slightly easier, and 
+<I>resizecons</I>
+
+will try to do that itself, when given the
+<I>-lines</I>
+
+option. (Probably, root permission will be required.)
+The command
+<I>resizecons COLSxROWS</I>
+
+will execute
+<I>restoretextmode -r COLSxROWS</I>
+
+(and hence requires that you have svgalib installed). Here COLSxROWS
+is a file that was created earlier by
+<I>restoretextmode -w COLSxROWS.</I>
+
+Again, either root permissions are required, or
+<I>restoretextmode</I>
+
+has to be suid root.
+<P>
+In order to deal with (c),
+<I>resizecons</I>
+
+does a `stty rows ROWS cols COLS' for each active console (in the
+range tty0..tty15), and sends a SIGWINCH signal to
+<I>selection</I>
+
+if it finds the file /tmp/selection.pid.
+<P>
+Finally, (d) is dealt with by executing a
+<I>setfont</I>
+
+command. Most likely, the wrong font is loaded, and you may want to
+do another
+<I>setfont</I>
+
+yourself afterwards.
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H2>BUGS</H2>
+
+<I>resizecons</I>
+
+does not work on all hardware.
+This command used to be called
+<I>resize,</I>
+
+but was renamed to avoid conflict with another command with the same name.
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man8/setfont.8.html">setfont</A></B>(8),
+
+<B><A HREF="../man1/stty.1.html">stty</A></B>(1),
+
+<B><A HREF="../man1/selection.1.html">selection</A></B>(1),
+
+<B><A HREF="../man8/restoretextmode.8.html">restoretextmode</A></B>(8),
+
+<B><A HREF="../man8/disalloc.8.html">disalloc</A></B>(8)
+
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">BUGS</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:15:50 GMT, October 30, 2011
+</BODY>
+</HTML>
