@@ -20,11 +20,11 @@ void fpclose(FILE *fp) {
 	     fclose(fp);
 }
 
-void fpclose1(FILE *fp, int is_pipe) {
-	if (is_pipe)
-		pclose(fp);
+void fpclose1(lkfile_t *fp) {
+	if (fp->pipe)
+		pclose(fp->fd);
 	else
-		fclose(fp);
+		fclose(fp->fd);
 }
 
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))

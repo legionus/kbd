@@ -33,9 +33,8 @@ void stack_push(FILE *fd, int is_pipe, char *fname);
 /* Include file handling - unfortunately flex-specific. */
 #define MAX_INCLUDE_DEPTH 20
 static struct infile {
-	FILE *fd;
+	lkfile_t fp;
 	char *filename;
-	int  pipe;
 	int  linenr;
 	YY_BUFFER_STATE buffer;
 } infile_stack[MAX_INCLUDE_DEPTH];
@@ -53,8 +52,8 @@ void stack_push(FILE *fd, int is_pipe, char *fname) {
 	infile_stack_ptr++;
 
 	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd, YY_BUF_SIZE);
-	infile_stack[infile_stack_ptr].fd       = fd;
-	infile_stack[infile_stack_ptr].pipe     = is_pipe;
+	infile_stack[infile_stack_ptr].fp.fd    = fd;
+	infile_stack[infile_stack_ptr].fp.pipe  = is_pipe;
 	infile_stack[infile_stack_ptr].filename = strdup(fname);
 	infile_stack[infile_stack_ptr].linenr   = line_nr;
 
@@ -66,7 +65,7 @@ void stack_push(FILE *fd, int is_pipe, char *fname) {
 }
 
 static int stack_pop(void) {
-	fpclose1(infile_stack[infile_stack_ptr].fd, infile_stack[infile_stack_ptr].pipe);
+	fpclose1(&infile_stack[infile_stack_ptr].fp);
 
 	// Free previous filename
 	xfree(infile_stack[infile_stack_ptr].filename);
@@ -78,8 +77,7 @@ static int stack_pop(void) {
 
 	if (infile_stack_ptr >= 0) {
 		// Set new state
-		//yyin     = infile_stack[infile_stack_ptr].fd; // ???
-		ispipe   = infile_stack[infile_stack_ptr].pipe;
+		ispipe   = infile_stack[infile_stack_ptr].fp.pipe;
 		filename = infile_stack[infile_stack_ptr].filename;
 		line_nr  = infile_stack[infile_stack_ptr].linenr;
 
