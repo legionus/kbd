@@ -39,13 +39,13 @@ static struct decompressor {
 };
 
 static FILE *
-pipe_open(struct decompressor *dc) {
+pipe_open(const char *filename, struct decompressor *dc) {
 	char *pipe_cmd;
 	FILE *fp;
 
 	ispipe = 1;
-	pipe_cmd = xmalloc(strlen(dc->cmd) + strlen(pathname) + 2);
-	sprintf(pipe_cmd, "%s %s", dc->cmd, pathname);
+	pipe_cmd = xmalloc(strlen(dc->cmd) + strlen(filename) + 2);
+	sprintf(pipe_cmd, "%s %s", dc->cmd, filename);
 	fp = popen(pipe_cmd, "r");
 	if (fp == NULL)
 		fprintf(stderr, _("error executing  %s\n"), pipe_cmd);
@@ -56,18 +56,18 @@ pipe_open(struct decompressor *dc) {
 /* If a file PATHNAME exists, then open it.
    If is has a `compressed' extension, then open a pipe reading it */
 static FILE *
-maybe_pipe_open(void) {
+maybe_pipe_open(const char *filename) {
 	FILE *fp;
 	char *t;
 	struct decompressor *dc;
 
-	if ((fp = fopen(pathname, "r")) != NULL) {
-	    t = strrchr(pathname, '.');
+	if ((fp = fopen(filename, "r")) != NULL) {
+	    t = strrchr(filename, '.');
 	    if (t) {
 		for (dc = &decompressors[0]; dc->cmd; dc++)
 		    if (strcmp(t, dc->ext) == 0) {
 			fclose(fp);
-			return pipe_open(dc);
+			return pipe_open(filename, dc);
 		    }
 	    }
 	}
@@ -75,7 +75,9 @@ maybe_pipe_open(void) {
 }
 
 static FILE *
-findfile_by_fullname(char *fnam, char **suffixes) {
+findfile_by_fullname(const char *fnam, char **suffixes,
+                     char *pathbuf, size_t bufsz)
+{
 	FILE *fp = NULL;
 	char **sp;
 	struct stat st;
@@ -90,26 +92,26 @@ findfile_by_fullname(char *fnam, char **suffixes) {
 
 		sp_len = strlen(*sp);
 
-		if (fnam_len + sp_len + 1 > sizeof(pathname))
+		if (fnam_len + sp_len + 1 > bufsz)
 			continue;
 
-		sprintf(pathname, "%s%s", fnam, *sp);
+		sprintf(pathbuf, "%s%s", fnam, *sp);
 
-		if(stat(pathname, &st) == 0
+		if(stat(pathbuf, &st) == 0
 		   && S_ISREG(st.st_mode)
-		   && (fp = fopen(pathname, "r")) != NULL)
+		   && (fp = fopen(pathbuf, "r")) != NULL)
 			return fp;
 
 		for (dc = &decompressors[0]; dc->cmd; dc++) {
-			if (fnam_len + sp_len + strlen(dc->ext) + 1 > sizeof(pathname))
+			if (fnam_len + sp_len + strlen(dc->ext) + 1 > bufsz)
 				continue;
 
-			sprintf(pathname, "%s%s%s", fnam, *sp, dc->ext);
+			sprintf(pathbuf, "%s%s%s", fnam, *sp, dc->ext);
 
-			if (stat(pathname, &st) == 0
+			if (stat(pathbuf, &st) == 0
 			    && S_ISREG(st.st_mode)
-			    && access(pathname, R_OK) == 0)
-				return pipe_open(dc);
+			    && access(pathbuf, R_OK) == 0)
+				return pipe_open(pathbuf, dc);
 		}
 	}
 
@@ -117,7 +119,9 @@ findfile_by_fullname(char *fnam, char **suffixes) {
 }
 
 static FILE *
-findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf) {
+findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf,
+                char *pathbuf, size_t bufsz)
+{
 	FILE *fp = NULL;
 	DIR *d;
 	struct dirent *de;
@@ -153,8 +157,8 @@ StartScan:
 			continue;
 	    }
 
-	    if (dir_len + d_len + 2 > sizeof(pathname)) {
-	    	fprintf(stderr, _("Warning: path too long: %s/%s\n"), dir, de->d_name);
+	    if (dir_len + d_len + 2 > bufsz) {
+		fprintf(stderr, _("Warning: path too long: %s/%s\n"), dir, de->d_name);
 		continue;
 	    }
 
@@ -168,10 +172,12 @@ StartScan:
 
 		if (stat(a, &st) == 0 && S_ISDIR(st.st_mode)) {
 			if (okdir)
-				fp = findfile_in_dir(ff+1, a, 0, suf);
+				fp = findfile_in_dir(ff+1, a, 0, suf,
+				                     pathbuf, bufsz);
 
 			if (!fp && recdepth)
-				fp = findfile_in_dir(fnam, a, recdepth-1, suf);
+				fp = findfile_in_dir(fnam, a, recdepth-1, suf,
+				                     pathbuf, bufsz);
 
 			if (fp) {
 				xfree(a);
@@ -195,8 +201,8 @@ StartScan:
 	    if (*q)
 		    continue;
 
-	    sprintf(pathname, "%s/%s", dir, de->d_name);
-	    if (stat(pathname, &st) != 0 || !S_ISREG(st.st_mode))
+	    sprintf(pathbuf, "%s/%s", dir, de->d_name);
+	    if (stat(pathbuf, &st) != 0 || !S_ISREG(st.st_mode))
 		    continue;
 
 	    /* Does tail consist of a known suffix and possibly
@@ -205,7 +211,7 @@ StartScan:
 		    size_t l;
 
 		    if (!strcmp(p, *sp)) {
-	    		fp = maybe_pipe_open();
+	    		fp = maybe_pipe_open(pathbuf);
 	    		goto EndScan;
 		    }
 
@@ -213,7 +219,7 @@ StartScan:
 		    if (!strncmp(p, *sp, l)) {
 			for (dc = &decompressors[0]; dc->cmd; dc++)
 			    if (strcmp(p+l, dc->ext) == 0) {
-			    	fp = pipe_open(dc);
+			    	fp = pipe_open(pathbuf, dc);
 			    	goto EndScan;
 			    }
 		    }
@@ -239,19 +245,17 @@ findfile(char *fnam, char **dirpath, char **suffixes) {
 	FILE *fp = NULL;
 	int dl, recdepth;
 
-	if (strlen(fnam) >= sizeof(pathname))
-		return NULL;
-
 	/* Try explicitly given name first */
 	strcpy(pathname, fnam);
-	fp = maybe_pipe_open();
+	fp = maybe_pipe_open(fnam);
 	if (fp)
 		return fp;
 
 	/* Test for full pathname - opening it failed, so need suffix */
 	/* (This is just nonsense, for backwards compatibility.) */
 	if (*fnam == '/')
-		return findfile_by_fullname(fnam, suffixes);
+		return findfile_by_fullname(fnam, suffixes,
+		                            pathname, sizeof(pathname));
 
 	/* Search a list of directories and directory hierarchies */
 	for (dp = dirpath; (*dp && !fp); dp++) {
@@ -271,7 +275,8 @@ findfile(char *fnam, char **dirpath, char **suffixes) {
 		else
 			dir = xstrdup(".");
 
-		fp = findfile_in_dir(fnam, dir, recdepth, suffixes);
+		fp = findfile_in_dir(fnam, dir, recdepth, suffixes,
+		                     pathname, sizeof(pathname));
 		xfree(dir);
 	}
 	return fp;
