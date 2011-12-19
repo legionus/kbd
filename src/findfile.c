@@ -57,21 +57,22 @@ pipe_open(const char *filename, struct decompressor *dc) {
    If is has a `compressed' extension, then open a pipe reading it */
 static FILE *
 maybe_pipe_open(const char *filename) {
-	FILE *fp;
 	char *t;
+	struct stat st;
 	struct decompressor *dc;
 
-	if ((fp = fopen(filename, "r")) != NULL) {
-	    t = strrchr(filename, '.');
-	    if (t) {
-		for (dc = &decompressors[0]; dc->cmd; dc++)
-		    if (strcmp(t, dc->ext) == 0) {
-			fclose(fp);
-			return pipe_open(filename, dc);
-		    }
-	    }
+	if (stat(filename, &st) == -1 || !S_ISREG(st.st_mode) ||
+	    access(filename, R_OK) == -1)
+		return NULL;
+
+	t = strrchr(filename, '.');
+	if (t) {
+		for (dc = &decompressors[0]; dc->cmd; dc++) {
+			if (strcmp(t, dc->ext) == 0)
+				return pipe_open(filename, dc);
+		}
 	}
-	return fp;
+	return fopen(filename, "r");
 }
 
 static FILE *
