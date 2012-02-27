@@ -110,3 +110,21 @@ AC_CONFIG_FILES([Makefile
 		src/Makefile
 		src/vlock/Makefile])
 AC_OUTPUT
+
+AC_MSG_RESULT([
+	$PACKAGE $VERSION
+	======
+
+	prefix:			${prefix}
+	libdir:			${libdir}
+	bindir:			${bindir}
+	datadir:		${datadir}
+
+	compiler:		${CC}
+	cflags:			${CFLAGS}
+
+	{get,set}keycodes:	${KEYCODES_PROGS}
+	resizecons:		${RESIZECONS_PROGS}
+	optional progs:		${OPTIONAL_PROGS}
+	vlock:			${VLOCK_PROG}
+])
