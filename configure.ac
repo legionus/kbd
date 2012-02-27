@@ -11,6 +11,9 @@ AM_INIT_AUTOMAKE([1.9 -Wall])
 AC_CONFIG_SRCDIR([src/loadkeys.y])
 AC_CONFIG_HEADERS(config.h)
 
+m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
+AM_SILENT_RULES([yes])
+
 # Checks for programs.
 AC_PROG_CC
 AM_PROG_CC_C_O
