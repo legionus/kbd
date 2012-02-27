@@ -1,8 +1,4 @@
-WARNINGS = -Wall -Wextra -Wmissing-noreturn -Wdisabled-optimization \
-	-Wcast-align -Wshadow -Wmissing-format-attribute -Wmissing-prototypes \
-	-Wstrict-prototypes -Wmissing-declarations
-
-AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" $(WARNINGS) \
+AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-funit-at-a-time
 
 SUBDIRS = vlock

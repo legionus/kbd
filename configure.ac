@@ -55,6 +55,18 @@ AC_FUNC_STAT
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul setpgrp malloc realloc])
 
+CC_CHECK_CFLAGS_APPEND([\
+	-Wall \
+	-Wextra \
+	-Wmissing-noreturn \
+	-Wdisabled-optimization \
+	-Wcast-align \
+	-Wshadow \
+	-Wmissing-format-attribute \
+	-Wmissing-prototypes \
+	-Wstrict-prototypes \
+	-Wmissing-declarations])
+
 case $host_cpu in
 	m68*|sparc*) KEYCODES_PROGS=no ;;
 	*)           KEYCODES_PROGS=yes ;;
