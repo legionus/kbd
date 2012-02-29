@@ -69,7 +69,8 @@ mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
 AM_YFLAGS = -d
-BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h
+AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
+BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h loadkeys.analyze.h
 loadkeys_SOURCES = loadkeys.y loadkeys.analyze.l $(GETFD_S) $(KSYMS_S) $(XMAL_S) $(FIND_S)
 
 install-exec-hook:

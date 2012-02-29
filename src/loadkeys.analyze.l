@@ -1,3 +1,5 @@
+%option stack
+%option noyy_top_state
 %option noyywrap
 %option nounput
 %option noinput
@@ -296,17 +298,16 @@ To                      to|To|TO
 %}
 
 {Include}		{
-				BEGIN(INCLSTR);
+				yy_push_state(INCLSTR);
 			}
 <INCLSTR>\"[^\"\n]+\"	{
 				char *s = xstrndup(yytext+1, strlen(yytext)-2);
 				/* use static pathname to store *s ? */
 				open_include(s);
-				BEGIN(0);
+				yy_pop_state();
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
 				yyerror(_("expected filename between quotes"));
-				BEGIN(0);
 			}
 <<EOF>>			{
 				stack_pop();
@@ -318,22 +319,23 @@ To                      to|To|TO
 			}
 {Eol}			{
 				line_nr++;
-				BEGIN(0);
+				if (yy_start_stack_ptr > 0)
+					yy_pop_state();
 				return(EOL);
 			}
 {Blank}+		; /* do nothing */
 {Comment}.*/{Eol}	; /* do nothing */
 {Equals}		{
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
 				rvalct = 0;
 				return(EQUALS);
 			}
 {String}		{
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
 				return(STRING);
 			}
 {To}			{
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
 				return(TO);
 			}
 {Unicode}		{
@@ -385,7 +387,7 @@ To                      to|To|TO
 \"			{
 				p = (char *) kbs_buf.kb_string;
 				pmax = p + sizeof(kbs_buf.kb_string) - 1;
-				BEGIN(STR);
+				yy_push_state(STR);
 			}
 <STR>\\{Octa}		{
 				if (p >= pmax)
@@ -416,7 +418,7 @@ To                      to|To|TO
 			}
 <STR>\"			{
 				*p = '\0';
-				BEGIN(0);
+				yy_pop_state();
 				return(STRLITERAL);
 			}
 .			{

@@ -796,7 +796,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "loadkeys.analyze.l"
 #define YY_NO_INPUT 1
-#line 5 "loadkeys.analyze.l"
+#line 7 "loadkeys.analyze.l"
 #define YY_NO_INPUT 1
 
 #include <stdlib.h>
@@ -1120,6 +1120,14 @@ static int input (void );
 
 #endif
 
+        static int yy_start_stack_ptr = 0;
+        static int yy_start_stack_depth = 0;
+        static int *yy_start_stack = NULL;
+    
+    static void yy_push_state (int new_state );
+    
+    static void yy_pop_state (void );
+    
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
 #define YY_READ_BUF_SIZE 8192
@@ -1223,7 +1231,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 283 "loadkeys.analyze.l"
+#line 285 "loadkeys.analyze.l"
 
 
 /* To protect from wrong code in the higher level parser (loadkeys.y), 
@@ -1239,7 +1247,7 @@ YY_DECL
   yylval = YYLVAL_UNDEF;
 
 
-#line 1243 "loadkeys.analyze.c"
+#line 1251 "loadkeys.analyze.c"
 
 	if ( !(yy_init) )
 		{
@@ -1324,35 +1332,34 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 298 "loadkeys.analyze.l"
+#line 300 "loadkeys.analyze.l"
 {
-				BEGIN(INCLSTR);
+				yy_push_state(INCLSTR);
 			}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 301 "loadkeys.analyze.l"
+#line 303 "loadkeys.analyze.l"
 {
 				char *s = xstrndup(yytext+1, strlen(yytext)-2);
 				/* use static pathname to store *s ? */
 				open_include(s);
-				BEGIN(0);
+				yy_pop_state();
 			}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 307 "loadkeys.analyze.l"
+#line 309 "loadkeys.analyze.l"
 {
 				yyerror(_("expected filename between quotes"));
-				BEGIN(0);
 			}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
 case YY_STATE_EOF(INCLSTR):
-#line 311 "loadkeys.analyze.l"
+#line 312 "loadkeys.analyze.l"
 {
 				stack_pop();
 				if (!YY_CURRENT_BUFFER)
@@ -1362,7 +1369,7 @@ case YY_STATE_EOF(INCLSTR):
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 316 "loadkeys.analyze.l"
+#line 317 "loadkeys.analyze.l"
 {
 				line_nr++;
 			}
@@ -1370,16 +1377,17 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 319 "loadkeys.analyze.l"
+#line 320 "loadkeys.analyze.l"
 {
 				line_nr++;
-				BEGIN(0);
+				if (yy_start_stack_ptr > 0)
+					yy_pop_state();
 				return(EOL);
 			}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 324 "loadkeys.analyze.l"
+#line 326 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1388,37 +1396,37 @@ case 7:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 325 "loadkeys.analyze.l"
+#line 327 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 326 "loadkeys.analyze.l"
+#line 328 "loadkeys.analyze.l"
 {
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
 				rvalct = 0;
 				return(EQUALS);
 			}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 331 "loadkeys.analyze.l"
+#line 333 "loadkeys.analyze.l"
 {
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
 				return(STRING);
 			}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 335 "loadkeys.analyze.l"
+#line 337 "loadkeys.analyze.l"
 {
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
 				return(TO);
 			}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 339 "loadkeys.analyze.l"
+#line 341 "loadkeys.analyze.l"
 {
 				yylval = strtol(yytext + 1, NULL, 16);
 				if (yylval >= 0xf000)
@@ -1428,7 +1436,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 345 "loadkeys.analyze.l"
+#line 347 "loadkeys.analyze.l"
 {
 				yylval = strtol(yytext, NULL, 0);
 				return(NUMBER);
@@ -1436,127 +1444,127 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 349 "loadkeys.analyze.l"
+#line 351 "loadkeys.analyze.l"
 {	return((yylval = ksymtocode(yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 350 "loadkeys.analyze.l"
+#line 352 "loadkeys.analyze.l"
 {	return(DASH);		}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 351 "loadkeys.analyze.l"
+#line 353 "loadkeys.analyze.l"
 {	return(COMMA);		}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 352 "loadkeys.analyze.l"
+#line 354 "loadkeys.analyze.l"
 {	return(PLUS);		}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 353 "loadkeys.analyze.l"
+#line 355 "loadkeys.analyze.l"
 {	return(CHARSET);	}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 354 "loadkeys.analyze.l"
+#line 356 "loadkeys.analyze.l"
 {	return(KEYMAPS);	}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 355 "loadkeys.analyze.l"
+#line 357 "loadkeys.analyze.l"
 {	return(KEYCODE);	}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 356 "loadkeys.analyze.l"
+#line 358 "loadkeys.analyze.l"
 {	return(PLAIN);		}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 357 "loadkeys.analyze.l"
+#line 359 "loadkeys.analyze.l"
 {	return(SHIFT);		}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 358 "loadkeys.analyze.l"
+#line 360 "loadkeys.analyze.l"
 {	return(CONTROL);	}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 359 "loadkeys.analyze.l"
+#line 361 "loadkeys.analyze.l"
 {	return(ALT);		}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 360 "loadkeys.analyze.l"
+#line 362 "loadkeys.analyze.l"
 {	return(ALTGR);		}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 361 "loadkeys.analyze.l"
+#line 363 "loadkeys.analyze.l"
 {	return(SHIFTL);		}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 362 "loadkeys.analyze.l"
+#line 364 "loadkeys.analyze.l"
 {	return(SHIFTR);		}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 363 "loadkeys.analyze.l"
+#line 365 "loadkeys.analyze.l"
 {	return(CTRLL);		}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 364 "loadkeys.analyze.l"
+#line 366 "loadkeys.analyze.l"
 {	return(CTRLR);		}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 365 "loadkeys.analyze.l"
+#line 367 "loadkeys.analyze.l"
 {	return(CAPSSHIFT);	}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 366 "loadkeys.analyze.l"
+#line 368 "loadkeys.analyze.l"
 {	return(ALT_IS_META);	}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 367 "loadkeys.analyze.l"
+#line 369 "loadkeys.analyze.l"
 {	return(STRINGS);	}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 368 "loadkeys.analyze.l"
+#line 370 "loadkeys.analyze.l"
 {	return(COMPOSE);	}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 369 "loadkeys.analyze.l"
+#line 371 "loadkeys.analyze.l"
 {	return(AS);		}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 370 "loadkeys.analyze.l"
+#line 372 "loadkeys.analyze.l"
 {	return(USUAL);		}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 371 "loadkeys.analyze.l"
+#line 373 "loadkeys.analyze.l"
 {	return(ON);		}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 372 "loadkeys.analyze.l"
+#line 374 "loadkeys.analyze.l"
 {	return(FOR);		}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 373 "loadkeys.analyze.l"
+#line 375 "loadkeys.analyze.l"
 {
 				yylval = strtol(yytext + 2, NULL, 8);
 				return(CCHAR);
@@ -1564,7 +1572,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 377 "loadkeys.analyze.l"
+#line 379 "loadkeys.analyze.l"
 {
 				yylval = (unsigned char) yytext[2];
 				return(CCHAR);
@@ -1572,7 +1580,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 381 "loadkeys.analyze.l"
+#line 383 "loadkeys.analyze.l"
 {
 				yylval = (unsigned char) yytext[1];
 				return(CCHAR);
@@ -1580,16 +1588,16 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 385 "loadkeys.analyze.l"
+#line 387 "loadkeys.analyze.l"
 {
 				p = (char *) kbs_buf.kb_string;
 				pmax = p + sizeof(kbs_buf.kb_string) - 1;
-				BEGIN(STR);
+				yy_push_state(STR);
 			}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 390 "loadkeys.analyze.l"
+#line 392 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1598,7 +1606,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 395 "loadkeys.analyze.l"
+#line 397 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1607,7 +1615,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 400 "loadkeys.analyze.l"
+#line 402 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1616,7 +1624,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 405 "loadkeys.analyze.l"
+#line 407 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1626,7 +1634,7 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 410 "loadkeys.analyze.l"
+#line 412 "loadkeys.analyze.l"
 {
 				char *ptmp = p;
 				p += strlen(yytext);
@@ -1637,26 +1645,26 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 417 "loadkeys.analyze.l"
+#line 419 "loadkeys.analyze.l"
 {
 				*p = '\0';
-				BEGIN(0);
+				yy_pop_state();
 				return(STRLITERAL);
 			}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 422 "loadkeys.analyze.l"
+#line 424 "loadkeys.analyze.l"
 {
 				return(ERROR); /* report any unknown characters */
 			}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 425 "loadkeys.analyze.l"
+#line 427 "loadkeys.analyze.l"
 ECHO;
 	YY_BREAK
-#line 1660 "loadkeys.analyze.c"
+#line 1668 "loadkeys.analyze.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2410,6 +2418,38 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )
 	return b;
 }
 
+    static void yy_push_state (int  new_state )
+{
+    	if ( (yy_start_stack_ptr) >= (yy_start_stack_depth) )
+		{
+		yy_size_t new_size;
+
+		(yy_start_stack_depth) += YY_START_STACK_INCR;
+		new_size = (yy_start_stack_depth) * sizeof( int );
+
+		if ( ! (yy_start_stack) )
+			(yy_start_stack) = (int *) yyalloc(new_size  );
+
+		else
+			(yy_start_stack) = (int *) yyrealloc((void *) (yy_start_stack),new_size  );
+
+		if ( ! (yy_start_stack) )
+			YY_FATAL_ERROR( "out of memory expanding start-condition stack" );
+		}
+
+	(yy_start_stack)[(yy_start_stack_ptr)++] = YY_START;
+
+	BEGIN(new_state);
+}
+
+    static void yy_pop_state  (void)
+{
+    	if ( --(yy_start_stack_ptr) < 0 )
+		YY_FATAL_ERROR( "start-condition stack underflow" );
+
+	BEGIN((yy_start_stack)[(yy_start_stack_ptr)]);
+}
+
 #ifndef YY_EXIT_FAILURE
 #define YY_EXIT_FAILURE 2
 #endif
@@ -2530,6 +2570,10 @@ static int yy_init_globals (void)
     (yy_init) = 0;
     (yy_start) = 0;
 
+    (yy_start_stack_ptr) = 0;
+    (yy_start_stack_depth) = 0;
+    (yy_start_stack) =  NULL;
+
 /* Defined in main.c */
 #ifdef YY_STDINIT
     yyin = stdin;
@@ -2559,6 +2603,10 @@ int yylex_destroy  (void)
 	/* Destroy the stack itself. */
 	yyfree((yy_buffer_stack) );
 	(yy_buffer_stack) = NULL;
+
+    /* Destroy the start condition stack. */
+        yyfree((yy_start_stack)  );
+        (yy_start_stack) = NULL;
 
     /* Reset the globals. This is important in a non-reentrant scanner so the next time
      * yylex() is called, initialization will occur. */
@@ -2615,7 +2663,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 425 "loadkeys.analyze.l"
+#line 427 "loadkeys.analyze.l"
 
 
 

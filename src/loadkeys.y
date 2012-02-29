@@ -10,6 +10,8 @@
 %token UNUMBER ALT_IS_META STRINGS AS USUAL ON FOR
 
 %{
+#define YY_HEADER_EXPORT_START_CONDITIONS 1
+
 #include <errno.h>
 #include <stdio.h>
 #include <getopt.h>
@@ -32,6 +34,8 @@
 #include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
+
+#include "loadkeys.analyze.h"
 
 #define U(x) ((x) ^ 0xf000)
 
@@ -83,7 +87,6 @@ extern void stack_push(FILE *fd, int ispipe, char *filename);
 extern int prefer_unicode;
 
 #include "ksyms.h"
-int yylex(void);
 
 static void attr_noreturn usage(void)
 {

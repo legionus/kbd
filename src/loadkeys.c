@@ -69,6 +69,8 @@
 /* Line 189 of yacc.c  */
 #line 12 "loadkeys.y"
 
+#define YY_HEADER_EXPORT_START_CONDITIONS 1
+
 #include <errno.h>
 #include <stdio.h>
 #include <getopt.h>
@@ -91,6 +93,8 @@
 #include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
+
+#include "loadkeys.analyze.h"
 
 #define U(x) ((x) ^ 0xf000)
 
@@ -142,7 +146,6 @@ extern void stack_push(FILE *fd, int ispipe, char *filename);
 extern int prefer_unicode;
 
 #include "ksyms.h"
-int yylex(void);
 
 static void attr_noreturn usage(void)
 {
@@ -947,7 +950,7 @@ static void attr_noreturn bkeymap(void)
 
 
 /* Line 189 of yacc.c  */
-#line 951 "loadkeys.c"
+#line 954 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -1059,7 +1062,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 1063 "loadkeys.c"
+#line 1066 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -1364,12 +1367,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   891,   891,   892,   894,   895,   896,   897,   898,   899,
-     900,   901,   902,   903,   905,   910,   915,   920,   924,   929,
-     934,   935,   937,   943,   948,   957,   961,   966,   967,   969,
-     969,   976,   981,   982,   984,   985,   986,   987,   988,   989,
-     990,   991,   992,   994,  1033,  1034,  1036,  1043,  1044,  1045,
-    1046,  1047,  1048
+       0,   894,   894,   895,   897,   898,   899,   900,   901,   902,
+     903,   904,   905,   906,   908,   913,   918,   923,   927,   932,
+     937,   938,   940,   946,   951,   960,   964,   969,   970,   972,
+     972,   979,   984,   985,   987,   988,   989,   990,   991,   992,
+     993,   994,   995,   997,  1036,  1037,  1039,  1046,  1047,  1048,
+    1049,  1050,  1051
 };
 #endif
 
@@ -2341,7 +2344,7 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 906 "loadkeys.y"
+#line 909 "loadkeys.y"
     {
 				set_charset((char *) kbs_buf.kb_string);
 			}
@@ -2350,7 +2353,7 @@ yyreduce:
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 911 "loadkeys.y"
+#line 914 "loadkeys.y"
     {
 				alt_is_meta = 1;
 			}
@@ -2359,7 +2362,7 @@ yyreduce:
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 916 "loadkeys.y"
+#line 919 "loadkeys.y"
     {
 				strings_as_usual();
 			}
@@ -2368,7 +2371,7 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 921 "loadkeys.y"
+#line 924 "loadkeys.y"
     {
 				compose_as_usual((char *) kbs_buf.kb_string);
 			}
@@ -2377,7 +2380,7 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 925 "loadkeys.y"
+#line 928 "loadkeys.y"
     {
 				compose_as_usual(0);
 			}
@@ -2386,7 +2389,7 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 930 "loadkeys.y"
+#line 933 "loadkeys.y"
     {
 				keymaps_line_seen = 1;
 			}
@@ -2395,7 +2398,7 @@ yyreduce:
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 938 "loadkeys.y"
+#line 941 "loadkeys.y"
     {
 				int i;
 				for (i = (yyvsp[(1) - (3)]); i <= (yyvsp[(3) - (3)]); i++)
@@ -2406,7 +2409,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 944 "loadkeys.y"
+#line 947 "loadkeys.y"
     {
 				addmap((yyvsp[(1) - (1)]),1);
 			}
@@ -2415,7 +2418,7 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 949 "loadkeys.y"
+#line 952 "loadkeys.y"
     {
 				if (KTYP((yyvsp[(2) - (5)])) != KT_FN)
 					lkfatal(_("'%s' is not a function key symbol"),
@@ -2428,7 +2431,7 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 958 "loadkeys.y"
+#line 961 "loadkeys.y"
     {
 				compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
@@ -2437,7 +2440,7 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 962 "loadkeys.y"
+#line 965 "loadkeys.y"
     {
 				compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)]));
 			}
@@ -2446,21 +2449,21 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 966 "loadkeys.y"
+#line 969 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]);		}
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 967 "loadkeys.y"
+#line 970 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]) ^ 0xf000;	}
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 969 "loadkeys.y"
+#line 972 "loadkeys.y"
     {
 				mod = 0;
 			}
@@ -2469,7 +2472,7 @@ yyreduce:
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 973 "loadkeys.y"
+#line 976 "loadkeys.y"
     {
 				addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)]));
 			}
@@ -2478,7 +2481,7 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 977 "loadkeys.y"
+#line 980 "loadkeys.y"
     {
 				addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)]));
 			}
@@ -2487,70 +2490,70 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 984 "loadkeys.y"
+#line 987 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 985 "loadkeys.y"
+#line 988 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 986 "loadkeys.y"
+#line 989 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 987 "loadkeys.y"
+#line 990 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 988 "loadkeys.y"
+#line 991 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 989 "loadkeys.y"
+#line 992 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 990 "loadkeys.y"
+#line 993 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 991 "loadkeys.y"
+#line 994 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 992 "loadkeys.y"
+#line 995 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 995 "loadkeys.y"
+#line 998 "loadkeys.y"
     {
 				int i, j;
 
@@ -2592,7 +2595,7 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 1037 "loadkeys.y"
+#line 1040 "loadkeys.y"
     {
 				if (rvalct >= MAX_NR_KEYMAPS)
 					lkfatal(_("too many key definitions on one line"));
@@ -2603,49 +2606,49 @@ yyreduce:
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 1043 "loadkeys.y"
+#line 1046 "loadkeys.y"
     { (yyval) = convert_code((yyvsp[(1) - (1)]), TO_AUTO);		}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 1044 "loadkeys.y"
+#line 1047 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)]));			}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 1045 "loadkeys.y"
+#line 1048 "loadkeys.y"
     { (yyval) = convert_code((yyvsp[(1) - (1)])^0xf000, TO_AUTO);	}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 1046 "loadkeys.y"
+#line 1049 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)])^0xf000);			}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 1047 "loadkeys.y"
+#line 1050 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]);					}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 1048 "loadkeys.y"
+#line 1051 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)]));			}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 2649 "loadkeys.c"
+#line 2652 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2857,7 +2860,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 1050 "loadkeys.y"
+#line 1053 "loadkeys.y"
 
 
 static void parse_keymap(FILE *fd) {
