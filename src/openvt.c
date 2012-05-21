@@ -15,8 +15,8 @@
 #include "xmalloc.h"
 #include "getfd.h"
 
-#ifndef NAME_MAX
-#define NAME_MAX 255
+#ifdef COMPAT_HEADERS
+#include "compat/linux-limits.h"
 #endif
 
 // There must be a universal way to find these!

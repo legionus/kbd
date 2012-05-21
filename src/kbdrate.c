@@ -74,15 +74,14 @@ beats rebuilding the kernel!
 #include <errno.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
+#include <linux/kd.h>
 
 #ifdef __sparc__
 #include <asm/param.h>
 #endif
 
-#ifndef KDKBDREP
-/* usually defined in <linux/kd.h> */
-#define KDKBDREP        0x4B52  /* set keyboard delay/repeat rate;
-				 * actually used values are returned */
+#ifdef COMPAT_HEADERS
+#include "compat/linux-kd.h"
 #endif
 
 /* Equal to kernel version, but field names vary. */

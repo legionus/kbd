@@ -20,12 +20,8 @@
 #include "nls.h"
 #include "version.h"
 
-#ifndef KT_LETTER
-#define KT_LETTER KT_LATIN
-#endif
-
-#ifndef MAX_NR_KEYMAPS
-#define MAX_NR_KEYMAPS NR_KEYMAPS
+#ifdef COMPAT_HEADERS
+#include "compat/linux-keyboard.h"
 #endif
 
 static int fd;

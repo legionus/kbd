@@ -37,6 +37,9 @@
 
 #include "loadkeys.analyze.h"
 
+#ifdef COMPAT_HEADERS
+#include "compat/linux-keyboard.h"
+
 #define U(x) ((x) ^ 0xf000)
 
 #ifdef KDSKBDIACRUC
@@ -44,13 +47,6 @@ typedef struct kbdiacruc accent_entry;
 #else
 typedef struct kbdiacr accent_entry;
 #endif
-
-#ifndef KT_LETTER
-#define KT_LETTER KT_LATIN
-#endif
-
-#undef NR_KEYS
-#define NR_KEYS 256
 
 /* What keymaps are we defining? */
 char defining[MAX_NR_KEYMAPS];
