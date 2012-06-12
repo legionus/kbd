@@ -2,7 +2,7 @@
 #define yyHEADER_H 1
 #define yyIN_HEADER 1
 
-#line 6 "/mnt/scm/legion/kbd-upstream/src/loadkeys.analyze.h"
+#line 6 "/mnt/scm/legion/kbd/src/loadkeys.analyze.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -315,9 +315,9 @@ extern int yylex (void);
 #undef YY_DECL
 #endif
 
-#line 439 "/mnt/scm/legion/kbd-upstream/src/loadkeys.analyze.l"
+#line 431 "/mnt/scm/legion/kbd/src/loadkeys.analyze.l"
 
 
-#line 322 "/mnt/scm/legion/kbd-upstream/src/loadkeys.analyze.h"
+#line 322 "/mnt/scm/legion/kbd/src/loadkeys.analyze.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

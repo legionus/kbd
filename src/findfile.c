@@ -10,23 +10,15 @@
 #include "findfile.h"
 #include "nls.h"
 
-char pathname[MAXPATHLEN];
-int ispipe;
-
-void fpclose(FILE *fp)
+void fpclose(lkfile_t *fp)
 {
-	if (ispipe)
-	     pclose(fp);
-	else
-	     fclose(fp);
-}
-
-void fpclose1(lkfile_t *fp)
-{
+	if (!fp || !fp->fd)
+		return;
 	if (fp->pipe)
 		pclose(fp->fd);
 	else
 		fclose(fp->fd);
+	fp->fd = NULL;
 }
 
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))
@@ -250,28 +242,26 @@ EndScan:
 	return rc;
 }
 
-/* find input file; leave name in pathname[] */
-FILE *
-findfile(char *fnam, char **dirpath, char **suffixes)
+int
+findfile(char *fnam, char **dirpath, char **suffixes, lkfile_t *fp)
 {
 	char **dp, *dir;
 	int dl, recdepth, rc;
-	lkfile_t fp;
 
-	fp.fd = NULL;
-	fp.pipe = 0;
+	fp->fd = NULL;
+	fp->pipe = 0;
 
 	/* Try explicitly given name first */
-	strcpy(fp.pathname, fnam);
+	strcpy(fp->pathname, fnam);
 
-	if (!maybe_pipe_open(&fp))
-		goto good;
+	if (!maybe_pipe_open(fp))
+		return 0;
 
 	/* Test for full pathname - opening it failed, so need suffix */
 	/* (This is just nonsense, for backwards compatibility.) */
 	if (*fnam == '/' &&
-	    !findfile_by_fullname(fnam, suffixes, &fp))
-		goto good;
+	    !findfile_by_fullname(fnam, suffixes, fp))
+		return 0;
 
 	/* Search a list of directories and directory hierarchies */
 	for (dp = dirpath; *dp; dp++) {
@@ -291,15 +281,11 @@ findfile(char *fnam, char **dirpath, char **suffixes)
 		else
 			dir = xstrdup(".");
 
-		rc = findfile_in_dir(fnam, dir, recdepth, suffixes, &fp);
+		rc = findfile_in_dir(fnam, dir, recdepth, suffixes, fp);
 		xfree(dir);
 
 		if (!rc)
-			goto good;
+			return 0;
 	}
-	return NULL;
-good:
-	strcpy(pathname, fp.pathname);
-	ispipe = fp.pipe;
-	return fp.fd;
+	return 1;
 }

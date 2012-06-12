@@ -26,7 +26,6 @@
 #endif
 
 #include "findfile.h"
-extern char pathname[];
 
 extern int verbose;
 extern int debug;

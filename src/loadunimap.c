@@ -260,20 +260,19 @@ parseline(char *buffer, char *tblname) {
 
 void
 loadunicodemap(int fd, char *tblname) {
-	FILE *mapf;
 	char buffer[65536];
 	char *p;
+	lkfile_t fp;
 
-	mapf = findfile(tblname, unidirpath, unisuffixes);
-	if ( !mapf ) {
+	if (findfile(tblname, unidirpath, unisuffixes, &fp)) {
 		perror(tblname);
 		exit(EX_NOINPUT);
 	}
 
 	if (verbose)
-		printf(_("Loading unicode map from file %s\n"), pathname);
+		printf(_("Loading unicode map from file %s\n"), fp.pathname);
 
-	while ( fgets(buffer, sizeof(buffer), mapf) != NULL ) {
+	while ( fgets(buffer, sizeof(buffer), fp.fd) != NULL ) {
 		if ( (p = strchr(buffer, '\n')) != NULL )
 			*p = '\0';
 		else
@@ -283,7 +282,7 @@ loadunicodemap(int fd, char *tblname) {
 		parseline(buffer, tblname);
 	}
 
-	fpclose(mapf);
+	fpclose(&fp);
 
 	if (listct == 0 && !force) {
 		fprintf(stderr,

@@ -116,8 +116,8 @@ main(int argc, char **argv) {
     struct winsize winsize;
     char *p;
     char tty[12], cmd[80], infile[1024];
-    FILE *fin;
     char *defaultfont;
+    lkfile_t fp;
 
     set_progname(argv[0]);
 
@@ -149,13 +149,12 @@ main(int argc, char **argv) {
     if (mode == MODE_RESTORETEXTMODE) {
         /* prepare for: restoretextmode -r 80x25 */
         sprintf(infile, "%dx%d", cc, rr);
-        fin = findfile(infile, dirpath, suffixes);
-        if (!fin) {
+        if (findfile(infile, dirpath, suffixes, &fp)) {
 	    fprintf(stderr, _("resizecons: cannot find videomode file %s\n"),
 		    infile);
 	    exit(1);
 	}
- 	fpclose(fin);
+ 	fpclose(&fp);
     }
 
     fd = getfd(NULL);
@@ -244,7 +243,7 @@ main(int argc, char **argv) {
 
     if (mode == MODE_RESTORETEXTMODE) {
 	/* do: restoretextmode -r 25x80 */
-	sprintf(cmd, "restoretextmode -r %s\n", pathname);
+	sprintf(cmd, "restoretextmode -r %s\n", fp.pathname);
 	errno = 0;
 	if(system(cmd)) {
 	    if(errno)

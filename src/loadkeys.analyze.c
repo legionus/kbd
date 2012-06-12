@@ -821,14 +821,12 @@ extern int verbose;
 extern int yyerror(const char *s);
 extern void lkfatal(const char *fmt, ...);
 
-void stack_push(FILE *fd, int is_pipe, char *fname);
+void stack_push(lkfile_t *fp);
 
 /* Include file handling - unfortunately flex-specific. */
 #define MAX_INCLUDE_DEPTH 20
 static struct infile {
-	FILE *fd;
-	char *filename;
-	int  pipe;
+	lkfile_t fp;
 	int  linenr;
 	YY_BUFFER_STATE buffer;
 } infile_stack[MAX_INCLUDE_DEPTH];
@@ -839,30 +837,27 @@ int  line_nr = 1;
 static int infile_stack_ptr = -1;
 static int state_ptr = 0;
 
-void stack_push(FILE *fd, int is_pipe, char *fname) {
+void
+stack_push(lkfile_t *fp)
+{
 	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
 		lkfatal(_("includes are nested too deeply"));
 
 	infile_stack_ptr++;
 
-	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd,YY_BUF_SIZE);
-	infile_stack[infile_stack_ptr].fd       = fd;
-	infile_stack[infile_stack_ptr].pipe     = is_pipe;
-	infile_stack[infile_stack_ptr].filename = strdup(fname);
-	infile_stack[infile_stack_ptr].linenr   = line_nr;
+	infile_stack[infile_stack_ptr].buffer = yy_create_buffer(fp->fd,YY_BUF_SIZE);
+	infile_stack[infile_stack_ptr].linenr = line_nr;
 
+	memcpy(&infile_stack[infile_stack_ptr].fp, fp, sizeof(fp));
 	yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
 
 	// Set global variables
-	filename = infile_stack[infile_stack_ptr].filename;
+	filename = infile_stack[infile_stack_ptr].fp.pathname;
 	line_nr  = 1;
 }
 
 static int stack_pop(void) {
-	fpclose1(infile_stack[infile_stack_ptr].fd, infile_stack[infile_stack_ptr].pipe);
-
-	// Free previous filename
-	xfree(infile_stack[infile_stack_ptr].filename);
+	fpclose(&infile_stack[infile_stack_ptr].fp);
 
 	// Destroy previous buffer
 	yy_delete_buffer(infile_stack[infile_stack_ptr].buffer);
@@ -871,9 +866,7 @@ static int stack_pop(void) {
 
 	if (infile_stack_ptr >= 0) {
 		// Set new state
-		//yyin     = infile_stack[infile_stack_ptr].fd; // ???
-		ispipe   = infile_stack[infile_stack_ptr].pipe;
-		filename = infile_stack[infile_stack_ptr].filename;
+		filename = infile_stack[infile_stack_ptr].fp.pathname;
 		line_nr  = infile_stack[infile_stack_ptr].linenr;
 
 		// Switch to new buffer
@@ -921,14 +914,14 @@ static char *include_dirpath3[] = {
 
 static char *include_suffixes[] = { "", ".inc", 0 };
 
-static FILE *find_incl_file_near_fn(char *s, char *fn)
+static int
+find_incl_file_near_fn(char *s, char *fn, lkfile_t *fp)
 {
-	FILE *f = NULL;
 	char *t, *te, *t1, *t2;
-	int len;
+	int len, rc = 1;
 
 	if (!fn)
-		return NULL;
+		return 1;
 
 	t = xstrdup(fn);
 	te = strrchr(t, '/');
@@ -942,24 +935,24 @@ static FILE *find_incl_file_near_fn(char *s, char *fn)
 		strcat(t1, "../include/");
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
-		f = findfile(s, include_dirpath2, include_suffixes);
+		rc = findfile(s, include_dirpath2, include_suffixes, fp);
 		xfree(t1);
 		xfree(t2);
 	}
 	xfree(t);
-	return f;
+	return rc;
 }
 
-static FILE *find_standard_incl_file(char *s)
+static int
+find_standard_incl_file(char *s, lkfile_t *fp)
 {
-	FILE *f;
+	int rc = 1;
 
-	f = findfile(s, include_dirpath1, include_suffixes);
-	if (!f)
-		f = find_incl_file_near_fn(s, filename);
+	if (findfile(s, include_dirpath1, include_suffixes, fp))
+		rc = find_incl_file_near_fn(s, filename, fp);
 
 	/* If filename is a symlink, also look near its target. */
-	if (!f) {
+	if (rc) {
 		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
 		unsigned int n;
 
@@ -967,7 +960,7 @@ static FILE *find_standard_incl_file(char *s)
 		if (n > 0 && n < sizeof(buf)) {
 			buf[n] = 0;
 			if (buf[0] == '/') {
-				f = find_incl_file_near_fn(s, buf);
+				rc = find_incl_file_near_fn(s, buf, fp);
 
 			} else if (strlen(filename) + n < sizeof(path)) {
 				strcpy(path, filename);
@@ -976,31 +969,32 @@ static FILE *find_standard_incl_file(char *s)
 				if (ptr)
 					ptr[1] = 0;
 				strcat(path, buf);
-				f = find_incl_file_near_fn(s, path);
+				rc = find_incl_file_near_fn(s, path, fp);
 			}
 		}
 	}
 
-	if (!f)
-		f = findfile(s, include_dirpath3, include_suffixes);
-	return f;
+	if (rc)
+		rc = findfile(s, include_dirpath3, include_suffixes, fp);
+	return rc;
 }
 
-static FILE *find_incl_file(char *s)
+static int
+find_incl_file(char *s, lkfile_t *fp)
 {
-	FILE *f;
 	char *ev;
 
 	if (!s || !*s)
-		return NULL;
+		return 1;
 
 	if (*s == '/')		/* no path required */
-		return (findfile(s, include_dirpath0, include_suffixes));
+		return (findfile(s, include_dirpath0, include_suffixes, fp));
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
 		char *user_dir[2] = { 0, 0 };
 		while (ev) {
+			int rc;
 			char *t = strchr(ev, ':');
 			char sv = 0;
 			if (t) {
@@ -1009,40 +1003,39 @@ static FILE *find_incl_file(char *s)
 			}
 			user_dir[0] = ev;
 			if (*ev)
-				f = findfile(s, user_dir, include_suffixes);
+				rc = findfile(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
-				f = find_standard_incl_file(s);
-			if (f)
-				return f;
+				rc = find_standard_incl_file(s, fp);
+			if (!rc)
+				return 0;
 			if (t)
 				*t++ = sv;
 			ev = t;
 		}
-		return NULL;
+		return 1;
 	}
-	return find_standard_incl_file(s);
+	return find_standard_incl_file(s, fp);
 }
 
 static void open_include(char *s)
 {
-	FILE *fd;
+	lkfile_t fp;
 
 	if (verbose)
 		fprintf(stdout, _("switching to %s\n"), s);
 
-	fd = find_incl_file(s);
-	if (!fd)
+	if (find_incl_file(s, &fp))
 		lkfatal(_("cannot open include file %s"), s);
 
 	xfree(s);
 
-	stack_push(fd, ispipe, pathname);
+	stack_push(&fp);
 }
 
 
 
 
-#line 1046 "loadkeys.analyze.c"
+#line 1039 "loadkeys.analyze.c"
 
 #define INITIAL 0
 #define RVALUE 1
@@ -1233,7 +1226,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 287 "loadkeys.analyze.l"
+#line 280 "loadkeys.analyze.l"
 
 
 /* To protect from wrong code in the higher level parser (loadkeys.y), 
@@ -1249,7 +1242,7 @@ YY_DECL
   yylval = YYLVAL_UNDEF;
 
 
-#line 1253 "loadkeys.analyze.c"
+#line 1246 "loadkeys.analyze.c"
 
 	if ( !(yy_init) )
 		{
@@ -1334,7 +1327,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 302 "loadkeys.analyze.l"
+#line 295 "loadkeys.analyze.l"
 {
 				yy_push_state(INCLSTR);
 				state_ptr++;
@@ -1342,7 +1335,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 306 "loadkeys.analyze.l"
+#line 299 "loadkeys.analyze.l"
 {
 				char *s = xstrndup(yytext+1, strlen(yytext)-2);
 				/* use static pathname to store *s ? */
@@ -1354,7 +1347,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 313 "loadkeys.analyze.l"
+#line 306 "loadkeys.analyze.l"
 {
 				yyerror(_("expected filename between quotes"));
 			}
@@ -1363,7 +1356,7 @@ case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
 case YY_STATE_EOF(INCLSTR):
-#line 316 "loadkeys.analyze.l"
+#line 309 "loadkeys.analyze.l"
 {
 				stack_pop();
 				if (!YY_CURRENT_BUFFER)
@@ -1373,7 +1366,7 @@ case YY_STATE_EOF(INCLSTR):
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 321 "loadkeys.analyze.l"
+#line 314 "loadkeys.analyze.l"
 {
 				line_nr++;
 			}
@@ -1381,10 +1374,9 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 324 "loadkeys.analyze.l"
+#line 317 "loadkeys.analyze.l"
 {
 				line_nr++;
-				//if (yy_start_stack_ptr > 0)
 				if (state_ptr > 0) {
 					yy_pop_state();
 					state_ptr--;
@@ -1394,7 +1386,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 333 "loadkeys.analyze.l"
+#line 325 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1403,12 +1395,12 @@ case 7:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 334 "loadkeys.analyze.l"
+#line 326 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 335 "loadkeys.analyze.l"
+#line 327 "loadkeys.analyze.l"
 {
 				yy_push_state(RVALUE);
 				state_ptr++;
@@ -1418,7 +1410,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 341 "loadkeys.analyze.l"
+#line 333 "loadkeys.analyze.l"
 {
 				yy_push_state(RVALUE);
 				state_ptr++;
@@ -1427,7 +1419,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 346 "loadkeys.analyze.l"
+#line 338 "loadkeys.analyze.l"
 {
 				yy_push_state(RVALUE);
 				state_ptr++;
@@ -1436,7 +1428,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 351 "loadkeys.analyze.l"
+#line 343 "loadkeys.analyze.l"
 {
 				yylval = strtol(yytext + 1, NULL, 16);
 				if (yylval >= 0xf000)
@@ -1446,7 +1438,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 357 "loadkeys.analyze.l"
+#line 349 "loadkeys.analyze.l"
 {
 				yylval = strtol(yytext, NULL, 0);
 				return(NUMBER);
@@ -1454,127 +1446,127 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 361 "loadkeys.analyze.l"
+#line 353 "loadkeys.analyze.l"
 {	return((yylval = ksymtocode(yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 362 "loadkeys.analyze.l"
+#line 354 "loadkeys.analyze.l"
 {	return(DASH);		}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 363 "loadkeys.analyze.l"
+#line 355 "loadkeys.analyze.l"
 {	return(COMMA);		}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 364 "loadkeys.analyze.l"
+#line 356 "loadkeys.analyze.l"
 {	return(PLUS);		}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 365 "loadkeys.analyze.l"
+#line 357 "loadkeys.analyze.l"
 {	return(CHARSET);	}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 366 "loadkeys.analyze.l"
+#line 358 "loadkeys.analyze.l"
 {	return(KEYMAPS);	}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 367 "loadkeys.analyze.l"
+#line 359 "loadkeys.analyze.l"
 {	return(KEYCODE);	}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 368 "loadkeys.analyze.l"
+#line 360 "loadkeys.analyze.l"
 {	return(PLAIN);		}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 369 "loadkeys.analyze.l"
+#line 361 "loadkeys.analyze.l"
 {	return(SHIFT);		}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 370 "loadkeys.analyze.l"
+#line 362 "loadkeys.analyze.l"
 {	return(CONTROL);	}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 371 "loadkeys.analyze.l"
+#line 363 "loadkeys.analyze.l"
 {	return(ALT);		}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 372 "loadkeys.analyze.l"
+#line 364 "loadkeys.analyze.l"
 {	return(ALTGR);		}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 373 "loadkeys.analyze.l"
+#line 365 "loadkeys.analyze.l"
 {	return(SHIFTL);		}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 374 "loadkeys.analyze.l"
+#line 366 "loadkeys.analyze.l"
 {	return(SHIFTR);		}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 375 "loadkeys.analyze.l"
+#line 367 "loadkeys.analyze.l"
 {	return(CTRLL);		}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 376 "loadkeys.analyze.l"
+#line 368 "loadkeys.analyze.l"
 {	return(CTRLR);		}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 377 "loadkeys.analyze.l"
+#line 369 "loadkeys.analyze.l"
 {	return(CAPSSHIFT);	}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 378 "loadkeys.analyze.l"
+#line 370 "loadkeys.analyze.l"
 {	return(ALT_IS_META);	}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 379 "loadkeys.analyze.l"
+#line 371 "loadkeys.analyze.l"
 {	return(STRINGS);	}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 380 "loadkeys.analyze.l"
+#line 372 "loadkeys.analyze.l"
 {	return(COMPOSE);	}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 381 "loadkeys.analyze.l"
+#line 373 "loadkeys.analyze.l"
 {	return(AS);		}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 382 "loadkeys.analyze.l"
+#line 374 "loadkeys.analyze.l"
 {	return(USUAL);		}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 383 "loadkeys.analyze.l"
+#line 375 "loadkeys.analyze.l"
 {	return(ON);		}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 384 "loadkeys.analyze.l"
+#line 376 "loadkeys.analyze.l"
 {	return(FOR);		}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 385 "loadkeys.analyze.l"
+#line 377 "loadkeys.analyze.l"
 {
 				yylval = strtol(yytext + 2, NULL, 8);
 				return(CCHAR);
@@ -1582,7 +1574,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 389 "loadkeys.analyze.l"
+#line 381 "loadkeys.analyze.l"
 {
 				yylval = (unsigned char) yytext[2];
 				return(CCHAR);
@@ -1590,7 +1582,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 393 "loadkeys.analyze.l"
+#line 385 "loadkeys.analyze.l"
 {
 				yylval = (unsigned char) yytext[1];
 				return(CCHAR);
@@ -1598,7 +1590,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 397 "loadkeys.analyze.l"
+#line 389 "loadkeys.analyze.l"
 {
 				p = (char *) kbs_buf.kb_string;
 				pmax = p + sizeof(kbs_buf.kb_string) - 1;
@@ -1608,7 +1600,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 403 "loadkeys.analyze.l"
+#line 395 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1617,7 +1609,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 408 "loadkeys.analyze.l"
+#line 400 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1626,7 +1618,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 413 "loadkeys.analyze.l"
+#line 405 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1635,7 +1627,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 418 "loadkeys.analyze.l"
+#line 410 "loadkeys.analyze.l"
 {
 				if (p >= pmax)
 					lkfatal(_("string too long"));
@@ -1645,7 +1637,7 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 423 "loadkeys.analyze.l"
+#line 415 "loadkeys.analyze.l"
 {
 				char *ptmp = p;
 				p += strlen(yytext);
@@ -1656,7 +1648,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 430 "loadkeys.analyze.l"
+#line 422 "loadkeys.analyze.l"
 {
 				*p = '\0';
 				yy_pop_state();
@@ -1666,17 +1658,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 436 "loadkeys.analyze.l"
+#line 428 "loadkeys.analyze.l"
 {
 				return(ERROR); /* report any unknown characters */
 			}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 439 "loadkeys.analyze.l"
+#line 431 "loadkeys.analyze.l"
 ECHO;
 	YY_BREAK
-#line 1680 "loadkeys.analyze.c"
+#line 1672 "loadkeys.analyze.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2675,7 +2667,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 439 "loadkeys.analyze.l"
+#line 431 "loadkeys.analyze.l"
 
 
 

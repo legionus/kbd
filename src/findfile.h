@@ -9,11 +9,7 @@ typedef struct lkfile {
 	char pathname[MAXPATHLEN];
 } lkfile_t;
 
-extern char pathname[];
-extern int ispipe;
-
-extern void fpclose(FILE *fp);
-extern void fpclose1(lkfile_t *fp);
-extern FILE *findfile(char *fnam, char **dirpath, char **suffixes);
+extern void fpclose(lkfile_t *fp);
+extern int findfile(char *fnam, char **dirpath, char **suffixes, lkfile_t *fp);
 
 #endif /* _FINDFILE_H */

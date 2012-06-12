@@ -124,18 +124,18 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno) {
 
 static int
 readnewmapfromfile(attr_unused int fd, char *mfil, char *buf, unsigned short *ubuf) {
-	FILE *fp;
 	struct stat stbuf;
 	int u = 0;
 	int lineno = 0;
+	lkfile_t fp;
 
-	if ((fp = findfile(mfil, mapdirpath, mapsuffixes)) == NULL) {
+	if (findfile(mfil, mapdirpath, mapsuffixes, &fp)) {
 	        fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
 			mfil);
 		exit(1);
 	}
-	if (stat(pathname, &stbuf)) {
-		perror(pathname);
+	if (stat(fp.pathname, &stbuf)) {
+		perror(fp.pathname);
 		fprintf(stderr, _("Cannot stat map file"));
 		exit(1);
 	}
@@ -143,38 +143,38 @@ readnewmapfromfile(attr_unused int fd, char *mfil, char *buf, unsigned short *ub
 		if (verbose)
 			printf(_("Loading binary direct-to-font screen map "
 				 "from file %s\n"),
-			       pathname);
-		if (fread(buf,E_TABSZ,1,fp) != 1) {
+			       fp.pathname);
+		if (fread(buf,E_TABSZ,1,fp.fd) != 1) {
 			fprintf(stderr,
 				_("Error reading map from file `%s'\n"),
-				pathname);
+				fp.pathname);
 			exit(1);
 		}
 	} else if (stbuf.st_size == 2*E_TABSZ) {
 		if (verbose)
 			printf(_("Loading binary unicode screen map "
 				 "from file %s\n"),
-			       pathname);
-		if (fread(ubuf,2*E_TABSZ,1,fp) != 1) {
+			       fp.pathname);
+		if (fread(ubuf,2*E_TABSZ,1,fp.fd) != 1) {
 			fprintf(stderr,
 				_("Error reading map from file `%s'\n"),
-				pathname);
+				fp.pathname);
 			exit(1);
 		}
 		u = 1;
 	} else 	{
 		if (verbose)
 			printf(_("Loading symbolic screen map from file %s\n"),
-			       pathname);
-		if (parsemap(fp,buf,ubuf,&u,&lineno)) {
+			       fp.pathname);
+		if (parsemap(fp.fd,buf,ubuf,&u,&lineno)) {
 			fprintf(stderr,
 				_("Error parsing symbolic map "
 				  "from `%s', line %d\n"),
-				pathname, lineno);
+				fp.pathname, lineno);
 			exit(1);
 		}
 	}
-	fpclose(fp);
+	fpclose(&fp);
 	return u;
 }
 

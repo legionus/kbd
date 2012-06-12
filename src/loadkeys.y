@@ -39,6 +39,7 @@
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-keyboard.h"
+#endif
 
 #define U(x) ((x) ^ 0xf000)
 
@@ -79,7 +80,7 @@ int yyerror(const char *s);
 extern char *filename;
 extern int line_nr;
 
-extern void stack_push(FILE *fd, int ispipe, char *filename);
+extern void stack_push(lkfile_t *fp);
 extern int prefer_unicode;
 
 #include "ksyms.h"
@@ -1048,11 +1049,11 @@ rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
 		;
 %%
 
-static void parse_keymap(FILE *fd) {
+static void parse_keymap(lkfile_t *f) {
 	if (!quiet && !optm)
-		fprintf(stdout, _("Loading %s\n"), pathname);
+		fprintf(stdout, _("Loading %s\n"), f->pathname);
 
-	stack_push(fd, 0, pathname);
+	stack_push(f);
 
 	if (yyparse()) {
 		fprintf(stderr, _("syntax error in map file\n"));
@@ -1088,7 +1089,7 @@ int main(int argc, char *argv[])
 	int kd_mode;
 	char *console = NULL;
 	char *ev;
-	FILE *f;
+	lkfile_t f;
 
 	set_progname(argv[0]);
 
@@ -1189,28 +1190,29 @@ int main(int argc, char *argv[])
 	if (optd) {
 		/* first read default map - search starts in . */
 
-		if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
+		if (findfile(DEFMAP, dirpath, suffixes, &f)) {
 			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
 			exit(EXIT_FAILURE);
 		}
-		parse_keymap(f);
+		parse_keymap(&f);
 
 	} else if (optind == argc) {
-		strcpy(pathname, "<stdin>");
-		parse_keymap(stdin);
+		f.fd = stdin;
+		strcpy(f.pathname, "<stdin>");
+		parse_keymap(&f);
 	}
 
 	for (i = optind; argv[i]; i++) {
 		if (!strcmp(argv[i], "-")) {
-			f = stdin;
-			strcpy(pathname, "<stdin>");
+			f.fd = stdin;
+			strcpy(f.pathname, "<stdin>");
 
-		} else if ((f = findfile(argv[i], dirpath, suffixes)) == NULL) {
+		} else if (findfile(argv[i], dirpath, suffixes, &f)) {
 			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
 			exit(EXIT_FAILURE);
 		}
 
-		parse_keymap(f);
+		parse_keymap(&f);
 	}
 
 	do_constant();

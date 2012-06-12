@@ -57,14 +57,14 @@ char *fontsuffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
 char *partfontdirpath[] = { "", DATADIR "/" FONTDIR "/" PARTIALDIR "/", 0 };
 char *partfontsuffixes[] = { "", 0 };
 
-static inline FILE*
-findfont(char *fnam) {
-    return findfile(fnam, fontdirpath, fontsuffixes);
+static inline int
+findfont(char *fnam, lkfile_t *fp) {
+    return findfile(fnam, fontdirpath, fontsuffixes, fp);
 }
 
-static inline FILE*
-findpartialfont(char *fnam) {
-    return findfile(fnam, partfontdirpath, partfontsuffixes);
+static inline int
+findpartialfont(char *fnam, lkfile_t *fp) {
+    return findfile(fnam, partfontdirpath, partfontsuffixes, fp);
 }
 
 static void attr_noreturn
@@ -385,13 +385,14 @@ do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize) {
 
 static void
 loadnewfonts(int fd, char **ifiles, int ifilct,
-	     int iunit, int hwunit, int no_m, int no_u) {
-	FILE *fpi;
+	     int iunit, int hwunit, int no_m, int no_u)
+{
 	char *ifil, *inbuf, *fontbuf, *bigfontbuf;
 	int inputlth, fontbuflth, fontsize, height, width, bytewidth;
 	int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
 	int i;
+	lkfile_t fp;
 
 	if (ifilct == 1) {
 		loadnewfont(fd, ifiles[0], iunit, hwunit, no_m, no_u);
@@ -409,8 +410,7 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 
 	for (i=0; i<ifilct; i++) {
 		ifil = ifiles[i];
-		if ((fpi = findfont(ifil)) == NULL &&
-		    (fpi = findpartialfont(ifil)) == NULL) {
+		if (findfont(ifil, &fp) && findpartialfont(ifil, &fp)) {
 			fprintf(stderr, _("Cannot open font file %s\n"), ifil);
 			exit(EX_NOINPUT);
 		}
@@ -419,21 +419,21 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 		inputlth = fontbuflth = 0;
 		fontsize = 0;
 
-		if(readpsffont(fpi, &inbuf, &inputlth, &fontbuf, &fontbuflth,
+		if(readpsffont(fp.fd, &inbuf, &inputlth, &fontbuf, &fontbuflth,
 			       &width, &fontsize, bigfontsize,
 			       no_u ? NULL : &uclistheads)) {
 			fprintf(stderr, _("When loading several fonts, all "
 					  "must be psf fonts - %s isn't\n"),
-				pathname);
-			fpclose(fpi);
+				fp.pathname);
+			fpclose(&fp);
 			exit(EX_DATAERR);
 		}
-		fpclose(fpi);		// avoid zombies, jw@suse.de (#88501)
+		fpclose(&fp);		// avoid zombies, jw@suse.de (#88501)
 		bytewidth = (width+7) / 8;
 		height = fontbuflth / (bytewidth * fontsize);
 		if (verbose)
 			printf(_("Read %d-char %dx%d font from file %s\n"),
-			       fontsize, width, height, pathname);
+			       fontsize, width, height, fp.pathname);
 
 		if (bigheight == 0)
 			bigheight = height;
@@ -464,8 +464,9 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 }
 
 static void
-loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
-	FILE *fpi;
+loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
+{
+	lkfile_t fp;
 	char defname[20];
 	int height, width, bytewidth, def = 0;
 	char *inbuf, *fontbuf;
@@ -480,23 +481,23 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 		if (iunit < 0 || iunit > 32)
 			iunit = 0;
 		if (iunit == 0) {
-			if ((fpi = findfont(ifil = "default")) == NULL &&
-			    (fpi = findfont(ifil = "default8x16")) == NULL &&
-			    (fpi = findfont(ifil = "default8x14")) == NULL &&
-			    (fpi = findfont(ifil = "default8x8")) == NULL) {
+			if (findfont(ifil = "default", &fp) &&
+			    findfont(ifil = "default8x16", &fp) &&
+			    findfont(ifil = "default8x14", &fp) &&
+			    findfont(ifil = "default8x8", &fp)) {
 				fprintf(stderr, _("Cannot find default font\n"));
 				exit(EX_NOINPUT);
 			}
 		} else {
 			sprintf(defname, "default8x%d", iunit);
-			if ((fpi = findfont(ifil = defname)) == NULL &&
-			    (fpi = findfont(ifil = "default")) == NULL) {
+			if (findfont(ifil = defname, &fp) &&
+			    findfont(ifil = "default", &fp)) {
 				fprintf(stderr, _("Cannot find %s font\n"), ifil);
 				exit(EX_NOINPUT);
 			}
 		}
 	} else {
-		if ((fpi = findfont(ifil)) == NULL) {
+		if (findfont(ifil, &fp)) {
 			fprintf(stderr, _("Cannot open font file %s\n"), ifil);
 			exit(EX_NOINPUT);
 		}
@@ -509,16 +510,16 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 	inputlth = fontbuflth = fontsize = 0;
 	width = 8;
 	uclistheads = NULL;
-	if(readpsffont(fpi, &inbuf, &inputlth, &fontbuf, &fontbuflth,
+	if(readpsffont(fp.fd, &inbuf, &inputlth, &fontbuf, &fontbuflth,
 		       &width, &fontsize, 0,
 		       no_u ? NULL : &uclistheads) == 0) {
-		fpclose(fpi);
+		fpclose(&fp);
 		/* we've got a psf font */
 		bytewidth = (width+7) / 8;
 		height = fontbuflth / (bytewidth * fontsize);
 
 		do_loadfont(fd, fontbuf, width, height, hwunit,
-			    fontsize, pathname);
+			    fontsize, fp.pathname);
 		if (uclistheads && !no_u)
 			do_loadtable(fd, uclistheads, fontsize);
 #if 1
@@ -527,7 +528,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 #endif
 		return;
 	}
-	fpclose(fpi);		// avoid zombies, jw@suse.de (#88501)
+	fpclose(&fp);		// avoid zombies, jw@suse.de (#88501)
 
 	/* instructions to combine fonts? */
 	{ char *combineheader = "# combine partial fonts\n";
@@ -598,7 +599,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u) {
 		height = inputlth/256;
 	}
 	do_loadfont(fd, inbuf+offset, width, height, hwunit, fontsize,
-		    pathname);
+		    fp.pathname);
 }
 
 static int

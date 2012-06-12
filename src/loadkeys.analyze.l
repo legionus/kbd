@@ -28,13 +28,12 @@ extern int verbose;
 extern int yyerror(const char *s);
 extern void lkfatal(const char *fmt, ...);
 
-void stack_push(FILE *fd, int is_pipe, char *fname);
+void stack_push(lkfile_t *fp);
 
 /* Include file handling - unfortunately flex-specific. */
 #define MAX_INCLUDE_DEPTH 20
 static struct infile {
 	lkfile_t fp;
-	char *filename;
 	int  linenr;
 	YY_BUFFER_STATE buffer;
 } infile_stack[MAX_INCLUDE_DEPTH];
@@ -45,30 +44,27 @@ int  line_nr = 1;
 static int infile_stack_ptr = -1;
 static int state_ptr = 0;
 
-void stack_push(FILE *fd, int is_pipe, char *fname) {
+void
+stack_push(lkfile_t *fp)
+{
 	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
 		lkfatal(_("includes are nested too deeply"));
 
 	infile_stack_ptr++;
 
-	infile_stack[infile_stack_ptr].buffer   = yy_create_buffer(fd, YY_BUF_SIZE);
-	infile_stack[infile_stack_ptr].fp.fd    = fd;
-	infile_stack[infile_stack_ptr].fp.pipe  = is_pipe;
-	infile_stack[infile_stack_ptr].filename = strdup(fname);
-	infile_stack[infile_stack_ptr].linenr   = line_nr;
+	infile_stack[infile_stack_ptr].buffer = yy_create_buffer(fp->fd, YY_BUF_SIZE);
+	infile_stack[infile_stack_ptr].linenr = line_nr;
 
+	memcpy(&infile_stack[infile_stack_ptr].fp, fp, sizeof(fp));
 	yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
 
 	// Set global variables
-	filename = infile_stack[infile_stack_ptr].filename;
+	filename = infile_stack[infile_stack_ptr].fp.pathname;
 	line_nr  = 1;
 }
 
 static int stack_pop(void) {
-	fpclose1(&infile_stack[infile_stack_ptr].fp);
-
-	// Free previous filename
-	xfree(infile_stack[infile_stack_ptr].filename);
+	fpclose(&infile_stack[infile_stack_ptr].fp);
 
 	// Destroy previous buffer
 	yy_delete_buffer(infile_stack[infile_stack_ptr].buffer);
@@ -77,8 +73,7 @@ static int stack_pop(void) {
 
 	if (infile_stack_ptr >= 0) {
 		// Set new state
-		ispipe   = infile_stack[infile_stack_ptr].fp.pipe;
-		filename = infile_stack[infile_stack_ptr].filename;
+		filename = infile_stack[infile_stack_ptr].fp.pathname;
 		line_nr  = infile_stack[infile_stack_ptr].linenr;
 
 		// Switch to new buffer
@@ -126,14 +121,14 @@ static char *include_dirpath3[] = {
 
 static char *include_suffixes[] = { "", ".inc", 0 };
 
-static FILE *find_incl_file_near_fn(char *s, char *fn)
+static int
+find_incl_file_near_fn(char *s, char *fn, lkfile_t *fp)
 {
-	FILE *f = NULL;
 	char *t, *te, *t1, *t2;
-	int len;
+	int len, rc = 1;
 
 	if (!fn)
-		return NULL;
+		return 1;
 
 	t = xstrdup(fn);
 	te = strrchr(t, '/');
@@ -147,24 +142,24 @@ static FILE *find_incl_file_near_fn(char *s, char *fn)
 		strcat(t1, "../include/");
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
-		f = findfile(s, include_dirpath2, include_suffixes);
+		rc = findfile(s, include_dirpath2, include_suffixes, fp);
 		xfree(t1);
 		xfree(t2);
 	}
 	xfree(t);
-	return f;
+	return rc;
 }
 
-static FILE *find_standard_incl_file(char *s)
+static int
+find_standard_incl_file(char *s, lkfile_t *fp)
 {
-	FILE *f;
+	int rc = 1;
 
-	f = findfile(s, include_dirpath1, include_suffixes);
-	if (!f)
-		f = find_incl_file_near_fn(s, filename);
+	if (findfile(s, include_dirpath1, include_suffixes, fp))
+		rc = find_incl_file_near_fn(s, filename, fp);
 
 	/* If filename is a symlink, also look near its target. */
-	if (!f) {
+	if (rc) {
 		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
 		unsigned int n;
 
@@ -172,7 +167,7 @@ static FILE *find_standard_incl_file(char *s)
 		if (n > 0 && n < sizeof(buf)) {
 			buf[n] = 0;
 			if (buf[0] == '/') {
-				f = find_incl_file_near_fn(s, buf);
+				rc = find_incl_file_near_fn(s, buf, fp);
 
 			} else if (strlen(filename) + n < sizeof(path)) {
 				strcpy(path, filename);
@@ -181,31 +176,32 @@ static FILE *find_standard_incl_file(char *s)
 				if (ptr)
 					ptr[1] = 0;
 				strcat(path, buf);
-				f = find_incl_file_near_fn(s, path);
+				rc = find_incl_file_near_fn(s, path, fp);
 			}
 		}
 	}
 
-	if (!f)
-		f = findfile(s, include_dirpath3, include_suffixes);
-	return f;
+	if (rc)
+		rc = findfile(s, include_dirpath3, include_suffixes, fp);
+	return rc;
 }
 
-static FILE *find_incl_file(char *s)
+static int
+find_incl_file(char *s, lkfile_t *fp)
 {
-	FILE *f;
 	char *ev;
 
 	if (!s || !*s)
-		return NULL;
+		return 1;
 
 	if (*s == '/')		/* no path required */
-		return (findfile(s, include_dirpath0, include_suffixes));
+		return (findfile(s, include_dirpath0, include_suffixes, fp));
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
 		char *user_dir[2] = { 0, 0 };
 		while (ev) {
+			int rc;
 			char *t = strchr(ev, ':');
 			char sv = 0;
 			if (t) {
@@ -214,34 +210,33 @@ static FILE *find_incl_file(char *s)
 			}
 			user_dir[0] = ev;
 			if (*ev)
-				f = findfile(s, user_dir, include_suffixes);
+				rc = findfile(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
-				f = find_standard_incl_file(s);
-			if (f)
-				return f;
+				rc = find_standard_incl_file(s, fp);
+			if (!rc)
+				return 0;
 			if (t)
 				*t++ = sv;
 			ev = t;
 		}
-		return NULL;
+		return 1;
 	}
-	return find_standard_incl_file(s);
+	return find_standard_incl_file(s, fp);
 }
 
 static void open_include(char *s)
 {
-	FILE *fd;
+	lkfile_t fp;
 
 	if (verbose)
 		fprintf(stdout, _("switching to %s\n"), s);
 
-	fd = find_incl_file(s);
-	if (!fd)
+	if (find_incl_file(s, &fp))
 		lkfatal(_("cannot open include file %s"), s);
 
 	xfree(s);
 
-	stack_push(fd, ispipe, pathname);
+	stack_push(&fp);
 }
 
 %}
