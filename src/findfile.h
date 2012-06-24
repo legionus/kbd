@@ -1,9 +1,12 @@
 #ifndef _FINDFILE_H
 #define _FINDFILE_H
 
+#include <sys/param.h>
+
 typedef struct lkfile {
 	FILE *fd;
 	int pipe;
+	char pathname[MAXPATHLEN];
 } lkfile_t;
 
 extern char pathname[];
