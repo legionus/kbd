@@ -6,7 +6,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include "xmalloc.h"
 #include "findfile.h"
 #include "nls.h"
 
@@ -37,19 +36,19 @@ pipe_open(struct decompressor *dc, lkfile_t *fp)
 {
 	char *pipe_cmd;
 
-	pipe_cmd = xmalloc(strlen(dc->cmd) + strlen(fp->pathname) + 2);
+	pipe_cmd = malloc(strlen(dc->cmd) + strlen(fp->pathname) + 2);
+	if (pipe_cmd == NULL)
+		return -1;
+
 	sprintf(pipe_cmd, "%s %s", dc->cmd, fp->pathname);
 
 	fp->fd = popen(pipe_cmd, "r");
 	fp->pipe = 1;
 
-	if (fp->fd == NULL) {
-		fprintf(stderr, _("error executing  %s\n"), pipe_cmd);
-		xfree(pipe_cmd);
-		return -1;
-	}
+	free(pipe_cmd);
 
-	xfree(pipe_cmd);
+	if (fp->fd == NULL)
+		return -1;
 	return 0;
 }
 
@@ -144,8 +143,12 @@ findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf, lkfile_t *fp)
 	dir_len = strlen(dir);
 
 	fdir = NULL;
-	if ((ff = strchr(fnam, '/')) != NULL)
-		fdir = xstrndup(fnam, ff - fnam);
+	if ((ff = strchr(fnam, '/')) != NULL) {
+		if ((fdir = strndup(fnam, ff - fnam)) == NULL) {
+			closedir(d);
+			return -1;
+		}
+	}
 
 	/* Scan the directory twice: first for files, then
 	   for subdirectories, so that we do never search
@@ -163,17 +166,17 @@ StartScan:
 			continue;
 	    }
 
-	    if (dir_len + d_len + 2 > sizeof(fp->pathname)) {
-		fprintf(stderr, _("Warning: path too long: %s/%s\n"), dir, de->d_name);
+	    if (dir_len + d_len + 2 > sizeof(fp->pathname))
 		continue;
-	    }
 
 	    okdir = (ff && strcmp(de->d_name, fdir) == 0);
 
 	    if ((secondpass && recdepth) || okdir) {
 		char *a;
 
-		a = xmalloc(dir_len + d_len + 2);
+		if ((a = malloc(dir_len + d_len + 2)) == NULL)
+			goto EndScan;
+
 		sprintf(a, "%s/%s", dir, de->d_name);
 
 		if (stat(a, &st) == 0 && S_ISDIR(st.st_mode)) {
@@ -184,11 +187,11 @@ StartScan:
 				rc = findfile_in_dir(fnam, a, recdepth-1, suf, fp);
 
 			if (!rc) {
-				xfree(a);
+				free(a);
 				goto EndScan;
 			}
 		}
-		xfree(a);
+		free(a);
 	    }
 
 	    if (secondpass)
@@ -237,7 +240,8 @@ StartScan:
 	}
 
 EndScan:
-	xfree(fdir);
+	if (fdir != NULL)
+		free(fdir);
 	closedir(d);
 	return rc;
 }
@@ -277,12 +281,15 @@ findfile(char *fnam, char **dirpath, char **suffixes, lkfile_t *fp)
 			dl--;
 
 		if (dl)
-			dir = xstrndup(*dp, dl);
+			dir = strndup(*dp, dl);
 		else
-			dir = xstrdup(".");
+			dir = strdup(".");
+
+		if (dir == NULL)
+			return 1;
 
 		rc = findfile_in_dir(fnam, dir, recdepth, suffixes, fp);
-		xfree(dir);
+		free(dir);
 
 		if (!rc)
 			return 0;
