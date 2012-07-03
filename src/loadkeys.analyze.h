@@ -315,7 +315,7 @@ extern int yylex (void);
 #undef YY_DECL
 #endif
 
-#line 431 "/mnt/scm/legion/kbd/src/loadkeys.analyze.l"
+#line 489 "/mnt/scm/legion/kbd/src/loadkeys.analyze.l"
 
 
 #line 322 "/mnt/scm/legion/kbd/src/loadkeys.analyze.h"

@@ -16,7 +16,6 @@
 #include "nls.h"
 #include "kbd.h"
 #include "paths.h"
-#include "xmalloc.h"
 #include "findfile.h"
 #include "loadkeys.h"
 
@@ -25,10 +24,9 @@ struct kbsentry kbs_buf;
 static char *p, *pmax;
 
 extern int verbose;
-extern int yyerror(const char *s);
-extern void lkfatal(const char *fmt, ...);
+extern char errmsg[1024];
 
-void stack_push(lkfile_t *fp);
+int stack_push(lkfile_t *fp);
 
 /* Include file handling - unfortunately flex-specific. */
 #define MAX_INCLUDE_DEPTH 20
@@ -44,11 +42,14 @@ int  line_nr = 1;
 static int infile_stack_ptr = -1;
 static int state_ptr = 0;
 
-void
+int
 stack_push(lkfile_t *fp)
 {
-	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
-		lkfatal(_("includes are nested too deeply"));
+	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH) {
+		snprintf(errmsg, sizeof(errmsg),
+			_("includes are nested too deeply"));
+		return -1;
+	}
 
 	infile_stack_ptr++;
 
@@ -61,9 +62,12 @@ stack_push(lkfile_t *fp)
 	// Set global variables
 	filename = infile_stack[infile_stack_ptr].fp.pathname;
 	line_nr  = 1;
+
+	return 0;
 }
 
-static int stack_pop(void) {
+static int
+stack_pop(void) {
 	fpclose(&infile_stack[infile_stack_ptr].fp);
 
 	// Destroy previous buffer
@@ -130,24 +134,35 @@ find_incl_file_near_fn(char *s, char *fn, lkfile_t *fp)
 	if (!fn)
 		return 1;
 
-	t = xstrdup(fn);
+	t = strdup(fn);
+	if (t == NULL)
+		goto nomem;
+
 	te = strrchr(t, '/');
 	if (te) {
 		te[1] = 0;
 		len = strlen(t);
 		include_dirpath2[0] = t;
-		include_dirpath2[1] = t1 = xmalloc(len + 12);
-		include_dirpath2[2] = t2 = xmalloc(len + 15);
+		include_dirpath2[1] = t1 = malloc(len + 12);
+		include_dirpath2[2] = t2 = malloc(len + 15);
+
+		if (t1 == NULL || t2 == NULL)
+			goto nomem;
+
 		strcpy(t1, t);
 		strcat(t1, "../include/");
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
 		rc = findfile(s, include_dirpath2, include_suffixes, fp);
-		xfree(t1);
-		xfree(t2);
+		free(t1);
+		free(t2);
 	}
-	xfree(t);
+	free(t);
 	return rc;
+
+	/* FIXME: free */
+nomem:	snprintf(errmsg, sizeof(errmsg), _("out of memory"));
+	return -1;
 }
 
 static int
@@ -155,8 +170,10 @@ find_standard_incl_file(char *s, lkfile_t *fp)
 {
 	int rc = 1;
 
-	if (findfile(s, include_dirpath1, include_suffixes, fp))
-		rc = find_incl_file_near_fn(s, filename, fp);
+	if (findfile(s, include_dirpath1, include_suffixes, fp)) {
+		if ((rc = find_incl_file_near_fn(s, filename, fp)) == -1)
+			return rc;
+	}
 
 	/* If filename is a symlink, also look near its target. */
 	if (rc) {
@@ -213,8 +230,9 @@ find_incl_file(char *s, lkfile_t *fp)
 				rc = findfile(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
 				rc = find_standard_incl_file(s, fp);
-			if (!rc)
-				return 0;
+
+			if (rc <= 0)
+				return rc;
 			if (t)
 				*t++ = sv;
 			ev = t;
@@ -224,19 +242,29 @@ find_incl_file(char *s, lkfile_t *fp)
 	return find_standard_incl_file(s, fp);
 }
 
-static void open_include(char *s)
+static int
+open_include(char *s)
 {
+	int rc;
 	lkfile_t fp;
 
 	if (verbose)
 		fprintf(stdout, _("switching to %s\n"), s);
 
-	if (find_incl_file(s, &fp))
-		lkfatal(_("cannot open include file %s"), s);
+	rc = find_incl_file(s, &fp);
+	if (rc > 0) {
+		snprintf(errmsg, sizeof(errmsg),
+			_("cannot open include file %s"), s);
+		free(s);
+		return -1;
+	} else if (rc == -1) {
+		free(s);
+		return -1;
+	}
 
-	xfree(s);
+	free(s);
 
-	stack_push(&fp);
+	return stack_push(&fp);
 }
 
 %}
@@ -297,14 +325,23 @@ To                      to|To|TO
 				state_ptr++;
 			}
 <INCLSTR>\"[^\"\n]+\"	{
-				char *s = xstrndup(yytext+1, strlen(yytext)-2);
+				char *s = strndup(yytext+1, strlen(yytext)-2);
+				if (s == NULL) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("out of memory"));
+					return(ERROR);
+				}
+
 				/* use static pathname to store *s ? */
-				open_include(s);
+				if (open_include(s) == -1)
+					return(ERROR);
 				yy_pop_state();
 				state_ptr--;
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
-				yyerror(_("expected filename between quotes"));
+				snprintf(errmsg, sizeof(errmsg),
+					_("expected filename between quotes"));
+				return(ERROR);
 			}
 <<EOF>>			{
 				stack_pop();
@@ -342,8 +379,12 @@ To                      to|To|TO
 			}
 {Unicode}		{
 				yylval = strtol(yytext + 1, NULL, 16);
-				if (yylval >= 0xf000)
-					lkfatal(_("unicode keysym out of range: %s"), yytext);
+				if (yylval >= 0xf000) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("unicode keysym out of range: %s"),
+						yytext);
+					return(ERROR);
+				}
 				return(UNUMBER);
 			}
 {Decimal}|{Octal}|{Hex}	{
@@ -393,30 +434,45 @@ To                      to|To|TO
 				state_ptr++;
 			}
 <STR>\\{Octa}		{
-				if (p >= pmax)
-					lkfatal(_("string too long"));
+				if (p >= pmax) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("string too long"));
+					return(ERROR);
+				}
 				*p++ = strtol(yytext + 1, NULL, 8);
 			}
 <STR>\\\"               {
-				if (p >= pmax)
-					lkfatal(_("string too long"));
+				if (p >= pmax) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("string too long"));
+					return(ERROR);
+				}
 				*p++ = '"';
 			}
 <STR>\\\\               {
-				if (p >= pmax)
-					lkfatal(_("string too long"));
+				if (p >= pmax) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("string too long"));
+					return(ERROR);
+				}
 				*p++ = '\\';
 			}
 <STR>\\n		{
-				if (p >= pmax)
-					lkfatal(_("string too long"));
+				if (p >= pmax) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("string too long"));
+					return(ERROR);
+				}
 				*p++ = '\n';
 			}
 <STR>[^\"\\]*		{
 				char *ptmp = p;
 				p += strlen(yytext);
-				if (p > pmax)
-					lkfatal(_("string too long"));
+				if (p > pmax) {
+					snprintf(errmsg, sizeof(errmsg),
+						_("string too long"));
+					return(ERROR);
+				}
 				strcpy(ptmp, yytext);
 			}
 <STR>\"			{
@@ -426,6 +482,8 @@ To                      to|To|TO
 				return(STRLITERAL);
 			}
 .			{
+				snprintf(errmsg, sizeof(errmsg),
+					_("unknown characters"));
 				return(ERROR); /* report any unknown characters */
 			}
 %%
