@@ -31,7 +31,6 @@
 #include "findfile.h"
 #include "ksyms.h"
 #include "modifiers.h"
-#include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
 
@@ -453,16 +452,23 @@ static void freekeys(void)
 {
 	int i;
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		xfree(keymap_was_set[i]);
-		xfree(key_map[i]);
+		if (keymap_was_set[i] != NULL)
+			free(keymap_was_set[i]);
+		if (key_map[i] != NULL)
+			free(key_map[i]);
 	}
 }
 
 static char *ostr(char *s)
 {
 	int lth = strlen(s);
-	char *ns0 = xmalloc(4 * lth + 1);
+	char *ns0 = malloc(4 * lth + 1);
 	char *ns = ns0;
+
+	if (ns == NULL) {
+		fprintf(stderr, "%s\n", _("out of memory"));
+		exit(EXIT_FAILURE);
+	}
 
 	while (*s) {
 		switch (*s) {
@@ -500,7 +506,7 @@ static int deffuncs(int fd)
 				fprintf(stderr,
 					_("failed to bind string '%s' to function %s\n"),
 					s, syms[KT_FN].table[kbs_buf.kb_func]);
-				xfree(s);
+				free(s);
 			} else {
 				ct++;
 			}
