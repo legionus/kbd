@@ -426,35 +426,35 @@ static int defkeys(int fd, int kbd_mode)
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (key_map[i]) {
 			for (j = 0; j < NR_KEYS; j++) {
-				if ((keymap_was_set[i])[j]) {
-					ke.kb_index = j;
-					ke.kb_table = i;
-					ke.kb_value = (key_map[i])[j];
+				if (!((keymap_was_set[i])[j]))
+					continue;
 
-					fail =
-					    ioctl(fd, KDSKBENT,
-						  (unsigned long)&ke);
-					if (fail) {
-						if (errno == EPERM) {
-							fprintf(stderr,
-								_("Keymap %d: Permission denied\n"),
-								i);
-							j = NR_KEYS;
-							continue;
-						}
-						perror("KDSKBENT");
-					} else
-						ct++;
-					if (verbose)
-						printf(_("keycode %d, table %d = %d%s\n"),
-						       j, i, (key_map[i])[j],
-						       fail ? _("    FAILED") :
-						       "");
-					else if (fail)
+				ke.kb_index = j;
+				ke.kb_table = i;
+				ke.kb_value = (key_map[i])[j];
+
+				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
+
+				if (fail) {
+					if (errno == EPERM) {
 						fprintf(stderr,
-							_("failed to bind key %d to value %d\n"),
-							j, (key_map[i])[j]);
-				}
+							_("Keymap %d: Permission denied\n"),
+							i);
+						j = NR_KEYS;
+						continue;
+					}
+					perror("KDSKBENT");
+				} else
+					ct++;
+
+				if (verbose)
+					printf(_("keycode %d, table %d = %d%s\n"),
+						j, i, (key_map[i])[j],
+					       fail ? _("    FAILED") : "");
+				else if (fail)
+					fprintf(stderr,
+						_("failed to bind key %d to value %d\n"),
+						j, (key_map[i])[j]);
 			}
 
 		} else if (keymaps_line_seen && !defining[i]) {
@@ -480,12 +480,13 @@ static int defkeys(int fd, int kbd_mode)
 					ke.kb_index = j;
 					ke.kb_table = i;
 					ke.kb_value = K_HOLE;
-					if (ioctl
-					    (fd, KDSKBENT,
-					     (unsigned long)&ke)) {
+
+					if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 						if (errno == EINVAL && i >= 16)
 							break;	/* old kernel */
+
 						perror("KDSKBENT");
+
 						fprintf(stderr,
 							_("%s: cannot deallocate or clear keymap\n"),
 							progname);
@@ -1018,7 +1019,7 @@ static void attr_noreturn bkeymap(void)
 
 
 /* Line 189 of yacc.c  */
-#line 1022 "loadkeys.c"
+#line 1023 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -1130,7 +1131,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 1134 "loadkeys.c"
+#line 1135 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -1435,12 +1436,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   962,   962,   963,   965,   966,   967,   968,   969,   970,
-     971,   972,   973,   974,   976,   981,   986,   992,   997,  1003,
-    1008,  1009,  1011,  1019,  1025,  1039,  1044,  1050,  1051,  1053,
-    1053,  1061,  1067,  1068,  1070,  1071,  1072,  1073,  1074,  1075,
-    1076,  1077,  1078,  1080,  1128,  1129,  1131,  1141,  1142,  1143,
-    1144,  1145,  1146
+       0,   963,   963,   964,   966,   967,   968,   969,   970,   971,
+     972,   973,   974,   975,   977,   983,   988,   994,   999,  1005,
+    1010,  1011,  1013,  1021,  1027,  1041,  1046,  1052,  1053,  1055,
+    1055,  1063,  1069,  1070,  1072,  1073,  1074,  1075,  1076,  1077,
+    1078,  1079,  1080,  1082,  1137,  1138,  1140,  1150,  1151,  1152,
+    1153,  1154,  1155
 };
 #endif
 
@@ -2412,16 +2413,17 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 977 "loadkeys.y"
+#line 978 "loadkeys.y"
     {
-				set_charset((char *) kbs_buf.kb_string);
+				if (set_charset((char *) kbs_buf.kb_string))
+					YYERROR;
 			}
     break;
 
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 982 "loadkeys.y"
+#line 984 "loadkeys.y"
     {
 				alt_is_meta = 1;
 			}
@@ -2430,7 +2432,7 @@ yyreduce:
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 987 "loadkeys.y"
+#line 989 "loadkeys.y"
     {
 				if (strings_as_usual() == -1)
 					YYERROR;
@@ -2440,7 +2442,7 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 993 "loadkeys.y"
+#line 995 "loadkeys.y"
     {
 				if (compose_as_usual((char *) kbs_buf.kb_string) == -1)
 					YYERROR;
@@ -2450,7 +2452,7 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 998 "loadkeys.y"
+#line 1000 "loadkeys.y"
     {
 				if (compose_as_usual(0) == -1)
 					YYERROR;
@@ -2460,7 +2462,7 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 1004 "loadkeys.y"
+#line 1006 "loadkeys.y"
     {
 				keymaps_line_seen = 1;
 			}
@@ -2469,7 +2471,7 @@ yyreduce:
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 1012 "loadkeys.y"
+#line 1014 "loadkeys.y"
     {
 				int i;
 				for (i = (yyvsp[(1) - (3)]); i <= (yyvsp[(3) - (3)]); i++) {
@@ -2482,7 +2484,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 1020 "loadkeys.y"
+#line 1022 "loadkeys.y"
     {
 				if (addmap((yyvsp[(1) - (1)]),1) == -1)
 					YYERROR;
@@ -2492,7 +2494,7 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 1026 "loadkeys.y"
+#line 1028 "loadkeys.y"
     {
 				if (KTYP((yyvsp[(2) - (5)])) != KT_FN) {
 					snprintf(errmsg, sizeof(errmsg),
@@ -2510,7 +2512,7 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 1040 "loadkeys.y"
+#line 1042 "loadkeys.y"
     {
 				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2520,7 +2522,7 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 1045 "loadkeys.y"
+#line 1047 "loadkeys.y"
     {
 				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2530,21 +2532,21 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 1050 "loadkeys.y"
+#line 1052 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]);		}
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 1051 "loadkeys.y"
+#line 1053 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]) ^ 0xf000;	}
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 1053 "loadkeys.y"
+#line 1055 "loadkeys.y"
     {
 				mod = 0;
 			}
@@ -2553,7 +2555,7 @@ yyreduce:
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 1057 "loadkeys.y"
+#line 1059 "loadkeys.y"
     {
 				if (addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)])) == -1)
 					YYERROR;
@@ -2563,7 +2565,7 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 1062 "loadkeys.y"
+#line 1064 "loadkeys.y"
     {
 				if (addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2573,72 +2575,72 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 1070 "loadkeys.y"
+#line 1072 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 1071 "loadkeys.y"
+#line 1073 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 1072 "loadkeys.y"
+#line 1074 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 1073 "loadkeys.y"
+#line 1075 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 1074 "loadkeys.y"
+#line 1076 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 1075 "loadkeys.y"
+#line 1077 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 1076 "loadkeys.y"
+#line 1078 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 1077 "loadkeys.y"
+#line 1079 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 1078 "loadkeys.y"
+#line 1080 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 1081 "loadkeys.y"
+#line 1083 "loadkeys.y"
     {
-				int i, j;
+				int i, j, keycode;
 
 				if (rvalct == 1) {
 					/* Some files do not have a keymaps line, and
@@ -2650,10 +2652,11 @@ yyreduce:
 					 * and it should be possible to override lines
 					 * from an include file. So, kill old defs. */
 					for (j = 0; j < max_keymap; j++) {
-						if (defining[j]) {
-							if (killkey((yyvsp[(2) - (5)]), j) == -1)
-								YYERROR;
-						}
+						if (!(defining[j]))
+							continue;
+
+						if (killkey((yyvsp[(2) - (5)]), j) == -1)
+							YYERROR;
 					}
 				}
 
@@ -2661,12 +2664,18 @@ yyreduce:
 					i = 0;
 
 					for (j = 0; j < max_keymap; j++) {
-						if (defining[j]) {
-							if (rvalct != 1 || i == 0)
-								if (addkey((yyvsp[(2) - (5)]), j, (i < rvalct) ? key_buf[i] : K_HOLE) == -1)
-									YYERROR;
-							i++;
+						if (!(defining[j]))
+							continue;
+
+						if (rvalct != 1 || i == 0) {
+							keycode = (i < rvalct)
+								? key_buf[i]
+								: K_HOLE;
+
+							if (addkey((yyvsp[(2) - (5)]), j, keycode) == -1)
+								YYERROR;
 						}
+						i++;
 					}
 
 					if (i < rvalct) {
@@ -2687,7 +2696,7 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 1132 "loadkeys.y"
+#line 1141 "loadkeys.y"
     {
 				if (rvalct >= MAX_NR_KEYMAPS) {
 					snprintf(errmsg, sizeof(errmsg),
@@ -2701,49 +2710,49 @@ yyreduce:
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 1141 "loadkeys.y"
+#line 1150 "loadkeys.y"
     { (yyval) = convert_code((yyvsp[(1) - (1)]), TO_AUTO);		}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 1142 "loadkeys.y"
+#line 1151 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)]));			}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 1143 "loadkeys.y"
+#line 1152 "loadkeys.y"
     { (yyval) = convert_code((yyvsp[(1) - (1)])^0xf000, TO_AUTO);	}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 1144 "loadkeys.y"
+#line 1153 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)])^0xf000);			}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 1145 "loadkeys.y"
+#line 1154 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]);					}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 1146 "loadkeys.y"
+#line 1155 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)]));			}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 2747 "loadkeys.c"
+#line 2756 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2955,7 +2964,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 1148 "loadkeys.y"
+#line 1157 "loadkeys.y"
 
 
 static void parse_keymap(lkfile_t *f) {

@@ -367,35 +367,35 @@ static int defkeys(int fd, int kbd_mode)
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (key_map[i]) {
 			for (j = 0; j < NR_KEYS; j++) {
-				if ((keymap_was_set[i])[j]) {
-					ke.kb_index = j;
-					ke.kb_table = i;
-					ke.kb_value = (key_map[i])[j];
+				if (!((keymap_was_set[i])[j]))
+					continue;
 
-					fail =
-					    ioctl(fd, KDSKBENT,
-						  (unsigned long)&ke);
-					if (fail) {
-						if (errno == EPERM) {
-							fprintf(stderr,
-								_("Keymap %d: Permission denied\n"),
-								i);
-							j = NR_KEYS;
-							continue;
-						}
-						perror("KDSKBENT");
-					} else
-						ct++;
-					if (verbose)
-						printf(_("keycode %d, table %d = %d%s\n"),
-						       j, i, (key_map[i])[j],
-						       fail ? _("    FAILED") :
-						       "");
-					else if (fail)
+				ke.kb_index = j;
+				ke.kb_table = i;
+				ke.kb_value = (key_map[i])[j];
+
+				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
+
+				if (fail) {
+					if (errno == EPERM) {
 						fprintf(stderr,
-							_("failed to bind key %d to value %d\n"),
-							j, (key_map[i])[j]);
-				}
+							_("Keymap %d: Permission denied\n"),
+							i);
+						j = NR_KEYS;
+						continue;
+					}
+					perror("KDSKBENT");
+				} else
+					ct++;
+
+				if (verbose)
+					printf(_("keycode %d, table %d = %d%s\n"),
+						j, i, (key_map[i])[j],
+					       fail ? _("    FAILED") : "");
+				else if (fail)
+					fprintf(stderr,
+						_("failed to bind key %d to value %d\n"),
+						j, (key_map[i])[j]);
 			}
 
 		} else if (keymaps_line_seen && !defining[i]) {
@@ -421,12 +421,13 @@ static int defkeys(int fd, int kbd_mode)
 					ke.kb_index = j;
 					ke.kb_table = i;
 					ke.kb_value = K_HOLE;
-					if (ioctl
-					    (fd, KDSKBENT,
-					     (unsigned long)&ke)) {
+
+					if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 						if (errno == EINVAL && i >= 16)
 							break;	/* old kernel */
+
 						perror("KDSKBENT");
+
 						fprintf(stderr,
 							_("%s: cannot deallocate or clear keymap\n"),
 							progname);
@@ -975,7 +976,8 @@ line		: EOL
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
-				set_charset((char *) kbs_buf.kb_string);
+				if (set_charset((char *) kbs_buf.kb_string))
+					YYERROR;
 			}
 		;
 altismetaline	: ALT_IS_META EOL
@@ -1079,7 +1081,7 @@ modifier	: SHIFT		{ mod |= M_SHIFT;	}
 		;
 fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
-				int i, j;
+				int i, j, keycode;
 
 				if (rvalct == 1) {
 					/* Some files do not have a keymaps line, and
@@ -1091,10 +1093,11 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					 * and it should be possible to override lines
 					 * from an include file. So, kill old defs. */
 					for (j = 0; j < max_keymap; j++) {
-						if (defining[j]) {
-							if (killkey($2, j) == -1)
-								YYERROR;
-						}
+						if (!(defining[j]))
+							continue;
+
+						if (killkey($2, j) == -1)
+							YYERROR;
 					}
 				}
 
@@ -1102,12 +1105,18 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					i = 0;
 
 					for (j = 0; j < max_keymap; j++) {
-						if (defining[j]) {
-							if (rvalct != 1 || i == 0)
-								if (addkey($2, j, (i < rvalct) ? key_buf[i] : K_HOLE) == -1)
-									YYERROR;
-							i++;
+						if (!(defining[j]))
+							continue;
+
+						if (rvalct != 1 || i == 0) {
+							keycode = (i < rvalct)
+								? key_buf[i]
+								: K_HOLE;
+
+							if (addkey($2, j, keycode) == -1)
+								YYERROR;
 						}
+						i++;
 					}
 
 					if (i < rvalct) {
