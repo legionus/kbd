@@ -23,7 +23,7 @@ int rvalct;
 struct kbsentry kbs_buf;
 static char *p, *pmax;
 
-extern int verbose;
+extern int lkverbose(int level, const char *fmt, ...);
 extern char errmsg[1024];
 
 int stack_push(lkfile_t *fp);
@@ -248,8 +248,7 @@ open_include(char *s)
 	int rc;
 	lkfile_t fp;
 
-	if (verbose)
-		fprintf(stdout, _("switching to %s\n"), s);
+	lkverbose(1, _("switching to %s"), s);
 
 	rc = find_incl_file(s, &fp);
 	if (rc > 0) {

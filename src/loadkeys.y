@@ -76,6 +76,7 @@ extern struct kbsentry kbs_buf;
 char errmsg[1024];
 
 int yyerror(const char *s);
+int lkverbose(int level, const char *fmt, ...);
 
 extern char *filename;
 extern int line_nr;
@@ -134,6 +135,20 @@ int yyerror(const char *s)
 	private_error_ct++;
 	return (0);
 }
+
+
+int __attribute__ ((format (printf, 2, 3)))
+lkverbose(int level, const char *fmt, ...) {
+	if (verbose < level)
+		return 1;
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(stdout, fmt, ap);
+	fprintf(stdout, "\n");
+	va_end(ap);
+	return 0;
+}
+
 
 static int
 addmap(int i, int explicit)
@@ -388,11 +403,10 @@ static int defkeys(int fd, int kbd_mode)
 				} else
 					ct++;
 
-				if (verbose)
-					printf(_("keycode %d, table %d = %d%s\n"),
-						j, i, (key_map[i])[j],
-					       fail ? _("    FAILED") : "");
-				else if (fail)
+				lkverbose(1, _("keycode %d, table %d = %d%s"),
+					j, i, (key_map[i])[j], fail ? _("    FAILED") : "");
+
+				if (fail && !verbose)
 					fprintf(stderr,
 						_("failed to bind key %d to value %d\n"),
 						j, (key_map[i])[j]);
@@ -404,8 +418,7 @@ static int defkeys(int fd, int kbd_mode)
 			ke.kb_table = i;
 			ke.kb_value = K_NOSUCHMAP;
 
-			if (verbose > 1)
-				printf(_("deallocate keymap %d\n"), i);
+			lkverbose(2, _("deallocate keymap %d"), i);
 
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
@@ -653,22 +666,18 @@ static void loadkeys(int fd, int kbd_mode)
 	keyct = defkeys(fd, kbd_mode);
 	funcct = deffuncs(fd);
 
-	if (verbose) {
-		printf(_("\nChanged %d %s and %d %s.\n"),
-		       keyct, (keyct == 1) ? _("key") : _("keys"),
-		       funcct, (funcct == 1) ? _("string") : _("strings"));
-	}
+	lkverbose(1, _("\nChanged %d %s and %d %s"),
+		keyct, (keyct == 1) ? _("key") : _("keys"),
+		funcct, (funcct == 1) ? _("string") : _("strings"));
 
 	if (accent_table_size > 0 || nocompose) {
 		diacct = defdiacs(fd);
 
-		if (verbose) {
-			printf(_("Loaded %d compose %s.\n"),
-			       diacct, (diacct == 1) ? _("definition") : _("definitions"));
-		}
+		lkverbose(1, _("Loaded %d compose %s"),
+			diacct, (diacct == 1) ? _("definition") : _("definitions"));
 
-	} else if (verbose) {
-		printf(_("(No change in compose definitions.)\n"));
+	} else {
+		lkverbose(1, _("(No change in compose definitions)"));
 	}
 
 	freekeys();
