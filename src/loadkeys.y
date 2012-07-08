@@ -387,7 +387,7 @@ static int defkeys(int fd, int kbd_mode)
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
 				strerror(errno));
-			exit(EXIT_FAILURE);
+			goto fail;
 		}
 	}
 
@@ -434,7 +434,7 @@ static int defkeys(int fd, int kbd_mode)
 				if (errno != EINVAL) {
 					lkerror(_("KDSKBENT: %s: could not deallocate keymap %d"),
 						strerror(errno), i);
-					exit(EXIT_FAILURE);
+					goto fail;
 				}
 				/* probably an old kernel */
 				/* clear keymap by hand */
@@ -449,7 +449,7 @@ static int defkeys(int fd, int kbd_mode)
 
 						lkerror(_("KDSKBENT: %s: cannot deallocate or clear keymap"),
 							strerror(errno));
-						exit(EXIT_FAILURE);
+						goto fail;
 					}
 				}
 			}
@@ -459,10 +459,12 @@ static int defkeys(int fd, int kbd_mode)
 	if (optu && ioctl(fd, KDSKBMODE, kbd_mode)) {
 		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
 			strerror(errno));
-		exit(EXIT_FAILURE);
+		goto fail;
 	}
 
 	return ct;
+
+ fail:	return -1;
 }
 
 static void freekeys(void)
@@ -476,7 +478,8 @@ static void freekeys(void)
 	}
 }
 
-static char *ostr(char *s)
+static char *
+ostr(char *s)
 {
 	int lth = strlen(s);
 	char *ns0 = malloc(4 * lth + 1);
@@ -484,7 +487,7 @@ static char *ostr(char *s)
 
 	if (ns == NULL) {
 		lkerror(_("out of memory"));
-		exit(EXIT_FAILURE);
+		return NULL;
 	}
 
 	while (*s) {
@@ -508,7 +511,8 @@ static char *ostr(char *s)
 	return ns0;
 }
 
-static int deffuncs(int fd)
+static int
+deffuncs(int fd)
 {
 	int i, ct = 0;
 	char *ptr, *s;
@@ -520,6 +524,8 @@ static int deffuncs(int fd)
 			strcpy((char *)kbs_buf.kb_string, ptr);
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
 				s = ostr((char *)kbs_buf.kb_string);
+				if (s == NULL)
+					return -1;
 				lkerror(_("failed to bind string '%s' to function %s"),
 					s, syms[KT_FN].table[kbs_buf.kb_func]);
 				free(s);
@@ -539,7 +545,8 @@ static int deffuncs(int fd)
 	return ct;
 }
 
-static int defdiacs(int fd)
+static int
+defdiacs(int fd)
 {
 	unsigned int i, count;
 	struct kbdiacrs kd;
@@ -562,10 +569,8 @@ static int defdiacs(int fd)
 			kdu.kbdiacruc[i].result = accent_table[i].result;
 		}
 
-		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu)) {
-			lkerror("KDSKBDIACRUC: %s", strerror(errno));
-			exit(EXIT_FAILURE);
-		}
+		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu))
+			goto fail2;
 	} else
 #endif
 	{
@@ -576,14 +581,19 @@ static int defdiacs(int fd)
 			kd.kbdiacr[i].result = accent_table[i].result;
 		}
 
-		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd)) {
-			perror("KDSKBDIACR");
-			lkerror("KDSKBDIACR: %s", strerror(errno));
-			exit(EXIT_FAILURE);
-		}
+		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd))
+			goto fail1;
 	}
 
 	return kd.kb_cnt;
+
+ fail1:	lkerror("KDSKBDIACR: %s", strerror(errno));
+	return -1;
+
+#ifdef KDSKBDIACRUC
+ fail2:	lkerror("KDSKBDIACRUC: %s", strerror(errno));
+	return -1;
+#endif
 }
 
 static int
@@ -665,12 +675,13 @@ do_constant(void)
 	return -1;
 }
 
-static void loadkeys(int fd, int kbd_mode)
+static int
+loadkeys(int fd, int kbd_mode)
 {
-	int keyct, funcct, diacct = 0;
+	int keyct, funcct, diacct;
 
-	keyct = defkeys(fd, kbd_mode);
-	funcct = deffuncs(fd);
+	if ((keyct = defkeys(fd, kbd_mode)) < 0 || (funcct = deffuncs(fd)) < 0)
+		return -1;
 
 	lkverbose(1, _("\nChanged %d %s and %d %s"),
 		keyct, (keyct == 1) ? _("key") : _("keys"),
@@ -679,6 +690,9 @@ static void loadkeys(int fd, int kbd_mode)
 	if (accent_table_size > 0 || nocompose) {
 		diacct = defdiacs(fd);
 
+		if (diacct < 0)
+			return -1;
+
 		lkverbose(1, _("Loaded %d compose %s"),
 			diacct, (diacct == 1) ? _("definition") : _("definitions"));
 
@@ -686,7 +700,7 @@ static void loadkeys(int fd, int kbd_mode)
 		lkverbose(1, _("(No change in compose definitions)"));
 	}
 
-	freekeys();
+	return 0;
 }
 
 static int
@@ -816,7 +830,7 @@ outchar(FILE *fd, unsigned char c, int comma)
 	fprintf(fd, comma ? "', " : "'");
 }
 
-static void
+static int
 mktable(FILE *fd)
 {
 	int j;
@@ -937,9 +951,11 @@ mktable(FILE *fd)
 		fprintf(fd, "};\n\n");
 	}
 	fprintf(fd, "unsigned int accent_table_size = %d;\n", accent_table_size);
+	return 0;
 }
 
-static void attr_noreturn bkeymap(void)
+static int
+bkeymap(void)
 {
 	int i, j;
 
@@ -963,12 +979,10 @@ static void attr_noreturn bkeymap(void)
 			}
 		}
 	}
-	freekeys();
-	exit(0);
+	return 0;
 
  fail:	lkerror(_("Error writing map to file"));
-	freekeys();
-	exit(1);
+	return -1;
 }
 
 %}
@@ -1170,7 +1184,9 @@ rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
 		;
 %%
 
-static void parse_keymap(lkfile_t *f) {
+static int
+parse_keymap(lkfile_t *f)
+{
 	if (!quiet && !optm)
 		lkverbose(1, _("Loading %s"), f->pathname);
 
@@ -1178,7 +1194,7 @@ static void parse_keymap(lkfile_t *f) {
 
 	if (stack_push(f) == -1) {
 		lkerror("%s", errmsg);
-		exit(EXIT_FAILURE);
+		return -1;
 	}
 
 	if (yyparse()) {
@@ -1189,8 +1205,10 @@ static void parse_keymap(lkfile_t *f) {
 
 		if (!optm)
 			lkerror(_("key bindings not changed"));
-		exit(EXIT_FAILURE);
+
+		return -1;
 	}
+	return 0;
 }
 
 int main(int argc, char *argv[])
@@ -1211,7 +1229,7 @@ int main(int argc, char *argv[])
 		{ "version",		no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
-	int c, i;
+	int c, i, rc = -1;
 	int fd;
 	int kbd_mode;
 	int kd_mode;
@@ -1322,12 +1340,17 @@ int main(int argc, char *argv[])
 			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
 			exit(EXIT_FAILURE);
 		}
-		parse_keymap(&f);
+
+		if ((rc = parse_keymap(&f)) == -1)
+			goto fail;
+
 
 	} else if (optind == argc) {
 		f.fd = stdin;
 		strcpy(f.pathname, "<stdin>");
-		parse_keymap(&f);
+
+		if ((rc = parse_keymap(&f)) == -1)
+			goto fail;
 	}
 
 	for (i = optind; argv[i]; i++) {
@@ -1337,27 +1360,29 @@ int main(int argc, char *argv[])
 
 		} else if (findfile(argv[i], dirpath, suffixes, &f)) {
 			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
-			exit(EXIT_FAILURE);
+			goto fail;
 		}
 
-		parse_keymap(&f);
+		if ((rc = parse_keymap(&f)) == -1)
+			goto fail;
 	}
 
-	if (do_constant() == -1)
-		exit(EXIT_FAILURE);
+	if ((rc = do_constant()) == -1)
+		goto fail;
 
-	if (optb)
-		bkeymap();
-
-	if (optm) {
-		mktable(stdout);
-		freekeys();
-		exit(EXIT_SUCCESS);
+	if (optb) {
+		rc = bkeymap();
+	} else if (optm) {
+		rc = mktable(stdout);
+	} else {
+		rc = loadkeys(fd, kbd_mode);
 	}
 
-	loadkeys(fd, kbd_mode);
-
+ fail:	freekeys();
 	close(fd);
+
+	if (rc < 0)
+		exit(EXIT_FAILURE);
 
 	exit(EXIT_SUCCESS);
 }
