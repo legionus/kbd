@@ -651,15 +651,18 @@ do_constant(void)
 			if (!key_map[r0]) {
 				snprintf(errmsg, sizeof(errmsg),
 					_("impossible error in do_constant"));
-				return -1;
+				goto fail;
 			}
 
 			key = (key_map[r0])[i];
 			if (do_constant_key(i, key) == -1)
-				return -1;
+				goto fail;
 		}
 	}
 	return 0;
+
+ fail:	lkerror("%s", errmsg);
+	return -1;
 }
 
 static void loadkeys(int fd, int kbd_mode)
@@ -1340,10 +1343,8 @@ int main(int argc, char *argv[])
 		parse_keymap(&f);
 	}
 
-	if (do_constant() == -1) {
-		lkerror("%s", errmsg);
+	if (do_constant() == -1)
 		exit(EXIT_FAILURE);
-	}
 
 	if (optb)
 		bkeymap();
