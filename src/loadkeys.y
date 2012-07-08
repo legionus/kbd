@@ -77,6 +77,7 @@ char errmsg[1024];
 
 int yyerror(const char *s);
 int lkverbose(int level, const char *fmt, ...);
+int lkerror(const char *fmt, ...);
 
 extern char *filename;
 extern int line_nr;
@@ -144,6 +145,17 @@ lkverbose(int level, const char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	vfprintf(stdout, fmt, ap);
+	fprintf(stdout, "\n");
+	va_end(ap);
+	return 0;
+}
+
+
+int __attribute__ ((format (printf, 1, 2)))
+lkerror(const char *fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(stderr, fmt, ap);
 	fprintf(stdout, "\n");
 	va_end(ap);
 	return 0;
@@ -373,8 +385,8 @@ static int defkeys(int fd, int kbd_mode)
 	if (optu) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
-			perror("KDSKBMODE");
-			fprintf(stderr, _("%s: could not switch to Unicode mode\n"), progname);
+			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
+				strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -393,13 +405,12 @@ static int defkeys(int fd, int kbd_mode)
 
 				if (fail) {
 					if (errno == EPERM) {
-						fprintf(stderr,
-							_("Keymap %d: Permission denied\n"),
+						lkerror(_("Keymap %d: Permission denied"),
 							i);
 						j = NR_KEYS;
 						continue;
 					}
-					perror("KDSKBENT");
+					lkerror("%s", strerror(errno));
 				} else
 					ct++;
 
@@ -407,8 +418,7 @@ static int defkeys(int fd, int kbd_mode)
 					j, i, (key_map[i])[j], fail ? _("    FAILED") : "");
 
 				if (fail && !verbose)
-					fprintf(stderr,
-						_("failed to bind key %d to value %d\n"),
+					lkerror(_("failed to bind key %d to value %d"),
 						j, (key_map[i])[j]);
 			}
 
@@ -422,10 +432,8 @@ static int defkeys(int fd, int kbd_mode)
 
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
-					perror("KDSKBENT");
-					fprintf(stderr,
-						_("%s: could not deallocate keymap %d\n"),
-						progname, i);
+					lkerror(_("KDSKBENT: %s: could not deallocate keymap %d"),
+						strerror(errno), i);
 					exit(EXIT_FAILURE);
 				}
 				/* probably an old kernel */
@@ -439,11 +447,8 @@ static int defkeys(int fd, int kbd_mode)
 						if (errno == EINVAL && i >= 16)
 							break;	/* old kernel */
 
-						perror("KDSKBENT");
-
-						fprintf(stderr,
-							_("%s: cannot deallocate or clear keymap\n"),
-							progname);
+						lkerror(_("KDSKBENT: %s: cannot deallocate or clear keymap"),
+							strerror(errno));
 						exit(EXIT_FAILURE);
 					}
 				}
@@ -452,10 +457,8 @@ static int defkeys(int fd, int kbd_mode)
 	}
 
 	if (optu && ioctl(fd, KDSKBMODE, kbd_mode)) {
-		perror("KDSKBMODE");
-		fprintf(stderr,
-			_("%s: could not return to original keyboard mode\n"),
-			progname);
+		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
+			strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
@@ -480,7 +483,7 @@ static char *ostr(char *s)
 	char *ns = ns0;
 
 	if (ns == NULL) {
-		fprintf(stderr, "%s\n", _("out of memory"));
+		lkerror(_("out of memory"));
 		exit(EXIT_FAILURE);
 	}
 
@@ -517,8 +520,7 @@ static int deffuncs(int fd)
 			strcpy((char *)kbs_buf.kb_string, ptr);
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
 				s = ostr((char *)kbs_buf.kb_string);
-				fprintf(stderr,
-					_("failed to bind string '%s' to function %s\n"),
+				lkerror(_("failed to bind string '%s' to function %s"),
 					s, syms[KT_FN].table[kbs_buf.kb_func]);
 				free(s);
 			} else {
@@ -527,7 +529,7 @@ static int deffuncs(int fd)
 		} else if (opts) {
 			kbs_buf.kb_string[0] = 0;
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
-				fprintf(stderr, _("failed to clear string %s\n"),
+				lkerror(_("failed to clear string %s"),
 					syms[KT_FN].table[kbs_buf.kb_func]);
 			} else {
 				ct++;
@@ -548,7 +550,7 @@ static int defdiacs(int fd)
 	count = accent_table_size;
 	if (count > MAX_DIACR) {
 		count = MAX_DIACR;
-		fprintf(stderr, _("too many compose definitions\n"));
+		lkerror(_("too many compose definitions"));
 	}
 #ifdef KDSKBDIACRUC
 	if (prefer_unicode) {
@@ -561,7 +563,7 @@ static int defdiacs(int fd)
 		}
 
 		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu)) {
-			perror("KDSKBDIACRUC");
+			lkerror("KDSKBDIACRUC: %s", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	} else
@@ -576,6 +578,7 @@ static int defdiacs(int fd)
 
 		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd)) {
 			perror("KDSKBDIACR");
+			lkerror("KDSKBDIACR: %s", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -780,12 +783,11 @@ compose_as_usual(char *charset)
  * mktable.c
  *
  */
-static char *modifiers[8] = {
-	"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
-};
-
 static char *mk_mapname(char modifier)
 {
+	static char *modifiers[8] = {
+		"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
+	};
 	static char buf[60];
 	int i;
 
@@ -961,7 +963,7 @@ static void attr_noreturn bkeymap(void)
 	freekeys();
 	exit(0);
 
- fail:	fprintf(stderr, _("Error writing map to file\n"));
+ fail:	lkerror(_("Error writing map to file"));
 	freekeys();
 	exit(1);
 }
@@ -1167,24 +1169,23 @@ rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
 
 static void parse_keymap(lkfile_t *f) {
 	if (!quiet && !optm)
-		fprintf(stdout, _("Loading %s\n"), f->pathname);
+		lkverbose(1, _("Loading %s"), f->pathname);
 
 	errmsg[0] = '\0';
 
 	if (stack_push(f) == -1) {
-		fprintf(stderr, "%s\n", errmsg);
+		lkerror("%s", errmsg);
 		exit(EXIT_FAILURE);
 	}
 
 	if (yyparse()) {
 		if (strlen(errmsg) > 0)
-			fprintf(stderr, "%s\n", errmsg);
+			lkerror("%s", errmsg);
 		else
-			fprintf(stderr, _("syntax error in map file\n"));
+			lkerror(_("syntax error in map file"));
 
 		if (!optm)
-			fprintf(stderr,
-				_("key bindings not changed\n"));
+			lkerror(_("key bindings not changed"));
 		exit(EXIT_FAILURE);
 	}
 }
@@ -1340,7 +1341,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (do_constant() == -1) {
-		fprintf(stderr, "%s\n", errmsg);
+		lkerror("%s", errmsg);
 		exit(EXIT_FAILURE);
 	}
 
