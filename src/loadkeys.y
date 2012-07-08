@@ -516,27 +516,29 @@ deffuncs(int fd)
 {
 	int i, ct = 0;
 	char *ptr, *s;
+	struct kbsentry kbs;
 
 	for (i = 0; i < MAX_NR_FUNC; i++) {
-		kbs_buf.kb_func = i;
+		kbs.kb_func = i;
 
 		if ((ptr = func_table[i])) {
-			strcpy((char *)kbs_buf.kb_string, ptr);
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
-				s = ostr((char *)kbs_buf.kb_string);
+			strcpy((char *)kbs.kb_string, ptr);
+			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
+				s = ostr((char *)kbs.kb_string);
 				if (s == NULL)
 					return -1;
 				lkerror(_("failed to bind string '%s' to function %s"),
-					s, syms[KT_FN].table[kbs_buf.kb_func]);
+					s, syms[KT_FN].table[kbs.kb_func]);
 				free(s);
 			} else {
 				ct++;
 			}
 		} else if (opts) {
-			kbs_buf.kb_string[0] = 0;
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
+			kbs.kb_string[0] = 0;
+
+			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
 				lkerror(_("failed to clear string %s"),
-					syms[KT_FN].table[kbs_buf.kb_func]);
+					syms[KT_FN].table[kbs.kb_func]);
 			} else {
 				ct++;
 			}
