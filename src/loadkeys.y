@@ -115,16 +115,19 @@ char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
 char *dirpath2[] = { 0, 0 };
 char *suffixes[] = { "", ".kmap", ".map", 0 };
 
-char **args;
-int opta = 0;
-int optb = 0;
-int optd = 0;
-int optm = 0;
-int opts = 0;
-int optu = 0;
+enum options {
+	OPT_A         = (1 << 1),
+	OPT_B         = (1 << 2),
+	OPT_D         = (1 << 3),
+	OPT_M         = (1 << 4),
+	OPT_S         = (1 << 5),
+	OPT_U         = (1 << 6),
+	OPT_QUIET     = (1 << 7),
+	OPT_NOCOMPOSE = (1 << 8)
+};
+
+int options = 0;
 int verbose = 0;
-int quiet = 0;
-int nocompose = 0;
 
 int yyerror(const char *s)
 {
@@ -380,7 +383,7 @@ static int defkeys(int fd, int kbd_mode)
 	int ct = 0;
 	int i, j, fail;
 
-	if (optu) {
+	if (options & OPT_U) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
@@ -454,7 +457,7 @@ static int defkeys(int fd, int kbd_mode)
 		}
 	}
 
-	if (optu && ioctl(fd, KDSKBMODE, kbd_mode)) {
+	if ((options & OPT_U) && ioctl(fd, KDSKBMODE, kbd_mode)) {
 		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
 			strerror(errno));
 		goto fail;
@@ -531,7 +534,7 @@ deffuncs(int fd)
 			} else {
 				ct++;
 			}
-		} else if (opts) {
+		} else if (options & OPT_S) {
 			kbs.kb_string[0] = 0;
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
@@ -687,7 +690,7 @@ loadkeys(int fd, int kbd_mode)
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
-	if (accent_table_size > 0 || nocompose) {
+	if (accent_table_size > 0 || options & OPT_NOCOMPOSE) {
 		diacct = defdiacs(fd);
 
 		if (diacct < 0)
@@ -1187,7 +1190,7 @@ rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
 static int
 parse_keymap(lkfile_t *f)
 {
-	if (!quiet && !optm)
+	if (!(options & OPT_QUIET) && !(options & OPT_M))
 		lkverbose(1, _("Loading %s"), f->pathname);
 
 	errmsg[0] = '\0';
@@ -1203,7 +1206,7 @@ parse_keymap(lkfile_t *f)
 		else
 			lkerror(_("syntax error in map file"));
 
-		if (!optm)
+		if (!(options & OPT_M))
 			lkerror(_("key bindings not changed"));
 
 		return -1;
@@ -1246,32 +1249,32 @@ int main(int argc, char *argv[])
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 		case 'a':
-			opta = 1;
+			options |= OPT_A;
 			break;
 		case 'b':
-			optb = 1;
+			options |= OPT_B;
 			break;
 		case 'c':
-			nocompose = 1;
+			options |= OPT_NOCOMPOSE;
 			break;
 		case 'C':
 			console = optarg;
 			break;
 		case 'd':
-			optd = 1;
+			options |= OPT_D;
 			break;
 		case 'm':
-			optm = 1;
+			options |= OPT_M;
 			break;
 		case 's':
-			opts = 1;
+			options |= OPT_S;
 			break;
 		case 'u':
-			optu = 1;
+			options |= OPT_U;
 			prefer_unicode = 1;
 			break;
 		case 'q':
-			quiet = 1;
+			options |= OPT_QUIET;
 			break;
 		case 'v':
 			verbose++;
@@ -1284,7 +1287,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (optu && opta) {
+	if ((options & OPT_U) && (options & OPT_A)) {
 		fprintf(stderr,
 			_("%s: Options --unicode and --ascii are mutually exclusive\n"),
 			progname);
@@ -1294,7 +1297,7 @@ int main(int argc, char *argv[])
 	/* get console */
 	fd = getfd(console);
 
-	if (!optm && !optb) {
+	if (!(options & OPT_M) && !(options & OPT_B)) {
 		/* check whether the keyboard is in Unicode mode */
 		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
 		    ioctl(fd, KDGETMODE, &kd_mode)) {
@@ -1304,7 +1307,7 @@ int main(int argc, char *argv[])
 		}
 
 		if (kbd_mode == K_UNICODE) {
-			if (opta) {
+			if (options & OPT_A) {
 				fprintf(stderr,
 					_("%s: warning: loading non-Unicode keymap on Unicode console\n"
 					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
@@ -1314,9 +1317,9 @@ int main(int argc, char *argv[])
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
-			optu = 0;
+			options ^= OPT_U;
 
-		} else if (optu && kd_mode != KD_GRAPHICS) {
+		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,
 				_("%s: warning: loading Unicode keymap on non-Unicode console\n"
 				  "    (perhaps you want to do `kbd_mode -u'?)\n"),
@@ -1326,14 +1329,14 @@ int main(int argc, char *argv[])
 
 	dirpath = dirpath1;
 	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
-		if (!quiet && !optm)
+		if (!(options & OPT_QUIET) && !(options & OPT_M))
 			fprintf(stdout, _("Searching in %s\n"), ev);
 
 		dirpath2[0] = ev;
 		dirpath = dirpath2;
 	}
 
-	if (optd) {
+	if (options & OPT_D) {
 		/* first read default map - search starts in . */
 
 		if (findfile(DEFMAP, dirpath, suffixes, &f)) {
@@ -1370,9 +1373,9 @@ int main(int argc, char *argv[])
 	if ((rc = do_constant()) == -1)
 		goto fail;
 
-	if (optb) {
+	if (options & OPT_B) {
 		rc = bkeymap();
-	} else if (optm) {
+	} else if (options & OPT_M) {
 		rc = mktable(stdout);
 	} else {
 		rc = loadkeys(fd, kbd_mode);
