@@ -68,7 +68,6 @@ char *fp = func_buf;
 
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
-int private_error_ct = 0;
 
 extern int rvalct;
 extern struct kbsentry kbs_buf;
@@ -133,7 +132,6 @@ int yyerror(const char *s)
 		return(0);
 
 	fprintf(stderr, "%s:%d: %s\n", filename, line_nr, s);
-	private_error_ct++;
 	return (0);
 }
 
