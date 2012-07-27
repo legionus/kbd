@@ -842,6 +842,8 @@ mktable(FILE *fd)
 	char *ptr;
 	unsigned int maxfunc;
 	unsigned int keymap_count = 0;
+	unsigned int func_table_offs[MAX_NR_FUNC];
+	unsigned int func_buf_offset = 0;
 
 	fprintf(fd,
 /* not to be translated... */
@@ -895,10 +897,12 @@ mktable(FILE *fd)
 	for (i = 0; i < maxfunc; i++) {
 		ptr = func_table[i];
 		if (ptr) {
+			func_table_offs[i] = func_buf_offset;
 			fprintf(fd, "\t");
 			for (; *ptr; ptr++)
 				outchar(fd, *ptr, 1);
 			fprintf(fd, "0, \n");
+			func_buf_offset += (ptr - func_table[i] + 1);
 		}
 	}
 	if (!maxfunc)
@@ -913,8 +917,7 @@ mktable(FILE *fd)
 	fprintf(fd, "char *func_table[MAX_NR_FUNC] = {\n");
 	for (i = 0; i < maxfunc; i++) {
 		if (func_table[i])
-			fprintf(fd, "\tfunc_buf + %ld,\n",
-			       (long)(func_table[i] - func_buf));
+			fprintf(fd, "\tfunc_buf + %u,\n", func_table_offs[i]);
 		else
 			fprintf(fd, "\t0,\n");
 	}
