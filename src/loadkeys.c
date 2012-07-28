@@ -122,8 +122,6 @@ unsigned int accent_table_size = 0;
 
 char key_is_constant[NR_KEYS];
 char *keymap_was_set[MAX_NR_KEYMAPS];
-char func_buf[4096];	/* should be allocated dynamically */
-char *fp = func_buf;
 
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
@@ -354,8 +352,7 @@ addkey(int k_index, int k_table, int keycode)
 static int
 addfunc(struct kbsentry kbs)
 {
-	int sh, i, x;
-	char *ptr, *q, *r;
+	int x;
 
 	x = kbs.kb_func;
 
@@ -365,45 +362,17 @@ addfunc(struct kbsentry kbs)
 		return -1;
 	}
 
-	q = func_table[x];
-	if (q) {		/* throw out old previous def */
-		sh = strlen(q) + 1;
-		ptr = q + sh;
-		while (ptr < fp)
-			*q++ = *ptr++;
-		fp -= sh;
-
-		for (i = x + 1; i < MAX_NR_FUNC; i++) {
-			if (func_table[i])
-				func_table[i] -= sh;
-		}
+	if(func_table[x]) {
+		free(func_table[x]);
+		func_table[x] = NULL;
 	}
 
-	ptr = func_buf;		/* find place for new def */
-	for (i = 0; i < x; i++) {
-		if (func_table[i]) {
-			ptr = func_table[i];
-			while (*ptr++) ;
-		}
-	}
+	func_table[x] = strdup((char *)kbs.kb_string);
 
-	func_table[x] = ptr;
-	sh = strlen((char *)kbs.kb_string) + 1;
-
-	if (fp + sh > func_buf + sizeof(func_buf)) {
+	if (!func_table[x]) {
 		snprintf(errmsg, sizeof(errmsg),
-			_("addfunc: func_buf overflow"));
+			_("addfunc: out of memory"));
 		return -1;
-	}
-	q = fp;
-	fp += sh;
-	r = fp;
-	while (q > ptr)
-		*--r = *--q;
-	strcpy(ptr, (char *)kbs.kb_string);
-	for (i = x + 1; i < MAX_NR_FUNC; i++) {
-		if (func_table[i])
-			func_table[i] += sh;
 	}
 
 	return 0;
@@ -901,6 +870,8 @@ mktable(FILE *fd)
 	char *ptr;
 	unsigned int maxfunc;
 	unsigned int keymap_count = 0;
+	unsigned int func_table_offs[MAX_NR_FUNC];
+	unsigned int func_buf_offset = 0;
 
 	fprintf(fd,
 /* not to be translated... */
@@ -954,10 +925,12 @@ mktable(FILE *fd)
 	for (i = 0; i < maxfunc; i++) {
 		ptr = func_table[i];
 		if (ptr) {
+			func_table_offs[i] = func_buf_offset;
 			fprintf(fd, "\t");
 			for (; *ptr; ptr++)
 				outchar(fd, *ptr, 1);
 			fprintf(fd, "0, \n");
+			func_buf_offset += (ptr - func_table[i] + 1);
 		}
 	}
 	if (!maxfunc)
@@ -972,8 +945,7 @@ mktable(FILE *fd)
 	fprintf(fd, "char *func_table[MAX_NR_FUNC] = {\n");
 	for (i = 0; i < maxfunc; i++) {
 		if (func_table[i])
-			fprintf(fd, "\tfunc_buf + %ld,\n",
-			       (long)(func_table[i] - func_buf));
+			fprintf(fd, "\tfunc_buf + %u,\n", func_table_offs[i]);
 		else
 			fprintf(fd, "\t0,\n");
 	}
@@ -1050,7 +1022,7 @@ bkeymap(void)
 
 
 /* Line 189 of yacc.c  */
-#line 1054 "loadkeys.c"
+#line 1026 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -1162,7 +1134,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 1166 "loadkeys.c"
+#line 1138 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -1467,12 +1439,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   994,   994,   995,   997,   998,   999,  1000,  1001,  1002,
-    1003,  1004,  1005,  1006,  1008,  1014,  1019,  1025,  1030,  1036,
-    1041,  1042,  1044,  1052,  1058,  1072,  1077,  1083,  1084,  1086,
-    1086,  1094,  1100,  1101,  1103,  1104,  1105,  1106,  1107,  1108,
-    1109,  1110,  1111,  1113,  1168,  1169,  1171,  1181,  1182,  1183,
-    1184,  1185,  1186
+       0,   966,   966,   967,   969,   970,   971,   972,   973,   974,
+     975,   976,   977,   978,   980,   992,   997,  1003,  1008,  1014,
+    1019,  1020,  1022,  1030,  1036,  1050,  1055,  1061,  1062,  1064,
+    1064,  1072,  1078,  1079,  1081,  1082,  1083,  1084,  1085,  1086,
+    1087,  1088,  1089,  1091,  1146,  1147,  1149,  1159,  1160,  1161,
+    1162,  1163,  1164
 };
 #endif
 
@@ -2444,17 +2416,23 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 1009 "loadkeys.y"
+#line 981 "loadkeys.y"
     {
 				if (set_charset((char *) kbs_buf.kb_string))
 					YYERROR;
+
+				/* Unicode: The first 256 code points were made
+				   identical to the content of ISO 8859-1 */
+				if (prefer_unicode &&
+				    !strcasecmp((char *) kbs_buf.kb_string, "iso-8859-1"))
+					prefer_unicode = 0;
 			}
     break;
 
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 1015 "loadkeys.y"
+#line 993 "loadkeys.y"
     {
 				alt_is_meta = 1;
 			}
@@ -2463,7 +2441,7 @@ yyreduce:
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 1020 "loadkeys.y"
+#line 998 "loadkeys.y"
     {
 				if (strings_as_usual() == -1)
 					YYERROR;
@@ -2473,7 +2451,7 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 1026 "loadkeys.y"
+#line 1004 "loadkeys.y"
     {
 				if (compose_as_usual((char *) kbs_buf.kb_string) == -1)
 					YYERROR;
@@ -2483,7 +2461,7 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 1031 "loadkeys.y"
+#line 1009 "loadkeys.y"
     {
 				if (compose_as_usual(0) == -1)
 					YYERROR;
@@ -2493,7 +2471,7 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 1037 "loadkeys.y"
+#line 1015 "loadkeys.y"
     {
 				keymaps_line_seen = 1;
 			}
@@ -2502,7 +2480,7 @@ yyreduce:
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 1045 "loadkeys.y"
+#line 1023 "loadkeys.y"
     {
 				int i;
 				for (i = (yyvsp[(1) - (3)]); i <= (yyvsp[(3) - (3)]); i++) {
@@ -2515,7 +2493,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 1053 "loadkeys.y"
+#line 1031 "loadkeys.y"
     {
 				if (addmap((yyvsp[(1) - (1)]),1) == -1)
 					YYERROR;
@@ -2525,7 +2503,7 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 1059 "loadkeys.y"
+#line 1037 "loadkeys.y"
     {
 				if (KTYP((yyvsp[(2) - (5)])) != KT_FN) {
 					snprintf(errmsg, sizeof(errmsg),
@@ -2543,7 +2521,7 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 1073 "loadkeys.y"
+#line 1051 "loadkeys.y"
     {
 				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2553,7 +2531,7 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 1078 "loadkeys.y"
+#line 1056 "loadkeys.y"
     {
 				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2563,21 +2541,21 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 1083 "loadkeys.y"
+#line 1061 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]);		}
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 1084 "loadkeys.y"
+#line 1062 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]) ^ 0xf000;	}
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 1086 "loadkeys.y"
+#line 1064 "loadkeys.y"
     {
 				mod = 0;
 			}
@@ -2586,7 +2564,7 @@ yyreduce:
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 1090 "loadkeys.y"
+#line 1068 "loadkeys.y"
     {
 				if (addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)])) == -1)
 					YYERROR;
@@ -2596,7 +2574,7 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 1095 "loadkeys.y"
+#line 1073 "loadkeys.y"
     {
 				if (addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2606,70 +2584,70 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 1103 "loadkeys.y"
+#line 1081 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 1104 "loadkeys.y"
+#line 1082 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 1105 "loadkeys.y"
+#line 1083 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 1106 "loadkeys.y"
+#line 1084 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 1107 "loadkeys.y"
+#line 1085 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 1108 "loadkeys.y"
+#line 1086 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 1109 "loadkeys.y"
+#line 1087 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 1110 "loadkeys.y"
+#line 1088 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 1111 "loadkeys.y"
+#line 1089 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 1114 "loadkeys.y"
+#line 1092 "loadkeys.y"
     {
 				int i, j, keycode;
 
@@ -2727,7 +2705,7 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 1172 "loadkeys.y"
+#line 1150 "loadkeys.y"
     {
 				if (rvalct >= MAX_NR_KEYMAPS) {
 					snprintf(errmsg, sizeof(errmsg),
@@ -2741,49 +2719,49 @@ yyreduce:
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 1181 "loadkeys.y"
+#line 1159 "loadkeys.y"
     { (yyval) = convert_code((yyvsp[(1) - (1)]), TO_AUTO);		}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 1182 "loadkeys.y"
+#line 1160 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)]));			}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 1183 "loadkeys.y"
+#line 1161 "loadkeys.y"
     { (yyval) = convert_code((yyvsp[(1) - (1)])^0xf000, TO_AUTO);	}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 1184 "loadkeys.y"
+#line 1162 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)])^0xf000);			}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 1185 "loadkeys.y"
+#line 1163 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]);					}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 1186 "loadkeys.y"
+#line 1164 "loadkeys.y"
     { (yyval) = add_capslock((yyvsp[(2) - (2)]));			}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 2787 "loadkeys.c"
+#line 2765 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2995,7 +2973,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 1188 "loadkeys.y"
+#line 1166 "loadkeys.y"
 
 
 static int

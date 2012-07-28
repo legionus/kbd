@@ -981,6 +981,12 @@ charsetline	: CHARSET STRLITERAL EOL
 			{
 				if (set_charset((char *) kbs_buf.kb_string))
 					YYERROR;
+
+				/* Unicode: The first 256 code points were made
+				   identical to the content of ISO 8859-1 */
+				if (prefer_unicode &&
+				    !strcasecmp((char *) kbs_buf.kb_string, "iso-8859-1"))
+					prefer_unicode = 0;
 			}
 		;
 altismetaline	: ALT_IS_META EOL
