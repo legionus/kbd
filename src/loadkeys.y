@@ -63,8 +63,6 @@ unsigned int accent_table_size = 0;
 
 char key_is_constant[NR_KEYS];
 char *keymap_was_set[MAX_NR_KEYMAPS];
-char func_buf[4096];	/* should be allocated dynamically */
-char *fp = func_buf;
 
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
