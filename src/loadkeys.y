@@ -295,8 +295,7 @@ addkey(int k_index, int k_table, int keycode)
 static int
 addfunc(struct kbsentry kbs)
 {
-	int sh, i, x;
-	char *ptr, *q, *r;
+	int x;
 
 	x = kbs.kb_func;
 
@@ -306,45 +305,17 @@ addfunc(struct kbsentry kbs)
 		return -1;
 	}
 
-	q = func_table[x];
-	if (q) {		/* throw out old previous def */
-		sh = strlen(q) + 1;
-		ptr = q + sh;
-		while (ptr < fp)
-			*q++ = *ptr++;
-		fp -= sh;
-
-		for (i = x + 1; i < MAX_NR_FUNC; i++) {
-			if (func_table[i])
-				func_table[i] -= sh;
-		}
+	if(func_table[x]) {
+		free(func_table[x]);
+		func_table[x] = NULL;
 	}
 
-	ptr = func_buf;		/* find place for new def */
-	for (i = 0; i < x; i++) {
-		if (func_table[i]) {
-			ptr = func_table[i];
-			while (*ptr++) ;
-		}
-	}
+	func_table[x] = strdup((char *)kbs.kb_string);
 
-	func_table[x] = ptr;
-	sh = strlen((char *)kbs.kb_string) + 1;
-
-	if (fp + sh > func_buf + sizeof(func_buf)) {
+	if (!func_table[x]) {
 		snprintf(errmsg, sizeof(errmsg),
-			_("addfunc: func_buf overflow"));
+			_("addfunc: out of memory"));
 		return -1;
-	}
-	q = fp;
-	fp += sh;
-	r = fp;
-	while (q > ptr)
-		*--r = *--q;
-	strcpy(ptr, (char *)kbs.kb_string);
-	for (i = x + 1; i < MAX_NR_FUNC; i++) {
-		if (func_table[i])
-			func_table[i] += sh;
 	}
 
 	return 0;
