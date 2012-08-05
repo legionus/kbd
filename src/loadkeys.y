@@ -71,6 +71,7 @@ extern int rvalct;
 extern struct kbsentry kbs_buf;
 
 char errmsg[1024];
+int prefer_unicode = 0;
 
 int yyerror(const char *s);
 int lkverbose(int level, const char *fmt, ...);
@@ -80,7 +81,6 @@ extern char *filename;
 extern int line_nr;
 
 extern int stack_push(lkfile_t *fp);
-extern int prefer_unicode;
 
 #include "ksyms.h"
 
@@ -339,9 +339,9 @@ compose(int diacr, int base, int res)
 	}
 
 	ptr = &accent_table[accent_table_size++];
-	ptr->diacr = convert_code(diacr, direction);
-	ptr->base = convert_code(base, direction);
-	ptr->result = convert_code(res, direction);
+	ptr->diacr  = convert_code(prefer_unicode, diacr, direction);
+	ptr->base   = convert_code(prefer_unicode, base, direction);
+	ptr->result = convert_code(prefer_unicode, res, direction);
 
 	return 0;
 }
@@ -1156,12 +1156,12 @@ rvalue1		: rvalue
 				key_buf[rvalct++] = $1;
 			}
 		;
-rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
-                | PLUS NUMBER	{ $$ = add_capslock($2);			}
-		| UNUMBER	{ $$ = convert_code($1^0xf000, TO_AUTO);	}
-		| PLUS UNUMBER	{ $$ = add_capslock($2^0xf000);			}
+rvalue		: NUMBER	{ $$ = convert_code(prefer_unicode, $1, TO_AUTO);		}
+                | PLUS NUMBER	{ $$ = add_capslock(prefer_unicode, $2);			}
+		| UNUMBER	{ $$ = convert_code(prefer_unicode, $1^0xf000, TO_AUTO);	}
+		| PLUS UNUMBER	{ $$ = add_capslock(prefer_unicode, $2^0xf000);			}
 		| LITERAL	{ $$ = $1;					}
-                | PLUS LITERAL	{ $$ = add_capslock($2);			}
+                | PLUS LITERAL	{ $$ = add_capslock(prefer_unicode, $2);			}
 		;
 %%
 

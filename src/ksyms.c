@@ -1649,7 +1649,6 @@ struct cs {
 
 /* Functions for both dumpkeys and loadkeys. */
 
-int prefer_unicode = 0;
 static char chosen_charset[16] = "";
 
 void
@@ -1761,17 +1760,17 @@ codetoksym(int code) {
 /* Functions for loadkeys. */
 
 int
-ksymtocode(const char *s, int direction) {
+ksymtocode(int try_unicode, const char *s, int direction) {
 	unsigned int i;
 	int j, jmax;
 	int keycode;
 	sym *p;
 
 	if (direction == TO_AUTO)
-		direction = prefer_unicode ? TO_UNICODE : TO_8BIT;
+		direction = try_unicode ? TO_UNICODE : TO_8BIT;
 
 	if (!strncmp(s, "Meta_", 5)) {
-		keycode = ksymtocode(s+5, TO_8BIT);
+		keycode = ksymtocode(try_unicode, s+5, TO_8BIT);
 		if (KTYP(keycode) == KT_LATIN)
 			return K(KT_META, KVAL(keycode));
 
@@ -1791,7 +1790,7 @@ ksymtocode(const char *s, int direction) {
 
 	for (i = 0; i < syn_size; i++)
 		if (!strcmp(s, synonyms[i].synonym))
-			return ksymtocode(synonyms[i].official_name, direction);
+			return ksymtocode(try_unicode, synonyms[i].official_name, direction);
 
 	if (direction == TO_UNICODE) {
 		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
@@ -1849,7 +1848,7 @@ ksymtocode(const char *s, int direction) {
 }
 
 int
-convert_code(int code, int direction)
+convert_code(int try_unicode, int code, int direction)
 {
 	const char *ksym;
 	int unicode_forced = (direction == TO_UNICODE);
@@ -1857,7 +1856,7 @@ convert_code(int code, int direction)
 	int result;
 
 	if (direction == TO_AUTO)
-		direction = prefer_unicode ? TO_UNICODE : TO_8BIT;
+		direction = try_unicode ? TO_UNICODE : TO_8BIT;
 
 	if (KTYP(code) == KT_META)
 		return code;
@@ -1876,7 +1875,7 @@ convert_code(int code, int direction)
 		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
 		ksym = codetoksym(code);
 		if (ksym)
-			result = ksymtocode(ksym, direction);
+			result = ksymtocode(try_unicode, ksym, direction);
 		else
 			result = code;
 	}
@@ -1890,14 +1889,14 @@ convert_code(int code, int direction)
 }
 
 int
-add_capslock(int code)
+add_capslock(int try_unicode, int code)
 {
-	if (KTYP(code) == KT_LATIN && (!prefer_unicode || code < 0x80))
+	if (KTYP(code) == KT_LATIN && (!try_unicode || code < 0x80))
 		return K(KT_LETTER, KVAL(code));
 	else if ((code ^ 0xf000) < 0x100)
 		/* Unicode Latin-1 Supplement */
 		/* a bit dirty to use KT_LETTER here, but it should work */
 		return K(KT_LETTER, code ^ 0xf000);
 	else
-		return convert_code(code, TO_AUTO);
+		return convert_code(try_unicode, code, TO_AUTO);
 }

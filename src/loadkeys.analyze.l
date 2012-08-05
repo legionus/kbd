@@ -25,6 +25,7 @@ static char *p, *pmax;
 
 extern int lkverbose(int level, const char *fmt, ...);
 extern char errmsg[1024];
+extern int prefer_unicode;
 
 int stack_push(lkfile_t *fp);
 
@@ -390,7 +391,7 @@ To                      to|To|TO
 				yylval = strtol(yytext, NULL, 0);
 				return(NUMBER);
 			}
-<RVALUE>{Literal}	{	return((yylval = ksymtocode(yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
+<RVALUE>{Literal}	{	return((yylval = ksymtocode(prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 \-			{	return(DASH);		}
 \,			{	return(COMMA);		}
 \+			{	return(PLUS);		}
