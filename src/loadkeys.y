@@ -155,7 +155,7 @@ lkerror(const char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	vfprintf(stderr, fmt, ap);
-	fprintf(stdout, "\n");
+	fprintf(stderr, "\n");
 	va_end(ap);
 	return 0;
 }
