@@ -249,7 +249,7 @@ open_include(char *s)
 	int rc;
 	lkfile_t fp;
 
-	lkverbose(1, _("switching to %s"), s);
+	lkverbose(2, _("switching to %s"), s);
 
 	rc = find_incl_file(s, &fp);
 	if (rc > 0) {

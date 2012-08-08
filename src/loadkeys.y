@@ -48,6 +48,12 @@ typedef struct kbdiacruc accent_entry;
 typedef struct kbdiacr accent_entry;
 #endif
 
+/* 0 - quiet (all messages are disabled)
+ * 1 - normal output
+ * 2,3,.. - verbosity
+ */
+int verbose = 1;
+
 /* What keymaps are we defining? */
 char defining[MAX_NR_KEYMAPS];
 char keymaps_line_seen = 0;
@@ -120,21 +126,10 @@ enum options {
 	OPT_M         = (1 << 4),
 	OPT_S         = (1 << 5),
 	OPT_U         = (1 << 6),
-	OPT_QUIET     = (1 << 7),
-	OPT_NOCOMPOSE = (1 << 8)
+	OPT_NOCOMPOSE = (1 << 7)
 };
 
 int options = 0;
-int verbose = 0;
-
-int yyerror(const char *s)
-{
-	if (strlen(errmsg) > 0)
-		return(0);
-
-	fprintf(stderr, "%s:%d: %s\n", filename, line_nr, s);
-	return (0);
-}
 
 
 int __attribute__ ((format (printf, 2, 3)))
@@ -157,6 +152,16 @@ lkerror(const char *fmt, ...) {
 	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, "\n");
 	va_end(ap);
+	return 0;
+}
+
+
+int yyerror(const char *s)
+{
+	if (strlen(errmsg) > 0)
+		return 0;
+
+	lkerror("%s:%d: %s\n", filename, line_nr, s);
 	return 0;
 }
 
@@ -384,7 +389,7 @@ static int defkeys(int fd, int kbd_mode)
 				} else
 					ct++;
 
-				lkverbose(1, _("keycode %d, table %d = %d%s"),
+				lkverbose(2, _("keycode %d, table %d = %d%s"),
 					j, i, (key_map[i])[j], fail ? _("    FAILED") : "");
 
 				if (fail && !verbose)
@@ -398,7 +403,7 @@ static int defkeys(int fd, int kbd_mode)
 			ke.kb_table = i;
 			ke.kb_value = K_NOSUCHMAP;
 
-			lkverbose(2, _("deallocate keymap %d"), i);
+			lkverbose(3, _("deallocate keymap %d"), i);
 
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
@@ -655,7 +660,7 @@ loadkeys(int fd, int kbd_mode)
 	if ((keyct = defkeys(fd, kbd_mode)) < 0 || (funcct = deffuncs(fd)) < 0)
 		return -1;
 
-	lkverbose(1, _("\nChanged %d %s and %d %s"),
+	lkverbose(2, _("\nChanged %d %s and %d %s"),
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
@@ -665,11 +670,11 @@ loadkeys(int fd, int kbd_mode)
 		if (diacct < 0)
 			return -1;
 
-		lkverbose(1, _("Loaded %d compose %s"),
+		lkverbose(2, _("Loaded %d compose %s"),
 			diacct, (diacct == 1) ? _("definition") : _("definitions"));
 
 	} else {
-		lkverbose(1, _("(No change in compose definitions)"));
+		lkverbose(2, _("(No change in compose definitions)"));
 	}
 
 	return 0;
@@ -1168,7 +1173,7 @@ rvalue		: NUMBER	{ $$ = convert_code(prefer_unicode, $1, TO_AUTO);		}
 static int
 parse_keymap(lkfile_t *f)
 {
-	if (!(options & OPT_QUIET) && !(options & OPT_M))
+	if (!(options & OPT_M))
 		lkverbose(1, _("Loading %s"), f->pathname);
 
 	errmsg[0] = '\0';
@@ -1252,7 +1257,7 @@ int main(int argc, char *argv[])
 			prefer_unicode = 1;
 			break;
 		case 'q':
-			options |= OPT_QUIET;
+			verbose = 0;
 			break;
 		case 'v':
 			verbose++;
@@ -1307,9 +1312,6 @@ int main(int argc, char *argv[])
 
 	dirpath = dirpath1;
 	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
-		if (!(options & OPT_QUIET) && !(options & OPT_M))
-			fprintf(stdout, _("Searching in %s\n"), ev);
-
 		dirpath2[0] = ev;
 		dirpath = dirpath2;
 	}
