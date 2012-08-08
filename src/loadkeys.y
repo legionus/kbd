@@ -54,6 +54,14 @@ typedef struct kbdiacr accent_entry;
  */
 int verbose = 1;
 
+typedef enum {
+	LKFLAG_UNICODE_MODE  = (1 << 1),
+	LKFLAG_CLEAR_COMPOSE = (1 << 2),
+	LKFLAG_CLEAR_STRINGS = (1 << 3),
+} lkflags;
+
+lkflags flags = 0;
+
 /* What keymaps are we defining? */
 char defining[MAX_NR_KEYMAPS];
 char keymaps_line_seen = 0;
@@ -118,19 +126,6 @@ char **dirpath;
 char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
 char *dirpath2[] = { 0, 0 };
 char *suffixes[] = { "", ".kmap", ".map", 0 };
-
-enum options {
-	OPT_A         = (1 << 1),
-	OPT_B         = (1 << 2),
-	OPT_D         = (1 << 3),
-	OPT_M         = (1 << 4),
-	OPT_S         = (1 << 5),
-	OPT_U         = (1 << 6),
-	OPT_NOCOMPOSE = (1 << 7)
-};
-
-int options = 0;
-
 
 int __attribute__ ((format (printf, 2, 3)))
 lkverbose(int level, const char *fmt, ...) {
@@ -357,7 +352,7 @@ static int defkeys(int fd, int kbd_mode)
 	int ct = 0;
 	int i, j, fail;
 
-	if (options & OPT_U) {
+	if (flags & LKFLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
@@ -431,7 +426,7 @@ static int defkeys(int fd, int kbd_mode)
 		}
 	}
 
-	if ((options & OPT_U) && ioctl(fd, KDSKBMODE, kbd_mode)) {
+	if ((flags & LKFLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
 		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
 			strerror(errno));
 		goto fail;
@@ -508,7 +503,7 @@ deffuncs(int fd)
 			} else {
 				ct++;
 			}
-		} else if (options & OPT_S) {
+		} else if (flags & LKFLAG_CLEAR_STRINGS) {
 			kbs.kb_string[0] = 0;
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
@@ -664,7 +659,7 @@ loadkeys(int fd, int kbd_mode)
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
-	if (accent_table_size > 0 || options & OPT_NOCOMPOSE) {
+	if (accent_table_size > 0 || flags & LKFLAG_CLEAR_COMPOSE) {
 		diacct = defdiacs(fd);
 
 		if (diacct < 0)
@@ -1173,8 +1168,7 @@ rvalue		: NUMBER	{ $$ = convert_code(prefer_unicode, $1, TO_AUTO);		}
 static int
 parse_keymap(lkfile_t *f)
 {
-	if (!(options & OPT_M))
-		lkverbose(1, _("Loading %s"), f->pathname);
+	lkverbose(1, _("Loading %s"), f->pathname);
 
 	errmsg[0] = '\0';
 
@@ -1188,9 +1182,6 @@ parse_keymap(lkfile_t *f)
 			lkerror("%s", errmsg);
 		else
 			lkerror(_("syntax error in map file"));
-
-		if (!(options & OPT_M))
-			lkerror(_("key bindings not changed"));
 
 		return -1;
 	}
@@ -1215,6 +1206,16 @@ int main(int argc, char *argv[])
 		{ "version",		no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
+
+	enum options {
+		OPT_A = (1 << 1),
+		OPT_B = (1 << 2),
+		OPT_D = (1 << 3),
+		OPT_M = (1 << 4),
+		OPT_U = (1 << 5)
+	};
+	int options = 0;
+
 	int c, i, rc = -1;
 	int fd;
 	int kbd_mode;
@@ -1238,7 +1239,7 @@ int main(int argc, char *argv[])
 			options |= OPT_B;
 			break;
 		case 'c':
-			options |= OPT_NOCOMPOSE;
+			flags |= LKFLAG_CLEAR_COMPOSE;
 			break;
 		case 'C':
 			console = optarg;
@@ -1250,10 +1251,11 @@ int main(int argc, char *argv[])
 			options |= OPT_M;
 			break;
 		case 's':
-			options |= OPT_S;
+			flags |= LKFLAG_CLEAR_STRINGS;
 			break;
 		case 'u':
 			options |= OPT_U;
+			flags |= LKFLAG_UNICODE_MODE;
 			prefer_unicode = 1;
 			break;
 		case 'q':
@@ -1300,7 +1302,7 @@ int main(int argc, char *argv[])
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
-			options ^= OPT_U;
+			flags ^= LKFLAG_UNICODE_MODE;
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,

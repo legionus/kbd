@@ -113,6 +113,14 @@ typedef struct kbdiacr accent_entry;
  */
 int verbose = 1;
 
+typedef enum {
+	LKFLAG_UNICODE_MODE  = (1 << 1),
+	LKFLAG_CLEAR_COMPOSE = (1 << 2),
+	LKFLAG_CLEAR_STRINGS = (1 << 3),
+} lkflags;
+
+lkflags flags = 0;
+
 /* What keymaps are we defining? */
 char defining[MAX_NR_KEYMAPS];
 char keymaps_line_seen = 0;
@@ -177,19 +185,6 @@ char **dirpath;
 char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
 char *dirpath2[] = { 0, 0 };
 char *suffixes[] = { "", ".kmap", ".map", 0 };
-
-enum options {
-	OPT_A         = (1 << 1),
-	OPT_B         = (1 << 2),
-	OPT_D         = (1 << 3),
-	OPT_M         = (1 << 4),
-	OPT_S         = (1 << 5),
-	OPT_U         = (1 << 6),
-	OPT_NOCOMPOSE = (1 << 7)
-};
-
-int options = 0;
-
 
 int __attribute__ ((format (printf, 2, 3)))
 lkverbose(int level, const char *fmt, ...) {
@@ -416,7 +411,7 @@ static int defkeys(int fd, int kbd_mode)
 	int ct = 0;
 	int i, j, fail;
 
-	if (options & OPT_U) {
+	if (flags & LKFLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
@@ -490,7 +485,7 @@ static int defkeys(int fd, int kbd_mode)
 		}
 	}
 
-	if ((options & OPT_U) && ioctl(fd, KDSKBMODE, kbd_mode)) {
+	if ((flags & LKFLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
 		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
 			strerror(errno));
 		goto fail;
@@ -567,7 +562,7 @@ deffuncs(int fd)
 			} else {
 				ct++;
 			}
-		} else if (options & OPT_S) {
+		} else if (flags & LKFLAG_CLEAR_STRINGS) {
 			kbs.kb_string[0] = 0;
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
@@ -723,7 +718,7 @@ loadkeys(int fd, int kbd_mode)
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
-	if (accent_table_size > 0 || options & OPT_NOCOMPOSE) {
+	if (accent_table_size > 0 || flags & LKFLAG_CLEAR_COMPOSE) {
 		diacct = defdiacs(fd);
 
 		if (diacct < 0)
@@ -1027,7 +1022,7 @@ bkeymap(void)
 
 
 /* Line 189 of yacc.c  */
-#line 1031 "loadkeys.c"
+#line 1026 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -1139,7 +1134,7 @@ typedef int YYSTYPE;
 
 
 /* Line 264 of yacc.c  */
-#line 1143 "loadkeys.c"
+#line 1138 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -1444,12 +1439,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   971,   971,   972,   974,   975,   976,   977,   978,   979,
-     980,   981,   982,   983,   985,   997,  1002,  1008,  1013,  1019,
-    1024,  1025,  1027,  1035,  1041,  1055,  1060,  1066,  1067,  1069,
-    1069,  1077,  1083,  1084,  1086,  1087,  1088,  1089,  1090,  1091,
-    1092,  1093,  1094,  1096,  1151,  1152,  1154,  1164,  1165,  1166,
-    1167,  1168,  1169
+       0,   966,   966,   967,   969,   970,   971,   972,   973,   974,
+     975,   976,   977,   978,   980,   992,   997,  1003,  1008,  1014,
+    1019,  1020,  1022,  1030,  1036,  1050,  1055,  1061,  1062,  1064,
+    1064,  1072,  1078,  1079,  1081,  1082,  1083,  1084,  1085,  1086,
+    1087,  1088,  1089,  1091,  1146,  1147,  1149,  1159,  1160,  1161,
+    1162,  1163,  1164
 };
 #endif
 
@@ -2421,7 +2416,7 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 986 "loadkeys.y"
+#line 981 "loadkeys.y"
     {
 				if (set_charset((char *) kbs_buf.kb_string))
 					YYERROR;
@@ -2437,7 +2432,7 @@ yyreduce:
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 998 "loadkeys.y"
+#line 993 "loadkeys.y"
     {
 				alt_is_meta = 1;
 			}
@@ -2446,7 +2441,7 @@ yyreduce:
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 1003 "loadkeys.y"
+#line 998 "loadkeys.y"
     {
 				if (strings_as_usual() == -1)
 					YYERROR;
@@ -2456,7 +2451,7 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 1009 "loadkeys.y"
+#line 1004 "loadkeys.y"
     {
 				if (compose_as_usual((char *) kbs_buf.kb_string) == -1)
 					YYERROR;
@@ -2466,7 +2461,7 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 1014 "loadkeys.y"
+#line 1009 "loadkeys.y"
     {
 				if (compose_as_usual(0) == -1)
 					YYERROR;
@@ -2476,7 +2471,7 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 1020 "loadkeys.y"
+#line 1015 "loadkeys.y"
     {
 				keymaps_line_seen = 1;
 			}
@@ -2485,7 +2480,7 @@ yyreduce:
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 1028 "loadkeys.y"
+#line 1023 "loadkeys.y"
     {
 				int i;
 				for (i = (yyvsp[(1) - (3)]); i <= (yyvsp[(3) - (3)]); i++) {
@@ -2498,7 +2493,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 1036 "loadkeys.y"
+#line 1031 "loadkeys.y"
     {
 				if (addmap((yyvsp[(1) - (1)]),1) == -1)
 					YYERROR;
@@ -2508,7 +2503,7 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 1042 "loadkeys.y"
+#line 1037 "loadkeys.y"
     {
 				if (KTYP((yyvsp[(2) - (5)])) != KT_FN) {
 					snprintf(errmsg, sizeof(errmsg),
@@ -2526,7 +2521,7 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 1056 "loadkeys.y"
+#line 1051 "loadkeys.y"
     {
 				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2536,7 +2531,7 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 1061 "loadkeys.y"
+#line 1056 "loadkeys.y"
     {
 				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2546,21 +2541,21 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 1066 "loadkeys.y"
+#line 1061 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]);		}
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 1067 "loadkeys.y"
+#line 1062 "loadkeys.y"
     {	(yyval) = (yyvsp[(1) - (1)]) ^ 0xf000;	}
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 1069 "loadkeys.y"
+#line 1064 "loadkeys.y"
     {
 				mod = 0;
 			}
@@ -2569,7 +2564,7 @@ yyreduce:
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 1073 "loadkeys.y"
+#line 1068 "loadkeys.y"
     {
 				if (addkey((yyvsp[(4) - (7)]), mod, (yyvsp[(6) - (7)])) == -1)
 					YYERROR;
@@ -2579,7 +2574,7 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 1078 "loadkeys.y"
+#line 1073 "loadkeys.y"
     {
 				if (addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)])) == -1)
 					YYERROR;
@@ -2589,70 +2584,70 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 1086 "loadkeys.y"
+#line 1081 "loadkeys.y"
     { mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 1087 "loadkeys.y"
+#line 1082 "loadkeys.y"
     { mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 1088 "loadkeys.y"
+#line 1083 "loadkeys.y"
     { mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 1089 "loadkeys.y"
+#line 1084 "loadkeys.y"
     { mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 1090 "loadkeys.y"
+#line 1085 "loadkeys.y"
     { mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 1091 "loadkeys.y"
+#line 1086 "loadkeys.y"
     { mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 1092 "loadkeys.y"
+#line 1087 "loadkeys.y"
     { mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 1093 "loadkeys.y"
+#line 1088 "loadkeys.y"
     { mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 1094 "loadkeys.y"
+#line 1089 "loadkeys.y"
     { mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 1097 "loadkeys.y"
+#line 1092 "loadkeys.y"
     {
 				int i, j, keycode;
 
@@ -2710,7 +2705,7 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 1155 "loadkeys.y"
+#line 1150 "loadkeys.y"
     {
 				if (rvalct >= MAX_NR_KEYMAPS) {
 					snprintf(errmsg, sizeof(errmsg),
@@ -2724,49 +2719,49 @@ yyreduce:
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 1164 "loadkeys.y"
+#line 1159 "loadkeys.y"
     { (yyval) = convert_code(prefer_unicode, (yyvsp[(1) - (1)]), TO_AUTO);		}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 1165 "loadkeys.y"
+#line 1160 "loadkeys.y"
     { (yyval) = add_capslock(prefer_unicode, (yyvsp[(2) - (2)]));			}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 1166 "loadkeys.y"
+#line 1161 "loadkeys.y"
     { (yyval) = convert_code(prefer_unicode, (yyvsp[(1) - (1)])^0xf000, TO_AUTO);	}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 1167 "loadkeys.y"
+#line 1162 "loadkeys.y"
     { (yyval) = add_capslock(prefer_unicode, (yyvsp[(2) - (2)])^0xf000);			}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 1168 "loadkeys.y"
+#line 1163 "loadkeys.y"
     { (yyval) = (yyvsp[(1) - (1)]);					}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 1169 "loadkeys.y"
+#line 1164 "loadkeys.y"
     { (yyval) = add_capslock(prefer_unicode, (yyvsp[(2) - (2)]));			}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 2770 "loadkeys.c"
+#line 2765 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2978,14 +2973,13 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 1171 "loadkeys.y"
+#line 1166 "loadkeys.y"
 
 
 static int
 parse_keymap(lkfile_t *f)
 {
-	if (!(options & OPT_M))
-		lkverbose(1, _("Loading %s"), f->pathname);
+	lkverbose(1, _("Loading %s"), f->pathname);
 
 	errmsg[0] = '\0';
 
@@ -2999,9 +2993,6 @@ parse_keymap(lkfile_t *f)
 			lkerror("%s", errmsg);
 		else
 			lkerror(_("syntax error in map file"));
-
-		if (!(options & OPT_M))
-			lkerror(_("key bindings not changed"));
 
 		return -1;
 	}
@@ -3026,6 +3017,16 @@ int main(int argc, char *argv[])
 		{ "version",		no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
+
+	enum options {
+		OPT_A = (1 << 1),
+		OPT_B = (1 << 2),
+		OPT_D = (1 << 3),
+		OPT_M = (1 << 4),
+		OPT_U = (1 << 5)
+	};
+	int options = 0;
+
 	int c, i, rc = -1;
 	int fd;
 	int kbd_mode;
@@ -3049,7 +3050,7 @@ int main(int argc, char *argv[])
 			options |= OPT_B;
 			break;
 		case 'c':
-			options |= OPT_NOCOMPOSE;
+			flags |= LKFLAG_CLEAR_COMPOSE;
 			break;
 		case 'C':
 			console = optarg;
@@ -3061,10 +3062,11 @@ int main(int argc, char *argv[])
 			options |= OPT_M;
 			break;
 		case 's':
-			options |= OPT_S;
+			flags |= LKFLAG_CLEAR_STRINGS;
 			break;
 		case 'u':
 			options |= OPT_U;
+			flags |= LKFLAG_UNICODE_MODE;
 			prefer_unicode = 1;
 			break;
 		case 'q':
@@ -3111,7 +3113,7 @@ int main(int argc, char *argv[])
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
-			options ^= OPT_U;
+			flags ^= LKFLAG_UNICODE_MODE;
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,
