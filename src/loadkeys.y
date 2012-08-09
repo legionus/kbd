@@ -81,8 +81,8 @@ char *keymap_was_set[MAX_NR_KEYMAPS];
 int key_buf[MAX_NR_KEYMAPS];
 int mod;
 
-extern int rvalct;
-extern struct kbsentry kbs_buf;
+int rvalct;
+struct kbsentry kbs_buf;
 
 char errmsg[1024];
 int prefer_unicode = 0;
@@ -90,9 +90,6 @@ int prefer_unicode = 0;
 int yyerror(const char *s);
 int lkverbose(int level, const char *fmt, ...);
 int lkerror(const char *fmt, ...);
-
-extern char *filename;
-extern int line_nr;
 
 extern int stack_push(lkfile_t *fp);
 
@@ -156,7 +153,7 @@ int yyerror(const char *s)
 	if (strlen(errmsg) > 0)
 		return 0;
 
-	lkerror("%s:%d: %s\n", filename, line_nr, s);
+	lkerror("%s\n", s);
 	return 0;
 }
 

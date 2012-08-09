@@ -812,13 +812,11 @@ char *yytext;
 #include "findfile.h"
 #include "loadkeys.h"
 
-int rvalct;
-struct kbsentry kbs_buf;
-static char *p, *pmax;
-
 extern int lkverbose(int level, const char *fmt, ...);
 extern char errmsg[1024];
 extern int prefer_unicode;
+extern int rvalct;
+extern struct kbsentry kbs_buf;
 
 int stack_push(lkfile_t *fp);
 
@@ -830,8 +828,10 @@ static struct infile {
 	YY_BUFFER_STATE buffer;
 } infile_stack[MAX_INCLUDE_DEPTH];
 
-char *filename = NULL;
-int  line_nr = 1;
+static char *filename = NULL;
+static int  line_nr = 1;
+
+static char *p, *pmax;
 
 static int infile_stack_ptr = -1;
 static int state_ptr = 0;
