@@ -19,11 +19,10 @@
 #include "findfile.h"
 #include "loadkeys.h"
 
+#include "loadkeys.keymap.h"
+
+extern struct keymap kmap;
 extern int lkverbose(int level, const char *fmt, ...);
-extern char errmsg[1024];
-extern int prefer_unicode;
-extern int rvalct;
-extern struct kbsentry kbs_buf;
 
 int stack_push(lkfile_t *fp);
 
@@ -47,7 +46,7 @@ int
 stack_push(lkfile_t *fp)
 {
 	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH) {
-		snprintf(errmsg, sizeof(errmsg),
+		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 			_("includes are nested too deeply"));
 		return -1;
 	}
@@ -162,7 +161,7 @@ find_incl_file_near_fn(char *s, char *fn, lkfile_t *fp)
 	return rc;
 
 	/* FIXME: free */
-nomem:	snprintf(errmsg, sizeof(errmsg), _("out of memory"));
+nomem:	snprintf(kmap.errmsg, sizeof(kmap.errmsg), _("out of memory"));
 	return -1;
 }
 
@@ -253,7 +252,7 @@ open_include(char *s)
 
 	rc = find_incl_file(s, &fp);
 	if (rc > 0) {
-		snprintf(errmsg, sizeof(errmsg),
+		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 			_("cannot open include file %s"), s);
 		free(s);
 		return -1;
@@ -327,7 +326,7 @@ To                      to|To|TO
 <INCLSTR>\"[^\"\n]+\"	{
 				char *s = strndup(yytext+1, strlen(yytext)-2);
 				if (s == NULL) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("out of memory"));
 					return(ERROR);
 				}
@@ -339,7 +338,7 @@ To                      to|To|TO
 				state_ptr--;
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
-				snprintf(errmsg, sizeof(errmsg),
+				snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 					_("expected filename between quotes"));
 				return(ERROR);
 			}
@@ -364,7 +363,7 @@ To                      to|To|TO
 {Equals}		{
 				yy_push_state(RVALUE);
 				state_ptr++;
-				rvalct = 0;
+				kmap.rvalct = 0;
 				return(EQUALS);
 			}
 {String}		{
@@ -380,7 +379,7 @@ To                      to|To|TO
 {Unicode}		{
 				yylval = strtol(yytext + 1, NULL, 16);
 				if (yylval >= 0xf000) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("unicode keysym out of range: %s"),
 						yytext);
 					return(ERROR);
@@ -391,7 +390,7 @@ To                      to|To|TO
 				yylval = strtol(yytext, NULL, 0);
 				return(NUMBER);
 			}
-<RVALUE>{Literal}	{	return((yylval = ksymtocode(prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
+<RVALUE>{Literal}	{	return((yylval = ksymtocode(kmap.prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 \-			{	return(DASH);		}
 \,			{	return(COMMA);		}
 \+			{	return(PLUS);		}
@@ -428,14 +427,14 @@ To                      to|To|TO
 				return(CCHAR);
 			}
 \"			{
-				p = (char *) kbs_buf.kb_string;
-				pmax = p + sizeof(kbs_buf.kb_string) - 1;
+				p = (char *) kmap.kbs_buf.kb_string;
+				pmax = p + sizeof(kmap.kbs_buf.kb_string) - 1;
 				yy_push_state(STR);
 				state_ptr++;
 			}
 <STR>\\{Octa}		{
 				if (p >= pmax) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
@@ -443,7 +442,7 @@ To                      to|To|TO
 			}
 <STR>\\\"               {
 				if (p >= pmax) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
@@ -451,7 +450,7 @@ To                      to|To|TO
 			}
 <STR>\\\\               {
 				if (p >= pmax) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
@@ -459,7 +458,7 @@ To                      to|To|TO
 			}
 <STR>\\n		{
 				if (p >= pmax) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
@@ -469,7 +468,7 @@ To                      to|To|TO
 				char *ptmp = p;
 				p += strlen(yytext);
 				if (p > pmax) {
-					snprintf(errmsg, sizeof(errmsg),
+					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
@@ -482,7 +481,7 @@ To                      to|To|TO
 				return(STRLITERAL);
 			}
 .			{
-				snprintf(errmsg, sizeof(errmsg),
+				snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 					_("unknown characters"));
 				return(ERROR); /* report any unknown characters */
 			}
