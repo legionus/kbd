@@ -951,13 +951,13 @@ line		: EOL
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
-				if (set_charset((char *) kmap.kbs_buf.kb_string))
+				if (set_charset((char *) kmap.string))
 					YYERROR;
 
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */
 				if (kmap.prefer_unicode &&
-				    !strcasecmp((char *) kmap.kbs_buf.kb_string, "iso-8859-1"))
+				    !strcasecmp((char *) kmap.string, "iso-8859-1"))
 					kmap.prefer_unicode = 0;
 			}
 		;
@@ -974,7 +974,7 @@ usualstringsline: STRINGS AS USUAL EOL
 		;
 usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
 			{
-				if (compose_as_usual((char *) kmap.kbs_buf.kb_string) == -1)
+				if (compose_as_usual((char *) kmap.string) == -1)
 					YYERROR;
 			}
 		  | COMPOSE AS USUAL EOL
@@ -1007,15 +1007,21 @@ range0		: NUMBER DASH NUMBER
 		;
 strline		: STRING LITERAL EQUALS STRLITERAL EOL
 			{
+				struct kbsentry ke;
+
 				if (KTYP($2) != KT_FN) {
 					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
 						_("'%s' is not a function key symbol"),
 						syms[KTYP($2)].table[KVAL($2)]);
 					YYERROR;
 				}
-				kmap.kbs_buf.kb_func = KVAL($2);
+				ke.kb_func = KVAL($2);
+				strncpy((char *) ke.kb_string,
+				        (char *) kmap.string,
+				        sizeof(ke.kb_string));
+				ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
-				if (addfunc(kmap.kbs_buf) == -1)
+				if (addfunc(ke) == -1)
 					YYERROR;
 			}
 		;

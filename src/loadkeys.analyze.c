@@ -1632,8 +1632,8 @@ case 40:
 YY_RULE_SETUP
 #line 429 "loadkeys.analyze.l"
 {
-				p = (char *) kmap.kbs_buf.kb_string;
-				pmax = p + sizeof(kmap.kbs_buf.kb_string) - 1;
+				p = (char *) kmap.string;
+				pmax = p + sizeof(kmap.string) - 1;
 				yy_push_state(STR);
 				state_ptr++;
 			}

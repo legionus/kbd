@@ -42,7 +42,7 @@ struct keymap {
 	int key_buf[MAX_NR_KEYMAPS]; /* Key definitions on one line */
 
 	int rvalct;
-	struct kbsentry kbs_buf;
+	unsigned char string[512];
 
 	char errmsg[1024];
 	int prefer_unicode;    
