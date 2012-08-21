@@ -2,6 +2,8 @@
 #define LK_KEYMAP_H
 
 #include <linux/kd.h>
+#include <linux/keyboard.h>
+#include "findfile.h"
 
 #ifdef KDSKBDIACRUC
 typedef struct kbdiacruc accent_entry;
@@ -14,6 +16,8 @@ typedef enum {
 	LKFLAG_CLEAR_COMPOSE = (1 << 2),
 	LKFLAG_CLEAR_STRINGS = (1 << 3),
 } lkflags;
+
+#define MAX_INCLUDE_DEPTH 20
 
 struct keymap {
 	/* Verbosity level */
@@ -41,11 +45,19 @@ struct keymap {
 	int mod;                     /* Line by line modifiers */
 	int key_buf[MAX_NR_KEYMAPS]; /* Key definitions on one line */
 
-	int rvalct;
-	unsigned char string[512];
-
 	char errmsg[1024];
 	int prefer_unicode;    
+
+	int rvalct;
+	int state_ptr;
+	lkfile_t *stack[MAX_INCLUDE_DEPTH];
+};
+
+#define MAX_PARSER_STRING 512
+
+struct strdata {
+	unsigned int len;
+	unsigned char data[MAX_PARSER_STRING];
 };
 
 #endif /* LK_KEYMAP_H */

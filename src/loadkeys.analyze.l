@@ -1,91 +1,81 @@
-%option stack
-%option noyy_top_state
-%option noyywrap
-%option nounput
-%option noinput
 %{
-#define YY_NO_INPUT 1
-
 #include <stdlib.h>
 #include <unistd.h> /* readlink */
-#include <sys/param.h>
-#include <linux/kd.h>
-#include <linux/keyboard.h>
 
 #include "ksyms.h"
 #include "nls.h"
 #include "kbd.h"
 #include "paths.h"
 #include "findfile.h"
+
 #include "loadkeys.h"
-
 #include "loadkeys.keymap.h"
+%}
 
-extern struct keymap kmap;
-extern int lkverbose(int level, const char *fmt, ...);
+%option reentrant
+%option bison-bridge
+%option stack
+%option yylineno
+%option never-interactive
+%option noyywrap
+%option nounput
+%option noinput
+%option noyy_top_state
 
-int stack_push(lkfile_t *fp);
+%option extra-type="struct keymap *"
 
-/* Include file handling - unfortunately flex-specific. */
-#define MAX_INCLUDE_DEPTH 20
-static struct infile {
-	lkfile_t fp;
-	int  linenr;
-	YY_BUFFER_STATE buffer;
-} infile_stack[MAX_INCLUDE_DEPTH];
+%{
+extern int lkverbose(struct keymap *kmap, int level, const char *fmt, ...);
 
-static char *filename = NULL;
-static int  line_nr = 1;
-
-static char *p, *pmax;
-
-static int infile_stack_ptr = -1;
-static int state_ptr = 0;
+int stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner);
+int stack_pop(struct keymap *kmap, yyscan_t scanner);
 
 int
-stack_push(lkfile_t *fp)
+stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner)
 {
-	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+	int i = 0;
+
+	while (kmap->stack[i]) i++;
+
+	if (i == MAX_INCLUDE_DEPTH) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
 			_("includes are nested too deeply"));
 		return -1;
 	}
 
-	infile_stack_ptr++;
+	kmap->stack[i] = malloc(sizeof(lkfile_t));
+	if (kmap->stack[i] == NULL) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("out of memory"));
+		return -1;
+	}
 
-	infile_stack[infile_stack_ptr].buffer = yy_create_buffer(fp->fd, YY_BUF_SIZE);
-	infile_stack[infile_stack_ptr].linenr = line_nr;
+	kmap->stack[i]->fd   = fp->fd;
+	kmap->stack[i]->pipe = fp->pipe;
+	strncpy(kmap->stack[i]->pathname, fp->pathname, sizeof(kmap->stack[i]->pathname) - 1);
+	kmap->stack[i]->pathname[sizeof(kmap->stack[i]->pathname)] = '\0';
 
-	memcpy(&infile_stack[infile_stack_ptr].fp, fp, sizeof(fp));
-	yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
-
-	// Set global variables
-	filename = infile_stack[infile_stack_ptr].fp.pathname;
-	line_nr  = 1;
-
+	yypush_buffer_state(yy_create_buffer(fp->fd, YY_BUF_SIZE, scanner), scanner);
 	return 0;
 }
 
-static int
-stack_pop(void) {
-	fpclose(&infile_stack[infile_stack_ptr].fp);
+int
+stack_pop(struct keymap *kmap, yyscan_t scanner)
+{
+	int i = 0;
 
-	// Destroy previous buffer
-	yy_delete_buffer(infile_stack[infile_stack_ptr].buffer);
-
-	infile_stack_ptr--;
-
-	if (infile_stack_ptr >= 0) {
-		// Set new state
-		filename = infile_stack[infile_stack_ptr].fp.pathname;
-		line_nr  = infile_stack[infile_stack_ptr].linenr;
-
-		// Switch to new buffer
-		yy_switch_to_buffer(infile_stack[infile_stack_ptr].buffer);
+	while (kmap->stack[i]) i++;
+	if (i == 0)
 		return 0;
-	}
+	i--;
 
-	return 1;
+	fpclose(kmap->stack[i]);
+
+	free(kmap->stack[i]);
+	kmap->stack[i] = NULL;
+
+	yypop_buffer_state(scanner);
+	return 0;
 }
 
 /*
@@ -126,7 +116,7 @@ static char *include_dirpath3[] = {
 static char *include_suffixes[] = { "", ".inc", 0 };
 
 static int
-find_incl_file_near_fn(char *s, char *fn, lkfile_t *fp)
+find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 {
 	char *t, *te, *t1, *t2;
 	int len, rc = 1;
@@ -161,17 +151,25 @@ find_incl_file_near_fn(char *s, char *fn, lkfile_t *fp)
 	return rc;
 
 	/* FIXME: free */
-nomem:	snprintf(kmap.errmsg, sizeof(kmap.errmsg), _("out of memory"));
+nomem:	snprintf(kmap->errmsg, sizeof(kmap->errmsg), _("out of memory"));
 	return -1;
 }
 
 static int
-find_standard_incl_file(char *s, lkfile_t *fp)
+find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 {
+	char *pathname;
 	int rc = 1;
+	int i = 0;
+
+	while (kmap->stack[i]) i++;
+	if (i == 0)
+		return -1;
+	i--;
+	pathname = kmap->stack[i]->pathname;
 
 	if (findfile(s, include_dirpath1, include_suffixes, fp)) {
-		if ((rc = find_incl_file_near_fn(s, filename, fp)) == -1)
+		if ((rc = find_incl_file_near_fn(kmap, s, pathname, fp)) == -1)
 			return rc;
 	}
 
@@ -180,20 +178,20 @@ find_standard_incl_file(char *s, lkfile_t *fp)
 		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
 		unsigned int n;
 
-		n = readlink(filename, buf, sizeof(buf));
+		n = readlink(pathname, buf, sizeof(buf));
 		if (n > 0 && n < sizeof(buf)) {
 			buf[n] = 0;
 			if (buf[0] == '/') {
-				rc = find_incl_file_near_fn(s, buf, fp);
+				rc = find_incl_file_near_fn(kmap, s, buf, fp);
 
-			} else if (strlen(filename) + n < sizeof(path)) {
-				strcpy(path, filename);
+			} else if (strlen(pathname) + n < sizeof(path)) {
+				strcpy(path, pathname);
 				path[sizeof(path) - 1] = 0;
 				ptr = strrchr(path, '/');
 				if (ptr)
 					ptr[1] = 0;
 				strcat(path, buf);
-				rc = find_incl_file_near_fn(s, path, fp);
+				rc = find_incl_file_near_fn(kmap, s, path, fp);
 			}
 		}
 	}
@@ -204,7 +202,7 @@ find_standard_incl_file(char *s, lkfile_t *fp)
 }
 
 static int
-find_incl_file(char *s, lkfile_t *fp)
+find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 {
 	char *ev;
 
@@ -229,7 +227,7 @@ find_incl_file(char *s, lkfile_t *fp)
 			if (*ev)
 				rc = findfile(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
-				rc = find_standard_incl_file(s, fp);
+				rc = find_standard_incl_file(kmap, s, fp);
 
 			if (rc <= 0)
 				return rc;
@@ -239,20 +237,20 @@ find_incl_file(char *s, lkfile_t *fp)
 		}
 		return 1;
 	}
-	return find_standard_incl_file(s, fp);
+	return find_standard_incl_file(kmap, s, fp);
 }
 
 static int
-open_include(char *s)
+open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 {
 	int rc;
 	lkfile_t fp;
 
-	lkverbose(2, _("switching to %s"), s);
+	lkverbose(kmap, 2, _("switching to %s"), s);
 
-	rc = find_incl_file(s, &fp);
+	rc = find_incl_file(kmap, s, &fp);
 	if (rc > 0) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
 			_("cannot open include file %s"), s);
 		free(s);
 		return -1;
@@ -263,7 +261,7 @@ open_include(char *s)
 
 	free(s);
 
-	return stack_push(&fp);
+	return stack_push(kmap, &fp, scanner);
 }
 
 %}
@@ -304,82 +302,71 @@ Usual			usual|Usual|USUAL
 For			for|For|FOR
 On			on|On|ON
 To                      to|To|TO
+
 %%
-%{
-/* To protect from wrong code in the higher level parser (loadkeys.y), 
- * make sure we do not return a sensible value if we
- * do not intend to. (So wrong code would crash, or issue an error message.
- * I mean the code like the one for PLAIN handling in past loadkeys.y.
- * What to choose as the "bad" value: 0, -1?.. 
- * Well, make it equal to CODE_FOR_UNKNOWN_KSYM as the most efficient thing.
- */
-#define YYLVAL_UNDEF CODE_FOR_UNKNOWN_KSYM
-/* Every time yylex is called, initialize the associated
- * yylval to YYLVAL_UNDEF. Then it might be overwritten by specific rules. */
-  yylval = YYLVAL_UNDEF;
-%}
 
 {Include}		{
-				yy_push_state(INCLSTR);
-				state_ptr++;
+				yy_push_state(INCLSTR, yyscanner);
+				yyextra->state_ptr++;
 			}
 <INCLSTR>\"[^\"\n]+\"	{
 				char *s = strndup(yytext+1, strlen(yytext)-2);
 				if (s == NULL) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("out of memory"));
 					return(ERROR);
 				}
 
-				/* use static pathname to store *s ? */
-				if (open_include(s) == -1)
+				if (open_include(yyextra, s, yyscanner) == -1)
 					return(ERROR);
-				yy_pop_state();
-				state_ptr--;
+
+				yy_pop_state(yyscanner);
+				yyextra->state_ptr--;
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
-				snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 					_("expected filename between quotes"));
 				return(ERROR);
 			}
 <<EOF>>			{
-				stack_pop();
+				stack_pop(yyextra, yyscanner);
 				if (!YY_CURRENT_BUFFER)
 					yyterminate();
 			}
 {Continuation}		{
-				line_nr++;
+				yyset_lineno(yyget_lineno(yyscanner) + 1, yyscanner);
 			}
 {Eol}			{
-				line_nr++;
-				if (state_ptr > 0) {
-					yy_pop_state();
-					state_ptr--;
+				yyset_lineno(yyget_lineno(yyscanner) + 1, yyscanner);
+
+				if (yyextra->state_ptr > 0) {
+					yy_pop_state(yyscanner);
+					yyextra->state_ptr--;
 				}
 				return(EOL);
 			}
 {Blank}+		; /* do nothing */
 {Comment}.*/{Eol}	; /* do nothing */
 {Equals}		{
-				yy_push_state(RVALUE);
-				state_ptr++;
-				kmap.rvalct = 0;
+				yy_push_state(RVALUE, yyscanner);
+				yyextra->state_ptr++;
+				yyextra->rvalct = 0;
 				return(EQUALS);
 			}
 {String}		{
-				yy_push_state(RVALUE);
-				state_ptr++;
+				yy_push_state(RVALUE, yyscanner);
+				yyextra->state_ptr++;
 				return(STRING);
 			}
 {To}			{
-				yy_push_state(RVALUE);
-				state_ptr++;
+				yy_push_state(RVALUE, yyscanner);
+				yyextra->state_ptr++;
 				return(TO);
 			}
 {Unicode}		{
-				yylval = strtol(yytext + 1, NULL, 16);
-				if (yylval >= 0xf000) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				yylval->num = strtol(yytext + 1, NULL, 16);
+				if (yylval->num >= 0xf000) {
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("unicode keysym out of range: %s"),
 						yytext);
 					return(ERROR);
@@ -387,10 +374,10 @@ To                      to|To|TO
 				return(UNUMBER);
 			}
 {Decimal}|{Octal}|{Hex}	{
-				yylval = strtol(yytext, NULL, 0);
+				yylval->num = strtol(yytext, NULL, 0);
 				return(NUMBER);
 			}
-<RVALUE>{Literal}	{	return((yylval = ksymtocode(kmap.prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
+<RVALUE>{Literal}	{	return((yylval->num = ksymtocode(yyextra->prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 \-			{	return(DASH);		}
 \,			{	return(COMMA);		}
 \+			{	return(PLUS);		}
@@ -415,73 +402,76 @@ To                      to|To|TO
 {On}			{	return(ON);		}
 {For}			{	return(FOR);		}
 '\\{Octa}'              {
-				yylval = strtol(yytext + 2, NULL, 8);
+				yylval->num = strtol(yytext + 2, NULL, 8);
 				return(CCHAR);
 			}
 '\\.'                   {
-				yylval = (unsigned char) yytext[2];
+				yylval->num = (unsigned char) yytext[2];
 				return(CCHAR);
 			}
 '.'                     {
-				yylval = (unsigned char) yytext[1];
+				yylval->num = (unsigned char) yytext[1];
 				return(CCHAR);
 			}
 \"			{
-				p = (char *) kmap.string;
-				pmax = p + sizeof(kmap.string) - 1;
-				yy_push_state(STR);
-				state_ptr++;
+				yylval->str.data[0] = '\0';
+				yylval->str.len = 0;
+
+				yy_push_state(STR, yyscanner);
+				yyextra->state_ptr++;
 			}
 <STR>\\{Octa}		{
-				if (p >= pmax) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				if (yylval->str.len == MAX_PARSER_STRING) {
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
-				*p++ = strtol(yytext + 1, NULL, 8);
+				yylval->str.data[yylval->str.len++] = strtol(yytext + 1, NULL, 8);
 			}
 <STR>\\\"               {
-				if (p >= pmax) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				if (yylval->str.len == MAX_PARSER_STRING) {
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
-				*p++ = '"';
+				yylval->str.data[yylval->str.len++] = '"';
 			}
 <STR>\\\\               {
-				if (p >= pmax) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				if (yylval->str.len == MAX_PARSER_STRING) {
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
-				*p++ = '\\';
+				yylval->str.data[yylval->str.len++] = '\\';
 			}
 <STR>\\n		{
-				if (p >= pmax) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				if (yylval->str.len == MAX_PARSER_STRING) {
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
-				*p++ = '\n';
+				yylval->str.data[yylval->str.len++] = '\n';
 			}
 <STR>[^\"\\]*		{
-				char *ptmp = p;
-				p += strlen(yytext);
-				if (p > pmax) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				int len = strlen(yytext);
+
+				if (yylval->str.len + len >= MAX_PARSER_STRING) {
+					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 						_("string too long"));
 					return(ERROR);
 				}
-				strcpy(ptmp, yytext);
+
+				strcpy((char *) yylval->str.data + yylval->str.len, yytext);
+				yylval->str.len += len;
 			}
 <STR>\"			{
-				*p = '\0';
-				yy_pop_state();
-				state_ptr--;
+				yylval->str.data[yylval->str.len] = '\0';
+				yy_pop_state(yyscanner);
+				yyextra->state_ptr--;
 				return(STRLITERAL);
 			}
 .			{
-				snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 					_("unknown characters"));
 				return(ERROR); /* report any unknown characters */
 			}

@@ -31,6 +31,17 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* "%code requires" blocks.  */
+
+/* Line 1685 of yacc.c  */
+#line 39 "loadkeys.y"
+
+#include "loadkeys.keymap.h"
+
+
+
+/* Line 1685 of yacc.c  */
+#line 45 "loadkeys.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -112,12 +123,25 @@
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1685 of yacc.c  */
+#line 62 "loadkeys.y"
+
+	long long int num;
+	struct strdata str;
+
+
+
+/* Line 1685 of yacc.c  */
+#line 139 "loadkeys.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
-extern YYSTYPE yylval;
+
 
 

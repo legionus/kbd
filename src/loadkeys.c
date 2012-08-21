@@ -51,7 +51,7 @@
 #define YYSKELETON_NAME "yacc.c"
 
 /* Pure parsers.  */
-#define YYPURE 0
+#define YYPURE 1
 
 /* Push parsers.  */
 #define YYPUSH 0
@@ -67,7 +67,7 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 12 "loadkeys.y"
+#line 6 "loadkeys.y"
 
 #define YY_HEADER_EXPORT_START_CONDITIONS 1
 
@@ -93,912 +93,20 @@
 #include "nls.h"
 #include "version.h"
 
-#include "loadkeys.analyze.h"
-
 #ifdef COMPAT_HEADERS
 #include "compat/linux-keyboard.h"
 #endif
 
-#include "loadkeys.keymap.h"
-
-#define U(x) ((x) ^ 0xf000)
-
-struct keymap kmap;
-
-int yyerror(const char *s);
-int lkverbose(int level, const char *fmt, ...);
-int lkerror(const char *fmt, ...);
-
-int keymap_init(struct keymap *km);
-
-extern int stack_push(lkfile_t *fp);
-
-#include "ksyms.h"
-
-static void attr_noreturn usage(void)
-{
-	fprintf(stderr, _("loadkeys version %s\n"
-			  "\n"
-			  "Usage: loadkeys [option...] [mapfile...]\n"
-			  "\n"
-			  "Valid options are:\n"
-			  "\n"
-			  "  -a --ascii         force conversion to ASCII\n"
-			  "  -b --bkeymap       output a binary keymap to stdout\n"
-			  "  -c --clearcompose  clear kernel compose table\n"
-			  "  -C --console=file\n"
-			  "                     the console device to be used\n"
-			  "  -d --default       load \"%s\"\n"
-			  "  -h --help          display this help text\n"
-			  "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
-			  "  -q --quiet         suppress all normal output\n"
-			  "  -s --clearstrings  clear kernel string table\n"
-			  "  -u --unicode       force conversion to Unicode\n"
-			  "  -v --verbose       report the changes\n"),
-		PACKAGE_VERSION, DEFMAP);
-	exit(EXIT_FAILURE);
-}
-
-char **dirpath;
-char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
-char *dirpath2[] = { 0, 0 };
-char *suffixes[] = { "", ".kmap", ".map", 0 };
-
-int __attribute__ ((format (printf, 2, 3)))
-lkverbose(int level, const char *fmt, ...) {
-	if (kmap.verbose < level)
-		return 1;
-	va_list ap;
-	va_start(ap, fmt);
-	vfprintf(stdout, fmt, ap);
-	fprintf(stdout, "\n");
-	va_end(ap);
-	return 0;
-}
-
-
-int __attribute__ ((format (printf, 1, 2)))
-lkerror(const char *fmt, ...) {
-	va_list ap;
-	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
-	fprintf(stderr, "\n");
-	va_end(ap);
-	return 0;
-}
-
-
-int
-keymap_init(struct keymap *km)
-{
-	memset(km, 0, sizeof(struct keymap));
-
-	/* 0 - quiet (all messages are disabled)
-	 * 1 - normal output
-	 * 2,3,.. - verbosity
-	 */
-	km->verbose = 1;
-
-	return 0;
-}
-
-int yyerror(const char *s)
-{
-	if (strlen(kmap.errmsg) > 0)
-		return 0;
-
-	lkerror("%s\n", s);
-	return 0;
-}
-
-
-static int
-addmap(int i, int explicit)
-{
-	if (i < 0 || i >= MAX_NR_KEYMAPS) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("addmap called with bad index %d"), i);
-		return -1;
-	}
-
-	if (!kmap.defining[i]) {
-		if (kmap.keymaps_line_seen && !explicit) {
-			snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-				_("adding map %d violates explicit keymaps line"), i);
-			return -1;
-		}
-
-		kmap.defining[i] = 1;
-		if (kmap.max_keymap <= i)
-			kmap.max_keymap = i + 1;
-	}
-	return 0;
-}
-
-/* unset a key */
-static int
-killkey(int k_index, int k_table)
-{
-	/* roughly: addkey(k_index, k_table, K_HOLE); */
-
-	if (k_index < 0 || k_index >= NR_KEYS) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("killkey called with bad index %d"), k_index);
-		return -1;
-	}
-
-	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("killkey called with bad table %d"), k_table);
-		return -1;
-	}
-
-	if (kmap.key_map[k_table])
-		(kmap.key_map[k_table])[k_index] = K_HOLE;
-
-	if (kmap.keymap_was_set[k_table])
-		(kmap.keymap_was_set[k_table])[k_index] = 0;
-
-	return 0;
-}
-
-static int
-addkey(int k_index, int k_table, int keycode)
-{
-	int i;
-
-	if (keycode == CODE_FOR_UNKNOWN_KSYM) {
-		/* is safer not to be silent in this case, 
-		 * it can be caused by coding errors as well. */
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("addkey called with bad keycode %d"), keycode);
-		return -1;
-	}
-
-	if (k_index < 0 || k_index >= NR_KEYS) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("addkey called with bad index %d"), k_index);
-		return -1;
-	}
-
-	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("addkey called with bad table %d"), k_table);
-		return -1;
-	}
-
-	if (!kmap.defining[k_table]) {
-		if (addmap(k_table, 0) == -1)
-			return -1;
-	}
-
-	if (!kmap.key_map[k_table]) {
-		kmap.key_map[k_table] = (u_short *)malloc(NR_KEYS * sizeof(u_short));
-
-		if (kmap.key_map[k_table] == NULL) {
-			snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-				_("out of memory"));
-			return -1;
-		}
-
-		for (i = 0; i < NR_KEYS; i++)
-			(kmap.key_map[k_table])[i] = K_HOLE;
-	}
-
-	if (!kmap.keymap_was_set[k_table]) {
-		kmap.keymap_was_set[k_table] = (char *)malloc(NR_KEYS);
-
-		if (kmap.key_map[k_table] == NULL) {
-			snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-				_("out of memory"));
-			return -1;
-		}
-
-		for (i = 0; i < NR_KEYS; i++)
-			(kmap.keymap_was_set[k_table])[i] = 0;
-	}
-
-	if (kmap.alt_is_meta && keycode == K_HOLE
-	    && (kmap.keymap_was_set[k_table])[k_index])
-		return 0;
-
-	(kmap.key_map[k_table])[k_index] = keycode;
-	(kmap.keymap_was_set[k_table])[k_index] = 1;
-
-	if (kmap.alt_is_meta) {
-		int alttable = k_table | M_ALT;
-		int type = KTYP(keycode);
-		int val = KVAL(keycode);
-
-		if (alttable != k_table && kmap.defining[alttable] &&
-		    (!kmap.keymap_was_set[alttable] ||
-		     !(kmap.keymap_was_set[alttable])[k_index]) &&
-		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
-			if (addkey(k_index, alttable, K(KT_META, val)) == -1)
-				return -1;
-		}
-	}
-	return 0;
-}
-
-static int
-addfunc(struct kbsentry kbs)
-{
-	int x;
-
-	x = kbs.kb_func;
-
-	if (x >= MAX_NR_FUNC) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("addfunc called with bad func %d"), kbs.kb_func);
-		return -1;
-	}
-
-	if(kmap.func_table[x]) {
-		free(kmap.func_table[x]);
-		kmap.func_table[x] = NULL;
-	}
-
-	kmap.func_table[x] = strdup((char *)kbs.kb_string);
-
-	if (!kmap.func_table[x]) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("addfunc: out of memory"));
-		return -1;
-	}
-
-	return 0;
-}
-
-static int
-compose(int diacr, int base, int res)
-{
-	accent_entry *ptr;
-	int direction;
-
-#ifdef KDSKBDIACRUC
-	if (kmap.prefer_unicode)
-		direction = TO_UNICODE;
-	else
-#endif
-		direction = TO_8BIT;
-
-	if (kmap.accent_table_size == MAX_DIACR) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("compose table overflow"));
-		return -1;
-	}
-
-	ptr = &(kmap.accent_table[kmap.accent_table_size++]);
-	ptr->diacr  = convert_code(kmap.prefer_unicode, diacr, direction);
-	ptr->base   = convert_code(kmap.prefer_unicode, base, direction);
-	ptr->result = convert_code(kmap.prefer_unicode, res, direction);
-
-	return 0;
-}
-
-static int defkeys(int fd, int kbd_mode)
-{
-	struct kbentry ke;
-	int ct = 0;
-	int i, j, fail;
-
-	if (kmap.flags & LKFLAG_UNICODE_MODE) {
-		/* temporarily switch to K_UNICODE while defining keys */
-		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
-			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
-				strerror(errno));
-			goto fail;
-		}
-	}
-
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap.key_map[i]) {
-			for (j = 0; j < NR_KEYS; j++) {
-				if (!((kmap.keymap_was_set[i])[j]))
-					continue;
-
-				ke.kb_index = j;
-				ke.kb_table = i;
-				ke.kb_value = (kmap.key_map[i])[j];
-
-				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
-
-				if (fail) {
-					if (errno == EPERM) {
-						lkerror(_("Keymap %d: Permission denied"),
-							i);
-						j = NR_KEYS;
-						continue;
-					}
-					lkerror("%s", strerror(errno));
-				} else
-					ct++;
-
-				lkverbose(2, _("keycode %d, table %d = %d%s"),
-					j, i, (kmap.key_map[i])[j], fail ? _("    FAILED") : "");
-
-				if (fail && kmap.verbose > 1)
-					lkerror(_("failed to bind key %d to value %d"),
-						j, (kmap.key_map[i])[j]);
-			}
-
-		} else if (kmap.keymaps_line_seen && !kmap.defining[i]) {
-			/* deallocate keymap */
-			ke.kb_index = 0;
-			ke.kb_table = i;
-			ke.kb_value = K_NOSUCHMAP;
-
-			lkverbose(3, _("deallocate keymap %d"), i);
-
-			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
-				if (errno != EINVAL) {
-					lkerror(_("KDSKBENT: %s: could not deallocate keymap %d"),
-						strerror(errno), i);
-					goto fail;
-				}
-				/* probably an old kernel */
-				/* clear keymap by hand */
-				for (j = 0; j < NR_KEYS; j++) {
-					ke.kb_index = j;
-					ke.kb_table = i;
-					ke.kb_value = K_HOLE;
-
-					if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
-						if (errno == EINVAL && i >= 16)
-							break;	/* old kernel */
-
-						lkerror(_("KDSKBENT: %s: cannot deallocate or clear keymap"),
-							strerror(errno));
-						goto fail;
-					}
-				}
-			}
-		}
-	}
-
-	if ((kmap.flags & LKFLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
-		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
-			strerror(errno));
-		goto fail;
-	}
-
-	return ct;
-
- fail:	return -1;
-}
-
-static void freekeys(void)
-{
-	int i;
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap.keymap_was_set[i] != NULL)
-			free(kmap.keymap_was_set[i]);
-		if (kmap.key_map[i] != NULL)
-			free(kmap.key_map[i]);
-	}
-}
-
-static char *
-ostr(char *s)
-{
-	int lth = strlen(s);
-	char *ns0 = malloc(4 * lth + 1);
-	char *ns = ns0;
-
-	if (ns == NULL) {
-		lkerror(_("out of memory"));
-		return NULL;
-	}
-
-	while (*s) {
-		switch (*s) {
-		case '\n':
-			*ns++ = '\\';
-			*ns++ = 'n';
-			break;
-		case '\033':
-			*ns++ = '\\';
-			*ns++ = '0';
-			*ns++ = '3';
-			*ns++ = '3';
-			break;
-		default:
-			*ns++ = *s;
-		}
-		s++;
-	}
-	*ns = 0;
-	return ns0;
-}
-
-static int
-deffuncs(int fd)
-{
-	int i, ct = 0;
-	char *ptr, *s;
-	struct kbsentry kbs;
-
-	for (i = 0; i < MAX_NR_FUNC; i++) {
-		kbs.kb_func = i;
-
-		if ((ptr = kmap.func_table[i])) {
-			strcpy((char *)kbs.kb_string, ptr);
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
-				s = ostr((char *)kbs.kb_string);
-				if (s == NULL)
-					return -1;
-				lkerror(_("failed to bind string '%s' to function %s"),
-					s, syms[KT_FN].table[kbs.kb_func]);
-				free(s);
-			} else {
-				ct++;
-			}
-		} else if (kmap.flags & LKFLAG_CLEAR_STRINGS) {
-			kbs.kb_string[0] = 0;
-
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
-				lkerror(_("failed to clear string %s"),
-					syms[KT_FN].table[kbs.kb_func]);
-			} else {
-				ct++;
-			}
-		}
-	}
-	return ct;
-}
-
-static int
-defdiacs(int fd)
-{
-	unsigned int i, count;
-	struct kbdiacrs kd;
-#ifdef KDSKBDIACRUC
-	struct kbdiacrsuc kdu;
-#endif
-
-	count = kmap.accent_table_size;
-	if (count > MAX_DIACR) {
-		count = MAX_DIACR;
-		lkerror(_("too many compose definitions"));
-	}
-#ifdef KDSKBDIACRUC
-	if (kmap.prefer_unicode) {
-		kdu.kb_cnt = count;
-
-		for (i = 0; i < kdu.kb_cnt; i++) {
-			kdu.kbdiacruc[i].diacr  = kmap.accent_table[i].diacr;
-			kdu.kbdiacruc[i].base   = kmap.accent_table[i].base;
-			kdu.kbdiacruc[i].result = kmap.accent_table[i].result;
-		}
-
-		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu))
-			goto fail2;
-	} else
-#endif
-	{
-		kd.kb_cnt = count;
-		for (i = 0; i < kd.kb_cnt; i++) {
-			kd.kbdiacr[i].diacr  = kmap.accent_table[i].diacr;
-			kd.kbdiacr[i].base   = kmap.accent_table[i].base;
-			kd.kbdiacr[i].result = kmap.accent_table[i].result;
-		}
-
-		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd))
-			goto fail1;
-	}
-
-	return kd.kb_cnt;
-
- fail1:	lkerror("KDSKBDIACR: %s", strerror(errno));
-	return -1;
-
-#ifdef KDSKBDIACRUC
- fail2:	lkerror("KDSKBDIACRUC: %s", strerror(errno));
-	return -1;
-#endif
-}
-
-static int
-do_constant_key(int i, u_short key)
-{
-	int typ, val, j;
-
-	typ = KTYP(key);
-	val = KVAL(key);
-
-	if ((typ == KT_LATIN || typ == KT_LETTER) &&
-	    ((val >= 'a' && val <= 'z') || (val >= 'A' && val <= 'Z'))) {
-		u_short defs[16];
-		defs[0] = K(KT_LETTER, val);
-		defs[1] = K(KT_LETTER, val ^ 32);
-		defs[2] = defs[0];
-		defs[3] = defs[1];
-
-		for (j = 4; j < 8; j++)
-			defs[j] = K(KT_LATIN, val & ~96);
-
-		for (j = 8; j < 16; j++)
-			defs[j] = K(KT_META, KVAL(defs[j - 8]));
-
-		for (j = 0; j < kmap.max_keymap; j++) {
-			if (!kmap.defining[j])
-				continue;
-
-			if (j > 0 &&
-			    kmap.keymap_was_set[j] && (kmap.keymap_was_set[j])[i])
-				continue;
-
-			if (addkey(i, j, defs[j % 16]) == -1)
-				return -1;
-		}
-
-	} else {
-		/* do this also for keys like Escape,
-		   as promised in the man page */
-		for (j = 1; j < kmap.max_keymap; j++) {
-			if (kmap.defining[j] &&
-			    (!(kmap.keymap_was_set[j]) || !(kmap.keymap_was_set[j])[i])) {
-				if (addkey(i, j, key) == -1)
-					return -1;
-			}
-		}
-	}
-	return 0;
-}
-
-static int
-do_constant(void)
-{
-	int i, r0 = 0;
-
-	if (kmap.keymaps_line_seen) {
-		while (r0 < kmap.max_keymap && !kmap.defining[r0])
-			r0++;
-	}
-
-	for (i = 0; i < NR_KEYS; i++) {
-		if (kmap.key_is_constant[i]) {
-			u_short key;
-
-			if (!kmap.key_map[r0]) {
-				snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-					_("impossible error in do_constant"));
-				goto fail;
-			}
-
-			key = (kmap.key_map[r0])[i];
-			if (do_constant_key(i, key) == -1)
-				goto fail;
-		}
-	}
-	return 0;
-
- fail:	lkerror("%s", kmap.errmsg);
-	return -1;
-}
-
-static int
-loadkeys(int fd, int kbd_mode)
-{
-	int keyct, funcct, diacct;
-
-	if ((keyct = defkeys(fd, kbd_mode)) < 0 || (funcct = deffuncs(fd)) < 0)
-		return -1;
-
-	lkverbose(2, _("\nChanged %d %s and %d %s"),
-		keyct, (keyct == 1) ? _("key") : _("keys"),
-		funcct, (funcct == 1) ? _("string") : _("strings"));
-
-	if (kmap.accent_table_size > 0 || kmap.flags & LKFLAG_CLEAR_COMPOSE) {
-		diacct = defdiacs(fd);
-
-		if (diacct < 0)
-			return -1;
-
-		lkverbose(2, _("Loaded %d compose %s"),
-			diacct, (diacct == 1) ? _("definition") : _("definitions"));
-
-	} else {
-		lkverbose(2, _("(No change in compose definitions)"));
-	}
-
-	return 0;
-}
-
-static int
-strings_as_usual(void)
-{
-	/*
-	 * 26 strings, mostly inspired by the VT100 family
-	 */
-	char *stringvalues[30] = {
-		/* F1 .. F20 */
-		"\033[[A",  "\033[[B",  "\033[[C",  "\033[[D",  "\033[[E",
-		"\033[17~", "\033[18~", "\033[19~", "\033[20~", "\033[21~",
-		"\033[23~", "\033[24~", "\033[25~", "\033[26~",
-		"\033[28~", "\033[29~",
-		"\033[31~", "\033[32~", "\033[33~", "\033[34~",
-		/* Find,    Insert,     Remove,     Select,     Prior */
-		"\033[1~",  "\033[2~",  "\033[3~",  "\033[4~",  "\033[5~",
-		/* Next,    Macro,      Help,       Do,         Pause */
-		"\033[6~",  0,          0,          0,          0
-	};
-	int i;
-
-	for (i = 0; i < 30; i++) {
-		if (stringvalues[i]) {
-			struct kbsentry ke;
-			ke.kb_func = i;
-			strncpy((char *)ke.kb_string, stringvalues[i],
-				sizeof(ke.kb_string));
-			ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
-
-			if (addfunc(ke) == -1)
-				return -1;
-		}
-	}
-	return 0;
-}
-
-static int
-compose_as_usual(char *charset)
-{
-	if (charset && strcmp(charset, "iso-8859-1")) {
-		snprintf(kmap.errmsg, sizeof(kmap.errmsg),
-			_("loadkeys: don't know how to compose for %s"),
-			charset);
-		return -1;
-
-	} else {
-		struct ccc {
-			unsigned char c1, c2, c3;
-		} def_latin1_composes[68] = {
-			{ '`', 'A', 0300 }, { '`', 'a', 0340 },
-			{ '\'', 'A', 0301 }, { '\'', 'a', 0341 },
-			{ '^', 'A', 0302 }, { '^', 'a', 0342 },
-			{ '~', 'A', 0303 }, { '~', 'a', 0343 },
-			{ '"', 'A', 0304 }, { '"', 'a', 0344 },
-			{ 'O', 'A', 0305 }, { 'o', 'a', 0345 },
-			{ '0', 'A', 0305 }, { '0', 'a', 0345 },
-			{ 'A', 'A', 0305 }, { 'a', 'a', 0345 },
-			{ 'A', 'E', 0306 }, { 'a', 'e', 0346 },
-			{ ',', 'C', 0307 }, { ',', 'c', 0347 },
-			{ '`', 'E', 0310 }, { '`', 'e', 0350 },
-			{ '\'', 'E', 0311 }, { '\'', 'e', 0351 },
-			{ '^', 'E', 0312 }, { '^', 'e', 0352 },
-			{ '"', 'E', 0313 }, { '"', 'e', 0353 },
-			{ '`', 'I', 0314 }, { '`', 'i', 0354 },
-			{ '\'', 'I', 0315 }, { '\'', 'i', 0355 },
-			{ '^', 'I', 0316 }, { '^', 'i', 0356 },
-			{ '"', 'I', 0317 }, { '"', 'i', 0357 },
-			{ '-', 'D', 0320 }, { '-', 'd', 0360 },
-			{ '~', 'N', 0321 }, { '~', 'n', 0361 },
-			{ '`', 'O', 0322 }, { '`', 'o', 0362 },
-			{ '\'', 'O', 0323 }, { '\'', 'o', 0363 },
-			{ '^', 'O', 0324 }, { '^', 'o', 0364 },
-			{ '~', 'O', 0325 }, { '~', 'o', 0365 },
-			{ '"', 'O', 0326 }, { '"', 'o', 0366 },
-			{ '/', 'O', 0330 }, { '/', 'o', 0370 },
-			{ '`', 'U', 0331 }, { '`', 'u', 0371 },
-			{ '\'', 'U', 0332 }, { '\'', 'u', 0372 },
-			{ '^', 'U', 0333 }, { '^', 'u', 0373 },
-			{ '"', 'U', 0334 }, { '"', 'u', 0374 },
-			{ '\'', 'Y', 0335 }, { '\'', 'y', 0375 },
-			{ 'T', 'H', 0336 }, { 't', 'h', 0376 },
-			{ 's', 's', 0337 }, { '"', 'y', 0377 },
-			{ 's', 'z', 0337 }, { 'i', 'j', 0377 }
-		};
-		int i;
-		for (i = 0; i < 68; i++) {
-			struct ccc ptr = def_latin1_composes[i];
-			if (compose(ptr.c1, ptr.c2, ptr.c3) == -1)
-				return -1;
-		}
-	}
-	return 0;
-}
-
-/*
- * mktable.c
- *
- */
-static char *
-mk_mapname(char modifier)
-{
-	static char *modifiers[8] = {
-		"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
-	};
-	static char buf[60];
-	int i;
-
-	if (!modifier)
-		return "plain";
-	buf[0] = 0;
-	for (i = 0; i < 8; i++)
-		if (modifier & (1 << i)) {
-			if (buf[0])
-				strcat(buf, "_");
-			strcat(buf, modifiers[i]);
-		}
-	return buf;
-}
-
-static void
-outchar(FILE *fd, unsigned char c, int comma)
-{
-	fprintf(fd, "'");
-	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c" : isgraph(c) ? "%c"
-	       : "\\%03o", c);
-	fprintf(fd, comma ? "', " : "'");
-}
-
-static int
-mktable(FILE *fd)
-{
-	int j;
-	unsigned int i, imax;
-
-	char *ptr;
-	unsigned int maxfunc;
-	unsigned int keymap_count = 0;
-	unsigned int func_table_offs[MAX_NR_FUNC];
-	unsigned int func_buf_offset = 0;
-
-	fprintf(fd,
-/* not to be translated... */
-		    "/* Do not edit this file! It was automatically generated by   */\n");
-	fprintf(fd, "/*    loadkeys --mktable defkeymap.map > defkeymap.c          */\n\n");
-	fprintf(fd, "#include <linux/types.h>\n");
-	fprintf(fd, "#include <linux/keyboard.h>\n");
-	fprintf(fd, "#include <linux/kd.h>\n\n");
-
-	for (i = 0; i < MAX_NR_KEYMAPS; i++)
-		if (kmap.key_map[i]) {
-			keymap_count++;
-			if (i)
-				fprintf(fd, "static ");
-			fprintf(fd, "u_short %s_map[NR_KEYS] = {", mk_mapname(i));
-			for (j = 0; j < NR_KEYS; j++) {
-				if (!(j % 8))
-					fprintf(fd, "\n");
-				fprintf(fd, "\t0x%04x,", U((kmap.key_map[i])[j]));
-			}
-			fprintf(fd, "\n};\n\n");
-		}
-
-	for (imax = MAX_NR_KEYMAPS - 1; imax > 0; imax--)
-		if (kmap.key_map[imax])
-			break;
-	fprintf(fd, "ushort *key_maps[MAX_NR_KEYMAPS] = {");
-	for (i = 0; i <= imax; i++) {
-		fprintf(fd, (i % 4) ? " " : "\n\t");
-		if (kmap.key_map[i])
-			fprintf(fd, "%s_map,", mk_mapname(i));
-		else
-			fprintf(fd, "0,");
-	}
-	if (imax < MAX_NR_KEYMAPS - 1)
-		fprintf(fd, "\t0");
-	fprintf(fd, "\n};\n\nunsigned int keymap_count = %d;\n\n", keymap_count);
-
-/* uglified just for xgettext - it complains about nonterminated strings */
-	fprintf(fd,
-	       "/*\n"
-	       " * Philosophy: most people do not define more strings, but they who do\n"
-	       " * often want quite a lot of string space. So, we statically allocate\n"
-	       " * the default and allocate dynamically in chunks of 512 bytes.\n"
-	       " */\n" "\n");
-	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--)
-		if (kmap.func_table[maxfunc - 1])
-			break;
-
-	fprintf(fd, "char func_buf[] = {\n");
-	for (i = 0; i < maxfunc; i++) {
-		ptr = kmap.func_table[i];
-		if (ptr) {
-			func_table_offs[i] = func_buf_offset;
-			fprintf(fd, "\t");
-			for (; *ptr; ptr++)
-				outchar(fd, *ptr, 1);
-			fprintf(fd, "0, \n");
-			func_buf_offset += (ptr - kmap.func_table[i] + 1);
-		}
-	}
-	if (!maxfunc)
-		fprintf(fd, "\t0\n");
-	fprintf(fd, "};\n\n");
-
-	fprintf(fd,
-	       "char *funcbufptr = func_buf;\n"
-	       "int funcbufsize = sizeof(func_buf);\n"
-	       "int funcbufleft = 0;          /* space left */\n" "\n");
-
-	fprintf(fd, "char *func_table[MAX_NR_FUNC] = {\n");
-	for (i = 0; i < maxfunc; i++) {
-		if (kmap.func_table[i])
-			fprintf(fd, "\tfunc_buf + %u,\n", func_table_offs[i]);
-		else
-			fprintf(fd, "\t0,\n");
-	}
-	if (maxfunc < MAX_NR_FUNC)
-		fprintf(fd, "\t0,\n");
-	fprintf(fd, "};\n");
-
-#ifdef KDSKBDIACRUC
-	if (kmap.prefer_unicode) {
-		fprintf(fd, "\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < kmap.accent_table_size; i++) {
-			fprintf(fd, "\t{");
-			outchar(fd, kmap.accent_table[i].diacr, 1);
-			outchar(fd, kmap.accent_table[i].base, 1);
-			fprintf(fd, "0x%04x},", kmap.accent_table[i].result);
-			if (i % 2)
-				fprintf(fd, "\n");
-		}
-		if (i % 2)
-			fprintf(fd, "\n");
-		fprintf(fd, "};\n\n");
-	} else
-#endif
-	{
-		fprintf(fd, "\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < kmap.accent_table_size; i++) {
-			fprintf(fd, "\t{");
-			outchar(fd, kmap.accent_table[i].diacr, 1);
-			outchar(fd, kmap.accent_table[i].base, 1);
-			outchar(fd, kmap.accent_table[i].result, 0);
-			fprintf(fd, "},");
-			if (i % 2)
-				fprintf(fd, "\n");
-		}
-		if (i % 2)
-			fprintf(fd, "\n");
-		fprintf(fd, "};\n\n");
-	}
-	fprintf(fd, "unsigned int accent_table_size = %d;\n", kmap.accent_table_size);
-	return 0;
-}
-
-static int
-bkeymap(void)
-{
-	int i, j;
-
-	//u_char *p;
-	char flag, magic[] = "bkeymap";
-	unsigned short v;
-
-	if (write(1, magic, 7) == -1)
-		goto fail;
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		flag = kmap.key_map[i] ? 1 : 0;
-		if (write(1, &flag, 1) == -1)
-			goto fail;
-	}
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap.key_map[i]) {
-			for (j = 0; j < NR_KEYS / 2; j++) {
-				v = kmap.key_map[i][j];
-				if (write(1, &v, 2) == -1)
-					goto fail;
-			}
-		}
-	}
-	return 0;
-
- fail:	lkerror(_("Error writing map to file"));
-	return -1;
-}
-
+#include "loadkeys.h"
+#include "loadkeys.analyze.h"
 
 
 /* Line 189 of yacc.c  */
-#line 998 "loadkeys.c"
+#line 106 "loadkeys.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 
 /* Enabling verbose error messages.  */
@@ -1006,7 +114,7 @@ bkeymap(void)
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE 0
+# define YYERROR_VERBOSE 1
 #endif
 
 /* Enabling the token table.  */
@@ -1014,6 +122,17 @@ bkeymap(void)
 # define YYTOKEN_TABLE 0
 #endif
 
+/* "%code requires" blocks.  */
+
+/* Line 209 of yacc.c  */
+#line 39 "loadkeys.y"
+
+#include "loadkeys.keymap.h"
+
+
+
+/* Line 209 of yacc.c  */
+#line 136 "loadkeys.c"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -1095,7 +214,20 @@ bkeymap(void)
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 214 of yacc.c  */
+#line 62 "loadkeys.y"
+
+	long long int num;
+	struct strdata str;
+
+
+
+/* Line 214 of yacc.c  */
+#line 230 "loadkeys.c"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -1104,9 +236,903 @@ typedef int YYSTYPE;
 
 /* Copy the second part of user declarations.  */
 
+/* Line 264 of yacc.c  */
+#line 76 "loadkeys.y"
+
+
+#define U(x) ((x) ^ 0xf000)
+
+int yyerror(yyscan_t scanner, struct keymap *kmap, const char *s);
+int lkverbose(struct keymap *kmap, int level, const char *fmt, ...);
+int lkerror(const char *fmt, ...);
+
+int keymap_init(struct keymap *km);
+
+extern int stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner);
+extern int stack_pop(struct keymap *kmap, yyscan_t scanner);
+
+#include "ksyms.h"
+
+static void attr_noreturn usage(void)
+{
+	fprintf(stderr, _("loadkeys version %s\n"
+			  "\n"
+			  "Usage: loadkeys [option...] [mapfile...]\n"
+			  "\n"
+			  "Valid options are:\n"
+			  "\n"
+			  "  -a --ascii         force conversion to ASCII\n"
+			  "  -b --bkeymap       output a binary keymap to stdout\n"
+			  "  -c --clearcompose  clear kernel compose table\n"
+			  "  -C --console=file\n"
+			  "                     the console device to be used\n"
+			  "  -d --default       load \"%s\"\n"
+			  "  -h --help          display this help text\n"
+			  "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+			  "  -q --quiet         suppress all normal output\n"
+			  "  -s --clearstrings  clear kernel string table\n"
+			  "  -u --unicode       force conversion to Unicode\n"
+			  "  -v --verbose       report the changes\n"),
+		PACKAGE_VERSION, DEFMAP);
+	exit(EXIT_FAILURE);
+}
+
+char **dirpath;
+char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
+char *dirpath2[] = { 0, 0 };
+char *suffixes[] = { "", ".kmap", ".map", 0 };
+
+int __attribute__ ((format (printf, 3, 4)))
+lkverbose(struct keymap *kmap, int level, const char *fmt, ...) {
+	if (kmap->verbose < level)
+		return 1;
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(stdout, fmt, ap);
+	fprintf(stdout, "\n");
+	va_end(ap);
+	return 0;
+}
+
+
+int __attribute__ ((format (printf, 1, 2)))
+lkerror(const char *fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(stderr, fmt, ap);
+	fprintf(stderr, "\n");
+	va_end(ap);
+	return 0;
+}
+
+
+int
+keymap_init(struct keymap *km)
+{
+	memset(km, 0, sizeof(struct keymap));
+
+	/* 0 - quiet (all messages are disabled)
+	 * 1 - normal output
+	 * 2,3,.. - verbosity
+	 */
+	km->verbose = 1;
+
+	return 0;
+}
+
+int yyerror(yyscan_t scanner attr_unused, struct keymap *kmap, const char *s)
+{
+	if (strlen(kmap->errmsg) > 0)
+		return 0;
+
+	lkerror("%s\n", s);
+	return 0;
+}
+
+
+static int
+addmap(struct keymap *kmap, int i, int explicit)
+{
+	if (i < 0 || i >= MAX_NR_KEYMAPS) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("addmap called with bad index %d"), i);
+		return -1;
+	}
+
+	if (!kmap->defining[i]) {
+		if (kmap->keymaps_line_seen && !explicit) {
+			snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+				_("adding map %d violates explicit keymaps line"), i);
+			return -1;
+		}
+
+		kmap->defining[i] = 1;
+		if (kmap->max_keymap <= i)
+			kmap->max_keymap = i + 1;
+	}
+	return 0;
+}
+
+/* unset a key */
+static int
+killkey(struct keymap *kmap, int k_index, int k_table)
+{
+	/* roughly: addkey(k_index, k_table, K_HOLE); */
+
+	if (k_index < 0 || k_index >= NR_KEYS) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("killkey called with bad index %d"), k_index);
+		return -1;
+	}
+
+	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("killkey called with bad table %d"), k_table);
+		return -1;
+	}
+
+	if (kmap->key_map[k_table])
+		(kmap->key_map[k_table])[k_index] = K_HOLE;
+
+	if (kmap->keymap_was_set[k_table])
+		(kmap->keymap_was_set[k_table])[k_index] = 0;
+
+	return 0;
+}
+
+static int
+addkey(struct keymap *kmap, int k_index, int k_table, int keycode)
+{
+	int i;
+
+	if (keycode == CODE_FOR_UNKNOWN_KSYM) {
+		/* is safer not to be silent in this case, 
+		 * it can be caused by coding errors as well. */
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("addkey called with bad keycode %d"), keycode);
+		return -1;
+	}
+
+	if (k_index < 0 || k_index >= NR_KEYS) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("addkey called with bad index %d"), k_index);
+		return -1;
+	}
+
+	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("addkey called with bad table %d"), k_table);
+		return -1;
+	}
+
+	if (!kmap->defining[k_table]) {
+		if (addmap(kmap, k_table, 0) == -1)
+			return -1;
+	}
+
+	if (!kmap->key_map[k_table]) {
+		kmap->key_map[k_table] = (u_short *)malloc(NR_KEYS * sizeof(u_short));
+
+		if (kmap->key_map[k_table] == NULL) {
+			snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+				_("out of memory"));
+			return -1;
+		}
+
+		for (i = 0; i < NR_KEYS; i++)
+			(kmap->key_map[k_table])[i] = K_HOLE;
+	}
+
+	if (!kmap->keymap_was_set[k_table]) {
+		kmap->keymap_was_set[k_table] = (char *)malloc(NR_KEYS);
+
+		if (kmap->key_map[k_table] == NULL) {
+			snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+				_("out of memory"));
+			return -1;
+		}
+
+		for (i = 0; i < NR_KEYS; i++)
+			(kmap->keymap_was_set[k_table])[i] = 0;
+	}
+
+	if (kmap->alt_is_meta && keycode == K_HOLE
+	    && (kmap->keymap_was_set[k_table])[k_index])
+		return 0;
+
+	(kmap->key_map[k_table])[k_index] = keycode;
+	(kmap->keymap_was_set[k_table])[k_index] = 1;
+
+	if (kmap->alt_is_meta) {
+		int alttable = k_table | M_ALT;
+		int type = KTYP(keycode);
+		int val = KVAL(keycode);
+
+		if (alttable != k_table && kmap->defining[alttable] &&
+		    (!kmap->keymap_was_set[alttable] ||
+		     !(kmap->keymap_was_set[alttable])[k_index]) &&
+		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
+			if (addkey(kmap, k_index, alttable, K(KT_META, val)) == -1)
+				return -1;
+		}
+	}
+	return 0;
+}
+
+static int
+addfunc(struct keymap *kmap, struct kbsentry kbs)
+{
+	int x;
+
+	x = kbs.kb_func;
+
+	if (x >= MAX_NR_FUNC) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("addfunc called with bad func %d"), kbs.kb_func);
+		return -1;
+	}
+
+	if(kmap->func_table[x]) {
+		free(kmap->func_table[x]);
+		kmap->func_table[x] = NULL;
+	}
+
+	kmap->func_table[x] = strdup((char *)kbs.kb_string);
+
+	if (!kmap->func_table[x]) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("addfunc: out of memory"));
+		return -1;
+	}
+
+	return 0;
+}
+
+static int
+compose(struct keymap *kmap, int diacr, int base, int res)
+{
+	accent_entry *ptr;
+	int direction;
+
+#ifdef KDSKBDIACRUC
+	if (kmap->prefer_unicode)
+		direction = TO_UNICODE;
+	else
+#endif
+		direction = TO_8BIT;
+
+	if (kmap->accent_table_size == MAX_DIACR) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("compose table overflow"));
+		return -1;
+	}
+
+	ptr = &(kmap->accent_table[kmap->accent_table_size++]);
+	ptr->diacr  = convert_code(kmap->prefer_unicode, diacr, direction);
+	ptr->base   = convert_code(kmap->prefer_unicode, base, direction);
+	ptr->result = convert_code(kmap->prefer_unicode, res, direction);
+
+	return 0;
+}
+
+static int defkeys(struct keymap *kmap, int fd, int kbd_mode)
+{
+	struct kbentry ke;
+	int ct = 0;
+	int i, j, fail;
+
+	if (kmap->flags & LKFLAG_UNICODE_MODE) {
+		/* temporarily switch to K_UNICODE while defining keys */
+		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
+			lkerror(_("KDSKBMODE: %s: could not switch to Unicode mode"),
+				strerror(errno));
+			goto fail;
+		}
+	}
+
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (kmap->key_map[i]) {
+			for (j = 0; j < NR_KEYS; j++) {
+				if (!((kmap->keymap_was_set[i])[j]))
+					continue;
+
+				ke.kb_index = j;
+				ke.kb_table = i;
+				ke.kb_value = (kmap->key_map[i])[j];
+
+				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
+
+				if (fail) {
+					if (errno == EPERM) {
+						lkerror(_("Keymap %d: Permission denied"),
+							i);
+						j = NR_KEYS;
+						continue;
+					}
+					lkerror("%s", strerror(errno));
+				} else
+					ct++;
+
+				lkverbose(kmap, 2, _("keycode %d, table %d = %d%s"),
+					j, i, (kmap->key_map[i])[j], fail ? _("    FAILED") : "");
+
+				if (fail && kmap->verbose > 1)
+					lkerror(_("failed to bind key %d to value %d"),
+						j, (kmap->key_map[i])[j]);
+			}
+
+		} else if (kmap->keymaps_line_seen && !kmap->defining[i]) {
+			/* deallocate keymap */
+			ke.kb_index = 0;
+			ke.kb_table = i;
+			ke.kb_value = K_NOSUCHMAP;
+
+			lkverbose(kmap, 3, _("deallocate keymap %d"), i);
+
+			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
+				if (errno != EINVAL) {
+					lkerror(_("KDSKBENT: %s: could not deallocate keymap %d"),
+						strerror(errno), i);
+					goto fail;
+				}
+				/* probably an old kernel */
+				/* clear keymap by hand */
+				for (j = 0; j < NR_KEYS; j++) {
+					ke.kb_index = j;
+					ke.kb_table = i;
+					ke.kb_value = K_HOLE;
+
+					if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
+						if (errno == EINVAL && i >= 16)
+							break;	/* old kernel */
+
+						lkerror(_("KDSKBENT: %s: cannot deallocate or clear keymap"),
+							strerror(errno));
+						goto fail;
+					}
+				}
+			}
+		}
+	}
+
+	if ((kmap->flags & LKFLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
+		lkerror(_("KDSKBMODE: %s: could not return to original keyboard mode"),
+			strerror(errno));
+		goto fail;
+	}
+
+	return ct;
+
+ fail:	return -1;
+}
+
+static void freekeys(struct keymap *kmap)
+{
+	int i;
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (kmap->keymap_was_set[i] != NULL)
+			free(kmap->keymap_was_set[i]);
+		if (kmap->key_map[i] != NULL)
+			free(kmap->key_map[i]);
+	}
+}
+
+static char *
+ostr(char *s)
+{
+	int lth = strlen(s);
+	char *ns0 = malloc(4 * lth + 1);
+	char *ns = ns0;
+
+	if (ns == NULL) {
+		lkerror(_("out of memory"));
+		return NULL;
+	}
+
+	while (*s) {
+		switch (*s) {
+		case '\n':
+			*ns++ = '\\';
+			*ns++ = 'n';
+			break;
+		case '\033':
+			*ns++ = '\\';
+			*ns++ = '0';
+			*ns++ = '3';
+			*ns++ = '3';
+			break;
+		default:
+			*ns++ = *s;
+		}
+		s++;
+	}
+	*ns = 0;
+	return ns0;
+}
+
+static int
+deffuncs(struct keymap *kmap, int fd)
+{
+	int i, ct = 0;
+	char *ptr, *s;
+	struct kbsentry kbs;
+
+	for (i = 0; i < MAX_NR_FUNC; i++) {
+		kbs.kb_func = i;
+
+		if ((ptr = kmap->func_table[i])) {
+			strcpy((char *)kbs.kb_string, ptr);
+			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
+				s = ostr((char *)kbs.kb_string);
+				if (s == NULL)
+					return -1;
+				lkerror(_("failed to bind string '%s' to function %s"),
+					s, syms[KT_FN].table[kbs.kb_func]);
+				free(s);
+			} else {
+				ct++;
+			}
+		} else if (kmap->flags & LKFLAG_CLEAR_STRINGS) {
+			kbs.kb_string[0] = 0;
+
+			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
+				lkerror(_("failed to clear string %s"),
+					syms[KT_FN].table[kbs.kb_func]);
+			} else {
+				ct++;
+			}
+		}
+	}
+	return ct;
+}
+
+static int
+defdiacs(struct keymap *kmap, int fd)
+{
+	unsigned int i, count;
+	struct kbdiacrs kd;
+#ifdef KDSKBDIACRUC
+	struct kbdiacrsuc kdu;
+#endif
+
+	count = kmap->accent_table_size;
+	if (count > MAX_DIACR) {
+		count = MAX_DIACR;
+		lkerror(_("too many compose definitions"));
+	}
+#ifdef KDSKBDIACRUC
+	if (kmap->prefer_unicode) {
+		kdu.kb_cnt = count;
+
+		for (i = 0; i < kdu.kb_cnt; i++) {
+			kdu.kbdiacruc[i].diacr  = kmap->accent_table[i].diacr;
+			kdu.kbdiacruc[i].base   = kmap->accent_table[i].base;
+			kdu.kbdiacruc[i].result = kmap->accent_table[i].result;
+		}
+
+		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu))
+			goto fail2;
+	} else
+#endif
+	{
+		kd.kb_cnt = count;
+		for (i = 0; i < kd.kb_cnt; i++) {
+			kd.kbdiacr[i].diacr  = kmap->accent_table[i].diacr;
+			kd.kbdiacr[i].base   = kmap->accent_table[i].base;
+			kd.kbdiacr[i].result = kmap->accent_table[i].result;
+		}
+
+		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd))
+			goto fail1;
+	}
+
+	return kd.kb_cnt;
+
+ fail1:	lkerror("KDSKBDIACR: %s", strerror(errno));
+	return -1;
+
+#ifdef KDSKBDIACRUC
+ fail2:	lkerror("KDSKBDIACRUC: %s", strerror(errno));
+	return -1;
+#endif
+}
+
+static int
+do_constant_key(struct keymap *kmap, int i, u_short key)
+{
+	int typ, val, j;
+
+	typ = KTYP(key);
+	val = KVAL(key);
+
+	if ((typ == KT_LATIN || typ == KT_LETTER) &&
+	    ((val >= 'a' && val <= 'z') || (val >= 'A' && val <= 'Z'))) {
+		u_short defs[16];
+		defs[0] = K(KT_LETTER, val);
+		defs[1] = K(KT_LETTER, val ^ 32);
+		defs[2] = defs[0];
+		defs[3] = defs[1];
+
+		for (j = 4; j < 8; j++)
+			defs[j] = K(KT_LATIN, val & ~96);
+
+		for (j = 8; j < 16; j++)
+			defs[j] = K(KT_META, KVAL(defs[j - 8]));
+
+		for (j = 0; j < kmap->max_keymap; j++) {
+			if (!kmap->defining[j])
+				continue;
+
+			if (j > 0 &&
+			    kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
+				continue;
+
+			if (addkey(kmap, i, j, defs[j % 16]) == -1)
+				return -1;
+		}
+
+	} else {
+		/* do this also for keys like Escape,
+		   as promised in the man page */
+		for (j = 1; j < kmap->max_keymap; j++) {
+			if (kmap->defining[j] &&
+			    (!(kmap->keymap_was_set[j]) || !(kmap->keymap_was_set[j])[i])) {
+				if (addkey(kmap, i, j, key) == -1)
+					return -1;
+			}
+		}
+	}
+	return 0;
+}
+
+static int
+do_constant(struct keymap *kmap)
+{
+	int i, r0 = 0;
+
+	if (kmap->keymaps_line_seen) {
+		while (r0 < kmap->max_keymap && !kmap->defining[r0])
+			r0++;
+	}
+
+	for (i = 0; i < NR_KEYS; i++) {
+		if (kmap->key_is_constant[i]) {
+			u_short key;
+
+			if (!kmap->key_map[r0]) {
+				snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+					_("impossible error in do_constant"));
+				goto fail;
+			}
+
+			key = (kmap->key_map[r0])[i];
+			if (do_constant_key(kmap, i, key) == -1)
+				goto fail;
+		}
+	}
+	return 0;
+
+ fail:	lkerror("%s", kmap->errmsg);
+	return -1;
+}
+
+static int
+loadkeys(struct keymap *kmap, int fd, int kbd_mode)
+{
+	int keyct, funcct, diacct;
+
+	if ((keyct = defkeys(kmap, fd, kbd_mode)) < 0 || (funcct = deffuncs(kmap, fd)) < 0)
+		return -1;
+
+	lkverbose(kmap, 2, _("\nChanged %d %s and %d %s"),
+		keyct, (keyct == 1) ? _("key") : _("keys"),
+		funcct, (funcct == 1) ? _("string") : _("strings"));
+
+	if (kmap->accent_table_size > 0 || kmap->flags & LKFLAG_CLEAR_COMPOSE) {
+		diacct = defdiacs(kmap, fd);
+
+		if (diacct < 0)
+			return -1;
+
+		lkverbose(kmap, 2, _("Loaded %d compose %s"),
+			diacct, (diacct == 1) ? _("definition") : _("definitions"));
+
+	} else {
+		lkverbose(kmap, 2, _("(No change in compose definitions)"));
+	}
+
+	return 0;
+}
+
+static int
+strings_as_usual(struct keymap *kmap)
+{
+	/*
+	 * 26 strings, mostly inspired by the VT100 family
+	 */
+	char *stringvalues[30] = {
+		/* F1 .. F20 */
+		"\033[[A",  "\033[[B",  "\033[[C",  "\033[[D",  "\033[[E",
+		"\033[17~", "\033[18~", "\033[19~", "\033[20~", "\033[21~",
+		"\033[23~", "\033[24~", "\033[25~", "\033[26~",
+		"\033[28~", "\033[29~",
+		"\033[31~", "\033[32~", "\033[33~", "\033[34~",
+		/* Find,    Insert,     Remove,     Select,     Prior */
+		"\033[1~",  "\033[2~",  "\033[3~",  "\033[4~",  "\033[5~",
+		/* Next,    Macro,      Help,       Do,         Pause */
+		"\033[6~",  0,          0,          0,          0
+	};
+	int i;
+
+	for (i = 0; i < 30; i++) {
+		if (stringvalues[i]) {
+			struct kbsentry ke;
+			ke.kb_func = i;
+			strncpy((char *)ke.kb_string, stringvalues[i],
+				sizeof(ke.kb_string));
+			ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
+
+			if (addfunc(kmap, ke) == -1)
+				return -1;
+		}
+	}
+	return 0;
+}
+
+static int
+compose_as_usual(struct keymap *kmap, char *charset)
+{
+	if (charset && strcmp(charset, "iso-8859-1")) {
+		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
+			_("loadkeys: don't know how to compose for %s"),
+			charset);
+		return -1;
+
+	} else {
+		struct ccc {
+			unsigned char c1, c2, c3;
+		} def_latin1_composes[68] = {
+			{ '`', 'A', 0300 }, { '`', 'a', 0340 },
+			{ '\'', 'A', 0301 }, { '\'', 'a', 0341 },
+			{ '^', 'A', 0302 }, { '^', 'a', 0342 },
+			{ '~', 'A', 0303 }, { '~', 'a', 0343 },
+			{ '"', 'A', 0304 }, { '"', 'a', 0344 },
+			{ 'O', 'A', 0305 }, { 'o', 'a', 0345 },
+			{ '0', 'A', 0305 }, { '0', 'a', 0345 },
+			{ 'A', 'A', 0305 }, { 'a', 'a', 0345 },
+			{ 'A', 'E', 0306 }, { 'a', 'e', 0346 },
+			{ ',', 'C', 0307 }, { ',', 'c', 0347 },
+			{ '`', 'E', 0310 }, { '`', 'e', 0350 },
+			{ '\'', 'E', 0311 }, { '\'', 'e', 0351 },
+			{ '^', 'E', 0312 }, { '^', 'e', 0352 },
+			{ '"', 'E', 0313 }, { '"', 'e', 0353 },
+			{ '`', 'I', 0314 }, { '`', 'i', 0354 },
+			{ '\'', 'I', 0315 }, { '\'', 'i', 0355 },
+			{ '^', 'I', 0316 }, { '^', 'i', 0356 },
+			{ '"', 'I', 0317 }, { '"', 'i', 0357 },
+			{ '-', 'D', 0320 }, { '-', 'd', 0360 },
+			{ '~', 'N', 0321 }, { '~', 'n', 0361 },
+			{ '`', 'O', 0322 }, { '`', 'o', 0362 },
+			{ '\'', 'O', 0323 }, { '\'', 'o', 0363 },
+			{ '^', 'O', 0324 }, { '^', 'o', 0364 },
+			{ '~', 'O', 0325 }, { '~', 'o', 0365 },
+			{ '"', 'O', 0326 }, { '"', 'o', 0366 },
+			{ '/', 'O', 0330 }, { '/', 'o', 0370 },
+			{ '`', 'U', 0331 }, { '`', 'u', 0371 },
+			{ '\'', 'U', 0332 }, { '\'', 'u', 0372 },
+			{ '^', 'U', 0333 }, { '^', 'u', 0373 },
+			{ '"', 'U', 0334 }, { '"', 'u', 0374 },
+			{ '\'', 'Y', 0335 }, { '\'', 'y', 0375 },
+			{ 'T', 'H', 0336 }, { 't', 'h', 0376 },
+			{ 's', 's', 0337 }, { '"', 'y', 0377 },
+			{ 's', 'z', 0337 }, { 'i', 'j', 0377 }
+		};
+		int i;
+		for (i = 0; i < 68; i++) {
+			struct ccc ptr = def_latin1_composes[i];
+			if (compose(kmap, ptr.c1, ptr.c2, ptr.c3) == -1)
+				return -1;
+		}
+	}
+	return 0;
+}
+
+/*
+ * mktable.c
+ *
+ */
+static char *
+mk_mapname(char modifier)
+{
+	static char *modifiers[8] = {
+		"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
+	};
+	static char buf[60];
+	int i;
+
+	if (!modifier)
+		return "plain";
+	buf[0] = 0;
+	for (i = 0; i < 8; i++)
+		if (modifier & (1 << i)) {
+			if (buf[0])
+				strcat(buf, "_");
+			strcat(buf, modifiers[i]);
+		}
+	return buf;
+}
+
+static void
+outchar(FILE *fd, unsigned char c, int comma)
+{
+	fprintf(fd, "'");
+	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c" : isgraph(c) ? "%c"
+	       : "\\%03o", c);
+	fprintf(fd, comma ? "', " : "'");
+}
+
+static int
+mktable(struct keymap *kmap, FILE *fd)
+{
+	int j;
+	unsigned int i, imax;
+
+	char *ptr;
+	unsigned int maxfunc;
+	unsigned int keymap_count = 0;
+	unsigned int func_table_offs[MAX_NR_FUNC];
+	unsigned int func_buf_offset = 0;
+
+	fprintf(fd,
+/* not to be translated... */
+		    "/* Do not edit this file! It was automatically generated by   */\n");
+	fprintf(fd, "/*    loadkeys --mktable defkeymap.map > defkeymap.c          */\n\n");
+	fprintf(fd, "#include <linux/types.h>\n");
+	fprintf(fd, "#include <linux/keyboard.h>\n");
+	fprintf(fd, "#include <linux/kd.h>\n\n");
+
+	for (i = 0; i < MAX_NR_KEYMAPS; i++)
+		if (kmap->key_map[i]) {
+			keymap_count++;
+			if (i)
+				fprintf(fd, "static ");
+			fprintf(fd, "u_short %s_map[NR_KEYS] = {", mk_mapname(i));
+			for (j = 0; j < NR_KEYS; j++) {
+				if (!(j % 8))
+					fprintf(fd, "\n");
+				fprintf(fd, "\t0x%04x,", U((kmap->key_map[i])[j]));
+			}
+			fprintf(fd, "\n};\n\n");
+		}
+
+	for (imax = MAX_NR_KEYMAPS - 1; imax > 0; imax--)
+		if (kmap->key_map[imax])
+			break;
+	fprintf(fd, "ushort *key_maps[MAX_NR_KEYMAPS] = {");
+	for (i = 0; i <= imax; i++) {
+		fprintf(fd, (i % 4) ? " " : "\n\t");
+		if (kmap->key_map[i])
+			fprintf(fd, "%s_map,", mk_mapname(i));
+		else
+			fprintf(fd, "0,");
+	}
+	if (imax < MAX_NR_KEYMAPS - 1)
+		fprintf(fd, "\t0");
+	fprintf(fd, "\n};\n\nunsigned int keymap_count = %d;\n\n", keymap_count);
+
+/* uglified just for xgettext - it complains about nonterminated strings */
+	fprintf(fd,
+	       "/*\n"
+	       " * Philosophy: most people do not define more strings, but they who do\n"
+	       " * often want quite a lot of string space. So, we statically allocate\n"
+	       " * the default and allocate dynamically in chunks of 512 bytes.\n"
+	       " */\n" "\n");
+	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--)
+		if (kmap->func_table[maxfunc - 1])
+			break;
+
+	fprintf(fd, "char func_buf[] = {\n");
+	for (i = 0; i < maxfunc; i++) {
+		ptr = kmap->func_table[i];
+		if (ptr) {
+			func_table_offs[i] = func_buf_offset;
+			fprintf(fd, "\t");
+			for (; *ptr; ptr++)
+				outchar(fd, *ptr, 1);
+			fprintf(fd, "0, \n");
+			func_buf_offset += (ptr - kmap->func_table[i] + 1);
+		}
+	}
+	if (!maxfunc)
+		fprintf(fd, "\t0\n");
+	fprintf(fd, "};\n\n");
+
+	fprintf(fd,
+	       "char *funcbufptr = func_buf;\n"
+	       "int funcbufsize = sizeof(func_buf);\n"
+	       "int funcbufleft = 0;          /* space left */\n" "\n");
+
+	fprintf(fd, "char *func_table[MAX_NR_FUNC] = {\n");
+	for (i = 0; i < maxfunc; i++) {
+		if (kmap->func_table[i])
+			fprintf(fd, "\tfunc_buf + %u,\n", func_table_offs[i]);
+		else
+			fprintf(fd, "\t0,\n");
+	}
+	if (maxfunc < MAX_NR_FUNC)
+		fprintf(fd, "\t0,\n");
+	fprintf(fd, "};\n");
+
+#ifdef KDSKBDIACRUC
+	if (kmap->prefer_unicode) {
+		fprintf(fd, "\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < kmap->accent_table_size; i++) {
+			fprintf(fd, "\t{");
+			outchar(fd, kmap->accent_table[i].diacr, 1);
+			outchar(fd, kmap->accent_table[i].base, 1);
+			fprintf(fd, "0x%04x},", kmap->accent_table[i].result);
+			if (i % 2)
+				fprintf(fd, "\n");
+		}
+		if (i % 2)
+			fprintf(fd, "\n");
+		fprintf(fd, "};\n\n");
+	} else
+#endif
+	{
+		fprintf(fd, "\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
+		for (i = 0; i < kmap->accent_table_size; i++) {
+			fprintf(fd, "\t{");
+			outchar(fd, kmap->accent_table[i].diacr, 1);
+			outchar(fd, kmap->accent_table[i].base, 1);
+			outchar(fd, kmap->accent_table[i].result, 0);
+			fprintf(fd, "},");
+			if (i % 2)
+				fprintf(fd, "\n");
+		}
+		if (i % 2)
+			fprintf(fd, "\n");
+		fprintf(fd, "};\n\n");
+	}
+	fprintf(fd, "unsigned int accent_table_size = %d;\n", kmap->accent_table_size);
+	return 0;
+}
+
+static int
+bkeymap(struct keymap *kmap)
+{
+	int i, j;
+
+	//u_char *p;
+	char flag, magic[] = "bkeymap";
+	unsigned short v;
+
+	if (write(1, magic, 7) == -1)
+		goto fail;
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		flag = kmap->key_map[i] ? 1 : 0;
+		if (write(1, &flag, 1) == -1)
+			goto fail;
+	}
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (kmap->key_map[i]) {
+			for (j = 0; j < NR_KEYS / 2; j++) {
+				v = kmap->key_map[i][j];
+				if (write(1, &v, 2) == -1)
+					goto fail;
+			}
+		}
+	}
+	return 0;
+
+ fail:	lkerror(_("Error writing map to file"));
+	return -1;
+}
+
+
 
 /* Line 264 of yacc.c  */
-#line 1110 "loadkeys.c"
+#line 1136 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -1411,12 +1437,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   938,   938,   939,   941,   942,   943,   944,   945,   946,
-     947,   948,   949,   950,   952,   964,   969,   975,   980,   986,
-     991,   992,   994,  1002,  1008,  1028,  1033,  1039,  1040,  1042,
-    1042,  1050,  1056,  1057,  1059,  1060,  1061,  1062,  1063,  1064,
-    1065,  1066,  1067,  1069,  1124,  1125,  1127,  1137,  1138,  1139,
-    1140,  1141,  1142
+       0,   970,   970,   971,   973,   974,   975,   976,   977,   978,
+     979,   980,   981,   982,   984,   996,  1001,  1007,  1012,  1018,
+    1023,  1024,  1026,  1034,  1040,  1061,  1066,  1072,  1073,  1075,
+    1075,  1083,  1089,  1090,  1092,  1093,  1094,  1095,  1096,  1097,
+    1098,  1099,  1100,  1102,  1157,  1158,  1160,  1170,  1171,  1172,
+    1173,  1174,  1175
 };
 #endif
 
@@ -1607,7 +1633,7 @@ do								\
     }								\
   else								\
     {								\
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (scanner, kmap, YY_("syntax error: cannot back up")); \
       YYERROR;							\
     }								\
 while (YYID (0))
@@ -1662,9 +1688,9 @@ while (YYID (0))
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
 #ifdef YYLEX_PARAM
-# define YYLEX yylex (YYLEX_PARAM)
+# define YYLEX yylex (&yylval, YYLEX_PARAM)
 #else
-# define YYLEX yylex ()
+# define YYLEX yylex (&yylval, scanner)
 #endif
 
 /* Enable debugging if requested.  */
@@ -1687,7 +1713,7 @@ do {									  \
     {									  \
       YYFPRINTF (stderr, "%s ", Title);					  \
       yy_symbol_print (stderr,						  \
-		  Type, Value); \
+		  Type, Value, scanner, kmap); \
       YYFPRINTF (stderr, "\n");						  \
     }									  \
 } while (YYID (0))
@@ -1701,17 +1727,21 @@ do {									  \
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, yyscan_t scanner, struct keymap *kmap)
 #else
 static void
-yy_symbol_value_print (yyoutput, yytype, yyvaluep)
+yy_symbol_value_print (yyoutput, yytype, yyvaluep, scanner, kmap)
     FILE *yyoutput;
     int yytype;
     YYSTYPE const * const yyvaluep;
+    yyscan_t scanner;
+    struct keymap *kmap;
 #endif
 {
   if (!yyvaluep)
     return;
+  YYUSE (scanner);
+  YYUSE (kmap);
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
@@ -1733,13 +1763,15 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, yyscan_t scanner, struct keymap *kmap)
 #else
 static void
-yy_symbol_print (yyoutput, yytype, yyvaluep)
+yy_symbol_print (yyoutput, yytype, yyvaluep, scanner, kmap)
     FILE *yyoutput;
     int yytype;
     YYSTYPE const * const yyvaluep;
+    yyscan_t scanner;
+    struct keymap *kmap;
 #endif
 {
   if (yytype < YYNTOKENS)
@@ -1747,7 +1779,7 @@ yy_symbol_print (yyoutput, yytype, yyvaluep)
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, scanner, kmap);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -1790,12 +1822,14 @@ do {								\
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_reduce_print (YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (YYSTYPE *yyvsp, int yyrule, yyscan_t scanner, struct keymap *kmap)
 #else
 static void
-yy_reduce_print (yyvsp, yyrule)
+yy_reduce_print (yyvsp, yyrule, scanner, kmap)
     YYSTYPE *yyvsp;
     int yyrule;
+    yyscan_t scanner;
+    struct keymap *kmap;
 #endif
 {
   int yynrhs = yyr2[yyrule];
@@ -1809,7 +1843,7 @@ yy_reduce_print (yyvsp, yyrule)
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
 		       &(yyvsp[(yyi + 1) - (yynrhs)])
-		       		       );
+		       		       , scanner, kmap);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -1817,7 +1851,7 @@ yy_reduce_print (yyvsp, yyrule)
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (yydebug)				\
-    yy_reduce_print (yyvsp, Rule); \
+    yy_reduce_print (yyvsp, Rule, scanner, kmap); \
 } while (YYID (0))
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -2068,16 +2102,20 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, yyscan_t scanner, struct keymap *kmap)
 #else
 static void
-yydestruct (yymsg, yytype, yyvaluep)
+yydestruct (yymsg, yytype, yyvaluep, scanner, kmap)
     const char *yymsg;
     int yytype;
     YYSTYPE *yyvaluep;
+    yyscan_t scanner;
+    struct keymap *kmap;
 #endif
 {
   YYUSE (yyvaluep);
+  YYUSE (scanner);
+  YYUSE (kmap);
 
   if (!yymsg)
     yymsg = "Deleting";
@@ -2100,21 +2138,13 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (void);
+int yyparse (yyscan_t scanner, struct keymap *kmap);
 #else
 int yyparse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
 
-/* The lookahead symbol.  */
-int yychar;
-
-/* The semantic value of the lookahead symbol.  */
-YYSTYPE yylval;
-
-/* Number of syntax errors so far.  */
-int yynerrs;
 
 
 
@@ -2136,15 +2166,23 @@ yyparse (YYPARSE_PARAM)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 int
-yyparse (void)
+yyparse (yyscan_t scanner, struct keymap *kmap)
 #else
 int
-yyparse ()
-
+yyparse (scanner, kmap)
+    yyscan_t scanner;
+    struct keymap *kmap;
 #endif
 #endif
 {
+/* The lookahead symbol.  */
+int yychar;
 
+/* The semantic value of the lookahead symbol.  */
+YYSTYPE yylval;
+
+    /* Number of syntax errors so far.  */
+    int yynerrs;
 
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
@@ -2388,34 +2426,34 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 953 "loadkeys.y"
+#line 985 "loadkeys.y"
     {
-				if (set_charset((char *) kmap.string))
+				if (set_charset((char *) (yyvsp[(2) - (3)].str).data))
 					YYERROR;
 
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */
-				if (kmap.prefer_unicode &&
-				    !strcasecmp((char *) kmap.string, "iso-8859-1"))
-					kmap.prefer_unicode = 0;
+				if (kmap->prefer_unicode &&
+				    !strcasecmp((char *) (yyvsp[(2) - (3)].str).data, "iso-8859-1"))
+					kmap->prefer_unicode = 0;
 			}
     break;
 
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 965 "loadkeys.y"
+#line 997 "loadkeys.y"
     {
-				kmap.alt_is_meta = 1;
+				kmap->alt_is_meta = 1;
 			}
     break;
 
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 970 "loadkeys.y"
+#line 1002 "loadkeys.y"
     {
-				if (strings_as_usual() == -1)
+				if (strings_as_usual(kmap) == -1)
 					YYERROR;
 			}
     break;
@@ -2423,9 +2461,9 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 976 "loadkeys.y"
+#line 1008 "loadkeys.y"
     {
-				if (compose_as_usual((char *) kmap.string) == -1)
+				if (compose_as_usual(kmap, (char *) (yyvsp[(5) - (6)].str).data) == -1)
 					YYERROR;
 			}
     break;
@@ -2433,9 +2471,9 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 981 "loadkeys.y"
+#line 1013 "loadkeys.y"
     {
-				if (compose_as_usual(0) == -1)
+				if (compose_as_usual(kmap, 0) == -1)
 					YYERROR;
 			}
     break;
@@ -2443,20 +2481,20 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 987 "loadkeys.y"
+#line 1019 "loadkeys.y"
     {
-				kmap.keymaps_line_seen = 1;
+				kmap->keymaps_line_seen = 1;
 			}
     break;
 
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 995 "loadkeys.y"
+#line 1027 "loadkeys.y"
     {
 				int i;
-				for (i = (yyvsp[(1) - (3)]); i <= (yyvsp[(3) - (3)]); i++) {
-					if (addmap(i,1) == -1)
+				for (i = (yyvsp[(1) - (3)].num); i <= (yyvsp[(3) - (3)].num); i++) {
+					if (addmap(kmap, i, 1) == -1)
 						YYERROR;
 				}
 			}
@@ -2465,9 +2503,9 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 1003 "loadkeys.y"
+#line 1035 "loadkeys.y"
     {
-				if (addmap((yyvsp[(1) - (1)]),1) == -1)
+				if (addmap(kmap, (yyvsp[(1) - (1)].num), 1) == -1)
 					YYERROR;
 			}
     break;
@@ -2475,23 +2513,24 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 1009 "loadkeys.y"
+#line 1041 "loadkeys.y"
     {
 				struct kbsentry ke;
 
-				if (KTYP((yyvsp[(2) - (5)])) != KT_FN) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				if (KTYP((yyvsp[(2) - (5)].num)) != KT_FN) {
+					snprintf(kmap->errmsg, sizeof(kmap->errmsg),
 						_("'%s' is not a function key symbol"),
-						syms[KTYP((yyvsp[(2) - (5)]))].table[KVAL((yyvsp[(2) - (5)]))]);
+						syms[KTYP((yyvsp[(2) - (5)].num))].table[KVAL((yyvsp[(2) - (5)].num))]);
 					YYERROR;
 				}
-				ke.kb_func = KVAL((yyvsp[(2) - (5)]));
+
+				ke.kb_func = KVAL((yyvsp[(2) - (5)].num));
 				strncpy((char *) ke.kb_string,
-				        (char *) kmap.string,
+				        (char *) (yyvsp[(4) - (5)].str).data,
 				        sizeof(ke.kb_string));
 				ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
-				if (addfunc(ke) == -1)
+				if (addfunc(kmap, ke) == -1)
 					YYERROR;
 			}
     break;
@@ -2499,9 +2538,9 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 1029 "loadkeys.y"
+#line 1062 "loadkeys.y"
     {
-				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
+				if (compose(kmap, (yyvsp[(2) - (6)].num), (yyvsp[(3) - (6)].num), (yyvsp[(5) - (6)].num)) == -1)
 					YYERROR;
 			}
     break;
@@ -2509,9 +2548,9 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 1034 "loadkeys.y"
+#line 1067 "loadkeys.y"
     {
-				if (compose((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(5) - (6)])) == -1)
+				if (compose(kmap, (yyvsp[(2) - (6)].num), (yyvsp[(3) - (6)].num), (yyvsp[(5) - (6)].num)) == -1)
 					YYERROR;
 			}
     break;
@@ -2519,32 +2558,32 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 1039 "loadkeys.y"
-    {	(yyval) = (yyvsp[(1) - (1)]);		}
+#line 1072 "loadkeys.y"
+    {	(yyval.num) = (yyvsp[(1) - (1)].num);		}
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 1040 "loadkeys.y"
-    {	(yyval) = (yyvsp[(1) - (1)]) ^ 0xf000;	}
+#line 1073 "loadkeys.y"
+    {	(yyval.num) = (yyvsp[(1) - (1)].num) ^ 0xf000;	}
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 1042 "loadkeys.y"
+#line 1075 "loadkeys.y"
     {
-				kmap.mod = 0;
+				kmap->mod = 0;
 			}
     break;
 
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 1046 "loadkeys.y"
+#line 1079 "loadkeys.y"
     {
-				if (addkey((yyvsp[(4) - (7)]), kmap.mod, (yyvsp[(6) - (7)])) == -1)
+				if (addkey(kmap, (yyvsp[(4) - (7)].num), kmap->mod, (yyvsp[(6) - (7)].num)) == -1)
 					YYERROR;
 			}
     break;
@@ -2552,9 +2591,9 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 1051 "loadkeys.y"
+#line 1084 "loadkeys.y"
     {
-				if (addkey((yyvsp[(3) - (6)]), 0, (yyvsp[(5) - (6)])) == -1)
+				if (addkey(kmap, (yyvsp[(3) - (6)].num), 0, (yyvsp[(5) - (6)].num)) == -1)
 					YYERROR;
 			}
     break;
@@ -2562,118 +2601,118 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 1059 "loadkeys.y"
-    { kmap.mod |= M_SHIFT;	}
+#line 1092 "loadkeys.y"
+    { kmap->mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 1060 "loadkeys.y"
-    { kmap.mod |= M_CTRL;	}
+#line 1093 "loadkeys.y"
+    { kmap->mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 1061 "loadkeys.y"
-    { kmap.mod |= M_ALT;		}
+#line 1094 "loadkeys.y"
+    { kmap->mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 1062 "loadkeys.y"
-    { kmap.mod |= M_ALTGR;	}
+#line 1095 "loadkeys.y"
+    { kmap->mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 1063 "loadkeys.y"
-    { kmap.mod |= M_SHIFTL;	}
+#line 1096 "loadkeys.y"
+    { kmap->mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 1064 "loadkeys.y"
-    { kmap.mod |= M_SHIFTR;	}
+#line 1097 "loadkeys.y"
+    { kmap->mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 1065 "loadkeys.y"
-    { kmap.mod |= M_CTRLL;	}
+#line 1098 "loadkeys.y"
+    { kmap->mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 1066 "loadkeys.y"
-    { kmap.mod |= M_CTRLR;	}
+#line 1099 "loadkeys.y"
+    { kmap->mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 1067 "loadkeys.y"
-    { kmap.mod |= M_CAPSSHIFT;	}
+#line 1100 "loadkeys.y"
+    { kmap->mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 1070 "loadkeys.y"
+#line 1103 "loadkeys.y"
     {
 				int i, j, keycode;
 
-				if (kmap.rvalct == 1) {
+				if (kmap->rvalct == 1) {
 					/* Some files do not have a keymaps line, and
 					 * we have to wait until all input has been read
 					 * before we know which maps to fill. */
-					kmap.key_is_constant[(yyvsp[(2) - (5)])] = 1;
+					kmap->key_is_constant[(yyvsp[(2) - (5)].num)] = 1;
 
 					/* On the other hand, we now have include files,
 					 * and it should be possible to override lines
 					 * from an include file. So, kill old defs. */
-					for (j = 0; j < kmap.max_keymap; j++) {
-						if (!(kmap.defining[j]))
+					for (j = 0; j < kmap->max_keymap; j++) {
+						if (!(kmap->defining[j]))
 							continue;
 
-						if (killkey((yyvsp[(2) - (5)]), j) == -1)
+						if (killkey(kmap, (yyvsp[(2) - (5)].num), j) == -1)
 							YYERROR;
 					}
 				}
 
-				if (kmap.keymaps_line_seen) {
+				if (kmap->keymaps_line_seen) {
 					i = 0;
 
-					for (j = 0; j < kmap.max_keymap; j++) {
-						if (!(kmap.defining[j]))
+					for (j = 0; j < kmap->max_keymap; j++) {
+						if (!(kmap->defining[j]))
 							continue;
 
-						if (kmap.rvalct != 1 || i == 0) {
-							keycode = (i < kmap.rvalct)
-								? kmap.key_buf[i]
+						if (kmap->rvalct != 1 || i == 0) {
+							keycode = (i < kmap->rvalct)
+								? kmap->key_buf[i]
 								: K_HOLE;
 
-							if (addkey((yyvsp[(2) - (5)]), j, keycode) == -1)
+							if (addkey(kmap, (yyvsp[(2) - (5)].num), j, keycode) == -1)
 								YYERROR;
 						}
 						i++;
 					}
 
-					if (i < kmap.rvalct) {
-						snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+					if (i < kmap->rvalct) {
+						snprintf(kmap->errmsg, sizeof(kmap->errmsg),
 							_("too many (%d) entries on one line"),
-							kmap.rvalct);
+							kmap->rvalct);
 						YYERROR;
 					}
 				} else {
-					for (i = 0; i < kmap.rvalct; i++) {
-						if (addkey((yyvsp[(2) - (5)]), i, kmap.key_buf[i]) == -1)
+					for (i = 0; i < kmap->rvalct; i++) {
+						if (addkey(kmap, (yyvsp[(2) - (5)].num), i, kmap->key_buf[i]) == -1)
 							YYERROR;
 					}
 				}
@@ -2683,63 +2722,63 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 1128 "loadkeys.y"
+#line 1161 "loadkeys.y"
     {
-				if (kmap.rvalct >= MAX_NR_KEYMAPS) {
-					snprintf(kmap.errmsg, sizeof(kmap.errmsg),
+				if (kmap->rvalct >= MAX_NR_KEYMAPS) {
+					snprintf(kmap->errmsg, sizeof(kmap->errmsg),
 						_("too many key definitions on one line"));
 					YYERROR;
 				}
-				kmap.key_buf[kmap.rvalct++] = (yyvsp[(1) - (1)]);
+				kmap->key_buf[kmap->rvalct++] = (yyvsp[(1) - (1)].num);
 			}
     break;
 
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 1137 "loadkeys.y"
-    { (yyval) = convert_code(kmap.prefer_unicode, (yyvsp[(1) - (1)]), TO_AUTO);		}
+#line 1170 "loadkeys.y"
+    { (yyval.num) = convert_code(kmap->prefer_unicode, (yyvsp[(1) - (1)].num), TO_AUTO);		}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 1138 "loadkeys.y"
-    { (yyval) = add_capslock(kmap.prefer_unicode, (yyvsp[(2) - (2)]));			}
+#line 1171 "loadkeys.y"
+    { (yyval.num) = add_capslock(kmap->prefer_unicode, (yyvsp[(2) - (2)].num));			}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 1139 "loadkeys.y"
-    { (yyval) = convert_code(kmap.prefer_unicode, (yyvsp[(1) - (1)])^0xf000, TO_AUTO);	}
+#line 1172 "loadkeys.y"
+    { (yyval.num) = convert_code(kmap->prefer_unicode, (yyvsp[(1) - (1)].num)^0xf000, TO_AUTO);	}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 1140 "loadkeys.y"
-    { (yyval) = add_capslock(kmap.prefer_unicode, (yyvsp[(2) - (2)])^0xf000);		}
+#line 1173 "loadkeys.y"
+    { (yyval.num) = add_capslock(kmap->prefer_unicode, (yyvsp[(2) - (2)].num)^0xf000);		}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 1141 "loadkeys.y"
-    { (yyval) = (yyvsp[(1) - (1)]);					}
+#line 1174 "loadkeys.y"
+    { (yyval.num) = (yyvsp[(1) - (1)].num);					}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 1142 "loadkeys.y"
-    { (yyval) = add_capslock(kmap.prefer_unicode, (yyvsp[(2) - (2)]));			}
+#line 1175 "loadkeys.y"
+    { (yyval.num) = add_capslock(kmap->prefer_unicode, (yyvsp[(2) - (2)].num));			}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 2743 "loadkeys.c"
+#line 2782 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2774,7 +2813,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (scanner, kmap, YY_("syntax error"));
 #else
       {
 	YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
@@ -2798,11 +2837,11 @@ yyerrlab:
 	if (0 < yysize && yysize <= yymsg_alloc)
 	  {
 	    (void) yysyntax_error (yymsg, yystate, yychar);
-	    yyerror (yymsg);
+	    yyerror (scanner, kmap, yymsg);
 	  }
 	else
 	  {
-	    yyerror (YY_("syntax error"));
+	    yyerror (scanner, kmap, YY_("syntax error"));
 	    if (yysize != 0)
 	      goto yyexhaustedlab;
 	  }
@@ -2826,7 +2865,7 @@ yyerrlab:
       else
 	{
 	  yydestruct ("Error: discarding",
-		      yytoken, &yylval);
+		      yytoken, &yylval, scanner, kmap);
 	  yychar = YYEMPTY;
 	}
     }
@@ -2882,7 +2921,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-		  yystos[yystate], yyvsp);
+		  yystos[yystate], yyvsp, scanner, kmap);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -2917,7 +2956,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (scanner, kmap, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -2925,7 +2964,7 @@ yyexhaustedlab:
 yyreturn:
   if (yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
-		 yytoken, &yylval);
+		 yytoken, &yylval, scanner, kmap);
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
   YYPOPSTACK (yylen);
@@ -2933,7 +2972,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-		  yystos[*yyssp], yyvsp);
+		  yystos[*yyssp], yyvsp, scanner, kmap);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -2951,30 +2990,40 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 1144 "loadkeys.y"
+#line 1177 "loadkeys.y"
 
 
 static int
-parse_keymap(lkfile_t *f)
+parse_keymap(struct keymap *kmap, lkfile_t *f)
 {
-	lkverbose(1, _("Loading %s"), f->pathname);
+	yyscan_t scanner;
+	int rc = -1;
 
-	kmap.errmsg[0] = '\0';
+	yylex_init(&scanner);
+	yylex_init_extra(kmap, &scanner);
 
-	if (stack_push(f) == -1) {
-		lkerror("%s", kmap.errmsg);
-		return -1;
+	lkverbose(kmap, 1, _("Loading %s"), f->pathname);
+
+	kmap->errmsg[0] = '\0';
+
+	if (stack_push(kmap, f, scanner) == -1) {
+		lkerror("%s", kmap->errmsg);
+		goto fail;
 	}
 
-	if (yyparse()) {
-		if (strlen(kmap.errmsg) > 0)
-			lkerror("%s", kmap.errmsg);
+	if (yyparse(scanner, kmap)) {
+		if (strlen(kmap->errmsg) > 0)
+			lkerror("%s", kmap->errmsg);
 		else
 			lkerror(_("syntax error in map file"));
-
-		return -1;
+		goto fail;
 	}
-	return 0;
+	rc = 0;
+
+	stack_pop(kmap, scanner);
+
+ fail:	yylex_destroy(scanner);
+	return rc;
 }
 
 int main(int argc, char *argv[])
@@ -3004,6 +3053,8 @@ int main(int argc, char *argv[])
 		OPT_U = (1 << 5)
 	};
 	int options = 0;
+
+	struct keymap kmap;
 
 	int c, i, rc = -1;
 	int fd;
@@ -3117,7 +3168,7 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 
-		if ((rc = parse_keymap(&f)) == -1)
+		if ((rc = parse_keymap(&kmap, &f)) == -1)
 			goto fail;
 
 
@@ -3125,7 +3176,7 @@ int main(int argc, char *argv[])
 		f.fd = stdin;
 		strcpy(f.pathname, "<stdin>");
 
-		if ((rc = parse_keymap(&f)) == -1)
+		if ((rc = parse_keymap(&kmap, &f)) == -1)
 			goto fail;
 	}
 
@@ -3139,22 +3190,22 @@ int main(int argc, char *argv[])
 			goto fail;
 		}
 
-		if ((rc = parse_keymap(&f)) == -1)
+		if ((rc = parse_keymap(&kmap, &f)) == -1)
 			goto fail;
 	}
 
-	if ((rc = do_constant()) == -1)
+	if ((rc = do_constant(&kmap)) == -1)
 		goto fail;
 
 	if (options & OPT_B) {
-		rc = bkeymap();
+		rc = bkeymap(&kmap);
 	} else if (options & OPT_M) {
-		rc = mktable(stdout);
+		rc = mktable(&kmap, stdout);
 	} else {
-		rc = loadkeys(fd, kbd_mode);
+		rc = loadkeys(&kmap, fd, kbd_mode);
 	}
 
- fail:	freekeys();
+ fail:	freekeys(&kmap);
 	close(fd);
 
 	if (rc < 0)

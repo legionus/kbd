@@ -86,7 +86,6 @@ kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
 mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
-AM_YFLAGS = -d
 AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
 BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h loadkeys.analyze.h
 loadkeys_SOURCES = loadkeys.y loadkeys.analyze.l $(KSYMS_S)
