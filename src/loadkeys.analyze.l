@@ -15,7 +15,6 @@
 %option reentrant
 %option bison-bridge
 %option stack
-%option yylineno
 %option never-interactive
 %option noyywrap
 %option nounput

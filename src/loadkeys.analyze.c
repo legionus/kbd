@@ -174,20 +174,7 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
 
-    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
-     *       access to the local variable yy_act. Since yyless() is a macro, it would break
-     *       existing scanners that call yyless() from OUTSIDE yylex. 
-     *       One obvious solution it to make yy_act a global. I tried that, and saw
-     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
-     *       normally declared as a register variable-- so it is not worth it.
-     */
-    #define  YY_LESS_LINENO(n) \
-            do { \
-                int yyl;\
-                for ( yyl = n; yyl < yyleng; ++yyl )\
-                    if ( yytext[yyl] == '\n' )\
-                        --yylineno;\
-            }while(0)
+    #define YY_LESS_LINENO(n)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -779,13 +766,6 @@ static yyconst flex_int16_t yy_chk[785] =
       503,  503,  503,  503
     } ;
 
-/* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[49] =
-    {   0,
-0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 1, 0, 0, 0,     };
-
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
  */
@@ -807,7 +787,7 @@ static yyconst flex_int32_t yy_rule_can_match_eol[49] =
 #include "loadkeys.h"
 #include "loadkeys.keymap.h"
 #define YY_NO_INPUT 1
-#line 28 "loadkeys.analyze.l"
+#line 27 "loadkeys.analyze.l"
 extern int lkverbose(struct keymap *kmap, int level, const char *fmt, ...);
 
 int stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner);
@@ -1050,7 +1030,7 @@ open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 
 
 
-#line 1054 "loadkeys.analyze.c"
+#line 1034 "loadkeys.analyze.c"
 
 #define INITIAL 0
 #define RVALUE 1
@@ -1286,10 +1266,10 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 306 "loadkeys.analyze.l"
+#line 305 "loadkeys.analyze.l"
 
 
-#line 1293 "loadkeys.analyze.c"
+#line 1273 "loadkeys.analyze.c"
 
     yylval = yylval_param;
 
@@ -1359,18 +1339,6 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
-		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
-			{
-			int yyl;
-			for ( yyl = 0; yyl < yyleng; ++yyl )
-				if ( yytext[yyl] == '\n' )
-					   
-    do{ yylineno++;
-        yycolumn=0;
-    }while(0)
-;
-			}
-
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -1384,7 +1352,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 308 "loadkeys.analyze.l"
+#line 307 "loadkeys.analyze.l"
 {
 				yy_push_state(INCLSTR, yyscanner);
 				yyextra->state_ptr++;
@@ -1392,7 +1360,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 312 "loadkeys.analyze.l"
+#line 311 "loadkeys.analyze.l"
 {
 				char *s = strndup(yytext+1, strlen(yytext)-2);
 				if (s == NULL) {
@@ -1411,7 +1379,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 326 "loadkeys.analyze.l"
+#line 325 "loadkeys.analyze.l"
 {
 				snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 					_("expected filename between quotes"));
@@ -1422,7 +1390,7 @@ case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(RVALUE):
 case YY_STATE_EOF(STR):
 case YY_STATE_EOF(INCLSTR):
-#line 331 "loadkeys.analyze.l"
+#line 330 "loadkeys.analyze.l"
 {
 				stack_pop(yyextra, yyscanner);
 				if (!YY_CURRENT_BUFFER)
@@ -1432,7 +1400,7 @@ case YY_STATE_EOF(INCLSTR):
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 336 "loadkeys.analyze.l"
+#line 335 "loadkeys.analyze.l"
 {
 				yyset_lineno(yyget_lineno(yyscanner) + 1,yyscanner);
 			}
@@ -1440,7 +1408,7 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 339 "loadkeys.analyze.l"
+#line 338 "loadkeys.analyze.l"
 {
 				yyset_lineno(yyget_lineno(yyscanner) + 1,yyscanner);
 
@@ -1453,7 +1421,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 348 "loadkeys.analyze.l"
+#line 347 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 7:
@@ -1462,12 +1430,12 @@ case 7:
 yyg->yy_c_buf_p = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 349 "loadkeys.analyze.l"
+#line 348 "loadkeys.analyze.l"
 ; /* do nothing */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 350 "loadkeys.analyze.l"
+#line 349 "loadkeys.analyze.l"
 {
 				yy_push_state(RVALUE, yyscanner);
 				yyextra->state_ptr++;
@@ -1477,7 +1445,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 356 "loadkeys.analyze.l"
+#line 355 "loadkeys.analyze.l"
 {
 				yy_push_state(RVALUE, yyscanner);
 				yyextra->state_ptr++;
@@ -1486,7 +1454,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 361 "loadkeys.analyze.l"
+#line 360 "loadkeys.analyze.l"
 {
 				yy_push_state(RVALUE, yyscanner);
 				yyextra->state_ptr++;
@@ -1495,7 +1463,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 366 "loadkeys.analyze.l"
+#line 365 "loadkeys.analyze.l"
 {
 				yylval->num = strtol(yytext + 1, NULL, 16);
 				if (yylval->num >= 0xf000) {
@@ -1509,7 +1477,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 376 "loadkeys.analyze.l"
+#line 375 "loadkeys.analyze.l"
 {
 				yylval->num = strtol(yytext, NULL, 0);
 				return(NUMBER);
@@ -1517,127 +1485,127 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 380 "loadkeys.analyze.l"
+#line 379 "loadkeys.analyze.l"
 {	return((yylval->num = ksymtocode(yyextra->prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 381 "loadkeys.analyze.l"
+#line 380 "loadkeys.analyze.l"
 {	return(DASH);		}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 382 "loadkeys.analyze.l"
+#line 381 "loadkeys.analyze.l"
 {	return(COMMA);		}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 383 "loadkeys.analyze.l"
+#line 382 "loadkeys.analyze.l"
 {	return(PLUS);		}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 384 "loadkeys.analyze.l"
+#line 383 "loadkeys.analyze.l"
 {	return(CHARSET);	}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 385 "loadkeys.analyze.l"
+#line 384 "loadkeys.analyze.l"
 {	return(KEYMAPS);	}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 386 "loadkeys.analyze.l"
+#line 385 "loadkeys.analyze.l"
 {	return(KEYCODE);	}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 387 "loadkeys.analyze.l"
+#line 386 "loadkeys.analyze.l"
 {	return(PLAIN);		}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 388 "loadkeys.analyze.l"
+#line 387 "loadkeys.analyze.l"
 {	return(SHIFT);		}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 389 "loadkeys.analyze.l"
+#line 388 "loadkeys.analyze.l"
 {	return(CONTROL);	}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 390 "loadkeys.analyze.l"
+#line 389 "loadkeys.analyze.l"
 {	return(ALT);		}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 391 "loadkeys.analyze.l"
+#line 390 "loadkeys.analyze.l"
 {	return(ALTGR);		}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 392 "loadkeys.analyze.l"
+#line 391 "loadkeys.analyze.l"
 {	return(SHIFTL);		}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 393 "loadkeys.analyze.l"
+#line 392 "loadkeys.analyze.l"
 {	return(SHIFTR);		}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 394 "loadkeys.analyze.l"
+#line 393 "loadkeys.analyze.l"
 {	return(CTRLL);		}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 395 "loadkeys.analyze.l"
+#line 394 "loadkeys.analyze.l"
 {	return(CTRLR);		}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 396 "loadkeys.analyze.l"
+#line 395 "loadkeys.analyze.l"
 {	return(CAPSSHIFT);	}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 397 "loadkeys.analyze.l"
+#line 396 "loadkeys.analyze.l"
 {	return(ALT_IS_META);	}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 398 "loadkeys.analyze.l"
+#line 397 "loadkeys.analyze.l"
 {	return(STRINGS);	}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 399 "loadkeys.analyze.l"
+#line 398 "loadkeys.analyze.l"
 {	return(COMPOSE);	}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 400 "loadkeys.analyze.l"
+#line 399 "loadkeys.analyze.l"
 {	return(AS);		}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 401 "loadkeys.analyze.l"
+#line 400 "loadkeys.analyze.l"
 {	return(USUAL);		}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 402 "loadkeys.analyze.l"
+#line 401 "loadkeys.analyze.l"
 {	return(ON);		}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 403 "loadkeys.analyze.l"
+#line 402 "loadkeys.analyze.l"
 {	return(FOR);		}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 404 "loadkeys.analyze.l"
+#line 403 "loadkeys.analyze.l"
 {
 				yylval->num = strtol(yytext + 2, NULL, 8);
 				return(CCHAR);
@@ -1645,7 +1613,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 408 "loadkeys.analyze.l"
+#line 407 "loadkeys.analyze.l"
 {
 				yylval->num = (unsigned char) yytext[2];
 				return(CCHAR);
@@ -1653,7 +1621,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 412 "loadkeys.analyze.l"
+#line 411 "loadkeys.analyze.l"
 {
 				yylval->num = (unsigned char) yytext[1];
 				return(CCHAR);
@@ -1661,7 +1629,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 416 "loadkeys.analyze.l"
+#line 415 "loadkeys.analyze.l"
 {
 				yylval->str.data[0] = '\0';
 				yylval->str.len = 0;
@@ -1672,7 +1640,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 423 "loadkeys.analyze.l"
+#line 422 "loadkeys.analyze.l"
 {
 				if (yylval->str.len == MAX_PARSER_STRING) {
 					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
@@ -1684,7 +1652,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 431 "loadkeys.analyze.l"
+#line 430 "loadkeys.analyze.l"
 {
 				if (yylval->str.len == MAX_PARSER_STRING) {
 					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
@@ -1696,7 +1664,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 439 "loadkeys.analyze.l"
+#line 438 "loadkeys.analyze.l"
 {
 				if (yylval->str.len == MAX_PARSER_STRING) {
 					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
@@ -1708,7 +1676,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 447 "loadkeys.analyze.l"
+#line 446 "loadkeys.analyze.l"
 {
 				if (yylval->str.len == MAX_PARSER_STRING) {
 					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
@@ -1721,7 +1689,7 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 455 "loadkeys.analyze.l"
+#line 454 "loadkeys.analyze.l"
 {
 				int len = strlen(yytext);
 
@@ -1737,7 +1705,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 467 "loadkeys.analyze.l"
+#line 466 "loadkeys.analyze.l"
 {
 				yylval->str.data[yylval->str.len] = '\0';
 				yy_pop_state(yyscanner);
@@ -1747,7 +1715,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 473 "loadkeys.analyze.l"
+#line 472 "loadkeys.analyze.l"
 {
 				snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
 					_("unknown characters"));
@@ -1756,10 +1724,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 478 "loadkeys.analyze.l"
+#line 477 "loadkeys.analyze.l"
 ECHO;
 	YY_BREAK
-#line 1763 "loadkeys.analyze.c"
+#line 1731 "loadkeys.analyze.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2160,13 +2128,6 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	c = *(unsigned char *) yyg->yy_c_buf_p;	/* cast for 8-bit char's */
 	*yyg->yy_c_buf_p = '\0';	/* preserve yytext */
 	yyg->yy_hold_char = *++yyg->yy_c_buf_p;
-
-	if ( c == '\n' )
-		   
-    do{ yylineno++;
-        yycolumn=0;
-    }while(0)
-;
 
 	return c;
 }
@@ -2924,7 +2885,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 478 "loadkeys.analyze.l"
+#line 477 "loadkeys.analyze.l"
 
 
 
