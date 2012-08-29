@@ -241,7 +241,7 @@ open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 	int rc;
 	lkfile_t fp;
 
-	log_verbose(kmap, 2, _("switching to %s"), s);
+	log_verbose(kmap, LOG_VERBOSE1, _("switching to %s"), s);
 
 	rc = find_incl_file(kmap, s, &fp);
 	if (rc > 0) {

@@ -308,12 +308,7 @@ keymap_init(struct keymap *km)
 {
 	memset(km, 0, sizeof(struct keymap));
 
-	/* 0 - quiet (all messages are disabled)
-	 * 1 - normal output
-	 * 2,3,.. - verbosity
-	 */
-	km->verbose = 1;
-
+	km->verbose     = LOG_NORMAL;
 	km->log_message = lkmessage;
 	km->log_error   = lkerror;
 
@@ -537,7 +532,7 @@ static int defkeys(struct keymap *kmap, int fd, int kbd_mode)
 				} else
 					ct++;
 
-				log_verbose(kmap, 2, _("keycode %d, table %d = %d%s"),
+				log_verbose(kmap, LOG_VERBOSE1, _("keycode %d, table %d = %d%s"),
 					j, i, (kmap->key_map[i])[j], fail ? _("    FAILED") : "");
 
 				if (fail && kmap->verbose > 1)
@@ -551,7 +546,7 @@ static int defkeys(struct keymap *kmap, int fd, int kbd_mode)
 			ke.kb_table = i;
 			ke.kb_value = K_NOSUCHMAP;
 
-			log_verbose(kmap, 3, _("deallocate keymap %d"), i);
+			log_verbose(kmap, LOG_VERBOSE2, _("deallocate keymap %d"), i);
 
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
@@ -804,7 +799,7 @@ loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 	if ((keyct = defkeys(kmap, fd, kbd_mode)) < 0 || (funcct = deffuncs(kmap, fd)) < 0)
 		return -1;
 
-	log_verbose(kmap, 2, _("\nChanged %d %s and %d %s"),
+	log_verbose(kmap, LOG_VERBOSE1, _("\nChanged %d %s and %d %s"),
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
@@ -814,11 +809,11 @@ loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 		if (diacct < 0)
 			return -1;
 
-		log_verbose(kmap, 2, _("Loaded %d compose %s"),
+		log_verbose(kmap, LOG_VERBOSE1, _("Loaded %d compose %s"),
 			diacct, (diacct == 1) ? _("definition") : _("definitions"));
 
 	} else {
-		log_verbose(kmap, 2, _("(No change in compose definitions)"));
+		log_verbose(kmap, LOG_VERBOSE1, _("(No change in compose definitions)"));
 	}
 
 	return 0;
@@ -1110,7 +1105,7 @@ bkeymap(struct keymap *kmap)
 
 
 /* Line 264 of yacc.c  */
-#line 1114 "loadkeys.c"
+#line 1109 "loadkeys.c"
 
 #ifdef short
 # undef short
@@ -1415,12 +1410,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   948,   948,   949,   951,   952,   953,   954,   955,   956,
-     957,   958,   959,   960,   962,   974,   979,   985,   990,   996,
-    1001,  1002,  1004,  1012,  1018,  1038,  1043,  1049,  1050,  1052,
-    1052,  1060,  1066,  1067,  1069,  1070,  1071,  1072,  1073,  1074,
-    1075,  1076,  1077,  1079,  1133,  1134,  1136,  1145,  1146,  1147,
-    1148,  1149,  1150
+       0,   943,   943,   944,   946,   947,   948,   949,   950,   951,
+     952,   953,   954,   955,   957,   969,   974,   980,   985,   991,
+     996,   997,   999,  1007,  1013,  1033,  1038,  1044,  1045,  1047,
+    1047,  1055,  1061,  1062,  1064,  1065,  1066,  1067,  1068,  1069,
+    1070,  1071,  1072,  1074,  1128,  1129,  1131,  1140,  1141,  1142,
+    1143,  1144,  1145
 };
 #endif
 
@@ -2404,7 +2399,7 @@ yyreduce:
         case 14:
 
 /* Line 1464 of yacc.c  */
-#line 963 "loadkeys.y"
+#line 958 "loadkeys.y"
     {
 				if (set_charset((char *) (yyvsp[(2) - (3)].str).data))
 					YYERROR;
@@ -2420,7 +2415,7 @@ yyreduce:
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 975 "loadkeys.y"
+#line 970 "loadkeys.y"
     {
 				kmap->alt_is_meta = 1;
 			}
@@ -2429,7 +2424,7 @@ yyreduce:
   case 16:
 
 /* Line 1464 of yacc.c  */
-#line 980 "loadkeys.y"
+#line 975 "loadkeys.y"
     {
 				if (strings_as_usual(kmap) == -1)
 					YYERROR;
@@ -2439,7 +2434,7 @@ yyreduce:
   case 17:
 
 /* Line 1464 of yacc.c  */
-#line 986 "loadkeys.y"
+#line 981 "loadkeys.y"
     {
 				if (compose_as_usual(kmap, (char *) (yyvsp[(5) - (6)].str).data) == -1)
 					YYERROR;
@@ -2449,7 +2444,7 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
-#line 991 "loadkeys.y"
+#line 986 "loadkeys.y"
     {
 				if (compose_as_usual(kmap, 0) == -1)
 					YYERROR;
@@ -2459,7 +2454,7 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
-#line 997 "loadkeys.y"
+#line 992 "loadkeys.y"
     {
 				kmap->keymaps_line_seen = 1;
 			}
@@ -2468,7 +2463,7 @@ yyreduce:
   case 22:
 
 /* Line 1464 of yacc.c  */
-#line 1005 "loadkeys.y"
+#line 1000 "loadkeys.y"
     {
 				int i;
 				for (i = (yyvsp[(1) - (3)].num); i <= (yyvsp[(3) - (3)].num); i++) {
@@ -2481,7 +2476,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 1013 "loadkeys.y"
+#line 1008 "loadkeys.y"
     {
 				if (addmap(kmap, (yyvsp[(1) - (1)].num), 1) == -1)
 					YYERROR;
@@ -2491,7 +2486,7 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 1019 "loadkeys.y"
+#line 1014 "loadkeys.y"
     {
 				struct kbsentry ke;
 
@@ -2515,7 +2510,7 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 1039 "loadkeys.y"
+#line 1034 "loadkeys.y"
     {
 				if (compose(kmap, (yyvsp[(2) - (6)].num), (yyvsp[(3) - (6)].num), (yyvsp[(5) - (6)].num)) == -1)
 					YYERROR;
@@ -2525,7 +2520,7 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
-#line 1044 "loadkeys.y"
+#line 1039 "loadkeys.y"
     {
 				if (compose(kmap, (yyvsp[(2) - (6)].num), (yyvsp[(3) - (6)].num), (yyvsp[(5) - (6)].num)) == -1)
 					YYERROR;
@@ -2535,21 +2530,21 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
-#line 1049 "loadkeys.y"
+#line 1044 "loadkeys.y"
     {	(yyval.num) = (yyvsp[(1) - (1)].num);		}
     break;
 
   case 28:
 
 /* Line 1464 of yacc.c  */
-#line 1050 "loadkeys.y"
+#line 1045 "loadkeys.y"
     {	(yyval.num) = (yyvsp[(1) - (1)].num) ^ 0xf000;	}
     break;
 
   case 29:
 
 /* Line 1464 of yacc.c  */
-#line 1052 "loadkeys.y"
+#line 1047 "loadkeys.y"
     {
 				kmap->mod = 0;
 			}
@@ -2558,7 +2553,7 @@ yyreduce:
   case 30:
 
 /* Line 1464 of yacc.c  */
-#line 1056 "loadkeys.y"
+#line 1051 "loadkeys.y"
     {
 				if (addkey(kmap, (yyvsp[(4) - (7)].num), kmap->mod, (yyvsp[(6) - (7)].num)) == -1)
 					YYERROR;
@@ -2568,7 +2563,7 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 1061 "loadkeys.y"
+#line 1056 "loadkeys.y"
     {
 				if (addkey(kmap, (yyvsp[(3) - (6)].num), 0, (yyvsp[(5) - (6)].num)) == -1)
 					YYERROR;
@@ -2578,70 +2573,70 @@ yyreduce:
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 1069 "loadkeys.y"
+#line 1064 "loadkeys.y"
     { kmap->mod |= M_SHIFT;	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 1070 "loadkeys.y"
+#line 1065 "loadkeys.y"
     { kmap->mod |= M_CTRL;	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 1071 "loadkeys.y"
+#line 1066 "loadkeys.y"
     { kmap->mod |= M_ALT;		}
     break;
 
   case 37:
 
 /* Line 1464 of yacc.c  */
-#line 1072 "loadkeys.y"
+#line 1067 "loadkeys.y"
     { kmap->mod |= M_ALTGR;	}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 1073 "loadkeys.y"
+#line 1068 "loadkeys.y"
     { kmap->mod |= M_SHIFTL;	}
     break;
 
   case 39:
 
 /* Line 1464 of yacc.c  */
-#line 1074 "loadkeys.y"
+#line 1069 "loadkeys.y"
     { kmap->mod |= M_SHIFTR;	}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 1075 "loadkeys.y"
+#line 1070 "loadkeys.y"
     { kmap->mod |= M_CTRLL;	}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 1076 "loadkeys.y"
+#line 1071 "loadkeys.y"
     { kmap->mod |= M_CTRLR;	}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 1077 "loadkeys.y"
+#line 1072 "loadkeys.y"
     { kmap->mod |= M_CAPSSHIFT;	}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 1080 "loadkeys.y"
+#line 1075 "loadkeys.y"
     {
 				int i, j, keycode;
 
@@ -2698,7 +2693,7 @@ yyreduce:
   case 46:
 
 /* Line 1464 of yacc.c  */
-#line 1137 "loadkeys.y"
+#line 1132 "loadkeys.y"
     {
 				if (kmap->rvalct >= MAX_NR_KEYMAPS) {
 					log_error(kmap, _("too many key definitions on one line"));
@@ -2711,49 +2706,49 @@ yyreduce:
   case 47:
 
 /* Line 1464 of yacc.c  */
-#line 1145 "loadkeys.y"
+#line 1140 "loadkeys.y"
     { (yyval.num) = convert_code(kmap->prefer_unicode, (yyvsp[(1) - (1)].num), TO_AUTO);		}
     break;
 
   case 48:
 
 /* Line 1464 of yacc.c  */
-#line 1146 "loadkeys.y"
+#line 1141 "loadkeys.y"
     { (yyval.num) = add_capslock(kmap->prefer_unicode, (yyvsp[(2) - (2)].num));			}
     break;
 
   case 49:
 
 /* Line 1464 of yacc.c  */
-#line 1147 "loadkeys.y"
+#line 1142 "loadkeys.y"
     { (yyval.num) = convert_code(kmap->prefer_unicode, (yyvsp[(1) - (1)].num)^0xf000, TO_AUTO);	}
     break;
 
   case 50:
 
 /* Line 1464 of yacc.c  */
-#line 1148 "loadkeys.y"
+#line 1143 "loadkeys.y"
     { (yyval.num) = add_capslock(kmap->prefer_unicode, (yyvsp[(2) - (2)].num)^0xf000);		}
     break;
 
   case 51:
 
 /* Line 1464 of yacc.c  */
-#line 1149 "loadkeys.y"
+#line 1144 "loadkeys.y"
     { (yyval.num) = (yyvsp[(1) - (1)].num);					}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 1150 "loadkeys.y"
+#line 1145 "loadkeys.y"
     { (yyval.num) = add_capslock(kmap->prefer_unicode, (yyvsp[(2) - (2)].num));			}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 2757 "loadkeys.c"
+#line 2752 "loadkeys.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2965,7 +2960,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 1152 "loadkeys.y"
+#line 1147 "loadkeys.y"
 
 
 static int
@@ -2977,7 +2972,7 @@ parse_keymap(struct keymap *kmap, lkfile_t *f)
 	yylex_init(&scanner);
 	yylex_init_extra(kmap, &scanner);
 
-	log_verbose(kmap, 1, _("Loading %s"), f->pathname);
+	log_verbose(kmap, LOG_NORMAL, _("Loading %s"), f->pathname);
 
 	if (stack_push(kmap, f, scanner) == -1)
 		goto fail;
@@ -3068,10 +3063,11 @@ int main(int argc, char *argv[])
 			kmap.prefer_unicode = 1;
 			break;
 		case 'q':
-			kmap.verbose = 0;
+			kmap.verbose = LOG_QUIET;
 			break;
 		case 'v':
-			kmap.verbose++;
+			if (kmap.verbose < LOG_MAXVALUE)
+				kmap.verbose++;
 			break;
 		case 'V':
 			print_version_and_exit();

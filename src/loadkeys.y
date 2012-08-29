@@ -143,12 +143,7 @@ keymap_init(struct keymap *km)
 {
 	memset(km, 0, sizeof(struct keymap));
 
-	/* 0 - quiet (all messages are disabled)
-	 * 1 - normal output
-	 * 2,3,.. - verbosity
-	 */
-	km->verbose = 1;
-
+	km->verbose     = LOG_NORMAL;
 	km->log_message = lkmessage;
 	km->log_error   = lkerror;
 
@@ -372,7 +367,7 @@ static int defkeys(struct keymap *kmap, int fd, int kbd_mode)
 				} else
 					ct++;
 
-				log_verbose(kmap, 2, _("keycode %d, table %d = %d%s"),
+				log_verbose(kmap, LOG_VERBOSE1, _("keycode %d, table %d = %d%s"),
 					j, i, (kmap->key_map[i])[j], fail ? _("    FAILED") : "");
 
 				if (fail && kmap->verbose > 1)
@@ -386,7 +381,7 @@ static int defkeys(struct keymap *kmap, int fd, int kbd_mode)
 			ke.kb_table = i;
 			ke.kb_value = K_NOSUCHMAP;
 
-			log_verbose(kmap, 3, _("deallocate keymap %d"), i);
+			log_verbose(kmap, LOG_VERBOSE2, _("deallocate keymap %d"), i);
 
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
@@ -639,7 +634,7 @@ loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 	if ((keyct = defkeys(kmap, fd, kbd_mode)) < 0 || (funcct = deffuncs(kmap, fd)) < 0)
 		return -1;
 
-	log_verbose(kmap, 2, _("\nChanged %d %s and %d %s"),
+	log_verbose(kmap, LOG_VERBOSE1, _("\nChanged %d %s and %d %s"),
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
@@ -649,11 +644,11 @@ loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 		if (diacct < 0)
 			return -1;
 
-		log_verbose(kmap, 2, _("Loaded %d compose %s"),
+		log_verbose(kmap, LOG_VERBOSE1, _("Loaded %d compose %s"),
 			diacct, (diacct == 1) ? _("definition") : _("definitions"));
 
 	} else {
-		log_verbose(kmap, 2, _("(No change in compose definitions)"));
+		log_verbose(kmap, LOG_VERBOSE1, _("(No change in compose definitions)"));
 	}
 
 	return 0;
@@ -1160,7 +1155,7 @@ parse_keymap(struct keymap *kmap, lkfile_t *f)
 	yylex_init(&scanner);
 	yylex_init_extra(kmap, &scanner);
 
-	log_verbose(kmap, 1, _("Loading %s"), f->pathname);
+	log_verbose(kmap, LOG_NORMAL, _("Loading %s"), f->pathname);
 
 	if (stack_push(kmap, f, scanner) == -1)
 		goto fail;
@@ -1251,10 +1246,11 @@ int main(int argc, char *argv[])
 			kmap.prefer_unicode = 1;
 			break;
 		case 'q':
-			kmap.verbose = 0;
+			kmap.verbose = LOG_QUIET;
 			break;
 		case 'v':
-			kmap.verbose++;
+			if (kmap.verbose < LOG_MAXVALUE)
+				kmap.verbose++;
 			break;
 		case 'V':
 			print_version_and_exit();
