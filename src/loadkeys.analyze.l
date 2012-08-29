@@ -24,8 +24,6 @@
 %option extra-type="struct keymap *"
 
 %{
-extern int lkverbose(struct keymap *kmap, int level, const char *fmt, ...);
-
 int stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner);
 int stack_pop(struct keymap *kmap, yyscan_t scanner);
 
@@ -37,15 +35,13 @@ stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner)
 	while (kmap->stack[i]) i++;
 
 	if (i == MAX_INCLUDE_DEPTH) {
-		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
-			_("includes are nested too deeply"));
+		log_error(kmap, _("includes are nested too deeply"));
 		return -1;
 	}
 
 	kmap->stack[i] = malloc(sizeof(lkfile_t));
 	if (kmap->stack[i] == NULL) {
-		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
-			_("out of memory"));
+		log_error(kmap, _("out of memory"));
 		return -1;
 	}
 
@@ -150,7 +146,7 @@ find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 	return rc;
 
 	/* FIXME: free */
-nomem:	snprintf(kmap->errmsg, sizeof(kmap->errmsg), _("out of memory"));
+nomem:	log_error(kmap, _("out of memory"));
 	return -1;
 }
 
@@ -245,12 +241,11 @@ open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 	int rc;
 	lkfile_t fp;
 
-	lkverbose(kmap, 2, _("switching to %s"), s);
+	log_verbose(kmap, 2, _("switching to %s"), s);
 
 	rc = find_incl_file(kmap, s, &fp);
 	if (rc > 0) {
-		snprintf(kmap->errmsg, sizeof(kmap->errmsg),
-			_("cannot open include file %s"), s);
+		log_error(kmap, _("cannot open include file %s"), s);
 		free(s);
 		return -1;
 	} else if (rc == -1) {
@@ -311,8 +306,7 @@ To                      to|To|TO
 <INCLSTR>\"[^\"\n]+\"	{
 				char *s = strndup(yytext+1, strlen(yytext)-2);
 				if (s == NULL) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("out of memory"));
+					log_error(yyextra, _("out of memory"));
 					return(ERROR);
 				}
 
@@ -323,8 +317,7 @@ To                      to|To|TO
 				yyextra->state_ptr--;
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
-				snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-					_("expected filename between quotes"));
+				log_error(yyextra, _("expected filename between quotes"));
 				return(ERROR);
 			}
 <<EOF>>			{
@@ -365,8 +358,7 @@ To                      to|To|TO
 {Unicode}		{
 				yylval->num = strtol(yytext + 1, NULL, 16);
 				if (yylval->num >= 0xf000) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("unicode keysym out of range: %s"),
+					log_error(yyextra, _("unicode keysym out of range: %s"),
 						yytext);
 					return(ERROR);
 				}
@@ -421,32 +413,28 @@ To                      to|To|TO
 			}
 <STR>\\{Octa}		{
 				if (yylval->str.len == MAX_PARSER_STRING) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("string too long"));
+					log_error(yyextra, _("string too long"));
 					return(ERROR);
 				}
 				yylval->str.data[yylval->str.len++] = strtol(yytext + 1, NULL, 8);
 			}
 <STR>\\\"               {
 				if (yylval->str.len == MAX_PARSER_STRING) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("string too long"));
+					log_error(yyextra, _("string too long"));
 					return(ERROR);
 				}
 				yylval->str.data[yylval->str.len++] = '"';
 			}
 <STR>\\\\               {
 				if (yylval->str.len == MAX_PARSER_STRING) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("string too long"));
+					log_error(yyextra, _("string too long"));
 					return(ERROR);
 				}
 				yylval->str.data[yylval->str.len++] = '\\';
 			}
 <STR>\\n		{
 				if (yylval->str.len == MAX_PARSER_STRING) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("string too long"));
+					log_error(yyextra, _("string too long"));
 					return(ERROR);
 				}
 				yylval->str.data[yylval->str.len++] = '\n';
@@ -455,8 +443,7 @@ To                      to|To|TO
 				int len = strlen(yytext);
 
 				if (yylval->str.len + len >= MAX_PARSER_STRING) {
-					snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-						_("string too long"));
+					log_error(yyextra, _("string too long"));
 					return(ERROR);
 				}
 
@@ -470,8 +457,6 @@ To                      to|To|TO
 				return(STRLITERAL);
 			}
 .			{
-				snprintf(yyextra->errmsg, sizeof(yyextra->errmsg),
-					_("unknown characters"));
-				return(ERROR); /* report any unknown characters */
+				return(ERROR);
 			}
 %%
