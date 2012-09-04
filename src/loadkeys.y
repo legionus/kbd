@@ -51,7 +51,7 @@
 %lex-param { yyscan_t scanner }
 
 /* Pure yyparse.  */
-%parse-param { yyscan_t scanner }
+%parse-param { void *scanner }
 %parse-param { struct keymap *kmap }
 
 %token EOL NUMBER LITERAL CHARSET KEYMAPS KEYCODE EQUALS

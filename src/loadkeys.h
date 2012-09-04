@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.4.3.  */
+/* A Bison parser, made by GNU Bison 2.6.2.  */
 
-/* Skeleton interface for Bison's Yacc-like parsers in C
+/* Bison interface for Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2009, 2010 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2012 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,17 +30,24 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+#ifndef YY_LOADKEYS_H
+# define YY_LOADKEYS_H
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 1
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
 /* "%code requires" blocks.  */
-
-/* Line 1685 of yacc.c  */
+/* Line 2049 of yacc.c  */
 #line 39 "loadkeys.y"
 
 #include "loadkeys.keymap.h"
 
 
-
-/* Line 1685 of yacc.c  */
-#line 45 "loadkeys.h"
+/* Line 2049 of yacc.c  */
+#line 51 "loadkeys.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -121,21 +127,18 @@
 
 
 
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-
-/* Line 1685 of yacc.c  */
+/* Line 2049 of yacc.c  */
 #line 62 "loadkeys.y"
 
 	long long int num;
 	struct strdata str;
 
 
-
-/* Line 1685 of yacc.c  */
-#line 139 "loadkeys.h"
+/* Line 2049 of yacc.c  */
+#line 142 "loadkeys.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -143,5 +146,18 @@ typedef union YYSTYPE
 #endif
 
 
+#ifdef YYPARSE_PARAM
+#if defined __STDC__ || defined __cplusplus
+int yyparse (void *YYPARSE_PARAM);
+#else
+int yyparse ();
+#endif
+#else /* ! YYPARSE_PARAM */
+#if defined __STDC__ || defined __cplusplus
+int yyparse (void *scanner, struct keymap *kmap);
+#else
+int yyparse ();
+#endif
+#endif /* ! YYPARSE_PARAM */
 
-
+#endif /* !YY_LOADKEYS_H  */

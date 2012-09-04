@@ -333,7 +333,7 @@ extern int yylex \
 #undef YY_DECL
 #endif
 
-#line 462 "/mnt/scm/legion/kbd/src/loadkeys.analyze.l"
+#line 462 "/home/legion/src/kbd/src/loadkeys.analyze.l"
 
 
 #line 340 "/mnt/scm/legion/kbd/src/loadkeys.analyze.h"
