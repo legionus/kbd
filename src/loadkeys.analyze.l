@@ -8,7 +8,7 @@
 #include "paths.h"
 #include "findfile.h"
 
-#include "loadkeys.h"
+#include "loadkeys.parse.h"
 #include "loadkeys.keymap.h"
 %}
 
@@ -24,11 +24,8 @@
 %option extra-type="struct keymap *"
 
 %{
-int stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner);
-int stack_pop(struct keymap *kmap, yyscan_t scanner);
-
 int
-stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner)
+stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner)
 {
 	int i = 0;
 
@@ -55,7 +52,7 @@ stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner)
 }
 
 int
-stack_pop(struct keymap *kmap, yyscan_t scanner)
+stack_pop(struct keymap *kmap, void *scanner)
 {
 	int i = 0;
 

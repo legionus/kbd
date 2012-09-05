@@ -87,8 +87,8 @@ mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
 AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
-BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h loadkeys.analyze.h
-loadkeys_SOURCES = loadkeys.y loadkeys.analyze.l $(KSYMS_S)
+BUILT_SOURCES = loadkeys.parse.c loadkeys.analyze.c loadkeys.parse.h loadkeys.analyze.h
+loadkeys_SOURCES = loadkeys.c loadkeys.parse.y loadkeys.analyze.l $(KSYMS_S)
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \

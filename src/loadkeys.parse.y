@@ -1,38 +1,38 @@
-/*
- * loadkeys.y
+/* loadkeys.parse.y
  *
- * For history, see older versions.
+ * This file is part of kbd project.
+ * Copyright (C) 1993  Risto Kankkunen.
+ * Copyright (C) 1993  Eugene G. Crosser.
+ * Copyright (C) 1994-2007  Andries E. Brouwer.
+ * Copyright (C) 2007-2012  Alexey Gladkov <gladkov.alexey@gmail.com>
+ *
+ * This file is covered by the GNU General Public License,
+ * which should be included with kbd as the file COPYING.
  */
 %{
 #define YY_HEADER_EXPORT_START_CONDITIONS 1
 
 #include <errno.h>
 #include <stdio.h>
-#include <getopt.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <string.h>
-#include <fcntl.h>
 #include <ctype.h>
-#include <sys/param.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 #include <unistd.h>
 
 #include "paths.h"
-#include "getfd.h"
-#include "findfile.h"
 #include "ksyms.h"
 #include "modifiers.h"
 #include "nls.h"
-#include "version.h"
+#include "kbd.h"
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-keyboard.h"
 #endif
 
-#include "loadkeys.h"
+#include "loadkeys.parse.h"
 #include "loadkeys.analyze.h"
 %}
 
@@ -79,41 +79,7 @@
 
 int yyerror(yyscan_t scanner, struct keymap *kmap, const char *s);
 
-int keymap_init(struct keymap *km);
-
-extern int stack_push(struct keymap *kmap, lkfile_t *fp, yyscan_t scanner);
-extern int stack_pop(struct keymap *kmap, yyscan_t scanner);
-
 #include "ksyms.h"
-
-static void attr_noreturn usage(void)
-{
-	fprintf(stderr, _("loadkeys version %s\n"
-			  "\n"
-			  "Usage: loadkeys [option...] [mapfile...]\n"
-			  "\n"
-			  "Valid options are:\n"
-			  "\n"
-			  "  -a --ascii         force conversion to ASCII\n"
-			  "  -b --bkeymap       output a binary keymap to stdout\n"
-			  "  -c --clearcompose  clear kernel compose table\n"
-			  "  -C --console=file\n"
-			  "                     the console device to be used\n"
-			  "  -d --default       load \"%s\"\n"
-			  "  -h --help          display this help text\n"
-			  "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
-			  "  -q --quiet         suppress all normal output\n"
-			  "  -s --clearstrings  clear kernel string table\n"
-			  "  -u --unicode       force conversion to Unicode\n"
-			  "  -v --verbose       report the changes\n"),
-		PACKAGE_VERSION, DEFMAP);
-	exit(EXIT_FAILURE);
-}
-
-char **dirpath;
-char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
-char *dirpath2[] = { 0, 0 };
-char *suffixes[] = { "", ".kmap", ".map", 0 };
 
 static void __attribute__ ((format (printf, 4, 5)))
 lkmessage(const char *file, int line, const char *fn, const char *fmt, ...)
@@ -420,7 +386,8 @@ static int defkeys(struct keymap *kmap, int fd, int kbd_mode)
  fail:	return -1;
 }
 
-static void freekeys(struct keymap *kmap)
+void
+keymap_free(struct keymap *kmap)
 {
 	int i;
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
@@ -599,7 +566,7 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 	return 0;
 }
 
-static int
+int
 do_constant(struct keymap *kmap)
 {
 	int i, r0 = 0;
@@ -626,7 +593,7 @@ do_constant(struct keymap *kmap)
 	return 0;
 }
 
-static int
+int
 loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 {
 	int keyct, funcct, diacct;
@@ -779,7 +746,7 @@ outchar(FILE *fd, unsigned char c, int comma)
 	fprintf(fd, comma ? "', " : "'");
 }
 
-static int
+int
 mktable(struct keymap *kmap, FILE *fd)
 {
 	int j;
@@ -906,7 +873,7 @@ mktable(struct keymap *kmap, FILE *fd)
 	return 0;
 }
 
-static int
+int
 bkeymap(struct keymap *kmap)
 {
 	int i, j;
@@ -1146,7 +1113,7 @@ rvalue		: NUMBER	{ $$ = convert_code(kmap->prefer_unicode, $1, TO_AUTO);		}
 		;
 %%
 
-static int
+int
 parse_keymap(struct keymap *kmap, lkfile_t *f)
 {
 	yyscan_t scanner;
@@ -1169,193 +1136,4 @@ parse_keymap(struct keymap *kmap, lkfile_t *f)
 
  fail:	yylex_destroy(scanner);
 	return rc;
-}
-
-int main(int argc, char *argv[])
-{
-	const char *short_opts = "abcC:dhmsuqvV";
-	const struct option long_opts[] = {
-		{ "console", required_argument, NULL, 'C'},
-		{ "ascii",		no_argument, NULL, 'a' },
-		{ "bkeymap",		no_argument, NULL, 'b' },
-		{ "clearcompose",	no_argument, NULL, 'c' },
-		{ "default",		no_argument, NULL, 'd' },
-		{ "help",		no_argument, NULL, 'h' },
-		{ "mktable",		no_argument, NULL, 'm' },
-		{ "clearstrings",	no_argument, NULL, 's' },
-		{ "unicode",		no_argument, NULL, 'u' },
-		{ "quiet",		no_argument, NULL, 'q' },
-		{ "verbose",		no_argument, NULL, 'v' },
-		{ "version",		no_argument, NULL, 'V' },
-		{ NULL, 0, NULL, 0 }
-	};
-
-	enum options {
-		OPT_A = (1 << 1),
-		OPT_B = (1 << 2),
-		OPT_D = (1 << 3),
-		OPT_M = (1 << 4),
-		OPT_U = (1 << 5)
-	};
-	int options = 0;
-
-	struct keymap kmap;
-
-	int c, i, rc = -1;
-	int fd;
-	int kbd_mode;
-	int kd_mode;
-	char *console = NULL;
-	char *ev;
-	lkfile_t f;
-
-	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
-
-	keymap_init(&kmap);
-
-	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
-		switch (c) {
-		case 'a':
-			options |= OPT_A;
-			break;
-		case 'b':
-			options |= OPT_B;
-			break;
-		case 'c':
-			kmap.flags |= LKFLAG_CLEAR_COMPOSE;
-			break;
-		case 'C':
-			console = optarg;
-			break;
-		case 'd':
-			options |= OPT_D;
-			break;
-		case 'm':
-			options |= OPT_M;
-			break;
-		case 's':
-			kmap.flags |= LKFLAG_CLEAR_STRINGS;
-			break;
-		case 'u':
-			options |= OPT_U;
-			kmap.flags |= LKFLAG_UNICODE_MODE;
-			kmap.prefer_unicode = 1;
-			break;
-		case 'q':
-			kmap.verbose = LOG_QUIET;
-			break;
-		case 'v':
-			if (kmap.verbose < LOG_MAXVALUE)
-				kmap.verbose++;
-			break;
-		case 'V':
-			print_version_and_exit();
-		case 'h':
-		case '?':
-			usage();
-		}
-	}
-
-	if ((options & OPT_U) && (options & OPT_A)) {
-		fprintf(stderr,
-			_("%s: Options --unicode and --ascii are mutually exclusive\n"),
-			progname);
-		exit(EXIT_FAILURE);
-	}
-
-	/* get console */
-	fd = getfd(console);
-
-	if (!(options & OPT_M) && !(options & OPT_B)) {
-		/* check whether the keyboard is in Unicode mode */
-		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
-		    ioctl(fd, KDGETMODE, &kd_mode)) {
-			fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
-				progname);
-			exit(EXIT_FAILURE);
-		}
-
-		if (kbd_mode == K_UNICODE) {
-			if (options & OPT_A) {
-				fprintf(stderr,
-					_("%s: warning: loading non-Unicode keymap on Unicode console\n"
-					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
-					progname);
-			} else {
-				kmap.prefer_unicode = 1;
-			}
-
-			/* reset -u option if keyboard is in K_UNICODE anyway */
-			kmap.flags ^= LKFLAG_UNICODE_MODE;
-
-		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
-			fprintf(stderr,
-				_("%s: warning: loading Unicode keymap on non-Unicode console\n"
-				  "    (perhaps you want to do `kbd_mode -u'?)\n"),
-				progname);
-		}
-	}
-
-	dirpath = dirpath1;
-	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
-		dirpath2[0] = ev;
-		dirpath = dirpath2;
-	}
-
-	if (options & OPT_D) {
-		/* first read default map - search starts in . */
-
-		if (findfile(DEFMAP, dirpath, suffixes, &f)) {
-			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-			exit(EXIT_FAILURE);
-		}
-
-		if ((rc = parse_keymap(&kmap, &f)) == -1)
-			goto fail;
-
-
-	} else if (optind == argc) {
-		f.fd = stdin;
-		strcpy(f.pathname, "<stdin>");
-
-		if ((rc = parse_keymap(&kmap, &f)) == -1)
-			goto fail;
-	}
-
-	for (i = optind; argv[i]; i++) {
-		if (!strcmp(argv[i], "-")) {
-			f.fd = stdin;
-			strcpy(f.pathname, "<stdin>");
-
-		} else if (findfile(argv[i], dirpath, suffixes, &f)) {
-			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
-			goto fail;
-		}
-
-		if ((rc = parse_keymap(&kmap, &f)) == -1)
-			goto fail;
-	}
-
-	if ((rc = do_constant(&kmap)) == -1)
-		goto fail;
-
-	if (options & OPT_B) {
-		rc = bkeymap(&kmap);
-	} else if (options & OPT_M) {
-		rc = mktable(&kmap, stdout);
-	} else {
-		rc = loadkeys(&kmap, fd, kbd_mode);
-	}
-
- fail:	freekeys(&kmap);
-	close(fd);
-
-	if (rc < 0)
-		exit(EXIT_FAILURE);
-
-	exit(EXIT_SUCCESS);
 }

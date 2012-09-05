@@ -87,4 +87,22 @@ struct strdata {
 	unsigned char data[MAX_PARSER_STRING];
 };
 
+#include <stdio.h>
+
+/* Public */
+int keymap_init(struct keymap *km);
+void keymap_free(struct keymap *kmap);
+int parse_keymap(struct keymap *kmap, lkfile_t *f);
+
+int do_constant(struct keymap *kmap);
+
+int loadkeys(struct keymap *kmap, int fd, int kbd_mode);
+int bkeymap(struct keymap *kmap);
+int mktable(struct keymap *kmap, FILE *fd);
+
+/* Private */
+int stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner);
+int stack_pop(struct keymap *kmap, void *scanner);
+
+
 #endif /* LK_KEYMAP_H */
