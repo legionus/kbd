@@ -94,8 +94,6 @@ int keymap_init(struct keymap *km);
 void keymap_free(struct keymap *kmap);
 int parse_keymap(struct keymap *kmap, lkfile_t *f);
 
-int do_constant(struct keymap *kmap);
-
 int loadkeys(struct keymap *kmap, int fd, int kbd_mode);
 int bkeymap(struct keymap *kmap);
 int mktable(struct keymap *kmap, FILE *fd);

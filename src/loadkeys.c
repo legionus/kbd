@@ -237,9 +237,6 @@ main(int argc, char *argv[])
 			goto fail;
 	}
 
-	if ((rc = do_constant(&kmap)) == -1)
-		goto fail;
-
 	if (options & OPT_B) {
 		rc = bkeymap(&kmap);
 	} else if (options & OPT_M) {
