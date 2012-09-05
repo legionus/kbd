@@ -88,6 +88,7 @@ loadunimap_CFLAGS = -DMAIN
 
 AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
 BUILT_SOURCES = loadkeys.parse.c loadkeys.analyze.c loadkeys.parse.h loadkeys.analyze.h
+CLEANFILES = $(BUILT_SOURCES)
 loadkeys_SOURCES = loadkeys.c loadkeys.parse.y loadkeys.analyze.l $(KSYMS_S)
 
 install-exec-hook:
