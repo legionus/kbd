@@ -81,8 +81,9 @@ int yyerror(yyscan_t scanner, struct keymap *kmap, const char *s);
 
 #include "ksyms.h"
 
-static void __attribute__ ((format (printf, 4, 5)))
-lkmessage(const char *file, int line, const char *fn, const char *fmt, ...)
+static void attr_fmt45
+lkmessage(const char *file attr_unused, int line attr_unused, const char *fn attr_unused,
+          const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
@@ -94,8 +95,9 @@ lkmessage(const char *file, int line, const char *fn, const char *fmt, ...)
 	va_end(ap);
 }
 
-static void __attribute__ ((format (printf, 4, 5)))
-lkerror(const char *file, int line, const char *fn, const char *fmt, ...)
+static void attr_fmt45
+lkerror(const char *file attr_unused, int line attr_unused, const char *fn attr_unused,
+        const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
