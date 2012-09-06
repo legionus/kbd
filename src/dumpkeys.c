@@ -572,7 +572,7 @@ valid options are:\n\
 
 int
 main (int argc, char *argv[]) {
-	const char *short_opts = "hilvsnf1S:c:V";
+	const char *short_opts = "hilvsnf1tkdS:c:V";
 	const struct option long_opts[] = {
 		{ "help",	no_argument,		NULL, 'h' },
 		{ "short-info",	no_argument,		NULL, 'i' },
