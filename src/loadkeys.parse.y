@@ -741,8 +741,12 @@ line		: EOL
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
-				if (set_charset((char *) $2.data))
+				if (set_charset((char *) $2.data)) {
+					log_error(kmap,
+						_("unknown charset %s - ignoring charset request\n"),
+						(char *) $2.data);
 					YYERROR;
+				}
 
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */

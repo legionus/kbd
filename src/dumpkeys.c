@@ -639,8 +639,11 @@ main (int argc, char *argv[]) {
 				verbose = 1;
 				break;
 			case 'c':
-				if ((set_charset(optarg)) != 0)
+				if ((set_charset(optarg)) != 0) {
+					fprintf(stderr, _("unknown charset %s - ignoring charset request\n"),
+						optarg);
 					usage();
+				}
 				printf("charset \"%s\"\n", optarg);
 				break;
 			case 'V':
