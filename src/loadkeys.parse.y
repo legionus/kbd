@@ -291,9 +291,9 @@ compose(struct keymap *kmap, int diacr, int base, int res)
 	}
 
 	ptr = &(kmap->accent_table[kmap->accent_table_size++]);
-	ptr->diacr  = convert_code(kmap->prefer_unicode, diacr, direction);
-	ptr->base   = convert_code(kmap->prefer_unicode, base, direction);
-	ptr->result = convert_code(kmap->prefer_unicode, res, direction);
+	ptr->diacr  = convert_code(kmap, diacr, direction);
+	ptr->base   = convert_code(kmap, base, direction);
+	ptr->result = convert_code(kmap, res, direction);
 
 	return 0;
 }
@@ -922,12 +922,12 @@ rvalue1		: rvalue
 				kmap->key_buf[kmap->rvalct++] = $1;
 			}
 		;
-rvalue		: NUMBER	{ $$ = convert_code(kmap->prefer_unicode, $1, TO_AUTO);		}
-                | PLUS NUMBER	{ $$ = add_capslock(kmap->prefer_unicode, $2);			}
-		| UNUMBER	{ $$ = convert_code(kmap->prefer_unicode, $1^0xf000, TO_AUTO);	}
-		| PLUS UNUMBER	{ $$ = add_capslock(kmap->prefer_unicode, $2^0xf000);		}
+rvalue		: NUMBER	{ $$ = convert_code(kmap, $1, TO_AUTO);		}
+                | PLUS NUMBER	{ $$ = add_capslock(kmap, $2);			}
+		| UNUMBER	{ $$ = convert_code(kmap, $1^0xf000, TO_AUTO);	}
+		| PLUS UNUMBER	{ $$ = add_capslock(kmap, $2^0xf000);		}
 		| LITERAL	{ $$ = $1;					}
-                | PLUS LITERAL	{ $$ = add_capslock(kmap->prefer_unicode, $2);			}
+                | PLUS LITERAL	{ $$ = add_capslock(kmap, $2);			}
 		;
 %%
 

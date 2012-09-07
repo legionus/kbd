@@ -365,7 +365,7 @@ To                      to|To|TO
 				yylval->num = strtol(yytext, NULL, 0);
 				return(NUMBER);
 			}
-<RVALUE>{Literal}	{	return((yylval->num = ksymtocode(yyextra->prefer_unicode, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
+<RVALUE>{Literal}	{	return((yylval->num = ksymtocode(yyextra, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
 \-			{	return(DASH);		}
 \,			{	return(COMMA);		}
 \+			{	return(PLUS);		}

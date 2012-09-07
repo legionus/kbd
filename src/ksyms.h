@@ -1,6 +1,8 @@
 #ifndef KSYMS_H
 #define KSYMS_H
 
+#include "loadkeys.keymap.h"
+
 typedef struct {
 	unsigned short uni;
 	const char *name;
@@ -33,8 +35,8 @@ extern const unsigned int syn_size;
 extern int set_charset(const char *name);
 extern const char *codetoksym(int code);
 extern void list_charsets(FILE *f);
-extern int ksymtocode(int try_unicode, const char *s, int direction);
-extern int convert_code(int try_unicode, int code, int direction);
-extern int add_capslock(int try_unicode, int code);
+extern int ksymtocode(struct keymap *kmap, const char *s, int direction);
+extern int convert_code(struct keymap *kmap, int code, int direction);
+extern int add_capslock(struct keymap *kmap, int code);
 
 #endif
