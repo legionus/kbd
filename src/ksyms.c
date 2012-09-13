@@ -1645,13 +1645,9 @@ struct cs {
     { "iso-10646-18",	iso_10646_18_syms, 159 },	/* ethiopic */
     { "iso-ir-197",	iso_ir_197_syms, 160 },		/* sami */
     { "iso-ir-209",	iso_ir_209_syms, 160 },		/* sami */
-    /* When you add a new charset with a long (> 15 chars) name,
-     * please update the chosen_charset definition below. */
 };
 
 /* Functions for both dumpkeys and loadkeys. */
-
-static char chosen_charset[16] = "";
 
 void
 list_charsets(FILE *f) {
@@ -1701,7 +1697,6 @@ set_charset(const char *charset) {
 				if(p->name[0])
 					syms[0].table[i] = p->name;
 			}
-			strcpy(chosen_charset, charset);
 			return 0;
 		}
 	}
