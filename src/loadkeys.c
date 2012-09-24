@@ -26,12 +26,9 @@
 
 #include "loadkeys.keymap.h"
 
-const char *progname;
-
-char **dirpath;
-char *dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
-char *dirpath2[] = { 0, 0 };
-char *suffixes[] = { "", ".kmap", ".map", 0 };
+static const char *progname = NULL;
+static const char *const dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
+static const char *const suffixes[] = { "", ".kmap", ".map", 0 };
 
 static void attr_noreturn
 usage(void)
@@ -69,8 +66,8 @@ set_progname(const char *name)
 int
 main(int argc, char *argv[])
 {
-	const char *short_opts = "abcC:dhmsuqvV";
-	const struct option long_opts[] = {
+	const char *const short_opts = "abcC:dhmsuqvV";
+	const struct option const long_opts[] = {
 		{ "console", required_argument, NULL, 'C'},
 		{ "ascii",		no_argument, NULL, 'a' },
 		{ "bkeymap",		no_argument, NULL, 'b' },
@@ -94,6 +91,9 @@ main(int argc, char *argv[])
 		OPT_U = (1 << 5)
 	};
 	int options = 0;
+
+	const char *const *dirpath;
+	const char *dirpath2[] = { 0, 0 };
 
 	struct keymap kmap;
 

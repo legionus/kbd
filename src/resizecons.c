@@ -105,8 +105,8 @@ static int vga_get_fontheight(void);
 static void vga_set_cursor(int, int);
 static void vga_set_verticaldisplayend_lowbyte(int);
 
-char *dirpath[] = { "", DATADIR "/" VIDEOMODEDIR "/", 0};
-char *suffixes[] = { "", 0 };
+const char *const dirpath[] = { "", DATADIR "/" VIDEOMODEDIR "/", 0};
+const char *const suffixes[] = { "", 0 };
 
 int
 main(int argc, char **argv) {

@@ -51,11 +51,11 @@ int force = 0;
 int debug = 0;
 
 /* search for the font in these directories (with trailing /) */
-char *fontdirpath[] = { "", DATADIR "/" FONTDIR "/", 0 };
-char *fontsuffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
+const char *const fontdirpath[] = { "", DATADIR "/" FONTDIR "/", 0 };
+const char *const fontsuffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
 /* hide partial fonts a bit - loading a single one is a bad idea */
-char *partfontdirpath[] = { "", DATADIR "/" FONTDIR "/" PARTIALDIR "/", 0 };
-char *partfontsuffixes[] = { "", 0 };
+const char *const partfontdirpath[] = { "", DATADIR "/" FONTDIR "/" PARTIALDIR "/", 0 };
+const char *const partfontsuffixes[] = { "", 0 };
 
 static inline int
 findfont(char *fnam, lkfile_t *fp) {

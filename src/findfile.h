@@ -10,6 +10,6 @@ typedef struct lkfile {
 } lkfile_t;
 
 extern void fpclose(lkfile_t *fp);
-extern int findfile(char *fnam, char **dirpath, char **suffixes, lkfile_t *fp);
+extern int findfile(const char *fnam, const char *const *dirpath, const char *const *suffixes, lkfile_t *fp);
 
 #endif /* _FINDFILE_H */

@@ -23,8 +23,8 @@ void fpclose(lkfile_t *fp)
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))
 
 static struct decompressor {
-	char *ext;		/* starts with `.', has no other dots */
-	char *cmd;
+	const char *ext; /* starts with `.', has no other dots */
+	const char *cmd;
 } decompressors[] = {
 	{ ".gz", "gzip -d -c" },
 	{ ".bz2", "bzip2 -d -c" },
@@ -32,7 +32,7 @@ static struct decompressor {
 };
 
 static int
-pipe_open(struct decompressor *dc, lkfile_t *fp)
+pipe_open(const struct decompressor *dc, lkfile_t *fp)
 {
 	char *pipe_cmd;
 
@@ -82,9 +82,9 @@ maybe_pipe_open(lkfile_t *fp)
 }
 
 static int
-findfile_by_fullname(const char *fnam, char **suffixes, lkfile_t *fp)
+findfile_by_fullname(const char *fnam, const char *const *suffixes, lkfile_t *fp)
 {
-	char **sp;
+	int i;
 	struct stat st;
 	struct decompressor *dc;
 	size_t fnam_len, sp_len;
@@ -92,16 +92,16 @@ findfile_by_fullname(const char *fnam, char **suffixes, lkfile_t *fp)
 	fp->pipe = 0;
 	fnam_len = strlen(fnam);
 
-	for (sp = suffixes; *sp; sp++) {
-		if (*sp == 0)
+	for (i = 0; suffixes[i]; i++) {
+		if (suffixes[i] == 0)
 			continue; /* we tried it already */
 
-		sp_len = strlen(*sp);
+		sp_len = strlen(suffixes[i]);
 
 		if (fnam_len + sp_len + 1 > sizeof(fp->pathname))
 			continue;
 
-		sprintf(fp->pathname, "%s%s", fnam, *sp);
+		sprintf(fp->pathname, "%s%s", fnam, suffixes[i]);
 
 		if(stat(fp->pathname, &st) == 0
 		   && S_ISREG(st.st_mode)
@@ -112,7 +112,7 @@ findfile_by_fullname(const char *fnam, char **suffixes, lkfile_t *fp)
 			if (fnam_len + sp_len + strlen(dc->ext) + 1 > sizeof(fp->pathname))
 				continue;
 
-			sprintf(fp->pathname, "%s%s%s", fnam, *sp, dc->ext);
+			sprintf(fp->pathname, "%s%s%s", fnam, suffixes[i], dc->ext);
 
 			if (stat(fp->pathname, &st) == 0
 			    && S_ISREG(st.st_mode)
@@ -125,13 +125,14 @@ findfile_by_fullname(const char *fnam, char **suffixes, lkfile_t *fp)
 }
 
 static int
-findfile_in_dir(char *fnam, char *dir, int recdepth, char **suf, lkfile_t *fp)
+findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const char *const *suf, lkfile_t *fp)
 {
 	DIR *d;
 	struct dirent *de;
-	char *ff, *fdir, *p, *q, **sp;
+	char *ff, *fdir, *p;
+	const char *q;
 	struct decompressor *dc;
-	int rc = -1, secondpass = 0;
+	int i, rc = -1, secondpass = 0;
 	size_t dir_len;
 
 	fp->fd = NULL;
@@ -214,16 +215,16 @@ StartScan:
 
 	    /* Does tail consist of a known suffix and possibly
 	       a compression suffix? */
-	    for(sp = suf; *sp; sp++) {
+	    for(i = 0; suf[i]; i++) {
 		    size_t l;
 
-		    if (!strcmp(p, *sp)) {
+		    if (!strcmp(p, suf[i])) {
 	    		rc = maybe_pipe_open(fp);
 	    		goto EndScan;
 		    }
 
-		    l = strlen(*sp);
-		    if (!strncmp(p, *sp, l)) {
+		    l = strlen(suf[i]);
+		    if (!strncmp(p, suf[i], l)) {
 			for (dc = &decompressors[0]; dc->cmd; dc++)
 			    if (strcmp(p+l, dc->ext) == 0) {
 			    	rc = pipe_open(dc, fp);
@@ -247,10 +248,10 @@ EndScan:
 }
 
 int
-findfile(char *fnam, char **dirpath, char **suffixes, lkfile_t *fp)
+findfile(const char *fnam, const char *const *dirpath, const char *const *suffixes, lkfile_t *fp)
 {
-	char **dp, *dir;
-	int dl, recdepth, rc;
+	char *dir;
+	int dl, recdepth, rc, i;
 
 	fp->fd = NULL;
 	fp->pipe = 0;
@@ -268,20 +269,20 @@ findfile(char *fnam, char **dirpath, char **suffixes, lkfile_t *fp)
 		return 0;
 
 	/* Search a list of directories and directory hierarchies */
-	for (dp = dirpath; *dp; dp++) {
+	for (i = 0; dirpath[i]; i++) {
 		recdepth = 0;
-		dl = strlen(*dp);
+		dl = strlen(dirpath[i]);
 
 		/* trailing stars denote recursion */
-		while (dl && (*dp)[dl-1] == '*')
+		while (dl && dirpath[i][dl-1] == '*')
 			dl--, recdepth++;
 
 		/* delete trailing slashes */
-		while (dl && (*dp)[dl-1] == '/')
+		while (dl && dirpath[i][dl-1] == '/')
 			dl--;
 
 		if (dl)
-			dir = strndup(*dp, dl);
+			dir = strndup(dirpath[i], dl);
 		else
 			dir = strdup(".");
 

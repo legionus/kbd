@@ -96,20 +96,20 @@ stack_pop(struct keymap *kmap, void *scanner)
  * and afterwards use only "loadkeys /fullpath/mykeymap", where no
  * lookups are required.
  */
-static char *include_dirpath0[] = { "", 0 };
-static char *include_dirpath1[] = { "", "../include/", "../../include/", 0 };
-static char *include_dirpath2[] = { 0, 0, 0, 0 };
-static char *include_dirpath3[] = {
+static const char *const include_dirpath0[] = { "", 0 };
+static const char *const include_dirpath1[] = { "", "../include/", "../../include/", 0 };
+static const char *const include_dirpath3[] = {
 	DATADIR "/" KEYMAPDIR "/include/",
 	DATADIR "/" KEYMAPDIR "/i386/include/",
 	DATADIR "/" KEYMAPDIR "/mac/include/", 0
 };
 
-static char *include_suffixes[] = { "", ".inc", 0 };
+static const char *const include_suffixes[] = { "", ".inc", 0 };
 
 static int
 find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 {
+	const char *include_dirpath2[] = { 0, 0, 0, 0 };
 	char *t, *te, *t1, *t2;
 	int len, rc = 1;
 
@@ -206,7 +206,7 @@ find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
-		char *user_dir[2] = { 0, 0 };
+		const char *user_dir[2] = { 0, 0 };
 		while (ev) {
 			int rc;
 			char *t = strchr(ev, ':');
