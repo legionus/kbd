@@ -33,7 +33,6 @@ EXTRA_DIST = \
 
 
 libcommon_a_SOURCES = \
-	findfile.c findfile.h \
 	getfd.c getfd.h \
 	xmalloc.c xmalloc.h
 
@@ -44,25 +43,21 @@ libfont_a_SOURCES   = \
 	loadunimap.c loadunimap.h \
 	kdfontop.c kdfontop.h
 
-noinst_LIBRARIES = libcommon.a libfont.a
+AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
+BUILT_SOURCES = loadkeys.parse.c loadkeys.analyze.c loadkeys.parse.h loadkeys.analyze.h
+CLEANFILES = $(BUILT_SOURCES)
 
-LDADD = libcommon.a
-
-clrunimap_LDADD       = libcommon.a libfont.a
-getunimap_LDADD       = libcommon.a libfont.a
-loadunimap_LDADD      = libcommon.a libfont.a
-mapscrn_LDADD         = libcommon.a libfont.a
-psfxtable_LDADD       = libcommon.a libfont.a
-setfont_LDADD         = libcommon.a libfont.a
-showconsolefont_LDADD = libcommon.a libfont.a
-
-ALL_S   = modifiers.h nls.h paths.h version.h kbd.h
-KSYMS_S = ksyms.c ksyms.h cp1250.syms.h ethiopic.syms.h koi8.syms.h sami.syms.h thai.syms.h
+ALL_S   = nls.h paths.h version.h kbd.h
+libkeymap_a_SOURCES = \
+	findfile.c findfile.h \
+	loadkeys.parse.y loadkeys.analyze.l \
+	modifiers.h \
+	ksyms.c ksyms.h cp1250.syms.h ethiopic.syms.h koi8.syms.h sami.syms.h thai.syms.h \
+	$(ALL_S)
 
 chvt_SOURCES            = $(ALL_S) chvt.c
 clrunimap_SOURCES       = $(ALL_S) clrunimap.c
 deallocvt_SOURCES       = $(ALL_S) deallocvt.c
-dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c $(KSYMS_S)
 fgconsole_SOURCES       = $(ALL_S) fgconsole.c
 getkeycodes_SOURCES     = $(ALL_S) getkeycodes.c
 getunimap_SOURCES       = $(ALL_S) getunimap.c
@@ -83,13 +78,14 @@ showconsolefont_SOURCES = $(ALL_S) showconsolefont.c
 showkey_SOURCES         = $(ALL_S) showkey.c
 kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
 
+dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c
+loadkeys_SOURCES        = $(ALL_S) loadkeys.c
+
 mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
-AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
-BUILT_SOURCES = loadkeys.parse.c loadkeys.analyze.c loadkeys.parse.h loadkeys.analyze.h
-CLEANFILES = $(BUILT_SOURCES)
-loadkeys_SOURCES = loadkeys.c loadkeys.parse.y loadkeys.analyze.l $(KSYMS_S)
+noinst_LIBRARIES = libcommon.a libfont.a libkeymap.a
+LDADD = libcommon.a libfont.a libkeymap.a
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \
