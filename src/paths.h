@@ -25,8 +25,6 @@
 # define KERNDIR "/usr/src/linux/drivers/tty/vt"
 #endif
 
-#include "findfile.h"
-
 extern int verbose;
 extern int debug;
 
