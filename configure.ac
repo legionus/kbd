@@ -8,7 +8,7 @@ AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.9 -Wall])
-AC_CONFIG_SRCDIR([src/loadkeys.y])
+AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_HEADERS(config.h)
 
 m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
