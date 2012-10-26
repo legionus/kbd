@@ -287,7 +287,7 @@ CtrlR			ctrlr|CtrlR|CTRLR
 CapsShift		capsshift|Capsshift|CapsShift|CAPSSHIFT
 AltIsMeta		[aA][lL][tT][-_][iI][sS][-_][mM][eE][tT][aA]
 Strings			strings|Strings|STRINGS
-Compose                 compose|Compose|COMPOSE
+Compose			compose|Compose|COMPOSE
 As			as|As|AS
 Usual			usual|Usual|USUAL
 For			for|For|FOR
@@ -310,8 +310,10 @@ To                      to|To|TO
 				if (open_include(yyextra, s, yyscanner) == -1)
 					return(ERROR);
 
-				yy_pop_state(yyscanner);
-				yyextra->state_ptr--;
+				while (yyextra->state_ptr > 0) {
+					yy_pop_state(yyscanner);
+					yyextra->state_ptr--;
+				}
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
 				log_error(yyextra, _("expected filename between quotes"));
@@ -328,7 +330,7 @@ To                      to|To|TO
 {Eol}			{
 				yyset_lineno(yyget_lineno(yyscanner) + 1, yyscanner);
 
-				if (yyextra->state_ptr > 0) {
+				while (yyextra->state_ptr > 0) {
 					yy_pop_state(yyscanner);
 					yyextra->state_ptr--;
 				}
@@ -449,8 +451,10 @@ To                      to|To|TO
 			}
 <STR>\"			{
 				yylval->str.data[yylval->str.len] = '\0';
-				yy_pop_state(yyscanner);
-				yyextra->state_ptr--;
+				while (yyextra->state_ptr > 0) {
+					yy_pop_state(yyscanner);
+					yyextra->state_ptr--;
+				}
 				return(STRLITERAL);
 			}
 .			{
