@@ -86,8 +86,8 @@ AC_ARG_ENABLE(optional-progs,
 AM_CONDITIONAL(OPTIONAL_PROGS, test "$OPTIONAL_PROGS" = "yes")
 
 AC_ARG_ENABLE(vlock,
-	AS_HELP_STRING(--enable-vlock, [Locks virtual console]),
-	[VLOCK_PROG=$enableval],[VLOCK_PROG=no])
+	AS_HELP_STRING(--disable-vlock, [do not build vlock]),
+	[VLOCK_PROG=no],[VLOCK_PROG=yes])
 AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
 
 if test "$VLOCK_PROG" = "yes"; then
