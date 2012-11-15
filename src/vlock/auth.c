@@ -31,6 +31,7 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
+#include "nls.h"
 
 /* Unrecognized PAM error timeout. */
 #define	ERROR_TIMEOUT	10
@@ -54,7 +55,7 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 				syslog (LOG_WARNING,
 					"Authentication problems on %s for %s by (uid=%u)",
 					tty, username, uid);
-				puts ("Please try again later.\n\n\n");
+				puts (_("Please try again later.\n\n\n"));
 				fflush (stdout);
 				sleep (ERROR_TIMEOUT);
 				continue;
@@ -63,13 +64,14 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 
 		if (o_lock_all)
 		{
-			printf ("The entire console display is now completely locked by %s.\n", username);
+			printf (_("The entire console display is now completely locked by %s.\n"),
+				username);
 		} else
 		{
-			printf ("The %s is now locked by %s.\n", tty,
+			printf (_("The %s is now locked by %s.\n"), tty,
 				username);
 			if (is_vt)
-				puts ("Use Alt-function keys to switch to other virtual consoles.");
+				puts (_("Use Alt-function keys to switch to other virtual consoles."));
 		}
 		fflush (stdout);
 

@@ -1,4 +1,4 @@
-AM_CPPFLAGS = -D_GNU_SOURCE
+AM_CPPFLAGS = -I.. -D_GNU_SOURCE -DLOCALEDIR=\"$(localedir)\"
 AM_CFLAGS = -pipe -O2
 
 if VLOCK

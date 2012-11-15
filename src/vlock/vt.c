@@ -34,6 +34,7 @@
 #include <sys/wait.h>
 
 #include "vlock.h"
+#include "nls.h"
 
 /* Saved VT mode. */
 struct vt_mode ovtm;
@@ -148,7 +149,7 @@ init_vt (const char *tty)
 	if (ioctl (vfd, VT_GETMODE, &ovtm) < 0)
 	{
 		is_vt = 0;
-		fprintf (stderr, "This tty (%s) is not a virtual console.\n",
+		fprintf (stderr, _("This tty (%s) is not a virtual console.\n"),
 			 tty);
 		if (o_lock_all)
 		{
@@ -156,7 +157,7 @@ init_vt (const char *tty)
 			close (vfd);
 			vfd = -1;
 			fprintf (stderr,
-				 "The entire console display cannot be locked.\n");
+				 _("The entire console display cannot be locked.\n"));
 			return 0;
 		}
 		fprintf (stderr, "\n\n");

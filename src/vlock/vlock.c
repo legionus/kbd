@@ -32,6 +32,7 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
+#include "nls.h"
 
 int
 main (int ac, char *const av[])
@@ -41,6 +42,10 @@ main (int ac, char *const av[])
 	const char *username, *tty;
 	pam_handle_t *pamh;
 
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
+
 	/* 1st, parse command line arguments. */
 	parse (ac, av);
 
@@ -48,7 +53,7 @@ main (int ac, char *const av[])
 	tty = ttyname (STDIN_FILENO);
 	if (!tty)
 		/* stdin is not a tty, so no need to try. */
-		error (EXIT_FAILURE, 0, "stdin is not a tty");
+		error (EXIT_FAILURE, 0, _("stdin is not a tty"));
 
 	/* ... and strip its /dev/ prefix. */
 	if (!strncmp (tty, dev_prefix, sizeof (dev_prefix) - 1))
