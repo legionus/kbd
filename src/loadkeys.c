@@ -238,9 +238,9 @@ main(int argc, char *argv[])
 	}
 
 	if (options & OPT_B) {
-		rc = bkeymap(&kmap);
+		rc = dump_bkeymap(&kmap);
 	} else if (options & OPT_M) {
-		rc = mktable(&kmap, stdout);
+		rc = dump_ctable(&kmap, stdout);
 	} else {
 		rc = loadkeys(&kmap, fd, kbd_mode);
 	}

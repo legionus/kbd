@@ -139,7 +139,7 @@ addmap(struct keymap *kmap, int i, int explicit)
 			return -1;
 		}
 
-		kmap->defining[i] = 1;
+		kmap->defining[i] = i+1;
 		if (kmap->max_keymap <= i)
 			kmap->max_keymap = i + 1;
 	}
@@ -717,7 +717,19 @@ static void
 outchar(FILE *fd, unsigned char c, int comma)
 {
 	fprintf(fd, "'");
-	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c" : isgraph(c) ? "%c"
+	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c"
+	       : isgraph(c) ? "%c"
+	       : "\\%03o", c);
+	fprintf(fd, comma ? "', " : "'");
+}
+
+// FIXME: Merge outchar ?
+static void
+dumpchar(FILE *fd, unsigned char c, int comma)
+{
+	fprintf(fd, "'");
+	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c"
+	       : (isgraph(c) || c == ' ' || c >= 0200) ? "%c"
 	       : "\\%03o", c);
 	fprintf(fd, comma ? "', " : "'");
 }
@@ -992,7 +1004,7 @@ loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 }
 
 int
-bkeymap(struct keymap *kmap)
+dump_bkeymap(struct keymap *kmap)
 {
 	int i, j;
 
@@ -1026,7 +1038,7 @@ bkeymap(struct keymap *kmap)
 }
 
 int
-mktable(struct keymap *kmap, FILE *fd)
+dump_ctable(struct keymap *kmap, FILE *fd)
 {
 	int j;
 	unsigned int i, imax;
@@ -1153,4 +1165,371 @@ mktable(struct keymap *kmap, FILE *fd)
 	}
 	fprintf(fd, "unsigned int accent_table_size = %d;\n", kmap->accent_table_size);
 	return 0;
+}
+
+/* void dump_funcs(void) */
+void
+_dump_funcs(struct keymap *kmap, FILE *fd)
+{
+	unsigned int i;
+	char *ptr;
+	unsigned int maxfunc;
+
+	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--) {
+		if (kmap->func_table[maxfunc - 1])
+			break;
+	}
+
+	for (i = 0; i < maxfunc; i++) {
+		ptr = kmap->func_table[i];
+		if (!ptr)
+			continue;
+
+		fprintf(fd, "string %s = \"", syms[KT_FN].table[i]);
+
+		for (; *ptr; ptr++) {
+			if (*ptr == '"' || *ptr == '\\') {
+				fputc('\\', fd);
+				fputc(*ptr, fd);
+			} else if (isgraph(*ptr) || *ptr == ' ') {
+				fputc(*ptr, fd);
+			} else {
+				fprintf(fd, "\\%03o", *ptr);
+			}
+		}
+		fputc('"', fd);
+		fputc('\n', fd);
+	}
+}
+
+/* void dump_diacs(void) */
+void
+_dump_diacs(struct keymap *kmap, FILE *fd)
+{
+	unsigned int i;
+#ifdef KDSKBDIACRUC
+	if (kmap->prefer_unicode) {
+		for (i = 0; i < kmap->accent_table_size; i++) {
+			fprintf(fd, "compose ");
+			dumpchar(fd, kmap->accent_table[i].diacr & 0xff, 0);
+			fprintf(fd, " ");
+			dumpchar(fd, kmap->accent_table[i].base & 0xff, 0);
+			fprintf(fd, " to U+%04x\n", kmap->accent_table[i].result);
+		}
+	} else
+#endif
+	{
+		for (i = 0; i < kmap->accent_table_size; i++) {
+			fprintf(fd, "compose ");
+			dumpchar(fd, kmap->accent_table[i].diacr, 0);
+			fprintf(fd, " ");
+			dumpchar(fd, kmap->accent_table[i].base, 0);
+			fprintf(fd, " to ");
+			dumpchar(fd, kmap->accent_table[i].result, 0);
+			fprintf(fd, "\n");
+		}
+	}
+}
+
+void
+_dump_keymaps(struct keymap *kmap, FILE *fd)
+{
+	int i, m0, m;
+	char c = ' ';
+
+	fprintf(fd, "keymaps");
+	for (i = 0; i < kmap->max_keymap; i++) {
+		if (i)
+			c = ',';
+		m0 = m = kmap->defining[i];
+		while (i+1 < kmap->max_keymap && kmap->defining[i+1] == m+1)
+			i++, m++;
+		if (!m0)
+			continue;
+		(m0 == m)
+			? fprintf(fd, "%c%d"   , c, m0-1)
+			: fprintf(fd, "%c%d-%d", c, m0-1, m-1);
+	}
+	fprintf(fd, "\n");
+}
+
+static const struct {
+	const char *name;
+	const int bit;
+} modifiers[] = {
+	{ "shift",      KG_SHIFT     },
+	{ "altgr",      KG_ALTGR     },
+	{ "control",    KG_CTRL      },
+	{ "alt",        KG_ALT       },
+	{ "shiftl",     KG_SHIFTL    },
+	{ "shiftr",     KG_SHIFTR    },
+	{ "ctrll",      KG_CTRLL     },
+	{ "ctrlr",      KG_CTRLR     },
+	{ "capsshift",  KG_CAPSSHIFT }
+};
+
+
+static void
+print_mod(FILE *fd, int x)
+{
+	if (x) {
+		unsigned int t;
+
+		for (t = 0; t < sizeof(modifiers)/sizeof(modifiers[0]); t++) {
+			if (x & (1 << modifiers[t].bit))
+				fprintf(fd, "%s\t", modifiers[t].name);
+		}
+	} else {
+		fprintf(fd, "plain\t");
+	}
+}
+
+static void
+print_keysym(FILE *fd, int code, char numeric)
+{
+	unsigned int t;
+	int v;
+	const char *p;
+	int plus;
+
+	fprintf(fd, " ");
+	t = KTYP(code);
+	v = KVAL(code);
+	if (t >= syms_size) {
+		if (!numeric && (p = codetoksym(code)) != NULL)
+			fprintf(fd, "%-16s", p);
+		else
+			fprintf(fd, "U+%04x          ", code ^ 0xf000);
+		return;
+	}
+	plus = 0;
+	if (t == KT_LETTER) {
+		t = KT_LATIN;
+		fprintf(fd, "+");
+		plus++;
+	}
+	if (!numeric && t < syms_size && v < syms[t].size &&
+	    (p = syms[t].table[v])[0])
+		fprintf(fd, "%-*s", 16 - plus, p);
+	else if (!numeric && t == KT_META && v < 128 && v < syms[0].size &&
+		 (p = syms[0].table[v])[0])
+		fprintf(fd, "Meta_%-11s", p);
+	else
+		fprintf(fd, "0x%04x         %s", code, plus ? "" : " ");
+}
+
+static void
+print_bind(FILE *fd, int bufj, int i, int j, char numeric)
+{
+	if(j)
+		fprintf(fd, "\t");
+	print_mod(fd, j);
+	fprintf(fd, "keycode %3d =", i);
+	print_keysym(fd, bufj, numeric);
+	fprintf(fd, "\n");
+}
+
+#define DEFAULT         0
+#define FULL_TABLE      1 /* one line for each keycode */
+#define SEPARATE_LINES  2 /* one line for each (modifier,keycode) pair */
+#define	UNTIL_HOLE      3 /* one line for each keycode, until 1st hole */
+
+void
+_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
+{
+	int i, j, k;
+	int buf[MAX_NR_KEYMAPS];
+	int isletter, islatin, isasexpected;
+	int typ, val;
+	int alt_is_meta = 0;
+	int all_holes;
+	int zapped[MAX_NR_KEYMAPS];
+	int keymapnr = kmap->max_keymap;
+
+	if (!keymapnr)
+		return;
+
+	if (table_shape == FULL_TABLE || table_shape == SEPARATE_LINES)
+		goto no_shorthands;
+
+	/* first pass: determine whether to set alt_is_meta */
+	for (j = 0; j < MAX_NR_KEYMAPS; j++) {
+		int ja = (j | M_ALT);
+
+		if (!(j != ja && kmap->defining[j] && kmap->defining[ja]))
+			continue;
+
+		for (i = 1; i < NR_KEYS; i++) {
+			int buf0, buf1, type;
+
+			buf0 = (kmap->key_map[j])[i];
+
+			if (buf0 == -1)
+				break;
+
+			type = KTYP(buf0);
+
+			if ((type == KT_LATIN || type == KT_LETTER) && KVAL(buf0) < 128) {
+				buf1 = (kmap->defining[ja])
+					? kmap->key_map[ja][i]
+					: -1;
+
+				if (buf1 != K(KT_META, KVAL(buf0)))
+					goto not_alt_is_meta;
+			}
+		}
+	}
+	alt_is_meta = 1;
+	fprintf(fd, "alt_is_meta\n");
+
+not_alt_is_meta:
+no_shorthands:
+
+	for (i = 1; i < NR_KEYS; i++) {
+		all_holes = 1;
+
+		for (j = 0; j < keymapnr; j++) {
+			buf[j] = (kmap->defining[j])
+				? (kmap->key_map[(kmap->defining[j])-1])[i]
+				: K_HOLE;
+
+			if (buf[j] != K_HOLE)
+				all_holes = 0;
+		}
+
+		if (all_holes)
+			continue;
+
+		if (table_shape == FULL_TABLE) {
+			fprintf(fd, "keycode %3d =", i);
+
+			for (j = 0; j < keymapnr; j++)
+				print_keysym(fd, buf[j], numeric);
+
+			fprintf(fd, "\n");
+			continue;
+		}
+
+		if (table_shape == SEPARATE_LINES) {
+			for (j = 0; j < keymapnr; j++) {
+				//if (buf[j] != K_HOLE)
+				print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+			}
+
+			fprintf(fd, "\n");
+			continue;
+		}
+
+		fprintf(fd, "\n");
+
+		typ = KTYP(buf[0]);
+		val = KVAL(buf[0]);
+		islatin = (typ == KT_LATIN || typ == KT_LETTER);
+		isletter = (islatin &&
+			((val >= 'A' && val <= 'Z') ||
+			 (val >= 'a' && val <= 'z')));
+
+		isasexpected = 0;
+		if (isletter) {
+			u_short defs[16];
+			defs[0] = K(KT_LETTER, val);
+			defs[1] = K(KT_LETTER, val ^ 32);
+			defs[2] = defs[0];
+			defs[3] = defs[1];
+
+			for (j = 4; j < 8; j++)
+				defs[j] = K(KT_LATIN, val & ~96);
+
+			for (j = 8; j < 16; j++)
+				defs[j] = K(KT_META, KVAL(defs[j-8]));
+
+			for (j = 0; j < keymapnr; j++) {
+				k = kmap->defining[j] - 1;
+
+				if ((k >= 16 && buf[j] != K_HOLE) || (k < 16 && buf[j] != defs[k]))
+					goto unexpected;
+			}
+
+			isasexpected = 1;
+		}
+unexpected:
+
+		/* wipe out predictable meta bindings */
+		for (j = 0; j < keymapnr; j++)
+			zapped[j] = 0;
+
+		if (alt_is_meta) {
+			for(j = 0; j < keymapnr; j++) {
+				int ka, ja, ktyp;
+
+				k = kmap->defining[j] - 1;
+				ka = (k | M_ALT);
+				ja = kmap->defining[ka] - 1;
+
+				if (k != ka && ja >= 0
+				    && ((ktyp=KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER)
+				    && KVAL(buf[j]) < 128) {
+					if (buf[ja] != K(KT_META, KVAL(buf[j])))
+						fprintf(stderr, _("impossible: not meta?\n"));
+					buf[ja] = K_HOLE;
+					zapped[ja] = 1;
+				}
+			}
+		}
+
+		fprintf(fd, "keycode %3d =", i);
+
+		if (isasexpected) {
+			/* print only a single entry */
+			/* suppress the + for ordinary a-zA-Z */
+			print_keysym(fd, K(KT_LATIN, val), numeric);
+			fprintf(fd, "\n");
+		} else {
+			/* choose between single entry line followed by exceptions,
+			   and long line followed by exceptions; avoid VoidSymbol */
+			int bad = 0;
+			int count = 0;
+
+			for (j = 1; j < keymapnr; j++) {
+				if (zapped[j])
+					continue;
+
+				if (buf[j] != buf[0])
+					bad++;
+
+				if (buf[j] != K_HOLE)
+					count++;
+			}
+
+			if (bad <= count && bad < keymapnr-1) {
+				if (buf[0] != K_HOLE) {
+					print_keysym(fd, buf[0], numeric);
+				}
+				fprintf(fd, "\n");
+
+				for (j = 1; j < keymapnr; j++) {
+					if (buf[j] != buf[0] && !zapped[j]) {
+						print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+					}
+				}
+			} else {
+				for (j = 0;
+				     j < keymapnr && buf[j] != K_HOLE &&
+					(j == 0 || table_shape != UNTIL_HOLE ||
+					kmap->defining[j]-1 == kmap->defining[j-1]-1+1);
+				     j++) {
+					//print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+					print_keysym(fd, buf[j], numeric);
+				}
+
+				fprintf(fd, "\n");
+
+				for (; j < keymapnr; j++) {
+					if (buf[j] != K_HOLE) {
+						print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+					}
+				}
+			}
+		}
+	}
 }
