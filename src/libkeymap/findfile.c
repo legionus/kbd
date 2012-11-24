@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include "findfile.h"
-#include "nls.h"
+#include "../nls.h"
 
 void fpclose(lkfile_t *fp)
 {

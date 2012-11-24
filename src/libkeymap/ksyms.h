@@ -1,7 +1,7 @@
 #ifndef KSYMS_H
 #define KSYMS_H
 
-#include "loadkeys.keymap.h"
+#include "keymap.h"
 
 typedef struct {
 	unsigned short uni;

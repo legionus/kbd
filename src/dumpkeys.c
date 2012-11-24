@@ -235,7 +235,7 @@ nr_of_diacs(void) {
 }
 
 static void
-dump_diacs(void) {
+_dump_diacs(void) {
 	unsigned int i;
 
 	get_diacs();
@@ -304,7 +304,7 @@ static struct {
 };
 
 static void
-dump_symbols(void) {
+_dump_symbols(void) {
 	unsigned int t;
 	int v;
 	const char *p;
@@ -359,7 +359,7 @@ print_bind(int bufj, int i, int j, char numeric) {
 #define	UNTIL_HOLE	3	/* one line for each keycode, until 1st hole */
 
 static void
-dump_keys(char table_shape, char numeric) {
+_dump_keys(char table_shape, char numeric) {
 	int i, j, k;
 	int buf[MAX_NR_KEYMAPS];
 	int isletter, islatin, isasexpected;
@@ -514,7 +514,7 @@ no_shorthands:
 }
 
 static void
-dump_funcs(void) {
+_dump_funcs(void) {
 	int i;
 	struct kbsentry fbuf;
 	unsigned char *p;
@@ -664,7 +664,7 @@ main (int argc, char *argv[]) {
 	if (short_info || long_info) {
 		show_short_info();
 		if (long_info)
-			dump_symbols();
+			_dump_symbols();
 		exit(0);
 	}
 
@@ -672,13 +672,13 @@ main (int argc, char *argv[]) {
 	if (!diac_only) {
 #endif
 	    if (!funcs_only)
-		dump_keys(table_shape, numeric);
+		_dump_keys(table_shape, numeric);
 	    if (!keys_only)
-		dump_funcs();
+		_dump_funcs();
 #ifdef KDGKBDIACR
 	}
 	if (!funcs_only && !keys_only)
-		dump_diacs();
+		_dump_diacs();
 #endif
 
 	exit(0);

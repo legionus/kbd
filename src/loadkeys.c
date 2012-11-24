@@ -24,7 +24,7 @@
 #include "getfd.h"
 #include "findfile.h"
 
-#include "loadkeys.keymap.h"
+#include "keymap.h"
 
 static const char *progname = NULL;
 static const char *const dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };

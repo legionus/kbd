@@ -23,8 +23,10 @@ AC_PROG_SED
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
+AC_PROG_LIBTOOL
 AC_CANONICAL_HOST
+
+LT_INIT
 
 AM_GNU_GETTEXT_VERSION([0.14.1])
 AM_GNU_GETTEXT([external])
@@ -86,6 +88,11 @@ AC_ARG_ENABLE(optional-progs,
 	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])
 AM_CONDITIONAL(OPTIONAL_PROGS, test "$OPTIONAL_PROGS" = "yes")
 
+AC_ARG_ENABLE(libkeymap,
+	AS_HELP_STRING(--enable-libkeymap, [Build and install a libkeymap]),
+	[BUILD_LIBKEYMAP=$enableval],[BUILD_LIBKEYMAP=no])
+AM_CONDITIONAL(BUILD_LIBKEYMAP, test "$BUILD_LIBKEYMAP" = "yes")
+
 AC_ARG_ENABLE(vlock,
 	AS_HELP_STRING(--enable-vlock, [Locks virtual console]),
 	[VLOCK_PROG=$enableval],[VLOCK_PROG=no])
@@ -121,6 +128,7 @@ AC_CONFIG_FILES([Makefile
 		man/man8misc/Makefile
 		po/Makefile.in
 		src/Makefile
+		src/libkeymap/Makefile
 		src/vlock/Makefile])
 AC_OUTPUT
 
@@ -140,4 +148,5 @@ AC_MSG_RESULT([
 	resizecons:		${RESIZECONS_PROGS}
 	optional progs:		${OPTIONAL_PROGS}
 	vlock:			${VLOCK_PROG}
+	libkeymap:		${BUILD_LIBKEYMAP}
 ])

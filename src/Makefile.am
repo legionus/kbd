@@ -1,7 +1,7 @@
-AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
+AM_CPPFLAGS = -Ilibkeymap -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-funit-at-a-time
 
-SUBDIRS = vlock
+SUBDIRS = vlock libkeymap
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
@@ -43,17 +43,7 @@ libfont_a_SOURCES   = \
 	loadunimap.c loadunimap.h \
 	kdfontop.c kdfontop.h
 
-AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
-BUILT_SOURCES = loadkeys.parse.c loadkeys.analyze.c loadkeys.parse.h loadkeys.analyze.h
-CLEANFILES = $(BUILT_SOURCES)
-
 ALL_S   = nls.h paths.h version.h kbd.h
-libkeymap_a_SOURCES = \
-	findfile.c findfile.h \
-	loadkeys.parse.y loadkeys.analyze.l \
-	modifiers.h \
-	ksyms.c ksyms.h cp1250.syms.h ethiopic.syms.h koi8.syms.h sami.syms.h thai.syms.h \
-	$(ALL_S)
 
 chvt_SOURCES            = $(ALL_S) chvt.c
 clrunimap_SOURCES       = $(ALL_S) clrunimap.c
@@ -84,8 +74,8 @@ loadkeys_SOURCES        = $(ALL_S) loadkeys.c
 mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
-noinst_LIBRARIES = libcommon.a libfont.a libkeymap.a
-LDADD = libcommon.a libfont.a libkeymap.a
+noinst_LIBRARIES = libcommon.a libfont.a
+LDADD = libcommon.a libfont.a libkeymap/libkeymap.la
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \

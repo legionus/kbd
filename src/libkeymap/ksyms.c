@@ -3,9 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ksyms.h"
-#include "nls.h"
+#include "../nls.h"
 
-#include "loadkeys.keymap.h"
+#include "keymap.h"
 
 /* Keysyms whose KTYP is KT_LATIN or KT_LETTER and whose KVAL is 0..127. */
 
@@ -1123,11 +1123,11 @@ static sym iso_8859_9_syms[] = { /* latin-5 */
 	{ 0x00ff, "" }
 };
 
-#include "koi8.syms.h"
-#include "cp1250.syms.h"
-#include "thai.syms.h"
-#include "ethiopic.syms.h"
-#include "sami.syms.h"
+#include "syms.koi8.h"
+#include "syms.cp1250.h"
+#include "syms.thai.h"
+#include "syms.ethiopic.h"
+#include "syms.sami.h"
 
 static sym iso_8859_15_syms[] = {
 	/* latin-1 with 8 changes */

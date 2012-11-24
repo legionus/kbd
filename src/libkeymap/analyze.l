@@ -3,13 +3,13 @@
 #include <unistd.h> /* readlink */
 
 #include "ksyms.h"
-#include "nls.h"
-#include "kbd.h"
-#include "paths.h"
+#include "../nls.h"
+#include "../kbd.h"
+#include "../paths.h"
 #include "findfile.h"
 
-#include "loadkeys.parse.h"
-#include "loadkeys.keymap.h"
+#include "parse.h"
+#include "keymap.h"
 %}
 
 %option reentrant
