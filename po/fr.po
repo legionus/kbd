@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU kbd 1.14.1\n"
+"Project-Id-Version: GNU kbd 1.15.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-05-08 01:06+0400\n"
-"PO-Revision-Date: 2008-04-25 18:51+0100\n"
+"POT-Creation-Date: 2012-11-16 00:52+0400\n"
+"PO-Revision-Date: 2011-05-25 00:44+0100\n"
 "Last-Translator: Jean-Baka Domelevo Entfellner <domelevo@gmail.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "Language: fr\n"
@@ -222,7 +222,7 @@ msgstr ""
 "\t\t\t    du jeu de caractères spécifié\n"
 
 #: src/fgconsole.c:17
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s version %s\n"
 "\n"
@@ -241,8 +241,9 @@ msgstr ""
 "Les options valides sont :\n"
 "\n"
 "\t-h --help            affiche ce message d'aide\n"
-"\t-V --version         affiche le numéro de version\n"
-"\t-n --next-available  affiche le prochain terminal virtuel disponible\n"
+"\t-V --version         affiche le numéro de version du programme\n"
+"\t-n --next-available  affiche le numéro du prochain terminal virtuel "
+"disponible\n"
 
 #: src/fgconsole.c:66
 msgid "Couldn't read VTNO: "
@@ -254,20 +255,21 @@ msgid "error executing  %s\n"
 msgstr "erreur lors de l'exécution de %s\n"
 
 #: src/findfile.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: path too long: %s/%s\n"
-msgstr "%s : AVERTISSEMENT : ligne trop longue\n"
+msgstr "Attention ! Chemin trop long : %s/%s\n"
 
-#: src/getfd.c:59
-#, fuzzy, c-format
+#: src/getfd.c:67
+#, c-format
 msgid "Couldn't open %s\n"
-msgstr "Ne peut ouvrir %s\n"
+msgstr "Impossible d'ouvrir %s\n"
 
-#: src/getfd.c:88
-#, fuzzy, c-format
+#: src/getfd.c:84
+#, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr ""
-"Ne peut obtenir le descripteur de fichier faisant référence à la console\n"
+"Impossible d'obtenir le descripteur de fichier faisant référence à la "
+"console\n"
 
 #: src/getkeycodes.c:18
 #, c-format
@@ -324,18 +326,20 @@ msgid ""
 "   or: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
 "   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
+"Syntaxe : %1$s [-C DEVICE] getmode [text|graphics]\n"
+"   ou : %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"   ou : %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
+"   ou : %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:65
 #, c-format
 msgid "Error: Not enough arguments.\n"
-msgstr ""
+msgstr "Erreur : pas assez d'arguments !\n"
 
 #: src/kbdinfo.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Unrecognized action: %s\n"
-msgstr ""
-"argument non reconnu : _%s_\n"
-"\n"
+msgstr "Erreur ! Action non reconnue : %s\n"
 
 #: src/kbd_mode.c:20
 #, c-format
@@ -411,7 +415,7 @@ msgstr "%s : mémoire épuisée\n"
 #: src/kdmapop.c:159
 #, c-format
 msgid "strange... ct changed from %d to %d\n"
-msgstr ""
+msgstr "étrange... le terminal courant est passé de %d à %d.\n"
 
 #: src/kdmapop.c:185
 #, c-format
@@ -419,6 +423,8 @@ msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded.\n"
 msgstr ""
+"Ce noyau semble antérieur à la version 1.1.92.\n"
+"Pas de table Unicode chargée.\n"
 
 #: src/ksyms.c:1713
 #, c-format
@@ -455,37 +461,36 @@ msgstr "on suppose iso-8859-4 %s\n"
 msgid "unknown keysym '%s'\n"
 msgstr "keysym inconnu « %s »\n"
 
-#: loadkeys.analyze.l:47
+#: loadkeys.analyze.l:51
 msgid "includes are nested too deeply"
-msgstr ""
-
-#: loadkeys.analyze.l:234
-#, c-format
-msgid "switching to %s\n"
-msgstr ""
+msgstr "Les inclusions sont imbriquées trop profondément."
 
 #: loadkeys.analyze.l:238
-#, fuzzy, c-format
+#, c-format
+msgid "switching to %s\n"
+msgstr "bascule vers %s\n"
+
+#: loadkeys.analyze.l:242
+#, c-format
 msgid "cannot open include file %s"
-msgstr "Ne peut ouvrir le fichier de fonte %s\n"
+msgstr "Impossible d'ouvrir le fichier d'inclusions %s"
 
-#: loadkeys.analyze.l:308
+#: loadkeys.analyze.l:314
 msgid "expected filename between quotes"
-msgstr ""
+msgstr "on attend un nom de fichier entre guillemets"
 
-#: loadkeys.analyze.l:342
+#: loadkeys.analyze.l:353
 #, c-format
 msgid "unicode keysym out of range: %s"
-msgstr ""
+msgstr "keysym Unicode en dehors de la plage de validité : %s"
 
-#: loadkeys.analyze.l:392 loadkeys.analyze.l:397 loadkeys.analyze.l:402
-#: loadkeys.analyze.l:407 loadkeys.analyze.l:414
-#, fuzzy
+#: loadkeys.analyze.l:404 loadkeys.analyze.l:409 loadkeys.analyze.l:414
+#: loadkeys.analyze.l:419 loadkeys.analyze.l:426
 msgid "string too long"
-msgstr "%s : AVERTISSEMENT : ligne trop longue\n"
+msgstr "ligne trop longue"
 
-#: loadkeys.y:90
-#, c-format
+#: loadkeys.y:93
+#, fuzzy, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -496,6 +501,26 @@ msgid ""
 "  -a --ascii         force conversion to ASCII\n"
 "  -b --bkeymap       output a binary keymap to stdout\n"
 "  -c --clearcompose  clear kernel compose table\n"
+"  -C --console=file\n"
+"                     the console device to be used\n"
+"  -d --default       load \"%s\"\n"
+"  -h --help          display this help text\n"
+"  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+"  -q --quiet         suppress all normal output\n"
+"  -s --clearstrings  clear kernel string table\n"
+"  -u --unicode       force conversion to Unicode\n"
+"  -v --verbose       report the changes\n"
+msgstr ""
+"loadkeys version %s\n"
+"\n"
+"Syntaxe : loadkeys [option...] [fichier de mappe...]\n"
+"\n"
+"Les options valides sont :\n"
+"\n"
+"  -a --ascii         force la conversion vers l'ASCII\n"
+"  -b --bkeymap       produit sur la sortie standard une mappe de clavier "
+"binaire\n"
+"  -c --clearcompose  efface la table de composition du noyau\n"
 "  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
 "                     the console device(s) to be used\n"
 "  -d --default       load \"%s\"\n"
@@ -505,239 +530,245 @@ msgid ""
 "  -s --clearstrings  clear kernel string table\n"
 "  -u --unicode       force conversion to Unicode\n"
 "  -v --verbose       report the changes\n"
-msgstr ""
 
-#: loadkeys.y:149
+#: loadkeys.y:152
 #, c-format
 msgid "addmap called with bad index %d"
-msgstr ""
+msgstr "addmap a été appelé avec l'index erroné %d"
 
-#: loadkeys.y:153
+#: loadkeys.y:156
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
-msgstr ""
-
-#: loadkeys.y:167
-#, c-format
-msgid "killkey called with bad index %d"
-msgstr ""
+msgstr "l'ajout de la mappe %d viole une ligne de keymaps explicite"
 
 #: loadkeys.y:170
 #, c-format
-msgid "killkey called with bad table %d"
-msgstr ""
+msgid "killkey called with bad index %d"
+msgstr "killkey a été appelé avec l'index erroné %d"
 
-#: loadkeys.y:186
+#: loadkeys.y:173
 #, c-format
-msgid "addkey called with bad keycode %d"
-msgstr ""
+msgid "killkey called with bad table %d"
+msgstr "killkey a été appelé avec la table invalide %d"
 
 #: loadkeys.y:189
 #, c-format
-msgid "addkey called with bad index %d"
-msgstr ""
+msgid "addkey called with bad keycode %d"
+msgstr "addkey a été appelé avec le keycode erroné %d"
 
 #: loadkeys.y:192
 #, c-format
-msgid "addkey called with bad table %d"
-msgstr ""
+msgid "addkey called with bad index %d"
+msgstr "addkey a été appelé avec l'index invalide %d"
 
-#: loadkeys.y:238
+#: loadkeys.y:195
+#, c-format
+msgid "addkey called with bad table %d"
+msgstr "addkey a été appelé avec la table invalide %d"
+
+#: loadkeys.y:241
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
-msgstr ""
+msgstr "%s : addfunc a été appelé avec la fonction invalide %d\n"
 
-#: loadkeys.y:269
+#: loadkeys.y:272
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
-msgstr ""
+msgstr "%s : addfunc : dépassement de tampon\n"
 
-#: loadkeys.y:297
+#: loadkeys.y:300
 #, c-format
 msgid "compose table overflow\n"
-msgstr ""
+msgstr "dépassement de capacité de la table des compositions\n"
 
-#: loadkeys.y:317
-#, fuzzy, c-format
+#: loadkeys.y:320
+#, c-format
 msgid "%s: could not switch to Unicode mode\n"
-msgstr "%s : ne peut désallouer la console %d\n"
+msgstr "%s : impossible de basculer en mode Unicode\n"
 
-#: loadkeys.y:336
+#: loadkeys.y:339
 #, c-format
 msgid "Keymap %d: Permission denied\n"
-msgstr ""
+msgstr "Mappe de caractères %d : permission refusée\n"
 
-#: loadkeys.y:345
-#, fuzzy, c-format
+#: loadkeys.y:348
+#, c-format
 msgid "keycode %d, table %d = %d%s\n"
-msgstr "code clavier %3d %s\n"
+msgstr "code clavier %d, table %d = %d%s\n"
 
-#: loadkeys.y:347
+#: loadkeys.y:350
 msgid "    FAILED"
-msgstr ""
+msgstr "    ÉCHEC"
 
-#: loadkeys.y:351
-#, fuzzy, c-format
+#: loadkeys.y:354
+#, c-format
 msgid "failed to bind key %d to value %d\n"
-msgstr "échec d'initialisation du scancode %x au keycode %d\n"
+msgstr "échec lors de la liaison de la touche %d à la valeur %d\n"
 
-#: loadkeys.y:365
+#: loadkeys.y:366
 #, c-format
 msgid "deallocate keymap %d\n"
-msgstr ""
+msgstr "désalloue la mappe de caractères %d\n"
 
-#: loadkeys.y:371
-#, fuzzy, c-format
+#: loadkeys.y:372
+#, c-format
 msgid "%s: could not deallocate keymap %d\n"
-msgstr "%s : ne peut désallouer la console %d\n"
+msgstr "%s : impossible de désallouer la mappe de clavier %d\n"
 
-#: loadkeys.y:388
-#, fuzzy, c-format
+#: loadkeys.y:389
+#, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
-msgstr "%s : ne peut désallouer la console %d\n"
+msgstr "%s : impossible de désallouer ou d'effacer la mappe de clavier\n"
 
-#: loadkeys.y:400
-#, fuzzy, c-format
+#: loadkeys.y:401
+#, c-format
 msgid "%s: could not return to original keyboard mode\n"
-msgstr "%s : erreur lors de la définition du mode du clavier\n"
+msgstr "%s : impossible de revenir au mode d'origine du clavier\n"
 
-#: loadkeys.y:447
+#: loadkeys.y:458
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
+"échec lors de la tentative de liaison de la chaîne « %s » à la fonction %s\n"
 
-#: loadkeys.y:455
-#, fuzzy, c-format
+#: loadkeys.y:467
+#, c-format
 msgid "failed to clear string %s\n"
-msgstr "échec de restauration de la map unimap originale\n"
+msgstr "échec lors de l'effacement de la chaîne %s\n"
 
-#: loadkeys.y:475
-#, fuzzy, c-format
+#: loadkeys.y:488
+#, c-format
 msgid "too many compose definitions\n"
-msgstr "nombre maximal de définitions de combinaisons de touches : %d\n"
+msgstr "trop de définitions de combinaisons de touches\n"
 
-#: loadkeys.y:567
+#: loadkeys.y:580
 msgid "impossible error in do_constant"
-msgstr ""
+msgstr "erreur impossible dans do_constant"
 
-#: loadkeys.y:585
+#: loadkeys.y:596
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
+"\n"
+"A changé %d %s et %d %s.\n"
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "key"
-msgstr ""
+msgstr "touche"
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "keys"
-msgstr ""
+msgstr "touches"
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "string"
-msgstr ""
+msgstr "chaîne"
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "strings"
-msgstr ""
+msgstr "chaînes"
 
-#: loadkeys.y:594
+#: loadkeys.y:605
 #, c-format
 msgid "Loaded %d compose %s.\n"
-msgstr ""
+msgstr "Chargé %d compose %s.\n"
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definition"
-msgstr ""
+msgstr "définition"
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definitions"
-msgstr ""
+msgstr "définitions"
 
-#: loadkeys.y:599
-#, fuzzy, c-format
+#: loadkeys.y:610
+#, c-format
 msgid "(No change in compose definitions.)\n"
-msgstr "nombre maximal de définitions de combinaisons de touches : %d\n"
+msgstr "(Aucun changement dans les définitions de combinaisons de touches.)\n"
 
-#: loadkeys.y:637
+#: loadkeys.y:650
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
-msgstr ""
+msgstr "loadkeys : ne sait pas comment composer pour obtenir %s\n"
 
-#: loadkeys.y:870 src/mapscrn.c:275 src/mapscrn.c:280
+#: loadkeys.y:886 src/mapscrn.c:275 src/mapscrn.c:280
 #, c-format
 msgid "Error writing map to file\n"
-msgstr "Erreur d'écriture de la map dans le fichier\n"
+msgstr "Erreur d'écriture de la mappe dans le fichier\n"
 
-#: loadkeys.y:937
+#: loadkeys.y:954
 #, c-format
 msgid "'%s' is not a function key symbol"
-msgstr ""
+msgstr "« %s » n'est pas le symbole d'une touche de fonction"
 
-#: loadkeys.y:1011
-#, fuzzy, c-format
+#: loadkeys.y:1028
+#, c-format
 msgid "too many (%d) entries on one line"
-msgstr "Trop de fichiers à combiner\n"
+msgstr "Trop d'entrées (%d) sur la même ligne"
 
-#: loadkeys.y:1025
+#: loadkeys.y:1042
 msgid "too many key definitions on one line"
-msgstr ""
+msgstr "trop de définitions de touches sur la même ligne"
 
-#: loadkeys.y:1110
+#: loadkeys.y:1057
+#, c-format
+msgid "Loading %s\n"
+msgstr "Chargement de %s\n"
+
+#: loadkeys.y:1062
+#, c-format
+msgid "syntax error in map file\n"
+msgstr "Erreur de syntaxe dans le fichier de mappe\n"
+
+#: loadkeys.y:1066
+#, c-format
+msgid "key bindings not changed\n"
+msgstr "affectations de touches inchangées\n"
+
+#: loadkeys.y:1146
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
-msgstr ""
+msgstr "%s : Les options --unicode et --ascii s'excluent mutuellement\n"
 
-#: loadkeys.y:1123
+#: loadkeys.y:1158
 #, fuzzy, c-format
-msgid "%s: error reading keyboard mode\n"
-msgstr "%s : erreur lors de la définition du mode du clavier\n"
+msgid "%s: error reading keyboard mode: %m\n"
+msgstr "%s : erreur lors de la lecture du mode du clavier\n"
 
-#: loadkeys.y:1131
+#: loadkeys.y:1166
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
+"%s : attention ! Chargement d'une mappe non Unicode sur une console Unicode\n"
+"    (peut-être voudrez-vous faire un `kbd_mode -a' ?)\n"
 
-#: loadkeys.y:1143
+#: loadkeys.y:1178
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
+"%s : attention ! Chargement d'une mappe Unicode sur une console non Unicode\n"
+"    (peut-être voudrez-vous faire un `kbd_mode -u' ?)\n"
 
-#: loadkeys.y:1157
-#, fuzzy, c-format
-msgid "Searching in %s\n"
-msgstr "erreur lors de l'exécution de %s\n"
-
-#: loadkeys.y:1167
-#, fuzzy, c-format
-msgid "Cannot find %s\n"
-msgstr "Ne peut repérer la fonte %s\n"
-
-#: loadkeys.y:1178
-#, fuzzy, c-format
-msgid "cannot open file %s\n"
-msgstr "Ne peut ouvrir le fichier de fonte %s\n"
-
-#: loadkeys.y:1184
-#, fuzzy, c-format
-msgid "Loading %s\n"
-msgstr "Erreur de lecture sur %s\n"
-
-#: loadkeys.y:1189
-#, fuzzy, c-format
-msgid "syntax error in map file\n"
-msgstr "Erreur d'écriture de la map dans le fichier\n"
-
-#: loadkeys.y:1193
+#: loadkeys.y:1187
 #, c-format
-msgid "key bindings not changed\n"
-msgstr ""
+msgid "Searching in %s\n"
+msgstr "Recherche dans %s\n"
+
+#: loadkeys.y:1197
+#, c-format
+msgid "Cannot find %s\n"
+msgstr "Impossible de trouver %s\n"
+
+#: loadkeys.y:1213
+#, c-format
+msgid "cannot open file %s\n"
+msgstr "Impossible d'ouvrir le fichier %s\n"
 
 #: src/loadunimap.c:43
 #, c-format
@@ -746,7 +777,7 @@ msgid ""
 "\t%s [-C console] [-o map.orig]\n"
 msgstr ""
 "Syntaxe:\n"
-"\t%s [-C console] [-o map.orig]\n"
+"\t%s [-C console] [-o mappe.orig]\n"
 
 #: src/loadunimap.c:175 src/loadunimap.c:186
 #, c-format
@@ -819,12 +850,12 @@ msgstr "Carte unicode sauvegardée dans « %s »\n"
 #: src/loadunimap.c:373
 #, c-format
 msgid "Appended Unicode map\n"
-msgstr "map Unicode concaténée\n"
+msgstr "Mappe Unicode concaténée\n"
 
 #: src/mapscrn.c:68
 #, c-format
 msgid "usage: %s [-v] [-o map.orig] map-file\n"
-msgstr "syntaxe : %s [-v] [-o map.orig] fichier-map\n"
+msgstr "syntaxe : %s [-v] [-o mappe.orig] fichier-map\n"
 
 #: src/mapscrn.c:133
 #, c-format
@@ -840,42 +871,42 @@ msgstr "Ne peut évaluer le fichier par stat()"
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s\n"
 msgstr ""
-"Chargement de la map d'écran direct-à-la-fonte à partir du fichier %s\n"
+"Chargement de la mappe d'écran direct-à-la-fonte à partir du fichier %s\n"
 
 #: src/mapscrn.c:149 src/mapscrn.c:160
 #, c-format
 msgid "Error reading map from file `%s'\n"
-msgstr "Erreur de lecture de la map à partir du fichier « %s »\n"
+msgstr "Erreur de lecture de la mappe à partir du fichier « %s »\n"
 
 #: src/mapscrn.c:155
 #, c-format
 msgid "Loading binary unicode screen map from file %s\n"
-msgstr "Chargement de la map d'écran unicode à partir du fichier %s\n"
+msgstr "Chargement de la mappe d'écran Unicode à partir du fichier %s\n"
 
 #: src/mapscrn.c:167
 #, c-format
 msgid "Loading symbolic screen map from file %s\n"
-msgstr "Chargement de la map symbolique d'écran à partir du fichier %s\n"
+msgstr "Chargement de la mappe symbolique d'écran à partir du fichier %s\n"
 
 #: src/mapscrn.c:171
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
 msgstr ""
-"Erreur d'analyse syntaxique de la map symbolique à partir de « %s », ligne "
+"Erreur d'analyse syntaxique de la mappe symbolique à partir de « %s », ligne "
 "%d\n"
 
 #: src/mapscrn.c:284
 #, c-format
 msgid "Cannot read console map\n"
-msgstr "Ne peut lire la map de la console\n"
+msgstr "Ne peut lire la mappe de la console\n"
 
 #: src/mapscrn.c:290
 #, c-format
 msgid "Saved screen map in `%s'\n"
-msgstr "La map d'écran a été sauvegardée dans « %s »\n"
+msgstr "La mappe d'écran a été sauvegardée dans « %s »\n"
 
 #: src/openvt.c:44
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
 "\n"
@@ -883,6 +914,7 @@ msgid ""
 "\n"
 "Options:\n"
 "  -c, --console=NUM   use the given VT number;\n"
+"  -e, --exec          execute the command, without forking;\n"
 "  -f, --force         force opening a VT without checking;\n"
 "  -l, --login         make the command a login shell;\n"
 "  -u, --user          figure out the owner of the current VT;\n"
@@ -893,79 +925,96 @@ msgid ""
 "  -h, --help          output a brief help message.\n"
 "\n"
 msgstr ""
+"Syntaxe : %s [OPTIONS] -- commande\n"
+"\n"
+"Cet utilitaire vous permet de démarrer un programme sur un nouveau terminal "
+"virtuel (VT).\n"
+"\n"
+"Options :\n"
+"  -c, --console=NUM   utiliser le numéro de terminal virtuel fourni;\n"
+"  -f, --force         force l'ouverture d'un VT sans vérification;\n"
+"  -l, --login         fait de la commande un shell de connexion;\n"
+"  -u, --user          détermine le propriétaire du terminal virtuel "
+"courant;\n"
+"  -s, --switch        bascule vers le nouveau VT;\n"
+"  -w, --wait          attend que la comande ait terminé;\n"
+"  -v, --verbose       affiche un message pour chaque action;\n"
+"  -V, --version       affiche la version du programme et quitte;\n"
+"  -h, --help          affiche un bref message d'aide.\n"
+"\n"
 
-#: src/openvt.c:162
+#: src/openvt.c:163
 msgid "Couldn't find owner of current tty!"
-msgstr ""
+msgstr "Impossible de déterminer le propriétaire du terminal courant !"
 
-#: src/openvt.c:230
-#, fuzzy, c-format
+#: src/openvt.c:231
+#, c-format
 msgid "%s: Illegal vt number"
-msgstr "openvt : %s : numéro de terminal virtuel illégal\n"
+msgstr "%s : numéro de terminal virtuel invalide"
 
-#: src/openvt.c:256
-#, fuzzy
+#: src/openvt.c:257
 msgid "Only root can use the -u flag."
-msgstr "openvt : seul le superutilisateur peut utiliser l'option -u.\n"
+msgstr "Le commutateur -u est réservé à l'usage du superutilisateur."
 
-#: src/openvt.c:278
-#, fuzzy
+#: src/openvt.c:279
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr ""
-"Ne peut obtenir le descripteur de fichier faisant référence à la console\n"
+"Impossible d'obtenir un descripteur de fichier faisant référence à la console"
 
-#: src/openvt.c:285
-#, fuzzy
+#: src/openvt.c:286
 msgid "Cannot find a free vt"
-msgstr "openvt : pas de terminal virtuel libre\n"
+msgstr "Pas de terminal virtuel libre"
 
-#: src/openvt.c:289
-#, fuzzy, c-format
+#: src/openvt.c:290
+#, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "openvt : ne peut vérifier si le terminal virtuel %d est libre\n"
-
-#: src/openvt.c:293
-#, fuzzy, c-format
-msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr "openvt : le terminal virtuel %d est déjà utilisé ; commande ignorée\n"
-
-#: src/openvt.c:303
-msgid "Unable to find command."
 msgstr ""
+"Impossible de vérifier si le terminal virtuel %d est libre ; utiliser « %s -"
+"f » pour forcer."
 
-#: src/openvt.c:335
-#, fuzzy
+#: src/openvt.c:294
+#, c-format
+msgid "vt %d is in use; command aborted; use `%s -f' to force."
+msgstr ""
+"Le terminal virtuel %d est déjà utilisé ; commande interrompue ; utiliser « "
+"%s -f » pour forcer."
+
+#: src/openvt.c:304
+msgid "Unable to find command."
+msgstr "Impossible de trouver la commande."
+
+#: src/openvt.c:336
 msgid "Unable to set new session"
-msgstr "openvt : impossible d'ouvrir une nouvelle session (%s)\n"
+msgstr "Impossible de mettre en place une nouvelle session"
 
-#: src/openvt.c:359
-#, fuzzy, c-format
+#: src/openvt.c:360
+#, c-format
 msgid "Unable to open %s"
-msgstr "openvt : incapable d'ouvrir %s : %s\n"
+msgstr "Impossible d'ouvrir %s"
 
-#: src/openvt.c:363
-#, fuzzy, c-format
+#: src/openvt.c:364
+#, c-format
 msgid "Using VT %s"
-msgstr "openvt : utilisation du terminal virtuel %s\n"
+msgstr "Utilisation du terminal virtuel %s"
 
-#: src/openvt.c:369
-#, fuzzy, c-format
+#: src/openvt.c:370
+#, c-format
 msgid "Cannot open %s read/write"
-msgstr "openvt : impossible d'ouvrir %s en lecture/écriture (%s)\n"
+msgstr "Impossible d'ouvrir %s en lecture/écriture"
 
-#: src/openvt.c:380
+#: src/openvt.c:381
 #, c-format
 msgid "Couldn't activate vt %d"
-msgstr ""
+msgstr "Impossible d'activer le terminal virtuel %d"
 
-#: src/openvt.c:383
+#: src/openvt.c:384
 msgid "Activation interrupted?"
-msgstr ""
+msgstr "Activation interrompue ?"
 
-#: src/openvt.c:423
-#, fuzzy, c-format
+#: src/openvt.c:424
+#, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "%s : ne peut désallouer la console %d\n"
+msgstr "Impossible de désallouer la console %d"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1660,26 +1709,38 @@ msgid ""
 "and then edit the values in FILE.\n"
 "\n"
 msgstr ""
+"Syntaxe : %s vga|FICHIER|-\n"
+"\n"
+"Si vous utilisez le paramètre FICHIER, alors ce dernier doit contenir "
+"exactement 3 lignes de\n"
+"valeurs décimales séparées par des virgules pour le ROUGE, le VERT et le "
+"BLEU.\n"
+"\n"
+"Pour voir un exemple de FICHIER valide :\n"
+"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FICHIER\n"
+"\n"
+"puis éditez les valeurs dans FICHIER.\n"
+"\n"
 
 #: src/setvtrgb.c:85
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr ""
+msgstr "Erreur : %s : valeur invalide dans le champ %u à la ligne %u."
 
 #: src/setvtrgb.c:92
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr ""
+msgstr "Erreur : %s : pas assez de champs sur la ligne %u."
 
 #: src/setvtrgb.c:98
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
-msgstr ""
+msgstr "Erreur : %s : la ligne %u se termine prématurément.\n"
 
 #: src/setvtrgb.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Line %u is too long.\n"
-msgstr "%s : %s : AVERTISSEMENT: ligne trop longue\n"
+msgstr "Erreur ! %s : la ligne %u est trop longue.\n"
 
 #: src/showconsolefont.c:33
 #, c-format
@@ -1689,7 +1750,7 @@ msgstr "échec de restauration de la table originale de traduction\n"
 #: src/showconsolefont.c:38
 #, c-format
 msgid "failed to restore original unimap\n"
-msgstr "échec de restauration de la map unimap originale\n"
+msgstr "échec de restauration de la mappe unimap originale\n"
 
 #: src/showconsolefont.c:56
 #, c-format
@@ -1726,26 +1787,28 @@ msgstr ""
 "          LIGNESxCOLSxCOMPTEUR et quitter.\n"
 
 #: src/showconsolefont.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Character count: %d\n"
-msgstr "Largeur de caractère erronée %d\n"
+msgstr "Décompte des caractères : %d\n"
 
 #: src/showconsolefont.c:171
 #, c-format
 msgid "Font width     : %d\n"
-msgstr ""
+msgstr "Largeur de fonte : %d\n"
 
 #: src/showconsolefont.c:172
 #, c-format
 msgid "Font height    : %d\n"
-msgstr ""
+msgstr "Hauteur de fonte : %d\n"
 
 #: src/showconsolefont.c:184
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Showing %d-char font\n"
 "\n"
-msgstr "Chargement de %d carac. de la fonte %dx%d\n"
+msgstr ""
+"Montre la fonte %d-char\n"
+"\n"
 
 #: src/showkey.c:42
 msgid "?UNKNOWN?"
@@ -1829,14 +1892,75 @@ msgid "keycode %3d %s\n"
 msgstr "code clavier %3d %s\n"
 
 #: src/totextmode.c:29
-#, fuzzy, c-format
+#, c-format
 msgid "usage: totextmode\n"
-msgstr "syntaxe : getkeycodes\n"
+msgstr "Syntaxe : totextmode\n"
 
 #: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s à partir de %s\n"
+
+#: src/vlock/auth.c:58
+msgid ""
+"Please try again later.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/vlock/auth.c:67
+#, c-format
+msgid "The entire console display is now completely locked by %s.\n"
+msgstr ""
+
+#: src/vlock/auth.c:71
+#, c-format
+msgid "The %s is now locked by %s.\n"
+msgstr ""
+
+#: src/vlock/auth.c:74
+msgid "Use Alt-function keys to switch to other virtual consoles."
+msgstr ""
+
+#: src/vlock/parse.c:50
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr ""
+
+#: src/vlock/parse.c:58
+#, c-format
+msgid ""
+"%s: locks virtual consoles, saving your current session.\n"
+"Usage: %s [options]\n"
+"       Where [options] are any of:\n"
+"-c or --current: lock only this virtual console, allowing user to\n"
+"       switch to other virtual consoles.\n"
+"-a or --all: lock all virtual consoles by preventing other users\n"
+"       from switching virtual consoles.\n"
+"-v or --version: Print the version number of vlock and exit.\n"
+"-h or --help: Print this help message and exit.\n"
+msgstr ""
+
+#: src/vlock/username.c:57
+#, fuzzy
+msgid "unrecognized user"
+msgstr ""
+"argument non reconnu : _%s_\n"
+"\n"
+
+#: src/vlock/vlock.c:56
+msgid "stdin is not a tty"
+msgstr ""
+
+#: src/vlock/vt.c:152
+#, c-format
+msgid "This tty (%s) is not a virtual console.\n"
+msgstr ""
+
+#: src/vlock/vt.c:160
+#, fuzzy, c-format
+msgid "The entire console display cannot be locked.\n"
+msgstr "%s : le terminal virtuel 1 est la console et ne peut être désalloué\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "plus avant %s est ignoré\n"
