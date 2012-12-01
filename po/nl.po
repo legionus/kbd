@@ -2,15 +2,17 @@
 # Copyright (C) Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2007, 2008.
 # This file is distributed under the same license as the kbd package.
 #
-# Elros Cyriatan <cyriatan@fastmail.fm>, 2003, 2004.
+# In fur and black, eyes over cream.
+#
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011, 2012.
 # Erwin Poeze <erwin.poeze@gmail.com>, 2009.
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011.
+# Elros Cyriatan <cyriatan@fastmail.fm>, 2003, 2004.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-1.15.3-rc1\n"
+"Project-Id-Version: kbd-1.15.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2012-11-16 00:52+0400\n"
-"PO-Revision-Date: 2011-05-12 10:23+0200\n"
+"PO-Revision-Date: 2012-11-26 20:18+0100\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -188,30 +190,27 @@ msgid ""
 "\t-c --charset="
 msgstr ""
 "\n"
-"Gebruik:  dumpkeys [opties...]\n"
+"Gebruik:  dumpkeys [OPTIE...]\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h --help              deze hulptekst tonen\n"
-"  -i --short-info        informatie over toetsenbordstuurprogramma tonen\n"
-"  -l --long-info         het bovenstaande plus de symbolen bekend bij "
-"'loadkeys'\n"
-"  -n --numeric           toetsentabel in hexadecimale notatie weergeven\n"
-"  -f --full-table        geen korte notaties gebruiken, één regel per "
-"toetscode\n"
-"  -1 --separate-lines    één regel per (optietoets,toetscode)-paar\n"
-"     --funcs-only        alleen de functietoetsteksten tonen\n"
-"     --keys-only         alleen de toetsbindingen tonen\n"
-"     --compose-only      alleen de samenstellingstoetscombinaties tonen\n"
-"  -c --charset="
+"  -h, --help              deze hulptekst tonen\n"
+"  -i, --short-info        informatie over toetsenbordstuurprogramma tonen\n"
+"  -l, --long-info         het bovenstaande plus de symbolen bekend bij 'loadkeys'\n"
+"  -n, --numeric           toetsentabel in hexadecimale notatie weergeven\n"
+"  -f, --full-table        geen korte notaties gebruiken, één regel per toetscode\n"
+"  -1, --separate-lines    één regel per (optietoets,toetscode)-paar\n"
+"      --funcs-only        alleen de functietoetsteksten tonen\n"
+"      --keys-only         alleen de toetsbindingen tonen\n"
+"      --compose-only      alleen de samenstellingstoetscombinaties tonen\n"
+"  -c, --charset="
 
 #: src/dumpkeys.c:570
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
 "\t\t\t    specified character set\n"
-msgstr ""
-"                       tekenactiecodes via deze tekenset interpreteren\n"
+msgstr "                       tekenactiecodes via deze tekenset interpreteren\n"
 
 #: src/fgconsole.c:17
 #, c-format
@@ -228,13 +227,13 @@ msgid ""
 msgstr ""
 "%s, versie %s\n"
 "\n"
-"Gebruik:  %s [opties]\n"
+"Gebruik:  %s [OPTIE...]\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h --help              deze hulptekst tonen\n"
-"  -n --next-available    nummer van eerste ongebruikte VT tonen\n"
-"  -V --version           programmaversie tonen\n"
+"  -h, --help              deze hulptekst tonen\n"
+"  -n, --next-available    nummer van eerste ongebruikte VT tonen\n"
+"  -V, --version           programmaversie tonen\n"
 
 #: src/fgconsole.c:66
 msgid "Couldn't read VTNO: "
@@ -273,8 +272,7 @@ msgstr "Ruwe scancodes xx (hex) tegenover toetscodes (dec)\n"
 #: src/getkeycodes.c:59
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr ""
-"0 is een fout; voor 1-88 (0x01-0x58) is de scancode gelijk aan de toetscode\n"
+msgstr "0 is een fout; voor 1-88 (0x01-0x58) is de scancode gelijk aan de toetscode\n"
 
 #: src/getkeycodes.c:62
 #, c-format
@@ -370,8 +368,7 @@ msgstr "%s: fout tijdens instellen van toetsenbordmodus\n"
 #: src/kbdrate.c:156 src/kbdrate.c:175 src/kbdrate.c:339
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
-msgstr ""
-"Toetssnelheid is ingesteld op %.1f tekens per seconde (vertraging = %d ms)\n"
+msgstr "Toetssnelheid is ingesteld op %.1f tekens per seconde (vertraging = %d ms)\n"
 
 #: src/kbdrate.c:267
 #, c-format
@@ -475,7 +472,7 @@ msgid "string too long"
 msgstr "tekenreeks is te lang"
 
 #: loadkeys.y:93
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -498,23 +495,21 @@ msgid ""
 msgstr ""
 "loadkeys, versie %s\n"
 "\n"
-"Gebruik:  loadkeys [optie...] [kaartbestand...]\n"
+"Gebruik:  loadkeys [OPTIE...] [KAARTBESTAND...]\n"
 "\n"
-"Geldige opties zijn:\n"
+"  Geldige opties zijn:\n"
 "\n"
-"  -a --ascii         conversie naar ASCII afdwingen\n"
-"  -b --bkeymap       een binaire toetsbordkaart naar standaarduitvoer "
-"schrijven\n"
-"  -c --clearcompose  de samenstellingentabel van de kernel leegmaken\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     te gebruiken console-apparaat of -apparaten\n"
-"  -d --default       '%s' laden\n"
-"  -h --help          deze hulptekst tonen\n"
-"  -m --mktable       een 'defkeymap.c' naar standaarduitvoer schrijven\n"
-"  -q --quiet         alle gewone uitvoer onderdrukken\n"
-"  -s --clearstrings  functietoetstekenreeksentabel van kernel leegmaken\n"
-"  -u --unicode       conversie naar Unicode afdwingen\n"
-"  -v --verbose       de veranderingen tonen\n"
+"  -a, --ascii         conversie naar ASCII afdwingen\n"
+"  -b, --bkeymap       binaire toetsenbordkaart naar standaarduitvoer schrijven\n"
+"  -c, --clearcompose  de samenstellingentabel van de kernel leegmaken\n"
+"  -C, --console=APPARAAT  te gebruiken console-apparaat\n"
+"  -d, --default       '%s' laden\n"
+"  -h, --help          deze hulptekst tonen\n"
+"  -m, --mktable       een 'defkeymap.c' naar standaarduitvoer schrijven\n"
+"  -q, --quiet         alle gewone uitvoer onderdrukken\n"
+"  -s, --clearstrings  functietoetstekenreeksentabel van kernel leegmaken\n"
+"  -u, --unicode       conversie naar Unicode afdwingen\n"
+"  -v, --verbose       de veranderingen tonen\n"
 
 #: loadkeys.y:152
 #, c-format
@@ -717,9 +712,9 @@ msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr "%s: de opties '--unicode' en '--ascii' gaan niet samen\n"
 
 #: loadkeys.y:1158
-#, fuzzy, c-format
+#, c-format
 msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: fout tijdens lezen van toetsenbordmodus\n"
+msgstr "%s: fout tijdens lezen van toetsenbordmodus: %m\n"
 
 #: loadkeys.y:1166
 #, c-format
@@ -727,8 +722,7 @@ msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
-"%s: Waarschuwing: niet-Unicode-toetsenkaart wordt geladen op Unicode "
-"terminal\n"
+"%s: Waarschuwing: niet-Unicode-toetsenkaart wordt geladen op Unicode terminal\n"
 "    (wilt u misschien 'kbd_mode -a' doen?)\n"
 
 #: loadkeys.y:1178
@@ -737,8 +731,7 @@ msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
-"%s: Waarschuwing: Unicode-toetsenkaart wordt geladen op niet-Unicode "
-"terminal\n"
+"%s: Waarschuwing: Unicode-toetsenkaart wordt geladen op niet-Unicode terminal\n"
 "    (wilt u misschien 'kbd_mode -u' doen?)\n"
 
 #: loadkeys.y:1187
@@ -781,18 +774,12 @@ msgstr "%s: Ongeldig einde van bereik (0x%x)\n"
 #: src/loadunimap.c:231 src/psfxtable.c:175
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr ""
-"%s: Ongeldig Unicode-bereik corresponderend met lettertype-positiebereik 0x"
-"%x-0x%x\n"
+msgstr "%s: Ongeldig Unicode-bereik corresponderend met lettertype-positiebereik 0x%x-0x%x\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x\n"
-msgstr ""
-"%s: Unicodebereik U+%x-U+%x is niet van dezelfde lengte als lettertype-"
-"positiebereik 0x%x-0x%x\n"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
+msgstr "%s: Unicodebereik U+%x-U+%x is niet van dezelfde lengte als lettertype-positiebereik 0x%x-0x%x\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
@@ -887,7 +874,7 @@ msgid "Saved screen map in `%s'\n"
 msgstr "Schermkaart is opgeslagen in '%s'\n"
 
 #: src/openvt.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
 "\n"
@@ -906,12 +893,13 @@ msgid ""
 "  -h, --help          output a brief help message.\n"
 "\n"
 msgstr ""
-"Gebruik:  %s [OPTIES] -- OPDRACHT\n"
+"Gebruik:  %s [OPTIE...] -- OPDRACHT\n"
 "\n"
 "Start programma OPDRACHT op een nieuwe virtuele terminal (VT).\n"
 "\n"
 "Opties:\n"
 "  -c, --console=NR    de VT met dit nummer gebruiken;\n"
+"  -e, --exec          OPDRACHT uitvoeren zonder nieuw proces te starten;\n"
 "  -f, --force         openen van VT afdwingen zonder controle;\n"
 "  -l, --login         van de gegeven opdracht een login shell maken;\n"
 "  -u, --user          de eigenaar van de huidige VT bepalen;\n"
@@ -946,16 +934,12 @@ msgstr "kan geen vrije VT vinden"
 #: src/openvt.c:290
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr ""
-"kan niet controleren of VT-%d vrij is; gebruik '%s -f' om gebruik af te "
-"dwingen"
+msgstr "kan niet controleren of VT-%d vrij is; gebruik '%s -f' om gebruik af te dwingen"
 
 #: src/openvt.c:294
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr ""
-"VT-%d is in gebruik; opdracht is afgebroken; gebruik '%s -f' om gebruik af "
-"te dwingen"
+msgstr "VT-%d is in gebruik; opdracht is afgebroken; gebruik '%s -f' om gebruik af te dwingen"
 
 #: src/openvt.c:304
 msgid "Unable to find command."
@@ -1096,12 +1080,8 @@ msgstr "%s: Ongeldig einde van bereik (0x%lx)\n"
 
 #: src/psfxtable.c:166
 #, c-format
-msgid ""
-"%s: Corresponding to a range of font positions, there should be a Unicode "
-"range\n"
-msgstr ""
-"%s: Met het bereik van lettertype-posities dient een Unicodebereik te "
-"corresponderen\n"
+msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+msgstr "%s: Met het bereik van lettertype-posities dient een Unicodebereik te corresponderen\n"
 
 #: src/psfxtable.c:257
 #, c-format
@@ -1166,8 +1146,7 @@ msgstr "Oude modus: %dx%d  Nieuwe modus: %dx%d\n"
 #: src/resizecons.c:241
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr ""
-"Oud aantal scanregels: %d  Nieuw aantal scanregels: %d  Tekenhoogte: %d\n"
+msgstr "Oud aantal scanregels: %d  Nieuw aantal scanregels: %d  Tekenhoogte: %d\n"
 
 #: src/resizecons.c:252
 #, c-format
@@ -1176,19 +1155,15 @@ msgstr "resizecons: de opdracht '%s' is mislukt\n"
 
 #: src/resizecons.c:325
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: vergeet niet TERM te veranderen (mogelijk naar con%dx%d of linux-"
-"%dx%d)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: vergeet niet TERM te veranderen (mogelijk naar con%dx%d of linux-%dx%d)\n"
 
 #: src/resizecons.c:338
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "Gebruik:  resizecons KOLOMMENxRIJEN\n"
 "     of:  resizecons KOLOMMEN RIJEN\n"
@@ -1233,8 +1208,7 @@ msgstr "Fout bij schrijven van schermafdruk\n"
 #: src/setfont.c:74
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1263,8 +1237,7 @@ msgstr ""
 "\n"
 "Schrijfopties (uitgevoerd voor het laden van nieuw lettertype):\n"
 "  -o  <bestandsnaam>  huidig lettertype naar <bestandsnaam> schrijven\n"
-"  -O  <bestandsnaam>  huidig lettertype plus Unicodekaart naar "
-"<bestandsnaam>\n"
+"  -O  <bestandsnaam>  huidig lettertype plus Unicodekaart naar <bestandsnaam>\n"
 "  -om <bestandsnaam>  huidige consolekaart naar <bestandsnaam> schrijven\n"
 "  -ou <bestandsnaam>  huidige Unicodekaart naar <bestandsnaam> schrijven\n"
 "\n"
@@ -1278,8 +1251,7 @@ msgstr ""
 "  setfont -{8|14|16} codepagina.cp[.gz]   het 8x<N>-lettertype laden uit\n"
 "                                          codepagina.cp\n"
 "\n"
-"Expliciet (met -m of -u) of impliciet (in lettertypebestand) gegeven "
-"kaarten\n"
+"Expliciet (met -m of -u) of impliciet (in lettertypebestand) gegeven kaarten\n"
 "worden geladen en, in het geval van consolekaarten, geactiveerd.\n"
 "\n"
 "  -h<N>      deze letterhoogte afdwingen (zonder spatie)\n"
@@ -1300,12 +1272,8 @@ msgstr "setfont: te veel invoerbestanden\n"
 
 #: src/setfont.c:185
 #, c-format
-msgid ""
-"setfont: cannot both restore from character ROM and from file. Font "
-"unchanged.\n"
-msgstr ""
-"setfont: kan niet herstellen uit zowel teken-ROM als bestand -- lettertype "
-"is onveranderd\n"
+msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
+msgstr "setfont: kan niet herstellen uit zowel teken-ROM als bestand -- lettertype is onveranderd\n"
 
 #: src/setfont.c:259
 #, c-format
@@ -1370,9 +1338,7 @@ msgstr "Kan lettertypebestand %s niet openen\n"
 #: src/setfont.c:425
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr ""
-"Bij het laden van meerdere lettertypen moeten ze allemaal psf-lettertypen "
-"zijn -- %s is dat niet\n"
+msgstr "Bij het laden van meerdere lettertypen moeten ze allemaal psf-lettertypen zijn -- %s is dat niet\n"
 
 #: src/setfont.c:435
 #, c-format
@@ -1382,16 +1348,12 @@ msgstr "Het %d-tekens %dx%d lettertype is gelezen uit bestand %s\n"
 #: src/setfont.c:441
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
-msgstr ""
-"Bij het laden van meerdere lettertypen moeten ze allemaal dezelfde hoogte "
-"hebben\n"
+msgstr "Bij het laden van meerdere lettertypen moeten ze allemaal dezelfde hoogte hebben\n"
 
 #: src/setfont.c:448
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
-msgstr ""
-"Bij het laden van meerdere lettertypen moeten ze allemaal dezelfde breedte "
-"hebben\n"
+msgstr "Bij het laden van meerdere lettertypen moeten ze allemaal dezelfde breedte hebben\n"
 
 #: src/setfont.c:487
 #, c-format
@@ -1421,9 +1383,7 @@ msgstr "Te veel bestanden om te combineren\n"
 #: src/setfont.c:576
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
-msgstr ""
-"Hmm... een lettertype van 'restorefont'?  Alleen eerste helft wordt "
-"gebruikt.\n"
+msgstr "Hmm... een lettertype van 'restorefont'?  Alleen eerste helft wordt gebruikt.\n"
 
 #: src/setfont.c:593
 #, c-format
@@ -1442,8 +1402,7 @@ msgstr ""
 #: src/setfont.c:628
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"U vroeg om lettergrootte %d, maar alleen 8, 14 en 16 zijn hier mogelijk.\n"
+msgstr "U vroeg om lettergrootte %d, maar alleen 8, 14 en 16 zijn hier mogelijk.\n"
 
 #: src/setfont.c:673
 #, c-format
@@ -1508,10 +1467,8 @@ msgstr ""
 "\n"
 "Normaalgesproken beïnvloedt 'setleds' de VT-optie-instellingen\n"
 "(en deze uiten zich meestal in de leds).\n"
-"Met '-L' stelt 'setleds' alleen de leds in, en laat het de opties "
-"onveranderd.\n"
-"Met '-D' stelt 'setleds' zowel de opties als de standaardopties in, zodat "
-"de\n"
+"Met '-L' stelt 'setleds' alleen de leds in, en laat het de opties onveranderd.\n"
+"Met '-D' stelt 'setleds' zowel de opties als de standaardopties in, zodat de\n"
 "opties niet zullen veranderen na een reset.\n"
 
 #: src/setleds.c:43
@@ -1531,8 +1488,7 @@ msgstr ""
 
 #: src/setleds.c:105
 #, c-format
-msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
+msgid "Error reading current flags setting. Maybe you are not on the console?\n"
 msgstr ""
 "Fout tijdens lezen van huidige instelling.\n"
 "Mogelijk werkt u niet op de console?\n"
@@ -1749,7 +1705,7 @@ msgstr ""
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -C tty  apparaat waarvan het lettertype getoond moet worden\n"
+"  -C TTY  apparaat waarvan het lettertype getoond moet worden\n"
 "            (standaard de huidige terminal)\n"
 "  -i      niet de lettertypetabel maar alleen RIJENxKOLOMMENxAANTAL tonen\n"
 "  -v      uitgebreidere uitvoer produceren\n"
@@ -1815,16 +1771,14 @@ msgid ""
 msgstr ""
 "showkey, versie %s\n"
 "\n"
-"Gebruik:  showkey [opties...]\n"
+"Gebruik:  showkey [OPTIE...]\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h --help       deze hulptekst tonen en stoppen\n"
-"  -a --ascii      decimale/octale/hexadecimale waarden van de toetsen "
-"weergeven\n"
-"  -k --keycodes   alleen de geïnterpreteerde toetscodes weergeven "
-"(standaard)\n"
-"  -s --scancodes  alleen de ruwe scancodes weergeven\n"
+"  -h, --help       deze hulptekst tonen en stoppen\n"
+"  -a, --ascii      decimale/octale/hexadecimale waarden van de toetsen weergeven\n"
+"  -k, --keycodes   alleen de geïnterpreteerde toetscodes weergeven (standaard)\n"
+"  -s, --scancodes  alleen de ruwe scancodes weergeven\n"
 
 #: src/showkey.c:157
 #, c-format
@@ -1873,25 +1827,28 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"Probeer het later nog eens.\n"
+"\n"
+"\n"
 
 #: src/vlock/auth.c:67
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
-msgstr ""
+msgstr "Het gehele console-scherm is nu volledig vergrendeld door %s.\n"
 
 #: src/vlock/auth.c:71
 #, c-format
 msgid "The %s is now locked by %s.\n"
-msgstr ""
+msgstr "Het %s is nu vergrendeld door %s.\n"
 
 #: src/vlock/auth.c:74
 msgid "Use Alt-function keys to switch to other virtual consoles."
-msgstr ""
+msgstr "Gebruik Alt+functietoetsen om naar andere virtuele consoles over te schakelen."
 
 #: src/vlock/parse.c:50
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "Typ '%s --help' voor meer informatie.\n"
 
 #: src/vlock/parse.c:58
 #, c-format
@@ -1906,27 +1863,36 @@ msgid ""
 "-v or --version: Print the version number of vlock and exit.\n"
 "-h or --help: Print this help message and exit.\n"
 msgstr ""
+"Gebruik:  %s [OPTIE...]\n"
+"\n"
+"Het programma %s vergrendelt virtuele consoles en slaat uw sessies op.\n"
+"\n"
+"  Geldige opties zijn:\n"
+"\n"
+"  -c, --current  alleen de huidige virtuele console vergrendelen; de gebruiker\n"
+"                   toestaan naar een andere over te schakelen\n"
+"  -a, --all      alle virtuele consoles vergrendelen, door te verhinderen dat\n"
+"                   andere gebruikers naar andere consoles overschakelen\n"
+"  -v, --version  programmaversie tonen en stoppen\n"
+"  -h, --help     deze hulptekst tonen en stoppen\n"
 
 #: src/vlock/username.c:57
-#, fuzzy
 msgid "unrecognized user"
-msgstr ""
-"onbekend argument: '%s'\n"
-"\n"
+msgstr "niet-herkende gebruiker"
 
 #: src/vlock/vlock.c:56
 msgid "stdin is not a tty"
-msgstr ""
+msgstr "standaardinvoer is geen terminal"
 
 #: src/vlock/vt.c:152
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
-msgstr ""
+msgstr "Huidige terminal (%s) is geen virtuele console.\n"
 
 #: src/vlock/vt.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "The entire console display cannot be locked.\n"
-msgstr "%s: VT-1 is de hoofdconsole en kan niet worden vrijgegeven\n"
+msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 
 #~ msgid "        use `openvt -f' to force.\n"
 #~ msgstr "        gebruik 'openvt -f' om het af te dwingen\n"
@@ -1941,12 +1907,8 @@ msgstr "%s: VT-1 is de hoofdconsole en kan niet worden vrijgegeven\n"
 #~ msgid "openvt: could not deallocate console %d\n"
 #~ msgstr "openvt: kan console %d niet vrijgeven\n"
 
-#~ msgid ""
-#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-#~ "command_line\n"
-#~ msgstr ""
-#~ "Gebruik: openvt [-c VT-nummer] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-#~ "opdrachtregel\n"
+#~ msgid "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
+#~ msgstr "Gebruik: openvt [-c VT-nummer] [-f] [-l] [-u] [-s] [-v] [-w] -- opdrachtregel\n"
 
 #~ msgid "loadkeys: error reading keyboard mode\n"
 #~ msgstr "loadkeys: fout tijdens lezen van toetsenbordmodus\n"
