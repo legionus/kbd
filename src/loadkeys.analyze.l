@@ -307,8 +307,10 @@ To                      to|To|TO
 				char *s = xstrndup(yytext+1, strlen(yytext)-2);
 				/* use static pathname to store *s ? */
 				open_include(s);
-				yy_pop_state();
-				state_ptr--;
+				while (state_ptr > 0) {
+					yy_pop_state();
+					state_ptr--;
+				}
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
 				yyerror(_("expected filename between quotes"));
@@ -323,7 +325,7 @@ To                      to|To|TO
 			}
 {Eol}			{
 				line_nr++;
-				if (state_ptr > 0) {
+				while (state_ptr > 0) {
 					yy_pop_state();
 					state_ptr--;
 				}
@@ -428,8 +430,10 @@ To                      to|To|TO
 			}
 <STR>\"			{
 				*p = '\0';
-				yy_pop_state();
-				state_ptr--;
+				while (state_ptr > 0) {
+					yy_pop_state();
+					state_ptr--;
+				}
 				return(STRLITERAL);
 			}
 .			{
