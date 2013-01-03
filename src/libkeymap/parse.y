@@ -165,7 +165,7 @@ killkey(struct keymap *kmap, int k_index, int k_table)
 	return 0;
 }
 
-static int
+int
 addkey(struct keymap *kmap, int k_index, int k_table, int keycode)
 {
 	int i;
@@ -239,7 +239,7 @@ addkey(struct keymap *kmap, int k_index, int k_table, int keycode)
 	return 0;
 }
 
-static int
+int
 addfunc(struct keymap *kmap, struct kbsentry kbs)
 {
 	int x;

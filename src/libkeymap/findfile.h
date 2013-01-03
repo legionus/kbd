@@ -1,6 +1,7 @@
 #ifndef _FINDFILE_H
 #define _FINDFILE_H
 
+#include <stdio.h>
 #include <sys/param.h>
 
 typedef struct lkfile {
