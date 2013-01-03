@@ -37,7 +37,7 @@ struct keymap {
 	lkflags flags;
 
 	/* What keymaps are we defining? */
-	char defining[MAX_NR_KEYMAPS];
+	u_short defining[MAX_NR_KEYMAPS];
 	int max_keymap;              /* from here on, defining[] is false */
 
 	/* the kernel structures we want to set or print */
