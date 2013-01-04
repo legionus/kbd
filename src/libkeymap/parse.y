@@ -266,8 +266,8 @@ addfunc(struct keymap *kmap, struct kbsentry kbs)
 	return 0;
 }
 
-static int
-compose(struct keymap *kmap, int diacr, int base, int res)
+int
+compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res)
 {
 	accent_entry *ptr;
 	int direction;

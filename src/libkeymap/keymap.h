@@ -94,13 +94,16 @@ int keymap_init(struct keymap *km);
 void keymap_free(struct keymap *kmap);
 int parse_keymap(struct keymap *kmap, lkfile_t *f);
 
+int get_keymap(struct keymap *kmap, int console);
 int get_keys(struct keymap *kmap, int console);
 int get_funcs(struct keymap *kmap, int console);
+int get_diacrs(struct keymap *kmap, int console);
 
 int loadkeys(struct keymap *kmap, int fd, int kbd_mode);
 int dump_bkeymap(struct keymap *kmap);
 int dump_ctable(struct keymap *kmap, FILE *fd);
 
+void dump_keymap(struct keymap *kmap, FILE *fd, char table_shape, char numeric);
 void dump_keymaps(struct keymap *kmap, FILE *fd);
 void dump_funcs(struct keymap *kmap, FILE *fd);
 void dump_diacs(struct keymap *kmap, FILE *fd);

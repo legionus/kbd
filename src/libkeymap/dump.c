@@ -545,3 +545,12 @@ unexpected:
 		}
 	}
 }
+
+void
+dump_keymap(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
+{
+	dump_keymaps(kmap, fd);
+	dump_keys(kmap, fd, table_shape, numeric);
+	dump_funcs(kmap, fd);
+	dump_diacs(kmap, fd);
+}

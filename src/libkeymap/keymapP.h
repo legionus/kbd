@@ -14,5 +14,6 @@ void dumpchar(FILE *fd, unsigned char c, int comma);
 
 int addkey(struct keymap *kmap, int k_index, int k_table, int keycode);
 int addfunc(struct keymap *kmap, struct kbsentry kbs);
+int compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res);
 
 #endif /* LK_KEYMAP_PRIVATE_H */

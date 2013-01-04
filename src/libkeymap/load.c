@@ -68,3 +68,41 @@ get_funcs(struct keymap *kmap, int fd)
 
 	return 0;
 }
+
+int
+get_diacrs(struct keymap *kmap, int fd)
+{
+#ifdef KDGKBDIACRUC
+	int request = KDGKBDIACRUC;
+	struct kbdiacrsuc kd;
+	struct kbdiacruc *ar = kd.kbdiacruc;
+#else
+	int request = KDGKBDIACR;
+	struct kbdiacrs kd;
+	struct kbdiacr *ar = kd.kbdiacr;
+#endif
+	int i;
+
+	if (ioctl(fd, request, (unsigned long) &kd)) {
+		log_error(kmap, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
+			strerror(errno));
+		return -1;
+	}
+
+	for (i = 0; i < kd.kb_cnt; i++) {
+		if (compose(kmap, (ar+i)->diacr, (ar+i)->base, (ar+i)->result) < 0)
+			return -1;
+	}
+
+	return 0;
+}
+
+int
+get_keymap(struct keymap *kmap, int fd)
+{
+	if (get_keys(kmap, fd)   < 0 ||
+	    get_funcs(kmap, fd)  < 0 ||
+	    get_diacrs(kmap, fd) < 0)
+		return -1;
+	return 0;
+}
