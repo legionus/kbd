@@ -187,6 +187,9 @@ addkey(struct keymap *kmap, int k_index, int k_table, int keycode)
 		return -1;
 	}
 
+	if (!k_index && keycode == K_NOSUCHMAP)
+		return 0;
+
 	if (!kmap->defining[k_table]) {
 		if (addmap(kmap, k_table, 0) == -1)
 			return -1;
