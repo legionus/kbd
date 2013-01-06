@@ -115,4 +115,7 @@ void dump_diacs(struct keymap *kmap, FILE *fd);
 
 void dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric);
 
+void dump_summary(struct keymap *kmap, FILE *fd, int console);
+void dump_symbols(FILE *fd);
+
 #endif /* LK_KEYMAP_H */

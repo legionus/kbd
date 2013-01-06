@@ -692,7 +692,7 @@ compose_as_usual(struct keymap *kmap, char *charset)
 char *
 mk_mapname(char modifier)
 {
-	static char *modifiers[8] = {
+	static char *mods[8] = {
 		"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
 	};
 	static char buf[60];
@@ -705,7 +705,7 @@ mk_mapname(char modifier)
 		if (modifier & (1 << i)) {
 			if (buf[0])
 				strcat(buf, "_");
-			strcat(buf, modifiers[i]);
+			strcat(buf, mods[i]);
 		}
 	return buf;
 }

@@ -270,31 +270,15 @@ dump_keymaps(struct keymap *kmap, FILE *fd)
 	fprintf(fd, "\n");
 }
 
-static const struct {
-	const char *name;
-	const int bit;
-} modifiers[] = {
-	{ "shift",      KG_SHIFT     },
-	{ "altgr",      KG_ALTGR     },
-	{ "control",    KG_CTRL      },
-	{ "alt",        KG_ALT       },
-	{ "shiftl",     KG_SHIFTL    },
-	{ "shiftr",     KG_SHIFTR    },
-	{ "ctrll",      KG_CTRLL     },
-	{ "ctrlr",      KG_CTRLR     },
-	{ "capsshift",  KG_CAPSSHIFT }
-};
-
-
 static void
 print_mod(FILE *fd, int x)
 {
 	if (x) {
-		unsigned int t;
-
-		for (t = 0; t < sizeof(modifiers)/sizeof(modifiers[0]); t++) {
-			if (x & (1 << modifiers[t].bit))
-				fprintf(fd, "%s\t", modifiers[t].name);
+		modifier_t *mod = (modifier_t *) modifiers;
+		while (mod->name) {
+			if (x & (1 << mod->bit))
+				fprintf(fd, "%s\t", mod->name);
+			mod++;
 		}
 	} else {
 		fprintf(fd, "plain\t");

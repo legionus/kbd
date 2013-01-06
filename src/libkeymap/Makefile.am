@@ -14,8 +14,9 @@ libkeymap_la_SOURCES = \
 	parse.y analyze.l \
 	load.c \
 	dump.c keymap.h \
-	modifiers.h \
+	modifiers.c modifiers.h \
 	ksyms.c ksyms.h cp1250.syms.h ethiopic.syms.h koi8.syms.h sami.syms.h thai.syms.h \
+	summary.c \
 	$(ALL_S)
 
 AM_LFLAGS = --header-file=$(CURDIR)/analyze.h
