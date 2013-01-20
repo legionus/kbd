@@ -37,7 +37,7 @@ void
 init_screen(void)
 {
 	int     failed = 1;
-	const char clear_str[] = "\33[H\33[J";
+	const char clear_str[] = "\33[3J\33[H\33[J";
 
 	vcs = -1;
 	do

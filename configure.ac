@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT(kbd, 1.15.3, gladkov.alexey@gmail.com)
+AC_INIT(kbd, 1.15.5, gladkov.alexey@gmail.com,, http://kbd-project.org/)
 
 AC_PREREQ(2.60)
 
@@ -95,8 +95,8 @@ AC_ARG_ENABLE(libkeymap,
 AM_CONDITIONAL(BUILD_LIBKEYMAP, test "$BUILD_LIBKEYMAP" = "yes")
 
 AC_ARG_ENABLE(vlock,
-	AS_HELP_STRING(--enable-vlock, [Locks virtual console]),
-	[VLOCK_PROG=$enableval],[VLOCK_PROG=no])
+	AS_HELP_STRING(--disable-vlock, [do not build vlock]),
+	[VLOCK_PROG=no],[VLOCK_PROG=yes])
 AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
 
 if test "$VLOCK_PROG" = "yes"; then

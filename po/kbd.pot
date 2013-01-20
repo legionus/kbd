@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-05-08 01:06+0400\n"
+"POT-Creation-Date: 2012-11-16 00:52+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,12 +210,12 @@ msgstr ""
 msgid "Warning: path too long: %s/%s\n"
 msgstr ""
 
-#: src/getfd.c:59
+#: src/getfd.c:67
 #, c-format
 msgid "Couldn't open %s\n"
 msgstr ""
 
-#: src/getfd.c:88
+#: src/getfd.c:84
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr ""
@@ -395,35 +395,35 @@ msgstr ""
 msgid "unknown keysym '%s'\n"
 msgstr ""
 
-#: loadkeys.analyze.l:47
+#: loadkeys.analyze.l:51
 msgid "includes are nested too deeply"
-msgstr ""
-
-#: loadkeys.analyze.l:234
-#, c-format
-msgid "switching to %s\n"
 msgstr ""
 
 #: loadkeys.analyze.l:238
 #, c-format
+msgid "switching to %s\n"
+msgstr ""
+
+#: loadkeys.analyze.l:242
+#, c-format
 msgid "cannot open include file %s"
 msgstr ""
 
-#: loadkeys.analyze.l:308
+#: loadkeys.analyze.l:314
 msgid "expected filename between quotes"
 msgstr ""
 
-#: loadkeys.analyze.l:342
+#: loadkeys.analyze.l:353
 #, c-format
 msgid "unicode keysym out of range: %s"
 msgstr ""
 
-#: loadkeys.analyze.l:392 loadkeys.analyze.l:397 loadkeys.analyze.l:402
-#: loadkeys.analyze.l:407 loadkeys.analyze.l:414
+#: loadkeys.analyze.l:404 loadkeys.analyze.l:409 loadkeys.analyze.l:414
+#: loadkeys.analyze.l:419 loadkeys.analyze.l:426
 msgid "string too long"
 msgstr ""
 
-#: loadkeys.y:90
+#: loadkeys.y:93
 #, c-format
 msgid ""
 "loadkeys version %s\n"
@@ -435,8 +435,8 @@ msgid ""
 "  -a --ascii         force conversion to ASCII\n"
 "  -b --bkeymap       output a binary keymap to stdout\n"
 "  -c --clearcompose  clear kernel compose table\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     the console device(s) to be used\n"
+"  -C --console=file\n"
+"                     the console device to be used\n"
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
@@ -446,236 +446,236 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:149
+#: loadkeys.y:152
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:153
+#: loadkeys.y:156
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: loadkeys.y:167
+#: loadkeys.y:170
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:170
+#: loadkeys.y:173
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:186
+#: loadkeys.y:189
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr ""
 
-#: loadkeys.y:189
+#: loadkeys.y:192
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:192
+#: loadkeys.y:195
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:238
+#: loadkeys.y:241
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr ""
 
-#: loadkeys.y:269
+#: loadkeys.y:272
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr ""
 
-#: loadkeys.y:297
+#: loadkeys.y:300
 #, c-format
 msgid "compose table overflow\n"
 msgstr ""
 
-#: loadkeys.y:317
+#: loadkeys.y:320
 #, c-format
 msgid "%s: could not switch to Unicode mode\n"
 msgstr ""
 
-#: loadkeys.y:336
+#: loadkeys.y:339
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr ""
 
-#: loadkeys.y:345
+#: loadkeys.y:348
 #, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr ""
 
-#: loadkeys.y:347
+#: loadkeys.y:350
 msgid "    FAILED"
 msgstr ""
 
-#: loadkeys.y:351
+#: loadkeys.y:354
 #, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr ""
 
-#: loadkeys.y:365
+#: loadkeys.y:366
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:371
+#: loadkeys.y:372
 #, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:388
+#: loadkeys.y:389
 #, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr ""
 
-#: loadkeys.y:400
+#: loadkeys.y:401
 #, c-format
 msgid "%s: could not return to original keyboard mode\n"
 msgstr ""
 
-#: loadkeys.y:447
+#: loadkeys.y:458
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
 
-#: loadkeys.y:455
+#: loadkeys.y:467
 #, c-format
 msgid "failed to clear string %s\n"
 msgstr ""
 
-#: loadkeys.y:475
+#: loadkeys.y:488
 #, c-format
 msgid "too many compose definitions\n"
 msgstr ""
 
-#: loadkeys.y:567
+#: loadkeys.y:580
 msgid "impossible error in do_constant"
 msgstr ""
 
-#: loadkeys.y:585
+#: loadkeys.y:596
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "key"
 msgstr ""
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "keys"
 msgstr ""
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "string"
 msgstr ""
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "strings"
 msgstr ""
 
-#: loadkeys.y:594
+#: loadkeys.y:605
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr ""
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definition"
 msgstr ""
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definitions"
 msgstr ""
 
-#: loadkeys.y:599
+#: loadkeys.y:610
 #, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr ""
 
-#: loadkeys.y:637
+#: loadkeys.y:650
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr ""
 
-#: loadkeys.y:870 src/mapscrn.c:275 src/mapscrn.c:280
+#: loadkeys.y:886 src/mapscrn.c:275 src/mapscrn.c:280
 #, c-format
 msgid "Error writing map to file\n"
 msgstr ""
 
-#: loadkeys.y:937
+#: loadkeys.y:954
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr ""
 
-#: loadkeys.y:1011
+#: loadkeys.y:1028
 #, c-format
 msgid "too many (%d) entries on one line"
 msgstr ""
 
-#: loadkeys.y:1025
+#: loadkeys.y:1042
 msgid "too many key definitions on one line"
 msgstr ""
 
-#: loadkeys.y:1110
+#: loadkeys.y:1057
+#, c-format
+msgid "Loading %s\n"
+msgstr ""
+
+#: loadkeys.y:1062
+#, c-format
+msgid "syntax error in map file\n"
+msgstr ""
+
+#: loadkeys.y:1066
+#, c-format
+msgid "key bindings not changed\n"
+msgstr ""
+
+#: loadkeys.y:1146
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
-#: loadkeys.y:1123
+#: loadkeys.y:1158
 #, c-format
-msgid "%s: error reading keyboard mode\n"
+msgid "%s: error reading keyboard mode: %m\n"
 msgstr ""
 
-#: loadkeys.y:1131
+#: loadkeys.y:1166
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
 
-#: loadkeys.y:1143
+#: loadkeys.y:1178
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
 
-#: loadkeys.y:1157
+#: loadkeys.y:1187
 #, c-format
 msgid "Searching in %s\n"
 msgstr ""
 
-#: loadkeys.y:1167
+#: loadkeys.y:1197
 #, c-format
 msgid "Cannot find %s\n"
 msgstr ""
 
-#: loadkeys.y:1178
+#: loadkeys.y:1213
 #, c-format
 msgid "cannot open file %s\n"
-msgstr ""
-
-#: loadkeys.y:1184
-#, c-format
-msgid "Loading %s\n"
-msgstr ""
-
-#: loadkeys.y:1189
-#, c-format
-msgid "syntax error in map file\n"
-msgstr ""
-
-#: loadkeys.y:1193
-#, c-format
-msgid "key bindings not changed\n"
 msgstr ""
 
 #: src/loadunimap.c:43
@@ -811,6 +811,7 @@ msgid ""
 "\n"
 "Options:\n"
 "  -c, --console=NUM   use the given VT number;\n"
+"  -e, --exec          execute the command, without forking;\n"
 "  -f, --force         force opening a VT without checking;\n"
 "  -l, --login         make the command a login shell;\n"
 "  -u, --user          figure out the owner of the current VT;\n"
@@ -822,70 +823,70 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/openvt.c:162
+#: src/openvt.c:163
 msgid "Couldn't find owner of current tty!"
 msgstr ""
 
-#: src/openvt.c:230
+#: src/openvt.c:231
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr ""
 
-#: src/openvt.c:256
+#: src/openvt.c:257
 msgid "Only root can use the -u flag."
 msgstr ""
 
-#: src/openvt.c:278
+#: src/openvt.c:279
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr ""
 
-#: src/openvt.c:285
+#: src/openvt.c:286
 msgid "Cannot find a free vt"
 msgstr ""
 
-#: src/openvt.c:289
+#: src/openvt.c:290
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
 
-#: src/openvt.c:293
+#: src/openvt.c:294
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
 
-#: src/openvt.c:303
+#: src/openvt.c:304
 msgid "Unable to find command."
 msgstr ""
 
-#: src/openvt.c:335
+#: src/openvt.c:336
 msgid "Unable to set new session"
 msgstr ""
 
-#: src/openvt.c:359
+#: src/openvt.c:360
 #, c-format
 msgid "Unable to open %s"
 msgstr ""
 
-#: src/openvt.c:363
+#: src/openvt.c:364
 #, c-format
 msgid "Using VT %s"
 msgstr ""
 
-#: src/openvt.c:369
+#: src/openvt.c:370
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr ""
 
-#: src/openvt.c:380
+#: src/openvt.c:381
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr ""
 
-#: src/openvt.c:383
+#: src/openvt.c:384
 msgid "Activation interrupted?"
 msgstr ""
 
-#: src/openvt.c:423
+#: src/openvt.c:424
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr ""
@@ -1635,4 +1636,62 @@ msgstr ""
 #: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
+msgstr ""
+
+#: src/vlock/auth.c:58
+msgid ""
+"Please try again later.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/vlock/auth.c:67
+#, c-format
+msgid "The entire console display is now completely locked by %s.\n"
+msgstr ""
+
+#: src/vlock/auth.c:71
+#, c-format
+msgid "The %s is now locked by %s.\n"
+msgstr ""
+
+#: src/vlock/auth.c:74
+msgid "Use Alt-function keys to switch to other virtual consoles."
+msgstr ""
+
+#: src/vlock/parse.c:50
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr ""
+
+#: src/vlock/parse.c:58
+#, c-format
+msgid ""
+"%s: locks virtual consoles, saving your current session.\n"
+"Usage: %s [options]\n"
+"       Where [options] are any of:\n"
+"-c or --current: lock only this virtual console, allowing user to\n"
+"       switch to other virtual consoles.\n"
+"-a or --all: lock all virtual consoles by preventing other users\n"
+"       from switching virtual consoles.\n"
+"-v or --version: Print the version number of vlock and exit.\n"
+"-h or --help: Print this help message and exit.\n"
+msgstr ""
+
+#: src/vlock/username.c:57
+msgid "unrecognized user"
+msgstr ""
+
+#: src/vlock/vlock.c:56
+msgid "stdin is not a tty"
+msgstr ""
+
+#: src/vlock/vt.c:152
+#, c-format
+msgid "This tty (%s) is not a virtual console.\n"
+msgstr ""
+
+#: src/vlock/vt.c:160
+#, c-format
+msgid "The entire console display cannot be locked.\n"
 msgstr ""

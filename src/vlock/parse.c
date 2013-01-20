@@ -28,6 +28,7 @@
 
 #include "vlock.h"
 #include "config.h"
+#include "nls.h"
 
 /*
  * This determines whether the default behavior is to lock only the
@@ -46,7 +47,7 @@ static void __attribute__ ((__noreturn__))
 show_usage(void)
 {
 	fprintf(stderr,
-		"Try `%s --help' for more information.\n",
+		_("Try `%s --help' for more information.\n"),
 		program_invocation_short_name);
 	exit(1);
 }
@@ -54,7 +55,7 @@ show_usage(void)
 static void __attribute__ ((__noreturn__))
 show_help(void)
 {
-	printf("%s: locks virtual consoles, saving your current session.\n"
+	printf(_("%s: locks virtual consoles, saving your current session.\n"
 	       "Usage: %s [options]\n"
 	       "       Where [options] are any of:\n"
 	       "-c or --current: lock only this virtual console, allowing user to\n"
@@ -62,7 +63,7 @@ show_help(void)
 	       "-a or --all: lock all virtual consoles by preventing other users\n"
 	       "       from switching virtual consoles.\n"
 	       "-v or --version: Print the version number of vlock and exit.\n"
-	       "-h or --help: Print this help message and exit.\n",
+	       "-h or --help: Print this help message and exit.\n"),
 	       program_invocation_short_name, program_invocation_short_name);
 	exit(0);
 }

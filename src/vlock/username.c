@@ -29,6 +29,7 @@
 #include <pwd.h>
 
 #include "vlock.h"
+#include "nls.h"
 
 /*
  * Try to find out proper login name.
@@ -53,7 +54,7 @@ get_username (void)
 		pw = getpwuid (uid);
 
 	if (!pw)
-		error (EXIT_FAILURE, 0, "unrecognized user");
+		error (EXIT_FAILURE, 0, _("unrecognized user"));
 
 	name = strdup (pw->pw_name);
 	if (!name)

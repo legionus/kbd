@@ -1,9 +1,9 @@
-AM_CPPFLAGS = -D_GNU_SOURCE
-AM_CFLAGS = -pipe -O2
+AM_CPPFLAGS = -I$(srcdir)/.. -I$(builddir)/.. -D_GNU_SOURCE -DLOCALEDIR=\"$(localedir)\"
+
+EXTRA_DIST = README.vlock
 
 if VLOCK
 bin_PROGRAMS = vlock
-EXTRA_DIST = README.vlock
 endif
 
 vlock_SOURCES  = \
