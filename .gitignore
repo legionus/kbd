@@ -2,7 +2,10 @@
 *.a
 *.o
 *.1
+*.l[ao]
 *.8
+.deps
+.libs
 autom4te.cache
 Makefile.in
 !po/Makefile.in
@@ -16,9 +19,9 @@ configure
 stamp-h1
 depcomp
 install-sh
+libtool
 missing
 Makefile
-src/.deps
 src/chvt
 src/clrunimap
 src/deallocvt
@@ -49,7 +52,7 @@ src/showconsolefont
 src/showkey
 src/spawn_console
 src/spawn_login
-src/loadkeys.analyze.c
-src/loadkeys.analyze.h
-src/loadkeys.parse.c
-src/loadkeys.parse.h
+src/libkeymap/analyze.c
+src/libkeymap/analyze.h
+src/libkeymap/parse.c
+src/libkeymap/parse.h
