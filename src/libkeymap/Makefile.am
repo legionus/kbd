@@ -22,4 +22,4 @@ libkeymap_la_SOURCES = \
 AM_LFLAGS = --header-file=$(CURDIR)/analyze.h
 BUILT_SOURCES = parse.c analyze.c parse.h analyze.h
 CLEANFILES = $(BUILT_SOURCES)
-
+parse.h: parse.c ; @true
