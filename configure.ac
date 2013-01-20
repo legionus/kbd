@@ -23,9 +23,10 @@ AC_PROG_SED
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_LIBTOOL
 AC_CANONICAL_HOST
 
+dnl older versions of automake didn't include this macro
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 LT_INIT
 
 AM_GNU_GETTEXT_VERSION([0.14.1])
