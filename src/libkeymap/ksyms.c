@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ksyms.h"
-#include "../nls.h"
+#include "nls.h"
 
 #include "keymap.h"
 

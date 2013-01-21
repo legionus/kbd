@@ -11,7 +11,7 @@
 
 #include <sys/ioctl.h>
 
-#include "../nls.h"
+#include "nls.h"
 #include "keymap.h"
 #include "keymapP.h"
 

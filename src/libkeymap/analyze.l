@@ -3,9 +3,9 @@
 #include <unistd.h> /* readlink */
 
 #include "ksyms.h"
-#include "../nls.h"
-#include "../kbd.h"
-#include "../paths.h"
+#include "nls.h"
+#include "kbd.h"
+#include "paths.h"
 #include "findfile.h"
 
 #include "parse.h"

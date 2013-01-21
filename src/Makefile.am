@@ -1,4 +1,6 @@
-AM_CPPFLAGS = -Ilibkeymap -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
+AM_CPPFLAGS = \
+	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
+	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-funit-at-a-time
 
 SUBDIRS = vlock libkeymap

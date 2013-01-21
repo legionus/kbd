@@ -24,8 +24,8 @@
 
 #include "ksyms.h"
 #include "modifiers.h"
-#include "../nls.h"
-#include "../kbd.h"
+#include "nls.h"
+#include "kbd.h"
 
 #include "parse.h"
 #include "analyze.h"

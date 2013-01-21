@@ -15,7 +15,7 @@
 
 #include "ksyms.h"
 #include "modifiers.h"
-#include "../nls.h"
+#include "nls.h"
 
 #include "keymap.h"
 #include "keymapP.h"
