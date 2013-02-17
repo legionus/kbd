@@ -16,7 +16,7 @@
 
 #include "nls.h"
 #include "keymap.h"
-#include "keymapP.h"
+#include "parseP.h"
 
 static char
 valid_type(int fd, int t)
@@ -57,7 +57,7 @@ maximum_val(int fd, int t)
 #define NR_TYPES 15
 
 void
-dump_summary(struct keymap *kmap, FILE *fd, int console)
+lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
 {
 	int i, allocct = 0;
 
@@ -91,7 +91,7 @@ dump_summary(struct keymap *kmap, FILE *fd, int console)
 }
 
 void
-dump_symbols(FILE *fd)
+lk_dump_symbols(FILE *fd)
 {
 	unsigned int t;
 	modifier_t *mod;

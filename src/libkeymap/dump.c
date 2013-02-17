@@ -18,10 +18,10 @@
 #include "nls.h"
 
 #include "keymap.h"
-#include "keymapP.h"
+#include "parseP.h"
 
 int
-dump_bkeymap(struct keymap *kmap)
+lk_dump_bkeymap(struct keymap *kmap)
 {
 	int i, j;
 
@@ -55,7 +55,7 @@ dump_bkeymap(struct keymap *kmap)
 }
 
 int
-dump_ctable(struct keymap *kmap, FILE *fd)
+lk_dump_ctable(struct keymap *kmap, FILE *fd)
 {
 	int j;
 	unsigned int i, imax;
@@ -186,7 +186,7 @@ dump_ctable(struct keymap *kmap, FILE *fd)
 
 /* void dump_funcs(void) */
 void
-dump_funcs(struct keymap *kmap, FILE *fd)
+lk_dump_funcs(struct keymap *kmap, FILE *fd)
 {
 	unsigned int i;
 	char *ptr;
@@ -221,7 +221,7 @@ dump_funcs(struct keymap *kmap, FILE *fd)
 
 /* void dump_diacs(void) */
 void
-dump_diacs(struct keymap *kmap, FILE *fd)
+lk_dump_diacs(struct keymap *kmap, FILE *fd)
 {
 	unsigned int i;
 #ifdef KDSKBDIACRUC
@@ -249,7 +249,7 @@ dump_diacs(struct keymap *kmap, FILE *fd)
 }
 
 void
-dump_keymaps(struct keymap *kmap, FILE *fd)
+lk_dump_keymaps(struct keymap *kmap, FILE *fd)
 {
 	int i, m0, m;
 	char c = ' ';
@@ -331,7 +331,7 @@ print_bind(FILE *fd, int bufj, int i, int j, char numeric)
 }
 
 void
-dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
+lk_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 {
 	int i, j, k;
 	int buf[MAX_NR_KEYMAPS];
@@ -531,10 +531,10 @@ unexpected:
 }
 
 void
-dump_keymap(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
+lk_dump_keymap(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 {
-	dump_keymaps(kmap, fd);
-	dump_keys(kmap, fd, table_shape, numeric);
-	dump_funcs(kmap, fd);
-	dump_diacs(kmap, fd);
+	lk_dump_keymaps(kmap, fd);
+	lk_dump_keys(kmap, fd, table_shape, numeric);
+	lk_dump_funcs(kmap, fd);
+	lk_dump_diacs(kmap, fd);
 }

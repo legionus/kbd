@@ -22,7 +22,6 @@
 #include "kbd.h"
 #include "paths.h"
 #include "getfd.h"
-#include "findfile.h"
 
 #include "keymap.h"
 
@@ -111,7 +110,7 @@ main(int argc, char *argv[])
 
 	progname = set_progname(argv[0]);
 
-	keymap_init(&kmap);
+	lk_init(&kmap);
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -206,12 +205,12 @@ main(int argc, char *argv[])
 	if (options & OPT_D) {
 		/* first read default map - search starts in . */
 
-		if (findfile(DEFMAP, dirpath, suffixes, &f)) {
+		if (lk_findfile(DEFMAP, dirpath, suffixes, &f)) {
 			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
 			exit(EXIT_FAILURE);
 		}
 
-		if ((rc = parse_keymap(&kmap, &f)) == -1)
+		if ((rc = lk_parse_keymap(&kmap, &f)) == -1)
 			goto fail;
 
 
@@ -219,7 +218,7 @@ main(int argc, char *argv[])
 		f.fd = stdin;
 		strcpy(f.pathname, "<stdin>");
 
-		if ((rc = parse_keymap(&kmap, &f)) == -1)
+		if ((rc = lk_parse_keymap(&kmap, &f)) == -1)
 			goto fail;
 	}
 
@@ -228,24 +227,24 @@ main(int argc, char *argv[])
 			f.fd = stdin;
 			strcpy(f.pathname, "<stdin>");
 
-		} else if (findfile(argv[i], dirpath, suffixes, &f)) {
+		} else if (lk_findfile(argv[i], dirpath, suffixes, &f)) {
 			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
 			goto fail;
 		}
 
-		if ((rc = parse_keymap(&kmap, &f)) == -1)
+		if ((rc = lk_parse_keymap(&kmap, &f)) == -1)
 			goto fail;
 	}
 
 	if (options & OPT_B) {
-		rc = dump_bkeymap(&kmap);
+		rc = lk_dump_bkeymap(&kmap);
 	} else if (options & OPT_M) {
-		rc = dump_ctable(&kmap, stdout);
+		rc = lk_dump_ctable(&kmap, stdout);
 	} else {
-		rc = loadkeys(&kmap, fd, kbd_mode);
+		rc = lk_loadkeys(&kmap, fd, kbd_mode);
 	}
 
- fail:	keymap_free(&kmap);
+ fail:	lk_free(&kmap);
 	close(fd);
 
 	if (rc < 0)

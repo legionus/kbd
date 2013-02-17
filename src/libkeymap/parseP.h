@@ -1,5 +1,15 @@
-#ifndef LK_KEYMAP_PRIVATE_H
-#define LK_KEYMAP_PRIVATE_H
+#ifndef _PARSEP_H_
+#define _PARSEP_H_
+
+#include <linux/kd.h>
+#include <linux/keyboard.h>
+
+#define MAX_PARSER_STRING 512
+
+struct strdata {
+	unsigned int len;
+	unsigned char data[MAX_PARSER_STRING];
+};
 
 #define U(x) ((x) ^ 0xf000)
 
@@ -16,4 +26,4 @@ int addkey(struct keymap *kmap, int k_index, int k_table, int keycode);
 int addfunc(struct keymap *kmap, struct kbsentry kbs);
 int compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res);
 
-#endif /* LK_KEYMAP_PRIVATE_H */
+#endif /* _PARSEP_H_ */

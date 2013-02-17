@@ -27,13 +27,13 @@
 #include "nls.h"
 #include "kbd.h"
 
-#include "parse.h"
+#include "parser.h"
 #include "analyze.h"
 %}
 
 %code requires {
 #include "keymap.h"
-#include "keymapP.h"
+#include "parseP.h"
 }
 
 %language "C"
@@ -74,43 +74,6 @@
 int yyerror(yyscan_t scanner, struct keymap *kmap, const char *s);
 
 #include "ksyms.h"
-
-static void attr_fmt45
-lkmessage(const char *file attr_unused, int line attr_unused, const char *fn attr_unused,
-          const char *fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-#ifdef DEBUG
-	fprintf(stdout, "%s(%d): %s: ", file, line, fn);
-#endif
-	vfprintf(stdout, fmt, ap);
-	fprintf(stdout, "\n");
-	va_end(ap);
-}
-
-static void attr_fmt45
-lkerror(const char *file attr_unused, int line attr_unused, const char *fn attr_unused,
-        const char *fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
-	fprintf(stderr, "\n");
-	va_end(ap);
-}
-
-int
-keymap_init(struct keymap *km)
-{
-	memset(km, 0, sizeof(struct keymap));
-
-	km->verbose     = LOG_NORMAL;
-	km->log_message = lkmessage;
-	km->log_error   = lkerror;
-
-	return 0;
-}
 
 int
 yyerror(yyscan_t scanner attr_unused, struct keymap *kmap, const char *s)
@@ -386,17 +349,6 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
  fail:	return -1;
 }
 
-void
-keymap_free(struct keymap *kmap)
-{
-	int i;
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap->keymap_was_set[i] != NULL)
-			free(kmap->keymap_was_set[i]);
-		if (kmap->key_map[i] != NULL)
-			free(kmap->key_map[i]);
-	}
-}
 
 static char *
 ostr(struct keymap *kmap, char *s)
@@ -945,7 +897,7 @@ rvalue		: NUMBER	{ $$ = convert_code(kmap, $1, TO_AUTO);		}
 %%
 
 int
-parse_keymap(struct keymap *kmap, lkfile_t *f)
+lk_parse_keymap(struct keymap *kmap, lkfile_t *f)
 {
 	yyscan_t scanner;
 	int rc = -1;
@@ -970,7 +922,7 @@ parse_keymap(struct keymap *kmap, lkfile_t *f)
 }
 
 int
-loadkeys(struct keymap *kmap, int fd, int kbd_mode)
+lk_loadkeys(struct keymap *kmap, int fd, int kbd_mode)
 {
 	int keyct, funcct, diacct;
 

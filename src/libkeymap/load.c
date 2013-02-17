@@ -13,10 +13,10 @@
 
 #include "nls.h"
 #include "keymap.h"
-#include "keymapP.h"
+#include "parseP.h"
 
 int
-get_keys(struct keymap *kmap, int fd)
+lk_get_keys(struct keymap *kmap, int fd)
 {
 	int i, t;
 	struct kbentry ke;
@@ -45,7 +45,7 @@ get_keys(struct keymap *kmap, int fd)
 }
 
 int
-get_funcs(struct keymap *kmap, int fd)
+lk_get_funcs(struct keymap *kmap, int fd)
 {
 	int i;
 	struct kbsentry kbs;
@@ -70,7 +70,7 @@ get_funcs(struct keymap *kmap, int fd)
 }
 
 int
-get_diacrs(struct keymap *kmap, int fd)
+lk_get_diacrs(struct keymap *kmap, int fd)
 {
 #ifdef KDGKBDIACRUC
 	int request = KDGKBDIACRUC;
@@ -98,11 +98,11 @@ get_diacrs(struct keymap *kmap, int fd)
 }
 
 int
-get_keymap(struct keymap *kmap, int fd)
+lk_get_keymap(struct keymap *kmap, int fd)
 {
-	if (get_keys(kmap, fd)   < 0 ||
-	    get_funcs(kmap, fd)  < 0 ||
-	    get_diacrs(kmap, fd) < 0)
+	if (lk_get_keys(kmap, fd)   < 0 ||
+	    lk_get_funcs(kmap, fd)  < 0 ||
+	    lk_get_diacrs(kmap, fd) < 0)
 		return -1;
 	return 0;
 }

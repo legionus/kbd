@@ -6,9 +6,8 @@
 #include "nls.h"
 #include "kbd.h"
 #include "paths.h"
-#include "findfile.h"
 
-#include "parse.h"
+#include "parser.h"
 #include "keymap.h"
 %}
 
@@ -61,7 +60,7 @@ stack_pop(struct keymap *kmap, void *scanner)
 		return 0;
 	i--;
 
-	fpclose(kmap->stack[i]);
+	lk_fpclose(kmap->stack[i]);
 
 	free(kmap->stack[i]);
 	kmap->stack[i] = NULL;
@@ -135,7 +134,7 @@ find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 		strcat(t1, "../include/");
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
-		rc = findfile(s, include_dirpath2, include_suffixes, fp);
+		rc = lk_findfile(s, include_dirpath2, include_suffixes, fp);
 		free(t1);
 		free(t2);
 	}
@@ -160,7 +159,7 @@ find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 	i--;
 	pathname = kmap->stack[i]->pathname;
 
-	if (findfile(s, include_dirpath1, include_suffixes, fp)) {
+	if (lk_findfile(s, include_dirpath1, include_suffixes, fp)) {
 		if ((rc = find_incl_file_near_fn(kmap, s, pathname, fp)) == -1)
 			return rc;
 	}
@@ -189,7 +188,7 @@ find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 	}
 
 	if (rc)
-		rc = findfile(s, include_dirpath3, include_suffixes, fp);
+		rc = lk_findfile(s, include_dirpath3, include_suffixes, fp);
 	return rc;
 }
 
@@ -202,7 +201,7 @@ find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 		return 1;
 
 	if (*s == '/')		/* no path required */
-		return (findfile(s, include_dirpath0, include_suffixes, fp));
+		return (lk_findfile(s, include_dirpath0, include_suffixes, fp));
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
@@ -217,7 +216,7 @@ find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 			}
 			user_dir[0] = ev;
 			if (*ev)
-				rc = findfile(s, user_dir, include_suffixes, fp);
+				rc = lk_findfile(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
 				rc = find_standard_incl_file(kmap, s, fp);
 

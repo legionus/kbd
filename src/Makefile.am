@@ -1,5 +1,6 @@
 AM_CPPFLAGS = \
 	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
+	-I$(srcdir)/libkeymap/keymap -I$(builddir)/libkeymap/keymap \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-funit-at-a-time
 

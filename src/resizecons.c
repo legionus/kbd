@@ -149,12 +149,12 @@ main(int argc, char **argv) {
     if (mode == MODE_RESTORETEXTMODE) {
         /* prepare for: restoretextmode -r 80x25 */
         sprintf(infile, "%dx%d", cc, rr);
-        if (findfile(infile, dirpath, suffixes, &fp)) {
+        if (lk_findfile(infile, dirpath, suffixes, &fp)) {
 	    fprintf(stderr, _("resizecons: cannot find videomode file %s\n"),
 		    infile);
 	    exit(1);
 	}
- 	fpclose(&fp);
+ 	lk_fpclose(&fp);
     }
 
     fd = getfd(NULL);

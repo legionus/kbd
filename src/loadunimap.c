@@ -264,7 +264,7 @@ loadunicodemap(int fd, char *tblname) {
 	char *p;
 	lkfile_t fp;
 
-	if (findfile(tblname, unidirpath, unisuffixes, &fp)) {
+	if (lk_findfile(tblname, unidirpath, unisuffixes, &fp)) {
 		perror(tblname);
 		exit(EX_NOINPUT);
 	}
@@ -282,7 +282,7 @@ loadunicodemap(int fd, char *tblname) {
 		parseline(buffer, tblname);
 	}
 
-	fpclose(&fp);
+	lk_fpclose(&fp);
 
 	if (listct == 0 && !force) {
 		fprintf(stderr,

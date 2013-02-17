@@ -129,7 +129,7 @@ readnewmapfromfile(attr_unused int fd, char *mfil, char *buf, unsigned short *ub
 	int lineno = 0;
 	lkfile_t fp;
 
-	if (findfile(mfil, mapdirpath, mapsuffixes, &fp)) {
+	if (lk_findfile(mfil, mapdirpath, mapsuffixes, &fp)) {
 	        fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
 			mfil);
 		exit(1);
@@ -174,7 +174,7 @@ readnewmapfromfile(attr_unused int fd, char *mfil, char *buf, unsigned short *ub
 			exit(1);
 		}
 	}
-	fpclose(&fp);
+	lk_fpclose(&fp);
 	return u;
 }
 

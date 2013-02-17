@@ -6,10 +6,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include "findfile.h"
 #include "nls.h"
+#include "keymap/findfile.h"
 
-void fpclose(lkfile_t *fp)
+void
+lk_fpclose(lkfile_t *fp)
 {
 	if (!fp || !fp->fd)
 		return;
@@ -248,7 +249,7 @@ EndScan:
 }
 
 int
-findfile(const char *fnam, const char *const *dirpath, const char *const *suffixes, lkfile_t *fp)
+lk_findfile(const char *fnam, const char *const *dirpath, const char *const *suffixes, lkfile_t *fp)
 {
 	char *dir;
 	int dl, recdepth, rc, i;

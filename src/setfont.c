@@ -59,12 +59,12 @@ const char *const partfontsuffixes[] = { "", 0 };
 
 static inline int
 findfont(char *fnam, lkfile_t *fp) {
-    return findfile(fnam, fontdirpath, fontsuffixes, fp);
+    return lk_findfile(fnam, fontdirpath, fontsuffixes, fp);
 }
 
 static inline int
 findpartialfont(char *fnam, lkfile_t *fp) {
-    return findfile(fnam, partfontdirpath, partfontsuffixes, fp);
+    return lk_findfile(fnam, partfontdirpath, partfontsuffixes, fp);
 }
 
 static void attr_noreturn
@@ -425,10 +425,10 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 			fprintf(stderr, _("When loading several fonts, all "
 					  "must be psf fonts - %s isn't\n"),
 				fp.pathname);
-			fpclose(&fp);
+			lk_fpclose(&fp);
 			exit(EX_DATAERR);
 		}
-		fpclose(&fp);		// avoid zombies, jw@suse.de (#88501)
+		lk_fpclose(&fp);		// avoid zombies, jw@suse.de (#88501)
 		bytewidth = (width+7) / 8;
 		height = fontbuflth / (bytewidth * fontsize);
 		if (verbose)
@@ -513,7 +513,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	if(readpsffont(fp.fd, &inbuf, &inputlth, &fontbuf, &fontbuflth,
 		       &width, &fontsize, 0,
 		       no_u ? NULL : &uclistheads) == 0) {
-		fpclose(&fp);
+		lk_fpclose(&fp);
 		/* we've got a psf font */
 		bytewidth = (width+7) / 8;
 		height = fontbuflth / (bytewidth * fontsize);
@@ -528,7 +528,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 #endif
 		return;
 	}
-	fpclose(&fp);		// avoid zombies, jw@suse.de (#88501)
+	lk_fpclose(&fp);		// avoid zombies, jw@suse.de (#88501)
 
 	/* instructions to combine fonts? */
 	{ char *combineheader = "# combine partial fonts\n";

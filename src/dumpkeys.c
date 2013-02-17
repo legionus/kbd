@@ -142,7 +142,7 @@ main (int argc, char *argv[]) {
 	if (optind < argc)
 		usage();
 
-	keymap_init(&kmap);
+	lk_init(&kmap);
 
 	fd = getfd(NULL);
 
@@ -157,16 +157,16 @@ main (int argc, char *argv[]) {
 		kmap.prefer_unicode = 1;
 	}
 
-	if ((rc = get_keymap(&kmap, fd)) < 0)
+	if ((rc = lk_get_keymap(&kmap, fd)) < 0)
 		goto fail;
 
 	if (short_info || long_info) {
-		dump_summary(&kmap, stdout, fd);
+		lk_dump_summary(&kmap, stdout, fd);
 
 		if (long_info) {
 			printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
 				progname);
-			dump_symbols(stdout);
+			lk_dump_symbols(stdout);
 		}
 		exit(EXIT_SUCCESS);
 	}
@@ -175,16 +175,16 @@ main (int argc, char *argv[]) {
 	if (!diac_only) {
 #endif
 	if (!funcs_only) {
-		dump_keymap(&kmap, stdout, table_shape, numeric);
+		lk_dump_keymap(&kmap, stdout, table_shape, numeric);
 	}
 #ifdef KDGKBDIACR
 	}
 
 	if (!funcs_only && !keys_only)
-		dump_diacs(&kmap, stdout);
+		lk_dump_diacs(&kmap, stdout);
 #endif
 
- fail:	keymap_free(&kmap);
+ fail:	lk_free(&kmap);
 	close(fd);
 
 	if (rc < 0)
