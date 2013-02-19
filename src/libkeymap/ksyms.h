@@ -13,13 +13,13 @@ typedef struct {
 	int size;
 } syms_entry;
 
-extern syms_entry syms[];
+extern syms_entry const syms[];
 
 struct syn {
 	const char *synonym;
 	const char *official_name;
 };
-extern struct syn synonyms[];
+extern struct syn const synonyms[];
 
 extern const unsigned int syms_size;
 extern const unsigned int syn_size;

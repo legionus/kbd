@@ -13,13 +13,32 @@ headers = \
 	keymap/parse.h \
 	keymap/findfile.h
 
+ksyms_headers = \
+	syms.ktyp.h \
+	syms.synonyms.h \
+	syms.cp1250.h \
+	syms.ethiopic.h \
+	syms.iso8859_15.h \
+	syms.iso8859_5.h \
+	syms.iso8859_7.h \
+	syms.iso8859_8.h \
+	syms.iso8859_9.h \
+	syms.koi8.h \
+	syms.latin1.h \
+	syms.latin2.h \
+	syms.latin3.h \
+	syms.latin4.h \
+	syms.mazovia.h \
+	syms.sami.h \
+	syms.thai.h
+
 libkeymap_la_SOURCES = \
 	$(headers) \
 	findfile.c \
 	base.c load.c dump.c \
 	parser.y parser.h analyze.l analyze.h parseP.h \
 	modifiers.c modifiers.h \
-	ksyms.c ksyms.h syms.cp1250.h syms.ethiopic.h syms.koi8.h syms.sami.h syms.thai.h \
+	ksyms.c ksyms.h $(ksyms_headers) \
 	summary.c \
 	$(srcdir)/../nls.h $(srcdir)/../paths.h $(srcdir)/../kbd.h
 

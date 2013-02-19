@@ -2,7 +2,8 @@
  * Theppitak Karoonboonyanan <thep@linux.thai.net>
  */
 
-static sym tis_620_syms[] = {
+static sym
+tis_620_syms[] = {
     { 0x00a0, "nobreakspace" },
     { 0x0e01, "thai_kokai" },
     { 0x0e02, "thai_khokhai" },

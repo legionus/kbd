@@ -5,7 +5,8 @@
    we can use the same table for both. */
 /* TODO: check unicode values for these 8 positions */
 
-static sym koi8_syms[] = { /* 128-255 */
+static sym
+koi8_syms[] = { /* 128-255 */
 	{ 0x2500, "" },                        /* 0200 */
 	{ 0x2502, "" },
 	{ 0x250c, "" },
