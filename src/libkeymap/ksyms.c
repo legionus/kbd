@@ -54,30 +54,33 @@ const unsigned int syms_size = sizeof(syms) / sizeof(syms_entry);
 const unsigned int syn_size = sizeof(synonyms) / sizeof(synonyms[0]);
 
 struct cs {
-    const char *charset;
-    sym *charnames;
-    int start;
+	const char *charset;
+	sym *charnames;
+	int start;
 } charsets[] = {
-    { "", NULL, 256 },
-    { "iso-8859-1",	latin1_syms, 160 },
-    { "iso-8859-2",	latin2_syms, 160 },
-    { "iso-8859-3",	latin3_syms, 160 },
-    { "iso-8859-4",	latin4_syms, 160 },
-    { "iso-8859-5",	iso_8859_5_syms, 160 },
-    { "iso-8859-7",	iso_8859_7_syms, 160 },
-    { "iso-8859-8",	iso_8859_8_syms, 160 },
-    { "iso-8859-9",	iso_8859_9_syms, 208 },
-    { "iso-8859-10",	latin6_syms, 160 },
-    { "iso-8859-15",	iso_8859_15_syms, 160 },
-    { "mazovia",	mazovia_syms, 128 },
-    { "cp-1250",	cp1250_syms, 128 },
-    { "koi8-r",		koi8_syms, 128 },
-    { "koi8-u",		koi8_syms, 128 },
-    { "tis-620",	tis_620_syms, 160 },		/* thai */
-    { "iso-10646-18",	iso_10646_18_syms, 159 },	/* ethiopic */
-    { "iso-ir-197",	iso_ir_197_syms, 160 },		/* sami */
-    { "iso-ir-209",	iso_ir_209_syms, 160 },		/* sami */
+	{ "",             NULL,                0 },
+	{ "iso-8859-1",   latin1_syms,       160 },
+	{ "iso-8859-2",   latin2_syms,       160 },
+	{ "iso-8859-3",   latin3_syms,       160 },
+	{ "iso-8859-4",   latin4_syms,       160 },
+	{ "iso-8859-5",   iso_8859_5_syms,   160 },
+	{ "iso-8859-7",   iso_8859_7_syms,   160 },
+	{ "iso-8859-8",   iso_8859_8_syms,   160 },
+	{ "iso-8859-9",   iso_8859_9_syms,   208 },
+	{ "iso-8859-10",  latin6_syms,       160 },
+	{ "iso-8859-15",  iso_8859_15_syms,  160 },
+	{ "mazovia",      mazovia_syms,      128 },
+	{ "cp-1250",      cp1250_syms,       128 },
+	{ "koi8-r",       koi8_syms,         128 },
+	{ "koi8-u",       koi8_syms,         128 },
+	{ "tis-620",      tis_620_syms,      160 }, /* thai */
+	{ "iso-10646-18", iso_10646_18_syms, 159 }, /* ethiopic */
+	{ "iso-ir-197",   iso_ir_197_syms,   160 }, /* sami */
+	{ "iso-ir-209",   iso_ir_209_syms,   160 }, /* sami */
 };
+
+static unsigned int charsets_size = sizeof(charsets) / sizeof(charsets[0]);
+static unsigned int kmap_charset = 0;
 
 /* Functions for both dumpkeys and loadkeys. */
 
@@ -93,7 +96,7 @@ list_charsets(FILE *f) {
 		fprintf(f, "%s{", mm[j]);
 		ct = 0;
 		lth = strlen(mm[j]);
-		for(i=1; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+		for(i=1; i < charsets_size; i++) {
 			if(!strncmp(charsets[i].charset, mm[j], lth)) {
 				if(ct++)
 					fprintf(f, ",");
@@ -102,7 +105,7 @@ list_charsets(FILE *f) {
 		}
 		fprintf(f, "}");
 	}
-	for(i=1; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+	for(i=1; i < charsets_size; i++) {
 		for (j=0; j<sizeof(mm)/sizeof(mm[0]); j++) {
 			lth = strlen(mm[j]);
 			if(!strncmp(charsets[i].charset, mm[j], lth))
@@ -116,19 +119,11 @@ list_charsets(FILE *f) {
 
 int
 set_charset(const char *charset) {
-	sym *p;
 	unsigned int i;
 
-	for (i = 1; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+	for (i = 1; i < charsets_size; i++) {
 		if (!strcasecmp(charsets[i].charset, charset)) {
-			charsets[0].charset = charsets[i].charset;
-			charsets[0].charnames = charsets[i].charnames;
-			charsets[0].start = charsets[i].start;
-			p = charsets[i].charnames;
-			for (i = charsets[i].start; i < 256; i++,p++) {
-				if(p->name[0])
-					syms[0].table[i] = p->name;
-			}
+			kmap_charset = i;
 			return 0;
 		}
 	}
@@ -147,20 +142,32 @@ codetoksym(int code) {
 	if (code < 0x1000) {	/* "traditional" keysym */
 		if (code < 0x80)
 			return iso646_syms[code];
+
 		if (KTYP(code) == KT_META)
 			return NULL;
+
 		if (KTYP(code) == KT_LETTER)
 			code = K(KT_LATIN, KVAL(code));
+
 		if (KTYP(code) > KT_LATIN)
 			return syms[KTYP(code)].table[KVAL(code)];
 
-		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+		i = kmap_charset;
+		while (1) {
 			p = charsets[i].charnames;
-			if (!p)
-				continue;
-			p += KVAL(code) - charsets[i].start;
-			if (p->name[0])
-				return p->name;
+			if (p) {
+				p += KVAL(code) - charsets[i].start;
+
+				if (p->name[0])
+					return p->name;
+			}
+
+			i++;
+
+			if (i == charsets_size)
+				i = 0;
+			if (i == kmap_charset)
+				break;
 		}
 	}
 
@@ -170,15 +177,24 @@ codetoksym(int code) {
 		if (code < 0x80)
 			return iso646_syms[code];
 
-		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+		i = kmap_charset;
+		while (1) {
 			p = charsets[i].charnames;
-			if (!p)
-				continue;
-			for (j = charsets[i].start; j < 256; j++, p++) {
-				if (p->uni == code && p->name[0])
-					return p->name;
+			if (p) {
+				for (j = charsets[i].start; j < 256; j++, p++) {
+					if (p->uni == code && p->name[0])
+						return p->name;
+				}
 			}
+
+			i++;
+
+			if (i == charsets_size)
+				i = 0;
+			if (i == kmap_charset)
+				break;
 		}
+
 	}
 
 	return NULL;
@@ -186,10 +202,33 @@ codetoksym(int code) {
 
 /* Functions for loadkeys. */
 
+static int
+kt_latin(struct keymap *kmap, const char *s, int direction) {
+	int i, max;
+
+	if (kmap_charset) {
+		sym *p = charsets[kmap_charset].charnames;
+
+		for (i = charsets[kmap_charset].start; i < 256; i++, p++) {
+			if(p->name[0] && !strcmp(s, p->name))
+				return K(KT_LATIN, i);
+		}
+	}
+
+	max = (direction == TO_UNICODE ? 128 : syms[KT_LATIN].size);
+
+	for (i = 0; i < max; i++) {
+		if (!strcmp(s, syms[KT_LATIN].table[i]))
+			return K(KT_LATIN, i);
+	}
+
+	return -1;
+}
+
 int
 ksymtocode(struct keymap *kmap, const char *s, int direction) {
 	unsigned int i;
-	int j, jmax;
+	int n, j;
 	int keycode;
 	sym *p;
 
@@ -208,11 +247,15 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 		/* fall through to error printf */
 	}
 
-	for (i = 0; i < syms_size; i++) {
-		jmax = ((i == 0 && direction == TO_UNICODE) ? 128 : syms[i].size);
-		for (j = 0; j < jmax; j++)
+	if ((n = kt_latin(kmap, s, direction)) >= 0) {
+		return n;
+	}
+
+	for (i = 1; i < syms_size; i++) {
+		for (j = 0; j < syms[i].size; j++) {
 			if (!strcmp(s,syms[i].table[j]))
 				return K(i, j);
+		}
 	}
 
 	for (i = 0; i < syn_size; i++)
@@ -220,11 +263,23 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 			return ksymtocode(kmap, synonyms[i].official_name, direction);
 
 	if (direction == TO_UNICODE) {
-		for (i = 0; i < sizeof(charsets)/sizeof(charsets[0]); i++) {
+		i = kmap_charset;
+
+		while (1) {
 			p = charsets[i].charnames;
-			for (j = charsets[i].start; j < 256; j++, p++)
-				if (!strcmp(s,p->name))
-					return (p->uni ^ 0xf000);
+			if (p) {
+				for (j = charsets[i].start; j < 256; j++, p++) {
+					if (!strcmp(s,p->name))
+						return (p->uni ^ 0xf000);
+				}
+			}
+
+			i++;
+
+			if (i == charsets_size)
+				i = 0;
+			if (i == kmap_charset)
+				break;
 		}
 	} else /* if (!chosen_charset[0]) */ {
 		/* note: some keymaps use latin1 but with euro,

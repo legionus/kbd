@@ -43,7 +43,7 @@ valid options are:\n\
 	   --keys-only	    display only key bindings\n\
 	   --compose-only   display only compose key combinations\n\
 	-c --charset="));
-	list_charsets(stderr);
+	lk_list_charsets(stderr);
 	fprintf(stderr, _("\
 			    interpret character action codes to be from the\n\
 			    specified character set\n\
@@ -89,6 +89,8 @@ main (int argc, char *argv[]) {
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
 
+	lk_init(&kmap);
+
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -124,7 +126,7 @@ main (int argc, char *argv[]) {
 				verbose = 1;
 				break;
 			case 'c':
-				if ((set_charset(optarg)) != 0) {
+				if ((lk_set_charset(&kmap, optarg)) != 0) {
 					fprintf(stderr, _("unknown charset %s - ignoring charset request\n"),
 						optarg);
 					usage();
@@ -141,8 +143,6 @@ main (int argc, char *argv[]) {
 
 	if (optind < argc)
 		usage();
-
-	lk_init(&kmap);
 
 	fd = getfd(NULL);
 
