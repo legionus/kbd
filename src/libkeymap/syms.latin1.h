@@ -3,7 +3,7 @@
  * and their Unicode equivalent.
  */
 static sym
-latin1_syms[] = {
+const latin1_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x00a1, "exclamdown" },
 	{ 0x00a2, "cent" },

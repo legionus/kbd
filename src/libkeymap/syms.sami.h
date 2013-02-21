@@ -7,7 +7,7 @@
  */
 
 static sym
-iso_ir_197_syms[] = {
+const iso_ir_197_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x010c, "Ccaron" },
 	{ 0x010d, "ccaron" },
@@ -119,7 +119,7 @@ iso_ir_197_syms[] = {
  */
 
 static sym
-iso_ir_209_syms[] = {
+const iso_ir_209_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x010c, "Ccaron" },
 	{ 0x010d, "ccaron" },
@@ -219,7 +219,7 @@ iso_ir_209_syms[] = {
 };
 
 static sym
-latin6_syms[] = {
+const latin6_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x0104, "Aogonek" },
 	{ 0x0112, "Emacron" },

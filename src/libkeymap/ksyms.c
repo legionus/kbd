@@ -29,8 +29,8 @@
 
 #define E(x) { x, sizeof(x) / sizeof(x[0]) }
 
-syms_entry
-const syms[] = {
+const syms_entry
+syms[] = {
 	E(iso646_syms),		/* KT_LATIN */
 	E(fn_syms),		/* KT_FN */
 	E(spec_syms),		/* KT_SPEC */
@@ -53,10 +53,10 @@ const syms[] = {
 const unsigned int syms_size = sizeof(syms) / sizeof(syms_entry);
 const unsigned int syn_size = sizeof(synonyms) / sizeof(synonyms[0]);
 
-struct cs {
+const struct cs {
 	const char *charset;
-	sym *charnames;
-	int start;
+	const sym *charnames;
+	const int start;
 } charsets[] = {
 	{ "",             NULL,                0 },
 	{ "iso-8859-1",   latin1_syms,       160 },
@@ -153,7 +153,7 @@ codetoksym(struct keymap *kmap, int code) {
 
 		i = kmap->charset;
 		while (1) {
-			p = charsets[i].charnames;
+			p = (sym *) charsets[i].charnames;
 			if (p) {
 				p += KVAL(code) - charsets[i].start;
 
@@ -178,7 +178,7 @@ codetoksym(struct keymap *kmap, int code) {
 
 		i = kmap->charset;
 		while (1) {
-			p = charsets[i].charnames;
+			p = (sym *) charsets[i].charnames;
 			if (p) {
 				for (j = charsets[i].start; j < 256; j++, p++) {
 					if (p->uni == code && p->name[0])
@@ -206,7 +206,7 @@ kt_latin(struct keymap *kmap, const char *s, int direction) {
 	int i, max;
 
 	if (kmap->charset) {
-		sym *p = charsets[kmap->charset].charnames;
+		sym *p = (sym *) charsets[kmap->charset].charnames;
 
 		for (i = charsets[kmap->charset].start; i < 256; i++, p++) {
 			if(p->name[0] && !strcmp(s, p->name))
@@ -265,7 +265,7 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 		i = kmap->charset;
 
 		while (1) {
-			p = charsets[i].charnames;
+			p = (sym *) charsets[i].charnames;
 			if (p) {
 				for (j = charsets[i].start; j < 256; j++, p++) {
 					if (!strcmp(s,p->name))

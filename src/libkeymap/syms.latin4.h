@@ -1,5 +1,5 @@
 static sym
-latin4_syms[] = {
+const latin4_syms[] = {
 	{ 0x00a0, "" },
 	{ 0x0104, "" },
 	{ 0x0138, "kra" },

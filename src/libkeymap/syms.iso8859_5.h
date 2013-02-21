@@ -1,5 +1,5 @@
 static sym
-iso_8859_5_syms[] = { /* 160-255 */
+const iso_8859_5_syms[] = { /* 160-255 */
 	{ 0x00a0, "nobreakspace" },
 	{ 0x0401, "cyrillic_capital_letter_io" },
 	{ 0x0402, "serbocroatian_cyrillic_capital_letter_dje" },

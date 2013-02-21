@@ -1,5 +1,5 @@
 static sym
-latin3_syms[] = {
+const latin3_syms[] = {
 	{ 0x00a0, "" },
 	{ 0x0126, "Hstroke" },
 	{ 0x02d8, "" },

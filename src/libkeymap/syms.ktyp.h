@@ -2,7 +2,7 @@
  * Keysyms whose KTYP is KT_LATIN or KT_LETTER and whose KVAL is 0..127.
  */
 static const char *
-iso646_syms[] = {
+const iso646_syms[] = {
 	"nul",
 	"Control_a",
 	"Control_b",
@@ -240,7 +240,7 @@ iso646_syms[] = {
  * Keysyms whose KTYP is KT_FN.
  */
 static const char *
-fn_syms[] = {
+const fn_syms[] = {
 	"F1", 	"F2",	"F3",	"F4",	"F5",
 	"F6",	"F7",	"F8",	"F9",	"F10",
 	"F11",	"F12",	"F13",	"F14",	"F15",
@@ -307,7 +307,7 @@ fn_syms[] = {
  * Keysyms whose KTYP is KT_SPEC.
  */
 static const char *
-spec_syms[] = {
+const spec_syms[] = {
 	"VoidSymbol",
 	"Return",
 	"Show_Registers",
@@ -334,7 +334,7 @@ spec_syms[] = {
  * Keysyms whose KTYP is KT_PAD.
  */
 static const char *
-pad_syms[] = {
+const pad_syms[] = {
 	"KP_0",
 	"KP_1",
 	"KP_2",
@@ -359,7 +359,7 @@ pad_syms[] = {
  * Keysyms whose KTYP is KT_DEAD.
  */
 static const char *
-dead_syms[] = {
+const dead_syms[] = {
 	"dead_grave",
 	"dead_acute",
 	"dead_circumflex",
@@ -372,7 +372,7 @@ dead_syms[] = {
  * Keysyms whose KTYP is KT_CONS.
  */
 static const char *
-cons_syms[] = {
+const cons_syms[] = {
 	"Console_1",
 	"Console_2",
 	"Console_3",
@@ -442,7 +442,7 @@ cons_syms[] = {
  * Keysyms whose KTYP is KT_CUR.
  */
 static const char *
-cur_syms[] = {
+const cur_syms[] = {
 	"Down",
 	"Left",
 	"Right",
@@ -453,7 +453,7 @@ cur_syms[] = {
  * Keysyms whose KTYP is KT_SHIFT.
  */
 static const char *
-shift_syms[] = {
+const shift_syms[] = {
 	"Shift",
 	"AltGr",
 	"Control",
@@ -469,7 +469,7 @@ shift_syms[] = {
  * Keysyms whose KTYP is KT_ASCII.
  */
 static const char *
-ascii_syms[] = {
+const ascii_syms[] = {
 	"Ascii_0",
 	"Ascii_1",
 	"Ascii_2",
@@ -502,7 +502,7 @@ ascii_syms[] = {
  * Keysyms whose KTYP is KT_LOCK.
  */
 static const char *
-lock_syms[] = {
+const lock_syms[] = {
 	"Shift_Lock",
 	"AltGr_Lock",
 	"Control_Lock",
@@ -518,7 +518,7 @@ lock_syms[] = {
  * Keysyms whose KTYP is KT_SLOCK.
  */
 static const char *
-sticky_syms[] = {
+const sticky_syms[] = {
 	"SShift",
 	"SAltGr",
 	"SControl",
@@ -534,7 +534,7 @@ sticky_syms[] = {
  * Keysyms whose KTYP is KT_BRL.
  */
 static const char *
-brl_syms[] = {
+const brl_syms[] = {
 	"Brl_blank",
 	"Brl_dot1",
 	"Brl_dot2",

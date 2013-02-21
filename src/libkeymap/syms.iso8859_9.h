@@ -1,5 +1,5 @@
 static sym
-iso_8859_9_syms[] = { /* latin-5 */
+const iso_8859_9_syms[] = { /* latin-5 */
 	/* Identical to latin-1, but with the 6 symbols
 	   ETH, eth, THORN, thorn, Yacute, yacute replaced by
 	   Gbreve, gbreve, Scedilla, scedilla, Idotabove, dotlessi */

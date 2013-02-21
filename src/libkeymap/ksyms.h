@@ -4,13 +4,13 @@
 #include "keymap.h"
 
 typedef struct {
-	unsigned short uni;
+	const unsigned short uni;
 	const char *name;
 } sym;
 
 typedef struct {
-	const char **table;
-	int size;
+	const char * const *table;
+	const int size;
 } syms_entry;
 
 extern syms_entry const syms[];
@@ -32,9 +32,9 @@ extern const unsigned int syn_size;
 #define TO_8BIT 0
 #define TO_UNICODE 1
 
-extern const char *codetoksym(struct keymap *kmap, int code);
-extern int ksymtocode(struct keymap *kmap, const char *s, int direction);
-extern int convert_code(struct keymap *kmap, int code, int direction);
-extern int add_capslock(struct keymap *kmap, int code);
+const char *codetoksym(struct keymap *kmap, int code);
+int ksymtocode(struct keymap *kmap, const char *s, int direction);
+int convert_code(struct keymap *kmap, int code, int direction);
+int add_capslock(struct keymap *kmap, int code);
 
 #endif

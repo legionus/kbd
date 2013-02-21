@@ -1,5 +1,5 @@
 static sym
-latin2_syms[] = {
+const latin2_syms[] = {
 	{ 0x00a0, "" },		/* 0240 */
 	{ 0x0104, "Aogonek" },
 	{ 0x02d8, "breve" },

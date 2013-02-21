@@ -5,7 +5,7 @@
  * No names have been introduced yet for the various quotation marks
  */
 static sym
-cp1250_syms[] = {	/* 128-255 */
+const cp1250_syms[] = {	/* 128-255 */
 	{ 0x20ac, "euro"},	/* 0200 */
 	{ 0xfffd, ""},  /* undefined */
 	{ 0x201a, ""},	/* SINGLE LOW-9 QUOTATION MARK */

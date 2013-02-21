@@ -1,5 +1,5 @@
 static sym
-mazovia_syms[] = {
+const mazovia_syms[] = {
 	/* as specified by Wlodek Bzyl <matwb@univ.gda.pl> */
 	{ 0x0080, "" },
 	{ 0x0081, "" },

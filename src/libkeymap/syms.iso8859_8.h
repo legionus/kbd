@@ -1,5 +1,5 @@
 static sym
-iso_8859_8_syms[] = {
+const iso_8859_8_syms[] = {
 	{ 0x00a0, "" },
 	{ 0xfffd, "" },
 	{ 0x00a2, "" },

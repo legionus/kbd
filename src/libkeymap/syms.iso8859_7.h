@@ -1,5 +1,5 @@
 static sym
-iso_8859_7_syms[] = { /* 160-255 */
+const iso_8859_7_syms[] = { /* 160-255 */
 	{ 0x00a0, "" },
 	{ 0x02bd, "leftquote" },
 	{ 0x02bc, "rightquote" },
