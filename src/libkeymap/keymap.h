@@ -8,5 +8,6 @@
 #include <keymap/logging.h>
 #include <keymap/parse.h>
 #include <keymap/findfile.h>
+#include <keymap/charset.h>
 
 #endif /* LK_KEYMAP_H */

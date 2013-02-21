@@ -80,12 +80,11 @@ struct cs {
 };
 
 static unsigned int charsets_size = sizeof(charsets) / sizeof(charsets[0]);
-static unsigned int kmap_charset = 0;
 
 /* Functions for both dumpkeys and loadkeys. */
 
 void
-list_charsets(FILE *f) {
+lk_list_charsets(FILE *f) {
 	int lth,ct;
 	unsigned int i, j;
 	char *mm[] = { "iso-8859-", "koi8-" };
@@ -118,12 +117,12 @@ list_charsets(FILE *f) {
 }
 
 int
-set_charset(const char *charset) {
+lk_set_charset(struct keymap *kmap, const char *charset) {
 	unsigned int i;
 
 	for (i = 1; i < charsets_size; i++) {
 		if (!strcasecmp(charsets[i].charset, charset)) {
-			kmap_charset = i;
+			kmap->charset = i;
 			return 0;
 		}
 	}
@@ -131,7 +130,7 @@ set_charset(const char *charset) {
 }
 
 const char *
-codetoksym(int code) {
+codetoksym(struct keymap *kmap, int code) {
 	unsigned int i;
 	int j;
 	sym *p;
@@ -152,7 +151,7 @@ codetoksym(int code) {
 		if (KTYP(code) > KT_LATIN)
 			return syms[KTYP(code)].table[KVAL(code)];
 
-		i = kmap_charset;
+		i = kmap->charset;
 		while (1) {
 			p = charsets[i].charnames;
 			if (p) {
@@ -166,7 +165,7 @@ codetoksym(int code) {
 
 			if (i == charsets_size)
 				i = 0;
-			if (i == kmap_charset)
+			if (i == kmap->charset)
 				break;
 		}
 	}
@@ -177,7 +176,7 @@ codetoksym(int code) {
 		if (code < 0x80)
 			return iso646_syms[code];
 
-		i = kmap_charset;
+		i = kmap->charset;
 		while (1) {
 			p = charsets[i].charnames;
 			if (p) {
@@ -191,7 +190,7 @@ codetoksym(int code) {
 
 			if (i == charsets_size)
 				i = 0;
-			if (i == kmap_charset)
+			if (i == kmap->charset)
 				break;
 		}
 
@@ -206,10 +205,10 @@ static int
 kt_latin(struct keymap *kmap, const char *s, int direction) {
 	int i, max;
 
-	if (kmap_charset) {
-		sym *p = charsets[kmap_charset].charnames;
+	if (kmap->charset) {
+		sym *p = charsets[kmap->charset].charnames;
 
-		for (i = charsets[kmap_charset].start; i < 256; i++, p++) {
+		for (i = charsets[kmap->charset].start; i < 256; i++, p++) {
 			if(p->name[0] && !strcmp(s, p->name))
 				return K(KT_LATIN, i);
 		}
@@ -263,7 +262,7 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 			return ksymtocode(kmap, synonyms[i].official_name, direction);
 
 	if (direction == TO_UNICODE) {
-		i = kmap_charset;
+		i = kmap->charset;
 
 		while (1) {
 			p = charsets[i].charnames;
@@ -278,7 +277,7 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 
 			if (i == charsets_size)
 				i = 0;
-			if (i == kmap_charset)
+			if (i == kmap->charset)
 				break;
 		}
 	} else /* if (!chosen_charset[0]) */ {
@@ -355,7 +354,7 @@ convert_code(struct keymap *kmap, int code, int direction)
 	else {
 		/* depending on direction, this will give us either an 8-bit
 		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
-		ksym = codetoksym(code);
+		ksym = codetoksym(kmap, code);
 		if (ksym)
 			result = ksymtocode(kmap, ksym, direction);
 		else

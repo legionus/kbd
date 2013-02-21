@@ -286,7 +286,7 @@ print_mod(FILE *fd, int x)
 }
 
 static void
-print_keysym(FILE *fd, int code, char numeric)
+print_keysym(struct keymap *kmap, FILE *fd, int code, char numeric)
 {
 	unsigned int t;
 	int v;
@@ -297,7 +297,7 @@ print_keysym(FILE *fd, int code, char numeric)
 	t = KTYP(code);
 	v = KVAL(code);
 	if (t >= syms_size) {
-		if (!numeric && (p = codetoksym(code)) != NULL)
+		if (!numeric && (p = codetoksym(kmap, code)) != NULL)
 			fprintf(fd, "%-16s", p);
 		else
 			fprintf(fd, "U+%04x          ", code ^ 0xf000);
@@ -320,13 +320,13 @@ print_keysym(FILE *fd, int code, char numeric)
 }
 
 static void
-print_bind(FILE *fd, int bufj, int i, int j, char numeric)
+print_bind(struct keymap *kmap, FILE *fd, int bufj, int i, int j, char numeric)
 {
 	if(j)
 		fprintf(fd, "\t");
 	print_mod(fd, j);
 	fprintf(fd, "keycode %3d =", i);
-	print_keysym(fd, bufj, numeric);
+	print_keysym(kmap, fd, bufj, numeric);
 	fprintf(fd, "\n");
 }
 
@@ -400,7 +400,7 @@ no_shorthands:
 			fprintf(fd, "keycode %3d =", i);
 
 			for (j = 0; j < keymapnr; j++)
-				print_keysym(fd, buf[j], numeric);
+				print_keysym(kmap, fd, buf[j], numeric);
 
 			fprintf(fd, "\n");
 			continue;
@@ -409,7 +409,7 @@ no_shorthands:
 		if (table_shape == SEPARATE_LINES) {
 			for (j = 0; j < keymapnr; j++) {
 				//if (buf[j] != K_HOLE)
-				print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+				print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
 			}
 
 			fprintf(fd, "\n");
@@ -478,7 +478,7 @@ unexpected:
 		if (isasexpected) {
 			/* print only a single entry */
 			/* suppress the + for ordinary a-zA-Z */
-			print_keysym(fd, K(KT_LATIN, val), numeric);
+			print_keysym(kmap, fd, K(KT_LATIN, val), numeric);
 			fprintf(fd, "\n");
 		} else {
 			/* choose between single entry line followed by exceptions,
@@ -499,13 +499,13 @@ unexpected:
 
 			if (bad <= count && bad < keymapnr-1) {
 				if (buf[0] != K_HOLE) {
-					print_keysym(fd, buf[0], numeric);
+					print_keysym(kmap, fd, buf[0], numeric);
 				}
 				fprintf(fd, "\n");
 
 				for (j = 1; j < keymapnr; j++) {
 					if (buf[j] != buf[0] && !zapped[j]) {
-						print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+						print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
 					}
 				}
 			} else {
@@ -514,15 +514,15 @@ unexpected:
 					(j == 0 || table_shape != UNTIL_HOLE ||
 					kmap->defining[j]-1 == kmap->defining[j-1]-1+1);
 				     j++) {
-					//print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
-					print_keysym(fd, buf[j], numeric);
+					//print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
+					print_keysym(kmap, fd, buf[j], numeric);
 				}
 
 				fprintf(fd, "\n");
 
 				for (; j < keymapnr; j++) {
 					if (buf[j] != K_HOLE) {
-						print_bind(fd, buf[j], i, kmap->defining[j]-1, numeric);
+						print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
 					}
 				}
 			}

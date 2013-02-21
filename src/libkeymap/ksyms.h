@@ -32,9 +32,7 @@ extern const unsigned int syn_size;
 #define TO_8BIT 0
 #define TO_UNICODE 1
 
-extern int set_charset(const char *name);
-extern const char *codetoksym(int code);
-extern void list_charsets(FILE *f);
+extern const char *codetoksym(struct keymap *kmap, int code);
 extern int ksymtocode(struct keymap *kmap, const char *s, int direction);
 extern int convert_code(struct keymap *kmap, int code, int direction);
 extern int add_capslock(struct keymap *kmap, int code);
