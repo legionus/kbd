@@ -59,7 +59,7 @@ lk_get_funcs(struct keymap *kmap, int fd)
 			return -1;
 		}
 
-		if (!strlen(kbs.kb_string))
+		if (!strlen((char *) kbs.kb_string))
 			continue;
 
 		if (addfunc(kmap, kbs) < 0)
@@ -81,7 +81,7 @@ lk_get_diacrs(struct keymap *kmap, int fd)
 	struct kbdiacrs kd;
 	struct kbdiacr *ar = kd.kbdiacr;
 #endif
-	int i;
+	unsigned int i;
 
 	if (ioctl(fd, request, (unsigned long) &kd)) {
 		log_error(kmap, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
