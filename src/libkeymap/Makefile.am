@@ -45,7 +45,7 @@ libkeymap_la_SOURCES = \
 if BUILD_LIBKEYMAP
 lib_LTLIBRARIES = libkeymap.la
 nobase_include_HEADERS = $(headers)
-#libkeymap_la_LDFLAGS = -export-symbols-regex ^lk_.*
+libkeymap_la_LDFLAGS = -export-symbols-regex ^lk_.*
 else
 noinst_LTLIBRARIES = libkeymap.la
 endif
