@@ -241,7 +241,7 @@ main(int argc, char *argv[])
 	} else if (options & OPT_M) {
 		rc = lk_dump_ctable(&kmap, stdout);
 	} else {
-		rc = lk_loadkeys(&kmap, fd, kbd_mode);
+		rc = lk_load_keymap(&kmap, fd, kbd_mode);
 	}
 
  fail:	lk_free(&kmap);

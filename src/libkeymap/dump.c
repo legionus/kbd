@@ -1,15 +1,16 @@
-/* loadkeys.parse.y
+/* dump.c
  *
  * This file is part of kbd project.
  * Copyright (C) 1993  Risto Kankkunen.
  * Copyright (C) 1993  Eugene G. Crosser.
  * Copyright (C) 1994-2007  Andries E. Brouwer.
- * Copyright (C) 2007-2012  Alexey Gladkov <gladkov.alexey@gmail.com>
+ * Copyright (C) 2007-2013  Alexey Gladkov <gladkov.alexey@gmail.com>
  *
  * This file is covered by the GNU General Public License,
  * which should be included with kbd as the file COPYING.
  */
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
 #include <unistd.h>
 
@@ -18,7 +19,29 @@
 #include "nls.h"
 
 #include "keymap.h"
-#include "parseP.h"
+
+#define U(x) ((x) ^ 0xf000)
+
+static void
+outchar(FILE *fd, unsigned char c, int comma)
+{
+	fprintf(fd, "'");
+	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c"
+	       : isgraph(c) ? "%c"
+	       : "\\%03o", c);
+	fprintf(fd, comma ? "', " : "'");
+}
+
+// FIXME: Merge outchar ?
+static void
+dumpchar(FILE *fd, unsigned char c, int comma)
+{
+	fprintf(fd, "'");
+	fprintf(fd, (c == '\'' || c == '\\') ? "\\%c"
+	       : (isgraph(c) || c == ' ' || c >= 0200) ? "%c"
+	       : "\\%03o", c);
+	fprintf(fd, comma ? "', " : "'");
+}
 
 int
 lk_dump_bkeymap(struct keymap *kmap)
@@ -29,7 +52,7 @@ lk_dump_bkeymap(struct keymap *kmap)
 	char flag, magic[] = "bkeymap";
 	unsigned short v;
 
-	if (do_constant(kmap) < 0)
+	if (lk_add_constants(kmap) < 0)
 		return -1;
 
 	if (write(1, magic, 7) == -1)
@@ -54,6 +77,27 @@ lk_dump_bkeymap(struct keymap *kmap)
 	return -1;
 }
 
+static char *
+mk_mapname(char modifier)
+{
+	static char *mods[8] = {
+		"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
+	};
+	static char buf[60];
+	int i;
+
+	if (!modifier)
+		return "plain";
+	buf[0] = 0;
+	for (i = 0; i < 8; i++)
+		if (modifier & (1 << i)) {
+			if (buf[0])
+				strcat(buf, "_");
+			strcat(buf, mods[i]);
+		}
+	return buf;
+}
+
 int
 lk_dump_ctable(struct keymap *kmap, FILE *fd)
 {
@@ -66,7 +110,7 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 	unsigned int func_table_offs[MAX_NR_FUNC];
 	unsigned int func_buf_offset = 0;
 
-	if (do_constant(kmap) < 0)
+	if (lk_add_constants(kmap) < 0)
 		return -1;
 
 	fprintf(fd,

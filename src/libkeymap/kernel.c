@@ -1,7 +1,7 @@
-/* load.c
+/* kernel.c
  *
  * This file is part of kbd project.
- * Copyright (C) 2012  Alexey Gladkov <gladkov.alexey@gmail.com>
+ * Copyright (C) 2012-2013  Alexey Gladkov <gladkov.alexey@gmail.com>
  *
  * This file is covered by the GNU General Public License,
  * which should be included with kbd as the file COPYING.
@@ -13,10 +13,9 @@
 
 #include "nls.h"
 #include "keymap.h"
-#include "parseP.h"
 
 int
-lk_get_keys(struct keymap *kmap, int fd)
+lk_kernel_keys(struct keymap *kmap, int fd)
 {
 	int i, t;
 	struct kbentry ke;
@@ -33,19 +32,19 @@ lk_get_keys(struct keymap *kmap, int fd)
 				return -1;
 			}
 
-			if (addkey(kmap, i, t, ke.kb_value) < 0)
+			if (lk_add_key(kmap, i, t, ke.kb_value) < 0)
 				return -1;
 		}
 	}
 
-	if (do_constant(kmap) < 0)
+	if (lk_add_constants(kmap) < 0)
 		return -1;
 
 	return 0;
 }
 
 int
-lk_get_funcs(struct keymap *kmap, int fd)
+lk_kernel_funcs(struct keymap *kmap, int fd)
 {
 	int i;
 	struct kbsentry kbs;
@@ -62,7 +61,7 @@ lk_get_funcs(struct keymap *kmap, int fd)
 		if (!strlen((char *) kbs.kb_string))
 			continue;
 
-		if (addfunc(kmap, kbs) < 0)
+		if (lk_add_func(kmap, kbs) < 0)
 			return -1;
 	}
 
@@ -70,7 +69,7 @@ lk_get_funcs(struct keymap *kmap, int fd)
 }
 
 int
-lk_get_diacrs(struct keymap *kmap, int fd)
+lk_kernel_diacrs(struct keymap *kmap, int fd)
 {
 #ifdef KDGKBDIACRUC
 	int request = KDGKBDIACRUC;
@@ -90,7 +89,7 @@ lk_get_diacrs(struct keymap *kmap, int fd)
 	}
 
 	for (i = 0; i < kd.kb_cnt; i++) {
-		if (compose(kmap, (ar+i)->diacr, (ar+i)->base, (ar+i)->result) < 0)
+		if (lk_add_compose(kmap, (ar+i)->diacr, (ar+i)->base, (ar+i)->result) < 0)
 			return -1;
 	}
 
@@ -98,11 +97,11 @@ lk_get_diacrs(struct keymap *kmap, int fd)
 }
 
 int
-lk_get_keymap(struct keymap *kmap, int fd)
+lk_kernel_keymap(struct keymap *kmap, int fd)
 {
-	if (lk_get_keys(kmap, fd)   < 0 ||
-	    lk_get_funcs(kmap, fd)  < 0 ||
-	    lk_get_diacrs(kmap, fd) < 0)
+	if (lk_kernel_keys(kmap, fd)   < 0 ||
+	    lk_kernel_funcs(kmap, fd)  < 0 ||
+	    lk_kernel_diacrs(kmap, fd) < 0)
 		return -1;
 	return 0;
 }

@@ -16,7 +16,6 @@
 
 #include "nls.h"
 #include "keymap.h"
-#include "parseP.h"
 
 static char
 valid_type(int fd, int t)

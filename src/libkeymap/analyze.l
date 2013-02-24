@@ -8,8 +8,13 @@
 #include "paths.h"
 
 #include "parser.h"
-#include "keymap.h"
 %}
+
+%top {
+#include "keymap.h"
+int stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner);
+int stack_pop(struct keymap *kmap, void *scanner);
+}
 
 %option reentrant
 %option bison-bridge

@@ -2,11 +2,11 @@
 #define LK_KEYMAP_H
 
 #include <keymap/data.h>
-#include <keymap/base.h>
+#include <keymap/common.h>
 #include <keymap/dump.h>
-#include <keymap/load.h>
+#include <keymap/kernel.h>
+#include <keymap/kmap.h>
 #include <keymap/logging.h>
-#include <keymap/parse.h>
 #include <keymap/findfile.h>
 #include <keymap/charset.h>
 

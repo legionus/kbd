@@ -157,7 +157,7 @@ main (int argc, char *argv[]) {
 		kmap.prefer_unicode = 1;
 	}
 
-	if ((rc = lk_get_keymap(&kmap, fd)) < 0)
+	if ((rc = lk_kernel_keymap(&kmap, fd)) < 0)
 		goto fail;
 
 	if (short_info || long_info) {

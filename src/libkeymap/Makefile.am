@@ -6,11 +6,12 @@ AM_CPPFLAGS = \
 headers = \
 	keymap.h \
 	keymap/data.h \
-	keymap/base.h \
+	keymap/charset.h \
+	keymap/common.h \
 	keymap/dump.h \
-	keymap/load.h \
+	keymap/kernel.h \
+	keymap/kmap.h \
 	keymap/logging.h \
-	keymap/parse.h \
 	keymap/findfile.h
 
 ksyms_headers = \
@@ -34,12 +35,10 @@ ksyms_headers = \
 
 libkeymap_la_SOURCES = \
 	$(headers) \
-	findfile.c \
-	base.c load.c dump.c \
-	parser.y parser.h analyze.l analyze.h parseP.h \
+	findfile.c common.c kernel.c dump.c kmap.c summary.c loadkeys.c \
+	parser.y parser.h analyze.l analyze.h \
 	modifiers.c modifiers.h \
 	ksyms.c ksyms.h $(ksyms_headers) \
-	summary.c \
 	$(srcdir)/../nls.h $(srcdir)/../paths.h $(srcdir)/../kbd.h
 
 if BUILD_LIBKEYMAP
