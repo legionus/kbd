@@ -11,6 +11,7 @@ int lk_remove_key(struct keymap *kmap, int k_index, int k_table);
 
 int lk_add_func(struct keymap *kmap, struct kbsentry kbs);
 
+int lk_add_diacr(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res);
 int lk_add_compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res);
 
 int lk_add_constants(struct keymap *kmap);

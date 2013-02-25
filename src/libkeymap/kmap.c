@@ -159,9 +159,26 @@ lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 }
 
 int
-lk_add_compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res)
+lk_add_diacr(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res)
 {
 	accent_entry *ptr;
+
+	if (kmap->accent_table_size == MAX_DIACR) {
+		log_error(kmap, _("lk_add_compose table overflow"));
+		return -1;
+	}
+
+	ptr = &(kmap->accent_table[kmap->accent_table_size++]);
+	ptr->diacr  = diacr;
+	ptr->base   = base;
+	ptr->result = res;
+
+	return 0;
+}
+
+int
+lk_add_compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res)
+{
 	int direction;
 
 #ifdef KDSKBDIACRUC
@@ -171,17 +188,11 @@ lk_add_compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsig
 #endif
 		direction = TO_8BIT;
 
-	if (kmap->accent_table_size == MAX_DIACR) {
-		log_error(kmap, _("lk_add_compose table overflow"));
-		return -1;
-	}
-
-	ptr = &(kmap->accent_table[kmap->accent_table_size++]);
-	ptr->diacr  = convert_code(kmap, diacr, direction);
-	ptr->base   = convert_code(kmap, base, direction);
-	ptr->result = convert_code(kmap, res, direction);
-
-	return 0;
+	return lk_add_diacr(kmap,
+		convert_code(kmap, diacr, direction),
+		convert_code(kmap, base, direction),
+		convert_code(kmap, res, direction)
+	);
 }
 
 static int

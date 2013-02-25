@@ -89,7 +89,7 @@ lk_kernel_diacrs(struct keymap *kmap, int fd)
 	}
 
 	for (i = 0; i < kd.kb_cnt; i++) {
-		if (lk_add_compose(kmap, (ar+i)->diacr, (ar+i)->base, (ar+i)->result) < 0)
+		if (lk_add_diacr(kmap, (ar+i)->diacr, (ar+i)->base, (ar+i)->result) < 0)
 			return -1;
 	}
 
