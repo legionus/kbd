@@ -580,5 +580,4 @@ lk_dump_keymap(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 	lk_dump_keymaps(kmap, fd);
 	lk_dump_keys(kmap, fd, table_shape, numeric);
 	lk_dump_funcs(kmap, fd);
-	lk_dump_diacs(kmap, fd);
 }
