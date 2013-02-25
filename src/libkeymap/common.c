@@ -53,4 +53,9 @@ lk_free(struct keymap *kmap)
 		if (kmap->key_map[i] != NULL)
 			free(kmap->key_map[i]);
 	}
+
+	for (i = 0; i < MAX_NR_FUNC; i++) {
+		if (kmap->func_table[i] != NULL)
+			free(kmap->func_table[i]);
+	}
 }
