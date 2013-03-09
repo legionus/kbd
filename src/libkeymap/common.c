@@ -31,13 +31,16 @@ lkerror(const char *file attr_unused, int line attr_unused, const char *fn attr_
 }
 
 int
-lk_init(struct keymap *km)
+lk_init(struct keymap *kmap)
 {
-	memset(km, 0, sizeof(struct keymap));
+	if (!kmap)
+		return -1;
 
-	km->verbose     = LOG_NORMAL;
-	km->log_message = lkmessage;
-	km->log_error   = lkerror;
+	memset(kmap, 0, sizeof(struct keymap));
+
+	kmap->verbose     = LOG_NORMAL;
+	kmap->log_message = lkmessage;
+	kmap->log_error   = lkerror;
 
 	return 0;
 }
@@ -47,6 +50,10 @@ void
 lk_free(struct keymap *kmap)
 {
 	int i;
+
+	if (!kmap)
+		return;
+
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (kmap->keymap_was_set[i] != NULL)
 			free(kmap->keymap_was_set[i]);
