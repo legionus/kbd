@@ -4,6 +4,6 @@
 #include <keymap/data.h>
 
 int lk_init(struct keymap *km);
-void lk_free(struct keymap *kmap);
+int lk_free(struct keymap *kmap);
 
 #endif /* LK_COMMON_H */

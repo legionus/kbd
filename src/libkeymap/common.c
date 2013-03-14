@@ -46,13 +46,13 @@ lk_init(struct keymap *kmap)
 }
 
 
-void
+int
 lk_free(struct keymap *kmap)
 {
 	int i;
 
 	if (!kmap)
-		return;
+		return -1;
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (kmap->keymap_was_set[i] != NULL)
@@ -65,4 +65,6 @@ lk_free(struct keymap *kmap)
 		if (kmap->func_table[i] != NULL)
 			free(kmap->func_table[i]);
 	}
+
+	return 0;
 }
