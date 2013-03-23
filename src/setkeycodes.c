@@ -14,7 +14,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(char *s) {
 	fprintf(stderr, "setkeycode: %s\n", s);
 	fprintf(stderr, _(

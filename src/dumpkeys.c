@@ -24,7 +24,7 @@
 static int fd;
 static int verbose;
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void) {
 	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
 	fprintf(stderr, _("\

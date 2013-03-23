@@ -37,7 +37,7 @@ int verbose = 0;
 int force = 0;
 int debug = 0;
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void) {
         fprintf(stderr,
 		_("Usage:\n\t%s [-C console] [-o map.orig]\n"), progname);

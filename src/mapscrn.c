@@ -123,7 +123,7 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno) {
 }
 
 static int
-readnewmapfromfile(attr_unused int fd, char *mfil, char *buf, unsigned short *ubuf) {
+readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf) {
 	struct stat stbuf;
 	int u = 0;
 	int lineno = 0;
@@ -192,7 +192,7 @@ loadnewmap(int fd, char *mfil) {
 
 	u = 0;
 	if (mfil)
-		u = readnewmapfromfile(fd, mfil, buf, ubuf);
+		u = readnewmapfromfile(mfil, buf, ubuf);
 
 	/* do we need to use loaduniscrnmap() ? */
 	if (u) {

@@ -331,7 +331,7 @@ main(int argc, char **argv) {
     return 0;
 }
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage() {
     fprintf(stderr,
 	    _("resizecons:\n"

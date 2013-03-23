@@ -29,7 +29,7 @@ static const char *progname = NULL;
 static const char *const dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
 static const char *const suffixes[] = { "", ".kmap", ".map", 0 };
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void)
 {
 	fprintf(stderr, _("loadkeys version %s\n"

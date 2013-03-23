@@ -178,7 +178,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 }
 
 #ifndef KIOCSRATE
-#define arg_state attr_unused
+#define arg_state __attribute__ ((unused))
 #else
 #define arg_state
 #endif
@@ -217,7 +217,7 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 }
 
 static void
-sigalrmhandler( attr_unused int sig ) {
+sigalrmhandler(int sig __attribute__ ((unused))) {
 	fprintf( stderr, "kbdrate: Failed waiting for kbd controller!\n" );
 	raise( SIGINT );
 }

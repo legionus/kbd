@@ -67,7 +67,7 @@ findpartialfont(char *fnam, lkfile_t *fp) {
     return lk_findfile(fnam, partfontdirpath, partfontsuffixes, fp);
 }
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void)
 {
         fprintf(stderr, _(

@@ -69,7 +69,8 @@ struct strdata {
 
 %{
 static int
-yyerror(yyscan_t scanner attr_unused, struct keymap *kmap, const char *s)
+yyerror(yyscan_t scanner __attribute__ ((unused)),
+        struct keymap *kmap, const char *s)
 {
 	ERR(kmap, "%s", s);
 	return 0;
