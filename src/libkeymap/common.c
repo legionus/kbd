@@ -5,30 +5,58 @@
 #include "kbd.h"
 #include "keymap.h"
 
-static void attr_fmt45
-lkmessage(const char *file attr_unused, int line attr_unused, const char *fn attr_unused,
-          const char *fmt, ...)
+void __attribute__ ((format (printf, 6, 7)))
+lk_log(struct keymap *kmap, int priority,
+       const char *file, int line, const char *fn,
+       const char *fmt, ...)
 {
-	va_list ap;
-	va_start(ap, fmt);
-#ifdef DEBUG
-	fprintf(stdout, "%s(%d): %s: ", file, line, fn);
-#endif
-	vfprintf(stdout, fmt, ap);
-	fprintf(stdout, "\n");
-	va_end(ap);
+	va_list args;
+	if (kmap->log_fn == NULL)
+		return;
+	va_start(args, fmt);
+	kmap->log_fn(kmap->log_data, priority, file, line, fn, fmt, args);
+	va_end(args);
 }
 
-static void attr_fmt45
-lkerror(const char *file attr_unused, int line attr_unused, const char *fn attr_unused,
-        const char *fmt, ...)
+#ifndef DEBUG
+#   define log_unused __attribute__ ((unused))
+#else
+#   define log_unused
+#endif
+
+static void
+log_file(void *data,
+         int priority     log_unused,
+         const char *file log_unused,
+         const int line   log_unused,
+         const char *fn   log_unused,
+         const char *format, va_list args)
 {
-	va_list ap;
-	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
-	fprintf(stderr, "\n");
-	va_end(ap);
+	FILE *fp = data;
+#ifdef DEBUG
+	char buf[16];
+	const char *priname;
+
+	switch (priority) {
+		case LOG_EMERG:   priname = "EMERGENCY"; break;
+		case LOG_ALERT:   priname = "ALERT";     break;
+		case LOG_CRIT:    priname = "CRITICAL";  break;
+		case LOG_ERR:     priname = "ERROR";     break;
+		case LOG_WARNING: priname = "WARNING";   break;
+		case LOG_NOTICE:  priname = "NOTICE";    break;
+		case LOG_INFO:    priname = "INFO";      break;
+		case LOG_DEBUG:   priname = "DEBUG";     break;
+		default:
+			snprintf(buf, sizeof(buf), "L:%d", priority);
+			priname = buf;
+	}
+	fprintf(fp, "libkeymap: %s %s:%d %s: ", priname, file, line, fn);
+#endif
+	vfprintf(fp, format, args);
+	fprintf(fp, "\n");
 }
+
+#undef log_unused
 
 int
 lk_init(struct keymap *kmap)
@@ -38,9 +66,9 @@ lk_init(struct keymap *kmap)
 
 	memset(kmap, 0, sizeof(struct keymap));
 
-	kmap->verbose     = LOG_NORMAL;
-	kmap->log_message = lkmessage;
-	kmap->log_error   = lkerror;
+	kmap->log_fn       = log_file;
+	kmap->log_data     = stderr;
+	kmap->log_priority = LOG_ERR;
 
 	return 0;
 }

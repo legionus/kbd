@@ -17,19 +17,6 @@ typedef enum {
 	LKFLAG_CLEAR_STRINGS = (1 << 3),
 } lkflags;
 
-/* LOG_QUIET  - quiet (all messages are disabled)
- * LOG_NORMAL - normal output
- * LOG_VERBOSE{1,2,..} - verbosity levels
- */
-typedef enum {
-	LOG_QUIET = 0,
-	LOG_NORMAL,
-	LOG_VERBOSE1,
-	LOG_VERBOSE2,
-	LOG_VERBOSE3,
-	LOG_MAXVALUE
-} lkverbosity;
-
 #define MAX_INCLUDE_DEPTH 20
 
 struct keymap {
@@ -63,14 +50,11 @@ struct keymap {
 	int state_ptr;
 	lkfile_t *stack[MAX_INCLUDE_DEPTH];
 
-	/* Verbosity level */
-	lkverbosity verbose;
-
-	__attribute__ ((format (printf, 4, 5)))
-	void (*log_message)(const char *file, int line, const char *fn, const char *format, ...);
-
-	__attribute__ ((format (printf, 4, 5)))
-	void (*log_error)(const char *file, int line, const char *fn, const char *format, ...);
+	int log_priority;
+	void (*log_fn)(void *data, int priority,
+	               const char *file, int line, const char *fn,
+	               const char *format, va_list args);
+	void *log_data;
 };
 
 #endif /* LK_DATA_H */

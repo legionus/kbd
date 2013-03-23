@@ -73,7 +73,7 @@ lk_dump_bkeymap(struct keymap *kmap)
 	}
 	return 0;
 
- fail:	log_error(kmap, _("Error writing map to file"));
+ fail:	ERR(kmap, _("Error writing map to file"));
 	return -1;
 }
 

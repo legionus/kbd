@@ -289,41 +289,36 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin1_syms[i].name)) {
-				log_verbose(kmap, LOG_VERBOSE1,
-					_("assuming iso-8859-1 %s\n"), s);
+				INFO(kmap, _("assuming iso-8859-1 %s"), s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, iso_8859_15_syms[i].name)) {
-				log_verbose(kmap, LOG_VERBOSE1,
-					_("assuming iso-8859-15 %s\n"), s);
+				INFO(kmap, _("assuming iso-8859-15 %s"), s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin2_syms[i].name)) {
-				log_verbose(kmap, LOG_VERBOSE1,
-					_("assuming iso-8859-2 %s\n"), s);
+				INFO(kmap, _("assuming iso-8859-2 %s"), s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin3_syms[i].name)) {
-				log_verbose(kmap, LOG_VERBOSE1,
-					_("assuming iso-8859-3 %s\n"), s);
+				INFO(kmap, _("assuming iso-8859-3 %s"), s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin4_syms[i].name)) {
-				log_verbose(kmap, LOG_VERBOSE1,
-					_("assuming iso-8859-4 %s\n"), s);
+				INFO(kmap, _("assuming iso-8859-4 %s"), s);
 				return K(KT_LATIN, 160 + i);
 			}
 	}
 
-	log_error(kmap, _("unknown keysym '%s'\n"), s);
+	ERR(kmap, _("unknown keysym '%s'\n"), s);
 
 	return CODE_FOR_UNKNOWN_KSYM;
 }

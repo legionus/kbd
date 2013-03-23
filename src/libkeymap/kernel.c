@@ -27,7 +27,7 @@ lk_kernel_keys(struct keymap *kmap, int fd)
 			ke.kb_value = 0;
 
 			if (ioctl(fd, KDGKBENT, (unsigned long) &ke)) {
-				log_error(kmap, _("KDGKBENT: %s: error at index %d in table %d"),
+				ERR(kmap, _("KDGKBENT: %s: error at index %d in table %d"),
 					strerror(errno), i, t);
 				return -1;
 			}
@@ -53,7 +53,7 @@ lk_kernel_funcs(struct keymap *kmap, int fd)
 		kbs.kb_func = i;
 
 		if (ioctl(fd, KDGKBSENT, (unsigned long) &kbs)) {
-			log_error(kmap, _("KDGKBSENT: %s: Unable to get function key string"),
+			ERR(kmap, _("KDGKBSENT: %s: Unable to get function key string"),
 				strerror(errno));
 			return -1;
 		}
@@ -83,7 +83,7 @@ lk_kernel_diacrs(struct keymap *kmap, int fd)
 	unsigned int i;
 
 	if (ioctl(fd, request, (unsigned long) &kd)) {
-		log_error(kmap, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
+		ERR(kmap, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
 			strerror(errno));
 		return -1;
 	}

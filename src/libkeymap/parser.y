@@ -71,7 +71,7 @@ struct strdata {
 static int
 yyerror(yyscan_t scanner attr_unused, struct keymap *kmap, const char *s)
 {
-	log_error(kmap, "%s", s);
+	ERR(kmap, "%s", s);
 	return 0;
 }
 
@@ -114,7 +114,7 @@ static int
 compose_as_usual(struct keymap *kmap, char *charset)
 {
 	if (charset && strcmp(charset, "iso-8859-1")) {
-		log_error(kmap, _("loadkeys: don't know how to compose for %s"), charset);
+		ERR(kmap, _("loadkeys: don't know how to compose for %s"), charset);
 		return -1;
 
 	} else {
@@ -186,7 +186,7 @@ line		: EOL
 charsetline	: CHARSET STRLITERAL EOL
 			{
 				if (lk_set_charset(kmap, (char *) $2.data)) {
-					log_error(kmap,
+					ERR(kmap,
 						_("unknown charset %s - ignoring charset request\n"),
 						(char *) $2.data);
 					YYERROR;
@@ -248,7 +248,7 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 				struct kbsentry ke;
 
 				if (KTYP($2) != KT_FN) {
-					log_error(kmap, _("'%s' is not a function key symbol"),
+					ERR(kmap, _("'%s' is not a function key symbol"),
 						syms[KTYP($2)].table[KVAL($2)]);
 					YYERROR;
 				}
@@ -345,7 +345,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					}
 
 					if (i < kmap->rvalct) {
-						log_error(kmap, _("too many (%d) entries on one line"),
+						ERR(kmap, _("too many (%d) entries on one line"),
 							kmap->rvalct);
 						YYERROR;
 					}
@@ -364,7 +364,7 @@ rvalue0		:
 rvalue1		: rvalue
 			{
 				if (kmap->rvalct >= MAX_NR_KEYMAPS) {
-					log_error(kmap, _("too many key definitions on one line"));
+					ERR(kmap, _("too many key definitions on one line"));
 					YYERROR;
 				}
 				kmap->key_buf[kmap->rvalct++] = $1;
@@ -388,7 +388,7 @@ lk_parse_keymap(struct keymap *kmap, lkfile_t *f)
 	yylex_init(&scanner);
 	yylex_init_extra(kmap, &scanner);
 
-	log_verbose(kmap, LOG_NORMAL, _("Loading %s"), f->pathname);
+	INFO(kmap, _("Loading %s"), f->pathname);
 
 	if (stack_push(kmap, f, scanner) == -1)
 		goto fail;

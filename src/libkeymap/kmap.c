@@ -13,13 +13,13 @@ int
 lk_add_map(struct keymap *kmap, int i, int explicit)
 {
 	if (i < 0 || i >= MAX_NR_KEYMAPS) {
-		log_error(kmap, _("lk_add_map called with bad index %d"), i);
+		ERR(kmap, _("lk_add_map called with bad index %d"), i);
 		return -1;
 	}
 
 	if (!kmap->defining[i]) {
 		if (kmap->keymaps_line_seen && !explicit) {
-			log_error(kmap, _("adding map %d violates explicit keymaps line"), i);
+			ERR(kmap, _("adding map %d violates explicit keymaps line"), i);
 			return -1;
 		}
 
@@ -36,12 +36,12 @@ lk_remove_key(struct keymap *kmap, int k_index, int k_table)
 	/* roughly: addkey(k_index, k_table, K_HOLE); */
 
 	if (k_index < 0 || k_index >= NR_KEYS) {
-		log_error(kmap, _("lk_remove_key called with bad index %d"), k_index);
+		ERR(kmap, _("lk_remove_key called with bad index %d"), k_index);
 		return -1;
 	}
 
 	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		log_error(kmap, _("lk_remove_key called with bad table %d"), k_table);
+		ERR(kmap, _("lk_remove_key called with bad table %d"), k_table);
 		return -1;
 	}
 
@@ -62,17 +62,17 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 	if (keycode == CODE_FOR_UNKNOWN_KSYM) {
 		/* is safer not to be silent in this case, 
 		 * it can be caused by coding errors as well. */
-		log_error(kmap, _("lk_add_key called with bad keycode %d"), keycode);
+		ERR(kmap, _("lk_add_key called with bad keycode %d"), keycode);
 		return -1;
 	}
 
 	if (k_index < 0 || k_index >= NR_KEYS) {
-		log_error(kmap, _("lk_add_key called with bad index %d"), k_index);
+		ERR(kmap, _("lk_add_key called with bad index %d"), k_index);
 		return -1;
 	}
 
 	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		log_error(kmap, _("lk_add_key called with bad table %d"), k_table);
+		ERR(kmap, _("lk_add_key called with bad table %d"), k_table);
 		return -1;
 	}
 
@@ -88,7 +88,7 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 		kmap->key_map[k_table] = (u_short *)malloc(NR_KEYS * sizeof(u_short));
 
 		if (kmap->key_map[k_table] == NULL) {
-			log_error(kmap, _("out of memory"));
+			ERR(kmap, _("out of memory"));
 			return -1;
 		}
 
@@ -100,7 +100,7 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 		kmap->keymap_was_set[k_table] = (char *)malloc(NR_KEYS);
 
 		if (kmap->key_map[k_table] == NULL) {
-			log_error(kmap, _("out of memory"));
+			ERR(kmap, _("out of memory"));
 			return -1;
 		}
 
@@ -139,7 +139,7 @@ lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 	x = kbs.kb_func;
 
 	if (x >= MAX_NR_FUNC) {
-		log_error(kmap, _("lk_add_func called with bad func %d"), kbs.kb_func);
+		ERR(kmap, _("lk_add_func called with bad func %d"), kbs.kb_func);
 		return -1;
 	}
 
@@ -151,7 +151,7 @@ lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 	kmap->func_table[x] = strdup((char *)kbs.kb_string);
 
 	if (!kmap->func_table[x]) {
-		log_error(kmap, _("out of memory"));
+		ERR(kmap, _("out of memory"));
 		return -1;
 	}
 
@@ -164,7 +164,7 @@ lk_add_diacr(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigne
 	accent_entry *ptr;
 
 	if (kmap->accent_table_size == MAX_DIACR) {
-		log_error(kmap, _("lk_add_compose table overflow"));
+		ERR(kmap, _("lk_add_compose table overflow"));
 		return -1;
 	}
 
@@ -258,7 +258,7 @@ lk_add_constants(struct keymap *kmap)
 			u_short key;
 
 			if (!kmap->key_map[r0]) {
-				log_error(kmap, _("impossible error in lk_add_constants"));
+				ERR(kmap, _("impossible error in lk_add_constants"));
 				return -1;
 			}
 

@@ -21,7 +21,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 	if (kmap->flags & LKFLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
-			log_error(kmap, _("KDSKBMODE: %s: could not switch to Unicode mode"),
+			ERR(kmap, _("KDSKBMODE: %s: could not switch to Unicode mode"),
 				strerror(errno));
 			goto fail;
 		}
@@ -41,20 +41,20 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 
 				if (fail) {
 					if (errno == EPERM) {
-						log_error(kmap, _("Keymap %d: Permission denied"), i);
+						ERR(kmap, _("Keymap %d: Permission denied"), i);
 						j = NR_KEYS;
 						continue;
 					}
-					log_error(kmap, "%s", strerror(errno));
+					ERR(kmap, "%s", strerror(errno));
 				} else
 					ct++;
 
-				log_verbose(kmap, LOG_VERBOSE1, _("keycode %d, table %d = %d%s"),
+				INFO(kmap, _("keycode %d, table %d = %d%s"),
 					j, i, (kmap->key_map[i])[j], fail ? _("    FAILED") : "");
 
-				if (fail && kmap->verbose > 1)
-					log_error(kmap, _("failed to bind key %d to value %d"),
-						j, (kmap->key_map[i])[j]);
+				if (fail)
+					WARN(kmap, _("failed to bind key %d to value %d"),
+					     j, (kmap->key_map[i])[j]);
 			}
 
 		} else if (kmap->keymaps_line_seen && !kmap->defining[i]) {
@@ -63,11 +63,11 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 			ke.kb_table = i;
 			ke.kb_value = K_NOSUCHMAP;
 
-			log_verbose(kmap, LOG_VERBOSE2, _("deallocate keymap %d"), i);
+			DBG(kmap, _("deallocate keymap %d"), i);
 
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
-					log_error(kmap, _("KDSKBENT: %s: could not deallocate keymap %d"),
+					ERR(kmap, _("KDSKBENT: %s: could not deallocate keymap %d"),
 						strerror(errno), i);
 					goto fail;
 				}
@@ -82,7 +82,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 						if (errno == EINVAL && i >= 16)
 							break;	/* old kernel */
 
-						log_error(kmap, _("KDSKBENT: %s: cannot deallocate or clear keymap"),
+						ERR(kmap, _("KDSKBENT: %s: cannot deallocate or clear keymap"),
 							strerror(errno));
 						goto fail;
 					}
@@ -92,7 +92,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 	}
 
 	if ((kmap->flags & LKFLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
-		log_error(kmap, _("KDSKBMODE: %s: could not return to original keyboard mode"),
+		ERR(kmap, _("KDSKBMODE: %s: could not return to original keyboard mode"),
 			strerror(errno));
 		goto fail;
 	}
@@ -111,7 +111,7 @@ ostr(struct keymap *kmap, char *s)
 	char *ns = ns0;
 
 	if (ns == NULL) {
-		log_error(kmap, _("out of memory"));
+		ERR(kmap, _("out of memory"));
 		return NULL;
 	}
 
@@ -152,7 +152,7 @@ deffuncs(struct keymap *kmap, int fd)
 				s = ostr(kmap, (char *)kbs.kb_string);
 				if (s == NULL)
 					return -1;
-				log_error(kmap, _("failed to bind string '%s' to function %s"),
+				ERR(kmap, _("failed to bind string '%s' to function %s"),
 					s, syms[KT_FN].table[kbs.kb_func]);
 				free(s);
 			} else {
@@ -162,7 +162,7 @@ deffuncs(struct keymap *kmap, int fd)
 			kbs.kb_string[0] = 0;
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
-				log_error(kmap, _("failed to clear string %s"),
+				ERR(kmap, _("failed to clear string %s"),
 					syms[KT_FN].table[kbs.kb_func]);
 			} else {
 				ct++;
@@ -184,7 +184,7 @@ defdiacs(struct keymap *kmap, int fd)
 	count = kmap->accent_table_size;
 	if (count > MAX_DIACR) {
 		count = MAX_DIACR;
-		log_error(kmap, _("too many compose definitions"));
+		ERR(kmap, _("too many compose definitions"));
 	}
 #ifdef KDSKBDIACRUC
 	if (kmap->prefer_unicode) {
@@ -214,11 +214,11 @@ defdiacs(struct keymap *kmap, int fd)
 
 	return kd.kb_cnt;
 
- fail1:	log_error(kmap, "KDSKBDIACR: %s", strerror(errno));
+ fail1:	ERR(kmap, "KDSKBDIACR: %s", strerror(errno));
 	return -1;
 
 #ifdef KDSKBDIACRUC
- fail2:	log_error(kmap, "KDSKBDIACRUC: %s", strerror(errno));
+ fail2:	ERR(kmap, "KDSKBDIACRUC: %s", strerror(errno));
 	return -1;
 #endif
 }
@@ -234,7 +234,7 @@ lk_load_keymap(struct keymap *kmap, int fd, int kbd_mode)
 	if ((keyct = defkeys(kmap, fd, kbd_mode)) < 0 || (funcct = deffuncs(kmap, fd)) < 0)
 		return -1;
 
-	log_verbose(kmap, LOG_VERBOSE1, _("\nChanged %d %s and %d %s"),
+	INFO(kmap, _("\nChanged %d %s and %d %s"),
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
@@ -244,11 +244,11 @@ lk_load_keymap(struct keymap *kmap, int fd, int kbd_mode)
 		if (diacct < 0)
 			return -1;
 
-		log_verbose(kmap, LOG_VERBOSE1, _("Loaded %d compose %s"),
+		INFO(kmap, _("Loaded %d compose %s"),
 			diacct, (diacct == 1) ? _("definition") : _("definitions"));
 
 	} else {
-		log_verbose(kmap, LOG_VERBOSE1, _("(No change in compose definitions)"));
+		INFO(kmap, _("(No change in compose definitions)"));
 	}
 
 	return 0;
