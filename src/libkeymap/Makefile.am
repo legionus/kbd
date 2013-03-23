@@ -1,6 +1,7 @@
 AM_CPPFLAGS = \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
+	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
 
 headers = \

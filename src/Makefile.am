@@ -2,6 +2,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
 	-I$(srcdir)/libkeymap/keymap -I$(builddir)/libkeymap/keymap \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
+	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
 
 SUBDIRS = vlock libkeymap
