@@ -65,7 +65,7 @@ lk_dump_bkeymap(struct keymap *kmap)
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (kmap->key_map[i]) {
 			for (j = 0; j < NR_KEYS / 2; j++) {
-				v = kmap->key_map[i][j];
+				v = lk_get_key(kmap, i, j);
 				if (write(1, &v, 2) == -1)
 					goto fail;
 			}
@@ -130,7 +130,7 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 			for (j = 0; j < NR_KEYS; j++) {
 				if (!(j % 8))
 					fprintf(fd, "\n");
-				fprintf(fd, "\t0x%04x,", U((kmap->key_map[i])[j]));
+				fprintf(fd, "\t0x%04x,", U(lk_get_key(kmap, i, j)));
 			}
 			fprintf(fd, "\n};\n\n");
 		}
@@ -402,7 +402,7 @@ lk_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 		for (i = 1; i < NR_KEYS; i++) {
 			int buf0, buf1, type;
 
-			buf0 = (kmap->key_map[j])[i];
+			buf0 = lk_get_key(kmap, j, i);
 
 			if (buf0 == -1)
 				break;
@@ -411,7 +411,7 @@ lk_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 
 			if ((type == KT_LATIN || type == KT_LETTER) && KVAL(buf0) < 128) {
 				buf1 = (kmap->defining[ja])
-					? kmap->key_map[ja][i]
+					? lk_get_key(kmap, ja, i)
 					: -1;
 
 				if (buf1 != K(KT_META, KVAL(buf0)))
@@ -430,7 +430,7 @@ no_shorthands:
 
 		for (j = 0; j < keymapnr; j++) {
 			buf[j] = (kmap->defining[j])
-				? (kmap->key_map[(kmap->defining[j])-1])[i]
+				? lk_get_key(kmap, kmap->defining[j]-1, i)
 				: K_HOLE;
 
 			if (buf[j] != K_HOLE)

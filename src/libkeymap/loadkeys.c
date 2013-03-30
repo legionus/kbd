@@ -35,7 +35,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 
 				ke.kb_index = j;
 				ke.kb_table = i;
-				ke.kb_value = (kmap->key_map[i])[j];
+				ke.kb_value = lk_get_key(kmap, i, j);
 
 				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
 
@@ -50,11 +50,11 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 					ct++;
 
 				INFO(kmap, _("keycode %d, table %d = %d%s"),
-					j, i, (kmap->key_map[i])[j], fail ? _("    FAILED") : "");
+					j, i, lk_get_key(kmap,i, j), fail ? _("    FAILED") : "");
 
 				if (fail)
 					WARN(kmap, _("failed to bind key %d to value %d"),
-					     j, (kmap->key_map[i])[j]);
+					     j, lk_get_key(kmap, i, j));
 			}
 
 		} else if (kmap->keymaps_line_seen && !kmap->defining[i]) {

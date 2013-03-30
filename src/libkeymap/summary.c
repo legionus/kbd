@@ -61,7 +61,7 @@ lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
 	int i, allocct = 0;
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap->key_map[i][0] == K_ALLOCATED)
+		if (lk_get_key(kmap, i, 0) == K_ALLOCATED)
 			allocct++;
 	}
 

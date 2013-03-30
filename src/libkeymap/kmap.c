@@ -31,6 +31,25 @@ lk_add_map(struct keymap *kmap, int i, int explicit)
 }
 
 int
+lk_get_key(struct keymap *kmap, int k_table, int k_index)
+{
+	if (k_index < 0 || k_index >= NR_KEYS) {
+		ERR(kmap, _("lk_get_key called with bad index %d"), k_index);
+		return -1;
+	}
+
+	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
+		ERR(kmap, _("lk_get_key called with bad table %d"), k_table);
+		return -1;
+	}
+
+	if (!(kmap->keymap_was_set[k_table]))
+		return -1;
+
+	return (kmap->key_map[k_table])[k_index];
+}
+
+int
 lk_remove_key(struct keymap *kmap, int k_index, int k_table)
 {
 	/* roughly: addkey(k_index, k_table, K_HOLE); */
@@ -262,7 +281,7 @@ lk_add_constants(struct keymap *kmap)
 				return -1;
 			}
 
-			key = (kmap->key_map[r0])[i];
+			key = lk_get_key(kmap, r0, i);
 			if (do_constant_key(kmap, i, key) == -1)
 				return -1;
 		}
