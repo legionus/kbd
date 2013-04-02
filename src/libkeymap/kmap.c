@@ -151,6 +151,29 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 }
 
 int
+lk_get_func(struct keymap *kmap, struct kbsentry *kbs)
+{
+	int x = kbs->kb_func;
+
+	if (x >= MAX_NR_FUNC) {
+		ERR(kmap, _("bad index %d"), x);
+		return -1;
+	}
+
+	if(!(kmap->func_table[x])) {
+		ERR(kmap, _("func %d not allocated"), x);
+		return -1;
+	}
+
+	strncpy((char *)kbs->kb_string, kmap->func_table[x],
+		sizeof(kbs->kb_string));
+	kbs->kb_string[sizeof(kbs->kb_string) - 1] = 0;
+
+	return 0;
+}
+
+
+int
 lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 {
 	int x;
