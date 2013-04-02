@@ -7,9 +7,11 @@ AC_PREREQ(2.60)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.9 -Wall])
+AM_INIT_AUTOMAKE([1.9 -Wall color-tests])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_HEADERS(config.h)
+
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
 
 m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 AM_SILENT_RULES([yes])
@@ -130,7 +132,8 @@ AC_CONFIG_FILES([Makefile
 		po/Makefile.in
 		src/Makefile
 		src/libkeymap/Makefile
-		src/vlock/Makefile])
+		src/vlock/Makefile
+		tests/Makefile])
 AC_OUTPUT
 
 AC_MSG_RESULT([
