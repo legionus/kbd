@@ -133,6 +133,7 @@ libkeymap_suite(void)
 
 	tcase_add_test(tc_core, test_add_key_0);
 	tcase_add_test(tc_core, test_add_key_1);
+	tcase_add_test(tc_core, test_add_key_2);
 	tcase_add_test(tc_core, test_add_func_0);
 	tcase_add_test(tc_core, test_add_diacr_0);
 
