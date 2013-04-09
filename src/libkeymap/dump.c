@@ -460,8 +460,6 @@ no_shorthands:
 			continue;
 		}
 
-		fprintf(fd, "\n");
-
 		typ = KTYP(buf[0]);
 		val = KVAL(buf[0]);
 		islatin = (typ == KT_LATIN || typ == KT_LETTER);
