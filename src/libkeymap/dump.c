@@ -437,7 +437,7 @@ no_shorthands:
 				all_holes = 0;
 		}
 
-		if (all_holes)
+		if (all_holes && table_shape != FULL_TABLE)
 			continue;
 
 		if (table_shape == FULL_TABLE) {
