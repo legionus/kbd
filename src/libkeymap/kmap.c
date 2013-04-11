@@ -103,14 +103,14 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 			return -1;
 		}
 
-		if (lk_add_map(kmap, k_table) == -1)
+		if (lk_add_map(kmap, k_table) < 0)
 			return -1;
 	}
 
 	if (!kmap->key_map[k_table]) {
 		kmap->key_map[k_table] = (u_short *)malloc(NR_KEYS * sizeof(u_short));
 
-		if (kmap->key_map[k_table] == NULL) {
+		if (!kmap->key_map[k_table]) {
 			ERR(kmap, _("out of memory"));
 			return -1;
 		}
@@ -122,7 +122,7 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 	if (!kmap->keymap_was_set[k_table]) {
 		kmap->keymap_was_set[k_table] = (char *)malloc(NR_KEYS);
 
-		if (kmap->key_map[k_table] == NULL) {
+		if (!kmap->key_map[k_table]) {
 			ERR(kmap, _("out of memory"));
 			return -1;
 		}
@@ -147,7 +147,7 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 		    (!kmap->keymap_was_set[alttable] ||
 		     !(kmap->keymap_was_set[alttable])[k_index]) &&
 		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
-			if (lk_add_key(kmap, k_index, alttable, K(KT_META, val)) == -1)
+			if (lk_add_key(kmap, k_index, alttable, K(KT_META, val)) < 0)
 				return -1;
 		}
 	}
@@ -185,7 +185,7 @@ lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 	x = kbs.kb_func;
 
 	if (x >= MAX_NR_FUNC) {
-		ERR(kmap, _("lk_add_func called with bad func %d"), kbs.kb_func);
+		ERR(kmap, _("bad func %d"), kbs.kb_func);
 		return -1;
 	}
 
@@ -210,7 +210,7 @@ lk_add_diacr(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigne
 	accent_entry *ptr;
 
 	if (kmap->accent_table_size == MAX_DIACR) {
-		ERR(kmap, _("lk_add_compose table overflow"));
+		ERR(kmap, _("table overflow"));
 		return -1;
 	}
 
@@ -223,17 +223,17 @@ lk_add_diacr(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigne
 }
 
 int
-lk_add_compose(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res)
+lk_add_compose(struct keymap *kmap,
+               unsigned int diacr,
+               unsigned int base,
+               unsigned int res)
 {
-	int direction;
+	int direction = TO_8BIT;
 
 #ifdef KDSKBDIACRUC
 	if (kmap->prefer_unicode)
 		direction = TO_UNICODE;
-	else
 #endif
-		direction = TO_8BIT;
-
 	return lk_add_diacr(kmap,
 		convert_code(kmap, diacr, direction),
 		convert_code(kmap, base, direction),
@@ -271,7 +271,7 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 			    kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
 				continue;
 
-			if (lk_add_key(kmap, i, j, defs[j % 16]) == -1)
+			if (lk_add_key(kmap, i, j, defs[j % 16]) < 0)
 				return -1;
 		}
 
@@ -279,11 +279,14 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 		/* do this also for keys like Escape,
 		   as promised in the man page */
 		for (j = 1; j < kmap->max_keymap; j++) {
-			if (kmap->defining[j] &&
-			    (!(kmap->keymap_was_set[j]) || !(kmap->keymap_was_set[j])[i])) {
-				if (lk_add_key(kmap, i, j, key) == -1)
-					return -1;
-			}
+			if (!kmap->defining[j])
+				continue;
+
+			if (kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
+				continue;
+
+			if (lk_add_key(kmap, i, j, key) < 0)
+				return -1;
 		}
 	}
 	return 0;
@@ -300,18 +303,20 @@ lk_add_constants(struct keymap *kmap)
 	}
 
 	for (i = 0; i < NR_KEYS; i++) {
-		if (kmap->key_is_constant[i]) {
-			u_short key;
+		u_short key;
 
-			if (!kmap->key_map[r0]) {
-				ERR(kmap, _("impossible error in lk_add_constants"));
-				return -1;
-			}
+		if (!kmap->key_is_constant[i])
+			continue;
 
-			key = lk_get_key(kmap, r0, i);
-			if (do_constant_key(kmap, i, key) == -1)
-				return -1;
+		if (!kmap->key_map[r0]) {
+			ERR(kmap, _("impossible error in lk_add_constants"));
+			return -1;
 		}
+
+		key = lk_get_key(kmap, r0, i);
+
+		if (do_constant_key(kmap, i, key) < 0)
+			return -1;
 	}
 	return 0;
 }
