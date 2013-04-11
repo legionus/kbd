@@ -234,13 +234,13 @@ range0		: NUMBER DASH NUMBER
 			{
 				int i;
 				for (i = $1; i <= $3; i++) {
-					if (lk_add_map(kmap, i, 1) == -1)
+					if (lk_add_map(kmap, i) == -1)
 						YYERROR;
 				}
 			}
 		| NUMBER
 			{
-				if (lk_add_map(kmap, $1, 1) == -1)
+				if (lk_add_map(kmap, $1) == -1)
 					YYERROR;
 			}
 		;

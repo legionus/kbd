@@ -10,23 +10,21 @@
 #include "modifiers.h"
 
 int
-lk_add_map(struct keymap *kmap, int i, int explicit)
+lk_add_map(struct keymap *kmap, int i)
 {
 	if (i < 0 || i >= MAX_NR_KEYMAPS) {
 		ERR(kmap, _("lk_add_map called with bad index %d"), i);
 		return -1;
 	}
 
-	if (!kmap->defining[i]) {
-		if (kmap->keymaps_line_seen && !explicit) {
-			ERR(kmap, _("adding map %d violates explicit keymaps line"), i);
-			return -1;
-		}
+	if (kmap->defining[i])
+		return 0;
 
-		kmap->defining[i] = i+1;
-		if (kmap->max_keymap <= i)
-			kmap->max_keymap = i + 1;
-	}
+	kmap->defining[i] = i + 1;
+
+	if (kmap->max_keymap <= i)
+		kmap->max_keymap = i + 1;
+
 	return 0;
 }
 
@@ -99,7 +97,13 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 		return 0;
 
 	if (!kmap->defining[k_table]) {
-		if (lk_add_map(kmap, k_table, 0) == -1)
+		if (kmap->keymaps_line_seen) {
+			ERR(kmap, _("adding map %d violates explicit keymaps line"),
+			    k_table);
+			return -1;
+		}
+
+		if (lk_add_map(kmap, k_table) == -1)
 			return -1;
 	}
 
