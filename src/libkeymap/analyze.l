@@ -114,7 +114,7 @@ static int
 find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 {
 	const char *include_dirpath2[] = { 0, 0, 0, 0 };
-	char *t, *te, *t1, *t2;
+	char *t, *te, *t1 = NULL, *t2 = NULL;
 	int len, rc = 1;
 
 	if (!fn)
@@ -146,8 +146,10 @@ find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 	free(t);
 	return rc;
 
-	/* FIXME: free */
 nomem:	ERR(kmap, _("out of memory"));
+	if (t1) free(t1);
+	if (t2) free(t2);
+	if (t)  free(t);
 	return -1;
 }
 
