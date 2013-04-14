@@ -212,7 +212,7 @@ defdiacs(struct keymap *kmap, int fd)
 			goto fail1;
 	}
 
-	return kd.kb_cnt;
+	return count;
 
  fail1:	ERR(kmap, "KDSKBDIACR: %s", strerror(errno));
 	return -1;
