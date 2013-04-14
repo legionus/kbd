@@ -48,8 +48,8 @@ stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner)
 
 	kmap->stack[i]->fd   = fp->fd;
 	kmap->stack[i]->pipe = fp->pipe;
-	strncpy(kmap->stack[i]->pathname, fp->pathname, sizeof(kmap->stack[i]->pathname) - 1);
-	kmap->stack[i]->pathname[sizeof(kmap->stack[i]->pathname)] = '\0';
+	strncpy(kmap->stack[i]->pathname, fp->pathname, sizeof(kmap->stack[i]->pathname));
+	kmap->stack[i]->pathname[sizeof(kmap->stack[i]->pathname) - 1] = '\0';
 
 	yypush_buffer_state(yy_create_buffer(fp->fd, YY_BUF_SIZE, scanner), scanner);
 	return 0;
