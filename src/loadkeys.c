@@ -141,10 +141,10 @@ main(int argc, char *argv[])
 			kmap.prefer_unicode = 1;
 			break;
 		case 'q':
-			kmap.log_priority = LOG_ERR;
+			lk_set_log_priority(&kmap, LOG_ERR);
 			break;
 		case 'v':
-			kmap.log_priority = LOG_INFO;
+			lk_set_log_priority(&kmap, LOG_INFO);
 			break;
 		case 'V':
 			fprintf(stdout, _("%s from %s\n"), progname, PACKAGE_STRING);

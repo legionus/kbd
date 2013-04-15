@@ -22,7 +22,6 @@
 #include "version.h"
 
 static int fd;
-static int verbose;
 
 static void __attribute__ ((noreturn))
 usage(void) {
@@ -123,7 +122,7 @@ main (int argc, char *argv[]) {
 				diac_only = 1;
 				break;
 			case 'v':
-				verbose = 1;
+				lk_set_log_priority(&kmap, LOG_INFO);
 				break;
 			case 'c':
 				if ((lk_set_charset(&kmap, optarg)) != 0) {

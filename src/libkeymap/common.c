@@ -59,6 +59,41 @@ log_file(void *data,
 #undef log_unused
 
 int
+lk_set_log_fn(struct keymap *kmap,
+	void (*log_fn)(void *data, int priority,
+	               const char *file, int line, const char *fn,
+	               const char *format, va_list args),
+	const void *data)
+{
+	if (!kmap)
+		return -1;
+
+	kmap->log_fn   = log_fn;
+	kmap->log_data = (void *)data;
+
+	return 0;
+}
+
+int
+lk_get_log_priority(struct keymap *kmap)
+{
+	if (!kmap)
+		return -1;
+
+	return kmap->log_priority;
+}
+
+int
+lk_set_log_priority(struct keymap *kmap, int priority)
+{
+	if (!kmap)
+		return -1;
+
+	kmap->log_priority = priority;
+	return 0;
+}
+
+int
 lk_init(struct keymap *kmap)
 {
 	if (!kmap)
@@ -66,9 +101,8 @@ lk_init(struct keymap *kmap)
 
 	memset(kmap, 0, sizeof(struct keymap));
 
-	kmap->log_fn       = log_file;
-	kmap->log_data     = stderr;
-	kmap->log_priority = LOG_ERR;
+	lk_set_log_fn(kmap, log_file, stderr);
+	lk_set_log_priority(kmap, LOG_ERR);
 
 	return 0;
 }
