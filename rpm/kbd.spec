@@ -1,7 +1,7 @@
 Name: kbd
 Serial: 0
-Version: 1.15.3
-Release: alt0.20110502
+Version: 1.15.5
+Release: alt1
 
 Group: Terminals
 Summary: Tools for managing the Linux console
@@ -38,7 +38,7 @@ Patch23: man_pages.diff
 Patch100: kbd-1.12-alt-unicode_start_vs_setfont.patch
 
 # Automatically added by buildreq on Mon Jan 07 2008 (-bi)
-BuildRequires: flex libpam-devel cvs
+BuildRequires: flex libpam-devel
 
 %description
 This package contains tools for managing the Linux console
@@ -149,6 +149,18 @@ will start to repeat.
 
 This package contains usermode bindings for kbdrate.
 
+%package -n vlock
+Summary: A program which locks one or more virtual consoles
+Group: Terminals
+
+PreReq: /etc/tcb
+
+%description -n vlock
+The vlock program locks one or more sessions on the console.  Vlock can
+lock the current terminal (local or remote) or the entire virtual console
+system, which completely disables all console access.  The vlock program
+unlocks when the password of the user who started vlock is typed.
+
 
 %prep
 %setup -q
@@ -183,7 +195,9 @@ for binary in setfont dumpkeys kbd_mode unicode_start unicode_stop chvt openvt d
 done
 
 # Set up kbdrate to be userhelpered.
-mkdir -p %buildroot/sbin \
+mkdir -p \
+	%buildroot/sbin \
+	%buildroot/%_bindir \
 	%buildroot/%_sysconfdir/security/console.apps \
 	%buildroot/%_sysconfdir/pam.d
 
@@ -192,6 +206,9 @@ install -p -m640 rpm/util-linux-2.9w-kbdrate.apps %buildroot/%_sysconfdir/securi
 
 mv %buildroot/bin/kbdrate %buildroot/sbin/
 ln -s -- %_usr/lib/consolehelper/helper %buildroot/bin/kbdrate
+
+install -p -m640 src/vlock/vlock.pamd %buildroot/%_sysconfdir/pam.d/vlock
+mv %buildroot/bin/vlock %buildroot/%_bindir/
 
 mkdir -p \
 	%buildroot/%_initdir \
@@ -304,10 +321,12 @@ done
 %exclude %_bindir/openvt
 %exclude %_bindir/deallocvt
 %exclude %_bindir/fgconsole
+%exclude %_bindir/vlock
 %exclude %_man1dir/chvt*
 %exclude %_man1dir/openvt*
 %exclude %_man1dir/deallocvt*
 %exclude %_man1dir/fgconsole*
+%exclude %_man1dir/vlock.*
 %exclude %_man8dir/kbdrate.*
 
 %files -n %name-data
@@ -353,7 +372,16 @@ done
 %config(noreplace) %_sysconfdir/security/console.apps/kbdrate
 /bin/kbdrate
 
+%files -n vlock
+%attr(640,root,chkpwd) %config(noreplace) %_sysconfdir/pam.d/vlock
+%attr(2711,root,chkpwd) %_bindir/vlock
+%_man1dir/vlock.*
+
 %changelog
+* Wed Apr 17 2013 Alexey Gladkov <legion@altlinux.ru> 0:1.15.5-alt1
+- New release version (1.15.5).
+- Add vlock subpackage.
+
 * Mon May 02 2011 Alexey Gladkov <legion@altlinux.ru> 0:1.15.3-alt0.20110502
 - New snapshot.
 - openvt: Fix -v option.
