@@ -32,7 +32,7 @@ lk_kernel_keys(struct keymap *kmap, int fd)
 				return -1;
 			}
 
-			if (lk_add_key(kmap, i, t, ke.kb_value) < 0)
+			if (lk_add_key(kmap, t, i, ke.kb_value) < 0)
 				return -1;
 		}
 	}

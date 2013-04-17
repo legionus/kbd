@@ -48,17 +48,17 @@ lk_get_key(struct keymap *kmap, int k_table, int k_index)
 }
 
 int
-lk_remove_key(struct keymap *kmap, int k_index, int k_table)
+lk_del_key(struct keymap *kmap, int k_table, int k_index)
 {
 	/* roughly: addkey(k_index, k_table, K_HOLE); */
 
 	if (k_index < 0 || k_index >= NR_KEYS) {
-		ERR(kmap, _("lk_remove_key called with bad index %d"), k_index);
+		ERR(kmap, _("lk_del_key called with bad index %d"), k_index);
 		return -1;
 	}
 
 	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		ERR(kmap, _("lk_remove_key called with bad table %d"), k_table);
+		ERR(kmap, _("lk_del_key called with bad table %d"), k_table);
 		return -1;
 	}
 
@@ -72,7 +72,7 @@ lk_remove_key(struct keymap *kmap, int k_index, int k_table)
 }
 
 int
-lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
+lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode)
 {
 	int i;
 
@@ -147,7 +147,7 @@ lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode)
 		    (!kmap->keymap_was_set[alttable] ||
 		     !(kmap->keymap_was_set[alttable])[k_index]) &&
 		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
-			if (lk_add_key(kmap, k_index, alttable, K(KT_META, val)) < 0)
+			if (lk_add_key(kmap, alttable, k_index, K(KT_META, val)) < 0)
 				return -1;
 		}
 	}
@@ -271,7 +271,7 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 			    kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
 				continue;
 
-			if (lk_add_key(kmap, i, j, defs[j % 16]) < 0)
+			if (lk_add_key(kmap, j, i, defs[j % 16]) < 0)
 				return -1;
 		}
 
@@ -285,7 +285,7 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 			if (kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
 				continue;
 
-			if (lk_add_key(kmap, i, j, key) < 0)
+			if (lk_add_key(kmap, j, i, key) < 0)
 				return -1;
 		}
 	}

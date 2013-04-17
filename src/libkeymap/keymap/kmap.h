@@ -6,8 +6,8 @@
 
 int lk_add_map(struct keymap *kmap, int i);
 
-int lk_add_key(struct keymap *kmap, int k_index, int k_table, int keycode);
-int lk_remove_key(struct keymap *kmap, int k_index, int k_table);
+int lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode);
+int lk_del_key(struct keymap *kmap, int k_table, int k_index);
 int lk_get_key(struct keymap *kmap, int k_table, int k_index);
 
 

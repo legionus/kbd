@@ -283,12 +283,12 @@ singleline	:	{
 			}
 		  modifiers KEYCODE NUMBER EQUALS rvalue EOL
 			{
-				if (lk_add_key(kmap, $4, kmap->mod, $6) == -1)
+				if (lk_add_key(kmap, kmap->mod, $4, $6) < 0)
 					YYERROR;
 			}
 		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
 			{
-				if (lk_add_key(kmap, $3, 0, $5) == -1)
+				if (lk_add_key(kmap, 0, $3, $5) < 0)
 					YYERROR;
 			}
 		;
@@ -322,7 +322,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 						if (!(kmap->defining[j]))
 							continue;
 
-						if (lk_remove_key(kmap, $2, j) == -1)
+						if (lk_del_key(kmap, j, $2) == -1)
 							YYERROR;
 					}
 				}
@@ -339,7 +339,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 								? kmap->key_buf[i]
 								: K_HOLE;
 
-							if (lk_add_key(kmap, $2, j, keycode) == -1)
+							if (lk_add_key(kmap, j, $2, keycode) < 0)
 								YYERROR;
 						}
 						i++;
@@ -352,7 +352,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					}
 				} else {
 					for (i = 0; i < kmap->rvalct; i++) {
-						if (lk_add_key(kmap, $2, i, kmap->key_buf[i]) == -1)
+						if (lk_add_key(kmap, i, $2, kmap->key_buf[i]) < 0)
 							YYERROR;
 					}
 				}
