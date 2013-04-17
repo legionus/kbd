@@ -2,27 +2,30 @@
 # Copyright (C) Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2007, 2008.
 # This file is distributed under the same license as the kbd package.
 #
+# In fur and black, eyes over cream.
+#
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011, 2012.
+# Erwin Poeze <erwin.poeze@gmail.com>, 2009.
 # Elros Cyriatan <cyriatan@fastmail.fm>, 2003, 2004.
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008.
-# Erwin Poeze <erwin.poeze@gmail.com>\n"
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-1.15.1\n"
+"Project-Id-Version: kbd-1.15.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-04-12 15:14+0400\n"
-"PO-Revision-Date: 2009-09-29 20:40+0100\n"
-"Last-Translator: Erwin Poeze <erwin.poeze@gmail.com>\n"
+"POT-Creation-Date: 2012-11-16 00:52+0400\n"
+"PO-Revision-Date: 2012-11-26 20:18+0100\n"
+"Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.0\n"
 
 #: src/chvt.c:28
 #, c-format
 msgid "usage: chvt N\n"
-msgstr "Gebruik: chvt N\n"
+msgstr "Gebruik:  chvt N\n"
 
 #: src/deallocvt.c:33
 #, c-format
@@ -57,12 +60,12 @@ msgstr "KDGKBENT-fout op positie 0 in tabel %d\n"
 #: src/dumpkeys.c:79
 #, c-format
 msgid "%s: cannot find any keymaps?\n"
-msgstr "%s: kan geen toetsenbordindeling vinden?\n"
+msgstr "%s: kan geen toetsenbordkaarten vinden?  Vreemd...\n"
 
 #: src/dumpkeys.c:84
 #, c-format
 msgid "%s: plain map not allocated? very strange ...\n"
-msgstr "%s: gewone indeling niet toegewezen?  Heel vreemd...\n"
+msgstr "%s: gewone toetsenbordkaart niet toegewezen?  Heel vreemd...\n"
 
 #: src/dumpkeys.c:118
 #, c-format
@@ -72,7 +75,7 @@ msgstr "KDGKBENT-fout op positie %d in tabel %d\n"
 #: src/dumpkeys.c:272
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr "door kernel ondersteund toetscodebereik:     1 - %d\n"
+msgstr "door kernel ondersteund toetscodebereik:  1 - %d\n"
 
 #: src/dumpkeys.c:274
 #, c-format
@@ -82,7 +85,7 @@ msgstr "maximum aantal acties verbindbaar met een toets:  %d\n"
 #: src/dumpkeys.c:277
 #, c-format
 msgid "number of keymaps in actual use:                 %d\n"
-msgstr "aantal gebruikte toetsenbordindelingen:  %d\n"
+msgstr "aantal gebruikte toetsenbordkaarten:  %d\n"
 
 #: src/dumpkeys.c:280
 #, c-format
@@ -150,7 +153,7 @@ msgstr ""
 #: src/dumpkeys.c:398
 #, c-format
 msgid "# not alt_is_meta: on keymap %d key %d is bound to"
-msgstr "# niet alt_is_meta: op toetsenindeling %d is toets %d gebonden aan"
+msgstr "# Niet alt_is_meta: op toetsenkaart %d is toets %d gebonden aan"
 
 #: src/dumpkeys.c:475
 #, c-format
@@ -165,7 +168,7 @@ msgstr "KDGKBSENT is mislukt op positie %d: "
 #: src/dumpkeys.c:552
 #, c-format
 msgid "dumpkeys version %s"
-msgstr "dumpkeys-versie %s"
+msgstr "dumpkeys, versie %s"
 
 #: src/dumpkeys.c:553
 #, c-format
@@ -187,22 +190,22 @@ msgid ""
 "\t-c --charset="
 msgstr ""
 "\n"
-"Gebruik: dumpkeys [opties...]\n"
+"Gebruik:  dumpkeys [OPTIE...]\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h --help\t    deze hulptekst tonen\n"
-"  -i --short-info\t    informatie over toetsenbord-stuurprogramma tonen\n"
-"  -l --long-info\t    het bovenstaande plus de symbolen bekend bij "
+"  -h, --help              deze hulptekst tonen\n"
+"  -i, --short-info        informatie over toetsenbordstuurprogramma tonen\n"
+"  -l, --long-info         het bovenstaande plus de symbolen bekend bij "
 "'loadkeys'\n"
-"  -n --numeric\t    toetsentabel in hexadecimale notatie weergeven\n"
-"  -f --full-table\t    geen korte notaties gebruiken, één regel per "
+"  -n, --numeric           toetsentabel in hexadecimale notatie weergeven\n"
+"  -f, --full-table        geen korte notaties gebruiken, één regel per "
 "toetscode\n"
-"  -1 --separate-lines\t    één regel per (optietoets,toetscode)-paar\n"
-"     --funcs-only\t    alleen de functietoetsteksten tonen\n"
-"     --keys-only\t    alleen de toetsbindingen tonen\n"
-"     --compose-only\t    alleen de toetssamenstellingscombinaties tonen\n"
-"  -c --charset="
+"  -1, --separate-lines    één regel per (optietoets,toetscode)-paar\n"
+"      --funcs-only        alleen de functietoetsteksten tonen\n"
+"      --keys-only         alleen de toetsbindingen tonen\n"
+"      --compose-only      alleen de samenstellingstoetscombinaties tonen\n"
+"  -c, --charset="
 
 #: src/dumpkeys.c:570
 #, c-format
@@ -210,8 +213,7 @@ msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
 "\t\t\t    specified character set\n"
 msgstr ""
-"\t\t\t    tekenactiecodes via deze\n"
-"\t\t\t    tekenset interpreteren\n"
+"                       tekenactiecodes via deze tekenset interpreteren\n"
 
 #: src/fgconsole.c:17
 #, c-format
@@ -226,19 +228,19 @@ msgid ""
 "\t-V --version         display program version\n"
 "\t-n --next-available  display number of next unallocated VT\n"
 msgstr ""
-"%s versie %s\n"
+"%s, versie %s\n"
 "\n"
-"Gebruik: %s [opties]\n"
+"Gebruik:  %s [OPTIE...]\n"
 "\n"
-"Geldige opties zijn:\n"
+"  Geldige opties zijn:\n"
 "\n"
-"\t-h --help            deze hulptekst tonen\n"
-"\t-V --version         programmaversie tonen\n"
-"\t-n --next-available  nummer van volgende beschikbare VT tonen\n"
+"  -h, --help              deze hulptekst tonen\n"
+"  -n, --next-available    nummer van eerste ongebruikte VT tonen\n"
+"  -V, --version           programmaversie tonen\n"
 
 #: src/fgconsole.c:66
 msgid "Couldn't read VTNO: "
-msgstr "Kan VTNO niet lezen: "
+msgstr "Kan VT-nummer niet lezen: "
 
 #: src/findfile.c:51
 #, c-format
@@ -246,19 +248,19 @@ msgid "error executing  %s\n"
 msgstr "fout tijdens uitvoeren van %s\n"
 
 #: src/findfile.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: path too long: %s/%s\n"
-msgstr "%s: Waarschuwing: regel is te lang\n"
+msgstr "Waarschuwing: pad is te lang: %s/%s\n"
 
-#: src/getfd.c:59
+#: src/getfd.c:67
 #, c-format
 msgid "Couldn't open %s\n"
 msgstr "Kan %s niet openen\n"
 
-#: src/getfd.c:88 src/openvt.c:121
+#: src/getfd.c:84
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Kan geen bestandsbeschrijver verkrijgen die verwijst naar de console\n"
+msgstr "Kan geen bestandsdescriptor verkrijgen die verwijst naar de console\n"
 
 #: src/getkeycodes.c:18
 #, c-format
@@ -312,18 +314,20 @@ msgid ""
 "   or: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
 "   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
+"Gebruik:  %1$s [-C APPARAAT] getmode [text|graphics]\n"
+"     of:  %1$s [-C APPARAAT] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"     of:  %1$s [-C APPARAAT] gkbmeta [metabit|escprefix]\n"
+"     of:  %1$s [-C APPARAAT] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:65
 #, c-format
 msgid "Error: Not enough arguments.\n"
-msgstr ""
+msgstr "Fout: te weinig argumenten.\n"
 
 #: src/kbdinfo.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Unrecognized action: %s\n"
-msgstr ""
-"onbekend argument: '%s'\n"
-"\n"
+msgstr "Fout: onbekende actie: %s\n"
 
 #: src/kbd_mode.c:20
 #, c-format
@@ -333,27 +337,27 @@ msgstr "Gebruik:  kbd_mode [-a|-u|-k|-s] [-C apparaat]\n"
 #: src/kbd_mode.c:80
 #, c-format
 msgid "kbd_mode: error reading keyboard mode\n"
-msgstr "kbd_mode: fout tijdens lezen toetsenbordmodus\n"
+msgstr "kbd_mode: fout tijdens lezen van toetsenbordmodus\n"
 
 #: src/kbd_mode.c:85
 #, c-format
 msgid "The keyboard is in raw (scancode) mode\n"
-msgstr "Het toetsenbord is in ruwe (scancode) modus\n"
+msgstr "Het toetsenbord is in ruwe (scancode-)modus\n"
 
 #: src/kbd_mode.c:88
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode\n"
-msgstr "Het toetsenbord is in halfbakken (toetscode) modus\n"
+msgstr "Het toetsenbord is in halfbakken (toetscode-)modus\n"
 
 #: src/kbd_mode.c:91
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode\n"
-msgstr "Het toetsenbord is in de standaard (ASCII) modus\n"
+msgstr "Het toetsenbord is in de standaard modus (ASCII)\n"
 
 #: src/kbd_mode.c:94
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode\n"
-msgstr "Het toetsenbord is in Unicode (UTF-8) modus\n"
+msgstr "Het toetsenbord is in Unicode-modus (UTF-8)\n"
 
 #: src/kbd_mode.c:97
 #, c-format
@@ -369,12 +373,12 @@ msgstr "%s: fout tijdens instellen van toetsenbordmodus\n"
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr ""
-"Toetssnelheid ingesteld op %.1f tekens per seconde (vertraging = %d ms)\n"
+"Toetssnelheid is ingesteld op %.1f tekens per seconde (vertraging = %d ms)\n"
 
 #: src/kbdrate.c:267
 #, c-format
 msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
-msgstr "Gebruik: kbdrate [-V] [-s] [-r frequentie] [-d vertraging]\n"
+msgstr "Gebruik:  kbdrate [-V] [-s] [-r frequentie] [-d vertraging]\n"
 
 #: src/kbdrate.c:297
 msgid "Cannot open /dev/port"
@@ -383,12 +387,12 @@ msgstr "Kan /dev/port niet openen"
 #: src/kdfontop.c:197
 #, c-format
 msgid "bug: getfont called with count<256\n"
-msgstr "interne programmafout: 'getfont' is aangeroepen met count<256\n"
+msgstr "*interne programmafout*: getfont() is aangeroepen met count<256\n"
 
 #: src/kdfontop.c:201
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
-msgstr "**interne fout**: getfont() met GIO_FONT heeft buffer nodig\n"
+msgstr "*interne programmafout*: getfont() met GIO_FONT heeft buffer nodig\n"
 
 #: src/kdfontop.c:258 src/kdmapop.c:150 src/xmalloc.c:15
 #, c-format
@@ -398,7 +402,7 @@ msgstr "%s: onvoldoende geheugen beschikbaar\n"
 #: src/kdmapop.c:159
 #, c-format
 msgid "strange... ct changed from %d to %d\n"
-msgstr ""
+msgstr "Vreemd... huidige terminal veranderde van %d naar %d\n"
 
 #: src/kdmapop.c:185
 #, c-format
@@ -406,6 +410,8 @@ msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded.\n"
 msgstr ""
+"Deze kernel schijnt ouder te zijn dan versie 1.1.92.\n"
+"Er is geen Unicode-afbeeldingstabel geladen.\n"
 
 #: src/ksyms.c:1713
 #, c-format
@@ -442,37 +448,36 @@ msgstr "iso-8859-4 '%s' wordt aangenomen\n"
 msgid "unknown keysym '%s'\n"
 msgstr "onbekende toetsnaam '%s'\n"
 
-#: loadkeys.analyze.l:47
+#: loadkeys.analyze.l:51
 msgid "includes are nested too deeply"
 msgstr "invoegingen zijn te diep genest"
 
-#: loadkeys.analyze.l:234
+#: loadkeys.analyze.l:238
 #, c-format
 msgid "switching to %s\n"
-msgstr "schakel naar %s\n"
+msgstr "overschakelen naar %s\n"
 
-#: loadkeys.analyze.l:238
+#: loadkeys.analyze.l:242
 #, c-format
 msgid "cannot open include file %s"
 msgstr "Kan invoegbestand %s niet openen"
 
-#: loadkeys.analyze.l:308
+#: loadkeys.analyze.l:314
 msgid "expected filename between quotes"
-msgstr ""
+msgstr "verwachtte een bestandsnaam tussen aanhalingstekens"
 
-#: loadkeys.analyze.l:342
+#: loadkeys.analyze.l:353
 #, c-format
 msgid "unicode keysym out of range: %s"
-msgstr ""
+msgstr "Unicode-toetssymbool %s valt buiten toegestaan bereik"
 
-#: loadkeys.analyze.l:392 loadkeys.analyze.l:397 loadkeys.analyze.l:402
-#: loadkeys.analyze.l:407 loadkeys.analyze.l:414
-#, fuzzy
+#: loadkeys.analyze.l:404 loadkeys.analyze.l:409 loadkeys.analyze.l:414
+#: loadkeys.analyze.l:419 loadkeys.analyze.l:426
 msgid "string too long"
-msgstr "%s: Waarschuwing: regel is te lang\n"
+msgstr "tekenreeks is te lang"
 
-#: loadkeys.y:90
-#, fuzzy, c-format
+#: loadkeys.y:93
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -483,8 +488,8 @@ msgid ""
 "  -a --ascii         force conversion to ASCII\n"
 "  -b --bkeymap       output a binary keymap to stdout\n"
 "  -c --clearcompose  clear kernel compose table\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     the console device(s) to be used\n"
+"  -C --console=file\n"
+"                     the console device to be used\n"
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
@@ -495,265 +500,269 @@ msgid ""
 msgstr ""
 "loadkeys, versie %s\n"
 "\n"
-"Gebruik: loadkeys [optie...] [indelingsbestand...]\n"
+"Gebruik:  loadkeys [OPTIE...] [KAARTBESTAND...]\n"
 "\n"
-"Geldige opties zijn:\n"
+"  Geldige opties zijn:\n"
 "\n"
-"  -b --bkeymap       een binaire toetsbordindeling naar stdout schrijven\n"
-"  -c --clearcompose  kernel-samenstellingstabel legen\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     de console-appara(a)t(en) om te gebruiken\n"
-"  -d --default       laad \"%s\"\n"
-"  -h --help          deze hulptekst tonen\n"
-"  -m --mktable       een \"defkeymap.c\" naar stdout schrijven\n"
-"  -s --clearstrings  kernel-tekenreekstabel legen\n"
-"  -u --unicode       impliciete conversie naar Unicode\n"
-"  -v --verbose       toon de veranderingen\n"
+"  -a, --ascii         conversie naar ASCII afdwingen\n"
+"  -b, --bkeymap       binaire toetsenbordkaart naar standaarduitvoer "
+"schrijven\n"
+"  -c, --clearcompose  de samenstellingentabel van de kernel leegmaken\n"
+"  -C, --console=APPARAAT  te gebruiken console-apparaat\n"
+"  -d, --default       '%s' laden\n"
+"  -h, --help          deze hulptekst tonen\n"
+"  -m, --mktable       een 'defkeymap.c' naar standaarduitvoer schrijven\n"
+"  -q, --quiet         alle gewone uitvoer onderdrukken\n"
+"  -s, --clearstrings  functietoetstekenreeksentabel van kernel leegmaken\n"
+"  -u, --unicode       conversie naar Unicode afdwingen\n"
+"  -v, --verbose       de veranderingen tonen\n"
 
-#: loadkeys.y:149
+#: loadkeys.y:152
 #, c-format
 msgid "addmap called with bad index %d"
-msgstr "addmap aangeroepen met onjuiste positie %d"
+msgstr "addmap() is aangeroepen met onjuiste positie %d"
 
-#: loadkeys.y:153
+#: loadkeys.y:156
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
-msgstr "indeling %d toevoegen overtreedt regel expliciete toetsenbordindeling"
-
-#: loadkeys.y:167
-#, c-format
-msgid "killkey called with bad index %d"
-msgstr "killkey aangeroepen met onjuiste positie %d"
+msgstr "toevoegen van kaart %d schendt expliciete toetsenkaartregel"
 
 #: loadkeys.y:170
 #, c-format
-msgid "killkey called with bad table %d"
-msgstr "killkey aangeroepen met onjuiste tabel %d"
+msgid "killkey called with bad index %d"
+msgstr "killkey() is aangeroepen met onjuiste positie %d"
 
-#: loadkeys.y:186
+#: loadkeys.y:173
 #, c-format
-msgid "addkey called with bad keycode %d"
-msgstr "addkey aangeroepen met onjuiste toetscode %d"
+msgid "killkey called with bad table %d"
+msgstr "killkey() is aangeroepen met onjuiste tabel %d"
 
 #: loadkeys.y:189
 #, c-format
-msgid "addkey called with bad index %d"
-msgstr "addkey aangeroepen met onjuiste positie %d"
+msgid "addkey called with bad keycode %d"
+msgstr "addkey() is aangeroepen met onjuiste toetscode %d"
 
 #: loadkeys.y:192
 #, c-format
-msgid "addkey called with bad table %d"
-msgstr "addkey aangeroepen met onjuiste tabel %d"
+msgid "addkey called with bad index %d"
+msgstr "addkey() is aangeroepen met onjuiste positie %d"
 
-#: loadkeys.y:238
+#: loadkeys.y:195
+#, c-format
+msgid "addkey called with bad table %d"
+msgstr "addkey() is aangeroepen met onjuiste tabel %d"
+
+#: loadkeys.y:241
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
-msgstr "%s: addfunc aangeroepen met onjuiste functie %d\n"
+msgstr "%s: addfunc() is aangeroepen met onjuiste functie %d\n"
 
-#: loadkeys.y:269
+#: loadkeys.y:272
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr "%s: addfunc: func_buf overloop\n"
 
-#: loadkeys.y:297
+#: loadkeys.y:300
 #, c-format
 msgid "compose table overflow\n"
-msgstr "samenstellingstabel overloop\n"
+msgstr "overloop in samenstellingentabel\n"
 
-#: loadkeys.y:317
-#, fuzzy, c-format
+#: loadkeys.y:320
+#, c-format
 msgid "%s: could not switch to Unicode mode\n"
-msgstr "%s: kan console %d niet vrijgeven\n"
+msgstr "%s: kan niet overschakelen naar Unicode-modus\n"
 
-#: loadkeys.y:336
+#: loadkeys.y:339
 #, c-format
 msgid "Keymap %d: Permission denied\n"
-msgstr "Toetsenbordindeling %d: toegang geweigerd\n"
+msgstr "Toetsenkaart %d: toegang geweigerd\n"
 
-#: loadkeys.y:345
+#: loadkeys.y:348
 #, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "toetscode %d, tabel %d = %d%s\n"
 
-#: loadkeys.y:347
+#: loadkeys.y:350
 msgid "    FAILED"
 msgstr "    Mislukt"
 
-#: loadkeys.y:351
+#: loadkeys.y:354
 #, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "verbinden van toets %d met waarde %d is mislukt\n"
 
-#: loadkeys.y:365
+#: loadkeys.y:366
 #, c-format
 msgid "deallocate keymap %d\n"
-msgstr "toetsenbordindeling %d vrijgeven\n"
+msgstr "vrijgeven van toetsenkaart %d\n"
 
-#: loadkeys.y:371
+#: loadkeys.y:372
 #, c-format
 msgid "%s: could not deallocate keymap %d\n"
-msgstr "%s: kan toetsbordindeling %d niet vrijgeven\n"
+msgstr "%s: kan toetsenkaart %d niet vrijgeven\n"
 
-#: loadkeys.y:388
+#: loadkeys.y:389
 #, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
-msgstr "%s: kan toetsbordindeling niet vrijgeven of wissen\n"
+msgstr "%s: kan toetsenkaart niet vrijgeven of wissen\n"
 
-#: loadkeys.y:400
-#, fuzzy, c-format
+#: loadkeys.y:401
+#, c-format
 msgid "%s: could not return to original keyboard mode\n"
-msgstr "%s: fout tijdens herstellen van toetsenbordmodus\n"
+msgstr "%s: kan niet terugkeren naar oorspronkelijke toetsenbordmodus\n"
 
-#: loadkeys.y:447
+#: loadkeys.y:458
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr "verbinden van tekenreeks '%s' met functie %s is mislukt\n"
 
-#: loadkeys.y:455
+#: loadkeys.y:467
 #, c-format
 msgid "failed to clear string %s\n"
-msgstr "herstellen van tekenreeks %s is mislukt\n"
+msgstr "wissen van tekenreeks %s is mislukt\n"
 
-#: loadkeys.y:475
+#: loadkeys.y:488
 #, c-format
 msgid "too many compose definitions\n"
 msgstr "te veel samenstellingsdefinities\n"
 
-#: loadkeys.y:567
+#: loadkeys.y:580
 msgid "impossible error in do_constant"
-msgstr "onmogelijke fout in do_constant"
+msgstr "onmogelijke fout in do_constant()"
 
-#: loadkeys.y:585
+#: loadkeys.y:596
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 "\n"
-"%d %s en %d %s veranderd.\n"
+"%d %s en %d %s zijn veranderd.\n"
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "key"
 msgstr "toets"
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "keys"
 msgstr "toetsen"
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "string"
 msgstr "tekenreeks"
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "strings"
 msgstr "tekenreeksen"
 
-#: loadkeys.y:594
+#: loadkeys.y:605
 #, c-format
 msgid "Loaded %d compose %s.\n"
-msgstr "%d samenstelling %s geladen.\n"
+msgstr "Er zijn %d samenstellings%s geladen.\n"
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definition"
 msgstr "definitie"
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definitions"
 msgstr "definities"
 
-#: loadkeys.y:599
+#: loadkeys.y:610
 #, c-format
 msgid "(No change in compose definitions.)\n"
-msgstr "(geen verandering in samenstellingsdefinities.)\n"
+msgstr "(Geen verandering in samenstellingsdefinities.)\n"
 
-#: loadkeys.y:637
+#: loadkeys.y:650
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr "loadkeys: weet niet hoe %s samen te stellen\n"
 
-#: loadkeys.y:870 src/mapscrn.c:275 src/mapscrn.c:280
+#: loadkeys.y:886 src/mapscrn.c:275 src/mapscrn.c:280
 #, c-format
 msgid "Error writing map to file\n"
-msgstr "Fout tijdens schrijven van indeling naar bestand\n"
+msgstr "Fout tijdens schrijven van toetsenkaart naar bestand\n"
 
-#: loadkeys.y:937
+#: loadkeys.y:954
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr "'%s' is geen functietoetssymbool"
 
-#: loadkeys.y:1011
+#: loadkeys.y:1028
 #, c-format
 msgid "too many (%d) entries on one line"
 msgstr "Te veel items (%d) op één regel"
 
-#: loadkeys.y:1025
+#: loadkeys.y:1042
 msgid "too many key definitions on one line"
 msgstr "Te veel toetsdefinities op één regel"
 
-#: loadkeys.y:1110
+#: loadkeys.y:1057
+#, c-format
+msgid "Loading %s\n"
+msgstr "Laden van %s\n"
+
+#: loadkeys.y:1062
+#, c-format
+msgid "syntax error in map file\n"
+msgstr "syntaxfout in toetsenkaartbestand\n"
+
+#: loadkeys.y:1066
+#, c-format
+msgid "key bindings not changed\n"
+msgstr "toetsbindingen zijn niet veranderd\n"
+
+#: loadkeys.y:1146
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
-msgstr ""
+msgstr "%s: de opties '--unicode' en '--ascii' gaan niet samen\n"
 
-#: loadkeys.y:1123
-#, fuzzy, c-format
-msgid "%s: error reading keyboard mode\n"
-msgstr "%s: fout tijdens instellen van toetsenbordmodus\n"
+#: loadkeys.y:1158
+#, c-format
+msgid "%s: error reading keyboard mode: %m\n"
+msgstr "%s: fout tijdens lezen van toetsenbordmodus: %m\n"
 
-#: loadkeys.y:1131
-#, fuzzy, c-format
+#: loadkeys.y:1166
+#, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
-"%s: waarschuwing: deze indeling gebruikt Unicode-symbolen, %s modus=%d\n"
-"    (bedoelt u misschien `kbd_mode -u'?)\n"
+"%s: Waarschuwing: niet-Unicode-toetsenkaart wordt geladen op Unicode "
+"terminal\n"
+"    (wilt u misschien 'kbd_mode -a' doen?)\n"
 
-#: loadkeys.y:1143
-#, fuzzy, c-format
+#: loadkeys.y:1178
+#, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
-"%s: waarschuwing: deze indeling gebruikt Unicode-symbolen, %s modus=%d\n"
-"    (bedoelt u misschien `kbd_mode -u'?)\n"
+"%s: Waarschuwing: Unicode-toetsenkaart wordt geladen op niet-Unicode "
+"terminal\n"
+"    (wilt u misschien 'kbd_mode -u' doen?)\n"
 
-#: loadkeys.y:1157
-#, fuzzy, c-format
+#: loadkeys.y:1187
+#, c-format
 msgid "Searching in %s\n"
-msgstr "schakel naar %s\n"
+msgstr "Zoeken in %s\n"
 
-#: loadkeys.y:1167
+#: loadkeys.y:1197
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "Kan %s niet vinden\n"
 
-#: loadkeys.y:1178
+#: loadkeys.y:1213
 #, c-format
 msgid "cannot open file %s\n"
-msgstr "Kan %s niet openen\n"
-
-#: loadkeys.y:1184
-#, c-format
-msgid "Loading %s\n"
-msgstr "%s laden\n"
-
-#: loadkeys.y:1189
-#, c-format
-msgid "syntax error in map file\n"
-msgstr "syntaxfout in indelingsbestand\n"
-
-#: loadkeys.y:1193
-#, c-format
-msgid "key bindings not changed\n"
-msgstr "toetsbindingen niet veranderd\n"
+msgstr "Kan bestand %s niet openen\n"
 
 #: src/loadunimap.c:43
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s [-C console] [-o map.orig]\n"
-msgstr "Gebruik:  %s [-C console] [-o indeling.orig]\n"
+msgstr "Gebruik:  %s [-C console] [-o toetsenkaart.orig]\n"
 
 #: src/loadunimap.c:175 src/loadunimap.c:186
 #, c-format
@@ -789,12 +798,12 @@ msgstr ""
 #: src/loadunimap.c:257 src/psfxtable.c:203
 #, c-format
 msgid "%s: trailing junk (%s) ignored\n"
-msgstr "%s: rommel (%s) aan het einde genegeerd\n"
+msgstr "%s: rommel (%s) aan het einde is genegeerd\n"
 
 #: src/loadunimap.c:274
 #, c-format
 msgid "Loading unicode map from file %s\n"
-msgstr "Laden van Unicodeindeling uit bestand %s\n"
+msgstr "Laden van Unicodekaart uit bestand %s\n"
 
 #: src/loadunimap.c:280
 #, c-format
@@ -807,172 +816,185 @@ msgid ""
 "%s: not loading empty unimap\n"
 "(if you insist: use option -f to override)\n"
 msgstr ""
-"%s: lege Unicodeindeling wordt niet geladen\n"
+"%s: lege Unicodekaart wordt niet geladen\n"
 "(als u dit toch wilt, gebruik dan optie '-f')\n"
 
 #: src/loadunimap.c:311
 msgid "entry"
-msgstr "ingang"
+msgstr "item"
 
 #: src/loadunimap.c:311
 msgid "entries"
-msgstr "ingangen"
+msgstr "items"
 
 #: src/loadunimap.c:337
 #, c-format
 msgid "Saved unicode map on `%s'\n"
-msgstr "Unicodeindeling opgeslagen in '%s'\n"
+msgstr "Unicodekaart is opgeslagen in '%s'\n"
 
 #: src/loadunimap.c:373
 #, c-format
 msgid "Appended Unicode map\n"
-msgstr "Unicodeindeling achteraan toegevoegd\n"
+msgstr "Unicodekaart is achteraan toegevoegd\n"
 
 #: src/mapscrn.c:68
 #, c-format
 msgid "usage: %s [-v] [-o map.orig] map-file\n"
-msgstr "Gebruik:  %s [-v] [-o indeling.orig] kaartbestand\n"
+msgstr "Gebruik:  %s [-v] [-o kaart.orig] kaartbestand\n"
 
 #: src/mapscrn.c:133
 #, c-format
 msgid "mapscrn: cannot open map file _%s_\n"
-msgstr "mapscrn: kan indelingsbestand '%s' niet openen\n"
+msgstr "mapscrn: kan kaartbestand '%s' niet openen\n"
 
 #: src/mapscrn.c:139
 #, c-format
 msgid "Cannot stat map file"
-msgstr "Kan status van indelingsbestand niet opvragen"
+msgstr "Kan status van kaartbestand niet opvragen"
 
 #: src/mapscrn.c:144
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s\n"
-msgstr ""
-"Laden van binaire direct-naar-lettertype-schermindeling uit bestand %s\n"
+msgstr "Laden van binaire direct-naar-lettertype-schermkaart uit bestand %s\n"
 
 #: src/mapscrn.c:149 src/mapscrn.c:160
 #, c-format
 msgid "Error reading map from file `%s'\n"
-msgstr "Fout tijdens lezen van indeling uit bestand '%s'\n"
+msgstr "Fout tijdens lezen van kaart uit bestand '%s'\n"
 
 #: src/mapscrn.c:155
 #, c-format
 msgid "Loading binary unicode screen map from file %s\n"
-msgstr "Laden van binaire Unicode-schermindeling uit bestand %s\n"
+msgstr "Laden van binaire Unicode-schermkaart uit bestand %s\n"
 
 #: src/mapscrn.c:167
 #, c-format
 msgid "Loading symbolic screen map from file %s\n"
-msgstr "Laden van symbolische schermindeling uit bestand %s\n"
+msgstr "Laden van symbolische schermkaart uit bestand %s\n"
 
 #: src/mapscrn.c:171
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
-msgstr "Fout tijdens verwerken van symbolische indeling uit '%s', regel %d\n"
+msgstr "Fout tijdens verwerken van symbolische kaart uit '%s', regel %d\n"
 
 #: src/mapscrn.c:284
 #, c-format
 msgid "Cannot read console map\n"
-msgstr "Kan consoleindeling niet lezen\n"
+msgstr "Kan consolekaart niet lezen\n"
 
 #: src/mapscrn.c:290
 #, c-format
 msgid "Saved screen map in `%s'\n"
-msgstr "Schermindeling opgeslagen in '%s'\n"
+msgstr "Schermkaart is opgeslagen in '%s'\n"
 
-#: src/openvt.c:73
-#, c-format
-msgid "openvt: %s: illegal vt number\n"
-msgstr "openvt: %s: ongeldig VT-nummer\n"
-
-#: src/openvt.c:100
-#, c-format
-msgid "openvt: only root can use the -u flag.\n"
-msgstr "openvt: alleen root kan de optie '-u' gebruiken.\n"
-
-#: src/openvt.c:133
-#, c-format
-msgid "openvt: cannot find a free vt\n"
-msgstr "openvt: kan geen vrije VT vinden\n"
-
-#: src/openvt.c:138
-#, c-format
-msgid "openvt: cannot check whether vt %d is free\n"
-msgstr "openvt: kan niet controleren of VT-%d vrij is\n"
-
-#: src/openvt.c:139 src/openvt.c:144
-#, c-format
-msgid "        use `openvt -f' to force.\n"
-msgstr "        gebruik 'openvt -f' om het af te dwingen.\n"
-
-#: src/openvt.c:143
-#, c-format
-msgid "openvt: vt %d is in use; command aborted\n"
-msgstr "openvt: VT-%d is in gebruik; opdracht is afgebroken\n"
-
-#: src/openvt.c:170
-#, c-format
-msgid "openvt: Unable to open %s: %s\n"
-msgstr "openvt: kan %s niet openen (%s)\n"
-
-#: src/openvt.c:181
-#, c-format
-msgid "openvt: Cannot open %s read/write (%s)\n"
-msgstr "openvt: kan %s niet openen voor lezen-en-schrijven (%s)\n"
-
-#: src/openvt.c:222
-#, c-format
-msgid "openvt: using VT %s\n"
-msgstr "openvt: VT-%s wordt gebruikt\n"
-
-#: src/openvt.c:239
-#, c-format
-msgid "openvt: Unable to set new session (%s)\n"
-msgstr "openvt: kan geen nieuwe sessie instellen (%s)\n"
-
-#: src/openvt.c:247
+#: src/openvt.c:44
 #, c-format
 msgid ""
+"Usage: %s [OPTIONS] -- command\n"
 "\n"
-"openvt: could not open %s R/W (%s)\n"
+"This utility help you to start a program on a new virtual terminal (VT).\n"
+"\n"
+"Options:\n"
+"  -c, --console=NUM   use the given VT number;\n"
+"  -e, --exec          execute the command, without forking;\n"
+"  -f, --force         force opening a VT without checking;\n"
+"  -l, --login         make the command a login shell;\n"
+"  -u, --user          figure out the owner of the current VT;\n"
+"  -s, --switch        switch to the new VT;\n"
+"  -w, --wait          wait for command to complete;\n"
+"  -v, --verbose       print a message for each action;\n"
+"  -V, --version       print program version and exit;\n"
+"  -h, --help          output a brief help message.\n"
+"\n"
 msgstr ""
+"Gebruik:  %s [OPTIE...] -- OPDRACHT\n"
 "\n"
-"openvt: kan %s niet openen voor lezen-en-schrijven (%s)\n"
+"Start programma OPDRACHT op een nieuwe virtuele terminal (VT).\n"
+"\n"
+"Opties:\n"
+"  -c, --console=NR    de VT met dit nummer gebruiken;\n"
+"  -e, --exec          OPDRACHT uitvoeren zonder nieuw proces te starten;\n"
+"  -f, --force         openen van VT afdwingen zonder controle;\n"
+"  -l, --login         van de gegeven opdracht een login shell maken;\n"
+"  -u, --user          de eigenaar van de huidige VT bepalen;\n"
+"  -s, --switch        naar de nieuwe VT overschakelen;\n"
+"  -w, --wait          wachten tot de gegeven opdracht beëindigd is;\n"
+"  -v, --verbose       een bericht tonen voor elke uitgevoerde actie;\n"
+"  -V, --version       de programmaversie tonen en stoppen;\n"
+"  -h, --help          deze hulptekst tonen en stoppen.\n"
+"\n"
 
-#: src/openvt.c:255
+#: src/openvt.c:163
+msgid "Couldn't find owner of current tty!"
+msgstr "Kan eigenaar van huidige tty niet vinden!"
+
+#: src/openvt.c:231
 #, c-format
-msgid ""
-"\n"
-"openvt: could not activate vt %d (%s)\n"
+msgid "%s: Illegal vt number"
+msgstr "%s: ongeldig VT-nummer"
+
+#: src/openvt.c:257
+msgid "Only root can use the -u flag."
+msgstr "Alleen root kan de optie '-u' gebruiken."
+
+#: src/openvt.c:279
+msgid "Couldn't get a file descriptor referring to the console"
+msgstr "Kan geen bestandsdescriptor verkrijgen die verwijst naar de console"
+
+#: src/openvt.c:286
+msgid "Cannot find a free vt"
+msgstr "kan geen vrije VT vinden"
+
+#: src/openvt.c:290
+#, c-format
+msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
-"\n"
-"openvt: kan vt %d (%s) niet activeren\n"
+"kan niet controleren of VT-%d vrij is; gebruik '%s -f' om gebruik af te "
+"dwingen"
 
-#: src/openvt.c:262
+#: src/openvt.c:294
 #, c-format
-msgid ""
-"\n"
-"openvt: activation interrupted? (%s)\n"
+msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
-"\n"
-"openvt: activatie onderbroken? (%s)\n"
+"VT-%d is in gebruik; opdracht is afgebroken; gebruik '%s -f' om gebruik af "
+"te dwingen"
 
-#: src/openvt.c:320
-#, c-format
-msgid "openvt: could not deallocate console %d\n"
-msgstr "openvt: kan console %d niet vrijgeven\n"
+#: src/openvt.c:304
+msgid "Unable to find command."
+msgstr "Kan gegeven opdracht niet vinden."
 
-#: src/openvt.c:339
-#, c-format
-msgid ""
-"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-msgstr ""
-"Gebruik: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-"opdrachtregel\n"
+#: src/openvt.c:336
+msgid "Unable to set new session"
+msgstr "Kan geen nieuwe sessie instellen"
 
-#: src/openvt.c:421
+#: src/openvt.c:360
 #, c-format
-msgid "Couldn't find owner of current tty!\n"
-msgstr "Kan eigenaar van huidige tty niet vinden!\n"
+msgid "Unable to open %s"
+msgstr "Kan %s niet openen"
+
+#: src/openvt.c:364
+#, c-format
+msgid "Using VT %s"
+msgstr "VT-%s wordt gebruikt"
+
+#: src/openvt.c:370
+#, c-format
+msgid "Cannot open %s read/write"
+msgstr "Kan %s niet openen voor lezen-en-schrijven"
+
+#: src/openvt.c:381
+#, c-format
+msgid "Couldn't activate vt %d"
+msgstr "Kan VT %d niet activeren"
+
+#: src/openvt.c:384
+msgid "Activation interrupted?"
+msgstr "Activatie onderbroken?"
+
+#: src/openvt.c:424
+#, c-format
+msgid "Couldn't deallocate console %d"
+msgstr "Kan console %d niet vrijgeven"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1080,29 +1102,29 @@ msgid ""
 "%s: Corresponding to a range of font positions, there should be a Unicode "
 "range\n"
 msgstr ""
-"%s: Er dient een Unicodebereik te zijn corresponderend met het bereik van "
-"lettertype-posities\n"
+"%s: Met het bereik van lettertype-posities dient een Unicodebereik te "
+"corresponderen\n"
 
 #: src/psfxtable.c:257
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s infont intable outfont\n"
-msgstr "Gebruik:  %s in-lettertype in-tabel uit-lettertype\n"
+msgstr "Gebruik:  %s invoerlettertype invoertabel uitvoerlettertype\n"
 
 #: src/psfxtable.c:266
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s infont [outtable]\n"
-msgstr "Gebruik:  %s in-lettertype [uit-tabel]\n"
+msgstr "Gebruik:  %s invoerlettertype [uitvoertabel]\n"
 
 #: src/psfxtable.c:275
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s infont outfont\n"
-msgstr "Gebruik:  %s in-lettertype uit-lettertype\n"
+msgstr "Gebruik:  %s invoerlettertype uitvoerlettertype\n"
 
 #: src/psfxtable.c:300
 #, c-format
@@ -1110,8 +1132,8 @@ msgid ""
 "Usage:\n"
 "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
-"Gebruik:  %s [-i in-lettertype] [-o uit-lettertype]\n"
-"                    [-it in-tabel] [-ot uit-tabel] [-nt]\n"
+"Gebruik:  %s [-i invoerlettertype] [-o uitvoerlettertype]\n"
+"                    [-it invoertabel] [-ot uitvoertabel] [-nt]\n"
 
 #: src/psfxtable.c:360
 #, c-format
@@ -1126,7 +1148,7 @@ msgstr "%s: psf-bestand met onbekend magisch nummer\n"
 #: src/psfxtable.c:395
 #, c-format
 msgid "%s: input font does not have an index\n"
-msgstr "%s: invoerlettertype heeft geen positie\n"
+msgstr "%s: invoerlettertype heeft geen index\n"
 
 #: src/resizecons.c:154
 #, c-format
@@ -1178,12 +1200,12 @@ msgstr ""
 #: src/resizecons.c:376
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
-msgstr "resizecons: kan I/O-toegangsrechten niet opvragen\n"
+msgstr "resizecons: kan in-/uitvoer-toegangsrechten niet opvragen\n"
 
 #: src/screendump.c:49
 #, c-format
 msgid "usage: screendump [n]\n"
-msgstr "Gebruik: screendump [n]\n"
+msgstr "Gebruik:  screendump [n]\n"
 
 #: src/screendump.c:79
 #, c-format
@@ -1239,14 +1261,14 @@ msgid ""
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
 "Gebruik:  setfont [schrijfopties] [-<N>] [nieuwlettertype..]\n"
-"                  [-m consoleindeling] [-u unicodeindeling]\n"
+"                  [-m consolekaart] [-u unicodekaart]\n"
 "\n"
 "Schrijfopties (uitgevoerd voor het laden van nieuw lettertype):\n"
 "  -o  <bestandsnaam>  huidig lettertype naar <bestandsnaam> schrijven\n"
 "  -O  <bestandsnaam>  huidig lettertype plus Unicodekaart naar "
 "<bestandsnaam>\n"
-"  -om <bestandsnaam>  huidige consoleindeling naar <bestandsnaam> schrijven\n"
-"  -ou <bestandsnaam>  huidige Unicodeindeling naar <bestandsnaam> schrijven\n"
+"  -om <bestandsnaam>  huidige consolekaart naar <bestandsnaam> schrijven\n"
+"  -ou <bestandsnaam>  huidige Unicodekaart naar <bestandsnaam> schrijven\n"
 "\n"
 "Als er geen nieuwlettertype en geen optie -[o|O|om|ou|m|u] gegeven is,\n"
 "wordt een standaard lettertype geladen:\n"
@@ -1262,14 +1284,14 @@ msgstr ""
 "kaarten\n"
 "worden geladen en, in het geval van consolekaarten, geactiveerd.\n"
 "\n"
-"  -h<N>      deze letterhoogte forceren (zonder spatie)\n"
-"  -m <lt>    console-schermindeling voor dit lettertype laden\n"
-"  -u <lt>    Unicodeindeling voor dit lettertype laden\n"
-"  -m none    laden en activeren van schermindeling onderdrukken\n"
-"  -u none    laden van een Unicodeindeling onderdrukken\n"
-"  -v         uitgebreide uitvoer produceren\n"
+"  -h<N>      deze letterhoogte afdwingen (zonder spatie)\n"
+"  -m <lt>    console-schermkaart voor dit lettertype laden\n"
+"  -u <lt>    Unicodekaart voor dit lettertype laden\n"
+"  -m none    laden en activeren van schermkaart onderdrukken\n"
+"  -u none    laden van een Unicodekaart onderdrukken\n"
+"  -v         uitgebreidere uitvoer produceren\n"
 "  -C <cons>  het te gebruiken console-apparaat\n"
-"  -V         programmaversie tonen en stoppen\n"
+"  -V         programmaversie tonen\n"
 "\n"
 "Bestanden worden geladen uit de huidige map of uit %s/*/.\n"
 
@@ -1335,7 +1357,7 @@ msgstr "Laden van %d-teken %dx%d (%d) lettertype\n"
 #: src/setfont.c:372
 #, c-format
 msgid "%s: bug in do_loadtable\n"
-msgstr "%s: programmafout in 'do_loadtable'\n"
+msgstr "%s: *interne programmafout* in 'do_loadtable'\n"
 
 #: src/setfont.c:378
 #, c-format
@@ -1357,7 +1379,7 @@ msgstr ""
 #: src/setfont.c:435
 #, c-format
 msgid "Read %d-char %dx%d font from file %s\n"
-msgstr "Het %d-teken %dx%d lettertype is gelezen uit bestand %s\n"
+msgstr "Het %d-tekens %dx%d lettertype is gelezen uit bestand %s\n"
 
 #: src/setfont.c:441
 #, c-format
@@ -1433,7 +1455,7 @@ msgstr "Niets gevonden om op te slaan\n"
 #: src/setfont.c:682
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
-msgstr "Het %d-teken %dx%d lettertypebestand is opgeslagen als %s\n"
+msgstr "Het %d-tekens %dx%d lettertypebestand is opgeslagen als %s\n"
 
 #: src/setkeycodes.c:21
 #, c-format
@@ -1483,14 +1505,15 @@ msgstr ""
 "\n"
 "Voorbeeld: 'setleds +caps -num' zal CapsLock aanzetten,\n"
 "NumLock uitzetten, en ScrollLock onveranderd laten.\n"
-"Als de optie -v gegeven is, worden de instellingen weergegeven --\n"
+"Als de optie '-v' gegeven is, worden de instellingen weergegeven;\n"
 "bij een verandering zowel vóór als na de verandering.\n"
 "\n"
 "Normaalgesproken beïnvloedt 'setleds' de VT-optie-instellingen\n"
-"(en deze uiten zich meestal in de LEDs).\n"
-"Met -L stelt 'setleds' alleen de LEDs in, en laat het de opties "
+"(en deze uiten zich meestal in de leds).\n"
+"Met '-L' stelt 'setleds' alleen de leds in, en laat het de opties "
 "onveranderd.\n"
-"Met -D stelt 'setleds' zowel de opties als de standaardopties in, zodat de\n"
+"Met '-D' stelt 'setleds' zowel de opties als de standaardopties in, zodat "
+"de\n"
 "opties niet zullen veranderen na een reset.\n"
 
 #: src/setleds.c:43
@@ -1505,31 +1528,31 @@ msgstr "uit"
 #, c-format
 msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
 msgstr ""
-"Fout tijdens lezen van huidige LED-instelling. Mogelijk is standaardinvoer "
-"geen VT?\n"
+"Fout tijdens lezen van huidige led-instelling.\n"
+"Mogelijk is standaardinvoer geen VT?\n"
 
 #: src/setleds.c:105
 #, c-format
 msgid ""
 "Error reading current flags setting. Maybe you are not on the console?\n"
 msgstr ""
-"Fout tijdens lezen van huidige instelling. Mogelijk werkt u niet op de "
-"console?\n"
+"Fout tijdens lezen van huidige instelling.\n"
+"Mogelijk werkt u niet op de console?\n"
 
 #: src/setleds.c:125 src/setleds.c:146
 #, c-format
 msgid "Error reading current led setting from /dev/kbd.\n"
-msgstr "Fout tijdens lezen van huidige LED-instelling uit /dev/kbd.\n"
+msgstr "Fout tijdens lezen van huidige led-instelling uit /dev/kbd.\n"
 
 #: src/setleds.c:129
 #, c-format
 msgid "KIOCGLED unavailable?\n"
-msgstr "KIOCGLED onbeschikbaar?\n"
+msgstr "KIOCGLED is onbeschikbaar?\n"
 
 #: src/setleds.c:150
 #, c-format
 msgid "KIOCSLED unavailable?\n"
-msgstr "KIOCSLED onbeschikbaar?\n"
+msgstr "KIOCSLED is onbeschikbaar?\n"
 
 #: src/setleds.c:177
 #, c-format
@@ -1539,7 +1562,7 @@ msgstr "Fout tijdens openen van /dev/kbd.\n"
 #: src/setleds.c:209
 #, c-format
 msgid "Error resetting ledmode\n"
-msgstr "Fout tijdens opnieuw instellen van LED-modus.\n"
+msgstr "Fout tijdens opnieuw instellen van led-modus.\n"
 
 #: src/setleds.c:218
 #, c-format
@@ -1554,7 +1577,7 @@ msgstr "Huidige opties:           "
 #: src/setleds.c:226
 #, c-format
 msgid "Current leds:           "
-msgstr "Huidige LEDs:             "
+msgstr "Huidige leds:             "
 
 #: src/setleds.c:262 src/setmetamode.c:94
 #, c-format
@@ -1588,12 +1611,12 @@ msgstr "Nieuwe opties:            "
 #: src/setleds.c:296 src/setleds.c:305
 #, c-format
 msgid "Old leds:             "
-msgstr "Oude LEDs:                "
+msgstr "Oude leds:                "
 
 #: src/setleds.c:298 src/setleds.c:307
 #, c-format
 msgid "New leds:             "
-msgstr "Nieuwe LEDs:              "
+msgstr "Nieuwe leds:              "
 
 #: src/setmetamode.c:20
 #, c-format
@@ -1607,9 +1630,9 @@ msgid ""
 msgstr ""
 "Gebruik:  setmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
 "\n"
-"  Elke VT heeft zijn eigen kopie van het metatoets-bit. Gebruik daarom\n"
+"  Elke VT heeft zijn eigen kopie van het metatoets-bit.  Gebruik daarom\n"
 "  'setmetamode [arg] < /dev/ttyn' om de instelling van een andere VT te\n"
-"  veranderen. De instelling voor en na de verandering wordt gerapporteerd.\n"
+"  veranderen.  De instelling voor en na de verandering wordt gerapporteerd.\n"
 
 #: src/setmetamode.c:36
 msgid "Meta key sets high order bit\n"
@@ -1627,8 +1650,8 @@ msgstr "Vreemde modus voor Metatoets?\n"
 #, c-format
 msgid "Error reading current setting. Maybe stdin is not a VT?\n"
 msgstr ""
-"Fout tijdens lezen van huidige instelling.  Mogelijk is standaardinvoer geen "
-"VT?\n"
+"Fout tijdens lezen van huidige instelling.\n"
+"Mogelijk is standaardinvoer geen VT?\n"
 
 #: src/setmetamode.c:98
 #, c-format
@@ -1659,26 +1682,35 @@ msgid ""
 "and then edit the values in FILE.\n"
 "\n"
 msgstr ""
+"Gebruik:  %s vga|BESTAND|-\n"
+"\n"
+"Als u BESTAND als argument geeft, dan moet dit BESTAND precies drie regels\n"
+"van kommagescheiden decimale waarden voor rood, groen en blauw bevatten.\n"
+"\n"
+"Om een geldig BESTAND aan te maken kunt u het volgende doen:\n"
+"  cat /sys/module/vt/parameters/default_{red,grn,blu} > BESTAND\n"
+"waarna u de waarden in dit BESTAND bewerkt.\n"
+"\n"
 
 #: src/setvtrgb.c:85
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr ""
+msgstr "Fout: %s: ongeldige waarde in veld %u op regel %u."
 
 #: src/setvtrgb.c:92
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr ""
+msgstr "Fout: %s: onvoldoende velden op regel %u."
 
 #: src/setvtrgb.c:98
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
-msgstr ""
+msgstr "Fout: %s: regel %u eindigde onverwacht.\n"
 
 #: src/setvtrgb.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Line %u is too long.\n"
-msgstr "%s: %s: Waarschuwing: regel is te lang\n"
+msgstr "Fout: %s: regel %u is te lang.\n"
 
 #: src/showconsolefont.c:33
 #, c-format
@@ -1688,7 +1720,7 @@ msgstr "herstellen van originele vertaaltabel is mislukt\n"
 #: src/showconsolefont.c:38
 #, c-format
 msgid "failed to restore original unimap\n"
-msgstr "herstellen van originele Unicodeindeling is mislukt\n"
+msgstr "herstellen van originele Unicodekaart is mislukt\n"
 
 #: src/showconsolefont.c:56
 #, c-format
@@ -1715,36 +1747,36 @@ msgid ""
 msgstr ""
 "Gebruik:  showconsolefont -V|--version\n"
 "          showconsolefont [-C tty] [-v] [-i]\n"
-"(mogelijk na het laden van een lettertype met 'setfont lettertypenaam')\n"
+"(vermoedelijk na het laden van een lettertype met 'setfont lettertypenaam')\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -C tty  apparaat waarvan het lettertype getoond moet worden\n"
+"  -C TTY  apparaat waarvan het lettertype getoond moet worden\n"
 "            (standaard de huidige terminal)\n"
 "  -i      niet de lettertypetabel maar alleen RIJENxKOLOMMENxAANTAL tonen\n"
-"  -v      uitgebreide uitvoer produceren\n"
+"  -v      uitgebreidere uitvoer produceren\n"
 
 #: src/showconsolefont.c:170
 #, c-format
 msgid "Character count: %d\n"
-msgstr "Aantal tekens: %d\n"
+msgstr "Aantal tekens:  %d\n"
 
 #: src/showconsolefont.c:171
 #, c-format
 msgid "Font width     : %d\n"
-msgstr "Letterbreedte  : %d\n"
+msgstr "Letterbreedte:  %d\n"
 
 #: src/showconsolefont.c:172
 #, c-format
 msgid "Font height    : %d\n"
-msgstr "Letterhoogte   : %d\n"
+msgstr "Letterhoogte:   %d\n"
 
 #: src/showconsolefont.c:184
 #, c-format
 msgid ""
 "Showing %d-char font\n"
 "\n"
-msgstr "lettertype %d-teken weergave\n"
+msgstr "Weergave van lettertype met %d tekens:\n"
 
 #: src/showkey.c:42
 msgid "?UNKNOWN?"
@@ -1767,7 +1799,7 @@ msgstr ""
 #: src/showkey.c:65
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
-msgstr "signaal %d ontvangen, bezig met opschonen...\n"
+msgstr "signaal %d ontvangen; bezig met opschonen...\n"
 
 #: src/showkey.c:79
 #, c-format
@@ -1783,18 +1815,18 @@ msgid ""
 "\t-s --scancodes\tdisplay only the raw scan-codes\n"
 "\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n"
 msgstr ""
-"showkey versie %s\n"
+"showkey, versie %s\n"
 "\n"
-"Gebruik: showkey [opties...]\n"
+"Gebruik:  showkey [OPTIE...]\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h --help       deze hulptekst tonen en stoppen\n"
-"  -a --ascii      decimale/octale/hexadecimale waarden van de toetsen "
+"  -h, --help       deze hulptekst tonen en stoppen\n"
+"  -a, --ascii      decimale/octale/hexadecimale waarden van de toetsen "
 "weergeven\n"
-"  -k --keycodes   alleen de geïnterpreteerde toetscodes weergeven "
+"  -k, --keycodes   alleen de geïnterpreteerde toetscodes weergeven "
 "(standaard)\n"
-"  -s --scancodes  alleen de ruwe scancodes weergeven\n"
+"  -s, --scancodes  alleen de ruwe scancodes weergeven\n"
 
 #: src/showkey.c:157
 #, c-format
@@ -1828,17 +1860,111 @@ msgid "keycode %3d %s\n"
 msgstr "toetscode %3d %s\n"
 
 #: src/totextmode.c:29
-#, fuzzy, c-format
+#, c-format
 msgid "usage: totextmode\n"
-msgstr "Gebruik:  getkeycodes\n"
+msgstr "Gebruik:  totextmode\n"
 
-#: src/version.h:18
+#: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s (%s)\n"
 
-#~ msgid "loadkeys: error reading keyboard mode\n"
-#~ msgstr "loadkeys: fout tijdens lezen toetsenbordmodus\n"
+#: src/vlock/auth.c:58
+msgid ""
+"Please try again later.\n"
+"\n"
+"\n"
+msgstr ""
+"Probeer het later nog eens.\n"
+"\n"
+"\n"
 
-#~ msgid "plus before %s ignored\n"
-#~ msgstr "de plus voor %s wordt genegeerd\n"
+#: src/vlock/auth.c:67
+#, c-format
+msgid "The entire console display is now completely locked by %s.\n"
+msgstr "Het gehele console-scherm is nu volledig vergrendeld door %s.\n"
+
+#: src/vlock/auth.c:71
+#, c-format
+msgid "The %s is now locked by %s.\n"
+msgstr "Het %s is nu vergrendeld door %s.\n"
+
+#: src/vlock/auth.c:74
+msgid "Use Alt-function keys to switch to other virtual consoles."
+msgstr ""
+"Gebruik Alt+functietoetsen om naar andere virtuele consoles over te "
+"schakelen."
+
+#: src/vlock/parse.c:50
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr "Typ '%s --help' voor meer informatie.\n"
+
+#: src/vlock/parse.c:58
+#, c-format
+msgid ""
+"%s: locks virtual consoles, saving your current session.\n"
+"Usage: %s [options]\n"
+"       Where [options] are any of:\n"
+"-c or --current: lock only this virtual console, allowing user to\n"
+"       switch to other virtual consoles.\n"
+"-a or --all: lock all virtual consoles by preventing other users\n"
+"       from switching virtual consoles.\n"
+"-v or --version: Print the version number of vlock and exit.\n"
+"-h or --help: Print this help message and exit.\n"
+msgstr ""
+"Gebruik:  %s [OPTIE...]\n"
+"\n"
+"Het programma %s vergrendelt virtuele consoles en slaat uw sessies op.\n"
+"\n"
+"  Geldige opties zijn:\n"
+"\n"
+"  -c, --current  alleen de huidige virtuele console vergrendelen; de "
+"gebruiker\n"
+"                   toestaan naar een andere over te schakelen\n"
+"  -a, --all      alle virtuele consoles vergrendelen, door te verhinderen "
+"dat\n"
+"                   andere gebruikers naar andere consoles overschakelen\n"
+"  -v, --version  programmaversie tonen en stoppen\n"
+"  -h, --help     deze hulptekst tonen en stoppen\n"
+
+#: src/vlock/username.c:57
+msgid "unrecognized user"
+msgstr "niet-herkende gebruiker"
+
+#: src/vlock/vlock.c:56
+msgid "stdin is not a tty"
+msgstr "standaardinvoer is geen terminal"
+
+#: src/vlock/vt.c:152
+#, c-format
+msgid "This tty (%s) is not a virtual console.\n"
+msgstr "Huidige terminal (%s) is geen virtuele console.\n"
+
+#: src/vlock/vt.c:160
+#, c-format
+msgid "The entire console display cannot be locked.\n"
+msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
+
+#~ msgid "        use `openvt -f' to force.\n"
+#~ msgstr "        gebruik 'openvt -f' om het af te dwingen\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "openvt: could not open %s R/W (%s)\n"
+#~ msgstr ""
+#~ "\n"
+#~ "openvt: kan %s niet openen voor lezen-en-schrijven (%s)\n"
+
+#~ msgid "openvt: could not deallocate console %d\n"
+#~ msgstr "openvt: kan console %d niet vrijgeven\n"
+
+#~ msgid ""
+#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "command_line\n"
+#~ msgstr ""
+#~ "Gebruik: openvt [-c VT-nummer] [-f] [-l] [-u] [-s] [-v] [-w] -- "
+#~ "opdrachtregel\n"
+
+#~ msgid "loadkeys: error reading keyboard mode\n"
+#~ msgstr "loadkeys: fout tijdens lezen van toetsenbordmodus\n"

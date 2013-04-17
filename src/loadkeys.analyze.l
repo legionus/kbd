@@ -1,3 +1,5 @@
+%option stack
+%option noyy_top_state
 %option noyywrap
 %option nounput
 %option noinput
@@ -40,7 +42,9 @@ static struct infile {
 
 char *filename = NULL;
 int  line_nr = 1;
-static int  infile_stack_ptr = -1;
+
+static int infile_stack_ptr = -1;
+static int state_ptr = 0;
 
 void stack_push(FILE *fd, int is_pipe, char *fname) {
 	if (infile_stack_ptr >= MAX_INCLUDE_DEPTH)
@@ -296,17 +300,18 @@ To                      to|To|TO
 %}
 
 {Include}		{
-				BEGIN(INCLSTR);
+				yy_push_state(INCLSTR);
+				state_ptr++;
 			}
 <INCLSTR>\"[^\"\n]+\"	{
 				char *s = xstrndup(yytext+1, strlen(yytext)-2);
 				/* use static pathname to store *s ? */
 				open_include(s);
-				BEGIN(0);
+				yy_pop_state();
+				state_ptr--;
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
 				yyerror(_("expected filename between quotes"));
-				BEGIN(0);
 			}
 <<EOF>>			{
 				stack_pop();
@@ -318,22 +323,28 @@ To                      to|To|TO
 			}
 {Eol}			{
 				line_nr++;
-				BEGIN(0);
+				if (state_ptr > 0) {
+					yy_pop_state();
+					state_ptr--;
+				}
 				return(EOL);
 			}
 {Blank}+		; /* do nothing */
 {Comment}.*/{Eol}	; /* do nothing */
 {Equals}		{
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
+				state_ptr++;
 				rvalct = 0;
 				return(EQUALS);
 			}
 {String}		{
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
+				state_ptr++;
 				return(STRING);
 			}
 {To}			{
-				BEGIN(RVALUE);
+				yy_push_state(RVALUE);
+				state_ptr++;
 				return(TO);
 			}
 {Unicode}		{
@@ -385,7 +396,8 @@ To                      to|To|TO
 \"			{
 				p = (char *) kbs_buf.kb_string;
 				pmax = p + sizeof(kbs_buf.kb_string) - 1;
-				BEGIN(STR);
+				yy_push_state(STR);
+				state_ptr++;
 			}
 <STR>\\{Octa}		{
 				if (p >= pmax)
@@ -416,7 +428,8 @@ To                      to|To|TO
 			}
 <STR>\"			{
 				*p = '\0';
-				BEGIN(0);
+				yy_pop_state();
+				state_ptr--;
 				return(STRLITERAL);
 			}
 .			{

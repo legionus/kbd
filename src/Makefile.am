@@ -1,9 +1,7 @@
-WARNINGS = -Wall -Wextra -Wmissing-noreturn -Wdisabled-optimization \
-	-Wcast-align -Wshadow -Wmissing-format-attribute -Wmissing-prototypes \
-	-Wstrict-prototypes -Wmissing-declarations
-
-AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" $(WARNINGS) \
+AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-funit-at-a-time
+
+SUBDIRS = vlock
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
@@ -29,8 +27,8 @@ dist_bin_SCRIPTS = unicode_start unicode_stop
 bin_PROGRAMS = $(OLDPROGS) $(PROGS)
 
 EXTRA_DIST = \
-	analyze.c analyze.l wctomb.c totextmode.c \
-	README.cad README.init README.openvt \
+	loadkeys.analyze.c loadkeys.analyze.h loadkeys.analyze.l wctomb.c \
+	totextmode.c README.cad README.init README.openvt \
 	cad
 
 ALL_S   = modifiers.h nls.h paths.h version.h kbd.h
@@ -71,8 +69,10 @@ mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
 AM_YFLAGS = -d
-BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h
+AM_LFLAGS = --header-file=$(CURDIR)/loadkeys.analyze.h
+BUILT_SOURCES = loadkeys.c loadkeys.analyze.c loadkeys.h loadkeys.analyze.h
 loadkeys_SOURCES = loadkeys.y loadkeys.analyze.l $(GETFD_S) $(KSYMS_S) $(XMAL_S) $(FIND_S)
+loadkeys.analyze.h: loadkeys.analyze.c ; @true
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \

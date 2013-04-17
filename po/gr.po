@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.08\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2011-04-12 15:14+0400\n"
+"POT-Creation-Date: 2012-11-16 00:52+0400\n"
 "PO-Revision-Date: 2003-02-16 20:56+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -240,12 +240,12 @@ msgstr "σφάλμα κατά την εκτέλεση  %s\n"
 msgid "Warning: path too long: %s/%s\n"
 msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
 
-#: src/getfd.c:59
+#: src/getfd.c:67
 #, fuzzy, c-format
 msgid "Couldn't open %s\n"
 msgstr "αδύνατη ανάγνωση %s\n"
 
-#: src/getfd.c:88 src/openvt.c:121
+#: src/getfd.c:84
 #, fuzzy, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr "Δε μπορώ να λάβω περιγραφέα αρχείου που αφορά την κονσόλα\n"
@@ -437,36 +437,36 @@ msgstr "υποθέτοντας iso-8859-4 %s\n"
 msgid "unknown keysym '%s'\n"
 msgstr "άγνωστο keysym '%s'\n"
 
-#: loadkeys.analyze.l:47
+#: loadkeys.analyze.l:51
 msgid "includes are nested too deeply"
 msgstr ""
 
-#: loadkeys.analyze.l:234
+#: loadkeys.analyze.l:238
 #, c-format
 msgid "switching to %s\n"
 msgstr ""
 
-#: loadkeys.analyze.l:238
+#: loadkeys.analyze.l:242
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
 
-#: loadkeys.analyze.l:308
+#: loadkeys.analyze.l:314
 msgid "expected filename between quotes"
 msgstr ""
 
-#: loadkeys.analyze.l:342
+#: loadkeys.analyze.l:353
 #, c-format
 msgid "unicode keysym out of range: %s"
 msgstr ""
 
-#: loadkeys.analyze.l:392 loadkeys.analyze.l:397 loadkeys.analyze.l:402
-#: loadkeys.analyze.l:407 loadkeys.analyze.l:414
+#: loadkeys.analyze.l:404 loadkeys.analyze.l:409 loadkeys.analyze.l:414
+#: loadkeys.analyze.l:419 loadkeys.analyze.l:426
 #, fuzzy
 msgid "string too long"
 msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
 
-#: loadkeys.y:90
+#: loadkeys.y:93
 #, c-format
 msgid ""
 "loadkeys version %s\n"
@@ -478,8 +478,8 @@ msgid ""
 "  -a --ascii         force conversion to ASCII\n"
 "  -b --bkeymap       output a binary keymap to stdout\n"
 "  -c --clearcompose  clear kernel compose table\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     the console device(s) to be used\n"
+"  -C --console=file\n"
+"                     the console device to be used\n"
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
@@ -489,237 +489,237 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:149
+#: loadkeys.y:152
 #, c-format
 msgid "addmap called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:153
+#: loadkeys.y:156
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: loadkeys.y:167
+#: loadkeys.y:170
 #, c-format
 msgid "killkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:170
+#: loadkeys.y:173
 #, c-format
 msgid "killkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:186
+#: loadkeys.y:189
 #, c-format
 msgid "addkey called with bad keycode %d"
 msgstr ""
 
-#: loadkeys.y:189
+#: loadkeys.y:192
 #, c-format
 msgid "addkey called with bad index %d"
 msgstr ""
 
-#: loadkeys.y:192
+#: loadkeys.y:195
 #, c-format
 msgid "addkey called with bad table %d"
 msgstr ""
 
-#: loadkeys.y:238
+#: loadkeys.y:241
 #, c-format
 msgid "%s: addfunc called with bad func %d\n"
 msgstr ""
 
-#: loadkeys.y:269
+#: loadkeys.y:272
 #, c-format
 msgid "%s: addfunc: func_buf overflow\n"
 msgstr ""
 
-#: loadkeys.y:297
+#: loadkeys.y:300
 #, c-format
 msgid "compose table overflow\n"
 msgstr ""
 
-#: loadkeys.y:317
+#: loadkeys.y:320
 #, fuzzy, c-format
 msgid "%s: could not switch to Unicode mode\n"
 msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: loadkeys.y:336
+#: loadkeys.y:339
 #, c-format
 msgid "Keymap %d: Permission denied\n"
 msgstr ""
 
-#: loadkeys.y:345
+#: loadkeys.y:348
 #, fuzzy, c-format
 msgid "keycode %d, table %d = %d%s\n"
 msgstr "κωδικός πλήκτρου %3d %s\n"
 
-#: loadkeys.y:347
+#: loadkeys.y:350
 msgid "    FAILED"
 msgstr ""
 
-#: loadkeys.y:351
+#: loadkeys.y:354
 #, fuzzy, c-format
 msgid "failed to bind key %d to value %d\n"
 msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
 
-#: loadkeys.y:365
+#: loadkeys.y:366
 #, c-format
 msgid "deallocate keymap %d\n"
 msgstr ""
 
-#: loadkeys.y:371
+#: loadkeys.y:372
 #, fuzzy, c-format
 msgid "%s: could not deallocate keymap %d\n"
 msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: loadkeys.y:388
+#: loadkeys.y:389
 #, fuzzy, c-format
 msgid "%s: cannot deallocate or clear keymap\n"
 msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: loadkeys.y:400
+#: loadkeys.y:401
 #, fuzzy, c-format
 msgid "%s: could not return to original keyboard mode\n"
 msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
 
-#: loadkeys.y:447
+#: loadkeys.y:458
 #, c-format
 msgid "failed to bind string '%s' to function %s\n"
 msgstr ""
 
-#: loadkeys.y:455
+#: loadkeys.y:467
 #, fuzzy, c-format
 msgid "failed to clear string %s\n"
 msgstr "αποτυχία αποκατάστασης αρχικού unimap\n"
 
-#: loadkeys.y:475
+#: loadkeys.y:488
 #, fuzzy, c-format
 msgid "too many compose definitions\n"
 msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
 
-#: loadkeys.y:567
+#: loadkeys.y:580
 msgid "impossible error in do_constant"
 msgstr ""
 
-#: loadkeys.y:585
+#: loadkeys.y:596
 #, c-format
 msgid ""
 "\n"
 "Changed %d %s and %d %s.\n"
 msgstr ""
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "key"
 msgstr ""
 
-#: loadkeys.y:586
+#: loadkeys.y:597
 msgid "keys"
 msgstr ""
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "string"
 msgstr ""
 
-#: loadkeys.y:587
+#: loadkeys.y:598
 msgid "strings"
 msgstr ""
 
-#: loadkeys.y:594
+#: loadkeys.y:605
 #, c-format
 msgid "Loaded %d compose %s.\n"
 msgstr ""
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definition"
 msgstr ""
 
-#: loadkeys.y:595
+#: loadkeys.y:606
 msgid "definitions"
 msgstr ""
 
-#: loadkeys.y:599
+#: loadkeys.y:610
 #, fuzzy, c-format
 msgid "(No change in compose definitions.)\n"
 msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
 
-#: loadkeys.y:637
+#: loadkeys.y:650
 #, c-format
 msgid "loadkeys: don't know how to compose for %s\n"
 msgstr ""
 
-#: loadkeys.y:870 src/mapscrn.c:275 src/mapscrn.c:280
+#: loadkeys.y:886 src/mapscrn.c:275 src/mapscrn.c:280
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
 
-#: loadkeys.y:937
+#: loadkeys.y:954
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr ""
 
-#: loadkeys.y:1011
+#: loadkeys.y:1028
 #, fuzzy, c-format
 msgid "too many (%d) entries on one line"
 msgstr "Πάρα πολλά αρχεία για συνδιασμό\n"
 
-#: loadkeys.y:1025
+#: loadkeys.y:1042
 msgid "too many key definitions on one line"
 msgstr ""
 
-#: loadkeys.y:1110
+#: loadkeys.y:1057
+#, fuzzy, c-format
+msgid "Loading %s\n"
+msgstr "Σφάλμα ανάγνωσης %s\n"
+
+#: loadkeys.y:1062
+#, fuzzy, c-format
+msgid "syntax error in map file\n"
+msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
+
+#: loadkeys.y:1066
+#, c-format
+msgid "key bindings not changed\n"
+msgstr ""
+
+#: loadkeys.y:1146
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
-#: loadkeys.y:1123
+#: loadkeys.y:1158
 #, fuzzy, c-format
-msgid "%s: error reading keyboard mode\n"
+msgid "%s: error reading keyboard mode: %m\n"
 msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
 
-#: loadkeys.y:1131
+#: loadkeys.y:1166
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
 
-#: loadkeys.y:1143
+#: loadkeys.y:1178
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
 
-#: loadkeys.y:1157
+#: loadkeys.y:1187
 #, fuzzy, c-format
 msgid "Searching in %s\n"
 msgstr "σφάλμα κατά την εκτέλεση  %s\n"
 
-#: loadkeys.y:1167
+#: loadkeys.y:1197
 #, fuzzy, c-format
 msgid "Cannot find %s\n"
 msgstr "Αδυνατώ να βρω τη γραμματοσειρά %s\n"
 
-#: loadkeys.y:1178
+#: loadkeys.y:1213
 #, fuzzy, c-format
 msgid "cannot open file %s\n"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
-
-#: loadkeys.y:1184
-#, fuzzy, c-format
-msgid "Loading %s\n"
-msgstr "Σφάλμα ανάγνωσης %s\n"
-
-#: loadkeys.y:1189
-#, fuzzy, c-format
-msgid "syntax error in map file\n"
-msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
-
-#: loadkeys.y:1193
-#, c-format
-msgid "key bindings not changed\n"
-msgstr ""
 
 #: src/loadunimap.c:43
 #, fuzzy, c-format
@@ -856,97 +856,101 @@ msgstr "Αδυναμία ανάγνωσης της απεικόνισης της
 msgid "Saved screen map in `%s'\n"
 msgstr "Η απεικόνιση της οθόνης αποθηκεύθηκε στο `%s'\n"
 
-#: src/openvt.c:73
+#: src/openvt.c:44
 #, c-format
-msgid "openvt: %s: illegal vt number\n"
+msgid ""
+"Usage: %s [OPTIONS] -- command\n"
+"\n"
+"This utility help you to start a program on a new virtual terminal (VT).\n"
+"\n"
+"Options:\n"
+"  -c, --console=NUM   use the given VT number;\n"
+"  -e, --exec          execute the command, without forking;\n"
+"  -f, --force         force opening a VT without checking;\n"
+"  -l, --login         make the command a login shell;\n"
+"  -u, --user          figure out the owner of the current VT;\n"
+"  -s, --switch        switch to the new VT;\n"
+"  -w, --wait          wait for command to complete;\n"
+"  -v, --verbose       print a message for each action;\n"
+"  -V, --version       print program version and exit;\n"
+"  -h, --help          output a brief help message.\n"
+"\n"
+msgstr ""
+
+#: src/openvt.c:163
+msgid "Couldn't find owner of current tty!"
+msgstr ""
+
+#: src/openvt.c:231
+#, fuzzy, c-format
+msgid "%s: Illegal vt number"
 msgstr "openvt: %s: παράτυπος αριθμός vt\n"
 
-#: src/openvt.c:100
-#, c-format
-msgid "openvt: only root can use the -u flag.\n"
+#: src/openvt.c:257
+#, fuzzy
+msgid "Only root can use the -u flag."
 msgstr ""
 "openvt: μόνο ο διαχειριστής (root) μπορεί να χρησιμοποιήσει τη σημαία -u.\n"
 
-#: src/openvt.c:133
-#, c-format
-msgid "openvt: cannot find a free vt\n"
+#: src/openvt.c:279
+#, fuzzy
+msgid "Couldn't get a file descriptor referring to the console"
+msgstr "Δε μπορώ να λάβω περιγραφέα αρχείου που αφορά την κονσόλα\n"
+
+#: src/openvt.c:286
+#, fuzzy
+msgid "Cannot find a free vt"
 msgstr "openvt: δε μπορώ να βρω ένα ελεύθερο vt\n"
 
-#: src/openvt.c:138
-#, c-format
-msgid "openvt: cannot check whether vt %d is free\n"
+#: src/openvt.c:290
+#, fuzzy, c-format
+msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: αδύνατος ο έλεγχος αν το vt %d είναι ελεύθερο\n"
 
-#: src/openvt.c:139 src/openvt.c:144
-#, c-format
-msgid "        use `openvt -f' to force.\n"
-msgstr "        χρησιμοποιείστε `openvt -f' προς εξαναγκασμό.\n"
-
-#: src/openvt.c:143
-#, c-format
-msgid "openvt: vt %d is in use; command aborted\n"
+#: src/openvt.c:294
+#, fuzzy, c-format
+msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: vt %d εν χρήσει εκτέλεση διαταγής ματαιώθηκε\n"
 
-#: src/openvt.c:170
-#, c-format
-msgid "openvt: Unable to open %s: %s\n"
-msgstr "openvt: Δε μπορώ ν' ανοίξω το %s: %s\n"
+#: src/openvt.c:304
+msgid "Unable to find command."
+msgstr ""
 
-#: src/openvt.c:181
-#, c-format
-msgid "openvt: Cannot open %s read/write (%s)\n"
-msgstr "openvt: Δε μπορώ ν' ανοίξω το %s για ανάγνωση/εγγραφή (%s)\n"
-
-#: src/openvt.c:222
-#, c-format
-msgid "openvt: using VT %s\n"
-msgstr "openvt: χρησιμοποίηση VT %s\n"
-
-#: src/openvt.c:239
-#, c-format
-msgid "openvt: Unable to set new session (%s)\n"
+#: src/openvt.c:336
+#, fuzzy
+msgid "Unable to set new session"
 msgstr "openvt: Αδύνατον το άνοιγμα νέας συνόδου (%s)\n"
 
-#: src/openvt.c:247
-#, c-format
-msgid ""
-"\n"
-"openvt: could not open %s R/W (%s)\n"
-msgstr ""
-"\n"
-"openvt: αδύνατον το άνοιγμα του %s σε Α/Ε (%s)\n"
-
-#: src/openvt.c:255
+#: src/openvt.c:360
 #, fuzzy, c-format
-msgid ""
-"\n"
-"openvt: could not activate vt %d (%s)\n"
+msgid "Unable to open %s"
+msgstr "openvt: Δε μπορώ ν' ανοίξω το %s: %s\n"
+
+#: src/openvt.c:364
+#, fuzzy, c-format
+msgid "Using VT %s"
+msgstr "openvt: χρησιμοποίηση VT %s\n"
+
+#: src/openvt.c:370
+#, fuzzy, c-format
+msgid "Cannot open %s read/write"
+msgstr "openvt: Δε μπορώ ν' ανοίξω το %s για ανάγνωση/εγγραφή (%s)\n"
+
+#: src/openvt.c:381
+#, fuzzy, c-format
+msgid "Couldn't activate vt %d"
 msgstr ""
 "\n"
 "openvt: αδύνατον το άνοιγμα του %s σε Α/Ε (%s)\n"
 
-#: src/openvt.c:262
-#, c-format
-msgid ""
-"\n"
-"openvt: activation interrupted? (%s)\n"
+#: src/openvt.c:384
+msgid "Activation interrupted?"
 msgstr ""
 
-#: src/openvt.c:320
-#, c-format
-msgid "openvt: could not deallocate console %d\n"
-msgstr "openvt: δε μπορώ ν' αποδεσμεύσω την κονσόλα %d\n"
-
-#: src/openvt.c:339
-#, c-format
-msgid ""
-"Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- command_line\n"
-msgstr ""
-
-#: src/openvt.c:421
-#, c-format
-msgid "Couldn't find owner of current tty!\n"
-msgstr ""
+#: src/openvt.c:424
+#, fuzzy, c-format
+msgid "Couldn't deallocate console %d"
+msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1790,10 +1794,84 @@ msgstr "κωδικός πλήκτρου %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "χρήση: getkeycodes\n"
 
-#: src/version.h:18
+#: src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s από %s\n"
+
+#: src/vlock/auth.c:58
+msgid ""
+"Please try again later.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/vlock/auth.c:67
+#, c-format
+msgid "The entire console display is now completely locked by %s.\n"
+msgstr ""
+
+#: src/vlock/auth.c:71
+#, c-format
+msgid "The %s is now locked by %s.\n"
+msgstr ""
+
+#: src/vlock/auth.c:74
+msgid "Use Alt-function keys to switch to other virtual consoles."
+msgstr ""
+
+#: src/vlock/parse.c:50
+#, c-format
+msgid "Try `%s --help' for more information.\n"
+msgstr ""
+
+#: src/vlock/parse.c:58
+#, c-format
+msgid ""
+"%s: locks virtual consoles, saving your current session.\n"
+"Usage: %s [options]\n"
+"       Where [options] are any of:\n"
+"-c or --current: lock only this virtual console, allowing user to\n"
+"       switch to other virtual consoles.\n"
+"-a or --all: lock all virtual consoles by preventing other users\n"
+"       from switching virtual consoles.\n"
+"-v or --version: Print the version number of vlock and exit.\n"
+"-h or --help: Print this help message and exit.\n"
+msgstr ""
+
+#: src/vlock/username.c:57
+#, fuzzy
+msgid "unrecognized user"
+msgstr ""
+"μη αναγνωρισμένα ορίσματα: _%s_\n"
+"\n"
+
+#: src/vlock/vlock.c:56
+msgid "stdin is not a tty"
+msgstr ""
+
+#: src/vlock/vt.c:152
+#, c-format
+msgid "This tty (%s) is not a virtual console.\n"
+msgstr ""
+
+#: src/vlock/vt.c:160
+#, fuzzy, c-format
+msgid "The entire console display cannot be locked.\n"
+msgstr "%s: VT 1 είναι η κονσόλα και δε μπορεί ν' αποδεσμευτεί\n"
+
+#~ msgid "        use `openvt -f' to force.\n"
+#~ msgstr "        χρησιμοποιείστε `openvt -f' προς εξαναγκασμό.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "openvt: could not open %s R/W (%s)\n"
+#~ msgstr ""
+#~ "\n"
+#~ "openvt: αδύνατον το άνοιγμα του %s σε Α/Ε (%s)\n"
+
+#~ msgid "openvt: could not deallocate console %d\n"
+#~ msgstr "openvt: δε μπορώ ν' αποδεσμεύσω την κονσόλα %d\n"
 
 #, fuzzy
 #~ msgid "loadkeys: error reading keyboard mode\n"

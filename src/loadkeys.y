@@ -10,6 +10,8 @@
 %token UNUMBER ALT_IS_META STRINGS AS USUAL ON FOR
 
 %{
+#define YY_HEADER_EXPORT_START_CONDITIONS 1
+
 #include <errno.h>
 #include <stdio.h>
 #include <getopt.h>
@@ -32,6 +34,8 @@
 #include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
+
+#include "loadkeys.analyze.h"
 
 #define U(x) ((x) ^ 0xf000)
 
@@ -83,7 +87,6 @@ extern void stack_push(FILE *fd, int ispipe, char *filename);
 extern int prefer_unicode;
 
 #include "ksyms.h"
-int yylex(void);
 
 static void attr_noreturn usage(void)
 {
@@ -96,8 +99,8 @@ static void attr_noreturn usage(void)
 			  "  -a --ascii         force conversion to ASCII\n"
 			  "  -b --bkeymap       output a binary keymap to stdout\n"
 			  "  -c --clearcompose  clear kernel compose table\n"
-			  "  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-			  "                     the console device(s) to be used\n"
+			  "  -C --console=file\n"
+			  "                     the console device to be used\n"
 			  "  -d --default       load \"%s\"\n"
 			  "  -h --help          display this help text\n"
 			  "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
@@ -352,8 +355,6 @@ static int defkeys(int fd, int kbd_mode)
 							j, (key_map[i])[j]);
 				}
 			}
-			xfree(key_map[i]);
-			xfree(keymap_was_set[i]);
 
 		} else if (keymaps_line_seen && !defining[i]) {
 			/* deallocate keymap */
@@ -405,6 +406,15 @@ static int defkeys(int fd, int kbd_mode)
 	return ct;
 }
 
+static void freekeys(void)
+{
+	int i;
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		xfree(keymap_was_set[i]);
+		xfree(key_map[i]);
+	}
+}
+
 static char *ostr(char *s)
 {
 	int lth = strlen(s);
@@ -435,27 +445,30 @@ static char *ostr(char *s)
 static int deffuncs(int fd)
 {
 	int i, ct = 0;
-	char *ptr;
+	char *ptr, *s;
 
 	for (i = 0; i < MAX_NR_FUNC; i++) {
 		kbs_buf.kb_func = i;
 
 		if ((ptr = func_table[i])) {
 			strcpy((char *)kbs_buf.kb_string, ptr);
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf))
+			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
+				s = ostr((char *)kbs_buf.kb_string);
 				fprintf(stderr,
 					_("failed to bind string '%s' to function %s\n"),
-					ostr((char *)kbs_buf.kb_string),
-					syms[KT_FN].table[kbs_buf.kb_func]);
-			else
+					s, syms[KT_FN].table[kbs_buf.kb_func]);
+				xfree(s);
+			} else {
 				ct++;
+			}
 		} else if (opts) {
 			kbs_buf.kb_string[0] = 0;
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf))
+			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs_buf)) {
 				fprintf(stderr, _("failed to clear string %s\n"),
 					syms[KT_FN].table[kbs_buf.kb_func]);
-			else
+			} else {
 				ct++;
+			}
 		}
 	}
 	return ct;
@@ -572,12 +585,10 @@ static void do_constant(void)
 	}
 }
 
-static void loadkeys(char *console, int kbd_mode)
+static void loadkeys(int fd, int kbd_mode)
 {
-	int fd;
 	int keyct, funcct, diacct = 0;
 
-	fd = getfd(console);
 	keyct = defkeys(fd, kbd_mode);
 	funcct = deffuncs(fd);
 
@@ -598,6 +609,8 @@ static void loadkeys(char *console, int kbd_mode)
 	} else if (verbose) {
 		printf(_("(No change in compose definitions.)\n"));
 	}
+
+	freekeys();
 }
 
 static void strings_as_usual(void)
@@ -838,6 +851,8 @@ static void attr_noreturn mktable(void)
 	}
 	printf("unsigned int accent_table_size = %d;\n", accent_table_size);
 
+	freekeys();
+
 	exit(0);
 }
 
@@ -865,9 +880,11 @@ static void attr_noreturn bkeymap(void)
 			}
 		}
 	}
+	freekeys();
 	exit(0);
 
  fail:	fprintf(stderr, _("Error writing map to file\n"));
+	freekeys();
 	exit(1);
 }
 
@@ -1035,6 +1052,22 @@ rvalue		: NUMBER	{ $$ = convert_code($1, TO_AUTO);		}
 		;
 %%
 
+static void parse_keymap(FILE *fd) {
+	if (!quiet && !optm)
+		fprintf(stdout, _("Loading %s\n"), pathname);
+
+	stack_push(fd, 0, pathname);
+
+	if (yyparse()) {
+		fprintf(stderr, _("syntax error in map file\n"));
+
+		if (!optm)
+			fprintf(stderr,
+				_("key bindings not changed\n"));
+		exit(EXIT_FAILURE);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	const char *short_opts = "abcC:dhmsuqvV";
@@ -1058,6 +1091,8 @@ int main(int argc, char *argv[])
 	int kbd_mode;
 	int kd_mode;
 	char *console = NULL;
+	char *ev;
+	FILE *f;
 
 	set_progname(argv[0]);
 
@@ -1090,6 +1125,7 @@ int main(int argc, char *argv[])
 			break;
 		case 'u':
 			optu = 1;
+			prefer_unicode = 1;
 			break;
 		case 'q':
 			quiet = 1;
@@ -1112,15 +1148,14 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	prefer_unicode = optu;
+	/* get console */
+	fd = getfd(console);
 
 	if (!optm && !optb) {
 		/* check whether the keyboard is in Unicode mode */
-		fd = getfd(console);
-
-		if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
-			perror("KDGKBMODE");
-			fprintf(stderr, _("%s: error reading keyboard mode\n"),
+		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
+		    ioctl(fd, KDGETMODE, &kd_mode)) {
+			fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
 				progname);
 			exit(EXIT_FAILURE);
 		}
@@ -1137,39 +1172,39 @@ int main(int argc, char *argv[])
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
 			optu = 0;
-		} else if (optu
-			   && (ioctl(fd, KDGETMODE, &kd_mode) || (kd_mode != KD_GRAPHICS)))
+
+		} else if (optu && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,
 				_("%s: warning: loading Unicode keymap on non-Unicode console\n"
 				  "    (perhaps you want to do `kbd_mode -u'?)\n"),
 				progname);
+		}
+	}
 
-		close(fd);
+	dirpath = dirpath1;
+	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
+		if (!quiet && !optm)
+			fprintf(stdout, _("Searching in %s\n"), ev);
+
+		dirpath2[0] = ev;
+		dirpath = dirpath2;
+	}
+
+	if (optd) {
+		/* first read default map - search starts in . */
+
+		if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
+			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
+			exit(EXIT_FAILURE);
+		}
+		parse_keymap(f);
+
+	} else if (optind == argc) {
+		strcpy(pathname, "<stdin>");
+		parse_keymap(stdin);
 	}
 
 	for (i = optind; argv[i]; i++) {
-		FILE *f;
-		char *ev;
-
-		dirpath = dirpath1;
-		if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
-			if (!quiet && !optm)
-				fprintf(stdout, _("Searching in %s\n"), ev);
-
-			dirpath2[0] = ev;
-			dirpath = dirpath2;
-		}
-
-		if (optd) {
-			/* first read default map - search starts in . */
-			optd = 0;
-			if ((f = findfile(DEFMAP, dirpath, suffixes)) == NULL) {
-				fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-				exit(EXIT_FAILURE);
-			}
-			goto gotf;
-		}
-
 		if (!strcmp(argv[i], "-")) {
 			f = stdin;
 			strcpy(pathname, "<stdin>");
@@ -1179,56 +1214,20 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 
- gotf:
-		if (!quiet && !optm)
-			fprintf(stdout, _("Loading %s\n"), pathname);
-
-		stack_push(f, 0, pathname);
-
-		if (yyparse()) {
-			fprintf(stderr, _("syntax error in map file\n"));
-
-			if (!optm)
-				fprintf(stderr,
-					_("key bindings not changed\n"));
-			exit(EXIT_FAILURE);
-		}
+		parse_keymap(f);
 	}
 
 	do_constant();
 
-	if (optb) {
+	if (optb)
 		bkeymap();
 
-	} else if (optm) {
+	if (optm)
 		mktable();
 
-	} else if (console) {
-		char *buf = strdup(console);	/* make writable */
-		char *e, *s = buf;
-		while (*s) {
-			char ch;
+	loadkeys(fd, kbd_mode);
 
-			while (*s == ' ' || *s == '\t' || *s == ',')
-				s++;
-			e = s;
-			while (*e && *e != ' ' && *e != '\t' && *e != ',')
-				e++;
-			ch = *e;
-			*e = '\0';
+	close(fd);
 
-			if (verbose)
-				printf("%s\n", s);
-
-			loadkeys(s, kbd_mode);
-
-			*e = ch;
-			s = e;
-		}
-		free(buf);
-
-	} else {
-		loadkeys(NULL, kbd_mode);
-	}
 	exit(EXIT_SUCCESS);
 }

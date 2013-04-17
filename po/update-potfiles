@@ -2,17 +2,19 @@
 #
 #
 
-> POTFILES
 > .null
-> POTFILES.in
 
-for x in ../*/*.c ../src/version.h; do
-echo "$x \\" >> POTFILES
-done
+for x in ../*/*.c ../*/*/*.c ../src/version.h; do
+echo "$x \\"
+done > POTFILES
 echo .null   >> POTFILES
 
 cd ..
-for x in */*.c src/version.h; do
-echo "$x" >> po/POTFILES.in
-done
+for x in */*.c */*/*.c src/version.h; do
+echo "$x"
+done > po/POTFILES.in
 cd po
+
+for x in POTFILES POTFILES.in; do
+sort -uo "$x" "$x"
+done
