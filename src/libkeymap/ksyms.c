@@ -116,6 +116,15 @@ lk_list_charsets(FILE *f) {
 	fprintf(f, "\n");
 }
 
+const char *
+lk_get_charset(struct keymap *kmap)
+{
+	if (!kmap || !kmap->charset || kmap->charset >= charsets_size)
+		return NULL;
+
+	return charsets[kmap->charset].charset;
+}
+
 int
 lk_set_charset(struct keymap *kmap, const char *charset) {
 	unsigned int i;
