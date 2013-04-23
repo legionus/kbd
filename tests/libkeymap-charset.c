@@ -14,7 +14,7 @@ START_TEST(test0)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "charset-keymap0.map");
-	f.fd = fopen("./charset-keymap0.map", "r");
+	f.fd = fopen(DATADIR "/charset-keymap0.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 

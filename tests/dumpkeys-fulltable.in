@@ -4,12 +4,15 @@ cwd="$(readlink -ev "${0%/*}")"
 
 cd "$cwd"
 
+BUILDDIR="@BUILDDIR@"
+DATADIR="@DATADIR@"
+
 check_keymap() {
 	local kmap temp rc
 
 	rc=0
 	kmap="$1"
-	temp="$(mktemp ./temp.XXXXXXXXX)"
+	temp="$(mktemp "$BUILDDIR"/temp.XXXXXXXXX)"
 
 	./libkeymap-dumpkeys "$kmap" "$2" "$3" > "$temp" || rc=$?
 	cmp -s "$kmap" "$temp" || rc=$?
@@ -23,11 +26,11 @@ check_keymap() {
 	return $rc
 }
 
-check_keymap ./dumpkeys.full.ruwin_cplk-UTF-8.map FULL_TABLE TRUE
-check_keymap ./dumpkeys.qwerty-layout.map DEFAULT FALSE
+check_keymap "$DATADIR"/dumpkeys.full.ruwin_cplk-UTF-8.map FULL_TABLE TRUE
+check_keymap "$DATADIR"/dumpkeys.qwerty-layout.map DEFAULT FALSE
 
 # check keymaps line
-kmap="./dumpkeys.ua-ws.map"
+kmap="$DATADIR/dumpkeys.ua-ws.map"
 line0="$(grep '^#keymaps ' "$kmap")" ||:
 line0="${line0#\#}"
 line1="$(./libkeymap-dumpkeys "$kmap" SEPARATE_LINE FALSE |grep '^keymaps ')" ||:

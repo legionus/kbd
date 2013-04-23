@@ -23,7 +23,7 @@ START_TEST(test_parse_0)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap0.map");
-	f.fd = fopen("./keymap0.map", "r");
+	f.fd = fopen(DATADIR "/keymap0.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -60,7 +60,7 @@ START_TEST(test_parse_1)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap1.map");
-	f.fd = fopen("./keymap1.map", "r");
+	f.fd = fopen(DATADIR "/keymap1.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -85,7 +85,7 @@ START_TEST(test_parse_2)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap2.map");
-	f.fd = fopen("./keymap2.map", "r");
+	f.fd = fopen(DATADIR "/keymap2.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -111,7 +111,7 @@ START_TEST(test_parse_3)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap3.map");
-	f.fd = fopen("./keymap3.map", "r");
+	f.fd = fopen(DATADIR "/keymap3.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -135,7 +135,7 @@ START_TEST(test_parse_4)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap4.map");
-	f.fd = fopen("./keymap4.map", "r");
+	f.fd = fopen(DATADIR "/keymap4.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -164,7 +164,7 @@ START_TEST(test_parse_5)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap5.map");
-	f.fd = fopen("./keymap5.map", "r");
+	f.fd = fopen(DATADIR "/keymap5.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -190,7 +190,7 @@ START_TEST(test_parse_6)
 
 	f.pipe = 0;
 	strcpy(f.pathname, "keymap6.map");
-	f.fd = fopen("./keymap6.map", "r");
+	f.fd = fopen(DATADIR "/keymap6.map", "r");
 
 	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
 
@@ -215,6 +215,8 @@ libkeymap_suite(void)
 {
 	Suite *s = suite_create("libkeymap");
 	TCase *tc_core = tcase_create(NULL);
+
+	setenv("LOADKEYS_INCLUDE_PATH", DATADIR, 1);
 
 	tcase_add_test(tc_core, test_parse_0);
 	tcase_add_test(tc_core, test_parse_1);
