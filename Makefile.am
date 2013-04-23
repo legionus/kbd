@@ -9,3 +9,20 @@ EXTRA_DIST = \
 	contrib doc rc
 
 SUBDIRS = src man data po tests
+
+kbd-$(VERSION).tar.xz:
+	make distcheck
+
+kbd-$(VERSION).tar.sign:
+	xz -d -c kbd-$(VERSION).tar.xz | \
+	    gpg --armor --detach-sign \
+	        --default-key $(GPG_KEY) \
+	        --output kbd-$(VERSION).tar.sign
+
+tar: kbd-$(VERSION).tar.xz kbd-$(VERSION).tar.sign
+
+tar-sync: kbd-$(VERSION).tar.xz kbd-$(VERSION).tar.sign
+	kup put \
+	    kbd-$(VERSION).tar.xz \
+	    kbd-$(VERSION).tar.sign \
+	    /pub/linux/utils/kbd/

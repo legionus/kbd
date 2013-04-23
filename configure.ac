@@ -7,7 +7,7 @@ AC_PREREQ(2.60)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.9 -Wall color-tests])
+AM_INIT_AUTOMAKE([1.9 -Wall color-tests dist-xz])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_HEADERS(config.h)
 
