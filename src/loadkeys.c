@@ -244,6 +244,7 @@ main(int argc, char *argv[])
 	}
 
  fail:	lk_free(&kmap);
+	lk_fpclose(&f);
 	close(fd);
 
 	if (rc < 0)

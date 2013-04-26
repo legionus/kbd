@@ -40,16 +40,7 @@ stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner)
 		return -1;
 	}
 
-	kmap->stack[i] = malloc(sizeof(lkfile_t));
-	if (kmap->stack[i] == NULL) {
-		ERR(kmap, _("out of memory"));
-		return -1;
-	}
-
-	kmap->stack[i]->fd   = fp->fd;
-	kmap->stack[i]->pipe = fp->pipe;
-	strncpy(kmap->stack[i]->pathname, fp->pathname, sizeof(kmap->stack[i]->pathname));
-	kmap->stack[i]->pathname[sizeof(kmap->stack[i]->pathname) - 1] = '\0';
+	kmap->stack[i] = fp;
 
 	yypush_buffer_state(yy_create_buffer(fp->fd, YY_BUF_SIZE, scanner), scanner);
 	return 0;
@@ -61,13 +52,17 @@ stack_pop(struct keymap *kmap, void *scanner)
 	int i = 0;
 
 	while (kmap->stack[i]) i++;
-	if (i == 0)
+	if (!i)
 		return 0;
 	i--;
 
-	lk_fpclose(kmap->stack[i]);
-
-	free(kmap->stack[i]);
+	/*
+	 * The top of stack is input file for library. No need to close it.
+	 */
+	if (i) {
+		lk_fpclose(kmap->stack[i]);
+		free(kmap->stack[i]);
+	}
 	kmap->stack[i] = NULL;
 
 	yypop_buffer_state(scanner);
@@ -242,11 +237,18 @@ static int
 open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 {
 	int rc;
-	lkfile_t fp;
+	lkfile_t *fp;
 
 	INFO(kmap, _("switching to %s"), s);
 
-	rc = find_incl_file(kmap, s, &fp);
+	fp = malloc(sizeof(lkfile_t));
+	if (!fp) {
+		ERR(kmap, _("out of memory"));
+		return -1;
+	}
+	memset(fp, 0, sizeof(lkfile_t));
+
+	rc = find_incl_file(kmap, s, fp);
 	if (rc > 0) {
 		ERR(kmap, _("cannot open include file %s"), s);
 		free(s);
@@ -258,7 +260,7 @@ open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 
 	free(s);
 
-	return stack_push(kmap, &fp, scanner);
+	return stack_push(kmap, fp, scanner);
 }
 
 %}
