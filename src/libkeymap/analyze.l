@@ -306,7 +306,6 @@ To                      to|To|TO
 
 {Include}		{
 				yy_push_state(INCLSTR, yyscanner);
-				yyextra->state_ptr++;
 			}
 <INCLSTR>\"[^\"\n]+\"	{
 				char *s = strndup(yytext+1, strlen(yytext)-2);
@@ -318,9 +317,8 @@ To                      to|To|TO
 				if (open_include(yyextra, s, yyscanner) == -1)
 					return(ERROR);
 
-				while (yyextra->state_ptr > 0) {
+				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
 					yy_pop_state(yyscanner);
-					yyextra->state_ptr--;
 				}
 			}
 <INCLSTR>[^"]|\"\"|\"[^"\n]*{Eol}	{
@@ -338,9 +336,8 @@ To                      to|To|TO
 {Eol}			{
 				yyset_lineno(yyget_lineno(yyscanner) + 1, yyscanner);
 
-				while (yyextra->state_ptr > 0) {
+				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
 					yy_pop_state(yyscanner);
-					yyextra->state_ptr--;
 				}
 				return(EOL);
 			}
@@ -348,18 +345,15 @@ To                      to|To|TO
 {Comment}.*/{Eol}	; /* do nothing */
 {Equals}		{
 				yy_push_state(RVALUE, yyscanner);
-				yyextra->state_ptr++;
 				yyextra->rvalct = 0;
 				return(EQUALS);
 			}
 {String}		{
 				yy_push_state(RVALUE, yyscanner);
-				yyextra->state_ptr++;
 				return(STRING);
 			}
 {To}			{
 				yy_push_state(RVALUE, yyscanner);
-				yyextra->state_ptr++;
 				return(TO);
 			}
 {Unicode}		{
@@ -416,7 +410,6 @@ To                      to|To|TO
 				yylval->str.len = 0;
 
 				yy_push_state(STR, yyscanner);
-				yyextra->state_ptr++;
 			}
 <STR>\\{Octa}		{
 				if (yylval->str.len == MAX_PARSER_STRING) {
@@ -459,9 +452,8 @@ To                      to|To|TO
 			}
 <STR>\"			{
 				yylval->str.data[yylval->str.len] = '\0';
-				while (yyextra->state_ptr > 0) {
+				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
 					yy_pop_state(yyscanner);
-					yyextra->state_ptr--;
 				}
 				return(STRLITERAL);
 			}

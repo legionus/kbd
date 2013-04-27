@@ -47,7 +47,6 @@ struct keymap {
 	unsigned int charset;
 
 	int rvalct;
-	int state_ptr;
 	lkfile_t *stack[MAX_INCLUDE_DEPTH];
 
 	int log_priority;
