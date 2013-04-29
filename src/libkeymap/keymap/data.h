@@ -12,11 +12,11 @@ typedef struct kbdiacr accent_entry;
 #endif
 
 typedef enum {
-	LKFLAG_UNICODE_MODE  = (1 << 1),
-	LKFLAG_CLEAR_COMPOSE = (1 << 2),
-	LKFLAG_CLEAR_STRINGS = (1 << 3),
-	LKFLAG_PREFER_UNICODE= (1 << 4)
-} lkflags;
+	LK_FLAG_UNICODE_MODE  = (1 << 1),
+	LK_FLAG_CLEAR_COMPOSE = (1 << 2),
+	LK_FLAG_CLEAR_STRINGS = (1 << 3),
+	LK_FLAG_PREFER_UNICODE= (1 << 4)
+} lk_flags;
 
 typedef enum {
 	LK_KEYWORD_KEYMAPS    = (1 << 1),
@@ -29,7 +29,7 @@ typedef enum {
 
 struct keymap {
 	/* Parser flags */
-	lkflags flags;
+	lk_flags flags;
 
 	/* Keymap keywords (keymaps, alt-is-meta, charset, ...) */
 	lk_keywords keywords;

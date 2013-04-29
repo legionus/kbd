@@ -18,7 +18,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 	int ct = 0;
 	int i, j, fail;
 
-	if (kmap->flags & LKFLAG_UNICODE_MODE) {
+	if (kmap->flags & LK_FLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			ERR(kmap, _("KDSKBMODE: %s: could not switch to Unicode mode"),
@@ -92,7 +92,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 		}
 	}
 
-	if ((kmap->flags & LKFLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
+	if ((kmap->flags & LK_FLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
 		ERR(kmap, _("KDSKBMODE: %s: could not return to original keyboard mode"),
 			strerror(errno));
 		goto fail;
@@ -159,7 +159,7 @@ deffuncs(struct keymap *kmap, int fd)
 			} else {
 				ct++;
 			}
-		} else if (kmap->flags & LKFLAG_CLEAR_STRINGS) {
+		} else if (kmap->flags & LK_FLAG_CLEAR_STRINGS) {
 			kbs.kb_string[0] = 0;
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
@@ -188,7 +188,7 @@ defdiacs(struct keymap *kmap, int fd)
 		ERR(kmap, _("too many compose definitions"));
 	}
 #ifdef KDSKBDIACRUC
-	if (kmap->flags & LKFLAG_PREFER_UNICODE) {
+	if (kmap->flags & LK_FLAG_PREFER_UNICODE) {
 		kdu.kb_cnt = count;
 
 		for (i = 0; i < kdu.kb_cnt; i++) {
@@ -239,7 +239,7 @@ lk_load_keymap(struct keymap *kmap, int fd, int kbd_mode)
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
-	if (kmap->accent_table_size > 0 || kmap->flags & LKFLAG_CLEAR_COMPOSE) {
+	if (kmap->accent_table_size > 0 || kmap->flags & LK_FLAG_CLEAR_COMPOSE) {
 		diacct = defdiacs(kmap, fd);
 
 		if (diacct < 0)

@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	numeric = (!strcasecmp(argv[3], "TRUE")) ? 1 : 0;
 
 	lk_init(&kmap);
-	kmap.flags |= LKFLAG_PREFER_UNICODE;
+	kmap.flags |= LK_FLAG_PREFER_UNICODE;
 
 	f.pipe = 0;
 	strcpy(f.pathname, argv[1]);

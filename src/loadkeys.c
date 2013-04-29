@@ -121,7 +121,7 @@ main(int argc, char *argv[])
 			options |= OPT_B;
 			break;
 		case 'c':
-			kmap.flags |= LKFLAG_CLEAR_COMPOSE;
+			kmap.flags |= LK_FLAG_CLEAR_COMPOSE;
 			break;
 		case 'C':
 			console = optarg;
@@ -133,12 +133,12 @@ main(int argc, char *argv[])
 			options |= OPT_M;
 			break;
 		case 's':
-			kmap.flags |= LKFLAG_CLEAR_STRINGS;
+			kmap.flags |= LK_FLAG_CLEAR_STRINGS;
 			break;
 		case 'u':
 			options |= OPT_U;
-			kmap.flags |= LKFLAG_UNICODE_MODE;
-			kmap.flags |= LKFLAG_PREFER_UNICODE;
+			kmap.flags |= LK_FLAG_UNICODE_MODE;
+			kmap.flags |= LK_FLAG_PREFER_UNICODE;
 			break;
 		case 'q':
 			lk_set_log_priority(&kmap, LOG_ERR);
@@ -181,11 +181,11 @@ main(int argc, char *argv[])
 					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
 					progname);
 			} else {
-				kmap.flags |= LKFLAG_PREFER_UNICODE;
+				kmap.kmap |= LK_FLAG_PREFER_UNICODE;
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
-			kmap.flags ^= LKFLAG_UNICODE_MODE;
+			kmap.flags ^= LK_FLAG_UNICODE_MODE;
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,

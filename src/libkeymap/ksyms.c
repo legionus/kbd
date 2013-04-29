@@ -241,7 +241,7 @@ ksymtocode(struct keymap *kmap, const char *s, int direction) {
 	sym *p;
 
 	if (direction == TO_AUTO)
-		direction = (kmap->flags & LKFLAG_PREFER_UNICODE)
+		direction = (kmap->flags & LK_FLAG_PREFER_UNICODE)
 			? TO_UNICODE : TO_8BIT;
 
 	if (!strncmp(s, "Meta_", 5)) {
@@ -342,7 +342,7 @@ convert_code(struct keymap *kmap, int code, int direction)
 	int result;
 
 	if (direction == TO_AUTO)
-		direction = (kmap->flags & LKFLAG_PREFER_UNICODE)
+		direction = (kmap->flags & LK_FLAG_PREFER_UNICODE)
 		    ? TO_UNICODE : TO_8BIT;
 
 	if (KTYP(code) == KT_META)
@@ -378,7 +378,7 @@ convert_code(struct keymap *kmap, int code, int direction)
 int
 add_capslock(struct keymap *kmap, int code)
 {
-	if (KTYP(code) == KT_LATIN && (!(kmap->flags & LKFLAG_PREFER_UNICODE) || code < 0x80))
+	if (KTYP(code) == KT_LATIN && (!(kmap->flags & LK_FLAG_PREFER_UNICODE) || code < 0x80))
 		return K(KT_LETTER, KVAL(code));
 	else if ((code ^ 0xf000) < 0x100)
 		/* Unicode Latin-1 Supplement */

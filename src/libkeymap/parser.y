@@ -196,9 +196,9 @@ charsetline	: CHARSET STRLITERAL EOL
 
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */
-				if (kmap->flags & LKFLAG_PREFER_UNICODE &&
+				if (kmap->flags & LK_FLAG_PREFER_UNICODE &&
 				    !strcasecmp((char *) $2.data, "iso-8859-1"))
-					kmap->flags ^= LKFLAG_PREFER_UNICODE;
+					kmap->flags ^= LK_FLAG_PREFER_UNICODE;
 			}
 		;
 altismetaline	: ALT_IS_META EOL

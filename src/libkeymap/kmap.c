@@ -232,7 +232,7 @@ lk_add_compose(struct keymap *kmap,
 	int direction = TO_8BIT;
 
 #ifdef KDSKBDIACRUC
-	if (kmap->flags & LKFLAG_PREFER_UNICODE)
+	if (kmap->flags & LK_FLAG_PREFER_UNICODE)
 		direction = TO_UNICODE;
 #endif
 	return lk_add_diacr(kmap,

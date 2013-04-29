@@ -28,7 +28,7 @@ extern const unsigned int syn_size;
 #define CODE_FOR_UNKNOWN_KSYM (-1)
 
 /* Directions for converting keysyms */
-#define TO_AUTO (-1)		/* use LKFLAG_PREFER_UNICODE */
+#define TO_AUTO (-1)		/* use LK_FLAG_PREFER_UNICODE */
 #define TO_8BIT 0
 #define TO_UNICODE 1
 
