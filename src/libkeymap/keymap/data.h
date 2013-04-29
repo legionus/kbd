@@ -17,11 +17,21 @@ typedef enum {
 	LKFLAG_CLEAR_STRINGS = (1 << 3),
 } lkflags;
 
+typedef enum {
+	LK_KEYWORD_KEYMAPS    = (1 << 1),
+	LK_KEYWORD_ALTISMETA  = (1 << 2),
+	LK_KEYWORD_CHARSET    = (1 << 3),
+	LK_KEYWORD_STRASUSUAL = (1 << 4)
+} lk_keywords;
+
 #define MAX_INCLUDE_DEPTH 20
 
 struct keymap {
 	/* Parser flags */
 	lkflags flags;
+
+	/* Keymap keywords (keymaps, alt-is-meta, charset, ...) */
+	lk_keywords keywords;
 
 	/* What keymaps are we defining? */
 	u_short defining[MAX_NR_KEYMAPS];
@@ -37,8 +47,6 @@ struct keymap {
 	char key_is_constant[NR_KEYS];
 	char *keymap_was_set[MAX_NR_KEYMAPS];
 
-	char keymaps_line_seen;      /* Keyword: "keymaps" */
-	int alt_is_meta;             /* Keyword: "alt-is-meta" */
 	int mod;                     /* Line by line modifiers */
 	int key_buf[MAX_NR_KEYMAPS]; /* Key definitions on one line */
 

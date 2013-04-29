@@ -192,6 +192,7 @@ charsetline	: CHARSET STRLITERAL EOL
 						(char *) $2.data);
 					YYERROR;
 				}
+				kmap->keywords |= LK_KEYWORD_CHARSET;
 
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */
@@ -202,13 +203,14 @@ charsetline	: CHARSET STRLITERAL EOL
 		;
 altismetaline	: ALT_IS_META EOL
 			{
-				kmap->alt_is_meta = 1;
+				kmap->keywords |= LK_KEYWORD_ALTISMETA;
 			}
 		;
 usualstringsline: STRINGS AS USUAL EOL
 			{
 				if (strings_as_usual(kmap) == -1)
 					YYERROR;
+				kmap->keywords |= LK_KEYWORD_STRASUSUAL;
 			}
 		;
 usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
@@ -224,7 +226,7 @@ usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
 		;
 keymapline	: KEYMAPS range EOL
 			{
-				kmap->keymaps_line_seen = 1;
+				kmap->keywords |= LK_KEYWORD_KEYMAPS;
 			}
 		;
 range		: range COMMA range0
@@ -327,7 +329,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					}
 				}
 
-				if (kmap->keymaps_line_seen) {
+				if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
 					i = 0;
 
 					for (j = 0; j < kmap->max_keymap; j++) {

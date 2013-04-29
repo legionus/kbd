@@ -97,7 +97,7 @@ lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode)
 		return 0;
 
 	if (!kmap->defining[k_table]) {
-		if (kmap->keymaps_line_seen) {
+		if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
 			ERR(kmap, _("adding map %d violates explicit keymaps line"),
 			    k_table);
 			return -1;
@@ -131,14 +131,15 @@ lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode)
 			(kmap->keymap_was_set[k_table])[i] = 0;
 	}
 
-	if (kmap->alt_is_meta && keycode == K_HOLE
+	if ((kmap->keywords & LK_KEYWORD_ALTISMETA) &&
+	    keycode == K_HOLE
 	    && (kmap->keymap_was_set[k_table])[k_index])
 		return 0;
 
 	(kmap->key_map[k_table])[k_index] = keycode;
 	(kmap->keymap_was_set[k_table])[k_index] = 1;
 
-	if (kmap->alt_is_meta) {
+	if (kmap->keywords & LK_KEYWORD_ALTISMETA) {
 		int alttable = k_table | M_ALT;
 		int type = KTYP(keycode);
 		int val = KVAL(keycode);
@@ -297,7 +298,7 @@ lk_add_constants(struct keymap *kmap)
 {
 	int i, r0 = 0;
 
-	if (kmap->keymaps_line_seen) {
+	if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
 		while (r0 < kmap->max_keymap && !kmap->defining[r0])
 			r0++;
 	}

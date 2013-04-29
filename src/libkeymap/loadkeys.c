@@ -57,7 +57,8 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 					     j, lk_get_key(kmap, i, j));
 			}
 
-		} else if (kmap->keymaps_line_seen && !kmap->defining[i]) {
+		} else if ((kmap->keywords & LK_KEYWORD_KEYMAPS) &&
+		           !kmap->defining[i]) {
 			/* deallocate keymap */
 			ke.kb_index = 0;
 			ke.kb_table = i;
