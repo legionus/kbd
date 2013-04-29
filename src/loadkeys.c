@@ -138,7 +138,7 @@ main(int argc, char *argv[])
 		case 'u':
 			options |= OPT_U;
 			kmap.flags |= LKFLAG_UNICODE_MODE;
-			kmap.prefer_unicode = 1;
+			kmap.flags |= LKFLAG_PREFER_UNICODE;
 			break;
 		case 'q':
 			lk_set_log_priority(&kmap, LOG_ERR);
@@ -181,7 +181,7 @@ main(int argc, char *argv[])
 					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
 					progname);
 			} else {
-				kmap.prefer_unicode = 1;
+				kmap.flags |= LKFLAG_PREFER_UNICODE;
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */

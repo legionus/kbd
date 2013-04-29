@@ -188,7 +188,7 @@ defdiacs(struct keymap *kmap, int fd)
 		ERR(kmap, _("too many compose definitions"));
 	}
 #ifdef KDSKBDIACRUC
-	if (kmap->prefer_unicode) {
+	if (kmap->flags & LKFLAG_PREFER_UNICODE) {
 		kdu.kb_cnt = count;
 
 		for (i = 0; i < kdu.kb_cnt; i++) {

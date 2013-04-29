@@ -15,6 +15,7 @@ typedef enum {
 	LKFLAG_UNICODE_MODE  = (1 << 1),
 	LKFLAG_CLEAR_COMPOSE = (1 << 2),
 	LKFLAG_CLEAR_STRINGS = (1 << 3),
+	LKFLAG_PREFER_UNICODE= (1 << 4)
 } lkflags;
 
 typedef enum {
@@ -49,8 +50,6 @@ struct keymap {
 
 	int mod;                     /* Line by line modifiers */
 	int key_buf[MAX_NR_KEYMAPS]; /* Key definitions on one line */
-
-	int prefer_unicode;    
 
 	unsigned int charset;
 

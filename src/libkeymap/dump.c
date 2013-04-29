@@ -194,7 +194,7 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 	fprintf(fd, "};\n");
 
 #ifdef KDSKBDIACRUC
-	if (kmap->prefer_unicode) {
+	if (kmap->flags & LKFLAG_PREFER_UNICODE) {
 		fprintf(fd, "\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
 		for (i = 0; i < kmap->accent_table_size; i++) {
 			fprintf(fd, "\t{");
@@ -269,7 +269,7 @@ lk_dump_diacs(struct keymap *kmap, FILE *fd)
 {
 	unsigned int i;
 #ifdef KDSKBDIACRUC
-	if (kmap->prefer_unicode) {
+	if (kmap->flags & LKFLAG_PREFER_UNICODE) {
 		for (i = 0; i < kmap->accent_table_size; i++) {
 			fprintf(fd, "compose ");
 			dumpchar(fd, kmap->accent_table[i].diacr & 0xff, 0);

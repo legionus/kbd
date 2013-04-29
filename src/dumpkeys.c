@@ -153,7 +153,7 @@ main (int argc, char *argv[]) {
 	}
 
 	if (kbd_mode == K_UNICODE) {
-		kmap.prefer_unicode = 1;
+		kmap.flags |= LKFLAG_PREFER_UNICODE;
 	}
 
 	if ((rc = lk_kernel_keymap(&kmap, fd)) < 0)
