@@ -54,7 +54,7 @@ START_TEST(test_add_key_2)
 	lk_init(&kmap);
 	kmap.log_fn = NULL;
 
-	kmap.alt_is_meta = 1;
+	kmap.flags |= LK_KEYWORD_ALTISMETA;
 
 	fail_unless(lk_add_key(&kmap, 0, 0, 16) == 0,
 		"Unable to add keycode");

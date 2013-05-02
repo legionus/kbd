@@ -181,7 +181,7 @@ main(int argc, char *argv[])
 					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
 					progname);
 			} else {
-				kmap.kmap |= LK_FLAG_PREFER_UNICODE;
+				kmap.flags |= LK_FLAG_PREFER_UNICODE;
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
