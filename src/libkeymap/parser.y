@@ -309,7 +309,8 @@ modifier	: SHIFT		{ kmap->mod |= M_SHIFT;	}
 		;
 fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
-				int i, j, keycode;
+				unsigned int j;
+				int i, keycode;
 
 				if (kmap->rvalct == 1) {
 					/* Some files do not have a keymaps line, and
@@ -320,11 +321,11 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					/* On the other hand, we now have include files,
 					 * and it should be possible to override lines
 					 * from an include file. So, kill old defs. */
-					for (j = 0; j < kmap->max_keymap; j++) {
-						if (!(kmap->defining[j]))
+					for (j = 0; j < kmap->keymap->total; j++) {
+						if (!lk_map_exist(kmap, j))
 							continue;
 
-						if (lk_del_key(kmap, j, $2) == -1)
+						if (lk_del_key(kmap, j, $2) < 0)
 							YYERROR;
 					}
 				}
@@ -332,8 +333,8 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 				if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
 					i = 0;
 
-					for (j = 0; j < kmap->max_keymap; j++) {
-						if (!(kmap->defining[j]))
+					for (j = 0; j < kmap->keymap->total; j++) {
+						if (!lk_map_exist(kmap, j))
 							continue;
 
 						if (kmap->rvalct != 1 || i == 0) {

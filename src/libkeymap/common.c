@@ -24,7 +24,7 @@ lk_log(struct keymap *kmap, int priority,
 #   define log_unused
 #endif
 
-static void
+static void __attribute__ ((format(printf, 6, 0)))
 log_file(void *data,
          int priority     log_unused,
          const char *file log_unused,
@@ -104,6 +104,17 @@ lk_init(struct keymap *kmap)
 	lk_set_log_fn(kmap, log_file, stderr);
 	lk_set_log_priority(kmap, LOG_ERR);
 
+	kmap->keymap = malloc(sizeof(struct lk_array));
+	if (!(kmap->keymap)) {
+		ERR(kmap, "out of memory");
+		return -1;
+	}
+
+	if (lk_array_init(kmap->keymap, sizeof(void *), 0) < 0) {
+		ERR(kmap, "out of memory");
+		return -1;
+	}
+
 	return 0;
 }
 
@@ -111,21 +122,31 @@ lk_init(struct keymap *kmap)
 int
 lk_free(struct keymap *kmap)
 {
-	int i;
+	unsigned int i;//, j;
 
 	if (!kmap)
 		return -1;
 
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap->keymap_was_set[i] != NULL)
-			free(kmap->keymap_was_set[i]);
-		if (kmap->key_map[i] != NULL)
-			free(kmap->key_map[i]);
-	}
-
 	for (i = 0; i < MAX_NR_FUNC; i++) {
 		if (kmap->func_table[i] != NULL)
 			free(kmap->func_table[i]);
+	}
+
+	if (kmap->keymap) {
+		for (i = 0; i < kmap->keymap->total; i++) {
+			struct lk_array *map;
+
+			map = lk_array_get_ptr(kmap->keymap, i);
+			if (!map)
+				continue;
+
+			lk_array_free(map);
+			free(map);
+		}
+		lk_array_free(kmap->keymap);
+		free(kmap->keymap);
+
+		kmap->keymap = NULL;
 	}
 
 	return 0;

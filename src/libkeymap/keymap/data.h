@@ -4,6 +4,7 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 #include <keymap/findfile.h>
+#include <keymap/array.h>
 
 #ifdef KDSKBDIACRUC
 typedef struct kbdiacruc accent_entry;
@@ -34,19 +35,15 @@ struct keymap {
 	/* Keymap keywords (keymaps, alt-is-meta, charset, ...) */
 	lk_keywords keywords;
 
-	/* What keymaps are we defining? */
-	u_short defining[MAX_NR_KEYMAPS];
-	int max_keymap;              /* from here on, defining[] is false */
+	struct lk_array *keymap;
 
 	/* the kernel structures we want to set or print */
-	u_short *key_map[MAX_NR_KEYMAPS];
 	char *func_table[MAX_NR_FUNC];
 
 	accent_entry accent_table[MAX_DIACR];
 	unsigned int accent_table_size;    
 
 	char key_is_constant[NR_KEYS];
-	char *keymap_was_set[MAX_NR_KEYMAPS];
 
 	int mod;                     /* Line by line modifiers */
 	int key_buf[MAX_NR_KEYMAPS]; /* Key definitions on one line */

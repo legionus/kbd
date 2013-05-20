@@ -69,8 +69,8 @@ lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
 		NR_KEYS - 1);
 	fprintf(fd, _("max number of actions bindable to a key:         %d\n"),
 		MAX_NR_KEYMAPS);
-	fprintf(fd, _("number of keymaps in actual use:                 %d\n"),
-		kmap->max_keymap);
+	fprintf(fd, _("number of keymaps in actual use:                 %u\n"),
+		(unsigned int) kmap->keymap->count);
 
 	if (allocct)
 		fprintf(fd, _("of which %d dynamically allocated\n"), allocct);

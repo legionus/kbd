@@ -23,11 +23,12 @@ START_TEST(test_free_0)
 {
 	struct keymap kmap;
 
-	if (lk_init(&kmap) != 0)
-		fail("Unable to initialize structure by valid pointer");
+	fail_unless(lk_init(&kmap) == 0,
+		"Unable to initialize structure by valid pointer");
 
 	fail_unless(lk_free(&kmap) == 0, 
 		"Unable to free by valid pointer");
+
 	lk_free(&kmap);
 }
 END_TEST

@@ -11,11 +11,11 @@ START_TEST(test_add_map_border)
 	lk_init(&kmap);
 	kmap.log_fn = NULL;
 
-	fail_if(lk_add_map(&kmap, -1) == 0,
-		"Possible to define the map with index -1");
+	fail_unless(lk_add_map(&kmap, MAX_NR_KEYMAPS) == 0,
+		"Unable to define map == MAX_NR_KEYMAPS");
 
-	fail_if(lk_add_map(&kmap, MAX_NR_KEYMAPS) == 0,
-		"Possible to define the map with index -1");
+	fail_unless(lk_add_map(&kmap, MAX_NR_KEYMAPS*2) == 0,
+		"Unable to define map == MAX_NR_KEYMAPS*2");
 
 	fail_unless(lk_add_map(&kmap, 0) == 0,
 		"Unable to define map");
@@ -35,16 +35,16 @@ START_TEST(test_add_map_0)
 	kmap.log_fn = NULL;
 
 	fail_if(lk_add_map(&kmap, 0) != 0, "Unable to define map");
-	fail_if(kmap.max_keymap != 1, "Wrong max_keymap number");
+	fail_if(kmap.keymap->count != 1, "Wrong keymap number");
 
 	fail_if(lk_add_map(&kmap, 0) != 0, "Unable to define map");
-	fail_if(kmap.max_keymap != 1, "Wrong max_keymap number");
+	fail_if(kmap.keymap->count != 1, "Wrong keymap number");
 		
 	fail_if(lk_add_map(&kmap, 1) != 0, "Unable to define map");
-	fail_if(kmap.max_keymap != 2, "Wrong max_keymap number");
+	fail_if(kmap.keymap->count != 2, "Wrong keymap number");
 
 	fail_if(lk_add_map(&kmap, 2) != 0, "Unable to define map");
-	fail_if(kmap.max_keymap != 3, "Wrong max_keymap number");
+	fail_if(kmap.keymap->count != 3, "Wrong keymap number");
 
 	lk_free(&kmap);
 }

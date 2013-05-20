@@ -10,20 +10,11 @@ START_TEST(test_add_key_0)
 	lk_init(&kmap);
 	kmap.log_fn = NULL;
 
-	fail_if(lk_add_key(&kmap, 0, -1, 0) == 0,
-		"Possible to use index < 0");
+	fail_if(lk_add_key(&kmap, 0, NR_KEYS + 1, 0) != 0,
+		"Unable to use index > NR_KEYS");
 
-	fail_if(lk_add_key(&kmap, 0, NR_KEYS + 1, 0) == 0,
-		"Possible to use index > NR_KEYS");
-
-	fail_if(lk_add_key(&kmap, -1, 0, 0) == 0,
-		"Possible to use table < 0");
-
-	fail_if(lk_add_key(&kmap, MAX_NR_KEYMAPS + 1, 0, 0) == 0,
-		"Possible to use table > MAX_NR_KEYMAPS");
-
-	fail_if(lk_add_key(&kmap, 0, 0, -1) == 0,
-		"Possible to add key a -1 keycode");
+	fail_if(lk_add_key(&kmap, MAX_NR_KEYMAPS + 1, 0, 0) != 0,
+		"Unable to use table > MAX_NR_KEYMAPS");
 
 	lk_free(&kmap);
 }

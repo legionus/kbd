@@ -10,71 +10,104 @@
 #include "modifiers.h"
 
 int
-lk_add_map(struct keymap *kmap, int i)
+lk_map_exist(struct keymap *kmap, unsigned int k_table)
 {
-	if (i < 0 || i >= MAX_NR_KEYMAPS) {
-		ERR(kmap, _("lk_add_map called with bad index %d"), i);
+	return (lk_array_get_ptr(kmap->keymap, k_table) != NULL);
+}
+
+int
+lk_key_exist(struct keymap *kmap, unsigned int k_table, unsigned int k_index)
+{
+	struct lk_array *map;
+	u_short *key;
+
+	map = lk_array_get_ptr(kmap->keymap, k_table);
+	if (!map) {
+		return 0;
+	}
+
+	key = lk_array_get(map, k_index);
+	if (!key) {
+		return 0;
+	}
+
+	return (*key > 0);
+}
+
+int
+lk_add_map(struct keymap *kmap, unsigned int k_table)
+{
+	struct lk_array *keys;
+
+	if (lk_map_exist(kmap, k_table)) {
+		return 0;
+	}
+
+	keys = malloc(sizeof(struct lk_array));
+	if (!keys) {
+		ERR(kmap, _("out of memory"));
 		return -1;
 	}
 
-	if (kmap->defining[i])
+	lk_array_init(keys, sizeof(unsigned int), 0);
+
+	if (lk_array_set(kmap->keymap, k_table, &keys) < 0) {
+		free(keys);
+		ERR(kmap, _("out of memory"));
+		return -1;
+	}
+
+	return 0;
+}
+
+int
+lk_get_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index)
+{
+	struct lk_array *map;
+	unsigned int *key;
+
+	map = lk_array_get_ptr(kmap->keymap, k_table);
+	if (!map) {
+		ERR(kmap, _("unable to keymap %d"), k_table);
+		return -1;
+	}
+
+	key = lk_array_get(map, k_index);
+	if (!key || *key == 0) {
+		return K_HOLE;
+	}
+
+	return (*key)-1;
+}
+
+int
+lk_del_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index)
+{
+	struct lk_array *map;
+
+	map = lk_array_get_ptr(kmap->keymap, k_table);
+	if (!map) {
+		ERR(kmap, _("unable to get keymap %d"), k_table);
+		return -1;
+	}
+
+	if (!lk_array_exist(map, k_index))
 		return 0;
 
-	kmap->defining[i] = i + 1;
-
-	if (kmap->max_keymap <= i)
-		kmap->max_keymap = i + 1;
+	if (lk_array_unset(map, k_index) < 0) {
+		ERR(kmap, _("unable to unset key %d for table %d"),
+			k_index, k_table);
+		return -1;
+	}
 
 	return 0;
 }
 
 int
-lk_get_key(struct keymap *kmap, int k_table, int k_index)
+lk_add_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index, int keycode)
 {
-	if (k_index < 0 || k_index >= NR_KEYS) {
-		ERR(kmap, _("lk_get_key called with bad index %d"), k_index);
-		return -1;
-	}
-
-	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		ERR(kmap, _("lk_get_key called with bad table %d"), k_table);
-		return -1;
-	}
-
-	if (!(kmap->keymap_was_set[k_table]))
-		return -1;
-
-	return (kmap->key_map[k_table])[k_index];
-}
-
-int
-lk_del_key(struct keymap *kmap, int k_table, int k_index)
-{
-	/* roughly: addkey(k_index, k_table, K_HOLE); */
-
-	if (k_index < 0 || k_index >= NR_KEYS) {
-		ERR(kmap, _("lk_del_key called with bad index %d"), k_index);
-		return -1;
-	}
-
-	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		ERR(kmap, _("lk_del_key called with bad table %d"), k_table);
-		return -1;
-	}
-
-	if (kmap->key_map[k_table])
-		(kmap->key_map[k_table])[k_index] = K_HOLE;
-
-	if (kmap->keymap_was_set[k_table])
-		(kmap->keymap_was_set[k_table])[k_index] = 0;
-
-	return 0;
-}
-
-int
-lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode)
-{
-	int i;
+	struct lk_array *map;
+	unsigned int code = keycode + 1;
 
 	if (keycode == CODE_FOR_UNKNOWN_KSYM) {
 		/* is safer not to be silent in this case, 
@@ -83,20 +116,11 @@ lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode)
 		return -1;
 	}
 
-	if (k_index < 0 || k_index >= NR_KEYS) {
-		ERR(kmap, _("lk_add_key called with bad index %d"), k_index);
-		return -1;
-	}
-
-	if (k_table < 0 || k_table >= MAX_NR_KEYMAPS) {
-		ERR(kmap, _("lk_add_key called with bad table %d"), k_table);
-		return -1;
-	}
-
 	if (!k_index && keycode == K_NOSUCHMAP)
 		return 0;
 
-	if (!kmap->defining[k_table]) {
+	map = lk_array_get_ptr(kmap->keymap, k_table);
+	if (!map) {
 		if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
 			ERR(kmap, _("adding map %d violates explicit keymaps line"),
 			    k_table);
@@ -107,51 +131,32 @@ lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode)
 			return -1;
 	}
 
-	if (!kmap->key_map[k_table]) {
-		kmap->key_map[k_table] = (u_short *)malloc(NR_KEYS * sizeof(u_short));
-
-		if (!kmap->key_map[k_table]) {
-			ERR(kmap, _("out of memory"));
-			return -1;
-		}
-
-		for (i = 0; i < NR_KEYS; i++)
-			(kmap->key_map[k_table])[i] = K_HOLE;
-	}
-
-	if (!kmap->keymap_was_set[k_table]) {
-		kmap->keymap_was_set[k_table] = (char *)malloc(NR_KEYS);
-
-		if (!kmap->key_map[k_table]) {
-			ERR(kmap, _("out of memory"));
-			return -1;
-		}
-
-		for (i = 0; i < NR_KEYS; i++)
-			(kmap->keymap_was_set[k_table])[i] = 0;
-	}
-
-	if ((kmap->keywords & LK_KEYWORD_ALTISMETA) &&
-	    keycode == K_HOLE
-	    && (kmap->keymap_was_set[k_table])[k_index])
+	if ((kmap->keywords & LK_KEYWORD_ALTISMETA) && keycode == K_HOLE &&
+	    lk_key_exist(kmap, k_table, k_index))
 		return 0;
 
-	(kmap->key_map[k_table])[k_index] = keycode;
-	(kmap->keymap_was_set[k_table])[k_index] = 1;
+	map = lk_array_get_ptr(kmap->keymap, k_table);
+
+	if (lk_array_set(map, k_index, &code) < 0) {
+		ERR(kmap, _("unable to set key %d for table %d"),
+			k_index, k_table);
+		return -1;
+	}
 
 	if (kmap->keywords & LK_KEYWORD_ALTISMETA) {
-		int alttable = k_table | M_ALT;
+		unsigned int alttable = k_table | M_ALT;
 		int type = KTYP(keycode);
 		int val = KVAL(keycode);
 
-		if (alttable != k_table && kmap->defining[alttable] &&
-		    (!kmap->keymap_was_set[alttable] ||
-		     !(kmap->keymap_was_set[alttable])[k_index]) &&
+		if (alttable != k_table && !lk_key_exist(kmap, alttable, k_index) &&
 		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
+			if (lk_add_map(kmap, alttable) < 0)
+				return -1;
 			if (lk_add_key(kmap, alttable, k_index, K(KT_META, val)) < 0)
 				return -1;
 		}
 	}
+
 	return 0;
 }
 
@@ -245,7 +250,8 @@ lk_add_compose(struct keymap *kmap,
 static int
 do_constant_key(struct keymap *kmap, int i, u_short key)
 {
-	int typ, val, j;
+	int typ, val;
+	unsigned int j;
 
 	typ = KTYP(key);
 	val = KVAL(key);
@@ -264,12 +270,11 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 		for (j = 8; j < 16; j++)
 			defs[j] = K(KT_META, KVAL(defs[j - 8]));
 
-		for (j = 0; j < kmap->max_keymap; j++) {
-			if (!kmap->defining[j])
+		for (j = 0; j < kmap->keymap->total; j++) {
+			if (!lk_map_exist(kmap, j))
 				continue;
 
-			if (j > 0 &&
-			    kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
+			if (j > 0 && lk_key_exist(kmap, j, i))
 				continue;
 
 			if (lk_add_key(kmap, j, i, defs[j % 16]) < 0)
@@ -279,11 +284,11 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 	} else {
 		/* do this also for keys like Escape,
 		   as promised in the man page */
-		for (j = 1; j < kmap->max_keymap; j++) {
-			if (!kmap->defining[j])
+		for (j = 1; j < kmap->keymap->total; j++) {
+			if (!lk_map_exist(kmap, j))
 				continue;
 
-			if (kmap->keymap_was_set[j] && (kmap->keymap_was_set[j])[i])
+			if (lk_key_exist(kmap, j, i))
 				continue;
 
 			if (lk_add_key(kmap, j, i, key) < 0)
@@ -296,10 +301,10 @@ do_constant_key(struct keymap *kmap, int i, u_short key)
 int
 lk_add_constants(struct keymap *kmap)
 {
-	int i, r0 = 0;
+	unsigned int i, r0 = 0;
 
 	if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
-		while (r0 < kmap->max_keymap && !kmap->defining[r0])
+		while (r0 < kmap->keymap->total && !lk_map_exist(kmap, r0))
 			r0++;
 	}
 
@@ -309,7 +314,7 @@ lk_add_constants(struct keymap *kmap)
 		if (!kmap->key_is_constant[i])
 			continue;
 
-		if (!kmap->key_map[r0]) {
+		if (!lk_map_exist(kmap, r0)) {
 			ERR(kmap, _("impossible error in lk_add_constants"));
 			return -1;
 		}

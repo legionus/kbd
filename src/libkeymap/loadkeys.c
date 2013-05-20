@@ -28,9 +28,11 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 	}
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap->key_map[i]) {
+		unsigned int exist = lk_map_exist(kmap, i);
+
+		if (exist) {
 			for (j = 0; j < NR_KEYS; j++) {
-				if (!((kmap->keymap_was_set[i])[j]))
+				if (!lk_key_exist(kmap, i, j))
 					continue;
 
 				ke.kb_index = j;
@@ -57,8 +59,7 @@ defkeys(struct keymap *kmap, int fd, int kbd_mode)
 					     j, lk_get_key(kmap, i, j));
 			}
 
-		} else if ((kmap->keywords & LK_KEYWORD_KEYMAPS) &&
-		           !kmap->defining[i]) {
+		} else if ((kmap->keywords & LK_KEYWORD_KEYMAPS) && !exist) {
 			/* deallocate keymap */
 			ke.kb_index = 0;
 			ke.kb_table = i;

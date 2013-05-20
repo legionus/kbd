@@ -4,12 +4,13 @@
 #include <keymap/data.h>
 #include <keymap/findfile.h>
 
-int lk_add_map(struct keymap *kmap, int i);
+int lk_add_map(struct keymap *kmap,   unsigned int k_table);
+int lk_map_exist(struct keymap *kmap, unsigned int k_table);
 
-int lk_add_key(struct keymap *kmap, int k_table, int k_index, int keycode);
-int lk_del_key(struct keymap *kmap, int k_table, int k_index);
-int lk_get_key(struct keymap *kmap, int k_table, int k_index);
-
+int lk_add_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index, int keycode);
+int lk_del_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index);
+int lk_get_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index);
+int lk_key_exist(struct keymap *kmap,   unsigned int k_table, unsigned int k_index);
 
 int lk_get_func(struct keymap *kmap, struct kbsentry *kbs);
 int lk_add_func(struct keymap *kmap, struct kbsentry kbs);

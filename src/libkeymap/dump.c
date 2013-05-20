@@ -48,9 +48,8 @@ lk_dump_bkeymap(struct keymap *kmap)
 {
 	int i, j;
 
-	//u_char *p;
 	char flag, magic[] = "bkeymap";
-	unsigned short v;
+	u_short v;
 
 	if (lk_add_constants(kmap) < 0)
 		return -1;
@@ -58,17 +57,17 @@ lk_dump_bkeymap(struct keymap *kmap)
 	if (write(1, magic, 7) == -1)
 		goto fail;
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		flag = kmap->key_map[i] ? 1 : 0;
+		flag = lk_map_exist(kmap, i);
 		if (write(1, &flag, 1) == -1)
 			goto fail;
 	}
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (kmap->key_map[i]) {
-			for (j = 0; j < NR_KEYS / 2; j++) {
-				v = lk_get_key(kmap, i, j);
-				if (write(1, &v, 2) == -1)
-					goto fail;
-			}
+		if (!lk_map_exist(kmap, i))
+			continue;
+		for (j = 0; j < NR_KEYS / 2; j++) {
+			v = lk_get_key(kmap, i, j);
+			if (write(1, &v, 2) == -1)
+				goto fail;
 		}
 	}
 	return 0;
@@ -106,7 +105,6 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 
 	char *ptr;
 	unsigned int maxfunc;
-	unsigned int keymap_count = 0;
 	unsigned int func_table_offs[MAX_NR_FUNC];
 	unsigned int func_buf_offset = 0;
 
@@ -122,8 +120,7 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 	fprintf(fd, "#include <linux/kd.h>\n\n");
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++)
-		if (kmap->key_map[i]) {
-			keymap_count++;
+		if (lk_map_exist(kmap, i)) {
 			if (i)
 				fprintf(fd, "static ");
 			fprintf(fd, "u_short %s_map[NR_KEYS] = {", mk_mapname(i));
@@ -136,19 +133,19 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 		}
 
 	for (imax = MAX_NR_KEYMAPS - 1; imax > 0; imax--)
-		if (kmap->key_map[imax])
+		if (lk_map_exist(kmap, imax))
 			break;
 	fprintf(fd, "ushort *key_maps[MAX_NR_KEYMAPS] = {");
 	for (i = 0; i <= imax; i++) {
 		fprintf(fd, (i % 4) ? " " : "\n\t");
-		if (kmap->key_map[i])
+		if (lk_map_exist(kmap, i))
 			fprintf(fd, "%s_map,", mk_mapname(i));
 		else
 			fprintf(fd, "0,");
 	}
 	if (imax < MAX_NR_KEYMAPS - 1)
 		fprintf(fd, "\t0");
-	fprintf(fd, "\n};\n\nunsigned int keymap_count = %d;\n\n", keymap_count);
+	fprintf(fd, "\n};\n\nunsigned int keymap_count = %u;\n\n", (unsigned int) kmap->keymap->count);
 
 /* uglified just for xgettext - it complains about nonterminated strings */
 	fprintf(fd,
@@ -295,22 +292,39 @@ lk_dump_diacs(struct keymap *kmap, FILE *fd)
 void
 lk_dump_keymaps(struct keymap *kmap, FILE *fd)
 {
-	int i, m0, m;
-	char c = ' ';
+	unsigned int i;
+	int n, m, s;
+	i = n = m = s = 0;
 
 	fprintf(fd, "keymaps");
-	for (i = 0; i < kmap->max_keymap; i++) {
-		if (i)
-			c = ',';
-		m0 = m = kmap->defining[i];
-		while (i+1 < kmap->max_keymap && kmap->defining[i+1] == m+1)
-			i++, m++;
-		if (!m0)
+
+	for (i = 0; i < kmap->keymap->total; i++) {
+		if (kmap->keywords & LK_KEYWORD_ALTISMETA && i == (i | M_ALT))
 			continue;
-		(m0 == m)
-			? fprintf(fd, "%c%d"   , c, m0-1)
-			: fprintf(fd, "%c%d-%d", c, m0-1, m-1);
+
+		if (!lk_map_exist(kmap, i)) {
+			if (!m)
+				continue;
+			n--, m--;
+			(n == m)
+				? fprintf(fd, "%c%d"   , (s ? ',' : ' '), n)
+				: fprintf(fd, "%c%d-%d", (s ? ',' : ' '), n, m);
+			n = m = 0;
+			s = 1;
+		} else {
+			if (!n)
+				n = i+1;
+			m = i+1;
+		}
 	}
+
+	if (m) {
+		n--, m--;
+		(n == m)
+			? fprintf(fd, "%c%d"   , (s ? ',' : ' '), n)
+			: fprintf(fd, "%c%d-%d", (s ? ',' : ' '), n, m);
+	}
+
 	fprintf(fd, "\n");
 }
 
@@ -377,14 +391,14 @@ print_bind(struct keymap *kmap, FILE *fd, int bufj, int i, int j, char numeric)
 void
 lk_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 {
-	int i, j, k;
+	unsigned int i, j;
 	int buf[MAX_NR_KEYMAPS];
 	int isletter, islatin, isasexpected;
 	int typ, val;
 	int alt_is_meta = 0;
 	int all_holes;
 	int zapped[MAX_NR_KEYMAPS];
-	int keymapnr = kmap->max_keymap;
+	unsigned int keymapnr = kmap->keymap->total;
 
 	if (!keymapnr)
 		return;
@@ -393,10 +407,10 @@ lk_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 		goto no_shorthands;
 
 	/* first pass: determine whether to set alt_is_meta */
-	for (j = 0; j < MAX_NR_KEYMAPS; j++) {
-		int ja = (j | M_ALT);
+	for (j = 0; j < kmap->keymap->total; j++) {
+		unsigned int ja = (j | M_ALT);
 
-		if (!(j != ja && kmap->defining[j] && kmap->defining[ja]))
+		if (!(j != ja && lk_map_exist(kmap, j) && lk_map_exist(kmap, ja)))
 			continue;
 
 		for (i = 1; i < NR_KEYS; i++) {
@@ -410,7 +424,7 @@ lk_dump_keys(struct keymap *kmap, FILE *fd, char table_shape, char numeric)
 			type = KTYP(buf0);
 
 			if ((type == KT_LATIN || type == KT_LETTER) && KVAL(buf0) < 128) {
-				buf1 = (kmap->defining[ja])
+				buf1 = lk_map_exist(kmap, ja)
 					? lk_get_key(kmap, ja, i)
 					: -1;
 
@@ -429,9 +443,10 @@ no_shorthands:
 		all_holes = 1;
 
 		for (j = 0; j < keymapnr; j++) {
-			buf[j] = (kmap->defining[j])
-				? lk_get_key(kmap, kmap->defining[j]-1, i)
-				: K_HOLE;
+			buf[j] = K_HOLE;
+
+			if (lk_map_exist(kmap, j))
+				buf[j] = lk_get_key(kmap, j, i);
 
 			if (buf[j] != K_HOLE)
 				all_holes = 0;
@@ -453,7 +468,7 @@ no_shorthands:
 		if (table_shape == SEPARATE_LINES) {
 			for (j = 0; j < keymapnr; j++) {
 				//if (buf[j] != K_HOLE)
-				print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
+				print_bind(kmap, fd, buf[j], i, j, numeric);
 			}
 
 			fprintf(fd, "\n");
@@ -482,9 +497,7 @@ no_shorthands:
 				defs[j] = K(KT_META, KVAL(defs[j-8]));
 
 			for (j = 0; j < keymapnr; j++) {
-				k = kmap->defining[j] - 1;
-
-				if ((k >= 16 && buf[j] != K_HOLE) || (k < 16 && buf[j] != defs[k]))
+				if ((j >= 16 && buf[j] != K_HOLE) || (j < 16 && buf[j] != defs[j]))
 					goto unexpected;
 			}
 
@@ -498,13 +511,10 @@ unexpected:
 
 		if (alt_is_meta) {
 			for(j = 0; j < keymapnr; j++) {
-				int ka, ja, ktyp;
+				unsigned int ja, ktyp;
+				ja = (j | M_ALT);
 
-				k = kmap->defining[j] - 1;
-				ka = (k | M_ALT);
-				ja = kmap->defining[ka] - 1;
-
-				if (k != ka && ja >= 0
+				if (j != ja && lk_map_exist(kmap, ja)
 				    && ((ktyp=KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER)
 				    && KVAL(buf[j]) < 128) {
 					if (buf[ja] != K(KT_META, KVAL(buf[j])))
@@ -525,8 +535,8 @@ unexpected:
 		} else {
 			/* choose between single entry line followed by exceptions,
 			   and long line followed by exceptions; avoid VoidSymbol */
-			int bad = 0;
-			int count = 0;
+			unsigned int bad, count;
+			bad = count = 0;
 
 			for (j = 1; j < keymapnr; j++) {
 				if (zapped[j])
@@ -547,24 +557,22 @@ unexpected:
 
 				for (j = 1; j < keymapnr; j++) {
 					if (buf[j] != buf[0] && !zapped[j]) {
-						print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
+						print_bind(kmap, fd, buf[j], i, j, numeric);
 					}
 				}
 			} else {
 				for (j = 0;
 				     j < keymapnr && buf[j] != K_HOLE &&
-					(j == 0 || table_shape != UNTIL_HOLE ||
-					kmap->defining[j]-1 == kmap->defining[j-1]-1+1);
+				        (table_shape != UNTIL_HOLE || lk_map_exist(kmap, j));
 				     j++) {
-					//print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
+					//print_bind(kmap, fd, buf[j], i, j, numeric);
 					print_keysym(kmap, fd, buf[j], numeric);
 				}
-
 				fprintf(fd, "\n");
 
 				for (; j < keymapnr; j++) {
 					if (buf[j] != K_HOLE) {
-						print_bind(kmap, fd, buf[j], i, kmap->defining[j]-1, numeric);
+						print_bind(kmap, fd, buf[j], i, j, numeric);
 					}
 				}
 			}
