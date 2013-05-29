@@ -345,7 +345,7 @@ To                      to|To|TO
 {Comment}.*/{Eol}	; /* do nothing */
 {Equals}		{
 				yy_push_state(RVALUE, yyscanner);
-				yyextra->rvalct = 0;
+				lk_array_empty(yyextra->key_line);
 				return(EQUALS);
 			}
 {String}		{

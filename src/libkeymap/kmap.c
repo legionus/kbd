@@ -308,10 +308,12 @@ lk_add_constants(struct keymap *kmap)
 			r0++;
 	}
 
-	for (i = 0; i < NR_KEYS; i++) {
+	for (i = 0; i < kmap->key_constant->total; i++) {
+		char *constant;
 		u_short key;
 
-		if (!kmap->key_is_constant[i])
+		constant = lk_array_get(kmap->key_constant, i);
+		if (!constant || !(*constant))
 			continue;
 
 		if (!lk_map_exist(kmap, r0)) {

@@ -35,6 +35,18 @@ lk_array_free(struct lk_array *a)
 }
 
 int
+lk_array_empty(struct lk_array *a)
+{
+	if (!a)
+		return -EINVAL;
+
+	memset(a->array, 0, (a->memb * a->total));
+	a->count = 0;
+
+	return 0;
+}
+
+int
 lk_array_exist(struct lk_array *a, unsigned int i)
 {
 	char *s;
@@ -117,6 +129,20 @@ lk_array_unset(struct lk_array *a, unsigned int i)
 		memset(a->array + (a->memb * i), 0, a->memb);
 		a->count--;
 	}
+
+	return 0;
+}
+
+int
+lk_array_append(struct lk_array *a, const void *e)
+{
+	int ret = array_resize(a, a->count);
+
+	if (ret < 0)
+		return ret;
+
+	memcpy(a->array + (a->memb * a->count), e, a->memb);
+	a->count++;
 
 	return 0;
 }

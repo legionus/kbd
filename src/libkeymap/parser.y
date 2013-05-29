@@ -309,14 +309,15 @@ modifier	: SHIFT		{ kmap->mod |= M_SHIFT;	}
 		;
 fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
-				unsigned int j;
-				int i, keycode;
+				unsigned int j, i, keycode;
+				int *val;
 
-				if (kmap->rvalct == 1) {
+				if (kmap->key_line->count == 1) {
+					char one = 1;
 					/* Some files do not have a keymaps line, and
 					 * we have to wait until all input has been read
 					 * before we know which maps to fill. */
-					kmap->key_is_constant[$2] = 1;
+					lk_array_set(kmap->key_constant, $2, &one);
 
 					/* On the other hand, we now have include files,
 					 * and it should be possible to override lines
@@ -337,10 +338,13 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 						if (!lk_map_exist(kmap, j))
 							continue;
 
-						if (kmap->rvalct != 1 || i == 0) {
-							keycode = (i < kmap->rvalct)
-								? kmap->key_buf[i]
-								: K_HOLE;
+						if (kmap->key_line->count != 1 || i == 0) {
+							keycode = K_HOLE;
+
+							if (i < kmap->key_line->count) {
+								val = lk_array_get(kmap->key_line, i);
+								keycode = *val;
+							}
 
 							if (lk_add_key(kmap, j, $2, keycode) < 0)
 								YYERROR;
@@ -348,14 +352,16 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 						i++;
 					}
 
-					if (i < kmap->rvalct) {
+					if (i < kmap->key_line->count) {
 						ERR(kmap, _("too many (%d) entries on one line"),
-							kmap->rvalct);
+							kmap->key_line->count);
 						YYERROR;
 					}
 				} else {
-					for (i = 0; i < kmap->rvalct; i++) {
-						if (lk_add_key(kmap, i, $2, kmap->key_buf[i]) < 0)
+					for (i = 0; i < kmap->key_line->count; i++) {
+						val = lk_array_get(kmap->key_line, i);
+
+						if (lk_add_key(kmap, i, $2, *val) < 0)
 							YYERROR;
 					}
 				}
@@ -367,11 +373,8 @@ rvalue0		:
 		;
 rvalue1		: rvalue
 			{
-				if (kmap->rvalct >= MAX_NR_KEYMAPS) {
-					ERR(kmap, _("too many key definitions on one line"));
-					YYERROR;
-				}
-				kmap->key_buf[kmap->rvalct++] = $1;
+				int val = $1;
+				lk_array_append(kmap->key_line, &val);
 			}
 		;
 rvalue		: NUMBER	{ $$ = convert_code(kmap, $1, TO_AUTO);		}

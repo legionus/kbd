@@ -105,15 +105,17 @@ lk_init(struct keymap *kmap)
 	lk_set_log_priority(kmap, LOG_ERR);
 
 	kmap->keymap = malloc(sizeof(struct lk_array));
-	if (!(kmap->keymap)) {
+	kmap->key_constant = malloc(sizeof(struct lk_array));
+	kmap->key_line = malloc(sizeof(struct lk_array));
+
+	if (!(kmap->keymap) || !(kmap->key_constant) || !(kmap->key_line)) {
 		ERR(kmap, "out of memory");
 		return -1;
 	}
 
-	if (lk_array_init(kmap->keymap, sizeof(void *), 0) < 0) {
-		ERR(kmap, "out of memory");
-		return -1;
-	}
+	lk_array_init(kmap->keymap, sizeof(void*), 0);
+	lk_array_init(kmap->key_constant, sizeof(char), 0);
+	lk_array_init(kmap->key_line, sizeof(int), 0);
 
 	return 0;
 }
@@ -147,6 +149,18 @@ lk_free(struct keymap *kmap)
 		free(kmap->keymap);
 
 		kmap->keymap = NULL;
+	}
+
+	if (kmap->key_constant) {
+		lk_array_free(kmap->key_constant);
+		free(kmap->key_constant);
+		kmap->key_constant = NULL;
+	}
+
+	if (kmap->key_line) {
+		lk_array_free(kmap->key_line);
+		free(kmap->key_line);
+		kmap->key_line = NULL;
 	}
 
 	return 0;

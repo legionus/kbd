@@ -43,14 +43,16 @@ struct keymap {
 	accent_entry accent_table[MAX_DIACR];
 	unsigned int accent_table_size;    
 
-	char key_is_constant[NR_KEYS];
+	struct lk_array *key_constant;
 
-	int mod;                     /* Line by line modifiers */
-	int key_buf[MAX_NR_KEYMAPS]; /* Key definitions on one line */
+	/* Key definitions on one line */
+	struct lk_array *key_line;
+
+	/* Line by line modifiers */
+	int mod;
 
 	unsigned int charset;
 
-	int rvalct;
 	lkfile_t *stack[MAX_INCLUDE_DEPTH];
 
 	int log_priority;
