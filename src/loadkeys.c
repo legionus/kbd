@@ -236,7 +236,7 @@ main(int argc, char *argv[])
 	}
 
 	if (options & OPT_B) {
-		rc = lk_dump_bkeymap(&kmap);
+		rc = lk_dump_bkeymap(&kmap, stdout);
 	} else if (options & OPT_M) {
 		rc = lk_dump_ctable(&kmap, stdout);
 	} else {

@@ -5,7 +5,7 @@
 
 #include <keymap/data.h>
 
-int lk_dump_bkeymap(struct keymap *kmap);
+int lk_dump_bkeymap(struct keymap *kmap, FILE *fd);
 int lk_dump_ctable(struct keymap *kmap, FILE *fd);
 
 void lk_dump_keymap(struct keymap *kmap, FILE *fd, char table_shape, char numeric);

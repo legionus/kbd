@@ -44,32 +44,38 @@ dumpchar(FILE *fd, unsigned char c, int comma)
 }
 
 int
-lk_dump_bkeymap(struct keymap *kmap)
+lk_dump_bkeymap(struct keymap *kmap, FILE *fd)
 {
-	int i, j;
-
-	char flag, magic[] = "bkeymap";
-	u_short v;
+	unsigned int i, j;
+	char magic[] = "bkeymap";
 
 	if (lk_add_constants(kmap) < 0)
 		return -1;
 
-	if (write(1, magic, 7) == -1)
+	if (fwrite(magic, 7, 1, fd) != 1)
 		goto fail;
+
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		char flag;
 		flag = lk_map_exist(kmap, i);
-		if (write(1, &flag, 1) == -1)
+
+		if (fwrite(&flag, sizeof(flag), 1, fd) != 1)
 			goto fail;
 	}
+
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		if (!lk_map_exist(kmap, i))
 			continue;
+
 		for (j = 0; j < NR_KEYS / 2; j++) {
+			u_short v;
 			v = lk_get_key(kmap, i, j);
-			if (write(1, &v, 2) == -1)
+
+			if (fwrite(&v, sizeof(v), 1, fd) != 1)
 				goto fail;
 		}
 	}
+
 	return 0;
 
  fail:	ERR(kmap, _("Error writing map to file"));

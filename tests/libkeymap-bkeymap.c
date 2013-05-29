@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	f.fd = fopen( argv[1], "r");
 
 	lk_parse_keymap(&kmap, &f);
-	lk_dump_bkeymap(&kmap);
+	lk_dump_bkeymap(&kmap, stdout);
 
 	lk_free(&kmap);
 	return 0;
