@@ -213,17 +213,19 @@ lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 int
 lk_add_diacr(struct keymap *kmap, unsigned int diacr, unsigned int base, unsigned int res)
 {
-	accent_entry *ptr;
+	struct kb_diacr *ptr;
 
-	if (kmap->accent_table_size == MAX_DIACR) {
-		ERR(kmap, _("table overflow"));
+	ptr = malloc(sizeof(struct kb_diacr));
+	if (!ptr) {
+		ERR(kmap, _("out of memory"));
 		return -1;
 	}
 
-	ptr = &(kmap->accent_table[kmap->accent_table_size++]);
 	ptr->diacr  = diacr;
 	ptr->base   = base;
 	ptr->result = res;
+
+	lk_array_append(kmap->accent_table, &ptr);
 
 	return 0;
 }

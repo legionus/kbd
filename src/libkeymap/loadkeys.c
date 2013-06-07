@@ -178,51 +178,61 @@ static int
 defdiacs(struct keymap *kmap, int fd)
 {
 	unsigned int i, count;
-	struct kbdiacrs kd;
-#ifdef KDSKBDIACRUC
-	struct kbdiacrsuc kdu;
-#endif
+	struct kb_diacr *ptr;
 
-	count = kmap->accent_table_size;
+	count = kmap->accent_table->count;
 	if (count > MAX_DIACR) {
 		count = MAX_DIACR;
 		ERR(kmap, _("too many compose definitions"));
 	}
 #ifdef KDSKBDIACRUC
 	if (kmap->flags & LK_FLAG_PREFER_UNICODE) {
+		struct kbdiacrsuc kdu;
+
 		kdu.kb_cnt = count;
 
 		for (i = 0; i < kdu.kb_cnt; i++) {
-			kdu.kbdiacruc[i].diacr  = kmap->accent_table[i].diacr;
-			kdu.kbdiacruc[i].base   = kmap->accent_table[i].base;
-			kdu.kbdiacruc[i].result = kmap->accent_table[i].result;
+			ptr = lk_array_get_ptr(kmap->accent_table, i);
+			if (!ptr) {
+				/* It can't be happen */
+				ERR(kmap, _("unable to get compose definitions"));
+				return -1;
+			}
+
+			kdu.kbdiacruc[i].diacr  = ptr->diacr;
+			kdu.kbdiacruc[i].base   = ptr->base;
+			kdu.kbdiacruc[i].result = ptr->result;
 		}
 
-		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu))
-			goto fail2;
+		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu)) {
+			ERR(kmap, "KDSKBDIACRUC: %s", strerror(errno));
+			return -1;
+		}
 	} else
 #endif
 	{
+		struct kbdiacrs kd;
+
 		kd.kb_cnt = count;
+
 		for (i = 0; i < kd.kb_cnt; i++) {
-			kd.kbdiacr[i].diacr  = kmap->accent_table[i].diacr;
-			kd.kbdiacr[i].base   = kmap->accent_table[i].base;
-			kd.kbdiacr[i].result = kmap->accent_table[i].result;
+			ptr = lk_array_get_ptr(kmap->accent_table, i);
+			if (!ptr) {
+				ERR(kmap, _("unable to get compose definitions"));
+				return -1;
+			}
+			kd.kbdiacr[i].diacr  = ptr->diacr;
+			kd.kbdiacr[i].base   = ptr->base;
+			kd.kbdiacr[i].result = ptr->result;
 		}
 
-		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd))
-			goto fail1;
+		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd)) {
+			ERR(kmap, "KDSKBDIACR: %s", strerror(errno));
+			return -1;
+		}
 	}
 
 	return count;
-
- fail1:	ERR(kmap, "KDSKBDIACR: %s", strerror(errno));
-	return -1;
-
-#ifdef KDSKBDIACRUC
- fail2:	ERR(kmap, "KDSKBDIACRUC: %s", strerror(errno));
-	return -1;
-#endif
 }
 
 int
@@ -240,7 +250,7 @@ lk_load_keymap(struct keymap *kmap, int fd, int kbd_mode)
 		keyct, (keyct == 1) ? _("key") : _("keys"),
 		funcct, (funcct == 1) ? _("string") : _("strings"));
 
-	if (kmap->accent_table_size > 0 || kmap->flags & LK_FLAG_CLEAR_COMPOSE) {
+	if (kmap->accent_table->count > 0 || kmap->flags & LK_FLAG_CLEAR_COMPOSE) {
 		diacct = defdiacs(kmap, fd);
 
 		if (diacct < 0)

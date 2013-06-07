@@ -85,8 +85,8 @@ lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
 		MAX_NR_FUNC);
 	fprintf(fd, _("max nr of compose definitions: %d\n"),
 		MAX_DIACR);
-	fprintf(fd, _("nr of compose definitions in actual use: %d\n"),
-		kmap->accent_table_size);
+	fprintf(fd, _("nr of compose definitions in actual use: %u\n"),
+		(unsigned int) kmap->accent_table->count);
 }
 
 void

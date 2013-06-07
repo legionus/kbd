@@ -6,11 +6,9 @@
 #include <keymap/findfile.h>
 #include <keymap/array.h>
 
-#ifdef KDSKBDIACRUC
-typedef struct kbdiacruc accent_entry;
-#else
-typedef struct kbdiacr accent_entry;
-#endif
+struct kb_diacr {
+	unsigned int diacr, base, result;
+};
 
 typedef enum {
 	LK_FLAG_UNICODE_MODE  = (1 << 1),
@@ -40,8 +38,7 @@ struct keymap {
 	/* the kernel structures we want to set or print */
 	char *func_table[MAX_NR_FUNC];
 
-	accent_entry accent_table[MAX_DIACR];
-	unsigned int accent_table_size;    
+	struct lk_array *accent_table;
 
 	struct lk_array *key_constant;
 

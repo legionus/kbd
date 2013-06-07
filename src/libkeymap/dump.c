@@ -113,6 +113,7 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 	unsigned int maxfunc;
 	unsigned int func_table_offs[MAX_NR_FUNC];
 	unsigned int func_buf_offset = 0;
+	struct kb_diacr *kddiac;
 
 	if (lk_add_constants(kmap) < 0)
 		return -1;
@@ -196,29 +197,30 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 		fprintf(fd, "\t0,\n");
 	fprintf(fd, "};\n");
 
-#ifdef KDSKBDIACRUC
 	if (kmap->flags & LK_FLAG_PREFER_UNICODE) {
 		fprintf(fd, "\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < kmap->accent_table_size; i++) {
+		for (i = 0; i < kmap->accent_table->count; i++) {
+			kddiac = lk_array_get_ptr(kmap->accent_table, i);
+
 			fprintf(fd, "\t{");
-			outchar(fd, kmap->accent_table[i].diacr, 1);
-			outchar(fd, kmap->accent_table[i].base, 1);
-			fprintf(fd, "0x%04x},", kmap->accent_table[i].result);
+			outchar(fd, kddiac->diacr, 1);
+			outchar(fd, kddiac->base, 1);
+			fprintf(fd, "0x%04x},", kddiac->result);
 			if (i % 2)
 				fprintf(fd, "\n");
 		}
 		if (i % 2)
 			fprintf(fd, "\n");
 		fprintf(fd, "};\n\n");
-	} else
-#endif
-	{
+	} else {
 		fprintf(fd, "\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < kmap->accent_table_size; i++) {
+		for (i = 0; i < kmap->accent_table->count; i++) {
+			kddiac = lk_array_get_ptr(kmap->accent_table, i);
+
 			fprintf(fd, "\t{");
-			outchar(fd, kmap->accent_table[i].diacr, 1);
-			outchar(fd, kmap->accent_table[i].base, 1);
-			outchar(fd, kmap->accent_table[i].result, 0);
+			outchar(fd, kddiac->diacr, 1);
+			outchar(fd, kddiac->base, 1);
+			outchar(fd, kddiac->result, 0);
 			fprintf(fd, "},");
 			if (i % 2)
 				fprintf(fd, "\n");
@@ -227,7 +229,8 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 			fprintf(fd, "\n");
 		fprintf(fd, "};\n\n");
 	}
-	fprintf(fd, "unsigned int accent_table_size = %d;\n", kmap->accent_table_size);
+	fprintf(fd, "unsigned int accent_table_size = %u;\n",
+		(unsigned int) kmap->accent_table->count);
 	return 0;
 }
 
@@ -271,25 +274,26 @@ void
 lk_dump_diacs(struct keymap *kmap, FILE *fd)
 {
 	unsigned int i;
-#ifdef KDSKBDIACRUC
-	if (kmap->flags & LK_FLAG_PREFER_UNICODE) {
-		for (i = 0; i < kmap->accent_table_size; i++) {
-			fprintf(fd, "compose ");
-			dumpchar(fd, kmap->accent_table[i].diacr & 0xff, 0);
+	struct kb_diacr *ptr;
+
+	for (i = 0; i < kmap->accent_table->count; i++) {
+		ptr = lk_array_get_ptr(kmap->accent_table, i);
+		if (!ptr)
+			continue;
+
+		fprintf(fd, "compose ");
+
+		if (kmap->flags & LK_FLAG_PREFER_UNICODE) {
+			dumpchar(fd, ptr->diacr & 0xff, 0);
 			fprintf(fd, " ");
-			dumpchar(fd, kmap->accent_table[i].base & 0xff, 0);
-			fprintf(fd, " to U+%04x\n", kmap->accent_table[i].result);
-		}
-	} else
-#endif
-	{
-		for (i = 0; i < kmap->accent_table_size; i++) {
-			fprintf(fd, "compose ");
-			dumpchar(fd, kmap->accent_table[i].diacr, 0);
+			dumpchar(fd, ptr->base & 0xff, 0);
+			fprintf(fd, " to U+%04x\n", ptr->result);
+		} else {
+			dumpchar(fd, ptr->diacr, 0);
 			fprintf(fd, " ");
-			dumpchar(fd, kmap->accent_table[i].base, 0);
+			dumpchar(fd, ptr->base, 0);
 			fprintf(fd, " to ");
-			dumpchar(fd, kmap->accent_table[i].result, 0);
+			dumpchar(fd, ptr->result, 0);
 			fprintf(fd, "\n");
 		}
 	}

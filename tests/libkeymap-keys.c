@@ -98,7 +98,7 @@ END_TEST
 
 START_TEST(test_add_diacr_0)
 {
-	int i = MAX_DIACR;
+	int i = MAX_DIACR + 10;
 	struct keymap kmap;
 	lk_init(&kmap);
 	kmap.log_fn = NULL;
@@ -108,9 +108,6 @@ START_TEST(test_add_diacr_0)
 			"Unable to add diacr");
 		i--;
 	}
-
-	fail_if(lk_add_diacr(&kmap, 0, 0, 0) == 0,
-		"Possible to add diacr (MAX_DIACR)");
 
 	lk_free(&kmap);
 }
