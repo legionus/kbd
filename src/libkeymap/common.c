@@ -105,16 +105,19 @@ lk_init(struct keymap *kmap)
 	lk_set_log_priority(kmap, LOG_ERR);
 
 	kmap->keymap = malloc(sizeof(struct lk_array));
+	kmap->func_table = malloc(sizeof(struct lk_array));
 	kmap->accent_table = malloc(sizeof(struct lk_array));
 	kmap->key_constant = malloc(sizeof(struct lk_array));
 	kmap->key_line = malloc(sizeof(struct lk_array));
 
-	if (!(kmap->keymap) || !(kmap->accent_table) || !(kmap->key_constant) || !(kmap->key_line)) {
+	if (!(kmap->keymap) || !(kmap->func_table) || !(kmap->accent_table) ||
+	    !(kmap->key_constant) || !(kmap->key_line)) {
 		ERR(kmap, "out of memory");
 		return -1;
 	}
 
 	lk_array_init(kmap->keymap, sizeof(void*), 0);
+	lk_array_init(kmap->func_table, sizeof(void*), 0);
 	lk_array_init(kmap->accent_table, sizeof(void*), 0);
 	lk_array_init(kmap->key_constant, sizeof(char), 0);
 	lk_array_init(kmap->key_line, sizeof(int), 0);
@@ -131,11 +134,6 @@ lk_free(struct keymap *kmap)
 	if (!kmap)
 		return -1;
 
-	for (i = 0; i < MAX_NR_FUNC; i++) {
-		if (kmap->func_table[i] != NULL)
-			free(kmap->func_table[i]);
-	}
-
 	if (kmap->keymap) {
 		for (i = 0; i < kmap->keymap->total; i++) {
 			struct lk_array *map;
@@ -151,6 +149,22 @@ lk_free(struct keymap *kmap)
 		free(kmap->keymap);
 
 		kmap->keymap = NULL;
+	}
+
+	if (kmap->func_table) {
+		for (i = 0; i < kmap->func_table->total; i++) {
+			char *ptr;
+
+			ptr = lk_array_get_ptr(kmap->func_table, i);
+			if (!ptr)
+				continue;
+
+			free(ptr);
+		}
+		lk_array_free(kmap->func_table);
+		free(kmap->func_table);
+
+		kmap->func_table = NULL;
 	}
 
 	if (kmap->accent_table) {

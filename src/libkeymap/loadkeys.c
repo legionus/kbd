@@ -148,7 +148,9 @@ deffuncs(struct keymap *kmap, int fd)
 	for (i = 0; i < MAX_NR_FUNC; i++) {
 		kbs.kb_func = i;
 
-		if ((ptr = kmap->func_table[i])) {
+		ptr = lk_array_get_ptr(kmap->func_table, i);
+
+		if (ptr) {
 			strcpy((char *)kbs.kb_string, ptr);
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
 				s = ostr(kmap, (char *)kbs.kb_string);

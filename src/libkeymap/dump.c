@@ -109,7 +109,6 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 	int j;
 	unsigned int i, imax;
 
-	char *ptr;
 	unsigned int maxfunc;
 	unsigned int func_table_offs[MAX_NR_FUNC];
 	unsigned int func_buf_offset = 0;
@@ -162,20 +161,23 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 	       " * the default and allocate dynamically in chunks of 512 bytes.\n"
 	       " */\n" "\n");
 	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--)
-		if (kmap->func_table[maxfunc - 1])
+		if (lk_array_get_ptr(kmap->func_table, maxfunc - 1))
 			break;
 
 	fprintf(fd, "char func_buf[] = {\n");
 	for (i = 0; i < maxfunc; i++) {
-		ptr = kmap->func_table[i];
-		if (ptr) {
-			func_table_offs[i] = func_buf_offset;
-			fprintf(fd, "\t");
-			for (; *ptr; ptr++)
-				outchar(fd, *ptr, 1);
-			fprintf(fd, "0, \n");
-			func_buf_offset += (ptr - kmap->func_table[i] + 1);
-		}
+		char *ptr, *func;
+
+		func = ptr = lk_array_get_ptr(kmap->func_table, i);
+		if (!ptr)
+			continue;
+
+		func_table_offs[i] = func_buf_offset;
+		fprintf(fd, "\t");
+		for (; *ptr; ptr++)
+			outchar(fd, *ptr, 1);
+		fprintf(fd, "0, \n");
+		func_buf_offset += (ptr - func + 1);
 	}
 	if (!maxfunc)
 		fprintf(fd, "\t0\n");
@@ -188,7 +190,7 @@ lk_dump_ctable(struct keymap *kmap, FILE *fd)
 
 	fprintf(fd, "char *func_table[MAX_NR_FUNC] = {\n");
 	for (i = 0; i < maxfunc; i++) {
-		if (kmap->func_table[i])
+		if (lk_array_get_ptr(kmap->func_table, i))
 			fprintf(fd, "\tfunc_buf + %u,\n", func_table_offs[i]);
 		else
 			fprintf(fd, "\t0,\n");
@@ -239,16 +241,9 @@ void
 lk_dump_funcs(struct keymap *kmap, FILE *fd)
 {
 	unsigned int i;
-	char *ptr;
-	unsigned int maxfunc;
 
-	for (maxfunc = MAX_NR_FUNC; maxfunc; maxfunc--) {
-		if (kmap->func_table[maxfunc - 1])
-			break;
-	}
-
-	for (i = 0; i < maxfunc; i++) {
-		ptr = kmap->func_table[i];
+	for (i = 0; i < kmap->func_table->total; i++) {
+		char *ptr = lk_array_get_ptr(kmap->func_table, i);
 		if (!ptr)
 			continue;
 

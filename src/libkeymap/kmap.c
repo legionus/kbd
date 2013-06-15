@@ -163,20 +163,15 @@ lk_add_key(struct keymap *kmap, unsigned int k_table, unsigned int k_index, int 
 int
 lk_get_func(struct keymap *kmap, struct kbsentry *kbs)
 {
-	int x = kbs->kb_func;
+	char *s;
 
-	if (x >= MAX_NR_FUNC) {
-		ERR(kmap, _("bad index %d"), x);
+	s = lk_array_get_ptr(kmap->func_table, kbs->kb_func);
+	if (!s) {
+		ERR(kmap, _("func %d not allocated"), kbs->kb_func);
 		return -1;
 	}
 
-	if(!(kmap->func_table[x])) {
-		ERR(kmap, _("func %d not allocated"), x);
-		return -1;
-	}
-
-	strncpy((char *)kbs->kb_string, kmap->func_table[x],
-		sizeof(kbs->kb_string));
+	strncpy((char *)kbs->kb_string, s, sizeof(kbs->kb_string));
 	kbs->kb_string[sizeof(kbs->kb_string) - 1] = 0;
 
 	return 0;
@@ -186,23 +181,16 @@ lk_get_func(struct keymap *kmap, struct kbsentry *kbs)
 int
 lk_add_func(struct keymap *kmap, struct kbsentry kbs)
 {
-	int x;
+	char *s;
 
-	x = kbs.kb_func;
+	s = lk_array_get_ptr(kmap->func_table, kbs.kb_func);
+	if (s)
+		free(s);
 
-	if (x >= MAX_NR_FUNC) {
-		ERR(kmap, _("bad func %d"), kbs.kb_func);
-		return -1;
-	}
+	s = strdup((char *)kbs.kb_string);
 
-	if(kmap->func_table[x]) {
-		free(kmap->func_table[x]);
-		kmap->func_table[x] = NULL;
-	}
-
-	kmap->func_table[x] = strdup((char *)kbs.kb_string);
-
-	if (!kmap->func_table[x]) {
+	if (lk_array_set(kmap->func_table, kbs.kb_func, &s) < 0) {
+		free(s);
 		ERR(kmap, _("out of memory"));
 		return -1;
 	}

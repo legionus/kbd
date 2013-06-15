@@ -36,10 +36,9 @@ struct keymap {
 	struct lk_array *keymap;
 
 	/* the kernel structures we want to set or print */
-	char *func_table[MAX_NR_FUNC];
+	struct lk_array *func_table;
 
 	struct lk_array *accent_table;
-
 	struct lk_array *key_constant;
 
 	/* Key definitions on one line */
