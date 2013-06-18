@@ -26,7 +26,7 @@ typedef enum {
 
 #define MAX_INCLUDE_DEPTH 20
 
-struct keymap {
+struct lk_ctx {
 	/* Parser flags */
 	lk_flags flags;
 

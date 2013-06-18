@@ -6,15 +6,15 @@
 #include "keymap.h"
 
 void __attribute__ ((format (printf, 6, 7)))
-lk_log(struct keymap *kmap, int priority,
+lk_log(struct lk_ctx *ctx, int priority,
        const char *file, int line, const char *fn,
        const char *fmt, ...)
 {
 	va_list args;
-	if (kmap->log_fn == NULL)
+	if (ctx->log_fn == NULL)
 		return;
 	va_start(args, fmt);
-	kmap->log_fn(kmap->log_data, priority, file, line, fn, fmt, args);
+	ctx->log_fn(ctx->log_data, priority, file, line, fn, fmt, args);
 	va_end(args);
 }
 
@@ -59,140 +59,140 @@ log_file(void *data,
 #undef log_unused
 
 int
-lk_set_log_fn(struct keymap *kmap,
+lk_set_log_fn(struct lk_ctx *ctx,
 	void (*log_fn)(void *data, int priority,
 	               const char *file, int line, const char *fn,
 	               const char *format, va_list args),
 	const void *data)
 {
-	if (!kmap)
+	if (!ctx)
 		return -1;
 
-	kmap->log_fn   = log_fn;
-	kmap->log_data = (void *)data;
+	ctx->log_fn   = log_fn;
+	ctx->log_data = (void *)data;
 
 	return 0;
 }
 
 int
-lk_get_log_priority(struct keymap *kmap)
+lk_get_log_priority(struct lk_ctx *ctx)
 {
-	if (!kmap)
+	if (!ctx)
 		return -1;
 
-	return kmap->log_priority;
+	return ctx->log_priority;
 }
 
 int
-lk_set_log_priority(struct keymap *kmap, int priority)
+lk_set_log_priority(struct lk_ctx *ctx, int priority)
 {
-	if (!kmap)
+	if (!ctx)
 		return -1;
 
-	kmap->log_priority = priority;
+	ctx->log_priority = priority;
 	return 0;
 }
 
 int
-lk_init(struct keymap *kmap)
+lk_init(struct lk_ctx *ctx)
 {
-	if (!kmap)
+	if (!ctx)
 		return -1;
 
-	memset(kmap, 0, sizeof(struct keymap));
+	memset(ctx, 0, sizeof(struct lk_ctx));
 
-	lk_set_log_fn(kmap, log_file, stderr);
-	lk_set_log_priority(kmap, LOG_ERR);
+	lk_set_log_fn(ctx, log_file, stderr);
+	lk_set_log_priority(ctx, LOG_ERR);
 
-	kmap->keymap = malloc(sizeof(struct lk_array));
-	kmap->func_table = malloc(sizeof(struct lk_array));
-	kmap->accent_table = malloc(sizeof(struct lk_array));
-	kmap->key_constant = malloc(sizeof(struct lk_array));
-	kmap->key_line = malloc(sizeof(struct lk_array));
+	ctx->keymap = malloc(sizeof(struct lk_array));
+	ctx->func_table = malloc(sizeof(struct lk_array));
+	ctx->accent_table = malloc(sizeof(struct lk_array));
+	ctx->key_constant = malloc(sizeof(struct lk_array));
+	ctx->key_line = malloc(sizeof(struct lk_array));
 
-	if (!(kmap->keymap) || !(kmap->func_table) || !(kmap->accent_table) ||
-	    !(kmap->key_constant) || !(kmap->key_line)) {
-		ERR(kmap, "out of memory");
+	if (!(ctx->keymap) || !(ctx->func_table) || !(ctx->accent_table) ||
+	    !(ctx->key_constant) || !(ctx->key_line)) {
+		ERR(ctx, "out of memory");
 		return -1;
 	}
 
-	lk_array_init(kmap->keymap, sizeof(void*), 0);
-	lk_array_init(kmap->func_table, sizeof(void*), 0);
-	lk_array_init(kmap->accent_table, sizeof(void*), 0);
-	lk_array_init(kmap->key_constant, sizeof(char), 0);
-	lk_array_init(kmap->key_line, sizeof(int), 0);
+	lk_array_init(ctx->keymap, sizeof(void*), 0);
+	lk_array_init(ctx->func_table, sizeof(void*), 0);
+	lk_array_init(ctx->accent_table, sizeof(void*), 0);
+	lk_array_init(ctx->key_constant, sizeof(char), 0);
+	lk_array_init(ctx->key_line, sizeof(int), 0);
 
 	return 0;
 }
 
 
 int
-lk_free(struct keymap *kmap)
+lk_free(struct lk_ctx *ctx)
 {
 	unsigned int i;//, j;
 
-	if (!kmap)
+	if (!ctx)
 		return -1;
 
-	if (kmap->keymap) {
-		for (i = 0; i < kmap->keymap->total; i++) {
+	if (ctx->keymap) {
+		for (i = 0; i < ctx->keymap->total; i++) {
 			struct lk_array *map;
 
-			map = lk_array_get_ptr(kmap->keymap, i);
+			map = lk_array_get_ptr(ctx->keymap, i);
 			if (!map)
 				continue;
 
 			lk_array_free(map);
 			free(map);
 		}
-		lk_array_free(kmap->keymap);
-		free(kmap->keymap);
+		lk_array_free(ctx->keymap);
+		free(ctx->keymap);
 
-		kmap->keymap = NULL;
+		ctx->keymap = NULL;
 	}
 
-	if (kmap->func_table) {
-		for (i = 0; i < kmap->func_table->total; i++) {
+	if (ctx->func_table) {
+		for (i = 0; i < ctx->func_table->total; i++) {
 			char *ptr;
 
-			ptr = lk_array_get_ptr(kmap->func_table, i);
+			ptr = lk_array_get_ptr(ctx->func_table, i);
 			if (!ptr)
 				continue;
 
 			free(ptr);
 		}
-		lk_array_free(kmap->func_table);
-		free(kmap->func_table);
+		lk_array_free(ctx->func_table);
+		free(ctx->func_table);
 
-		kmap->func_table = NULL;
+		ctx->func_table = NULL;
 	}
 
-	if (kmap->accent_table) {
-		for (i = 0; i < kmap->accent_table->total; i++) {
+	if (ctx->accent_table) {
+		for (i = 0; i < ctx->accent_table->total; i++) {
 			struct lk_array *ptr;
 
-			ptr = lk_array_get_ptr(kmap->accent_table, i);
+			ptr = lk_array_get_ptr(ctx->accent_table, i);
 			if (!ptr)
 				continue;
 
 			free(ptr);
 		}
-		lk_array_free(kmap->accent_table);
-		free(kmap->accent_table);
+		lk_array_free(ctx->accent_table);
+		free(ctx->accent_table);
 
-		kmap->accent_table = NULL;
+		ctx->accent_table = NULL;
 	}
 
-	if (kmap->key_constant) {
-		lk_array_free(kmap->key_constant);
-		free(kmap->key_constant);
-		kmap->key_constant = NULL;
+	if (ctx->key_constant) {
+		lk_array_free(ctx->key_constant);
+		free(ctx->key_constant);
+		ctx->key_constant = NULL;
 	}
 
-	if (kmap->key_line) {
-		lk_array_free(kmap->key_line);
-		free(kmap->key_line);
-		kmap->key_line = NULL;
+	if (ctx->key_line) {
+		lk_array_free(ctx->key_line);
+		free(ctx->key_line);
+		ctx->key_line = NULL;
 	}
 
 	return 0;

@@ -94,7 +94,7 @@ main(int argc, char *argv[])
 	const char *const *dirpath;
 	const char *dirpath2[] = { 0, 0 };
 
-	struct keymap kmap;
+	struct lk_ctx ctx;
 
 	int c, i, rc = -1;
 	int fd;
@@ -110,7 +110,7 @@ main(int argc, char *argv[])
 
 	progname = set_progname(argv[0]);
 
-	lk_init(&kmap);
+	lk_init(&ctx);
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -121,7 +121,7 @@ main(int argc, char *argv[])
 			options |= OPT_B;
 			break;
 		case 'c':
-			kmap.flags |= LK_FLAG_CLEAR_COMPOSE;
+			ctx.flags |= LK_FLAG_CLEAR_COMPOSE;
 			break;
 		case 'C':
 			console = optarg;
@@ -133,18 +133,18 @@ main(int argc, char *argv[])
 			options |= OPT_M;
 			break;
 		case 's':
-			kmap.flags |= LK_FLAG_CLEAR_STRINGS;
+			ctx.flags |= LK_FLAG_CLEAR_STRINGS;
 			break;
 		case 'u':
 			options |= OPT_U;
-			kmap.flags |= LK_FLAG_UNICODE_MODE;
-			kmap.flags |= LK_FLAG_PREFER_UNICODE;
+			ctx.flags |= LK_FLAG_UNICODE_MODE;
+			ctx.flags |= LK_FLAG_PREFER_UNICODE;
 			break;
 		case 'q':
-			lk_set_log_priority(&kmap, LOG_ERR);
+			lk_set_log_priority(&ctx, LOG_ERR);
 			break;
 		case 'v':
-			lk_set_log_priority(&kmap, LOG_INFO);
+			lk_set_log_priority(&ctx, LOG_INFO);
 			break;
 		case 'V':
 			fprintf(stdout, _("%s from %s\n"), progname, PACKAGE_STRING);
@@ -181,11 +181,11 @@ main(int argc, char *argv[])
 					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
 					progname);
 			} else {
-				kmap.flags |= LK_FLAG_PREFER_UNICODE;
+				ctx.flags |= LK_FLAG_PREFER_UNICODE;
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
-			kmap.flags ^= LK_FLAG_UNICODE_MODE;
+			ctx.flags ^= LK_FLAG_UNICODE_MODE;
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,
@@ -209,7 +209,7 @@ main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 
-		if ((rc = lk_parse_keymap(&kmap, &f)) == -1)
+		if ((rc = lk_parse_keymap(&ctx, &f)) == -1)
 			goto fail;
 
 
@@ -217,7 +217,7 @@ main(int argc, char *argv[])
 		f.fd = stdin;
 		strcpy(f.pathname, "<stdin>");
 
-		if ((rc = lk_parse_keymap(&kmap, &f)) == -1)
+		if ((rc = lk_parse_keymap(&ctx, &f)) == -1)
 			goto fail;
 	}
 
@@ -231,19 +231,19 @@ main(int argc, char *argv[])
 			goto fail;
 		}
 
-		if ((rc = lk_parse_keymap(&kmap, &f)) == -1)
+		if ((rc = lk_parse_keymap(&ctx, &f)) == -1)
 			goto fail;
 	}
 
 	if (options & OPT_B) {
-		rc = lk_dump_bkeymap(&kmap, stdout);
+		rc = lk_dump_bkeymap(&ctx, stdout);
 	} else if (options & OPT_M) {
-		rc = lk_dump_ctable(&kmap, stdout);
+		rc = lk_dump_ctable(&ctx, stdout);
 	} else {
-		rc = lk_load_keymap(&kmap, fd, kbd_mode);
+		rc = lk_load_keymap(&ctx, fd, kbd_mode);
 	}
 
- fail:	lk_free(&kmap);
+ fail:	lk_free(&ctx);
 	lk_fpclose(&f);
 	close(fd);
 

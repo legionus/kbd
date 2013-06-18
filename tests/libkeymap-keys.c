@@ -6,54 +6,54 @@
 
 START_TEST(test_add_key_0)
 {
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
-	fail_if(lk_add_key(&kmap, 0, NR_KEYS + 1, 0) != 0,
+	fail_if(lk_add_key(&ctx, 0, NR_KEYS + 1, 0) != 0,
 		"Unable to use index > NR_KEYS");
 
-	fail_if(lk_add_key(&kmap, MAX_NR_KEYMAPS + 1, 0, 0) != 0,
+	fail_if(lk_add_key(&ctx, MAX_NR_KEYMAPS + 1, 0, 0) != 0,
 		"Unable to use table > MAX_NR_KEYMAPS");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
 START_TEST(test_add_key_1)
 {
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
-	fail_unless(lk_add_key(&kmap, 0, 0, 0) == 0,
+	fail_unless(lk_add_key(&ctx, 0, 0, 0) == 0,
 		"Unable to add keycode = 0");
 
-	fail_unless(lk_add_key(&kmap, 0, 0, 16) == 0,
+	fail_unless(lk_add_key(&ctx, 0, 0, 16) == 0,
 		"Unable to add keycode = 16");
 
-	fail_unless(lk_add_key(&kmap, 1, 1, K_HOLE) == 0,
+	fail_unless(lk_add_key(&ctx, 1, 1, K_HOLE) == 0,
 		"Unable to add keycode = K_HOLE");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
 START_TEST(test_add_key_2)
 {
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
-	kmap.flags |= LK_KEYWORD_ALTISMETA;
+	ctx.flags |= LK_KEYWORD_ALTISMETA;
 
-	fail_unless(lk_add_key(&kmap, 0, 0, 16) == 0,
+	fail_unless(lk_add_key(&ctx, 0, 0, 16) == 0,
 		"Unable to add keycode");
 
-	fail_unless(lk_get_key(&kmap, 0, 0) == 16,
+	fail_unless(lk_get_key(&ctx, 0, 0) == 16,
 		"Unable to get keycode");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
@@ -72,10 +72,10 @@ START_TEST(test_add_func_0)
 		"\033[6~",  0,          0,          0,          0
 	};
 	int i;
-	struct keymap kmap;
+	struct lk_ctx ctx;
 
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
 	for (i = 0; i < 30; i++) {
 		struct kbsentry ke;
@@ -88,28 +88,28 @@ START_TEST(test_add_func_0)
 		ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 		ke.kb_func = i;
 
-		fail_if(lk_add_func(&kmap, ke) == -1,
+		fail_if(lk_add_func(&ctx, ke) == -1,
 			"Unable to add function");
 	}
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
 START_TEST(test_add_diacr_0)
 {
 	int i = MAX_DIACR + 10;
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
 	while (i > 0) {
-		fail_if(lk_add_diacr(&kmap, 0, 0, 0) != 0,
+		fail_if(lk_add_diacr(&ctx, 0, 0, 0) != 0,
 			"Unable to add diacr");
 		i--;
 	}
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 

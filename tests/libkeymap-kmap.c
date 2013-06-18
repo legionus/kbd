@@ -6,47 +6,47 @@
 
 START_TEST(test_add_map_border)
 {
-	struct keymap kmap;
+	struct lk_ctx ctx;
 
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
-	fail_unless(lk_add_map(&kmap, MAX_NR_KEYMAPS) == 0,
+	fail_unless(lk_add_map(&ctx, MAX_NR_KEYMAPS) == 0,
 		"Unable to define map == MAX_NR_KEYMAPS");
 
-	fail_unless(lk_add_map(&kmap, MAX_NR_KEYMAPS*2) == 0,
+	fail_unless(lk_add_map(&ctx, MAX_NR_KEYMAPS*2) == 0,
 		"Unable to define map == MAX_NR_KEYMAPS*2");
 
-	fail_unless(lk_add_map(&kmap, 0) == 0,
+	fail_unless(lk_add_map(&ctx, 0) == 0,
 		"Unable to define map");
 
-	fail_unless(lk_add_map(&kmap, 0) == 0,
+	fail_unless(lk_add_map(&ctx, 0) == 0,
 		"Unable to define map");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
 START_TEST(test_add_map_0)
 {
-	struct keymap kmap;
+	struct lk_ctx ctx;
 
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
-	fail_if(lk_add_map(&kmap, 0) != 0, "Unable to define map");
-	fail_if(kmap.keymap->count != 1, "Wrong keymap number");
+	fail_if(lk_add_map(&ctx, 0) != 0, "Unable to define map");
+	fail_if(ctx.keymap->count != 1, "Wrong keymap number");
 
-	fail_if(lk_add_map(&kmap, 0) != 0, "Unable to define map");
-	fail_if(kmap.keymap->count != 1, "Wrong keymap number");
+	fail_if(lk_add_map(&ctx, 0) != 0, "Unable to define map");
+	fail_if(ctx.keymap->count != 1, "Wrong keymap number");
 		
-	fail_if(lk_add_map(&kmap, 1) != 0, "Unable to define map");
-	fail_if(kmap.keymap->count != 2, "Wrong keymap number");
+	fail_if(lk_add_map(&ctx, 1) != 0, "Unable to define map");
+	fail_if(ctx.keymap->count != 2, "Wrong keymap number");
 
-	fail_if(lk_add_map(&kmap, 2) != 0, "Unable to define map");
-	fail_if(kmap.keymap->count != 3, "Wrong keymap number");
+	fail_if(lk_add_map(&ctx, 2) != 0, "Unable to define map");
+	fail_if(ctx.keymap->count != 3, "Wrong keymap number");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 

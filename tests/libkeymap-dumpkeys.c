@@ -6,7 +6,7 @@
 int main(int argc, char **argv)
 {
 	char table_shape, numeric;
-	struct keymap kmap;
+	struct lk_ctx ctx;
 	lkfile_t f;
 
 	if (argc == 1) {
@@ -21,17 +21,17 @@ int main(int argc, char **argv)
 
 	numeric = (!strcasecmp(argv[3], "TRUE")) ? 1 : 0;
 
-	lk_init(&kmap);
-	kmap.flags |= LK_FLAG_PREFER_UNICODE;
+	lk_init(&ctx);
+	ctx.flags |= LK_FLAG_PREFER_UNICODE;
 
 	f.pipe = 0;
 	strcpy(f.pathname, argv[1]);
 	f.fd = fopen( argv[1], "r");
 
-	lk_parse_keymap(&kmap, &f);
-	lk_dump_keymap(&kmap, stdout, table_shape, numeric);
-	lk_dump_diacs(&kmap, stdout);
+	lk_parse_keymap(&ctx, &f);
+	lk_dump_keymap(&ctx, stdout, table_shape, numeric);
+	lk_dump_diacs(&ctx, stdout);
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 	return 0;
 }

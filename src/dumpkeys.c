@@ -80,7 +80,7 @@ main (int argc, char *argv[]) {
 	char keys_only = 0;
 	char diac_only = 0;
 
-	struct keymap kmap;
+	struct lk_ctx ctx;
 
 	set_progname(argv[0]);
 
@@ -88,7 +88,7 @@ main (int argc, char *argv[]) {
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
 
-	lk_init(&kmap);
+	lk_init(&ctx);
 
 	while ((c = getopt_long(argc, argv,
 		short_opts, long_opts, NULL)) != -1) {
@@ -122,10 +122,10 @@ main (int argc, char *argv[]) {
 				diac_only = 1;
 				break;
 			case 'v':
-				lk_set_log_priority(&kmap, LOG_INFO);
+				lk_set_log_priority(&ctx, LOG_INFO);
 				break;
 			case 'c':
-				if ((lk_set_charset(&kmap, optarg)) != 0) {
+				if ((lk_set_charset(&ctx, optarg)) != 0) {
 					fprintf(stderr, _("unknown charset %s - ignoring charset request\n"),
 						optarg);
 					usage();
@@ -153,14 +153,14 @@ main (int argc, char *argv[]) {
 	}
 
 	if (kbd_mode == K_UNICODE) {
-		kmap.flags |= LK_FLAG_PREFER_UNICODE;
+		ctx.flags |= LK_FLAG_PREFER_UNICODE;
 	}
 
-	if ((rc = lk_kernel_keymap(&kmap, fd)) < 0)
+	if ((rc = lk_kernel_keymap(&ctx, fd)) < 0)
 		goto fail;
 
 	if (short_info || long_info) {
-		lk_dump_summary(&kmap, stdout, fd);
+		lk_dump_summary(&ctx, stdout, fd);
 
 		if (long_info) {
 			printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
@@ -174,16 +174,16 @@ main (int argc, char *argv[]) {
 	if (!diac_only) {
 #endif
 	if (!funcs_only) {
-		lk_dump_keymap(&kmap, stdout, table_shape, numeric);
+		lk_dump_keymap(&ctx, stdout, table_shape, numeric);
 	}
 #ifdef KDGKBDIACR
 	}
 
 	if (!funcs_only && !keys_only)
-		lk_dump_diacs(&kmap, stdout);
+		lk_dump_diacs(&ctx, stdout);
 #endif
 
- fail:	lk_free(&kmap);
+ fail:	lk_free(&ctx);
 	close(fd);
 
 	if (rc < 0)

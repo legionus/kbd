@@ -6,7 +6,7 @@ AM_CPPFLAGS = \
 
 headers = \
 	keymap.h \
-	keymap/data.h \
+	keymap/context.h \
 	keymap/charset.h \
 	keymap/common.h \
 	keymap/dump.h \

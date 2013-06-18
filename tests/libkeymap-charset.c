@@ -8,21 +8,21 @@ START_TEST(test0)
 {
 	char *s;
 	lkfile_t f;
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
 	f.pipe = 0;
 	strcpy(f.pathname, "charset-keymap0.map");
 	f.fd = fopen(DATADIR "/charset-keymap0.map", "r");
 
-	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
+	fail_if(lk_parse_keymap(&ctx, &f) != 0, "Unable to parse keymap");
 
-	s = lk_get_charset(&kmap);
+	s = lk_get_charset(&ctx);
 
 	fail_if(strcmp(s, "iso-8859-2"), "Unable to parse charset");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
@@ -30,21 +30,21 @@ START_TEST(test1)
 {
 	char *s;
 	lkfile_t f;
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
 	f.pipe = 0;
 	strcpy(f.pathname, "null");
 	f.fd = fopen("/dev/null", "r");
 
-	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
+	fail_if(lk_parse_keymap(&ctx, &f) != 0, "Unable to parse keymap");
 
-	s = lk_get_charset(&kmap);
+	s = lk_get_charset(&ctx);
 
 	fail_if(s != NULL, "Wrong charset");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 
@@ -52,25 +52,25 @@ START_TEST(test2)
 {
 	char *s;
 	lkfile_t f;
-	struct keymap kmap;
-	lk_init(&kmap);
-	kmap.log_fn = NULL;
+	struct lk_ctx ctx;
+	lk_init(&ctx);
+	ctx.log_fn = NULL;
 
 	f.pipe = 0;
 	strcpy(f.pathname, "null");
 	f.fd = fopen("/dev/null", "r");
 
-	fail_if(lk_parse_keymap(&kmap, &f) != 0, "Unable to parse keymap");
+	fail_if(lk_parse_keymap(&ctx, &f) != 0, "Unable to parse keymap");
 
 	fail_if(lk_get_charset(NULL), "Wrong charset index");
 
-	kmap.charset = -1;
-	fail_if(lk_get_charset(&kmap), "Wrong charset index");
+	ctx.charset = -1;
+	fail_if(lk_get_charset(&ctx), "Wrong charset index");
 
-	kmap.charset = 255;
-	fail_if(lk_get_charset(&kmap), "Wrong charset index");
+	ctx.charset = 255;
+	fail_if(lk_get_charset(&ctx), "Wrong charset index");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 

@@ -2,21 +2,21 @@
 #define LK_LOGGING_H
 
 #include <syslog.h>
-#include <keymap/data.h>
+#include <keymap/context.h>
 
-void lk_log(struct keymap *kmap, int priority,
+void lk_log(struct lk_ctx *ctx, int priority,
             const char *file, int line, const char *fn,
             const char *fmt, ...);
 
-#define lk_log_cond(kmap, level, arg...) \
+#define lk_log_cond(ctx, level, arg...) \
 	do { \
-		if (kmap->log_priority >= level) \
-			lk_log(kmap, level, __FILE__, __LINE__, __func__, ## arg);\
+		if (ctx->log_priority >= level) \
+			lk_log(ctx, level, __FILE__, __LINE__, __func__, ## arg);\
 	} while (0)
 
-#define DBG(kmap, arg...)  lk_log_cond(kmap, LOG_DEBUG,   ## arg)
-#define INFO(kmap, arg...) lk_log_cond(kmap, LOG_INFO,    ## arg)
-#define WARN(kmap, arg...) lk_log_cond(kmap, LOG_WARNING, ## arg)
-#define ERR(kmap, arg...)  lk_log_cond(kmap, LOG_ERR,     ## arg)
+#define DBG(ctx, arg...)  lk_log_cond(ctx, LOG_DEBUG,   ## arg)
+#define INFO(ctx, arg...) lk_log_cond(ctx, LOG_INFO,    ## arg)
+#define WARN(ctx, arg...) lk_log_cond(ctx, LOG_WARNING, ## arg)
+#define ERR(ctx, arg...)  lk_log_cond(ctx, LOG_ERR,     ## arg)
 
 #endif /* LK_LOGGING_H */

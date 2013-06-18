@@ -47,7 +47,7 @@ struct strdata {
 
 /* Pure yyparse.  */
 %parse-param { void *scanner }
-%parse-param { struct keymap *kmap }
+%parse-param { struct lk_ctx *ctx }
 
 %token EOL NUMBER LITERAL CHARSET KEYMAPS KEYCODE EQUALS
 %token PLAIN SHIFT CONTROL ALT ALTGR SHIFTL SHIFTR CTRLL CTRLR CAPSSHIFT
@@ -70,14 +70,14 @@ struct strdata {
 %{
 static int
 yyerror(yyscan_t scanner __attribute__ ((unused)),
-        struct keymap *kmap, const char *s)
+        struct lk_ctx *ctx, const char *s)
 {
-	ERR(kmap, "%s", s);
+	ERR(ctx, "%s", s);
 	return 0;
 }
 
 static int
-strings_as_usual(struct keymap *kmap)
+strings_as_usual(struct lk_ctx *ctx)
 {
 	/*
 	 * 26 strings, mostly inspired by the VT100 family
@@ -104,7 +104,7 @@ strings_as_usual(struct keymap *kmap)
 				sizeof(ke.kb_string));
 			ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
-			if (lk_add_func(kmap, ke) == -1)
+			if (lk_add_func(ctx, ke) == -1)
 				return -1;
 		}
 	}
@@ -112,10 +112,10 @@ strings_as_usual(struct keymap *kmap)
 }
 
 static int
-compose_as_usual(struct keymap *kmap, char *charset)
+compose_as_usual(struct lk_ctx *ctx, char *charset)
 {
 	if (charset && strcmp(charset, "iso-8859-1")) {
-		ERR(kmap, _("loadkeys: don't know how to compose for %s"), charset);
+		ERR(ctx, _("loadkeys: don't know how to compose for %s"), charset);
 		return -1;
 
 	} else {
@@ -160,7 +160,7 @@ compose_as_usual(struct keymap *kmap, char *charset)
 		int i;
 		for (i = 0; i < 68; i++) {
 			struct ccc ptr = def_latin1_composes[i];
-			if (lk_add_compose(kmap, ptr.c1, ptr.c2, ptr.c3) == -1)
+			if (lk_add_compose(ctx, ptr.c1, ptr.c2, ptr.c3) == -1)
 				return -1;
 		}
 	}
@@ -186,47 +186,47 @@ line		: EOL
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
-				if (lk_set_charset(kmap, (char *) $2.data)) {
-					ERR(kmap,
+				if (lk_set_charset(ctx, (char *) $2.data)) {
+					ERR(ctx,
 						_("unknown charset %s - ignoring charset request\n"),
 						(char *) $2.data);
 					YYERROR;
 				}
-				kmap->keywords |= LK_KEYWORD_CHARSET;
+				ctx->keywords |= LK_KEYWORD_CHARSET;
 
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */
-				if (kmap->flags & LK_FLAG_PREFER_UNICODE &&
+				if (ctx->flags & LK_FLAG_PREFER_UNICODE &&
 				    !strcasecmp((char *) $2.data, "iso-8859-1"))
-					kmap->flags ^= LK_FLAG_PREFER_UNICODE;
+					ctx->flags ^= LK_FLAG_PREFER_UNICODE;
 			}
 		;
 altismetaline	: ALT_IS_META EOL
 			{
-				kmap->keywords |= LK_KEYWORD_ALTISMETA;
+				ctx->keywords |= LK_KEYWORD_ALTISMETA;
 			}
 		;
 usualstringsline: STRINGS AS USUAL EOL
 			{
-				if (strings_as_usual(kmap) == -1)
+				if (strings_as_usual(ctx) == -1)
 					YYERROR;
-				kmap->keywords |= LK_KEYWORD_STRASUSUAL;
+				ctx->keywords |= LK_KEYWORD_STRASUSUAL;
 			}
 		;
 usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
 			{
-				if (compose_as_usual(kmap, (char *) $5.data) == -1)
+				if (compose_as_usual(ctx, (char *) $5.data) == -1)
 					YYERROR;
 			}
 		  | COMPOSE AS USUAL EOL
 			{
-				if (compose_as_usual(kmap, 0) == -1)
+				if (compose_as_usual(ctx, 0) == -1)
 					YYERROR;
 			}
 		;
 keymapline	: KEYMAPS range EOL
 			{
-				kmap->keywords |= LK_KEYWORD_KEYMAPS;
+				ctx->keywords |= LK_KEYWORD_KEYMAPS;
 			}
 		;
 range		: range COMMA range0
@@ -236,13 +236,13 @@ range0		: NUMBER DASH NUMBER
 			{
 				int i;
 				for (i = $1; i <= $3; i++) {
-					if (lk_add_map(kmap, i) == -1)
+					if (lk_add_map(ctx, i) == -1)
 						YYERROR;
 				}
 			}
 		| NUMBER
 			{
-				if (lk_add_map(kmap, $1) == -1)
+				if (lk_add_map(ctx, $1) == -1)
 					YYERROR;
 			}
 		;
@@ -251,7 +251,7 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 				struct kbsentry ke;
 
 				if (KTYP($2) != KT_FN) {
-					ERR(kmap, _("'%s' is not a function key symbol"),
+					ERR(ctx, _("'%s' is not a function key symbol"),
 						syms[KTYP($2)].table[KVAL($2)]);
 					YYERROR;
 				}
@@ -262,18 +262,18 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 				        sizeof(ke.kb_string));
 				ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
-				if (lk_add_func(kmap, ke) == -1)
+				if (lk_add_func(ctx, ke) == -1)
 					YYERROR;
 			}
 		;
 compline        : COMPOSE compsym compsym TO compsym EOL
                         {
-				if (lk_add_compose(kmap, $2, $3, $5) == -1)
+				if (lk_add_compose(ctx, $2, $3, $5) == -1)
 					YYERROR;
 			}
 		 | COMPOSE compsym compsym TO rvalue EOL
 			{
-				if (lk_add_compose(kmap, $2, $3, $5) == -1)
+				if (lk_add_compose(ctx, $2, $3, $5) == -1)
 					YYERROR;
 			}
                 ;
@@ -281,87 +281,87 @@ compsym		: CCHAR		{	$$ = $1;		}
 		| UNUMBER	{	$$ = $1 ^ 0xf000;	}
 		;
 singleline	:	{
-				kmap->mod = 0;
+				ctx->mod = 0;
 			}
 		  modifiers KEYCODE NUMBER EQUALS rvalue EOL
 			{
-				if (lk_add_key(kmap, kmap->mod, $4, $6) < 0)
+				if (lk_add_key(ctx, ctx->mod, $4, $6) < 0)
 					YYERROR;
 			}
 		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
 			{
-				if (lk_add_key(kmap, 0, $3, $5) < 0)
+				if (lk_add_key(ctx, 0, $3, $5) < 0)
 					YYERROR;
 			}
 		;
 modifiers	: modifiers modifier
 		| modifier
 		;
-modifier	: SHIFT		{ kmap->mod |= M_SHIFT;	}
-		| CONTROL	{ kmap->mod |= M_CTRL;	}
-		| ALT		{ kmap->mod |= M_ALT;		}
-		| ALTGR		{ kmap->mod |= M_ALTGR;	}
-		| SHIFTL	{ kmap->mod |= M_SHIFTL;	}
-		| SHIFTR	{ kmap->mod |= M_SHIFTR;	}
-		| CTRLL		{ kmap->mod |= M_CTRLL;	}
-		| CTRLR		{ kmap->mod |= M_CTRLR;	}
-		| CAPSSHIFT	{ kmap->mod |= M_CAPSSHIFT;	}
+modifier	: SHIFT		{ ctx->mod |= M_SHIFT;	}
+		| CONTROL	{ ctx->mod |= M_CTRL;	}
+		| ALT		{ ctx->mod |= M_ALT;		}
+		| ALTGR		{ ctx->mod |= M_ALTGR;	}
+		| SHIFTL	{ ctx->mod |= M_SHIFTL;	}
+		| SHIFTR	{ ctx->mod |= M_SHIFTR;	}
+		| CTRLL		{ ctx->mod |= M_CTRLL;	}
+		| CTRLR		{ ctx->mod |= M_CTRLR;	}
+		| CAPSSHIFT	{ ctx->mod |= M_CAPSSHIFT;	}
 		;
 fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
 				unsigned int j, i, keycode;
 				int *val;
 
-				if (kmap->key_line->count == 1) {
+				if (ctx->key_line->count == 1) {
 					char one = 1;
 					/* Some files do not have a keymaps line, and
 					 * we have to wait until all input has been read
 					 * before we know which maps to fill. */
-					lk_array_set(kmap->key_constant, $2, &one);
+					lk_array_set(ctx->key_constant, $2, &one);
 
 					/* On the other hand, we now have include files,
 					 * and it should be possible to override lines
 					 * from an include file. So, kill old defs. */
-					for (j = 0; j < kmap->keymap->total; j++) {
-						if (!lk_map_exist(kmap, j))
+					for (j = 0; j < ctx->keymap->total; j++) {
+						if (!lk_map_exist(ctx, j))
 							continue;
 
-						if (lk_del_key(kmap, j, $2) < 0)
+						if (lk_del_key(ctx, j, $2) < 0)
 							YYERROR;
 					}
 				}
 
-				if (kmap->keywords & LK_KEYWORD_KEYMAPS) {
+				if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
 					i = 0;
 
-					for (j = 0; j < kmap->keymap->total; j++) {
-						if (!lk_map_exist(kmap, j))
+					for (j = 0; j < ctx->keymap->total; j++) {
+						if (!lk_map_exist(ctx, j))
 							continue;
 
-						if (kmap->key_line->count != 1 || i == 0) {
+						if (ctx->key_line->count != 1 || i == 0) {
 							keycode = K_HOLE;
 
-							if (i < kmap->key_line->count) {
-								val = lk_array_get(kmap->key_line, i);
+							if (i < ctx->key_line->count) {
+								val = lk_array_get(ctx->key_line, i);
 								keycode = *val;
 							}
 
-							if (lk_add_key(kmap, j, $2, keycode) < 0)
+							if (lk_add_key(ctx, j, $2, keycode) < 0)
 								YYERROR;
 						}
 						i++;
 					}
 
-					if (i < kmap->key_line->count) {
-						ERR(kmap, _("too many (%d) entries on one line"),
-							kmap->key_line->count);
+					if (i < ctx->key_line->count) {
+						ERR(ctx, _("too many (%d) entries on one line"),
+							ctx->key_line->count);
 						YYERROR;
 					}
 				} else {
-					for (i = 0; i < kmap->key_line->count; i++) {
-						val = lk_array_get(kmap->key_line, i);
+					for (i = 0; i < ctx->key_line->count; i++) {
+						val = lk_array_get(ctx->key_line, i);
 
-						if (lk_add_key(kmap, i, $2, *val) < 0)
+						if (lk_add_key(ctx, i, $2, *val) < 0)
 							YYERROR;
 					}
 				}
@@ -374,38 +374,38 @@ rvalue0		:
 rvalue1		: rvalue
 			{
 				int val = $1;
-				lk_array_append(kmap->key_line, &val);
+				lk_array_append(ctx->key_line, &val);
 			}
 		;
-rvalue		: NUMBER	{ $$ = convert_code(kmap, $1, TO_AUTO);		}
-                | PLUS NUMBER	{ $$ = add_capslock(kmap, $2);			}
-		| UNUMBER	{ $$ = convert_code(kmap, $1^0xf000, TO_AUTO);	}
-		| PLUS UNUMBER	{ $$ = add_capslock(kmap, $2^0xf000);		}
+rvalue		: NUMBER	{ $$ = convert_code(ctx, $1, TO_AUTO);		}
+                | PLUS NUMBER	{ $$ = add_capslock(ctx, $2);			}
+		| UNUMBER	{ $$ = convert_code(ctx, $1^0xf000, TO_AUTO);	}
+		| PLUS UNUMBER	{ $$ = add_capslock(ctx, $2^0xf000);		}
 		| LITERAL	{ $$ = $1;					}
-                | PLUS LITERAL	{ $$ = add_capslock(kmap, $2);			}
+                | PLUS LITERAL	{ $$ = add_capslock(ctx, $2);			}
 		;
 %%
 
 int
-lk_parse_keymap(struct keymap *kmap, lkfile_t *f)
+lk_parse_keymap(struct lk_ctx *ctx, lkfile_t *f)
 {
 	yyscan_t scanner;
 	int rc = -1;
 
 	yylex_init(&scanner);
-	yylex_init_extra(kmap, &scanner);
+	yylex_init_extra(ctx, &scanner);
 
-	INFO(kmap, _("Loading %s"), f->pathname);
+	INFO(ctx, _("Loading %s"), f->pathname);
 
-	if (stack_push(kmap, f, scanner) == -1)
+	if (stack_push(ctx, f, scanner) == -1)
 		goto fail;
 
-	if (yyparse(scanner, kmap))
+	if (yyparse(scanner, ctx))
 		goto fail;
 
 	rc = 0;
 
-	stack_pop(kmap, scanner);
+	stack_pop(ctx, scanner);
 
  fail:	yylex_destroy(scanner);
 	return rc;

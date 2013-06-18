@@ -6,8 +6,8 @@
 
 START_TEST(test_create_0)
 {
-	struct keymap kmap;
-	fail_unless(lk_init(&kmap) == 0, 
+	struct lk_ctx ctx;
+	fail_unless(lk_init(&ctx) == 0, 
 		"Unable to initialize structure by valid pointer");
 }
 END_TEST
@@ -21,15 +21,15 @@ END_TEST
 
 START_TEST(test_free_0)
 {
-	struct keymap kmap;
+	struct lk_ctx ctx;
 
-	fail_unless(lk_init(&kmap) == 0,
+	fail_unless(lk_init(&ctx) == 0,
 		"Unable to initialize structure by valid pointer");
 
-	fail_unless(lk_free(&kmap) == 0, 
+	fail_unless(lk_free(&ctx) == 0, 
 		"Unable to free by valid pointer");
 
-	lk_free(&kmap);
+	lk_free(&ctx);
 }
 END_TEST
 

@@ -56,12 +56,12 @@ maximum_val(int fd, int t)
 #define NR_TYPES 15
 
 void
-lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
+lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 {
 	int i, allocct = 0;
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (lk_get_key(kmap, i, 0) == K_ALLOCATED)
+		if (lk_get_key(ctx, i, 0) == K_ALLOCATED)
 			allocct++;
 	}
 
@@ -70,7 +70,7 @@ lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
 	fprintf(fd, _("max number of actions bindable to a key:         %d\n"),
 		MAX_NR_KEYMAPS);
 	fprintf(fd, _("number of keymaps in actual use:                 %u\n"),
-		(unsigned int) kmap->keymap->count);
+		(unsigned int) ctx->keymap->count);
 
 	if (allocct)
 		fprintf(fd, _("of which %d dynamically allocated\n"), allocct);
@@ -86,7 +86,7 @@ lk_dump_summary(struct keymap *kmap, FILE *fd, int console)
 	fprintf(fd, _("max nr of compose definitions: %d\n"),
 		MAX_DIACR);
 	fprintf(fd, _("nr of compose definitions in actual use: %u\n"),
-		(unsigned int) kmap->accent_table->count);
+		(unsigned int) ctx->accent_table->count);
 }
 
 void

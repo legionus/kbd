@@ -12,8 +12,8 @@
 
 %top {
 #include "keymap.h"
-int stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner);
-int stack_pop(struct keymap *kmap, void *scanner);
+int stack_push(struct lk_ctx *ctx, lkfile_t *fp, void *scanner);
+int stack_pop(struct lk_ctx *ctx, void *scanner);
 }
 
 %option reentrant
@@ -25,33 +25,33 @@ int stack_pop(struct keymap *kmap, void *scanner);
 %option noinput
 %option noyy_top_state
 
-%option extra-type="struct keymap *"
+%option extra-type="struct lk_ctx *"
 
 %{
 int
-stack_push(struct keymap *kmap, lkfile_t *fp, void *scanner)
+stack_push(struct lk_ctx *ctx, lkfile_t *fp, void *scanner)
 {
 	int i = 0;
 
-	while (kmap->stack[i]) i++;
+	while (ctx->stack[i]) i++;
 
 	if (i == MAX_INCLUDE_DEPTH) {
-		ERR(kmap, _("includes are nested too deeply"));
+		ERR(ctx, _("includes are nested too deeply"));
 		return -1;
 	}
 
-	kmap->stack[i] = fp;
+	ctx->stack[i] = fp;
 
 	yypush_buffer_state(yy_create_buffer(fp->fd, YY_BUF_SIZE, scanner), scanner);
 	return 0;
 }
 
 int
-stack_pop(struct keymap *kmap, void *scanner)
+stack_pop(struct lk_ctx *ctx, void *scanner)
 {
 	int i = 0;
 
-	while (kmap->stack[i]) i++;
+	while (ctx->stack[i]) i++;
 	if (!i)
 		return 0;
 	i--;
@@ -60,10 +60,10 @@ stack_pop(struct keymap *kmap, void *scanner)
 	 * The top of stack is input file for library. No need to close it.
 	 */
 	if (i) {
-		lk_fpclose(kmap->stack[i]);
-		free(kmap->stack[i]);
+		lk_fpclose(ctx->stack[i]);
+		free(ctx->stack[i]);
 	}
-	kmap->stack[i] = NULL;
+	ctx->stack[i] = NULL;
 
 	yypop_buffer_state(scanner);
 	return 0;
@@ -106,7 +106,7 @@ static const char *const include_dirpath3[] = {
 static const char *const include_suffixes[] = { "", ".inc", 0 };
 
 static int
-find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
+find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, lkfile_t *fp)
 {
 	const char *include_dirpath2[] = { 0, 0, 0, 0 };
 	char *t, *te, *t1 = NULL, *t2 = NULL;
@@ -141,7 +141,7 @@ find_incl_file_near_fn(struct keymap *kmap, char *s, char *fn, lkfile_t *fp)
 	free(t);
 	return rc;
 
-nomem:	ERR(kmap, _("out of memory"));
+nomem:	ERR(ctx, _("out of memory"));
 	if (t1) free(t1);
 	if (t2) free(t2);
 	if (t)  free(t);
@@ -149,20 +149,20 @@ nomem:	ERR(kmap, _("out of memory"));
 }
 
 static int
-find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
+find_standard_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
 {
 	char *pathname;
 	int rc = 1;
 	int i = 0;
 
-	while (kmap->stack[i]) i++;
+	while (ctx->stack[i]) i++;
 	if (i == 0)
 		return -1;
 	i--;
-	pathname = kmap->stack[i]->pathname;
+	pathname = ctx->stack[i]->pathname;
 
 	if (lk_findfile(s, include_dirpath1, include_suffixes, fp)) {
-		if ((rc = find_incl_file_near_fn(kmap, s, pathname, fp)) == -1)
+		if ((rc = find_incl_file_near_fn(ctx, s, pathname, fp)) == -1)
 			return rc;
 	}
 
@@ -175,7 +175,7 @@ find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 		if (n > 0 && n < sizeof(buf)) {
 			buf[n] = 0;
 			if (buf[0] == '/') {
-				rc = find_incl_file_near_fn(kmap, s, buf, fp);
+				rc = find_incl_file_near_fn(ctx, s, buf, fp);
 
 			} else if (strlen(pathname) + n < sizeof(path)) {
 				strcpy(path, pathname);
@@ -184,7 +184,7 @@ find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 				if (ptr)
 					ptr[1] = 0;
 				strcat(path, buf);
-				rc = find_incl_file_near_fn(kmap, s, path, fp);
+				rc = find_incl_file_near_fn(ctx, s, path, fp);
 			}
 		}
 	}
@@ -195,7 +195,7 @@ find_standard_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 }
 
 static int
-find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
+find_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
 {
 	char *ev;
 
@@ -220,7 +220,7 @@ find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 			if (*ev)
 				rc = lk_findfile(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
-				rc = find_standard_incl_file(kmap, s, fp);
+				rc = find_standard_incl_file(ctx, s, fp);
 
 			if (rc <= 0)
 				return rc;
@@ -230,27 +230,27 @@ find_incl_file(struct keymap *kmap, char *s, lkfile_t *fp)
 		}
 		return 1;
 	}
-	return find_standard_incl_file(kmap, s, fp);
+	return find_standard_incl_file(ctx, s, fp);
 }
 
 static int
-open_include(struct keymap *kmap, char *s, yyscan_t scanner)
+open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
 {
 	int rc;
 	lkfile_t *fp;
 
-	INFO(kmap, _("switching to %s"), s);
+	INFO(ctx, _("switching to %s"), s);
 
 	fp = malloc(sizeof(lkfile_t));
 	if (!fp) {
-		ERR(kmap, _("out of memory"));
+		ERR(ctx, _("out of memory"));
 		return -1;
 	}
 	memset(fp, 0, sizeof(lkfile_t));
 
-	rc = find_incl_file(kmap, s, fp);
+	rc = find_incl_file(ctx, s, fp);
 	if (rc > 0) {
-		ERR(kmap, _("cannot open include file %s"), s);
+		ERR(ctx, _("cannot open include file %s"), s);
 		free(s);
 		return -1;
 	} else if (rc == -1) {
@@ -260,7 +260,7 @@ open_include(struct keymap *kmap, char *s, yyscan_t scanner)
 
 	free(s);
 
-	return stack_push(kmap, fp, scanner);
+	return stack_push(ctx, fp, scanner);
 }
 
 %}
