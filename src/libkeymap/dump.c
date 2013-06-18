@@ -394,7 +394,7 @@ print_bind(struct lk_ctx *ctx, FILE *fd, int bufj, int i, int j, char numeric)
 }
 
 void
-lk_dump_keys(struct lk_ctx *ctx, FILE *fd, char table_shape, char numeric)
+lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
 {
 	unsigned int i, j;
 	int buf[MAX_NR_KEYMAPS];
@@ -408,7 +408,7 @@ lk_dump_keys(struct lk_ctx *ctx, FILE *fd, char table_shape, char numeric)
 	if (!keymapnr)
 		return;
 
-	if (table_shape == FULL_TABLE || table_shape == SEPARATE_LINES)
+	if (table == LK_SHAPE_FULL_TABLE || table == LK_SHAPE_SEPARATE_LINES)
 		goto no_shorthands;
 
 	/* first pass: determine whether to set alt_is_meta */
@@ -457,10 +457,10 @@ no_shorthands:
 				all_holes = 0;
 		}
 
-		if (all_holes && table_shape != FULL_TABLE)
+		if (all_holes && table != LK_SHAPE_FULL_TABLE)
 			continue;
 
-		if (table_shape == FULL_TABLE) {
+		if (table == LK_SHAPE_FULL_TABLE) {
 			fprintf(fd, "keycode %3d =", i);
 
 			for (j = 0; j < keymapnr; j++)
@@ -470,7 +470,7 @@ no_shorthands:
 			continue;
 		}
 
-		if (table_shape == SEPARATE_LINES) {
+		if (table == LK_SHAPE_SEPARATE_LINES) {
 			for (j = 0; j < keymapnr; j++) {
 				//if (buf[j] != K_HOLE)
 				print_bind(ctx, fd, buf[j], i, j, numeric);
@@ -568,7 +568,7 @@ unexpected:
 			} else {
 				for (j = 0;
 				     j < keymapnr && buf[j] != K_HOLE &&
-				        (table_shape != UNTIL_HOLE || lk_map_exist(ctx, j));
+				        (table != LK_SHAPE_UNTIL_HOLE || lk_map_exist(ctx, j));
 				     j++) {
 					//print_bind(ctx, fd, buf[j], i, j, numeric);
 					print_keysym(ctx, fd, buf[j], numeric);
@@ -586,9 +586,9 @@ unexpected:
 }
 
 void
-lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, char table_shape, char numeric)
+lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
 {
 	lk_dump_keymaps(ctx, fd);
-	lk_dump_keys(ctx, fd, table_shape, numeric);
+	lk_dump_keys(ctx, fd, table, numeric);
 	lk_dump_funcs(ctx, fd);
 }

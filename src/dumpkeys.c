@@ -75,7 +75,7 @@ main (int argc, char *argv[]) {
 	char long_info = 0;
 	char short_info = 0;
 	char numeric = 0;
-	char table_shape = 0;
+	lk_table_shape table = LK_SHAPE_DEFAULT;
 	char funcs_only = 0;
 	char keys_only = 0;
 	char diac_only = 0;
@@ -104,13 +104,13 @@ main (int argc, char *argv[]) {
 				numeric = 1;
 				break;
 			case 'f':
-				table_shape = FULL_TABLE;
+				table = LK_SHAPE_FULL_TABLE;
 				break;
 			case '1':
-				table_shape = SEPARATE_LINES;
+				table = LK_SHAPE_SEPARATE_LINES;
 				break;
 			case 'S':
-				table_shape = atoi(optarg);
+				table = atoi(optarg);
 				break;
 			case 't':
 				funcs_only = 1;
@@ -174,7 +174,7 @@ main (int argc, char *argv[]) {
 	if (!diac_only) {
 #endif
 	if (!funcs_only) {
-		lk_dump_keymap(&ctx, stdout, table_shape, numeric);
+		lk_dump_keymap(&ctx, stdout, table, numeric);
 	}
 #ifdef KDGKBDIACR
 	}
