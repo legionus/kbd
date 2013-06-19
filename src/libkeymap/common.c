@@ -3,6 +3,7 @@
 #include <stdarg.h>
 
 #include "kbd.h"
+#include "nls.h"
 #include "keymap.h"
 
 void __attribute__ ((format (printf, 6, 7)))
@@ -93,6 +94,29 @@ lk_set_log_priority(struct lk_ctx *ctx, int priority)
 	return 0;
 }
 
+static int
+init_array(struct lk_ctx *ctx, struct lk_array **arr, size_t size)
+{
+	int rc;
+	void *ptr;
+
+	ptr = malloc(sizeof(struct lk_array));
+	if (!ptr) {
+		ERR(ctx, _("out of memory"));
+		return -1;
+	}
+
+	rc = lk_array_init(ptr, size, 0);
+	if (rc < 0) {
+		ERR(ctx, _("unable to initialize array: %s"), strerror(rc));
+		return -1;
+	}
+
+	*arr = ptr;
+
+	return 0;
+}
+
 int
 lk_init(struct lk_ctx *ctx)
 {
@@ -104,23 +128,12 @@ lk_init(struct lk_ctx *ctx)
 	lk_set_log_fn(ctx, log_file, stderr);
 	lk_set_log_priority(ctx, LOG_ERR);
 
-	ctx->keymap = malloc(sizeof(struct lk_array));
-	ctx->func_table = malloc(sizeof(struct lk_array));
-	ctx->accent_table = malloc(sizeof(struct lk_array));
-	ctx->key_constant = malloc(sizeof(struct lk_array));
-	ctx->key_line = malloc(sizeof(struct lk_array));
-
-	if (!(ctx->keymap) || !(ctx->func_table) || !(ctx->accent_table) ||
-	    !(ctx->key_constant) || !(ctx->key_line)) {
-		ERR(ctx, "out of memory");
+	if (init_array(ctx, &ctx->keymap,       sizeof(void*)) < 0 ||
+	    init_array(ctx, &ctx->func_table,   sizeof(void*)) < 0 ||
+	    init_array(ctx, &ctx->accent_table, sizeof(void*)) < 0 ||
+	    init_array(ctx, &ctx->key_constant, sizeof(char))  < 0 ||
+	    init_array(ctx, &ctx->key_line,     sizeof(int))   < 0)
 		return -1;
-	}
-
-	lk_array_init(ctx->keymap, sizeof(void*), 0);
-	lk_array_init(ctx->func_table, sizeof(void*), 0);
-	lk_array_init(ctx->accent_table, sizeof(void*), 0);
-	lk_array_init(ctx->key_constant, sizeof(char), 0);
-	lk_array_init(ctx->key_line, sizeof(int), 0);
 
 	return 0;
 }
