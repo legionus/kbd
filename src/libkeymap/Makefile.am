@@ -3,6 +3,8 @@ AM_CPPFLAGS = \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
+CLEANFILES =
+EXTRA_DIST =
 
 headers = \
 	keymap.h \
@@ -44,6 +46,12 @@ libkeymap_la_SOURCES = \
 	$(srcdir)/../nls.h $(srcdir)/../paths.h $(srcdir)/../kbd.h
 
 if BUILD_LIBKEYMAP
+pkgconfigdir   = $(libdir)/pkgconfig
+pkgconfig_DATA = libkeymap.pc
+
+EXTRA_DIST += libkeymap.pc.in
+CLEANFILES += libkeymap.pc
+
 lib_LTLIBRARIES = libkeymap.la
 nobase_include_HEADERS = $(headers)
 libkeymap_la_LDFLAGS = -export-symbols-regex ^lk_.*
@@ -53,6 +61,18 @@ endif
 
 AM_LFLAGS = --header-file=$(CURDIR)/analyze.h
 BUILT_SOURCES = parser.c analyze.c parser.h analyze.h
-CLEANFILES = $(BUILT_SOURCES)
+CLEANFILES += $(BUILT_SOURCES)
+
 parser.h: parser.c ; @true
 analyze.h: analyze.c ; @true
+
+%.pc: %.pc.in Makefile
+	sed \
+	    -e 's,[@]VERSION[@],$(VERSION),g' \
+	    -e 's,[@]prefix[@],$(prefix),g' \
+	    -e 's,[@]exec_prefix[@],$(exec_prefix),g' \
+	    -e 's,[@]libdir[@],$(libdir),g' \
+	    -e 's,[@]includedir[@],$(includedir),g' \
+	    <$< >$(builddir)/$@
+	touch -r $< $(builddir)/$@
+	chmod --reference=$< $(builddir)/$@
