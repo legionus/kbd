@@ -7,7 +7,7 @@ cd "$cwd"
 rc=0
 temp="$(mktemp "@BUILDDIR@/temp.XXXXXXXXX")"
 
-./libkeymap-mktable ../data/keymaps/i386/qwerty/defkeymap.map > "$temp" || rc=$?
+./libkeymap-mktable "@DATADIR@/"../data/keymaps/i386/qwerty/defkeymap.map > "$temp" || rc=$?
 cmp -s "@DATADIR@/dumpkeys.defkeymap.c" "$temp" || rc=$?
 
 if [ "$rc" != 0 ]; then

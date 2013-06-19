@@ -8,6 +8,7 @@ EXTRA_DIST =
 
 headers = \
 	keymap.h \
+	keymap/array.h \
 	keymap/context.h \
 	keymap/charset.h \
 	keymap/common.h \
@@ -75,4 +76,4 @@ analyze.h: analyze.c ; @true
 	    -e 's,[@]includedir[@],$(includedir),g' \
 	    <$< >$(builddir)/$@
 	touch -r $< $(builddir)/$@
-	chmod --reference=$< $(builddir)/$@
+	chmod 644 $(builddir)/$@

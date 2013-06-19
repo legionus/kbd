@@ -7,6 +7,7 @@ AM_CFLAGS = $(CHECK_CFLAGS)
 LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS)
 
 EXTRA_DIST = \
+	dumpkeys-bkeymap.in \
 	dumpkeys-fulltable.in \
 	dumpkeys-mktable.in \
 	\
@@ -16,7 +17,10 @@ EXTRA_DIST = \
 	dumpkeys.ua-ws.map \
 	include40.map include41.map \
 	keymap0.map keymap1.map keymap2.map keymap3.map keymap4.map keymap5.map keymap6.map \
-	VoidSymbol.map
+	VoidSymbol.map \
+	\
+	dumpkeys.bkeymap.bin \
+	dumpkeys.defkeymap.c
 
 check_SCRIPTS  = dumpkeys-fulltable dumpkeys-mktable dumpkeys-bkeymap
 check_PROGRAMS = libkeymap-init libkeymap-kmap libkeymap-keys libkeymap-parse \
@@ -45,4 +49,4 @@ libkeymap_bkeymap_SOURCES  = libkeymap-bkeymap.c
 		-e 's,@BUILDDIR@,$(builddir),g' \
 		<$< >$(builddir)/$@
 	touch -r $< $(builddir)/$@
-	chmod --reference=$< $(builddir)/$@
+	chmod 755 $(builddir)/$@
