@@ -116,19 +116,25 @@ if test "$VLOCK_PROG" = "yes"; then
 	AC_SUBST(PAM_LIBS, "-lpam -lpam_misc")
 fi
 
+AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
+AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
+
 AC_CONFIG_FILES([Makefile
 		data/Makefile
-		man/Makefile
-		man/man1/Makefile
-		man/man1/dumpkeys.1
-		man/man1/loadkeys.1
-		man/man1misc/Makefile
-		man/man5/Makefile
-		man/man8/Makefile
-		man/man8/loadunimap.8
-		man/man8/mapscrn.8
-		man/man8/setfont.8
-		man/man8misc/Makefile
+		docs/Makefile
+		docs/man/Makefile
+		docs/man/man1/Makefile
+		docs/man/man1/dumpkeys.1
+		docs/man/man1/loadkeys.1
+		docs/man/man1misc/Makefile
+		docs/man/man5/Makefile
+		docs/man/man8/Makefile
+		docs/man/man8/loadunimap.8
+		docs/man/man8/mapscrn.8
+		docs/man/man8/setfont.8
+		docs/man/man8misc/Makefile
+		docs/reference/Makefile
+		docs/reference/libkeymap/Makefile
 		po/Makefile.in
 		src/Makefile
 		src/libkeymap/Makefile

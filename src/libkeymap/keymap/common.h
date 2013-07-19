@@ -1,14 +1,51 @@
 #ifndef LK_COMMON_H
 #define LK_COMMON_H
+/** @file
+ * This file contains functions for initialization and release of resources
+ * as well as functions to handle parameters.
+ */
 
 #include <keymap/context.h>
 
-int lk_init(struct lk_ctx *km);
+/** Initializes the structures necessary to read and/or parse keymap.
+ * @param ctx is a keymap library context.
+ *
+ * @return 0 on success, -1 on error.
+ */
+int lk_init(struct lk_ctx *ctx);
+
+/** Free keymap resources.
+ * @param ctx is a keymap library context.
+ *
+ * @return 0 on success, -1 on error
+ */
 int lk_free(struct lk_ctx *ctx);
 
+/** Get the current logging priority.
+ * @param ctx is a keymap library context.
+ *
+ * @return the current logging priority or -1 on error.
+ */
 int lk_get_log_priority(struct lk_ctx *ctx);
+
+/** Set the current logging priority.
+ * The value controls which messages get logged.
+ * @param ctx is a keymap library context.
+ * @param priority the new logging priority.
+ *
+ * @return 0 on success, -1 on error.
+ */
 int lk_set_log_priority(struct lk_ctx *ctx, int priority);
 
+/** The built-in logging writes to stderr. It can be
+ * overridden by a custom function to plug log messages
+ * into the user's logging functionality.
+ * @param ctx keymap library context
+ * @param log_fn function to be called for logging messages
+ * @param data data to pass to log function
+ *
+ * @return 0 on success, -1 on error.
+ */
 int lk_set_log_fn(struct lk_ctx *ctx,
 		void (*log_fn)(void *data, int priority,
 		               const char *file, int line, const char *fn,

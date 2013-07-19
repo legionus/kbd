@@ -6,9 +6,9 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
 	CREDITS \
-	contrib doc rc
+	contrib docs rc
 
-SUBDIRS = src man data po tests
+SUBDIRS = src data po tests docs
 
 kbd-$(VERSION).tar.xz:
 	make distcheck

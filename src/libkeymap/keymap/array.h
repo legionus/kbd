@@ -1,11 +1,15 @@
 #ifndef LK_ARRAY_H
 #define LK_ARRAY_H
 
+/**
+ * @brief Basic structure for array implementation.
+ * @details The array is designed to store an arbitrary number of similar items.
+ */
 struct lk_array {
-	void *array;
-	size_t memb;
-	size_t count;
-	size_t total;
+	void *array;  /**< Data pointer. */
+	size_t memb;  /**< One element size. */
+	size_t count; /**< Number of elements. */
+	size_t total; /**< Total number of allocated elements. */
 };
 
 int lk_array_init(struct lk_array *a, size_t memb, size_t size);
