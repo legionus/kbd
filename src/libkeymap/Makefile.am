@@ -3,8 +3,8 @@ AM_CPPFLAGS = \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
-CLEANFILES =
-EXTRA_DIST =
+CLEANFILES = libkeymap.pc
+EXTRA_DIST = libkeymap.pc.in
 
 headers = \
 	keymap.h \
@@ -49,9 +49,6 @@ libkeymap_la_SOURCES = \
 if BUILD_LIBKEYMAP
 pkgconfigdir   = $(libdir)/pkgconfig
 pkgconfig_DATA = libkeymap.pc
-
-EXTRA_DIST += libkeymap.pc.in
-CLEANFILES += libkeymap.pc
 
 lib_LTLIBRARIES = libkeymap.la
 nobase_include_HEADERS = $(headers)
