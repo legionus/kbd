@@ -10,13 +10,13 @@
 #include "modifiers.h"
 
 int
-lk_map_exist(struct lk_ctx *ctx, unsigned int k_table)
+lk_map_exists(struct lk_ctx *ctx, unsigned int k_table)
 {
 	return (lk_array_get_ptr(ctx->keymap, k_table) != NULL);
 }
 
 int
-lk_key_exist(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
+lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 {
 	struct lk_array *map;
 	u_short *key;
@@ -39,7 +39,7 @@ lk_add_map(struct lk_ctx *ctx, unsigned int k_table)
 {
 	struct lk_array *keys;
 
-	if (lk_map_exist(ctx, k_table)) {
+	if (lk_map_exists(ctx, k_table)) {
 		return 0;
 	}
 
@@ -91,7 +91,7 @@ lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 		return -1;
 	}
 
-	if (!lk_array_exist(map, k_index))
+	if (!lk_array_exists(map, k_index))
 		return 0;
 
 	if (lk_array_unset(map, k_index) < 0) {
@@ -132,7 +132,7 @@ lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int k
 	}
 
 	if ((ctx->keywords & LK_KEYWORD_ALTISMETA) && keycode == K_HOLE &&
-	    lk_key_exist(ctx, k_table, k_index))
+	    lk_key_exists(ctx, k_table, k_index))
 		return 0;
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
@@ -148,7 +148,7 @@ lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int k
 		int type = KTYP(keycode);
 		int val = KVAL(keycode);
 
-		if (alttable != k_table && !lk_key_exist(ctx, alttable, k_index) &&
+		if (alttable != k_table && !lk_key_exists(ctx, alttable, k_index) &&
 		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
 			if (lk_add_map(ctx, alttable) < 0)
 				return -1;
@@ -261,10 +261,10 @@ do_constant_key(struct lk_ctx *ctx, int i, u_short key)
 			defs[j] = K(KT_META, KVAL(defs[j - 8]));
 
 		for (j = 0; j < ctx->keymap->total; j++) {
-			if (!lk_map_exist(ctx, j))
+			if (!lk_map_exists(ctx, j))
 				continue;
 
-			if (j > 0 && lk_key_exist(ctx, j, i))
+			if (j > 0 && lk_key_exists(ctx, j, i))
 				continue;
 
 			if (lk_add_key(ctx, j, i, defs[j % 16]) < 0)
@@ -275,10 +275,10 @@ do_constant_key(struct lk_ctx *ctx, int i, u_short key)
 		/* do this also for keys like Escape,
 		   as promised in the man page */
 		for (j = 1; j < ctx->keymap->total; j++) {
-			if (!lk_map_exist(ctx, j))
+			if (!lk_map_exists(ctx, j))
 				continue;
 
-			if (lk_key_exist(ctx, j, i))
+			if (lk_key_exists(ctx, j, i))
 				continue;
 
 			if (lk_add_key(ctx, j, i, key) < 0)
@@ -294,7 +294,7 @@ lk_add_constants(struct lk_ctx *ctx)
 	unsigned int i, r0 = 0;
 
 	if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
-		while (r0 < ctx->keymap->total && !lk_map_exist(ctx, r0))
+		while (r0 < ctx->keymap->total && !lk_map_exists(ctx, r0))
 			r0++;
 	}
 
@@ -306,7 +306,7 @@ lk_add_constants(struct lk_ctx *ctx)
 		if (!constant || !(*constant))
 			continue;
 
-		if (!lk_map_exist(ctx, r0)) {
+		if (!lk_map_exists(ctx, r0)) {
 			ERR(ctx, _("impossible error in lk_add_constants"));
 			return -1;
 		}

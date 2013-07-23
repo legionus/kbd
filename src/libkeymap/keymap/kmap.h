@@ -5,12 +5,12 @@
 #include <keymap/findfile.h>
 
 int lk_add_map(struct lk_ctx *ctx,   unsigned int k_table);
-int lk_map_exist(struct lk_ctx *ctx, unsigned int k_table);
+int lk_map_exists(struct lk_ctx *ctx, unsigned int k_table);
 
 int lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int keycode);
 int lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index);
 int lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index);
-int lk_key_exist(struct lk_ctx *ctx,   unsigned int k_table, unsigned int k_index);
+int lk_key_exists(struct lk_ctx *ctx,   unsigned int k_table, unsigned int k_index);
 
 int lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs);
 int lk_add_func(struct lk_ctx *ctx, struct kbsentry kbs);

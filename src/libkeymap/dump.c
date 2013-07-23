@@ -57,14 +57,14 @@ lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd)
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
 		char flag;
-		flag = lk_map_exist(ctx, i);
+		flag = lk_map_exists(ctx, i);
 
 		if (fwrite(&flag, sizeof(flag), 1, fd) != 1)
 			goto fail;
 	}
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (!lk_map_exist(ctx, i))
+		if (!lk_map_exists(ctx, i))
 			continue;
 
 		for (j = 0; j < NR_KEYS / 2; j++) {
@@ -126,7 +126,7 @@ lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 	fprintf(fd, "#include <linux/kd.h>\n\n");
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++)
-		if (lk_map_exist(ctx, i)) {
+		if (lk_map_exists(ctx, i)) {
 			if (i)
 				fprintf(fd, "static ");
 			fprintf(fd, "u_short %s_map[NR_KEYS] = {", mk_mapname(i));
@@ -139,12 +139,12 @@ lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 		}
 
 	for (imax = MAX_NR_KEYMAPS - 1; imax > 0; imax--)
-		if (lk_map_exist(ctx, imax))
+		if (lk_map_exists(ctx, imax))
 			break;
 	fprintf(fd, "ushort *key_maps[MAX_NR_KEYMAPS] = {");
 	for (i = 0; i <= imax; i++) {
 		fprintf(fd, (i % 4) ? " " : "\n\t");
-		if (lk_map_exist(ctx, i))
+		if (lk_map_exists(ctx, i))
 			fprintf(fd, "%s_map,", mk_mapname(i));
 		else
 			fprintf(fd, "0,");
@@ -307,7 +307,7 @@ lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 		if (ctx->keywords & LK_KEYWORD_ALTISMETA && i == (i | M_ALT))
 			continue;
 
-		if (!lk_map_exist(ctx, i)) {
+		if (!lk_map_exists(ctx, i)) {
 			if (!m)
 				continue;
 			n--, m--;
@@ -415,7 +415,7 @@ lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
 	for (j = 0; j < ctx->keymap->total; j++) {
 		unsigned int ja = (j | M_ALT);
 
-		if (!(j != ja && lk_map_exist(ctx, j) && lk_map_exist(ctx, ja)))
+		if (!(j != ja && lk_map_exists(ctx, j) && lk_map_exists(ctx, ja)))
 			continue;
 
 		for (i = 1; i < NR_KEYS; i++) {
@@ -429,7 +429,7 @@ lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
 			type = KTYP(buf0);
 
 			if ((type == KT_LATIN || type == KT_LETTER) && KVAL(buf0) < 128) {
-				buf1 = lk_map_exist(ctx, ja)
+				buf1 = lk_map_exists(ctx, ja)
 					? lk_get_key(ctx, ja, i)
 					: -1;
 
@@ -450,7 +450,7 @@ no_shorthands:
 		for (j = 0; j < keymapnr; j++) {
 			buf[j] = K_HOLE;
 
-			if (lk_map_exist(ctx, j))
+			if (lk_map_exists(ctx, j))
 				buf[j] = lk_get_key(ctx, j, i);
 
 			if (buf[j] != K_HOLE)
@@ -519,7 +519,7 @@ unexpected:
 				unsigned int ja, ktyp;
 				ja = (j | M_ALT);
 
-				if (j != ja && lk_map_exist(ctx, ja)
+				if (j != ja && lk_map_exists(ctx, ja)
 				    && ((ktyp=KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER)
 				    && KVAL(buf[j]) < 128) {
 					if (buf[ja] != K(KT_META, KVAL(buf[j])))
@@ -568,7 +568,7 @@ unexpected:
 			} else {
 				for (j = 0;
 				     j < keymapnr && buf[j] != K_HOLE &&
-				        (table != LK_SHAPE_UNTIL_HOLE || lk_map_exist(ctx, j));
+				        (table != LK_SHAPE_UNTIL_HOLE || lk_map_exists(ctx, j));
 				     j++) {
 					//print_bind(ctx, fd, buf[j], i, j, numeric);
 					print_keysym(ctx, fd, buf[j], numeric);

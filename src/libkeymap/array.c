@@ -47,7 +47,7 @@ lk_array_empty(struct lk_array *a)
 }
 
 int
-lk_array_exist(struct lk_array *a, unsigned int i)
+lk_array_exists(struct lk_array *a, unsigned int i)
 {
 	char *s;
 	size_t k;
@@ -125,7 +125,7 @@ lk_array_unset(struct lk_array *a, unsigned int i)
 	if (!a || i >= a->total)
 		return -EINVAL;
 
-	if (lk_array_exist(a, i)) {
+	if (lk_array_exists(a, i)) {
 		memset(a->array + (a->memb * i), 0, a->memb);
 		a->count--;
 	}

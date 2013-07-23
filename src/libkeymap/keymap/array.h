@@ -24,6 +24,6 @@ void *lk_array_get(struct lk_array *a, unsigned int i);
 void *lk_array_get_ptr(struct lk_array *a, unsigned int i);
 
 int lk_array_unset(struct lk_array *a, unsigned int i);
-int lk_array_exist(struct lk_array *a, unsigned int i);
+int lk_array_exists(struct lk_array *a, unsigned int i);
 
 #endif /* LK_ARRAY_H */

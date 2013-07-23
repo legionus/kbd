@@ -323,7 +323,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					 * and it should be possible to override lines
 					 * from an include file. So, kill old defs. */
 					for (j = 0; j < ctx->keymap->total; j++) {
-						if (!lk_map_exist(ctx, j))
+						if (!lk_map_exists(ctx, j))
 							continue;
 
 						if (lk_del_key(ctx, j, $2) < 0)
@@ -335,7 +335,7 @@ fullline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					i = 0;
 
 					for (j = 0; j < ctx->keymap->total; j++) {
-						if (!lk_map_exist(ctx, j))
+						if (!lk_map_exists(ctx, j))
 							continue;
 
 						if (ctx->key_line->count != 1 || i == 0) {

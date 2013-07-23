@@ -28,11 +28,11 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 	}
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		unsigned int exist = lk_map_exist(ctx, i);
+		unsigned int exist = lk_map_exists(ctx, i);
 
 		if (exist) {
 			for (j = 0; j < NR_KEYS; j++) {
-				if (!lk_key_exist(ctx, i, j))
+				if (!lk_key_exists(ctx, i, j))
 					continue;
 
 				ke.kb_index = j;
