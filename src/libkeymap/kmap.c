@@ -6,6 +6,7 @@
 
 #include "keymap.h"
 
+#include "contextP.h"
 #include "ksyms.h"
 #include "modifiers.h"
 

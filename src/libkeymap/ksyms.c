@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "ksyms.h"
-#include "nls.h"
 
 #include "keymap.h"
+
+#include "contextP.h"
+#include "ksyms.h"
+#include "nls.h"
 
 #include "syms.cp1250.h"
 #include "syms.ethiopic.h"

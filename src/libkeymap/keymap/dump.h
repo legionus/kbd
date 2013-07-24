@@ -16,6 +16,18 @@ typedef enum {
 } lk_table_shape;
 
 /**
+ * @brief General information about the keymap.
+ */
+struct kmapinfo {
+	lk_flags    flags;           /**< Parser flags that are set outside the library */
+	lk_keywords keywords;        /**< Keywords used in keymap files */
+	size_t      keymaps;         /**< Number of keymaps in actual use */
+	size_t      keymaps_alloced; /**< Number of keymaps dynamically allocated */
+	size_t      functions;       /**< Number of function keys */
+	size_t      composes;        /**< Number of compose definitions in actual use */
+};
+
+/**
  * Outputs a keymap in binary format.
  * @param ctx is a keymap library context.
  * @param fd is a FILE pointer for output.
@@ -73,6 +85,7 @@ void lk_dump_funcs(struct lk_ctx *ctx, FILE *fd);
  */
 void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd);
 
+int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res);
 void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console);
 void lk_dump_symbols(FILE *fd);
 

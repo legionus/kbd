@@ -5,18 +5,18 @@
 
 int main(int argc, char **argv)
 {
-	struct lk_ctx ctx;
+	struct lk_ctx *ctx;
 	lkfile_t f;
 
-	lk_init(&ctx);
+	ctx = lk_init();
 
 	f.pipe = 0;
 	strcpy(f.pathname, argv[1]);
 	f.fd = fopen( argv[1], "r");
 
-	lk_parse_keymap(&ctx, &f);
-	lk_dump_bkeymap(&ctx, stdout);
+	lk_parse_keymap(ctx, &f);
+	lk_dump_bkeymap(ctx, stdout);
 
-	lk_free(&ctx);
+	lk_free(ctx);
 	return 0;
 }

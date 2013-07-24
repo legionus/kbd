@@ -15,6 +15,7 @@
 #include "nls.h"
 #include "kbd.h"
 
+#include "contextP.h"
 #include "ksyms.h"
 #include "modifiers.h"
 

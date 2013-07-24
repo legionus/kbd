@@ -8,11 +8,10 @@
 #include <keymap/context.h>
 
 /** Initializes the structures necessary to read and/or parse keymap.
- * @param ctx is a keymap library context.
  *
- * @return 0 on success, -1 on error.
+ * @return a pointer to keymap library context or NULL.
  */
-int lk_init(struct lk_ctx *ctx);
+struct lk_ctx *lk_init(void);
 
 /** Free keymap resources.
  * @param ctx is a keymap library context.

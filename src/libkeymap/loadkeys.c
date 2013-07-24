@@ -6,9 +6,11 @@
 #include <linux/keyboard.h>
 #include <unistd.h>
 
+#include "keymap.h"
+
 #include "nls.h"
 #include "kbd.h"
-#include "keymap.h"
+#include "contextP.h"
 #include "ksyms.h"
 
 static int

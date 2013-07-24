@@ -6,36 +6,33 @@
 
 START_TEST(test_create_0)
 {
-	struct lk_ctx ctx;
-	fail_unless(lk_init(&ctx) == 0, 
-		"Unable to initialize structure by valid pointer");
-}
-END_TEST
+	struct lk_ctx *ctx;
 
-START_TEST(test_create_1)
-{
-	fail_if(lk_init(NULL) == 0, 
-		"Possible to initialize structure by NULL");
+	ctx = lk_init();
+
+	fail_if(ctx == NULL,
+		"Unable to initialize structure by valid pointer");
+	lk_free(ctx);
 }
 END_TEST
 
 START_TEST(test_free_0)
 {
-	struct lk_ctx ctx;
+	struct lk_ctx *ctx;
 
-	fail_unless(lk_init(&ctx) == 0,
+	ctx = lk_init();
+
+	fail_if(ctx == NULL,
 		"Unable to initialize structure by valid pointer");
 
-	fail_unless(lk_free(&ctx) == 0, 
+	fail_unless(lk_free(ctx) == 0,
 		"Unable to free by valid pointer");
-
-	lk_free(&ctx);
 }
 END_TEST
 
 START_TEST(test_free_1)
 {
-	fail_if(lk_free(NULL) == 0, 
+	fail_if(lk_free(NULL) == 0,
 		"Possible to free NULL pointer");
 }
 END_TEST
@@ -48,7 +45,6 @@ libkeymap_suite(void)
 	TCase *tc_core = tcase_create(NULL);
 
 	tcase_add_test(tc_core, test_create_0);
-	tcase_add_test(tc_core, test_create_1);
 	tcase_add_test(tc_core, test_free_0);
 	tcase_add_test(tc_core, test_free_1);
 

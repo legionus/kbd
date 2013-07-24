@@ -6,47 +6,52 @@
 
 START_TEST(test_add_map_border)
 {
-	struct lk_ctx ctx;
+	struct lk_ctx *ctx;
 
-	lk_init(&ctx);
-	ctx.log_fn = NULL;
+	ctx = lk_init();
+	lk_set_log_fn(ctx, NULL, NULL);
 
-	fail_unless(lk_add_map(&ctx, MAX_NR_KEYMAPS) == 0,
+	fail_unless(lk_add_map(ctx, MAX_NR_KEYMAPS) == 0,
 		"Unable to define map == MAX_NR_KEYMAPS");
 
-	fail_unless(lk_add_map(&ctx, MAX_NR_KEYMAPS*2) == 0,
+	fail_unless(lk_add_map(ctx, MAX_NR_KEYMAPS*2) == 0,
 		"Unable to define map == MAX_NR_KEYMAPS*2");
 
-	fail_unless(lk_add_map(&ctx, 0) == 0,
+	fail_unless(lk_add_map(ctx, 0) == 0,
 		"Unable to define map");
 
-	fail_unless(lk_add_map(&ctx, 0) == 0,
+	fail_unless(lk_add_map(ctx, 0) == 0,
 		"Unable to define map");
 
-	lk_free(&ctx);
+	lk_free(ctx);
 }
 END_TEST
 
 START_TEST(test_add_map_0)
 {
-	struct lk_ctx ctx;
+	struct lk_ctx *ctx;
+	struct kmapinfo info;
 
-	lk_init(&ctx);
-	ctx.log_fn = NULL;
+	ctx = lk_init();
+	lk_set_log_fn(ctx, NULL, NULL);
 
-	fail_if(lk_add_map(&ctx, 0) != 0, "Unable to define map");
-	fail_if(ctx.keymap->count != 1, "Wrong keymap number");
+	fail_if(lk_add_map(ctx, 0) != 0, "Unable to define map");
+	lk_get_kmapinfo(ctx, &info);
+	fail_if(info.keymaps != 1, "Wrong keymap number");
 
-	fail_if(lk_add_map(&ctx, 0) != 0, "Unable to define map");
-	fail_if(ctx.keymap->count != 1, "Wrong keymap number");
+	fail_if(lk_add_map(ctx, 0) != 0, "Unable to define map");
+	lk_get_kmapinfo(ctx, &info);
+	fail_if(info.keymaps != 1, "Wrong keymap number");
 		
-	fail_if(lk_add_map(&ctx, 1) != 0, "Unable to define map");
-	fail_if(ctx.keymap->count != 2, "Wrong keymap number");
+	fail_if(lk_add_map(ctx, 1) != 0, "Unable to define map");
+	lk_get_kmapinfo(ctx, &info);
+	fail_if(info.keymaps != 2, "Wrong keymap number");
 
-	fail_if(lk_add_map(&ctx, 2) != 0, "Unable to define map");
-	fail_if(ctx.keymap->count != 3, "Wrong keymap number");
+	fail_if(lk_add_map(ctx, 2) != 0, "Unable to define map");
+	lk_get_kmapinfo(ctx, &info);
+	fail_if(info.keymaps != 3, "Wrong keymap number");
 
-	lk_free(&ctx);
+	lk_free(ctx);
 }
 END_TEST
 

@@ -8,14 +8,15 @@
  */
 #include <string.h>
 #include <errno.h>
-
 #include <sys/ioctl.h>
 
+#include "keymap.h"
+
+#include "nls.h"
+#include "contextP.h"
 #include "ksyms.h"
 #include "modifiers.h"
 
-#include "nls.h"
-#include "keymap.h"
 
 static char
 valid_type(int fd, int t)
@@ -53,27 +54,51 @@ maximum_val(int fd, int t)
 	return i - 1;
 }
 
+int
+lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
+{
+	int i;
+
+	if (!ctx)
+		return -1;
+
+	res->flags     = ctx->flags;
+	res->keywords  = ctx->keywords;
+	res->keymaps   = ctx->keymap->count;
+	res->functions = ctx->func_table->count;
+	res->composes  = ctx->accent_table->count;
+
+	res->keymaps_alloced = 0;
+
+	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
+		if (lk_get_key(ctx, i, 0) == K_ALLOCATED) {
+			res->keymaps_alloced++;
+		}
+	}
+
+	return 0;
+}
+
 #define NR_TYPES 15
 
 void
 lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 {
-	int i, allocct = 0;
+	int i;
+	struct kmapinfo info;
 
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (lk_get_key(ctx, i, 0) == K_ALLOCATED)
-			allocct++;
-	}
+	if (lk_get_kmapinfo(ctx, &info) < 0)
+		return;
 
 	fprintf(fd, _("keycode range supported by kernel:           1 - %d\n"),
 		NR_KEYS - 1);
 	fprintf(fd, _("max number of actions bindable to a key:         %d\n"),
 		MAX_NR_KEYMAPS);
 	fprintf(fd, _("number of keymaps in actual use:                 %u\n"),
-		(unsigned int) ctx->keymap->count);
+		(unsigned int) info.keymaps);
 
-	if (allocct)
-		fprintf(fd, _("of which %d dynamically allocated\n"), allocct);
+	fprintf(fd, _("of which %u dynamically allocated\n"),
+		(unsigned int) info.keymaps_alloced);
 
 	fprintf(fd, _("ranges of action codes supported by kernel:\n"));
 
@@ -86,7 +111,7 @@ lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 	fprintf(fd, _("max nr of compose definitions: %d\n"),
 		MAX_DIACR);
 	fprintf(fd, _("nr of compose definitions in actual use: %u\n"),
-		(unsigned int) ctx->accent_table->count);
+		(unsigned int) info.composes);
 }
 
 void

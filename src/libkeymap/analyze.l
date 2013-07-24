@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h> /* readlink */
 
-#include "ksyms.h"
 #include "nls.h"
 #include "kbd.h"
+#include "contextP.h"
+#include "ksyms.h"
 #include "paths.h"
 
 #include "parser.h"

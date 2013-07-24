@@ -94,7 +94,7 @@ main(int argc, char *argv[])
 	const char *const *dirpath;
 	const char *dirpath2[] = { 0, 0 };
 
-	struct lk_ctx ctx;
+	struct lk_ctx *ctx;
 	lk_flags flags = 0;
 
 	int c, i, rc = -1;
@@ -111,7 +111,10 @@ main(int argc, char *argv[])
 
 	progname = set_progname(argv[0]);
 
-	lk_init(&ctx);
+	ctx = lk_init();
+	if (!ctx) {
+		exit(EXIT_FAILURE);
+	}
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -122,7 +125,7 @@ main(int argc, char *argv[])
 			options |= OPT_B;
 			break;
 		case 'c':
-			ctx.flags |= LK_FLAG_CLEAR_COMPOSE;
+			flags |= LK_FLAG_CLEAR_COMPOSE;
 			break;
 		case 'C':
 			console = optarg;
@@ -142,10 +145,10 @@ main(int argc, char *argv[])
 			flags |= LK_FLAG_PREFER_UNICODE;
 			break;
 		case 'q':
-			lk_set_log_priority(&ctx, LOG_ERR);
+			lk_set_log_priority(ctx, LOG_ERR);
 			break;
 		case 'v':
-			lk_set_log_priority(&ctx, LOG_INFO);
+			lk_set_log_priority(ctx, LOG_INFO);
 			break;
 		case 'V':
 			fprintf(stdout, _("%s from %s\n"), progname, PACKAGE_STRING);
@@ -196,7 +199,7 @@ main(int argc, char *argv[])
 		}
 	}
 
-	lk_set_parser_flags(&ctx, flags);
+	lk_set_parser_flags(ctx, flags);
 
 	dirpath = dirpath1;
 	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
@@ -212,7 +215,7 @@ main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 
-		if ((rc = lk_parse_keymap(&ctx, &f)) == -1)
+		if ((rc = lk_parse_keymap(ctx, &f)) == -1)
 			goto fail;
 
 
@@ -220,7 +223,7 @@ main(int argc, char *argv[])
 		f.fd = stdin;
 		strcpy(f.pathname, "<stdin>");
 
-		if ((rc = lk_parse_keymap(&ctx, &f)) == -1)
+		if ((rc = lk_parse_keymap(ctx, &f)) == -1)
 			goto fail;
 	}
 
@@ -234,19 +237,19 @@ main(int argc, char *argv[])
 			goto fail;
 		}
 
-		if ((rc = lk_parse_keymap(&ctx, &f)) == -1)
+		if ((rc = lk_parse_keymap(ctx, &f)) == -1)
 			goto fail;
 	}
 
 	if (options & OPT_B) {
-		rc = lk_dump_bkeymap(&ctx, stdout);
+		rc = lk_dump_bkeymap(ctx, stdout);
 	} else if (options & OPT_M) {
-		rc = lk_dump_ctable(&ctx, stdout);
+		rc = lk_dump_ctable(ctx, stdout);
 	} else {
-		rc = lk_load_keymap(&ctx, fd, kbd_mode);
+		rc = lk_load_keymap(ctx, fd, kbd_mode);
 	}
 
- fail:	lk_free(&ctx);
+ fail:	lk_free(ctx);
 	lk_fpclose(&f);
 	close(fd);
 

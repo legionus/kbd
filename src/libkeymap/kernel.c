@@ -8,11 +8,12 @@
  */
 #include <string.h>
 #include <errno.h>
-
 #include <sys/ioctl.h>
 
-#include "nls.h"
 #include "keymap.h"
+
+#include "nls.h"
+#include "contextP.h"
 
 int
 lk_kernel_keys(struct lk_ctx *ctx, int fd)

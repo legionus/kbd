@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#include "keymap.h"
+
 #include "kbd.h"
 #include "nls.h"
-#include "keymap.h"
+#include "contextP.h"
 
 void __attribute__ ((format (printf, 6, 7)))
 lk_log(struct lk_ctx *ctx, int priority,
@@ -136,11 +138,14 @@ init_array(struct lk_ctx *ctx, struct lk_array **arr, size_t size)
 	return 0;
 }
 
-int
-lk_init(struct lk_ctx *ctx)
+struct lk_ctx *
+lk_init(void)
 {
+	struct lk_ctx *ctx;
+
+	ctx = malloc(sizeof(struct lk_ctx));
 	if (!ctx)
-		return -1;
+		return NULL;
 
 	memset(ctx, 0, sizeof(struct lk_ctx));
 
@@ -151,10 +156,12 @@ lk_init(struct lk_ctx *ctx)
 	    init_array(ctx, &ctx->func_table,   sizeof(void*)) < 0 ||
 	    init_array(ctx, &ctx->accent_table, sizeof(void*)) < 0 ||
 	    init_array(ctx, &ctx->key_constant, sizeof(char))  < 0 ||
-	    init_array(ctx, &ctx->key_line,     sizeof(int))   < 0)
-		return -1;
+	    init_array(ctx, &ctx->key_line,     sizeof(int))   < 0) {
+		lk_free(ctx);
+		return NULL;
+	}
 
-	return 0;
+	return ctx;
 }
 
 

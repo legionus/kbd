@@ -7,7 +7,7 @@ int main(int argc, char **argv)
 {
 	lk_table_shape table;
 	char numeric;
-	struct lk_ctx ctx;
+	struct lk_ctx *ctx;
 	lkfile_t f;
 
 	if (argc == 1) {
@@ -22,17 +22,17 @@ int main(int argc, char **argv)
 
 	numeric = (!strcasecmp(argv[3], "TRUE")) ? 1 : 0;
 
-	lk_init(&ctx);
-	ctx.flags |= LK_FLAG_PREFER_UNICODE;
+	ctx = lk_init();
+	lk_set_parser_flags(ctx, LK_FLAG_PREFER_UNICODE);
 
 	f.pipe = 0;
 	strcpy(f.pathname, argv[1]);
 	f.fd = fopen( argv[1], "r");
 
-	lk_parse_keymap(&ctx, &f);
-	lk_dump_keymap(&ctx, stdout, table, numeric);
-	lk_dump_diacs(&ctx, stdout);
+	lk_parse_keymap(ctx, &f);
+	lk_dump_keymap(ctx, stdout, table, numeric);
+	lk_dump_diacs(ctx, stdout);
 
-	lk_free(&ctx);
+	lk_free(ctx);
 	return 0;
 }
