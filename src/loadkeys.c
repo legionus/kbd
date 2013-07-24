@@ -95,6 +95,7 @@ main(int argc, char *argv[])
 	const char *dirpath2[] = { 0, 0 };
 
 	struct lk_ctx ctx;
+	lk_flags flags = 0;
 
 	int c, i, rc = -1;
 	int fd;
@@ -133,12 +134,12 @@ main(int argc, char *argv[])
 			options |= OPT_M;
 			break;
 		case 's':
-			ctx.flags |= LK_FLAG_CLEAR_STRINGS;
+			flags |= LK_FLAG_CLEAR_STRINGS;
 			break;
 		case 'u':
 			options |= OPT_U;
-			ctx.flags |= LK_FLAG_UNICODE_MODE;
-			ctx.flags |= LK_FLAG_PREFER_UNICODE;
+			flags |= LK_FLAG_UNICODE_MODE;
+			flags |= LK_FLAG_PREFER_UNICODE;
 			break;
 		case 'q':
 			lk_set_log_priority(&ctx, LOG_ERR);
@@ -181,11 +182,11 @@ main(int argc, char *argv[])
 					  "    (perhaps you want to do `kbd_mode -a'?)\n"),
 					progname);
 			} else {
-				ctx.flags |= LK_FLAG_PREFER_UNICODE;
+				flags |= LK_FLAG_PREFER_UNICODE;
 			}
 
 			/* reset -u option if keyboard is in K_UNICODE anyway */
-			ctx.flags ^= LK_FLAG_UNICODE_MODE;
+			flags ^= LK_FLAG_UNICODE_MODE;
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			fprintf(stderr,
@@ -194,6 +195,8 @@ main(int argc, char *argv[])
 				progname);
 		}
 	}
+
+	lk_set_parser_flags(&ctx, flags);
 
 	dirpath = dirpath1;
 	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {

@@ -94,6 +94,25 @@ lk_set_log_priority(struct lk_ctx *ctx, int priority)
 	return 0;
 }
 
+lk_flags
+lk_get_parser_flags(struct lk_ctx *ctx)
+{
+	if (!ctx)
+		return -1;
+
+	return ctx->flags;
+}
+
+int
+lk_set_parser_flags(struct lk_ctx *ctx, lk_flags flags)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->flags = flags;
+	return 0;
+}
+
 static int
 init_array(struct lk_ctx *ctx, struct lk_array **arr, size_t size)
 {

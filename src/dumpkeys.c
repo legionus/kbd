@@ -153,7 +153,7 @@ main (int argc, char *argv[]) {
 	}
 
 	if (kbd_mode == K_UNICODE) {
-		ctx.flags |= LK_FLAG_PREFER_UNICODE;
+		lk_set_parser_flags(&ctx, LK_FLAG_PREFER_UNICODE);
 	}
 
 	if ((rc = lk_kernel_keymap(&ctx, fd)) < 0)
