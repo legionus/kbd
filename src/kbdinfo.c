@@ -12,7 +12,7 @@
 static const char *action = NULL;
 static const char *value  = NULL;
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(int code) {
 	fprintf(stderr,
 		_("Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"

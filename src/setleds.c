@@ -14,7 +14,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void)
 {
     fprintf(stderr, _(
@@ -111,12 +111,12 @@ getflags(char *flags) {
 static int sunkbdfd = -1;
 
 #ifndef KIOCGLED
-#define arg_state attr_unused
+#define arg_state __attribute__ ((unused))
 #else
 #define arg_state
 #endif
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 sungetleds(arg_state char *cur_leds) {
 #ifdef KIOCGLED
     if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
@@ -132,12 +132,12 @@ sungetleds(arg_state char *cur_leds) {
 }
 
 #ifndef KIOCSLED
-#define arg_state attr_unused
+#define arg_state __attribute__ ((unused))
 #else
 #define arg_state
 #endif
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 sunsetleds(arg_state char *cur_leds) {
 #ifdef KIOCSLED
     if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {

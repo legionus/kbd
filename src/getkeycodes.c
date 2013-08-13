@@ -13,7 +13,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void) {
     fprintf(stderr, _("usage: getkeycodes\n"));
     exit(1);
@@ -24,7 +24,6 @@ main(int argc, char **argv) {
 	int fd;
 	unsigned int sc, sc0;
 	struct kbkeycode a;
-	int old_kernel = 0;
 
 	set_progname(argv[0]);
 
@@ -43,7 +42,6 @@ main(int argc, char **argv) {
 	a.scancode = 0;
 	a.keycode = 0;
 	if (ioctl(fd, KDGETKEYCODE, &a)) {
-		old_kernel = 1;
 		sc0 = 89;
 	} else
 	for (sc0 = 1; sc0 <= 88; sc0++) {

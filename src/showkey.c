@@ -60,20 +60,20 @@ clean_up(void) {
 	close(fd);
 }
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 die(int x) {
 	printf(_("caught signal %d, cleaning up...\n"), x);
 	clean_up();
 	exit(1);
 }
 
-static void attr_noreturn
-watch_dog(attr_unused int x) {
+static void __attribute__ ((noreturn))
+watch_dog(int x __attribute__ ((unused))) {
 	clean_up();
 	exit(0);
 }
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void) {
 	fprintf(stderr, _(
 "showkey version %s\n\n"

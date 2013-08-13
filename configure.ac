@@ -7,9 +7,11 @@ AC_PREREQ(2.60)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.9 -Wall])
-AC_CONFIG_SRCDIR([src/loadkeys.y])
+AM_INIT_AUTOMAKE([1.9 -Wall color-tests dist-xz])
+AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_HEADERS(config.h)
+
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
 
 m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 AM_SILENT_RULES([yes])
@@ -24,6 +26,10 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_CANONICAL_HOST
+
+dnl older versions of automake didn't include this macro
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+LT_INIT
 
 AM_GNU_GETTEXT_VERSION([0.14.1])
 AM_GNU_GETTEXT([external])
@@ -85,6 +91,11 @@ AC_ARG_ENABLE(optional-progs,
 	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])
 AM_CONDITIONAL(OPTIONAL_PROGS, test "$OPTIONAL_PROGS" = "yes")
 
+AC_ARG_ENABLE(libkeymap,
+	AS_HELP_STRING(--enable-libkeymap, [Build and install a libkeymap]),
+	[BUILD_LIBKEYMAP=$enableval],[BUILD_LIBKEYMAP=no])
+AM_CONDITIONAL(BUILD_LIBKEYMAP, test "$BUILD_LIBKEYMAP" = "yes")
+
 AC_ARG_ENABLE(vlock,
 	AS_HELP_STRING(--disable-vlock, [do not build vlock]),
 	[VLOCK_PROG=no],[VLOCK_PROG=yes])
@@ -105,22 +116,30 @@ if test "$VLOCK_PROG" = "yes"; then
 	AC_SUBST(PAM_LIBS, "-lpam -lpam_misc")
 fi
 
+AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
+AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
+
 AC_CONFIG_FILES([Makefile
 		data/Makefile
-		man/Makefile
-		man/man1/Makefile
-		man/man1/dumpkeys.1
-		man/man1/loadkeys.1
-		man/man1misc/Makefile
-		man/man5/Makefile
-		man/man8/Makefile
-		man/man8/loadunimap.8
-		man/man8/mapscrn.8
-		man/man8/setfont.8
-		man/man8misc/Makefile
+		docs/Makefile
+		docs/man/Makefile
+		docs/man/man1/Makefile
+		docs/man/man1/dumpkeys.1
+		docs/man/man1/loadkeys.1
+		docs/man/man1misc/Makefile
+		docs/man/man5/Makefile
+		docs/man/man8/Makefile
+		docs/man/man8/loadunimap.8
+		docs/man/man8/mapscrn.8
+		docs/man/man8/setfont.8
+		docs/man/man8misc/Makefile
+		docs/reference/Makefile
+		docs/reference/libkeymap/Makefile
 		po/Makefile.in
 		src/Makefile
-		src/vlock/Makefile])
+		src/libkeymap/Makefile
+		src/vlock/Makefile
+		tests/Makefile])
 AC_OUTPUT
 
 AC_MSG_RESULT([
@@ -139,4 +158,5 @@ AC_MSG_RESULT([
 	resizecons:		${RESIZECONS_PROGS}
 	optional progs:		${OPTIONAL_PROGS}
 	vlock:			${VLOCK_PROG}
+	libkeymap:		${BUILD_LIBKEYMAP}
 ])

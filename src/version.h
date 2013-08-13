@@ -15,7 +15,7 @@ set_progname(char *name) {
 	progname = (p ? p+1 : name);
 }
 
-static inline void attr_noreturn
+static inline void __attribute__ ((noreturn))
 print_version_and_exit(void) {
 	printf(_("%s from %s\n"), progname, PACKAGE_STRING);
 	exit(0);

@@ -21,7 +21,7 @@
 #include "kbd.h"
 
 static void
-sighup(attr_unused int n) {
+sighup(int n __attribute__ ((unused))) {
     if (system("openvt -s -l bash") == -1) {
       perror("system");
       exit(1);

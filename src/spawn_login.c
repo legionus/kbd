@@ -16,7 +16,7 @@
 #include "kbd.h"
 
 static void
-sighup(attr_unused int n) {
+sighup(int n __attribute__ ((unused))) {
     if (system("openvt -s -l -- login -h spawn") == -1) {
 	perror("system");
 	exit(1);

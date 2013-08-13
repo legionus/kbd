@@ -74,15 +74,14 @@ beats rebuilding the kernel!
 #include <errno.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
+#include <linux/kd.h>
 
 #ifdef __sparc__
 #include <asm/param.h>
 #endif
 
-#ifndef KDKBDREP
-/* usually defined in <linux/kd.h> */
-#define KDKBDREP        0x4B52  /* set keyboard delay/repeat rate;
-				 * actually used values are returned */
+#ifdef COMPAT_HEADERS
+#include "compat/linux-kd.h"
 #endif
 
 /* Equal to kernel version, but field names vary. */
@@ -179,7 +178,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 }
 
 #ifndef KIOCSRATE
-#define arg_state attr_unused
+#define arg_state __attribute__ ((unused))
 #else
 #define arg_state
 #endif
@@ -218,7 +217,7 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 }
 
 static void
-sigalrmhandler( attr_unused int sig ) {
+sigalrmhandler(int sig __attribute__ ((unused))) {
 	fprintf( stderr, "kbdrate: Failed waiting for kbd controller!\n" );
 	raise( SIGINT );
 }

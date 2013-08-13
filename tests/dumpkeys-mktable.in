@@ -1,0 +1,19 @@
+#!/bin/sh -efu
+
+cwd="$(readlink -ev "${0%/*}")"
+
+cd "$cwd"
+
+rc=0
+temp="$(mktemp "@BUILDDIR@/temp.XXXXXXXXX")"
+
+./libkeymap-mktable "@DATADIR@/"../data/keymaps/i386/qwerty/defkeymap.map > "$temp" || rc=$?
+cmp -s "@DATADIR@/dumpkeys.defkeymap.c" "$temp" || rc=$?
+
+if [ "$rc" != 0 ]; then
+	printf 'failed\n'
+else
+	rm -f -- "$temp"
+fi
+
+exit $rc

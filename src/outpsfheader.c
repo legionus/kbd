@@ -5,7 +5,7 @@
 #include "kbd.h"
 #include "psf.h"
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void) {
 	fprintf(stderr, "call: outpsfheader psftype fontsize charsize hastable\n");
 	exit(1);

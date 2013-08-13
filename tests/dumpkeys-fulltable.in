@@ -1,0 +1,41 @@
+#!/bin/sh -efu
+
+cwd="$(readlink -ev "${0%/*}")"
+
+cd "$cwd"
+
+BUILDDIR="@BUILDDIR@"
+DATADIR="@DATADIR@"
+
+check_keymap() {
+	local kmap temp rc
+
+	rc=0
+	kmap="$1"
+	temp="$(mktemp "$BUILDDIR"/temp.XXXXXXXXX)"
+
+	./libkeymap-dumpkeys "$kmap" "$2" "$3" > "$temp" || rc=$?
+	cmp -s "$kmap" "$temp" || rc=$?
+
+	if [ "$rc" != 0 ]; then
+		printf '%s: failed\n' "${kmap##*/}"
+	else
+		rm -f -- "$temp"
+	fi
+
+	return $rc
+}
+
+check_keymap "$DATADIR"/dumpkeys.full.ruwin_cplk-UTF-8.map FULL_TABLE TRUE
+check_keymap "$DATADIR"/dumpkeys.qwerty-layout.map DEFAULT FALSE
+
+# check keymaps line
+kmap="$DATADIR/dumpkeys.ua-ws.map"
+line0="$(grep '^#keymaps ' "$kmap")" ||:
+line0="${line0#\#}"
+line1="$(./libkeymap-dumpkeys "$kmap" SEPARATE_LINE FALSE |grep '^keymaps ')" ||:
+
+if [ "$line0" != "$line1" ]; then
+	printf 'was: %s\n' "$line0"
+	printf 'new: %s\n' "$line1"
+fi >&2
