@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.15.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2012-11-16 00:52+0400\n"
+"POT-Creation-Date: 2013-08-13 18:28+0400\n"
 "PO-Revision-Date: 2012-11-26 11:27+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -48,123 +48,12 @@ msgstr "%s: VT 1 є системною консоллю та не може бу�
 msgid "%s: could not deallocate console %d\n"
 msgstr "%s: не вдалося звільнити консоль %d\n"
 
-#: src/dumpkeys.c:66
-#, c-format
-msgid "KDGKBENT error at index 0 in table %d\n"
-msgstr "помилка KDGKBENT за індексом 0 у таблиці %d\n"
-
-#: src/dumpkeys.c:79
-#, c-format
-msgid "%s: cannot find any keymaps?\n"
-msgstr "%s: не вдалося знайти жодної розкладки?\n"
-
-#: src/dumpkeys.c:84
-#, c-format
-msgid "%s: plain map not allocated? very strange ...\n"
-msgstr "%s: пряма розкладка не встановлена? дуже дивно ...\n"
-
-#: src/dumpkeys.c:118
-#, c-format
-msgid "KDGKBENT error at index %d in table %d\n"
-msgstr "помилка KDGKBENT за індексом %d у таблиці %d\n"
-
-#: src/dumpkeys.c:272
-#, c-format
-msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr "діапазон кодів клавіш, що відомі ядру:       1 - %d\n"
-
-#: src/dumpkeys.c:274
-#, c-format
-msgid "max number of actions bindable to a key:         %d\n"
-msgstr "кількість дій, що можна призначити клавіші:      %d\n"
-
-#: src/dumpkeys.c:277
-#, c-format
-msgid "number of keymaps in actual use:                 %d\n"
-msgstr "кількість розкладок, що дійсно використовуються:                %d\n"
-
-#: src/dumpkeys.c:280
-#, c-format
-msgid "of which %d dynamically allocated\n"
-msgstr "з них встановлено динамічно:                  %d\n"
-
-#: src/dumpkeys.c:281
-#, c-format
-msgid "ranges of action codes supported by kernel:\n"
-msgstr "коди дій, що допускаються ядром:\n"
-
-#: src/dumpkeys.c:286
-#, c-format
-msgid "number of function keys supported by kernel: %d\n"
-msgstr "кількість функціональних клавіш, що підтримуються ядром: %d\n"
-
-#: src/dumpkeys.c:289
-#, c-format
-msgid "max nr of compose definitions: %d\n"
-msgstr "максимальна кількість сполучених визначень: %d\n"
-
-#: src/dumpkeys.c:291
-#, c-format
-msgid "nr of compose definitions in actual use: %d\n"
-msgstr "дійсно використаних сполучених визначень: %d\n"
-
-#: src/dumpkeys.c:316
-#, c-format
-msgid ""
-"Symbols recognized by %s:\n"
-"(numeric value, symbol)\n"
-"\n"
-msgstr ""
-"Символи, що розпізнаються %s:\n"
-"(числове значення, символ)\n"
-"\n"
-
-#: src/dumpkeys.c:329
-#, c-format
-msgid ""
-"\n"
-"The following synonyms are recognized:\n"
-"\n"
-msgstr ""
-"\n"
-"Розпізнаються наступні синоніми:\n"
-"\n"
-
-#: src/dumpkeys.c:331
-#, c-format
-msgid "%-15s for %s\n"
-msgstr "%-15s замість %s\n"
-
-#: src/dumpkeys.c:333
-#, c-format
-msgid ""
-"\n"
-"Recognized modifier names and their column numbers:\n"
-msgstr ""
-"\n"
-"Відомі назви модификаторів та номери відповідних колонок: \n"
-
-#: src/dumpkeys.c:398
-#, c-format
-msgid "# not alt_is_meta: on keymap %d key %d is bound to"
-msgstr "# не alt_is_meta: у розкладці %d клавіші %d призначено"
-
-#: src/dumpkeys.c:475
-#, c-format
-msgid "impossible: not meta?\n"
-msgstr "неможливо: не `meta'?\n"
-
-#: src/dumpkeys.c:532
-#, c-format
-msgid "KDGKBSENT failed at index %d: "
-msgstr "KDGKBSENT помилка на індексі %d: "
-
-#: src/dumpkeys.c:552
+#: src/dumpkeys.c:28
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys версії %s"
 
-#: src/dumpkeys.c:553
+#: src/dumpkeys.c:29
 #, c-format
 msgid ""
 "\n"
@@ -200,7 +89,7 @@ msgstr ""
 "\t   --compose-only   вивести лише комбінації сполучених клавіш\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:570
+#: src/dumpkeys.c:46
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -208,6 +97,27 @@ msgid ""
 msgstr ""
 "\t\t\t    інтерпретувати коди дій у символах як у вказаному\n"
 "\t\t\t    наборі символів\n"
+
+#: src/dumpkeys.c:132
+#, c-format
+msgid "unknown charset %s - ignoring charset request\n"
+msgstr "невідомий набір символів %s - вказування набору символів ігнорується\n"
+
+#: src/dumpkeys.c:153 src/loadkeys.c:176
+#, c-format
+msgid "%s: error reading keyboard mode: %m\n"
+msgstr "%s: помилка під час спроби читання режиму роботи клавіатури: %m\n"
+
+#: src/dumpkeys.c:169
+#, c-format
+msgid ""
+"Symbols recognized by %s:\n"
+"(numeric value, symbol)\n"
+"\n"
+msgstr ""
+"Символи, що розпізнаються %s:\n"
+"(числове значення, символ)\n"
+"\n"
 
 #: src/fgconsole.c:17
 #, c-format
@@ -236,16 +146,6 @@ msgstr ""
 msgid "Couldn't read VTNO: "
 msgstr "Не вдалося прочитати значення VTNO: "
 
-#: src/findfile.c:51
-#, c-format
-msgid "error executing  %s\n"
-msgstr "помилка виконання %s\n"
-
-#: src/findfile.c:157
-#, c-format
-msgid "Warning: path too long: %s/%s\n"
-msgstr "Попередження: надто довгий шлях: %s/%s\n"
-
 #: src/getfd.c:67
 #, c-format
 msgid "Couldn't open %s\n"
@@ -261,22 +161,22 @@ msgstr "Не вдалося отримати файловий дескрипто
 msgid "usage: getkeycodes\n"
 msgstr "використання: getkeycodes\n"
 
-#: src/getkeycodes.c:56
+#: src/getkeycodes.c:54
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr "Прямі скан-коди xx (hex) проти кодів клавіш (десяткові)\n"
 
-#: src/getkeycodes.c:59
+#: src/getkeycodes.c:57
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr "0 - помилка; скан-коди 1--88 (0x01--0x58) дорівнюють кодам клавіш\n"
 
-#: src/getkeycodes.c:62
+#: src/getkeycodes.c:60
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr "для 1 %d (0x01-0x%02x) скан-код дорівнює коду клавіші\n"
 
-#: src/getkeycodes.c:68
+#: src/getkeycodes.c:66
 #, c-format
 msgid ""
 "\n"
@@ -287,7 +187,7 @@ msgstr ""
 "\n"
 "Скан-коди з `Escape' e0 xx (hex)\n"
 
-#: src/getkeycodes.c:93
+#: src/getkeycodes.c:91
 #, c-format
 msgid "failed to get keycode for scancode 0x%x\n"
 msgstr "не вдалося знайти код клавіші, що відповідає скан-коду 0x%x\n"
@@ -366,31 +266,31 @@ msgstr "Клавіатура знаходиться у невідомому ре
 msgid "%s: error setting keyboard mode\n"
 msgstr "%s: помилка встановлення режиму клавіатури\n"
 
-#: src/kbdrate.c:156 src/kbdrate.c:175 src/kbdrate.c:339
+#: src/kbdrate.c:155 src/kbdrate.c:174 src/kbdrate.c:338
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Значення частоти повтору: %.1f симв/сек (затримка = %d мс)\n"
 
-#: src/kbdrate.c:267
+#: src/kbdrate.c:266
 #, c-format
 msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 msgstr "Використання: kbdrate [-V] [-s] [-r частота] [-d затримка]\n"
 
-#: src/kbdrate.c:297
+#: src/kbdrate.c:296
 msgid "Cannot open /dev/port"
 msgstr "Не вдалося відкрити /dev/port"
 
-#: src/kdfontop.c:197
+#: src/kdfontop.c:95
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "помилка: getfont виконано з count<256\n"
 
-#: src/kdfontop.c:201
+#: src/kdfontop.c:99
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr "помилка: використання GIO_FONT у getfont потребує визначення буфера.\n"
 
-#: src/kdfontop.c:258 src/kdmapop.c:150 src/xmalloc.c:15
+#: src/kdfontop.c:156 src/kdmapop.c:150 src/xmalloc.c:15
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: недостатньо пам'яті\n"
@@ -409,75 +309,291 @@ msgstr ""
 "Версія ядра є старішою за 1.1.92\n"
 "Таблиці відповідності Unicode не завантажено.\n"
 
-#: src/ksyms.c:1713
-#, c-format
-msgid "unknown charset %s - ignoring charset request\n"
-msgstr "невідомий набір символів %s - вказування набору символів ігнорується\n"
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
+#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/loadkeys.c:118
+#, fuzzy
+msgid "out of memory"
+msgstr "%s: недостатньо пам'яті\n"
 
-#: src/ksyms.c:1819
+#: src/libkeymap/common.c:132
 #, c-format
-msgid "assuming iso-8859-1 %s\n"
+msgid "unable to initialize array: %s"
+msgstr ""
+
+#: src/libkeymap/dump.c:82
+#, fuzzy
+msgid "Error writing map to file"
+msgstr "Помилка запису у файл\n"
+
+#: src/libkeymap/dump.c:527
+#, c-format
+msgid "impossible: not meta?\n"
+msgstr "неможливо: не `meta'?\n"
+
+#: src/libkeymap/kernel.c:31
+#, fuzzy, c-format
+msgid "KDGKBENT: %s: error at index %d in table %d"
+msgstr "помилка KDGKBENT за індексом %d у таблиці %d\n"
+
+#: src/libkeymap/kernel.c:57
+#, c-format
+msgid "KDGKBSENT: %s: Unable to get function key string"
+msgstr ""
+
+#: src/libkeymap/kernel.c:87
+#, c-format
+msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
+msgstr ""
+
+#: src/libkeymap/kmap.c:72
+#, fuzzy, c-format
+msgid "unable to keymap %d"
+msgstr "Не вдалося відкрити %s"
+
+#: src/libkeymap/kmap.c:91
+#, fuzzy, c-format
+msgid "unable to get keymap %d"
+msgstr "вилучити розкладку %d\n"
+
+#: src/libkeymap/kmap.c:99
+#, fuzzy, c-format
+msgid "unable to unset key %d for table %d"
+msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
+
+#: src/libkeymap/kmap.c:116
+#, fuzzy, c-format
+msgid "lk_add_key called with bad keycode %d"
+msgstr "addkey викликано з помилковим значенням коду клавіші %d"
+
+#: src/libkeymap/kmap.c:126
+#, c-format
+msgid "adding map %d violates explicit keymaps line"
+msgstr "додавання розкладки %d суперечить рядку явного визначення розкладки"
+
+#: src/libkeymap/kmap.c:142
+#, fuzzy, c-format
+msgid "unable to set key %d for table %d"
+msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
+
+#: src/libkeymap/kmap.c:171
+#, fuzzy, c-format
+msgid "func %d not allocated"
+msgstr "з них встановлено динамічно:                  %d\n"
+
+#: src/libkeymap/kmap.c:311
+#, fuzzy
+msgid "impossible error in lk_add_constants"
+msgstr "неможливо виконати do_constant"
+
+#: src/libkeymap/ksyms.c:304
+#, fuzzy, c-format
+msgid "assuming iso-8859-1 %s"
 msgstr "вважається iso-8859-1 %s\n"
 
-#: src/ksyms.c:1826
-#, c-format
-msgid "assuming iso-8859-15 %s\n"
+#: src/libkeymap/ksyms.c:310
+#, fuzzy, c-format
+msgid "assuming iso-8859-15 %s"
 msgstr "вважається iso-8859-15 %s\n"
 
-#: src/ksyms.c:1833
-#, c-format
-msgid "assuming iso-8859-2 %s\n"
+#: src/libkeymap/ksyms.c:316
+#, fuzzy, c-format
+msgid "assuming iso-8859-2 %s"
 msgstr "вважається iso-8859-2 %s\n"
 
-#: src/ksyms.c:1840
-#, c-format
-msgid "assuming iso-8859-3 %s\n"
+#: src/libkeymap/ksyms.c:322
+#, fuzzy, c-format
+msgid "assuming iso-8859-3 %s"
 msgstr "вважається iso-8859-3 %s\n"
 
-#: src/ksyms.c:1847
-#, c-format
-msgid "assuming iso-8859-4 %s\n"
+#: src/libkeymap/ksyms.c:328
+#, fuzzy, c-format
+msgid "assuming iso-8859-4 %s"
 msgstr "вважається iso-8859-4 %s\n"
 
-#: src/ksyms.c:1852
+#: src/libkeymap/ksyms.c:333
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "невідомий keysym `%s'\n"
 
-#: loadkeys.analyze.l:51
-msgid "includes are nested too deeply"
-msgstr "занадто високий рівень вкладеності включення"
+#: src/libkeymap/loadkeys.c:26
+#, fuzzy, c-format
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "%s: не вдалося перемкнутися у режим Unicode\n"
 
-#: loadkeys.analyze.l:238
+#: src/libkeymap/loadkeys.c:48
+#, fuzzy, c-format
+msgid "Keymap %d: Permission denied"
+msgstr "Розкладка %d: відмовлено у доступі\n"
+
+#: src/libkeymap/loadkeys.c:56
+#, fuzzy, c-format
+msgid "keycode %d, table %d = %d%s"
+msgstr "клавіша %d, таблиця %d = %d%s\n"
+
+#: src/libkeymap/loadkeys.c:57
+msgid "    FAILED"
+msgstr "    ПОМИЛКА"
+
+#: src/libkeymap/loadkeys.c:60
+#, fuzzy, c-format
+msgid "failed to bind key %d to value %d"
+msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
+
+#: src/libkeymap/loadkeys.c:70
+#, fuzzy, c-format
+msgid "deallocate keymap %d"
+msgstr "вилучити розкладку %d\n"
+
+#: src/libkeymap/loadkeys.c:74
+#, fuzzy, c-format
+msgid "KDSKBENT: %s: could not deallocate keymap %d"
+msgstr "%s: не вдалося вилучити розкладку %d\n"
+
+#: src/libkeymap/loadkeys.c:89
+#, fuzzy, c-format
+msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
+msgstr "%s: не вдалося вилучити або спорожнити розкладку\n"
+
+#: src/libkeymap/loadkeys.c:99
+#, fuzzy, c-format
+msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgstr "%s: не вдалося повернутися до початкового режиму роботи клавіатури\n"
+
+#: src/libkeymap/loadkeys.c:161
+#, fuzzy, c-format
+msgid "failed to bind string '%s' to function %s"
+msgstr "не вдалося пов’язати рядок «%s» з функцією %s\n"
+
+#: src/libkeymap/loadkeys.c:171
+#, fuzzy, c-format
+msgid "failed to clear string %s"
+msgstr "не вдалося спорожнити рядок %s\n"
+
+#: src/libkeymap/loadkeys.c:190
+#, fuzzy
+msgid "too many compose definitions"
+msgstr "занадто багато визначень сполучень\n"
+
+#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
+#, fuzzy
+msgid "unable to get compose definitions"
+msgstr "занадто багато визначень сполучень\n"
+
+#: src/libkeymap/loadkeys.c:253
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Changed %d %s and %d %s"
+msgstr ""
+"\n"
+"Змінено %d %s та %d %s.\n"
+
+#: src/libkeymap/loadkeys.c:254
+msgid "key"
+msgstr "клавішу"
+
+#: src/libkeymap/loadkeys.c:254
+msgid "keys"
+msgstr "клавіш"
+
+#: src/libkeymap/loadkeys.c:255
+msgid "string"
+msgstr "рядок"
+
+#: src/libkeymap/loadkeys.c:255
+msgid "strings"
+msgstr "рядків"
+
+#: src/libkeymap/loadkeys.c:263
+#, fuzzy, c-format
+msgid "Loaded %d compose %s"
+msgstr "Завантажено %d сполучень %s.\n"
+
+#: src/libkeymap/loadkeys.c:264
+msgid "definition"
+msgstr "визначення"
+
+#: src/libkeymap/loadkeys.c:264
+msgid "definitions"
+msgstr "визначення"
+
+#: src/libkeymap/loadkeys.c:267
+#, fuzzy
+msgid "(No change in compose definitions)"
+msgstr "(Немає змін у визначеннях сполучених клавіш.)\n"
+
+#: src/libkeymap/summary.c:93
 #, c-format
-msgid "switching to %s\n"
-msgstr "перемикання на %s\n"
+msgid "keycode range supported by kernel:           1 - %d\n"
+msgstr "діапазон кодів клавіш, що відомі ядру:       1 - %d\n"
 
-#: loadkeys.analyze.l:242
+#: src/libkeymap/summary.c:95
 #, c-format
-msgid "cannot open include file %s"
-msgstr "не вдалося відкрити включений файл %s"
+msgid "max number of actions bindable to a key:         %d\n"
+msgstr "кількість дій, що можна призначити клавіші:      %d\n"
 
-#: loadkeys.analyze.l:314
-msgid "expected filename between quotes"
-msgstr "мало бути вказано назву файла у лапках"
+#: src/libkeymap/summary.c:97
+#, fuzzy, c-format
+msgid "number of keymaps in actual use:                 %u\n"
+msgstr "кількість розкладок, що дійсно використовуються:                %d\n"
 
-#: loadkeys.analyze.l:353
+#: src/libkeymap/summary.c:100
+#, fuzzy, c-format
+msgid "of which %u dynamically allocated\n"
+msgstr "з них встановлено динамічно:                  %d\n"
+
+#: src/libkeymap/summary.c:103
 #, c-format
-msgid "unicode keysym out of range: %s"
-msgstr "номер символу unicode поза межами діапазону: %s"
+msgid "ranges of action codes supported by kernel:\n"
+msgstr "коди дій, що допускаються ядром:\n"
 
-#: loadkeys.analyze.l:404 loadkeys.analyze.l:409 loadkeys.analyze.l:414
-#: loadkeys.analyze.l:419 loadkeys.analyze.l:426
-msgid "string too long"
-msgstr "надто довгий рядок"
-
-#: loadkeys.y:93
+#: src/libkeymap/summary.c:109
 #, c-format
+msgid "number of function keys supported by kernel: %d\n"
+msgstr "кількість функціональних клавіш, що підтримуються ядром: %d\n"
+
+#: src/libkeymap/summary.c:111
+#, c-format
+msgid "max nr of compose definitions: %d\n"
+msgstr "максимальна кількість сполучених визначень: %d\n"
+
+#: src/libkeymap/summary.c:113
+#, fuzzy, c-format
+msgid "nr of compose definitions in actual use: %u\n"
+msgstr "дійсно використаних сполучених визначень: %d\n"
+
+#: src/libkeymap/summary.c:139
+#, c-format
+msgid ""
+"\n"
+"The following synonyms are recognized:\n"
+"\n"
+msgstr ""
+"\n"
+"Розпізнаються наступні синоніми:\n"
+"\n"
+
+#: src/libkeymap/summary.c:142
+#, c-format
+msgid "%-15s for %s\n"
+msgstr "%-15s замість %s\n"
+
+#: src/libkeymap/summary.c:146
+#, c-format
+msgid ""
+"\n"
+"Recognized modifier names and their column numbers:\n"
+msgstr ""
+"\n"
+"Відомі назви модификаторів та номери відповідних колонок: \n"
+
+#: src/loadkeys.c:35
+#, fuzzy, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
-"Usage: loadkeys [option...] [mapfile...]\n"
+"Usage: %s [option...] [mapfile...]\n"
 "\n"
 "Valid options are:\n"
 "\n"
@@ -513,212 +629,17 @@ msgstr ""
 "  -u --unicode       примусове перетворення у Unicode\n"
 "  -v --verbose       повідомити про внесені зміни\n"
 
-#: loadkeys.y:152
+#: src/loadkeys.c:154 src/version.h:20
 #, c-format
-msgid "addmap called with bad index %d"
-msgstr "addmap викликано з помилковим значенням індексу %d"
+msgid "%s from %s\n"
+msgstr "%s з %s\n"
 
-#: loadkeys.y:156
-#, c-format
-msgid "adding map %d violates explicit keymaps line"
-msgstr "додавання розкладки %d суперечить рядку явного визначення розкладки"
-
-#: loadkeys.y:170
-#, c-format
-msgid "killkey called with bad index %d"
-msgstr "killkey викликано з помилковим значенням індексу %d"
-
-#: loadkeys.y:173
-#, c-format
-msgid "killkey called with bad table %d"
-msgstr "killkey викликано з помилковим значенням таблиці %d"
-
-#: loadkeys.y:189
-#, c-format
-msgid "addkey called with bad keycode %d"
-msgstr "addkey викликано з помилковим значенням коду клавіші %d"
-
-#: loadkeys.y:192
-#, c-format
-msgid "addkey called with bad index %d"
-msgstr "addkey викликано з помилковим значенням індексу %d"
-
-#: loadkeys.y:195
-#, c-format
-msgid "addkey called with bad table %d"
-msgstr "addkey викликано з помилковим номером таблиці %d"
-
-#: loadkeys.y:241
-#, c-format
-msgid "%s: addfunc called with bad func %d\n"
-msgstr "%s: addfunc викликано з помилковим значенням func %d\n"
-
-#: loadkeys.y:272
-#, c-format
-msgid "%s: addfunc: func_buf overflow\n"
-msgstr "%s: addfunc: переповнення func_buf\n"
-
-#: loadkeys.y:300
-#, c-format
-msgid "compose table overflow\n"
-msgstr "переповнення таблиці сполучень\n"
-
-#: loadkeys.y:320
-#, c-format
-msgid "%s: could not switch to Unicode mode\n"
-msgstr "%s: не вдалося перемкнутися у режим Unicode\n"
-
-#: loadkeys.y:339
-#, c-format
-msgid "Keymap %d: Permission denied\n"
-msgstr "Розкладка %d: відмовлено у доступі\n"
-
-#: loadkeys.y:348
-#, c-format
-msgid "keycode %d, table %d = %d%s\n"
-msgstr "клавіша %d, таблиця %d = %d%s\n"
-
-#: loadkeys.y:350
-msgid "    FAILED"
-msgstr "    ПОМИЛКА"
-
-#: loadkeys.y:354
-#, c-format
-msgid "failed to bind key %d to value %d\n"
-msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
-
-#: loadkeys.y:366
-#, c-format
-msgid "deallocate keymap %d\n"
-msgstr "вилучити розкладку %d\n"
-
-#: loadkeys.y:372
-#, c-format
-msgid "%s: could not deallocate keymap %d\n"
-msgstr "%s: не вдалося вилучити розкладку %d\n"
-
-#: loadkeys.y:389
-#, c-format
-msgid "%s: cannot deallocate or clear keymap\n"
-msgstr "%s: не вдалося вилучити або спорожнити розкладку\n"
-
-#: loadkeys.y:401
-#, c-format
-msgid "%s: could not return to original keyboard mode\n"
-msgstr "%s: не вдалося повернутися до початкового режиму роботи клавіатури\n"
-
-#: loadkeys.y:458
-#, c-format
-msgid "failed to bind string '%s' to function %s\n"
-msgstr "не вдалося пов’язати рядок «%s» з функцією %s\n"
-
-#: loadkeys.y:467
-#, c-format
-msgid "failed to clear string %s\n"
-msgstr "не вдалося спорожнити рядок %s\n"
-
-#: loadkeys.y:488
-#, c-format
-msgid "too many compose definitions\n"
-msgstr "занадто багато визначень сполучень\n"
-
-#: loadkeys.y:580
-msgid "impossible error in do_constant"
-msgstr "неможливо виконати do_constant"
-
-#: loadkeys.y:596
-#, c-format
-msgid ""
-"\n"
-"Changed %d %s and %d %s.\n"
-msgstr ""
-"\n"
-"Змінено %d %s та %d %s.\n"
-
-#: loadkeys.y:597
-msgid "key"
-msgstr "клавішу"
-
-#: loadkeys.y:597
-msgid "keys"
-msgstr "клавіш"
-
-#: loadkeys.y:598
-msgid "string"
-msgstr "рядок"
-
-#: loadkeys.y:598
-msgid "strings"
-msgstr "рядків"
-
-#: loadkeys.y:605
-#, c-format
-msgid "Loaded %d compose %s.\n"
-msgstr "Завантажено %d сполучень %s.\n"
-
-#: loadkeys.y:606
-msgid "definition"
-msgstr "визначення"
-
-#: loadkeys.y:606
-msgid "definitions"
-msgstr "визначення"
-
-#: loadkeys.y:610
-#, c-format
-msgid "(No change in compose definitions.)\n"
-msgstr "(Немає змін у визначеннях сполучених клавіш.)\n"
-
-#: loadkeys.y:650
-#, c-format
-msgid "loadkeys: don't know how to compose for %s\n"
-msgstr "loadkeys: невідомий спосіб створення сполучення для %s\n"
-
-#: loadkeys.y:886 src/mapscrn.c:275 src/mapscrn.c:280
-#, c-format
-msgid "Error writing map to file\n"
-msgstr "Помилка запису у файл\n"
-
-#: loadkeys.y:954
-#, c-format
-msgid "'%s' is not a function key symbol"
-msgstr "«%s» не є символом функціональної клавіші"
-
-#: loadkeys.y:1028
-#, c-format
-msgid "too many (%d) entries on one line"
-msgstr "занадто багато записів (%d) у одному рядку"
-
-#: loadkeys.y:1042
-msgid "too many key definitions on one line"
-msgstr "занадто багато визначень клавіш у одному рядку"
-
-#: loadkeys.y:1057
-#, c-format
-msgid "Loading %s\n"
-msgstr "Завантаження %s\n"
-
-#: loadkeys.y:1062
-#, c-format
-msgid "syntax error in map file\n"
-msgstr "синтаксична помилка у файлі розкладки\n"
-
-#: loadkeys.y:1066
-#, c-format
-msgid "key bindings not changed\n"
-msgstr "прив’язку клавіш не змінено\n"
-
-#: loadkeys.y:1146
+#: src/loadkeys.c:164
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr "%s: параметри --unicode і --ascii не можна використовувати одночасно\n"
 
-#: loadkeys.y:1158
-#, c-format
-msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: помилка під час спроби читання режиму роботи клавіатури: %m\n"
-
-#: loadkeys.y:1166
+#: src/loadkeys.c:184
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -727,7 +648,7 @@ msgstr ""
 "%s: попередження: завантаження не-Unicode-розкладки до консолі Unicode\n"
 "    (можливо, вам варто виконати «kbd_mode -a»?)\n"
 
-#: loadkeys.y:1178
+#: src/loadkeys.c:196
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -736,17 +657,12 @@ msgstr ""
 "%s: попередження: завантаження Unicode-розкладки до не-Unicode-консолі\n"
 "    (можливо, вам варто виконати «kbd_mode -u»?)\n"
 
-#: loadkeys.y:1187
-#, c-format
-msgid "Searching in %s\n"
-msgstr "Пошук у %s\n"
-
-#: loadkeys.y:1197
+#: src/loadkeys.c:214
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "Не вдалося знайти %s\n"
 
-#: loadkeys.y:1213
+#: src/loadkeys.c:236
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "не вдалося відкрити файл %s\n"
@@ -796,17 +712,17 @@ msgstr ""
 msgid "%s: trailing junk (%s) ignored\n"
 msgstr "%s: сміття наприкінці (%s) ігнорується\n"
 
-#: src/loadunimap.c:274
+#: src/loadunimap.c:273
 #, c-format
 msgid "Loading unicode map from file %s\n"
 msgstr "Завантажується unicode-схема з файлу %s\n"
 
-#: src/loadunimap.c:280
+#: src/loadunimap.c:279
 #, c-format
 msgid "%s: %s: Warning: line too long\n"
 msgstr "%s: %s: Попередження: надто довгий рядок\n"
 
-#: src/loadunimap.c:290
+#: src/loadunimap.c:289
 #, c-format
 msgid ""
 "%s: not loading empty unimap\n"
@@ -815,20 +731,20 @@ msgstr ""
 "%s: не можна завантажувати порожню unimap\n"
 "(якщо ви наполягаєте, скористайтесь параметром `-f')\n"
 
-#: src/loadunimap.c:311
+#: src/loadunimap.c:310
 msgid "entry"
 msgstr "пункт"
 
-#: src/loadunimap.c:311
+#: src/loadunimap.c:310
 msgid "entries"
 msgstr "пункти"
 
-#: src/loadunimap.c:337
+#: src/loadunimap.c:336
 #, c-format
 msgid "Saved unicode map on `%s'\n"
 msgstr "Записав unicode-схему в `%s'\n"
 
-#: src/loadunimap.c:373
+#: src/loadunimap.c:372
 #, c-format
 msgid "Appended Unicode map\n"
 msgstr "Додав в Unicode-схему\n"
@@ -872,6 +788,11 @@ msgstr "Завантажується опис схеми відображенн�
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
 msgstr "Помилка розбору описану схеми відображення з `%s', рядок %d\n"
+
+#: src/mapscrn.c:275 src/mapscrn.c:280
+#, c-format
+msgid "Error writing map to file\n"
+msgstr "Помилка запису у файл\n"
 
 #: src/mapscrn.c:284
 #, c-format
@@ -1069,7 +990,7 @@ msgstr "appendunicode: некоректний unicode %u\n"
 msgid "Cannot write font file header"
 msgstr "Не вдалося записати заголовок файлу шрифту"
 
-#: src/psffontop.c:469 src/setfont.c:677
+#: src/psffontop.c:469 src/setfont.c:678
 #, c-format
 msgid "Cannot write font file"
 msgstr "Не вдалося записати файл шрифту"
@@ -1153,41 +1074,41 @@ msgstr "%s: файл psf з невідомою сигнатурою\n"
 msgid "%s: input font does not have an index\n"
 msgstr "%s: вхідний шрифт не має індексу\n"
 
-#: src/resizecons.c:154
+#: src/resizecons.c:153
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: не вдалося знайти файл відеорежиму %s\n"
 
-#: src/resizecons.c:173
+#: src/resizecons.c:172
 #, c-format
 msgid "Invalid number of lines\n"
 msgstr "Неприпустима кількість рядків\n"
 
-#: src/resizecons.c:239
+#: src/resizecons.c:238
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Попередній режим: %dx%d  Новий режим: %dx%d\n"
 
-#: src/resizecons.c:241
+#: src/resizecons.c:240
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr ""
 "Рядків розгортки у попередньому режимі: %d    У новому: %d    Висота шрифту: "
 "%d\n"
 
-#: src/resizecons.c:252
+#: src/resizecons.c:251
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: помилка команди `%s'\n"
 
-#: src/resizecons.c:325
+#: src/resizecons.c:324
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: не забудьте змінити TERM (можливо, на con%dx%d або linux-%dx%d)\n"
 
-#: src/resizecons.c:338
+#: src/resizecons.c:337
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1200,7 +1121,7 @@ msgstr ""
 "   або: tresizecons -lines РЯДКІВ, де параметр РЯДКІВ може мати значення:\n"
 "        25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 
-#: src/resizecons.c:376
+#: src/resizecons.c:375
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: не вдалося отримати права доступу до вводу-виводу.\n"
@@ -1359,7 +1280,7 @@ msgstr "%s: помилка у do_loadtable\n"
 msgid "Loading Unicode mapping table...\n"
 msgstr "Завантажується Unicode-таблиця...\n"
 
-#: src/setfont.c:414 src/setfont.c:500
+#: src/setfont.c:414 src/setfont.c:501
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "Не вдалося відкрити файл %s\n"
@@ -1387,42 +1308,42 @@ msgid "When loading several fonts, all must have the same width\n"
 msgstr ""
 "При завантаженні кількох шрифті, усі повинні мати однакову ширину символів\n"
 
-#: src/setfont.c:487
+#: src/setfont.c:488
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "Не вдалося знайти основний шрифт\n"
 
-#: src/setfont.c:494
+#: src/setfont.c:495
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "Не вдалося знайти шрифт %s\n"
 
-#: src/setfont.c:506
+#: src/setfont.c:507
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "Читається файл зі шрифтом %s\n"
 
-#: src/setfont.c:546
+#: src/setfont.c:547
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "Відсутній завершальний порожній рядок у об'єднаному файлі\n"
 
-#: src/setfont.c:552
+#: src/setfont.c:553
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "Надто багато файлів для об'єднання\n"
 
-#: src/setfont.c:576
+#: src/setfont.c:577
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr "Ой... шрифт з restorefont? Використовується перша половина.\n"
 
-#: src/setfont.c:593
+#: src/setfont.c:594
 #, c-format
 msgid "Bad input file size\n"
 msgstr "Неприпустимий розмір вхідного файлу\n"
 
-#: src/setfont.c:614
+#: src/setfont.c:615
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1432,17 +1353,17 @@ msgstr ""
 "Вкажіть одним з ключів: -8, -14 чи -16,\n"
 "який саме шрифт завантажувати.\n"
 
-#: src/setfont.c:628
+#: src/setfont.c:629
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Ви вказали шрифт із розміром %d, але можливі лише 8, 14 чи 16.\n"
 
-#: src/setfont.c:673
+#: src/setfont.c:674
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "Немає що записувати\n"
 
-#: src/setfont.c:682
+#: src/setfont.c:683
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "Записано %d-знаковий шрифт %dx%d у файл %s\n"
@@ -1850,11 +1771,6 @@ msgstr "клавіша %3d (код) %s\n"
 msgid "usage: totextmode\n"
 msgstr "використання: totextmode\n"
 
-#: src/version.h:20
-#, c-format
-msgid "%s from %s\n"
-msgstr "%s з %s\n"
-
 #: src/vlock/auth.c:58
 msgid ""
 "Please try again later.\n"
@@ -1926,6 +1842,93 @@ msgstr "Цей пристрій tty (%s) не є віртуальною конс
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Показ даних у консолі не може бути повністю заблоковано.\n"
+
+#~ msgid "KDGKBENT error at index 0 in table %d\n"
+#~ msgstr "помилка KDGKBENT за індексом 0 у таблиці %d\n"
+
+#~ msgid "%s: cannot find any keymaps?\n"
+#~ msgstr "%s: не вдалося знайти жодної розкладки?\n"
+
+#~ msgid "%s: plain map not allocated? very strange ...\n"
+#~ msgstr "%s: пряма розкладка не встановлена? дуже дивно ...\n"
+
+#~ msgid "# not alt_is_meta: on keymap %d key %d is bound to"
+#~ msgstr "# не alt_is_meta: у розкладці %d клавіші %d призначено"
+
+#~ msgid "KDGKBSENT failed at index %d: "
+#~ msgstr "KDGKBSENT помилка на індексі %d: "
+
+#~ msgid "error executing  %s\n"
+#~ msgstr "помилка виконання %s\n"
+
+#~ msgid "Warning: path too long: %s/%s\n"
+#~ msgstr "Попередження: надто довгий шлях: %s/%s\n"
+
+#~ msgid "includes are nested too deeply"
+#~ msgstr "занадто високий рівень вкладеності включення"
+
+#~ msgid "switching to %s\n"
+#~ msgstr "перемикання на %s\n"
+
+#~ msgid "cannot open include file %s"
+#~ msgstr "не вдалося відкрити включений файл %s"
+
+#~ msgid "expected filename between quotes"
+#~ msgstr "мало бути вказано назву файла у лапках"
+
+#~ msgid "unicode keysym out of range: %s"
+#~ msgstr "номер символу unicode поза межами діапазону: %s"
+
+#~ msgid "string too long"
+#~ msgstr "надто довгий рядок"
+
+#~ msgid "addmap called with bad index %d"
+#~ msgstr "addmap викликано з помилковим значенням індексу %d"
+
+#~ msgid "killkey called with bad index %d"
+#~ msgstr "killkey викликано з помилковим значенням індексу %d"
+
+#~ msgid "killkey called with bad table %d"
+#~ msgstr "killkey викликано з помилковим значенням таблиці %d"
+
+#~ msgid "addkey called with bad index %d"
+#~ msgstr "addkey викликано з помилковим значенням індексу %d"
+
+#~ msgid "addkey called with bad table %d"
+#~ msgstr "addkey викликано з помилковим номером таблиці %d"
+
+#~ msgid "%s: addfunc called with bad func %d\n"
+#~ msgstr "%s: addfunc викликано з помилковим значенням func %d\n"
+
+#~ msgid "%s: addfunc: func_buf overflow\n"
+#~ msgstr "%s: addfunc: переповнення func_buf\n"
+
+#~ msgid "compose table overflow\n"
+#~ msgstr "переповнення таблиці сполучень\n"
+
+#~ msgid "loadkeys: don't know how to compose for %s\n"
+#~ msgstr "loadkeys: невідомий спосіб створення сполучення для %s\n"
+
+#~ msgid "'%s' is not a function key symbol"
+#~ msgstr "«%s» не є символом функціональної клавіші"
+
+#~ msgid "too many (%d) entries on one line"
+#~ msgstr "занадто багато записів (%d) у одному рядку"
+
+#~ msgid "too many key definitions on one line"
+#~ msgstr "занадто багато визначень клавіш у одному рядку"
+
+#~ msgid "Loading %s\n"
+#~ msgstr "Завантаження %s\n"
+
+#~ msgid "syntax error in map file\n"
+#~ msgstr "синтаксична помилка у файлі розкладки\n"
+
+#~ msgid "key bindings not changed\n"
+#~ msgstr "прив’язку клавіш не змінено\n"
+
+#~ msgid "Searching in %s\n"
+#~ msgstr "Пошук у %s\n"
 
 #~ msgid "        use `openvt -f' to force.\n"
 #~ msgstr "        для примусового режиму вкажіть `openvt -f'.\n"
