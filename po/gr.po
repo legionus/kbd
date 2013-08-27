@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.08\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2012-11-16 00:52+0400\n"
+"POT-Creation-Date: 2013-08-13 18:28+0400\n"
 "PO-Revision-Date: 2003-02-16 20:56+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -47,124 +47,12 @@ msgstr "%s: VT 1 είναι η κονσόλα και δε μπορεί ν' απ�
 msgid "%s: could not deallocate console %d\n"
 msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: src/dumpkeys.c:66
-#, fuzzy, c-format
-msgid "KDGKBENT error at index 0 in table %d\n"
-msgstr "Σφάλμα KDGKBENT στο ευρετήριο 0 στον πίνακα %d: "
-
-#: src/dumpkeys.c:79
-#, c-format
-msgid "%s: cannot find any keymaps?\n"
-msgstr "%s: δε βρέθηκε καμία απεικόνιση πλήκτρων (keymap);\n"
-
-#: src/dumpkeys.c:84
-#, c-format
-msgid "%s: plain map not allocated? very strange ...\n"
-msgstr "%s: δεν εκχωρήθηκε μιά απλή απεικόνιση; πολύ περίεργο ...\n"
-
-#: src/dumpkeys.c:118
-#, fuzzy, c-format
-msgid "KDGKBENT error at index %d in table %d\n"
-msgstr "Σφάλμα KDGKBENT στο ευρετήριο %d στον πίνακα %d: "
-
-#: src/dumpkeys.c:272
-#, c-format
-msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr ""
-"περιοχή των keycode που υποστηρίζεται απο τον πυρήνα:           1 - %d\n"
-
-#: src/dumpkeys.c:274
-#, c-format
-msgid "max number of actions bindable to a key:         %d\n"
-msgstr "μέγιστος αριθμός ενεργειών αποδοτέων σ' ένα πλήκτρο:       %d\n"
-
-#: src/dumpkeys.c:277
-#, c-format
-msgid "number of keymaps in actual use:                 %d\n"
-msgstr "αριθμός απεικονίσεων πλήκτρων εν χρήσει:                 %d\n"
-
-#: src/dumpkeys.c:280
-#, c-format
-msgid "of which %d dynamically allocated\n"
-msgstr "από τους οποίους %d έχουν διατεθεί δυναμικά\n"
-
-#: src/dumpkeys.c:281
-#, c-format
-msgid "ranges of action codes supported by kernel:\n"
-msgstr "περιοχές κωδικών ενέργειας που υποστηρίζονται από τον πυρήνα:\n"
-
-#: src/dumpkeys.c:286
-#, c-format
-msgid "number of function keys supported by kernel: %d\n"
-msgstr "αριθμός πλήκτρων λειτουργιών υποστηριζομένων απ' τον πυρήνα : %d\n"
-
-#: src/dumpkeys.c:289
-#, c-format
-msgid "max nr of compose definitions: %d\n"
-msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
-
-#: src/dumpkeys.c:291
-#, c-format
-msgid "nr of compose definitions in actual use: %d\n"
-msgstr "αριθμός συνθέτων προσδιορισμών εν χρήσει: %d\n"
-
-#: src/dumpkeys.c:316
-#, c-format
-msgid ""
-"Symbols recognized by %s:\n"
-"(numeric value, symbol)\n"
-"\n"
-msgstr ""
-"Σύμβολα αναγνωρισμένα από %s:\n"
-"(αριθμητική τιμή, σύμβολο)\n"
-"\n"
-
-#: src/dumpkeys.c:329
-#, c-format
-msgid ""
-"\n"
-"The following synonyms are recognized:\n"
-"\n"
-msgstr ""
-"\n"
-"Τα παρακάτω συνώνημα αναγνωρίστηκαν:\n"
-"\n"
-
-#: src/dumpkeys.c:331
-#, c-format
-msgid "%-15s for %s\n"
-msgstr "%-15s για %s\n"
-
-#: src/dumpkeys.c:333
-#, c-format
-msgid ""
-"\n"
-"Recognized modifier names and their column numbers:\n"
-msgstr ""
-"\n"
-"Ονόματα αναγνωρισμένων μετατροπέων και οι αριθμοί τους στήλης :\n"
-
-#: src/dumpkeys.c:398
-#, c-format
-msgid "# not alt_is_meta: on keymap %d key %d is bound to"
-msgstr "# δεν είναι alt_is_meta: στην keymap %d το πλήκτρο %d αντιστοιχεί σε"
-
-#: src/dumpkeys.c:475
-#, c-format
-msgid "impossible: not meta?\n"
-msgstr "αδύνατον: δεν είναι meta;\n"
-
-#: src/dumpkeys.c:532
-#, c-format
-msgid "KDGKBSENT failed at index %d: "
-msgstr "Αποτυχία KDGKBSENT στο ευρετήριο %d: "
-
-#: src/dumpkeys.c:552
+#: src/dumpkeys.c:28
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys έκδοση %s"
 
-#: src/dumpkeys.c:553
+#: src/dumpkeys.c:29
 #, c-format
 msgid ""
 "\n"
@@ -202,7 +90,7 @@ msgstr ""
 "\t   --compose-only    εμφάνιση μόνο των συνδιασμών των πλήκτρων\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:570
+#: src/dumpkeys.c:46
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -210,6 +98,27 @@ msgid ""
 msgstr ""
 "\t\t\t    διερμηνεία κωδικών των χαρακτήρων ενέργειας\n"
 "\t\t\t    από το προδιαγεγραμμένο σύνολο χαρακτήρων\n"
+
+#: src/dumpkeys.c:132
+#, c-format
+msgid "unknown charset %s - ignoring charset request\n"
+msgstr "άγνωστο σύνολο χαρακτήρων %s - η αίτηση αγνοήθηκε\n"
+
+#: src/dumpkeys.c:153 src/loadkeys.c:176
+#, fuzzy, c-format
+msgid "%s: error reading keyboard mode: %m\n"
+msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
+
+#: src/dumpkeys.c:169
+#, c-format
+msgid ""
+"Symbols recognized by %s:\n"
+"(numeric value, symbol)\n"
+"\n"
+msgstr ""
+"Σύμβολα αναγνωρισμένα από %s:\n"
+"(αριθμητική τιμή, σύμβολο)\n"
+"\n"
 
 #: src/fgconsole.c:17
 #, c-format
@@ -230,16 +139,6 @@ msgstr ""
 msgid "Couldn't read VTNO: "
 msgstr "αδύνατη ανάγνωση %s\n"
 
-#: src/findfile.c:51
-#, c-format
-msgid "error executing  %s\n"
-msgstr "σφάλμα κατά την εκτέλεση  %s\n"
-
-#: src/findfile.c:157
-#, fuzzy, c-format
-msgid "Warning: path too long: %s/%s\n"
-msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
-
 #: src/getfd.c:67
 #, fuzzy, c-format
 msgid "Couldn't open %s\n"
@@ -255,27 +154,27 @@ msgstr "Δε μπορώ να λάβω περιγραφέα αρχείου που
 msgid "usage: getkeycodes\n"
 msgstr "χρήση: getkeycodes\n"
 
-#: src/getkeycodes.c:56
+#: src/getkeycodes.c:54
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr ""
 "Απλοί κωδικοί σάρωσης xx (hex) και οι αντίστοιχοι κωδικοί πλήκτρων (dec)\n"
 
-#: src/getkeycodes.c:59
+#: src/getkeycodes.c:57
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
 "0 είναι ένα σφάλμα; για 1-88 (0x01-0x58) ο κωδικός σάρωσης ισούται με τον "
 "κωδικό πλήκτρου\n"
 
-#: src/getkeycodes.c:62
+#: src/getkeycodes.c:60
 #, fuzzy, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr ""
 "0 είναι ένα σφάλμα; για 1-88 (0x01-0x58) ο κωδικός σάρωσης ισούται με τον "
 "κωδικό πλήκτρου\n"
 
-#: src/getkeycodes.c:68
+#: src/getkeycodes.c:66
 #, c-format
 msgid ""
 "\n"
@@ -286,7 +185,7 @@ msgstr ""
 "\n"
 "Κωδικοί σάρωσης διαφυγής e0 xx (hex)\n"
 
-#: src/getkeycodes.c:93
+#: src/getkeycodes.c:91
 #, c-format
 msgid "failed to get keycode for scancode 0x%x\n"
 msgstr "αποτυχία κατά τη λήψη κωδικού πλήκτρου για τον κώδικα σάρωσης 0x%x\n"
@@ -361,31 +260,31 @@ msgstr "Το πληκτρολόγιο βρίσκεται σε κάποια άγ�
 msgid "%s: error setting keyboard mode\n"
 msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
 
-#: src/kbdrate.c:156 src/kbdrate.c:175 src/kbdrate.c:339
+#: src/kbdrate.c:155 src/kbdrate.c:174 src/kbdrate.c:338
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Ο ρυθμός επανάληψης ρυθμίστηκε σε %.1f cps (καθυστέρηση = %d ms)\n"
 
-#: src/kbdrate.c:267
+#: src/kbdrate.c:266
 #, c-format
 msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 msgstr "Χρήση: kbdrate [-V] [-s] [-r ρυθμός] [-d καθυστέρηση]\n"
 
-#: src/kbdrate.c:297
+#: src/kbdrate.c:296
 msgid "Cannot open /dev/port"
 msgstr "Αδυναμία ανοίγματος του /dev/port"
 
-#: src/kdfontop.c:197
+#: src/kdfontop.c:95
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "bug: getfont κλήθηκε με μετρητή<256\n"
 
-#: src/kdfontop.c:201
+#: src/kdfontop.c:99
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr ""
 
-#: src/kdfontop.c:258 src/kdmapop.c:150 src/xmalloc.c:15
+#: src/kdfontop.c:156 src/kdmapop.c:150 src/xmalloc.c:15
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: η μνήμη εξαντλήθηκε\n"
@@ -402,76 +301,289 @@ msgid ""
 "No Unicode mapping table loaded.\n"
 msgstr ""
 
-#: src/ksyms.c:1713
-#, c-format
-msgid "unknown charset %s - ignoring charset request\n"
-msgstr "άγνωστο σύνολο χαρακτήρων %s - η αίτηση αγνοήθηκε\n"
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
+#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/loadkeys.c:118
+#, fuzzy
+msgid "out of memory"
+msgstr "%s: η μνήμη εξαντλήθηκε\n"
 
-#: src/ksyms.c:1819
+#: src/libkeymap/common.c:132
 #, c-format
-msgid "assuming iso-8859-1 %s\n"
+msgid "unable to initialize array: %s"
+msgstr ""
+
+#: src/libkeymap/dump.c:82
+#, fuzzy
+msgid "Error writing map to file"
+msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
+
+#: src/libkeymap/dump.c:527
+#, c-format
+msgid "impossible: not meta?\n"
+msgstr "αδύνατον: δεν είναι meta;\n"
+
+#: src/libkeymap/kernel.c:31
+#, fuzzy, c-format
+msgid "KDGKBENT: %s: error at index %d in table %d"
+msgstr "Σφάλμα KDGKBENT στο ευρετήριο %d στον πίνακα %d: "
+
+#: src/libkeymap/kernel.c:57
+#, c-format
+msgid "KDGKBSENT: %s: Unable to get function key string"
+msgstr ""
+
+#: src/libkeymap/kernel.c:87
+#, c-format
+msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
+msgstr ""
+
+#: src/libkeymap/kmap.c:72
+#, fuzzy, c-format
+msgid "unable to keymap %d"
+msgstr "openvt: Δε μπορώ ν' ανοίξω το %s: %s\n"
+
+#: src/libkeymap/kmap.c:91
+#, fuzzy, c-format
+msgid "unable to get keymap %d"
+msgstr "openvt: Δε μπορώ ν' ανοίξω το %s: %s\n"
+
+#: src/libkeymap/kmap.c:99
+#, fuzzy, c-format
+msgid "unable to unset key %d for table %d"
+msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
+
+#: src/libkeymap/kmap.c:116
+#, c-format
+msgid "lk_add_key called with bad keycode %d"
+msgstr ""
+
+#: src/libkeymap/kmap.c:126
+#, c-format
+msgid "adding map %d violates explicit keymaps line"
+msgstr ""
+
+#: src/libkeymap/kmap.c:142
+#, fuzzy, c-format
+msgid "unable to set key %d for table %d"
+msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
+
+#: src/libkeymap/kmap.c:171
+#, fuzzy, c-format
+msgid "func %d not allocated"
+msgstr "από τους οποίους %d έχουν διατεθεί δυναμικά\n"
+
+#: src/libkeymap/kmap.c:311
+msgid "impossible error in lk_add_constants"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:304
+#, fuzzy, c-format
+msgid "assuming iso-8859-1 %s"
 msgstr "υποθέτοντας iso-8859-1 %s\n"
 
-#: src/ksyms.c:1826
-#, c-format
-msgid "assuming iso-8859-15 %s\n"
+#: src/libkeymap/ksyms.c:310
+#, fuzzy, c-format
+msgid "assuming iso-8859-15 %s"
 msgstr "υποθέτοντας iso-8859-15 %s\n"
 
-#: src/ksyms.c:1833
-#, c-format
-msgid "assuming iso-8859-2 %s\n"
+#: src/libkeymap/ksyms.c:316
+#, fuzzy, c-format
+msgid "assuming iso-8859-2 %s"
 msgstr "υποθέτοντας iso-8859-2 %s\n"
 
-#: src/ksyms.c:1840
-#, c-format
-msgid "assuming iso-8859-3 %s\n"
+#: src/libkeymap/ksyms.c:322
+#, fuzzy, c-format
+msgid "assuming iso-8859-3 %s"
 msgstr "υποθέτοντας iso-8859-3 %s\n"
 
-#: src/ksyms.c:1847
-#, c-format
-msgid "assuming iso-8859-4 %s\n"
+#: src/libkeymap/ksyms.c:328
+#, fuzzy, c-format
+msgid "assuming iso-8859-4 %s"
 msgstr "υποθέτοντας iso-8859-4 %s\n"
 
-#: src/ksyms.c:1852
+#: src/libkeymap/ksyms.c:333
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "άγνωστο keysym '%s'\n"
 
-#: loadkeys.analyze.l:51
-msgid "includes are nested too deeply"
-msgstr ""
-
-#: loadkeys.analyze.l:238
-#, c-format
-msgid "switching to %s\n"
-msgstr ""
-
-#: loadkeys.analyze.l:242
+#: src/libkeymap/loadkeys.c:26
 #, fuzzy, c-format
-msgid "cannot open include file %s"
-msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
 
-#: loadkeys.analyze.l:314
-msgid "expected filename between quotes"
-msgstr ""
-
-#: loadkeys.analyze.l:353
+#: src/libkeymap/loadkeys.c:48
 #, c-format
-msgid "unicode keysym out of range: %s"
+msgid "Keymap %d: Permission denied"
 msgstr ""
 
-#: loadkeys.analyze.l:404 loadkeys.analyze.l:409 loadkeys.analyze.l:414
-#: loadkeys.analyze.l:419 loadkeys.analyze.l:426
-#, fuzzy
-msgid "string too long"
-msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
+#: src/libkeymap/loadkeys.c:56
+#, fuzzy, c-format
+msgid "keycode %d, table %d = %d%s"
+msgstr "κωδικός πλήκτρου %3d %s\n"
 
-#: loadkeys.y:93
+#: src/libkeymap/loadkeys.c:57
+msgid "    FAILED"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:60
+#, fuzzy, c-format
+msgid "failed to bind key %d to value %d"
+msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
+
+#: src/libkeymap/loadkeys.c:70
+#, fuzzy, c-format
+msgid "deallocate keymap %d"
+msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
+
+#: src/libkeymap/loadkeys.c:74
+#, fuzzy, c-format
+msgid "KDSKBENT: %s: could not deallocate keymap %d"
+msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
+
+#: src/libkeymap/loadkeys.c:89
+#, fuzzy, c-format
+msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
+msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
+
+#: src/libkeymap/loadkeys.c:99
+#, fuzzy, c-format
+msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
+
+#: src/libkeymap/loadkeys.c:161
+#, fuzzy, c-format
+msgid "failed to bind string '%s' to function %s"
+msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
+
+#: src/libkeymap/loadkeys.c:171
+#, fuzzy, c-format
+msgid "failed to clear string %s"
+msgstr "αποτυχία αποκατάστασης αρχικού unimap\n"
+
+#: src/libkeymap/loadkeys.c:190
+#, fuzzy
+msgid "too many compose definitions"
+msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
+
+#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
+#, fuzzy
+msgid "unable to get compose definitions"
+msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
+
+#: src/libkeymap/loadkeys.c:253
+#, c-format
+msgid ""
+"\n"
+"Changed %d %s and %d %s"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:254
+msgid "key"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:254
+msgid "keys"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:255
+msgid "string"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:255
+msgid "strings"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:263
+#, c-format
+msgid "Loaded %d compose %s"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:264
+msgid "definition"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:264
+msgid "definitions"
+msgstr ""
+
+#: src/libkeymap/loadkeys.c:267
+#, fuzzy
+msgid "(No change in compose definitions)"
+msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
+
+#: src/libkeymap/summary.c:93
+#, c-format
+msgid "keycode range supported by kernel:           1 - %d\n"
+msgstr ""
+"περιοχή των keycode που υποστηρίζεται απο τον πυρήνα:           1 - %d\n"
+
+#: src/libkeymap/summary.c:95
+#, c-format
+msgid "max number of actions bindable to a key:         %d\n"
+msgstr "μέγιστος αριθμός ενεργειών αποδοτέων σ' ένα πλήκτρο:       %d\n"
+
+#: src/libkeymap/summary.c:97
+#, fuzzy, c-format
+msgid "number of keymaps in actual use:                 %u\n"
+msgstr "αριθμός απεικονίσεων πλήκτρων εν χρήσει:                 %d\n"
+
+#: src/libkeymap/summary.c:100
+#, fuzzy, c-format
+msgid "of which %u dynamically allocated\n"
+msgstr "από τους οποίους %d έχουν διατεθεί δυναμικά\n"
+
+#: src/libkeymap/summary.c:103
+#, c-format
+msgid "ranges of action codes supported by kernel:\n"
+msgstr "περιοχές κωδικών ενέργειας που υποστηρίζονται από τον πυρήνα:\n"
+
+#: src/libkeymap/summary.c:109
+#, c-format
+msgid "number of function keys supported by kernel: %d\n"
+msgstr "αριθμός πλήκτρων λειτουργιών υποστηριζομένων απ' τον πυρήνα : %d\n"
+
+#: src/libkeymap/summary.c:111
+#, c-format
+msgid "max nr of compose definitions: %d\n"
+msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
+
+#: src/libkeymap/summary.c:113
+#, fuzzy, c-format
+msgid "nr of compose definitions in actual use: %u\n"
+msgstr "αριθμός συνθέτων προσδιορισμών εν χρήσει: %d\n"
+
+#: src/libkeymap/summary.c:139
+#, c-format
+msgid ""
+"\n"
+"The following synonyms are recognized:\n"
+"\n"
+msgstr ""
+"\n"
+"Τα παρακάτω συνώνημα αναγνωρίστηκαν:\n"
+"\n"
+
+#: src/libkeymap/summary.c:142
+#, c-format
+msgid "%-15s for %s\n"
+msgstr "%-15s για %s\n"
+
+#: src/libkeymap/summary.c:146
+#, c-format
+msgid ""
+"\n"
+"Recognized modifier names and their column numbers:\n"
+msgstr ""
+"\n"
+"Ονόματα αναγνωρισμένων μετατροπέων και οι αριθμοί τους στήλης :\n"
+
+#: src/loadkeys.c:35
 #, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
-"Usage: loadkeys [option...] [mapfile...]\n"
+"Usage: %s [option...] [mapfile...]\n"
 "\n"
 "Valid options are:\n"
 "\n"
@@ -489,234 +601,36 @@ msgid ""
 "  -v --verbose       report the changes\n"
 msgstr ""
 
-#: loadkeys.y:152
+#: src/loadkeys.c:154 src/version.h:20
 #, c-format
-msgid "addmap called with bad index %d"
-msgstr ""
+msgid "%s from %s\n"
+msgstr "%s από %s\n"
 
-#: loadkeys.y:156
-#, c-format
-msgid "adding map %d violates explicit keymaps line"
-msgstr ""
-
-#: loadkeys.y:170
-#, c-format
-msgid "killkey called with bad index %d"
-msgstr ""
-
-#: loadkeys.y:173
-#, c-format
-msgid "killkey called with bad table %d"
-msgstr ""
-
-#: loadkeys.y:189
-#, c-format
-msgid "addkey called with bad keycode %d"
-msgstr ""
-
-#: loadkeys.y:192
-#, c-format
-msgid "addkey called with bad index %d"
-msgstr ""
-
-#: loadkeys.y:195
-#, c-format
-msgid "addkey called with bad table %d"
-msgstr ""
-
-#: loadkeys.y:241
-#, c-format
-msgid "%s: addfunc called with bad func %d\n"
-msgstr ""
-
-#: loadkeys.y:272
-#, c-format
-msgid "%s: addfunc: func_buf overflow\n"
-msgstr ""
-
-#: loadkeys.y:300
-#, c-format
-msgid "compose table overflow\n"
-msgstr ""
-
-#: loadkeys.y:320
-#, fuzzy, c-format
-msgid "%s: could not switch to Unicode mode\n"
-msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
-
-#: loadkeys.y:339
-#, c-format
-msgid "Keymap %d: Permission denied\n"
-msgstr ""
-
-#: loadkeys.y:348
-#, fuzzy, c-format
-msgid "keycode %d, table %d = %d%s\n"
-msgstr "κωδικός πλήκτρου %3d %s\n"
-
-#: loadkeys.y:350
-msgid "    FAILED"
-msgstr ""
-
-#: loadkeys.y:354
-#, fuzzy, c-format
-msgid "failed to bind key %d to value %d\n"
-msgstr "αποτυχία απόδοσης του κωδικού σάρωσης %x στον κωδικό πλήκτρου %d\n"
-
-#: loadkeys.y:366
-#, c-format
-msgid "deallocate keymap %d\n"
-msgstr ""
-
-#: loadkeys.y:372
-#, fuzzy, c-format
-msgid "%s: could not deallocate keymap %d\n"
-msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
-
-#: loadkeys.y:389
-#, fuzzy, c-format
-msgid "%s: cannot deallocate or clear keymap\n"
-msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
-
-#: loadkeys.y:401
-#, fuzzy, c-format
-msgid "%s: could not return to original keyboard mode\n"
-msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
-
-#: loadkeys.y:458
-#, c-format
-msgid "failed to bind string '%s' to function %s\n"
-msgstr ""
-
-#: loadkeys.y:467
-#, fuzzy, c-format
-msgid "failed to clear string %s\n"
-msgstr "αποτυχία αποκατάστασης αρχικού unimap\n"
-
-#: loadkeys.y:488
-#, fuzzy, c-format
-msgid "too many compose definitions\n"
-msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
-
-#: loadkeys.y:580
-msgid "impossible error in do_constant"
-msgstr ""
-
-#: loadkeys.y:596
-#, c-format
-msgid ""
-"\n"
-"Changed %d %s and %d %s.\n"
-msgstr ""
-
-#: loadkeys.y:597
-msgid "key"
-msgstr ""
-
-#: loadkeys.y:597
-msgid "keys"
-msgstr ""
-
-#: loadkeys.y:598
-msgid "string"
-msgstr ""
-
-#: loadkeys.y:598
-msgid "strings"
-msgstr ""
-
-#: loadkeys.y:605
-#, c-format
-msgid "Loaded %d compose %s.\n"
-msgstr ""
-
-#: loadkeys.y:606
-msgid "definition"
-msgstr ""
-
-#: loadkeys.y:606
-msgid "definitions"
-msgstr ""
-
-#: loadkeys.y:610
-#, fuzzy, c-format
-msgid "(No change in compose definitions.)\n"
-msgstr "μέγιστος αριθμός συνθέτων προσδιορισμών: %d\n"
-
-#: loadkeys.y:650
-#, c-format
-msgid "loadkeys: don't know how to compose for %s\n"
-msgstr ""
-
-#: loadkeys.y:886 src/mapscrn.c:275 src/mapscrn.c:280
-#, c-format
-msgid "Error writing map to file\n"
-msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
-
-#: loadkeys.y:954
-#, c-format
-msgid "'%s' is not a function key symbol"
-msgstr ""
-
-#: loadkeys.y:1028
-#, fuzzy, c-format
-msgid "too many (%d) entries on one line"
-msgstr "Πάρα πολλά αρχεία για συνδιασμό\n"
-
-#: loadkeys.y:1042
-msgid "too many key definitions on one line"
-msgstr ""
-
-#: loadkeys.y:1057
-#, fuzzy, c-format
-msgid "Loading %s\n"
-msgstr "Σφάλμα ανάγνωσης %s\n"
-
-#: loadkeys.y:1062
-#, fuzzy, c-format
-msgid "syntax error in map file\n"
-msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
-
-#: loadkeys.y:1066
-#, c-format
-msgid "key bindings not changed\n"
-msgstr ""
-
-#: loadkeys.y:1146
+#: src/loadkeys.c:164
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
-#: loadkeys.y:1158
-#, fuzzy, c-format
-msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
-
-#: loadkeys.y:1166
+#: src/loadkeys.c:184
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
 
-#: loadkeys.y:1178
+#: src/loadkeys.c:196
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
 
-#: loadkeys.y:1187
-#, fuzzy, c-format
-msgid "Searching in %s\n"
-msgstr "σφάλμα κατά την εκτέλεση  %s\n"
-
-#: loadkeys.y:1197
+#: src/loadkeys.c:214
 #, fuzzy, c-format
 msgid "Cannot find %s\n"
 msgstr "Αδυνατώ να βρω τη γραμματοσειρά %s\n"
 
-#: loadkeys.y:1213
+#: src/loadkeys.c:236
 #, fuzzy, c-format
 msgid "cannot open file %s\n"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
@@ -765,17 +679,17 @@ msgstr ""
 msgid "%s: trailing junk (%s) ignored\n"
 msgstr "%s: αγνοήθηκαν σκουπίδια στο τέλος (%s)\n"
 
-#: src/loadunimap.c:274
+#: src/loadunimap.c:273
 #, c-format
 msgid "Loading unicode map from file %s\n"
 msgstr "Φόρτωση της απεικόνισης unicode από το αρχείο %s\n"
 
-#: src/loadunimap.c:280
+#: src/loadunimap.c:279
 #, c-format
 msgid "%s: %s: Warning: line too long\n"
 msgstr "%s: %s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
 
-#: src/loadunimap.c:290
+#: src/loadunimap.c:289
 #, c-format
 msgid ""
 "%s: not loading empty unimap\n"
@@ -784,20 +698,20 @@ msgstr ""
 "%s: δε φορτώνεται άδειο unimap\n"
 "(αν επιμένετε: χρησιμοποιείστε την επιλογή -f για παράβλεψη)\n"
 
-#: src/loadunimap.c:311
+#: src/loadunimap.c:310
 msgid "entry"
 msgstr "καταχώρηση"
 
-#: src/loadunimap.c:311
+#: src/loadunimap.c:310
 msgid "entries"
 msgstr "καταχωρήσεις"
 
-#: src/loadunimap.c:337
+#: src/loadunimap.c:336
 #, c-format
 msgid "Saved unicode map on `%s'\n"
 msgstr "Η απεικόνιση unicode αποθηκεύθηκε στο `%s'\n"
 
-#: src/loadunimap.c:373
+#: src/loadunimap.c:372
 #, c-format
 msgid "Appended Unicode map\n"
 msgstr "Προσαρτήθηκε απεικόνιση Unicode\n"
@@ -845,6 +759,11 @@ msgid "Error parsing symbolic map from `%s', line %d\n"
 msgstr ""
 "Σφάλμα κατά τη γραμματοσυντακτική ανάλυσητης συμβολικής απεικόνισης από `"
 "%s', γραμμή %d\n"
+
+#: src/mapscrn.c:275 src/mapscrn.c:280
+#, c-format
+msgid "Error writing map to file\n"
+msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
 
 #: src/mapscrn.c:284
 #, c-format
@@ -1027,7 +946,7 @@ msgstr "appendunicode: παράτυπο unicode %u\n"
 msgid "Cannot write font file header"
 msgstr "Αδυναμία εγγραφής της επικεφαλίδας του αρχείου γραμματοσειράς"
 
-#: src/psffontop.c:469 src/setfont.c:677
+#: src/psffontop.c:469 src/setfont.c:678
 #, c-format
 msgid "Cannot write font file"
 msgstr "Δε μπορώ να γράψω στο αρχείο της γραμματοσειράς"
@@ -1113,39 +1032,39 @@ msgstr "%s: αρχείο psf με άγνωστο μαγικό αριθμό\n"
 msgid "%s: input font does not have an index\n"
 msgstr "%s: η γραμματοσειρά εισόδου δεν περιέχει ευρετήριο\n"
 
-#: src/resizecons.c:154
+#: src/resizecons.c:153
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: αδυνατώ να βρω το αρχείο videomode %s\n"
 
-#: src/resizecons.c:173
+#: src/resizecons.c:172
 #, c-format
 msgid "Invalid number of lines\n"
 msgstr "Άκυρος αριθμός γραμμών\n"
 
-#: src/resizecons.c:239
+#: src/resizecons.c:238
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Παλαιά κατάσταση: %dx%d  Νέα κατάσταση: %dx%d\n"
 
-#: src/resizecons.c:241
+#: src/resizecons.c:240
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "Παλαιές #scanlines: %d  Νέες #scanlines: %d  Ύψος χαρακτήρα: %d\n"
 
-#: src/resizecons.c:252
+#: src/resizecons.c:251
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: αποτυχία εντολής `%s'\n"
 
-#: src/resizecons.c:325
+#: src/resizecons.c:324
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: μή ξεχνάτε την αλλαγή του TERM (ίσως σε con%dx%d ή linux-%dx%d)\n"
 
-#: src/resizecons.c:338
+#: src/resizecons.c:337
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1158,7 +1077,7 @@ msgstr ""
 "ή: resizecons -lines ΓΡΑΜΜΕΣ, με ΓΡΑΜΜΕΣ μία από 25, 28, 30, 34, 36, 40, 44, "
 "50, 60\n"
 
-#: src/resizecons.c:376
+#: src/resizecons.c:375
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: αδύνατη η λήψη δικαιωμάτων I/O.\n"
@@ -1319,7 +1238,7 @@ msgstr "%s: σφάλμα στο do_loadtable\n"
 msgid "Loading Unicode mapping table...\n"
 msgstr "Φόρτωση πίνακα απεικόνισης Unicode...\n"
 
-#: src/setfont.c:414 src/setfont.c:500
+#: src/setfont.c:414 src/setfont.c:501
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
@@ -1348,42 +1267,42 @@ msgid "When loading several fonts, all must have the same width\n"
 msgstr ""
 "Κατά τη φόρτωση πολλών γραμματοσειρών, όλες πρέπει να έχουν ίδιο πλάτος\n"
 
-#: src/setfont.c:487
+#: src/setfont.c:488
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "Αδυνατώ να βρω την προεπιλεγμένη γραμματοσειρά\n"
 
-#: src/setfont.c:494
+#: src/setfont.c:495
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "Αδυνατώ να βρω τη γραμματοσειρά %s\n"
 
-#: src/setfont.c:506
+#: src/setfont.c:507
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "Ανάγνωση αρχείου γραμματοσειράς %s\n"
 
-#: src/setfont.c:546
+#: src/setfont.c:547
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "Δεν υπάρχει τελική νέα γραμμή στο συνδιασμένο αρχείο\n"
 
-#: src/setfont.c:552
+#: src/setfont.c:553
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "Πάρα πολλά αρχεία για συνδιασμό\n"
 
-#: src/setfont.c:576
+#: src/setfont.c:577
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr "Χμμ - γραμματοσειρά από το restorefont; Χρήση του πρώτου μισού.\n"
 
-#: src/setfont.c:593
+#: src/setfont.c:594
 #, c-format
 msgid "Bad input file size\n"
 msgstr "Εσφαλμένο μέγεθος αρχείου εισόδου\n"
 
-#: src/setfont.c:614
+#: src/setfont.c:615
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1392,19 +1311,19 @@ msgstr ""
 "Αυτό το αρχείο περιέχει 3 γραμματοσειρές: 8x8, 8x14 και 8x16. Παρακαλώ\n"
 "υποδείξτε με τις επιλογές -8 ή -14 ή -16 ποια θέλετε.\n"
 
-#: src/setfont.c:628
+#: src/setfont.c:629
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Ζητήσατε μέγεθος γραμματοσειράς %d, αλλά μόνον 8, 14, 16\n"
 "είναι δυνατόν εδώ.\n"
 
-#: src/setfont.c:673
+#: src/setfont.c:674
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "Τίποτε για διάσωση\n"
 
-#: src/setfont.c:682
+#: src/setfont.c:683
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "%d-χαρακτ. της γραμματοσειράς %dx%d διασώθηκαν στο αρχείο %s\n"
@@ -1794,11 +1713,6 @@ msgstr "κωδικός πλήκτρου %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "χρήση: getkeycodes\n"
 
-#: src/version.h:20
-#, c-format
-msgid "%s from %s\n"
-msgstr "%s από %s\n"
-
 #: src/vlock/auth.c:58
 msgid ""
 "Please try again later.\n"
@@ -1859,6 +1773,54 @@ msgstr ""
 #, fuzzy, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 είναι η κονσόλα και δε μπορεί ν' αποδεσμευτεί\n"
+
+#, fuzzy
+#~ msgid "KDGKBENT error at index 0 in table %d\n"
+#~ msgstr "Σφάλμα KDGKBENT στο ευρετήριο 0 στον πίνακα %d: "
+
+#~ msgid "%s: cannot find any keymaps?\n"
+#~ msgstr "%s: δε βρέθηκε καμία απεικόνιση πλήκτρων (keymap);\n"
+
+#~ msgid "%s: plain map not allocated? very strange ...\n"
+#~ msgstr "%s: δεν εκχωρήθηκε μιά απλή απεικόνιση; πολύ περίεργο ...\n"
+
+#~ msgid "# not alt_is_meta: on keymap %d key %d is bound to"
+#~ msgstr ""
+#~ "# δεν είναι alt_is_meta: στην keymap %d το πλήκτρο %d αντιστοιχεί σε"
+
+#~ msgid "KDGKBSENT failed at index %d: "
+#~ msgstr "Αποτυχία KDGKBSENT στο ευρετήριο %d: "
+
+#~ msgid "error executing  %s\n"
+#~ msgstr "σφάλμα κατά την εκτέλεση  %s\n"
+
+#, fuzzy
+#~ msgid "Warning: path too long: %s/%s\n"
+#~ msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
+
+#, fuzzy
+#~ msgid "cannot open include file %s"
+#~ msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
+
+#, fuzzy
+#~ msgid "string too long"
+#~ msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
+
+#, fuzzy
+#~ msgid "too many (%d) entries on one line"
+#~ msgstr "Πάρα πολλά αρχεία για συνδιασμό\n"
+
+#, fuzzy
+#~ msgid "Loading %s\n"
+#~ msgstr "Σφάλμα ανάγνωσης %s\n"
+
+#, fuzzy
+#~ msgid "syntax error in map file\n"
+#~ msgstr "Σφάλμα εγγραφής της απεικόνισης στο αρχείο\n"
+
+#, fuzzy
+#~ msgid "Searching in %s\n"
+#~ msgstr "σφάλμα κατά την εκτέλεση  %s\n"
 
 #~ msgid "        use `openvt -f' to force.\n"
 #~ msgstr "        χρησιμοποιείστε `openvt -f' προς εξαναγκασμό.\n"

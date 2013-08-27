@@ -35,7 +35,7 @@ unsigned char vga_colors[] = {
 	0xff, 0xff, 0xff,
 };
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(int code)
 {
 	fprintf(stderr,

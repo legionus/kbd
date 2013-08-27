@@ -28,8 +28,8 @@
 extern char *progname;
 extern int force;
 
-static char *unidirpath[] = { "", DATADIR "/" UNIMAPDIR "/", 0 };
-static char *unisuffixes[] = { "", ".uni", ".sfm", 0 };
+static const char *const unidirpath[] = { "", DATADIR "/" UNIMAPDIR "/", 0 };
+static const char *const unisuffixes[] = { "", ".uni", ".sfm", 0 };
 
 #ifdef MAIN
 #include "version.h"
@@ -37,7 +37,7 @@ int verbose = 0;
 int force = 0;
 int debug = 0;
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void) {
         fprintf(stderr,
 		_("Usage:\n\t%s [-C console] [-o map.orig]\n"), progname);
@@ -260,20 +260,19 @@ parseline(char *buffer, char *tblname) {
 
 void
 loadunicodemap(int fd, char *tblname) {
-	FILE *mapf;
 	char buffer[65536];
 	char *p;
+	lkfile_t fp;
 
-	mapf = findfile(tblname, unidirpath, unisuffixes);
-	if ( !mapf ) {
+	if (lk_findfile(tblname, unidirpath, unisuffixes, &fp)) {
 		perror(tblname);
 		exit(EX_NOINPUT);
 	}
 
 	if (verbose)
-		printf(_("Loading unicode map from file %s\n"), pathname);
+		printf(_("Loading unicode map from file %s\n"), fp.pathname);
 
-	while ( fgets(buffer, sizeof(buffer), mapf) != NULL ) {
+	while ( fgets(buffer, sizeof(buffer), fp.fd) != NULL ) {
 		if ( (p = strchr(buffer, '\n')) != NULL )
 			*p = '\0';
 		else
@@ -283,7 +282,7 @@ loadunicodemap(int fd, char *tblname) {
 		parseline(buffer, tblname);
 	}
 
-	fpclose(mapf);
+	lk_fpclose(&fp);
 
 	if (listct == 0 && !force) {
 		fprintf(stderr,

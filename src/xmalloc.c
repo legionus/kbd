@@ -10,7 +10,7 @@
 
 extern char *progname;
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 nomem(void) {
 	fprintf(stderr, _("%s: out of memory\n"), progname);
 	exit(EX_OSERR);

@@ -11,7 +11,7 @@
 #include "nls.h"
 #include "version.h"
 
-static void attr_noreturn
+static void __attribute__ ((noreturn))
 usage(void)
 {
 	fprintf(stderr, _("%s version %s\n"
