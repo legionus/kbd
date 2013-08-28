@@ -1,6 +1,6 @@
 Name: kbd
 Serial: 0
-Version: 1.15.5
+Version: 2.0.0
 Release: alt1
 
 Group: Terminals
@@ -13,6 +13,8 @@ Packager: Alexey Gladkov <legion@altlinux.ru>
 
 ExclusiveOS: Linux
 ExcludeArch: s390 s390x
+
+Requires: libkeymap = %version-%release
 
 Provides: console-tools_or_kbd = %name%serial:%version-%release
 Conflicts: console-tools_or_kbd < %name%serial:%version-%release
@@ -38,7 +40,7 @@ Patch23: man_pages.diff
 Patch100: kbd-1.12-alt-unicode_start_vs_setfont.patch
 
 # Automatically added by buildreq on Mon Jan 07 2008 (-bi)
-BuildRequires: flex libpam-devel
+BuildRequires: doxygen flex libpam-devel libcheck-devel
 
 %description
 This package contains tools for managing the Linux console
@@ -161,6 +163,22 @@ lock the current terminal (local or remote) or the entire virtual console
 system, which completely disables all console access.  The vlock program
 unlocks when the password of the user who started vlock is typed.
 
+%package -n libkeymap
+Summary: The library to manage the Linux keymaps
+Group: System/Libraries
+
+%description -n libkeymap
+The library to manage the Linux keymaps.
+
+%package -n libkeymap-devel
+Summary: Files needed to develop programs which use the libkeymap library
+Group: Development/C
+Requires: libkeymap = %version-%release
+
+%description -n libkeymap-devel
+This package contains the files needed to develop programs which use
+the libkeymap library.
+
 
 %prep
 %setup -q
@@ -174,6 +192,7 @@ unlocks when the password of the user who started vlock is typed.
 	--mandir=%_mandir \
 	--enable-nls \
 	--enable-optional-progs \
+	--enable-libkeymap \
 	#
 
 %make_build
@@ -181,6 +200,7 @@ unlocks when the password of the user who started vlock is typed.
 %install
 %makeinstall \
 	bindir="%buildroot/bin" \
+	libdir="%buildroot/%_lib" \
 	datadir="%buildroot/lib/%name" \
 	localedir="%buildroot/%_datadir/locale" \
 	gnulocaledir="%buildroot/%_datadir/locale" \
@@ -209,6 +229,15 @@ ln -s -- %_usr/lib/consolehelper/helper %buildroot/bin/kbdrate
 
 install -p -m640 src/vlock/vlock.pamd %buildroot/%_sysconfdir/pam.d/vlock
 mv %buildroot/bin/vlock %buildroot/%_bindir/
+
+mv -f -- \
+	%buildroot/%_lib/{pkgconfig,libkeymap.so} \
+	%buildroot/%_libdir/
+rm -f -- %buildroot/%_lib/*.{la,a}
+
+t=$(readlink -v %buildroot/%_libdir/libkeymap.so)
+rl=$(relative "/%_lib/$t" %_libdir/libkeymap.so)
+ln -sf -- "$rl" %buildroot/%_libdir/libkeymap.so
 
 mkdir -p \
 	%buildroot/%_initdir \
@@ -329,12 +358,20 @@ done
 %exclude %_man1dir/vlock.*
 %exclude %_man8dir/kbdrate.*
 
+%files -n libkeymap
+/%_lib/*.so.*
+
+%files -n libkeymap-devel
+%_includedir/*
+%_pkgconfigdir/*
+%_libdir/*.so
+
 %files -n %name-data
 /lib/%name
 %ghost %_libdir/%name
 
 %files -n %name-docs
-%doc ChangeLog CREDITS README doc/*.txt doc/kbd.FAQ*.html doc/font-formats/*.html doc/utf
+%doc ChangeLog CREDITS README docs/doc/*.txt docs/doc/kbd.FAQ*.html docs/doc/font-formats/*.html docs/doc/utf
 
 %files -n console-vt-tools
 /bin/chvt
@@ -378,6 +415,10 @@ done
 %_man1dir/vlock.*
 
 %changelog
+* Wed Aug 28 2013 Alexey Gladkov <legion@altlinux.ru> 0:2.0.0-alt1
+- New release version (2.0.0).
+- Add libkeymap subpackage.
+
 * Wed Apr 17 2013 Alexey Gladkov <legion@altlinux.ru> 0:1.15.5-alt1
 - New release version (1.15.5).
 - Add vlock subpackage.
