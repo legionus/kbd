@@ -149,10 +149,10 @@ lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int k
 		int type = KTYP(keycode);
 		int val = KVAL(keycode);
 
-		if (alttable != k_table && !lk_key_exists(ctx, alttable, k_index) &&
-		    (type == KT_LATIN || type == KT_LETTER) && val < 128) {
-			if (lk_add_map(ctx, alttable) < 0)
-				return -1;
+		if (alttable != k_table && lk_map_exists(ctx, alttable) &&
+		    !lk_key_exists(ctx, alttable, k_index) &&
+		    (type == KT_LATIN || type == KT_LETTER) &&
+		    val < 128) {
 			if (lk_add_key(ctx, alttable, k_index, K(KT_META, val)) < 0)
 				return -1;
 		}

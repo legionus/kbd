@@ -1,0 +1,19 @@
+#!/bin/sh -efu
+
+cwd="$(readlink -ev "${0%/*}")"
+
+cd "$cwd"
+
+rc=0
+temp="$(mktemp "@BUILDDIR@/temp.XXXXXXXXX")"
+
+./libkeymap-showmaps "@DATADIR@"/alt-is-meta.map > "$temp" || rc=$?
+cmp -s "@DATADIR@//alt-is-meta.output" "$temp" || rc=$?
+
+if [ "$rc" != 0 ]; then
+	printf 'failed\n'
+else
+	rm -f -- "$temp"
+fi
+
+exit $rc
