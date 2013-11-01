@@ -25,7 +25,8 @@ EXTRA_DIST = \
 	dumpkeys.bkeymap.bin \
 	dumpkeys.defkeymap.c
 
-check_SCRIPTS  = dumpkeys-fulltable dumpkeys-mktable dumpkeys-bkeymap alt-is-meta
+#check_SCRIPTS  = dumpkeys-fulltable dumpkeys-mktable dumpkeys-bkeymap alt-is-meta
+check_SCRIPTS  = dumpkeys-fulltable alt-is-meta
 check_PROGRAMS = libkeymap-init libkeymap-kmap libkeymap-keys libkeymap-parse \
 	libkeymap-charset
 
