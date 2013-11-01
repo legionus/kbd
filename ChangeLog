@@ -1,3 +1,22 @@
+Changes for 2.0.1 (legion)
+
+o Build system:
+  - Disable arch-specific tests.
+o Libkeymap:
+  - Fix regression in processing alt_is_meta keyword.
+o Keymaps:
+  - Rename Bepo keymaps:
+    dvorak-fr-bepo.map -> fr-bepo-latin9.map
+    dvorak-fr-bepo-utf8.map -> fr-bepo.map.
+
+Changes for 2.0.0 (legion)
+
+o All operations with keymaps moved to libkeymap library. The loadkeys
+  and dumpkeys always use the libkeymap.
+o Keymaps:
+  - Add Bepo keymaps (dvorak-fr-bepo.map, dvorak-fr-bepo-utf8.map).
+  - Add it.map keymap.
+
 Changes for 1.15.5 (legion)
 
 o Build system:
