@@ -4,7 +4,7 @@
   PAM authentication routine for vlock, the VT locking program for linux.
 
   Copyright (C) 1994-1998 Michael K. Johnson <johnsonm@redhat.com>
-  Copyright (C) 2002, 2005 Dmitry V. Levin <ldv@altlinux.org>
+  Copyright (C) 2002, 2005, 2013 Dmitry V. Levin <ldv@altlinux.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -35,6 +35,25 @@
 
 /* Unrecognized PAM error timeout. */
 #define	ERROR_TIMEOUT	10
+
+static int
+do_account_password_management (pam_handle_t *pamh)
+{
+	int rc;
+
+	/* Whether the authenticated user is allowed to log in? */
+	rc = pam_acct_mgmt (pamh, 0);
+
+	/* Do we need to prompt the user for a new password? */
+	if (rc == PAM_NEW_AUTHTOK_REQD)
+		rc = pam_chauthtok (pamh, PAM_CHANGE_EXPIRED_AUTHTOK);
+
+	/* Extend the lifetime of the existing credentials. */
+	if (rc == PAM_SUCCESS)
+		rc = pam_setcred (pamh, PAM_REFRESH_CRED);
+
+	return rc;
+}
 
 int
 get_password (pam_handle_t * pamh, const char *username, const char *tty)
@@ -84,6 +103,23 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 		switch (rc)
 		{
 			case PAM_SUCCESS:
+				rc = do_account_password_management (pamh);
+
+				if (rc != PAM_SUCCESS)
+				{
+					/*
+					 * The user was authenticated but
+					 * either account or password management
+					 * returned an error.
+					 */
+					printf ("%s.\n\n\n",
+						pam_strerror (pamh, rc));
+					fflush (stdout);
+					pam_end (pamh, rc);
+					pamh = 0;
+					break;
+				}
+
 				pam_end (pamh, rc);
 				/* Log the fact of console unlocking. */
 				syslog (LOG_NOTICE,
