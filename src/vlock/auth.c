@@ -35,6 +35,8 @@
 
 /* Delay after fatal PAM errors, in seconds. */
 #define	LONG_DELAY	10
+/* Delay after other PAM errors, in seconds. */
+#define	SHORT_DELAY	1
 
 static int
 do_account_password_management (pam_handle_t *pamh)
@@ -117,6 +119,7 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 					fflush (stdout);
 					pam_end (pamh, rc);
 					pamh = 0;
+					sleep (SHORT_DELAY);
 					break;
 				}
 
@@ -135,7 +138,7 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 				if (is_vt || isatty (STDIN_FILENO))
 				{
 					/* Ignore error. */
-					sleep (1);
+					sleep (SHORT_DELAY);
 					break;
 				}
 
@@ -162,6 +165,7 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 			default:
 				printf ("%s.\n\n\n", pam_strerror (pamh, rc));
 				fflush (stdout);
+				sleep (SHORT_DELAY);
 		}
 	}
 }
