@@ -33,8 +33,8 @@
 #include "vlock.h"
 #include "nls.h"
 
-/* Unrecognized PAM error timeout. */
-#define	ERROR_TIMEOUT	10
+/* Delay after fatal PAM errors, in seconds. */
+#define	LONG_DELAY	10
 
 static int
 do_account_password_management (pam_handle_t *pamh)
@@ -76,7 +76,7 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 					tty, username, uid);
 				puts (_("Please try again later.\n\n\n"));
 				fflush (stdout);
-				sleep (ERROR_TIMEOUT);
+				sleep (LONG_DELAY);
 				continue;
 			}
 		}
@@ -156,7 +156,7 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 				msg = 0;
 				pam_end (pamh, rc);
 				pamh = 0;
-				sleep (ERROR_TIMEOUT);
+				sleep (LONG_DELAY);
 				break;
 
 			default:
