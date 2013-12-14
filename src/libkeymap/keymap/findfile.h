@@ -10,6 +10,7 @@ typedef struct lkfile {
 	char pathname[MAXPATHLEN];
 } lkfile_t;
 
+lkfile_t *lk_fpopen(const char *filename);
 void lk_fpclose(lkfile_t *fp);
 int lk_findfile(const char *fnam, const char *const *dirpath, const char *const *suffixes, lkfile_t *fp);
 

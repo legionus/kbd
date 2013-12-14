@@ -298,3 +298,22 @@ lk_findfile(const char *fnam, const char *const *dirpath, const char *const *suf
 	}
 	return 1;
 }
+
+lkfile_t *
+lk_fpopen(const char *filename)
+{
+	lkfile_t *fp;
+
+	fp = malloc(sizeof(lkfile_t));
+	if (!fp)
+		return NULL;
+
+	strcpy(fp->pathname, filename);
+
+	if (maybe_pipe_open(fp) < 0) {
+		free(fp);
+		return NULL;
+	}
+
+	return fp;
+}
