@@ -17,6 +17,23 @@ lk_map_exists(struct lk_ctx *ctx, unsigned int k_table)
 }
 
 int
+lk_maps_total(struct lk_ctx *ctx)
+{
+	return ctx->keymap->total;
+}
+
+int
+lk_keys_total(struct lk_ctx *ctx, unsigned int k_table)
+{
+	struct lk_array *map;
+	map = lk_array_get_ptr(ctx->keymap, k_table);
+	if (!map) {
+		return 0;
+	}
+	return map->total;
+}
+
+int
 lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 {
 	struct lk_array *map;
