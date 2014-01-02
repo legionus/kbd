@@ -71,7 +71,7 @@ lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
 	res->keymaps_alloced = 0;
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		if (lk_get_key(ctx, i, 0) == K_ALLOCATED) {
+		if (lk_map_exists(ctx, i) && lk_get_key(ctx, i, 0) == K_ALLOCATED) {
 			res->keymaps_alloced++;
 		}
 	}
