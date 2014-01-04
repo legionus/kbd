@@ -210,6 +210,18 @@ codetoksym(struct lk_ctx *ctx, int code) {
 	return NULL;
 }
 
+char *
+lk_code_to_ksym(struct lk_ctx *ctx, int code)
+{
+	const char *sym;
+
+	sym = codetoksym(ctx, code);
+	if (!sym)
+		return NULL;
+
+	return strdup(sym);
+}
+
 /* Functions for loadkeys. */
 
 static int
@@ -333,6 +345,12 @@ ksymtocode(struct lk_ctx *ctx, const char *s, int direction) {
 	ERR(ctx, _("unknown keysym '%s'\n"), s);
 
 	return CODE_FOR_UNKNOWN_KSYM;
+}
+
+int
+lk_ksym_to_unicode(struct lk_ctx *ctx, const char *s)
+{
+	return ksymtocode(ctx, s, TO_UNICODE);
 }
 
 int

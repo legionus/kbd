@@ -85,6 +85,24 @@ void lk_dump_funcs(struct lk_ctx *ctx, FILE *fd);
  */
 void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd);
 
+/**
+ * Converts a number to a string representation of the character.
+ * @param ctx is a keymap library context.
+ * @param code is a numeric representation of ksym.
+ *
+ * @return a string representation of the code.
+ */
+char *lk_code_to_ksym(struct lk_ctx *ctx, int code);
+
+/**
+ * Converts a string to a numeric representation of the character.
+ * @param ctx is a keymap library context.
+ * @param code is a string representation of ksym.
+ *
+ * @return a unicode representation of the code.
+ */
+int lk_ksym_to_unicode(struct lk_ctx *ctx, const char *code);
+
 int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res);
 void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console);
 void lk_dump_symbols(FILE *fd);
