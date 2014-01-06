@@ -6,6 +6,8 @@
 #ifndef LK_COMMON_H
 #define LK_COMMON_H
 
+#include <stdarg.h>
+
 #include <keymap/context.h>
 
 /** Initializes the structures necessary to read and/or parse keymap.

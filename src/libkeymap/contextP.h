@@ -1,6 +1,8 @@
 #ifndef LK_CONTEXTP_H
 #define LK_CONTEXTP_H
 
+#include <stdarg.h>
+
 #include "keymap.h"
 
 /**
