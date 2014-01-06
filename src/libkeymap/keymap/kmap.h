@@ -1,3 +1,7 @@
+/**
+ * @file kmap.h
+ * @brief Functions for keymaps manipulation (add/delete keys).
+ */
 #ifndef LK_KMAP_H
 #define LK_KMAP_H
 

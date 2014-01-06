@@ -1,3 +1,7 @@
+/**
+ * @file dump.h
+ * @brief Functions for keymap output.
+ */
 #ifndef LK_DUMP_H
 #define LK_DUMP_H
 

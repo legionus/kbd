@@ -1,18 +1,21 @@
 DOC_MODULE  = libkeymap
 
-EXTRA_DIST  = Doxyfile.in
-CLEANFILES  = Doxyfile
+EXTRA_DIST  = Doxyfile.in Doxyheader
+CLEANFILES  = Doxyfile html/*
 
-install-data-hook:
+htmldir = $(docdir)/html
+html_DATA = html/*
+
+$(abs_builddir)/Doxyfile: $(abs_srcdir)/Doxyfile.in
 	sed \
 		-e 's,[@]VERSION[@],$(VERSION),g' \
 		-e 's,[@]MODULE[@],$(DOC_MODULE),g' \
 		-e 's,[@]TOPDIR[@],$(abs_top_srcdir),g' \
 		-e 's,[@]SOURCEDIR[@],$(abs_top_srcdir)/src/$(DOC_MODULE),g' \
-		-e 's,[@]BUILDDIR[@],$(DESTDIR)$(docdir),g' \
-		< $(srcdir)/Doxyfile.in >$(builddir)/Doxyfile
-	mkdir -p -- $(DESTDIR)$(docdir)
-	doxygen $(builddir)/Doxyfile
+		-e 's,[@]BUILDDIR[@],$(abs_builddir),g' \
+		<$< >$@
 
-uninstall-hook:
-	rm -rf -- $(DESTDIR)$(docdir)/html
+apidocs: $(abs_builddir)/Doxyfile
+	doxygen $<
+
+html/*: apidocs

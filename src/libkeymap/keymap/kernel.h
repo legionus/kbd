@@ -1,3 +1,7 @@
+/**
+ * @file kernel.h
+ * @brief Functions for loading objects into the kernel.
+ */
 #ifndef LK_KERNEL_H
 #define LK_KERNEL_H
 

@@ -1,9 +1,16 @@
+/**
+ * @file findfile.h
+ * @brief Functions for search, open and close a file objects.
+ */
 #ifndef LK_FINDFILE_H
 #define LK_FINDFILE_H
 
 #include <stdio.h>
 #include <sys/param.h>
 
+/**
+ * @brief Structure contains information about an open keymap file.
+ */
 typedef struct lkfile {
 	FILE *fd;
 	int pipe;

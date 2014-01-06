@@ -1,3 +1,7 @@
+/**
+ * @file charset.h
+ * @brief Functions for charset manipulation.
+ */
 #ifndef LK_CHARSET_H
 #define LK_CHARSET_H
 

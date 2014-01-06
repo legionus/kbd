@@ -1,3 +1,7 @@
+/**
+ * @file logging.h
+ * @brief Functions for logging.
+ */
 #ifndef LK_LOGGING_H
 #define LK_LOGGING_H
 

@@ -1,3 +1,8 @@
+/**
+ * @file context.h
+ * @brief Header contains flags, keywords and context structure.
+ */
+
 #ifndef LK_CONTEXT_H
 #define LK_CONTEXT_H
 

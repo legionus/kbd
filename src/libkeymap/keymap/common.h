@@ -1,9 +1,10 @@
+/**
+ * @file common.h
+ * @brief Functions for initialization and release of resources as well
+ * as functions to handle parameters.
+ */
 #ifndef LK_COMMON_H
 #define LK_COMMON_H
-/** @file
- * This file contains functions for initialization and release of resources
- * as well as functions to handle parameters.
- */
 
 #include <keymap/context.h>
 
