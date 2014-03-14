@@ -37,7 +37,7 @@ int
 lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 {
 	struct lk_array *map;
-	u_short *key;
+	unsigned int *key;
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
