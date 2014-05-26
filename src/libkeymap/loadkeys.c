@@ -250,9 +250,8 @@ lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 	if ((keyct = defkeys(ctx, fd, kbd_mode)) < 0 || (funcct = deffuncs(ctx, fd)) < 0)
 		return -1;
 
-	INFO(ctx, _("\nChanged %d %s and %d %s"),
-		keyct, (keyct == 1) ? _("key") : _("keys"),
-		funcct, (funcct == 1) ? _("string") : _("strings"));
+	INFO(ctx, P_("\nChanged %d key", "\nChanged %d keys", keyct), keyct);
+	INFO(ctx, P_("Changed %d string", "Changed %d strings", funcct), funcct);
 
 	if (ctx->accent_table->count > 0 || ctx->flags & LK_FLAG_CLEAR_COMPOSE) {
 		diacct = defdiacs(ctx, fd);
@@ -260,8 +259,8 @@ lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 		if (diacct < 0)
 			return -1;
 
-		INFO(ctx, _("Loaded %d compose %s"),
-			diacct, (diacct == 1) ? _("definition") : _("definitions"));
+		INFO(ctx, P_("Loaded %d compose definition",
+			     "Loaded %d compose definitions", diacct), diacct);
 
 	} else {
 		INFO(ctx, _("(No change in compose definitions)"));
