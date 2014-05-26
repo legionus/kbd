@@ -86,7 +86,7 @@ lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
-		ERR(ctx, _("unable to keymap %d"), k_table);
+		ERR(ctx, _("unable to get keymap %d"), k_table);
 		return -1;
 	}
 
