@@ -14,6 +14,7 @@ fully supported by the font:
 
 ANSI_X3.4-1968 (US-ASCII)
 ANSI_X3.110-1983
+ISO 646:1991 IRV
 ISO-6937
 ISO-8859-1
 ISO-8859-2
@@ -26,6 +27,8 @@ ISO-8859-13
 ISO-8859-14
 ISO-8859-15
 ISO-8859-16
+ITU T.50
+ITU T.61
 ETSI GSM 03.38
 SFS 5966 Appendix 1
 SFS 5966 Appendix 3
@@ -75,7 +78,7 @@ NEXTSTEP
 
 Attached is also the complete list of glyphs supported by the font. By 
 remapping identical or similar characters to same positions the number 
-of glyphs (654) is way over the 512 limit. In the character list the 
+of glyphs (664) is way over the 512 limit. In the character list the 
 order shows remappings so when you see for example the following, it is 
 possible to figure out what is being remapped to what (you can of course 
 use psfgettable(1) to extract the exact mappings from the font file 
@@ -107,9 +110,11 @@ U+0153 LATIN SMALL LIGATURE OE                                       œ
 U+00A3 POUND SIGN                                                    £
 U+00A9 COPYRIGHT SIGN                                                ©
 U+00AB LEFT-POINTING DOUBLE ANGLE QUOTATION MARK                     «
+U+27EA MATHEMATICAL LEFT DOUBLE ANGLE BRACKET                        ⟪
 U+00AE REGISTERED SIGN                                               ®
 U+2122 TRADE MARK SIGN                                               ™
 U+00BB RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK                    »
+U+27EB MATHEMATICAL RIGHT DOUBLE ANGLE BRACKET                       ⟫
 U+2591 LIGHT SHADE                                                   ░
 U+2592 MEDIUM SHADE                                                  ▒
 U+2593 DARK SHADE                                                    ▓
@@ -147,7 +152,9 @@ U+0026 AMPERSAND                                                     &
 U+204A TIRONIAN SIGN ET                                              ⁊
 U+0027 APOSTROPHE                                                    '
 U+0028 LEFT PARENTHESIS                                              (
+U+27EE MATHEMATICAL LEFT FLATTENED PARENTHESIS                       ⟮
 U+0029 RIGHT PARENTHESIS                                             )
+U+27EF MATHEMATICAL RIGHT FLATTENED PARENTHESIS                      ⟯
 U+002A ASTERISK                                                      *
 U+2217 ASTERISK OPERATOR                                             ∗
 U+002B PLUS SIGN                                                     +
@@ -169,6 +176,7 @@ U+2044 FRACTION SLASH                                                ⁄
 U+2215 DIVISION SLASH                                                ∕
 U+2571 BOX DRAWINGS LIGHT DIAGONAL UPPER RIGHT TO LOWER LEFT         ╱
 U+25E2 BLACK LOWER RIGHT TRIANGLE                                    ◢
+U+27CB MATHEMATICAL RISING DIAGONAL                                  ⟋
 U+0030 DIGIT ZERO                                                    0
 U+0031 DIGIT ONE                                                     1
 U+0032 DIGIT TWO                                                     2
@@ -184,9 +192,11 @@ U+003B SEMICOLON                                                     ;
 U+037E GREEK QUESTION MARK                                           ;
 U+003C LESS-THAN SIGN                                                <
 U+2039 SINGLE LEFT-POINTING ANGLE QUOTATION MARK                     ‹
+U+27E8 MATHEMATICAL LEFT ANGLE BRACKET                               ⟨
 U+003D EQUALS SIGN                                                   =
 U+003E GREATER-THAN SIGN                                             >
 U+203A SINGLE RIGHT-POINTING ANGLE QUOTATION MARK                    ›
+U+27E9 MATHEMATICAL RIGHT ANGLE BRACKET                              ⟩
 U+003F QUESTION MARK                                                 ?
 U+0040 COMMERCIAL AT                                                 @
 U+0041 LATIN CAPITAL LETTER A                                        A
@@ -234,6 +244,7 @@ U+005B LEFT SQUARE BRACKET                                           [
 U+005C REVERSE SOLIDUS                                               \
 U+2572 BOX DRAWINGS LIGHT DIAGONAL UPPER LEFT TO LOWER RIGHT         ╲
 U+25E3 BLACK LOWER LEFT TRIANGLE                                     ◣
+U+27CD MATHEMATICAL FALLING DIAGONAL                                 ⟍
 U+005D RIGHT SQUARE BRACKET                                          ]
 U+005E CIRCUMFLEX ACCENT                                             ^
 U+0302 COMBINING CIRCUMFLEX ACCENT                                   ̂
@@ -392,12 +403,14 @@ U+2500 BOX DRAWINGS LIGHT HORIZONTAL                                 ─
 U+2014 EM DASH                                                       —
 U+2015 HORIZONTAL BAR                                                ―
 U+2534 BOX DRAWINGS LIGHT UP AND HORIZONTAL                          ┴
+U+27C2 PERPENDICULAR                                                 ⟂
 U+2510 BOX DRAWINGS LIGHT DOWN AND LEFT                              ┐
 U+2524 BOX DRAWINGS LIGHT VERTICAL AND LEFT                          ┤
 U+252C BOX DRAWINGS LIGHT DOWN AND HORIZONTAL                        ┬
 U+253C BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL                    ┼
 U+2020 DAGGER                                                        †
 U+271D LATIN CROSS                                                   ✝
+U+27CA VERTICAL BAR WITH HORIZONTAL STROKE                           ⟊
 U+201E DOUBLE LOW-9 QUOTATION MARK                                   „
 U+201C LEFT DOUBLE QUOTATION MARK                                    “
 U+2580 UPPER HALF BLOCK                                              ▀
