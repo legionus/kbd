@@ -252,7 +252,7 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 
 				if (KTYP($2) != KT_FN) {
 					ERR(ctx, _("'%s' is not a function key symbol"),
-						syms[KTYP($2)].table[KVAL($2)]);
+						get_sym(ctx, KTYP($2), KVAL($2)));
 					YYERROR;
 				}
 

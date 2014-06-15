@@ -168,7 +168,7 @@ main (int argc, char *argv[]) {
 		if (long_info) {
 			printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
 				progname);
-			lk_dump_symbols(stdout);
+			lk_dump_symbols(ctx, stdout);
 		}
 		exit(EXIT_SUCCESS);
 	}

@@ -140,6 +140,38 @@ lk_set_charset(struct lk_ctx *ctx, const char *charset) {
 	return 1;
 }
 
+unsigned int
+get_sym_size(struct lk_ctx *ctx, unsigned int ktype)
+{
+	if (ktype >= syms_size) {
+		ERR(ctx, _("unable to get symbol by wrong type: %d"), ktype);
+		return 0;
+	}
+
+	return syms[ktype].size;
+}
+
+const char *
+get_sym(struct lk_ctx *ctx, unsigned int ktype, unsigned int index)
+{
+	if (!get_sym_size(ctx, ktype))
+		return NULL;
+
+	if (index >= syms[ktype].size) {
+		ERR(ctx, _("unable to get symbol of %d type by wrong index: %d"), ktype, index);
+		return NULL;
+	}
+
+	return syms[ktype].table[index];
+}
+
+char *
+lk_get_sym(struct lk_ctx *ctx, unsigned int ktype, unsigned int index)
+{
+	const char *ksym = get_sym(ctx, ktype, index);
+	return (ksym ? strdup(ksym) : NULL);
+}
+
 const char *
 codetoksym(struct lk_ctx *ctx, int code) {
 	unsigned int i;
@@ -151,7 +183,7 @@ codetoksym(struct lk_ctx *ctx, int code) {
 
 	if (code < 0x1000) {	/* "traditional" keysym */
 		if (code < 0x80)
-			return iso646_syms[code];
+			return get_sym(ctx, KT_LATIN, code);
 
 		if (KTYP(code) == KT_META)
 			return NULL;
@@ -160,7 +192,7 @@ codetoksym(struct lk_ctx *ctx, int code) {
 			code = K(KT_LATIN, KVAL(code));
 
 		if (KTYP(code) > KT_LATIN)
-			return syms[KTYP(code)].table[KVAL(code)];
+			return get_sym(ctx, KTYP(code), KVAL(code));
 
 		i = ctx->charset;
 		while (1) {
@@ -185,7 +217,7 @@ codetoksym(struct lk_ctx *ctx, int code) {
 		code ^= 0xf000;
 
 		if (code < 0x80)
-			return iso646_syms[code];
+			return get_sym(ctx, KT_LATIN, code);
 
 		i = ctx->charset;
 		while (1) {
@@ -213,20 +245,20 @@ codetoksym(struct lk_ctx *ctx, int code) {
 char *
 lk_code_to_ksym(struct lk_ctx *ctx, int code)
 {
-	const char *sym;
+	const char *s;
 
-	sym = codetoksym(ctx, code);
-	if (!sym)
+	s = codetoksym(ctx, code);
+	if (!s)
 		return NULL;
 
-	return strdup(sym);
+	return strdup(s);
 }
 
 /* Functions for loadkeys. */
 
 static int
 kt_latin(struct lk_ctx *ctx, const char *s, int direction) {
-	int i, max;
+	unsigned int i, max;
 
 	if (ctx->charset) {
 		sym *p = (sym *) charsets[ctx->charset].charnames;
@@ -240,7 +272,7 @@ kt_latin(struct lk_ctx *ctx, const char *s, int direction) {
 	max = (direction == TO_UNICODE ? 128 : syms[KT_LATIN].size);
 
 	for (i = 0; i < max; i++) {
-		if (!strcmp(s, syms[KT_LATIN].table[i]))
+		if (!strcmp(s, get_sym(ctx, KT_LATIN, i)))
 			return K(KT_LATIN, i);
 	}
 
@@ -249,8 +281,8 @@ kt_latin(struct lk_ctx *ctx, const char *s, int direction) {
 
 int
 ksymtocode(struct lk_ctx *ctx, const char *s, int direction) {
-	unsigned int i;
-	int n, j;
+	unsigned int i, j;
+	int n;
 	int keycode;
 	sym *p;
 
@@ -276,7 +308,7 @@ ksymtocode(struct lk_ctx *ctx, const char *s, int direction) {
 
 	for (i = 1; i < syms_size; i++) {
 		for (j = 0; j < syms[i].size; j++) {
-			if (!strcmp(s,syms[i].table[j]))
+			if (!strcmp(s, get_sym(ctx, i, j)))
 				return K(i, j);
 		}
 	}

@@ -159,7 +159,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 				if (s == NULL)
 					return -1;
 				ERR(ctx, _("failed to bind string '%s' to function %s"),
-					s, syms[KT_FN].table[kbs.kb_func]);
+					s, get_sym(ctx, KT_FN, kbs.kb_func));
 				free(s);
 			} else {
 				ct++;
@@ -169,7 +169,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
 				ERR(ctx, _("failed to clear string %s"),
-					syms[KT_FN].table[kbs.kb_func]);
+					get_sym(ctx, KT_FN, kbs.kb_func));
 			} else {
 				ct++;
 			}

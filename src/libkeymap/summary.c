@@ -115,22 +115,21 @@ lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 }
 
 void
-lk_dump_symbols(FILE *fd)
+lk_dump_symbols(struct lk_ctx *ctx, FILE *fd)
 {
-	unsigned int t;
+	unsigned int t, v;
 	modifier_t *mod;
-	int v;
 	const char *p;
 
 	for (t = 0; t < syms_size; t++) {
-	    if (syms[t].size) {
-		for (v = 0; v < syms[t].size; v++) {
-			if ((p = syms[t].table[v])[0])
+	    if (get_sym_size(ctx, t)) {
+		for (v = 0; v < get_sym_size(ctx, t); v++) {
+			if ((p = get_sym(ctx, t, v))[0])
 				fprintf(fd, "0x%04x\t%s\n", K(t, v), p);
 		}
 	    } else if (t == KT_META) {
-		for (v = 0; v < syms[0].size && v < 128; v++) {
-			if ((p = syms[0].table[v])[0])
+		for (v = 0; v < get_sym_size(ctx, KT_LATIN) && v < 128; v++) {
+			if ((p = get_sym(ctx, KT_LATIN, v))[0])
 				fprintf(fd, "0x%04x\tMeta_%s\n", K(t, v), p);
 		}
 	    }

@@ -248,7 +248,7 @@ lk_dump_funcs(struct lk_ctx *ctx, FILE *fd)
 		if (!ptr)
 			continue;
 
-		fprintf(fd, "string %s = \"", syms[KT_FN].table[i]);
+		fprintf(fd, "string %s = \"", get_sym(ctx, KT_FN, i));
 
 		for (; *ptr; ptr++) {
 			if (*ptr == '"' || *ptr == '\\') {
@@ -352,8 +352,7 @@ print_mod(FILE *fd, int x)
 static void
 print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 {
-	unsigned int t;
-	int v;
+	unsigned int t, v;
 	const char *p;
 	int plus;
 
@@ -373,11 +372,11 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 		fprintf(fd, "+");
 		plus++;
 	}
-	if (!numeric && t < syms_size && v < syms[t].size &&
-	    (p = syms[t].table[v])[0])
+	if (!numeric && t < syms_size && v < get_sym_size(ctx, t) &&
+	    (p = get_sym(ctx, t, v))[0])
 		fprintf(fd, "%-*s", 16 - plus, p);
-	else if (!numeric && t == KT_META && v < 128 && v < syms[0].size &&
-		 (p = syms[0].table[v])[0])
+	else if (!numeric && t == KT_META && v < 128 && v < get_sym_size(ctx, KT_LATIN) &&
+		 (p = get_sym(ctx, KT_LATIN, v))[0])
 		fprintf(fd, "Meta_%-11s", p);
 	else
 		fprintf(fd, "0x%04x         %s", code, plus ? "" : " ");
