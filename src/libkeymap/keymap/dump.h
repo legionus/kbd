@@ -29,6 +29,10 @@ struct kmapinfo {
 	size_t      keymaps_alloced; /**< Number of keymaps dynamically allocated */
 	size_t      functions;       /**< Number of function keys */
 	size_t      composes;        /**< Number of compose definitions in actual use */
+
+	size_t      keymaps_total;
+	size_t      functions_total;
+	size_t      composes_total;
 };
 
 /**

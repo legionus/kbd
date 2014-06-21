@@ -68,6 +68,10 @@ lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
 	res->functions = ctx->func_table->count;
 	res->composes  = ctx->accent_table->count;
 
+	res->keymaps_total   = ctx->keymap->total;
+	res->functions_total = ctx->func_table->total;
+	res->composes_total  = ctx->accent_table->total;
+
 	res->keymaps_alloced = 0;
 
 	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
