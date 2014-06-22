@@ -113,7 +113,7 @@ lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 	unsigned int maxfunc;
 	unsigned int func_table_offs[MAX_NR_FUNC];
 	unsigned int func_buf_offset = 0;
-	struct kb_diacr *kddiac;
+	struct lk_kbdiacr *kddiac;
 
 	if (lk_add_constants(ctx) < 0)
 		return -1;
@@ -270,7 +270,7 @@ void
 lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 {
 	unsigned int i;
-	struct kb_diacr *ptr;
+	struct lk_kbdiacr *ptr;
 
 	for (i = 0; i < ctx->accent_table->count; i++) {
 		ptr = lk_array_get_ptr(ctx->accent_table, i);

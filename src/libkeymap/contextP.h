@@ -6,13 +6,6 @@
 #include "keymap.h"
 
 /**
- * @brief Copy of struct kbdiacruc.
- */
-struct kb_diacr {
-	unsigned int diacr, base, result;
-};
-
-/**
  * @brief The maximum number of include levels.
  */
 #define MAX_INCLUDE_DEPTH 20

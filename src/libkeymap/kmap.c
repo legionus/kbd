@@ -211,19 +211,19 @@ lk_add_func(struct lk_ctx *ctx, struct kbsentry kbs)
 }
 
 int
-lk_add_diacr(struct lk_ctx *ctx, unsigned int diacr, unsigned int base, unsigned int res)
+lk_add_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 {
-	struct kb_diacr *ptr;
+	struct lk_kbdiacr *ptr;
 
-	ptr = malloc(sizeof(struct kb_diacr));
+	ptr = malloc(sizeof(struct lk_kbdiacr));
 	if (!ptr) {
 		ERR(ctx, _("out of memory"));
 		return -1;
 	}
 
-	ptr->diacr  = diacr;
-	ptr->base   = base;
-	ptr->result = res;
+	ptr->diacr  = dcr->diacr;
+	ptr->base   = dcr->base;
+	ptr->result = dcr->result;
 
 	lk_array_append(ctx->accent_table, &ptr);
 
@@ -231,22 +231,21 @@ lk_add_diacr(struct lk_ctx *ctx, unsigned int diacr, unsigned int base, unsigned
 }
 
 int
-lk_add_compose(struct lk_ctx *ctx,
-               unsigned int diacr,
-               unsigned int base,
-               unsigned int res)
+lk_add_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 {
+	struct lk_kbdiacr dcr0;
 	int direction = TO_8BIT;
 
 #ifdef KDSKBDIACRUC
 	if (ctx->flags & LK_FLAG_PREFER_UNICODE)
 		direction = TO_UNICODE;
 #endif
-	return lk_add_diacr(ctx,
-		convert_code(ctx, diacr, direction),
-		convert_code(ctx, base, direction),
-		convert_code(ctx, res, direction)
-	);
+
+	dcr0.diacr  = convert_code(ctx, dcr->diacr,  direction);
+	dcr0.base   = convert_code(ctx, dcr->base,   direction);
+	dcr0.result = convert_code(ctx, dcr->result, direction);
+
+	return lk_add_diacr(ctx, &dcr0);
 }
 
 static int

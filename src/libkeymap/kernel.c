@@ -82,6 +82,7 @@ lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 	struct kbdiacr *ar = kd.kbdiacr;
 #endif
 	unsigned int i;
+	struct lk_kbdiacr dcr;
 
 	if (ioctl(fd, request, (unsigned long) &kd)) {
 		ERR(ctx, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
@@ -90,7 +91,11 @@ lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 	}
 
 	for (i = 0; i < kd.kb_cnt; i++) {
-		if (lk_add_diacr(ctx, (ar+i)->diacr, (ar+i)->base, (ar+i)->result) < 0)
+		dcr.diacr  = (ar+i)->diacr;
+		dcr.base   = (ar+i)->base;
+		dcr.result = (ar+i)->result;
+
+		if (lk_add_diacr(ctx, &dcr) < 0)
 			return -1;
 	}
 

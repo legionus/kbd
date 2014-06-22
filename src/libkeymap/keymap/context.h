@@ -32,6 +32,13 @@ typedef enum {
 } lk_keywords;
 
 /**
+ * @brief Copy of struct kbdiacruc.
+ */
+struct lk_kbdiacr {
+	unsigned int diacr, base, result;
+};
+
+/**
  * @brief Opaque object representing the library context.
  */
 struct lk_ctx;

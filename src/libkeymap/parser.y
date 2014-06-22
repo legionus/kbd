@@ -160,8 +160,14 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 		};
 		int i;
 		for (i = 0; i < 68; i++) {
-			struct ccc ptr = def_latin1_composes[i];
-			if (lk_add_compose(ctx, ptr.c1, ptr.c2, ptr.c3) == -1)
+			struct lk_kbdiacr ptr;
+			struct ccc c = def_latin1_composes[i];
+
+			ptr.diacr  = c.c1;
+			ptr.base   = c.c2;
+			ptr.result = c.c3;
+
+			if (lk_add_compose(ctx, &ptr) == -1)
 				return -1;
 		}
 	}
@@ -268,12 +274,22 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 		;
 compline        : COMPOSE compsym compsym TO compsym EOL
                         {
-				if (lk_add_compose(ctx, $2, $3, $5) == -1)
+				struct lk_kbdiacr ptr;
+				ptr.diacr  = $2;
+				ptr.base   = $3;
+				ptr.result = $5;
+
+				if (lk_add_compose(ctx, &ptr) == -1)
 					YYERROR;
 			}
 		 | COMPOSE compsym compsym TO rvalue EOL
 			{
-				if (lk_add_compose(ctx, $2, $3, $5) == -1)
+				struct lk_kbdiacr ptr;
+				ptr.diacr  = $2;
+				ptr.base   = $3;
+				ptr.result = $5;
+
+				if (lk_add_compose(ctx, &ptr) == -1)
 					YYERROR;
 			}
                 ;

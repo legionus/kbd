@@ -102,12 +102,17 @@ START_TEST(test_add_diacr_0)
 {
 	int i = MAX_DIACR + 10;
 	struct lk_ctx *ctx;
+	struct lk_kbdiacr ptr;
+
+	ptr.diacr  = 0;
+	ptr.base   = 0;
+	ptr.result = 0;
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
 	while (i > 0) {
-		fail_if(lk_add_diacr(ctx, 0, 0, 0) != 0,
+		fail_if(lk_add_diacr(ctx, &ptr) != 0,
 			"Unable to add diacr");
 		i--;
 	}

@@ -182,7 +182,7 @@ static int
 defdiacs(struct lk_ctx *ctx, int fd)
 {
 	unsigned int i, count;
-	struct kb_diacr *ptr;
+	struct lk_kbdiacr *ptr;
 
 	count = ctx->accent_table->count;
 	if (count > MAX_DIACR) {
