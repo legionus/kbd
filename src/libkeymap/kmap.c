@@ -211,6 +211,24 @@ lk_add_func(struct lk_ctx *ctx, struct kbsentry kbs)
 }
 
 int
+lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
+{
+	struct lk_kbdiacr *ptr;
+
+	ptr = lk_array_get_ptr(ctx->accent_table, index);
+	if (!ptr) {
+		ERR(ctx, _("Index %d in the accent table does not exist"), index);
+		return -1;
+	}
+
+	dcr->diacr  = ptr->diacr;
+	dcr->base   = ptr->base;
+	dcr->result = ptr->result;
+
+	return 0;
+}
+
+int
 lk_add_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr *ptr;
