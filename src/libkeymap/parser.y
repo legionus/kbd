@@ -167,7 +167,7 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 			ptr.base   = c.c2;
 			ptr.result = c.c3;
 
-			if (lk_add_compose(ctx, &ptr) == -1)
+			if (lk_append_compose(ctx, &ptr) == -1)
 				return -1;
 		}
 	}
@@ -279,7 +279,7 @@ compline        : COMPOSE compsym compsym TO compsym EOL
 				ptr.base   = $3;
 				ptr.result = $5;
 
-				if (lk_add_compose(ctx, &ptr) == -1)
+				if (lk_append_compose(ctx, &ptr) == -1)
 					YYERROR;
 			}
 		 | COMPOSE compsym compsym TO rvalue EOL
@@ -289,7 +289,7 @@ compline        : COMPOSE compsym compsym TO compsym EOL
 				ptr.base   = $3;
 				ptr.result = $5;
 
-				if (lk_add_compose(ctx, &ptr) == -1)
+				if (lk_append_compose(ctx, &ptr) == -1)
 					YYERROR;
 			}
                 ;

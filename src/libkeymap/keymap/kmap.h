@@ -21,9 +21,12 @@ int lk_key_exists(struct lk_ctx *ctx,   unsigned int k_table, unsigned int k_ind
 int lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs);
 int lk_add_func(struct lk_ctx *ctx, struct kbsentry kbs);
 
+/* Functions for manipulations with diacritical table */
 int lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr);
-int lk_add_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr);
-int lk_add_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr);
+int lk_add_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr);
+int lk_del_diacr(struct lk_ctx *ctx, unsigned int index);
+int lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr);
+int lk_append_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr);
 
 int lk_add_constants(struct lk_ctx *ctx);
 

@@ -181,7 +181,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 static int
 defdiacs(struct lk_ctx *ctx, int fd)
 {
-	unsigned int i, count;
+	unsigned int i, j, count;
 	struct lk_kbdiacr *ptr;
 
 	count = ctx->accent_table->count;
@@ -195,17 +195,15 @@ defdiacs(struct lk_ctx *ctx, int fd)
 
 		kdu.kb_cnt = count;
 
-		for (i = 0; i < kdu.kb_cnt; i++) {
+		for (i = 0, j = 0; i < ctx->accent_table->total && j < count; i++) {
 			ptr = lk_array_get_ptr(ctx->accent_table, i);
-			if (!ptr) {
-				/* It can't be happen */
-				ERR(ctx, _("unable to get compose definitions"));
-				return -1;
-			}
+			if (!ptr)
+				continue;
 
-			kdu.kbdiacruc[i].diacr  = ptr->diacr;
-			kdu.kbdiacruc[i].base   = ptr->base;
-			kdu.kbdiacruc[i].result = ptr->result;
+			kdu.kbdiacruc[j].diacr  = ptr->diacr;
+			kdu.kbdiacruc[j].base   = ptr->base;
+			kdu.kbdiacruc[j].result = ptr->result;
+			j++;
 		}
 
 		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu)) {
@@ -219,15 +217,15 @@ defdiacs(struct lk_ctx *ctx, int fd)
 
 		kd.kb_cnt = count;
 
-		for (i = 0; i < kd.kb_cnt; i++) {
+		for (i = 0, j = 0; i < ctx->accent_table->total && j < count; i++) {
 			ptr = lk_array_get_ptr(ctx->accent_table, i);
-			if (!ptr) {
-				ERR(ctx, _("unable to get compose definitions"));
-				return -1;
-			}
-			kd.kbdiacr[i].diacr  = ptr->diacr;
-			kd.kbdiacr[i].base   = ptr->base;
-			kd.kbdiacr[i].result = ptr->result;
+			if (!ptr)
+				continue;
+
+			kd.kbdiacr[j].diacr  = ptr->diacr;
+			kd.kbdiacr[j].base   = ptr->base;
+			kd.kbdiacr[j].result = ptr->result;
+			j++;
 		}
 
 		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd)) {

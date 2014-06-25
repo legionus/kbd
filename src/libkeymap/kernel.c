@@ -95,7 +95,7 @@ lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 		dcr.base   = (ar+i)->base;
 		dcr.result = (ar+i)->result;
 
-		if (lk_add_diacr(ctx, &dcr) < 0)
+		if (lk_add_diacr(ctx, i, &dcr) < 0)
 			return -1;
 	}
 

@@ -112,7 +112,7 @@ START_TEST(test_add_diacr_0)
 	lk_set_log_fn(ctx, NULL, NULL);
 
 	while (i > 0) {
-		fail_if(lk_add_diacr(ctx, &ptr) != 0,
+		fail_if(lk_append_diacr(ctx, &ptr) != 0,
 			"Unable to add diacr");
 		i--;
 	}
