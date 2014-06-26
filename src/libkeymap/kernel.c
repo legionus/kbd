@@ -62,7 +62,7 @@ lk_kernel_funcs(struct lk_ctx *ctx, int fd)
 		if (!strlen((char *) kbs.kb_string))
 			continue;
 
-		if (lk_add_func(ctx, kbs) < 0)
+		if (lk_add_func(ctx, &kbs) < 0)
 			return -1;
 	}
 

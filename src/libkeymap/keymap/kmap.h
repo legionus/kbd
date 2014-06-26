@@ -18,8 +18,10 @@ int lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index);
 int lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index);
 int lk_key_exists(struct lk_ctx *ctx,   unsigned int k_table, unsigned int k_index);
 
+/* Functions for key string manipulations */
 int lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs);
-int lk_add_func(struct lk_ctx *ctx, struct kbsentry kbs);
+int lk_add_func(struct lk_ctx *ctx, struct kbsentry *kbs);
+int lk_del_func(struct lk_ctx *ctx, unsigned int index);
 
 /* Functions for manipulations with diacritical table */
 int lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr);

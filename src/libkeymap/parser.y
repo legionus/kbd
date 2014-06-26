@@ -105,7 +105,7 @@ strings_as_usual(struct lk_ctx *ctx)
 				sizeof(ke.kb_string));
 			ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
-			if (lk_add_func(ctx, ke) == -1)
+			if (lk_add_func(ctx, &ke) == -1)
 				return -1;
 		}
 	}
@@ -268,7 +268,7 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 				        sizeof(ke.kb_string));
 				ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
-				if (lk_add_func(ctx, ke) == -1)
+				if (lk_add_func(ctx, &ke) == -1)
 					YYERROR;
 			}
 		;

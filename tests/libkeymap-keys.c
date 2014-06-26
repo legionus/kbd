@@ -90,7 +90,7 @@ START_TEST(test_add_func_0)
 		ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 		ke.kb_func = i;
 
-		fail_if(lk_add_func(ctx, ke) == -1,
+		fail_if(lk_add_func(ctx, &ke) == -1,
 			"Unable to add function");
 	}
 

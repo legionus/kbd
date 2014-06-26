@@ -172,44 +172,6 @@ lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int k
 	return 0;
 }
 
-int
-lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs)
-{
-	char *s;
-
-	s = lk_array_get_ptr(ctx->func_table, kbs->kb_func);
-	if (!s) {
-		ERR(ctx, _("func %d not allocated"), kbs->kb_func);
-		return -1;
-	}
-
-	strncpy((char *)kbs->kb_string, s, sizeof(kbs->kb_string));
-	kbs->kb_string[sizeof(kbs->kb_string) - 1] = 0;
-
-	return 0;
-}
-
-
-int
-lk_add_func(struct lk_ctx *ctx, struct kbsentry kbs)
-{
-	char *s;
-
-	s = lk_array_get_ptr(ctx->func_table, kbs.kb_func);
-	if (s)
-		free(s);
-
-	s = strdup((char *)kbs.kb_string);
-
-	if (lk_array_set(ctx->func_table, kbs.kb_func, &s) < 0) {
-		free(s);
-		ERR(ctx, _("out of memory"));
-		return -1;
-	}
-
-	return 0;
-}
-
 static int
 do_constant_key(struct lk_ctx *ctx, int i, u_short key)
 {
