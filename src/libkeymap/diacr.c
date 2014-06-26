@@ -10,6 +10,12 @@
 #include "ksyms.h"
 
 int
+lk_diacr_exists(struct lk_ctx *ctx, unsigned int index)
+{
+	return (lk_array_get_ptr(ctx->accent_table, index) != NULL);
+}
+
+int
 lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr *ptr;
