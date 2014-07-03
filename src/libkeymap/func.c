@@ -1,3 +1,11 @@
+/* func.c
+ *
+ * This file is part of kbd project.
+ * Copyright (C) 2014  Alexey Gladkov <gladkov.alexey@gmail.com>
+ *
+ * This file is covered by the GNU General Public License,
+ * which should be included with kbd as the file COPYING.
+ */
 #include <stdlib.h>
 #include <string.h>
 
