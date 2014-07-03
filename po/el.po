@@ -1,20 +1,22 @@
-# translation of kbd-1.15.po to Greek
+# translation of kbd to Greek
 # This file is distributed under the same license as the kbd package.
 #
 # Lefteris Dimitroulakis <edimitro@tee.gr>, 2003, 2008.
+# Lefteris Dimitroulakis <ledimitro@gmail.com>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-1.15\n"
+"Project-Id-Version: kbd-1.15.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2013-08-13 18:28+0400\n"
-"PO-Revision-Date: 2008-11-29 22:07+0300\n"
-"Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
+"POT-Creation-Date: 2014-06-29 14:12+0400\n"
+"PO-Revision-Date: 2013-06-24 16:39+0300\n"
+"Last-Translator: Lefteris Dimitroulakis <ledimitro@gmail.com>\n"
 "Language-Team: Greek <team@lists.gnome.gr>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/chvt.c:28
 #, c-format
@@ -104,9 +106,9 @@ msgid "unknown charset %s - ignoring charset request\n"
 msgstr "άγνωστο σύνολο χαρακτήρων %s - η αίτηση αγνοήθηκε\n"
 
 #: src/dumpkeys.c:153 src/loadkeys.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
+msgstr "%s: σφάλμα ανάγνωσης keyboard mode: %m\n"
 
 #: src/dumpkeys.c:169
 #, c-format
@@ -194,7 +196,7 @@ msgstr ""
 #: src/getkeycodes.c:91
 #, c-format
 msgid "failed to get keycode for scancode 0x%x\n"
-msgstr "αποτυχία κατά τη λήψη κωδικού πλήκτρου γιά τον κώδικα σάρωσης 0x%x\n"
+msgstr "αποτυχία κατά τη λήψη κωδικού πλήκτρου  γιά τον κώδικα σάρωσης 0x%x\n"
 
 #: src/getunimap.c:29
 #, c-format
@@ -213,18 +215,20 @@ msgid ""
 "   or: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
 "   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
+"Χρήση: %1$s [-C DEVICE] getmode [text|graphics]\n"
+"   ή: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"   ή: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
+"   ή: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:65
 #, c-format
 msgid "Error: Not enough arguments.\n"
-msgstr ""
+msgstr "Σφάλμα: Όχι αρκετά ορίσματα.\n"
 
 #: src/kbdinfo.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Unrecognized action: %s\n"
-msgstr ""
-"μη αναγνωρισμένα όρισμα: _%s_\n"
-"\n"
+msgstr "Σφάλμα: Άγνωστη ενέργεια: %s\n"
 
 #: src/kbd_mode.c:20
 #, c-format
@@ -264,7 +268,7 @@ msgstr "Το πληκτρολόγιο βρίσκεται σε κάποια άγ�
 #: src/kbd_mode.c:104
 #, c-format
 msgid "%s: error setting keyboard mode\n"
-msgstr "%s: σφάλμα κατά τον ορισμό της κατάστασης πληκτρολογίου\n"
+msgstr "%s: σφάλμα κατά την ρύθμιση της κατάστασης πληκτρολογίου\n"
 
 #: src/kbdrate.c:155 src/kbdrate.c:174 src/kbdrate.c:338
 #, c-format
@@ -298,7 +302,7 @@ msgstr "%s: εξάντληση μνήμης\n"
 #: src/kdmapop.c:159
 #, c-format
 msgid "strange... ct changed from %d to %d\n"
-msgstr ""
+msgstr "περίεργο... ct άλλαξε από %d σε %d\n"
 
 #: src/kdmapop.c:185
 #, c-format
@@ -306,9 +310,10 @@ msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded.\n"
 msgstr ""
+"Φαίνεται πως ο πυρήνας είναι παλαιότερος του 1.1.92\n"
+"Δεν φορτώθηκε πίνακας Unicode.\n"
 
-#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
-#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68
 #: src/libkeymap/loadkeys.c:118
 #, fuzzy
 msgid "out of memory"
@@ -324,7 +329,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "Σφάλμα εγγραφής του πίνακα απεικόνισης στο αρχείο\n"
 
-#: src/libkeymap/dump.c:527
+#: src/libkeymap/dump.c:526
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "αδύνατον: δεν είναι meta;\n"
@@ -339,77 +344,77 @@ msgstr "KDGKBENT λάθος στο δείκτη %d του πίνακα %d\n"
 msgid "KDGKBSENT: %s: Unable to get function key string"
 msgstr ""
 
-#: src/libkeymap/kernel.c:87
+#: src/libkeymap/kernel.c:88
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
 msgstr ""
 
-#: src/libkeymap/kmap.c:72
-#, fuzzy, c-format
-msgid "unable to keymap %d"
-msgstr "openvt: Δεν μπορώ ν' ανοίξω το %s: %s\n"
-
-#: src/libkeymap/kmap.c:91
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:102
 #, fuzzy, c-format
 msgid "unable to get keymap %d"
 msgstr "αποδέσμευση keymap %d\n"
 
-#: src/libkeymap/kmap.c:99
+#: src/libkeymap/kmap.c:110
 #, fuzzy, c-format
 msgid "unable to unset key %d for table %d"
 msgstr "αποτυχία απόδωσης στο πλήκτρο %d της τιμής %d\n"
 
-#: src/libkeymap/kmap.c:116
+#: src/libkeymap/kmap.c:127
 #, fuzzy, c-format
 msgid "lk_add_key called with bad keycode %d"
 msgstr "η addkey κλήθηκε με λάθος κωδικό πλήκτρου %d"
 
-#: src/libkeymap/kmap.c:126
+#: src/libkeymap/kmap.c:137
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "η προσθήκη map %d παραβιάζει υπάρχουσα σαφή αντιστοίχιση πλήκτρων"
 
-#: src/libkeymap/kmap.c:142
+#: src/libkeymap/kmap.c:153
 #, fuzzy, c-format
 msgid "unable to set key %d for table %d"
 msgstr "αποτυχία απόδωσης στο πλήκτρο %d της τιμής %d\n"
 
-#: src/libkeymap/kmap.c:171
-#, fuzzy, c-format
-msgid "func %d not allocated"
-msgstr "από τους οποίους %d έχουν δεσμευτεί δυναμικά\n"
-
-#: src/libkeymap/kmap.c:311
+#: src/libkeymap/kmap.c:245
 #, fuzzy
 msgid "impossible error in lk_add_constants"
 msgstr "αδύνατο σφάλμα σε do_constant"
 
-#: src/libkeymap/ksyms.c:304
+#: src/libkeymap/ksyms.c:147
+#, c-format
+msgid "unable to get symbol by wrong type: %d"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:161
+#, c-format
+msgid "unable to get symbol of %d type by wrong index: %d"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:348
 #, fuzzy, c-format
 msgid "assuming iso-8859-1 %s"
 msgstr "υποθέτοντας iso-8859-1 %s\n"
 
-#: src/libkeymap/ksyms.c:310
+#: src/libkeymap/ksyms.c:354
 #, fuzzy, c-format
 msgid "assuming iso-8859-15 %s"
 msgstr "υποθέτοντας iso-8859-15 %s\n"
 
-#: src/libkeymap/ksyms.c:316
+#: src/libkeymap/ksyms.c:360
 #, fuzzy, c-format
 msgid "assuming iso-8859-2 %s"
 msgstr "υποθέτοντας iso-8859-2 %s\n"
 
-#: src/libkeymap/ksyms.c:322
+#: src/libkeymap/ksyms.c:366
 #, fuzzy, c-format
 msgid "assuming iso-8859-3 %s"
 msgstr "υποθέτοντας iso-8859-3 %s\n"
 
-#: src/libkeymap/ksyms.c:328
+#: src/libkeymap/ksyms.c:372
 #, fuzzy, c-format
 msgid "assuming iso-8859-4 %s"
 msgstr "υποθέτοντας iso-8859-4 %s\n"
 
-#: src/libkeymap/ksyms.c:333
+#: src/libkeymap/ksyms.c:377
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "άγνωστο keysym «%s»\n"
@@ -417,7 +422,7 @@ msgstr "άγνωστο keysym «%s»\n"
 #: src/libkeymap/loadkeys.c:26
 #, fuzzy, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
+msgstr "%s: αδυναμία μετάβασης σε Unicode mode\n"
 
 #: src/libkeymap/loadkeys.c:48
 #, fuzzy, c-format
@@ -456,7 +461,7 @@ msgstr "%s: αδυναμία αποδέσμευσης ή καθαρισμού ke
 #: src/libkeymap/loadkeys.c:99
 #, fuzzy, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "%s: αποτυχία αποκατάστασης keyboard mode\n"
+msgstr "%s: αποτυχία επιστροφής στην αρχική keyboard mode\n"
 
 #: src/libkeymap/loadkeys.c:161
 #, fuzzy, c-format
@@ -473,97 +478,82 @@ msgstr "αποτυχία καθαρισμού συμβολοσειράς %s\n"
 msgid "too many compose definitions"
 msgstr "πάρα πολλοί ορισμοί compose\n"
 
-#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
-#, fuzzy
-msgid "unable to get compose definitions"
-msgstr "πάρα πολλοί ορισμοί compose\n"
-
-#: src/libkeymap/loadkeys.c:253
-#, fuzzy, c-format
+#: src/libkeymap/loadkeys.c:251
+#, c-format
 msgid ""
 "\n"
-"Changed %d %s and %d %s"
-msgstr ""
+"Changed %d key"
+msgid_plural ""
+"\n"
+"Changed %d keys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/libkeymap/loadkeys.c:252
+#, fuzzy, c-format
+msgid "Changed %d string"
+msgid_plural "Changed %d strings"
+msgstr[0] ""
+"\n"
+"Άλλαξαν %d %s και %d %s.\n"
+msgstr[1] ""
 "\n"
 "Άλλαξαν %d %s και %d %s.\n"
 
-#: src/libkeymap/loadkeys.c:254
-msgid "key"
-msgstr "πλήκτρο"
-
-#: src/libkeymap/loadkeys.c:254
-msgid "keys"
-msgstr "πλήκτρα"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "string"
-msgstr "συμβολοσειρά"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "strings"
-msgstr "συμβολοσειρές"
-
-#: src/libkeymap/loadkeys.c:263
+#: src/libkeymap/loadkeys.c:260
 #, fuzzy, c-format
-msgid "Loaded %d compose %s"
-msgstr "Φορτώθηκε %d compose %s.\n"
+msgid "Loaded %d compose definition"
+msgid_plural "Loaded %d compose definitions"
+msgstr[0] "πάρα πολλοί ορισμοί compose\n"
+msgstr[1] "πάρα πολλοί ορισμοί compose\n"
 
 #: src/libkeymap/loadkeys.c:264
-msgid "definition"
-msgstr "ορισμός"
-
-#: src/libkeymap/loadkeys.c:264
-msgid "definitions"
-msgstr "ορισμοί"
-
-#: src/libkeymap/loadkeys.c:267
 #, fuzzy
 msgid "(No change in compose definitions)"
 msgstr "(Ουδεμία αλλαγή στους ορισμούς compose.)\n"
 
-#: src/libkeymap/summary.c:93
+#: src/libkeymap/summary.c:97
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr ""
-"περιοχή των κωδικών πλήκτρων που υποστηρίζεται απο τον πυρήνα:           1 - "
-"%d\n"
+"περιοχή των κωδικών πλήκτρων που υποστηρίζεται απο τον πυρήνα: 1 - %d\n"
 
-#: src/libkeymap/summary.c:95
+#: src/libkeymap/summary.c:99
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
-msgstr "μέγιστος αριθμός ενεργειών αποδοτέων σ' ένα πλήκτρο:       %d\n"
+msgstr "μέγιστος αριθμός ενεργειών αποδοτέων σ' ένα πλήκτρο:  %d\n"
 
-#: src/libkeymap/summary.c:97
+#: src/libkeymap/summary.c:101
 #, fuzzy, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "αριθμός απεικονίσεων πλήκτρων εν χρήσει:                 %d\n"
+msgstr "αριθμός απεικονίσεων πλήκτρων εν χρήσει: %d\n"
 
-#: src/libkeymap/summary.c:100
+#: src/libkeymap/summary.c:104
 #, fuzzy, c-format
 msgid "of which %u dynamically allocated\n"
 msgstr "από τους οποίους %d έχουν δεσμευτεί δυναμικά\n"
 
-#: src/libkeymap/summary.c:103
+#: src/libkeymap/summary.c:107
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "περιοχές κωδικών ενέργειας που υποστηρίζονται από τον πυρήνα:\n"
 
-#: src/libkeymap/summary.c:109
+#: src/libkeymap/summary.c:113
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "αριθμός πλήκτρων λειτουργιών υποστηριζομένων απ' τον πυρήνα : %d\n"
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:115
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "μέγιστος αριθμός προσδιορισμών compose: %d\n"
 
-#: src/libkeymap/summary.c:113
+#: src/libkeymap/summary.c:117
 #, fuzzy, c-format
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr "αριθμός προσδιορισμών compose εν χρήσει: %d\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:142
 #, c-format
 msgid ""
 "\n"
@@ -574,12 +564,12 @@ msgstr ""
 "Τα παρακάτω συνώνημα αναγνωρίστηκαν:\n"
 "\n"
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:145
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%-15s γιά %s\n"
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:149
 #, c-format
 msgid ""
 "\n"
@@ -614,18 +604,20 @@ msgstr ""
 "\n"
 "Χρήση: loadkeys [επιλογή...] [mapfile...]\n"
 "\n"
-"Έγκυρς επιλογές είναι:\n"
+"Έγκυρες επιλογές είναι:\n"
 "\n"
-"  -b --bkeymap       βγάζει στην έξοδο δυαδικό keymap\n"
-"  -c --clearcompose  καθαρίζει τον πίνακα compose του πυρήνα\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     the console device(s) to be used\n"
+"  -a --ascii         υποχρεωτική μετατροπή σε ASCII\n"
+"  -b --bkeymap       έξοδος binary keymap στην stdout\n"
+"  -c --clearcompose  εκκαθάριση πίνακα compose του πυρήνα\n"
+"  -C --console=file\n"
+"                     the console device to be used\n"
 "  -d --default       load \"%s\"\n"
 "  -h --help          εμφάνιση αυτής εδώ της βοήθειας\n"
-"  -m --mktable       βγάζει ένα \"defkeymap.c\" στην έξοδο\n"
+"  -m --mktable       έξοδος μιας \"defkeymap.c\" στην stdout\n"
+"  -q --quiet         suppress all normal output\n"
 "  -s --clearstrings  clear kernel string table\n"
-"  -u --unicode       μετατροπή σε Unicode\n"
-"  -v --verbose       αναφέρει τις αλλαγές\n"
+"  -u --unicode       υποχρεωτική μετατροπή σε Unicode\n"
+"  -v --verbose       αναφορά των αλλαγών\n"
 
 #: src/loadkeys.c:154 src/version.h:20
 #, c-format
@@ -635,26 +627,24 @@ msgstr "%s από %s\n"
 #: src/loadkeys.c:164
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
-msgstr ""
+msgstr "%s: Οι επιλογές --unicode and --ascii είναι αμοιβέα αποκλειόμενες\n"
 
 #: src/loadkeys.c:184
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
-"%s: προειδοποίηση: αυτή εδώ η αντιστοίχηση χρησιμοποιεί σύμβολα Unicode, %s "
-"mode=%d\n"
-"    (μήπως θέλεις να δώσεις `kbd_mode -u';)\n"
+"%s: προειδοποίηση: φόρτωση μη-Unicode keymap σε κονσόλα Unicode\n"
+"    (μήπως θες να δώσεις «kbd_mode -a»;)\n"
 
 #: src/loadkeys.c:196
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
-"%s: προειδοποίηση: αυτή εδώ η αντιστοίχηση χρησιμοποιεί σύμβολα Unicode, %s "
-"mode=%d\n"
+"%s: προειδοποίηση: φόρτωση Unicode keymap σε μη-Unicode κονσόλα\n"
 "    (μήπως θέλεις να δώσεις `kbd_mode -u';)\n"
 
 #: src/loadkeys.c:214
@@ -696,16 +686,16 @@ msgstr "%s: Εσφαλμένο πέρας περιοχής (0x%x)\n"
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 msgstr ""
-"%s: Εσφαλμένη περιοχή Unicode πού αντιστοιχεί στη περιοχή θέσεων 0x%x-0x"
-"%xτης γραμματοσειράς.\n"
+"%s: Εσφαλμένη περιοχή Unicode πού αντιστοιχεί στη περιοχή θέσεων 0x%x-0x%x "
+"της γραμματοσειράς.\n"
 
 #: src/loadunimap.c:238 src/psfxtable.c:182
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
 "%x-0x%x\n"
 msgstr ""
-"%s: περιοχή Unicode U+%x-U+%x όχι του ιδίου μήκους με την περιοχή θέσεων 0x"
+"%s: περιοχή Unicode U+%x-U+%x όχι του ιδίου μήκους με την περιοχή θέσεων 0x "
 "%x-0x%x της γραμματοσειράς\n"
 
 #: src/loadunimap.c:257 src/psfxtable.c:203
@@ -763,7 +753,7 @@ msgstr "mapscrn: αδυνατώ ν' ανοίξω το αρχείο απεικό�
 #: src/mapscrn.c:139
 #, c-format
 msgid "Cannot stat map file"
-msgstr "Δεν μπορώ να αξιολογήσω το αρχείο απεικόνισης με την stat()"
+msgstr "Cannot stat map file"
 
 #: src/mapscrn.c:144
 #, c-format
@@ -791,8 +781,8 @@ msgstr "Φόρτωση του πίνακα απεικόνισης συμβόλω
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
 msgstr ""
-"Σφάλμα κατά τη γραμματοσυντακτική ανάλυσητου πίνακα απεικόνισης συμβόλων από "
-"«%s», γραμμή %d\n"
+"Σφάλμα κατά τη γραμματοσυντακτική ανάλυση του πίνακα απεικόνισης συμβόλων "
+"από «%s», γραμμή %d\n"
 
 #: src/mapscrn.c:275 src/mapscrn.c:280
 #, c-format
@@ -829,84 +819,91 @@ msgid ""
 "  -h, --help          output a brief help message.\n"
 "\n"
 msgstr ""
+"Χρήση: %s [OPTIONS] -- command\n"
+"\n"
+"This utility help you to start a program on a new virtual terminal (VT).\n"
+"\n"
+"Επιλογές:\n"
+"  -c, --console=NUM   use the given VT number;\n"
+"  -e, --exec          execute the command, without forking;\n"
+"  -f, --force         force opening a VT without checking;\n"
+"  -l, --login         make the command a login shell;\n"
+"  -u, --user          figure out the owner of the current VT;\n"
+"  -s, --switch        switch to the new VT;\n"
+"  -w, --wait          wait for command to complete;\n"
+"  -v, --verbose       print a message for each action;\n"
+"  -V, --version       print program version and exit;\n"
+"  -h, --help          output a brief help message.\n"
+"\n"
 
 #: src/openvt.c:163
-#, fuzzy
 msgid "Couldn't find owner of current tty!"
-msgstr "Δεν μπόρεσα να βρω τον ιδιοκτήτη του τρέχοντος tty!\n"
+msgstr "Δεν μπόρεσα να βρω τον ιδιοκτήτη του τρέχοντος tty!"
 
 #: src/openvt.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Illegal vt number"
-msgstr "openvt: %s: παράτυπος αριθμός vt\n"
+msgstr "%s: παράτυπος αριθμός vt"
 
 #: src/openvt.c:257
-#, fuzzy
 msgid "Only root can use the -u flag."
-msgstr "openvt: μόνο ο root μπορεί να χρησιμοποιήσει τη σημαία -u.\n"
+msgstr "Μόνο ο root μπορεί να χρησιμοποιήσει τη σημαία -u."
 
 #: src/openvt.c:279
-#, fuzzy
 msgid "Couldn't get a file descriptor referring to the console"
-msgstr "Δέν μπορώ να λάβω περιγραφέα αρχείου πού αφορά την κονσόλα\n"
+msgstr "Δέν μπορώ να λάβω περιγραφέα αρχείου πού αφορά την κονσόλα"
 
 #: src/openvt.c:286
-#, fuzzy
 msgid "Cannot find a free vt"
-msgstr "openvt: δεν μπορώ να βρώ ένα ελεύθερο vt\n"
+msgstr "δεν μπορώ να βρώ ένα ελεύθερο vt"
 
 #: src/openvt.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "openvt: αδύνατος ο έλεγχος άν vt %d ειναι ελεύθερο\n"
+msgstr "Αδυναμία ελέγχου αν vt %d είναι ελεύθερη; δώσε «%s -f» αν επιμένεις."
 
 #: src/openvt.c:294
-#, fuzzy, c-format
+#, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr "openvt: vt %d εν χρήσει, εκτέλεση διαταγής ματαιώθηκε\n"
+msgstr ""
+"vt %d εν χρήσει, εκτέλεση εντολής ματαιώθηκε, δώσε «%s -f» για εκτέλεση."
 
 #: src/openvt.c:304
 msgid "Unable to find command."
-msgstr ""
+msgstr "Αδυναμία εύρεσης εντολής."
 
 #: src/openvt.c:336
-#, fuzzy
 msgid "Unable to set new session"
-msgstr "openvt: Αδύνατον το άνοιγμα νέας συνόδου (%s)\n"
+msgstr "Αδύνατον το άνοιγμα νέας συνόδου"
 
 #: src/openvt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open %s"
-msgstr "openvt: Δεν μπορώ ν' ανοίξω το %s: %s\n"
+msgstr "Δεν μπορώ ν' ανοίξω το %s"
 
 #: src/openvt.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "Using VT %s"
-msgstr "openvt: χρησιμοποίηση VT %s\n"
+msgstr "χρησιμοποίηση VT %s"
 
 #: src/openvt.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open %s read/write"
-msgstr "openvt: Δεν μπορώ ν' ανοίξω το %s σε ανάγνωση/εγγραφή (%s)\n"
+msgstr "Δεν μπορώ ν' ανοίξω το %s σε ανάγνωση/εγγραφή"
 
 #: src/openvt.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't activate vt %d"
-msgstr ""
-"\n"
-"openvt: αδυναμία ενεργοποίησης vt %d (%s)\n"
+msgstr "αδυναμία ενεργοποίησης vt %d"
 
 #: src/openvt.c:384
-#, fuzzy
 msgid "Activation interrupted?"
-msgstr ""
-"\n"
-"openvt: η ενεργοποίηση διακόπηκε; (%s)\n"
+msgstr "η ενεργοποίηση διακόπηκε;"
 
 #: src/openvt.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "%s: αδυναμία αποδέσμευσης της κονσόλας %d\n"
+msgstr "αδυναμία αποδέσμευσης της κονσόλας %d"
 
 #: src/psffontop.c:69
 #, c-format
@@ -1014,7 +1011,7 @@ msgid ""
 "%s: Corresponding to a range of font positions, there should be a Unicode "
 "range\n"
 msgstr ""
-"%s: Θα πρέπει να υπάρχει μιά περιοχή Unicodeπού να αντιστοιχεί στη περιοχή "
+"%s: Θα πρέπει να υπάρχει μιά περιοχή Unicode πού να αντιστοιχεί στη περιοχή "
 "θέσεων της γραμματοσειράς\n"
 
 #: src/psfxtable.c:257
@@ -1217,7 +1214,7 @@ msgid ""
 "setfont: cannot both restore from character ROM and from file. Font "
 "unchanged.\n"
 msgstr ""
-"setfont: αδύνατη επαναφορά από τη ROM χαρακτήρων και απο αρχείο συγχρόνως. Η "
+"setfont: αδύνατη επαναφορά από τη ROM χαρακτήρων και απο αρχείο συγχρόνως.Η "
 "γραμματοσειρά παραμένει αμετάβλητη.\n"
 
 #: src/setfont.c:259
@@ -1352,8 +1349,7 @@ msgstr ""
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
-"Ζητήσατε μέγεθος γραμματοσειράς %d, αλλά μόνον 8, 14, 16\n"
-"είναι δυνατόν εδώ.\n"
+"Ζητήσατε μέγεθος γραμματοσειράς %d, αλλά μόνον 8, 14, 16 είναι δυνατόν εδώ.\n"
 
 #: src/setfont.c:674
 #, c-format
@@ -1489,7 +1485,7 @@ msgid ""
 "unrecognized argument: _%s_\n"
 "\n"
 msgstr ""
-"μη αναγνωρισμένα όρισμα: _%s_\n"
+"άγνωστο όρισμα: _%s_\n"
 "\n"
 
 #: src/setleds.c:271
@@ -1585,26 +1581,36 @@ msgid ""
 "and then edit the values in FILE.\n"
 "\n"
 msgstr ""
+"Χρήση: %s vga|FILE|-\n"
+"\n"
+"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
+"comma-separated decimal values for RED, GREEN, and BLUE.\n"
+"\n"
+"To seed a valid FILE:\n"
+"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
+"\n"
+"and then edit the values in FILE.\n"
+"\n"
 
 #: src/setvtrgb.c:85
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr ""
+msgstr "Σφάλμα: %s: Άκυρη τιμή στο πεδίο %u στη γραμμή %u."
 
 #: src/setvtrgb.c:92
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr ""
+msgstr "Σφάλμα: %s: Ανεπαρκής αριθμός πεδίων στη γραμμή %u."
 
 #: src/setvtrgb.c:98
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
-msgstr ""
+msgstr "Σφαλμα: %s: Η γραμμη %u περατωθηκε αναπαντεχα.\n"
 
 #: src/setvtrgb.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Line %u is too long.\n"
-msgstr "%s: %s: Προειδοποίηση: γραμμή πολύ μεγάλη\n"
+msgstr "Σφάλμα: %s: Γραμμή %u είναι πολύ μεγάλη.\n"
 
 #: src/showconsolefont.c:33
 #, c-format
@@ -1738,7 +1744,8 @@ msgstr ""
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
 msgstr ""
-"πατήστε ένα πλήκτρο (το πρόγραμμα τερματίζεται 10s μετά τελευταίο πάτημα)..\n"
+"πατήστε οποιοδήποτε πλήκτρο (το πρόγραμμα τερματίζεται 10s μετά τελευταίο "
+"πάτημα)..\n"
 
 #: src/showkey.c:250
 msgid "release"
@@ -1754,35 +1761,38 @@ msgid "keycode %3d %s\n"
 msgstr "κωδικός πλήκτρου %3d %s\n"
 
 #: src/totextmode.c:29
-#, fuzzy, c-format
+#, c-format
 msgid "usage: totextmode\n"
-msgstr "χρήση: getkeycodes\n"
+msgstr "χρήση: totextmode\n"
 
-#: src/vlock/auth.c:58
+#: src/vlock/auth.c:79
 msgid ""
 "Please try again later.\n"
 "\n"
 "\n"
 msgstr ""
+"Παρακαλώ ξαναδοκιμάστε αργότερα.\n"
+"\n"
+"\n"
 
-#: src/vlock/auth.c:67
+#: src/vlock/auth.c:88
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
-msgstr ""
+msgstr "Ολόκληρη η κονσόλα είναι τώρα τελείως κλειδωμένη από %s.\n"
 
-#: src/vlock/auth.c:71
+#: src/vlock/auth.c:92
 #, c-format
 msgid "The %s is now locked by %s.\n"
-msgstr ""
+msgstr "%s κλειδώθηκε από %s.\n"
 
-#: src/vlock/auth.c:74
+#: src/vlock/auth.c:95
 msgid "Use Alt-function keys to switch to other virtual consoles."
-msgstr ""
+msgstr "Χρησιμοποίησε Alt-Fn για μετάβαση σε άλλες εικονικές κονσόλες."
 
 #: src/vlock/parse.c:50
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "Δοκίμασε «%s --help» για περισσότερες πληροφορίες.\n"
 
 #: src/vlock/parse.c:58
 #, c-format
@@ -1797,27 +1807,35 @@ msgid ""
 "-v or --version: Print the version number of vlock and exit.\n"
 "-h or --help: Print this help message and exit.\n"
 msgstr ""
+"%s: κλειδώνει εικονικές κονσόλες, σώζοντας την τρέχουσα συνεδρία.\n"
+"Χρήση: %s [επιλογές]\n"
+"       Όπου [επιλογές] είναι οποιεσδήποτε από:\n"
+"-c ή --current: κλειδώνει μόνο την υτέχουσα κονσόλα επιτρέποντας στον "
+"χρήστη\n"
+"       να μεταφερθεί σε άλλες εικονικές κονσόλες.\n"
+"-a ή --all: κλειδώνει όλες τις εικονικές κονσόλες εμποδίζοντας άλλους "
+"χρήστες\n"
+"       από το να αλλάζουν εικονικές κονσόλες.\n"
+"-v ή --version: Εμφάνιση αριθμού έκδοσης vlock κι έξοδος.\n"
+"-h ή --help: Εμφάνιση αυτού εδώ του μηνύματος κι έξοδος.\n"
 
 #: src/vlock/username.c:57
-#, fuzzy
 msgid "unrecognized user"
-msgstr ""
-"μη αναγνωρισμένα όρισμα: _%s_\n"
-"\n"
+msgstr "ο χρήστης δεν αναγνωρίζεται"
 
 #: src/vlock/vlock.c:56
 msgid "stdin is not a tty"
-msgstr ""
+msgstr "stdin δεν είναι tty"
 
 #: src/vlock/vt.c:152
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
-msgstr ""
+msgstr "Αυτό το tty (%s) δεν είναι εικονική κονσόλα.\n"
 
 #: src/vlock/vt.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "The entire console display cannot be locked.\n"
-msgstr "%s: VT 1 είναι η κονσόλα και δεν μπορεί ν' αποδεσμευτεί\n"
+msgstr "Ολόκληρη η κονσόλα δεν μπορεί να κλειδωθεί.\n"
 
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "KDGKBENT λάθος στο δείκτη 0 του πίνακα %d\n"
@@ -1838,9 +1856,8 @@ msgstr "%s: VT 1 είναι η κονσόλα και δεν μπορεί ν' α�
 #~ msgid "error executing  %s\n"
 #~ msgstr "σφάλμα κατά την εκτέλεση  %s\n"
 
-#, fuzzy
 #~ msgid "Warning: path too long: %s/%s\n"
-#~ msgstr "%s: Προειδοποίηση: γραμμή πολύ μεγάλη\n"
+#~ msgstr "Προειδοποίηση: διαδρομή πολύ μεγάλη: %s/%s\n"
 
 #~ msgid "includes are nested too deeply"
 #~ msgstr "τα includes είναι πάρα πολύ βαθιά φωλιασμένα"
@@ -1851,9 +1868,14 @@ msgstr "%s: VT 1 είναι η κονσόλα και δεν μπορεί ν' α�
 #~ msgid "cannot open include file %s"
 #~ msgstr "αδυναμία ανοίγματος του αρχείου include %s"
 
-#, fuzzy
+#~ msgid "expected filename between quotes"
+#~ msgstr "ανέμενα όνομα αρχείου μεταξύ των εισαγωγικών"
+
+#~ msgid "unicode keysym out of range: %s"
+#~ msgstr "unicode keysym εκτός ορίων: %s"
+
 #~ msgid "string too long"
-#~ msgstr "%s: Προειδοποίηση: γραμμή πολύ μεγάλη\n"
+#~ msgstr "συμβολοσειρά πολύ μεγάλη"
 
 #~ msgid "addmap called with bad index %d"
 #~ msgstr "η addmap κλήθηκε με λάθος index %d"
@@ -1879,6 +1901,27 @@ msgstr "%s: VT 1 είναι η κονσόλα και δεν μπορεί ν' α�
 #~ msgid "compose table overflow\n"
 #~ msgstr "υπερχείλιση πίνακα compose\n"
 
+#~ msgid "key"
+#~ msgstr "πλήκτρο"
+
+#~ msgid "keys"
+#~ msgstr "πλήκτρα"
+
+#~ msgid "string"
+#~ msgstr "συμβολοσειρά"
+
+#~ msgid "strings"
+#~ msgstr "συμβολοσειρές"
+
+#~ msgid "Loaded %d compose %s.\n"
+#~ msgstr "Φορτώθηκε %d compose %s.\n"
+
+#~ msgid "definition"
+#~ msgstr "ορισμός"
+
+#~ msgid "definitions"
+#~ msgstr "ορισμοί"
+
 #~ msgid "loadkeys: don't know how to compose for %s\n"
 #~ msgstr "loadkeys: δεν ξέρω πώς να κάνω compose για το %s\n"
 
@@ -1900,29 +1943,5 @@ msgstr "%s: VT 1 είναι η κονσόλα και δεν μπορεί ν' α�
 #~ msgid "key bindings not changed\n"
 #~ msgstr "η αντιστοίχηση πλήκτρων δεν άλλαξε\n"
 
-#, fuzzy
 #~ msgid "Searching in %s\n"
-#~ msgstr "αλλαγή σε %s\n"
-
-#~ msgid "plus before %s ignored\n"
-#~ msgstr "σύν πρίν το %s αγνοήθηκε\n"
-
-#~ msgid "        use `openvt -f' to force.\n"
-#~ msgstr "        χρησιμοποιείστε `openvt -f' προς εξαναγκασμό.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "openvt: could not open %s R/W (%s)\n"
-#~ msgstr ""
-#~ "\n"
-#~ "openvt: Αδύνατον το άνοιγμα του %s σε Α/Ε (%s)\n"
-
-#~ msgid "openvt: could not deallocate console %d\n"
-#~ msgstr "openvt: δεν μπορώ ν' αποδεσμεύσω την κονσόλα %d\n"
-
-#~ msgid ""
-#~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-#~ "command_line\n"
-#~ msgstr ""
-#~ "Χρήση: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
-#~ "command_line\n"
+#~ msgstr "Αναζήτηση σε %s\n"

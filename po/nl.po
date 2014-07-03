@@ -4,15 +4,15 @@
 #
 # In fur and black, eyes over cream.
 #
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011, 2012.
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011, 2012, 2014.
 # Erwin Poeze <erwin.poeze@gmail.com>, 2009.
 # Elros Cyriatan <cyriatan@fastmail.fm>, 2003, 2004.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-1.15.4-rc1\n"
+"Project-Id-Version: kbd-2.0.2-rc2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2013-08-13 18:28+0400\n"
-"PO-Revision-Date: 2012-11-26 20:18+0100\n"
+"POT-Creation-Date: 2014-06-29 14:12+0400\n"
+"PO-Revision-Date: 2014-06-29 20:52+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -312,261 +312,242 @@ msgstr ""
 "Deze kernel schijnt ouder te zijn dan versie 1.1.92.\n"
 "Er is geen Unicode-afbeeldingstabel geladen.\n"
 
-#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
-#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68
 #: src/libkeymap/loadkeys.c:118
-#, fuzzy
 msgid "out of memory"
-msgstr "%s: onvoldoende geheugen beschikbaar\n"
+msgstr "onvoldoende geheugen beschikbaar"
 
 #: src/libkeymap/common.c:132
 #, c-format
 msgid "unable to initialize array: %s"
-msgstr ""
+msgstr "kan array niet initialiseren: %s"
 
 #: src/libkeymap/dump.c:82
-#, fuzzy
 msgid "Error writing map to file"
-msgstr "Fout tijdens schrijven van toetsenkaart naar bestand\n"
+msgstr "Fout tijdens schrijven van toetsenkaart naar bestand"
 
-#: src/libkeymap/dump.c:527
+#: src/libkeymap/dump.c:526
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "onmogelijk: niet meta?\n"
 
 #: src/libkeymap/kernel.c:31
-#, fuzzy, c-format
+#, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
-msgstr "KDGKBENT-fout op positie %d in tabel %d\n"
+msgstr "KDGKBENT: %s: fout op positie %d in tabel %d"
 
 #: src/libkeymap/kernel.c:57
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
-msgstr ""
+msgstr "KDGKBSENT: %s: kan geen functietoets-tekenreeks verkrijgen"
 
-#: src/libkeymap/kernel.c:87
+#: src/libkeymap/kernel.c:88
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
-msgstr ""
+msgstr "KDGKBDIACR(UC): %s: kan geen accententabel verkrijgen"
 
-#: src/libkeymap/kmap.c:72
-#, fuzzy, c-format
-msgid "unable to keymap %d"
-msgstr "Kan %s niet openen"
-
-#: src/libkeymap/kmap.c:91
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:102
+#, c-format
 msgid "unable to get keymap %d"
-msgstr "vrijgeven van toetsenkaart %d\n"
+msgstr "kan toetsenkaart %d niet verkrijgen"
 
-#: src/libkeymap/kmap.c:99
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:110
+#, c-format
 msgid "unable to unset key %d for table %d"
-msgstr "verbinden van toets %d met waarde %d is mislukt\n"
+msgstr "kan toets %d niet uitschakelen voor tabel %d"
 
-#: src/libkeymap/kmap.c:116
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:127
+#, c-format
 msgid "lk_add_key called with bad keycode %d"
-msgstr "addkey() is aangeroepen met onjuiste toetscode %d"
+msgstr "lk_add_key() is aangeroepen met onjuiste toetscode %d"
 
-#: src/libkeymap/kmap.c:126
+#: src/libkeymap/kmap.c:137
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "toevoegen van kaart %d schendt expliciete toetsenkaartregel"
 
-#: src/libkeymap/kmap.c:142
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:153
+#, c-format
 msgid "unable to set key %d for table %d"
-msgstr "verbinden van toets %d met waarde %d is mislukt\n"
+msgstr "kan toets %d niet instellen voor tabel %d"
 
-#: src/libkeymap/kmap.c:171
-#, fuzzy, c-format
-msgid "func %d not allocated"
-msgstr "  (waarvan %d dynamisch zijn toegewezen)\n"
-
-#: src/libkeymap/kmap.c:311
-#, fuzzy
+#: src/libkeymap/kmap.c:245
 msgid "impossible error in lk_add_constants"
-msgstr "onmogelijke fout in do_constant()"
+msgstr "onmogelijke fout in lk_add_constants()"
 
-#: src/libkeymap/ksyms.c:304
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:147
+#, c-format
+msgid "unable to get symbol by wrong type: %d"
+msgstr "kan symbool niet verkrijgen wegens onjuist type: %d"
+
+#: src/libkeymap/ksyms.c:161
+#, c-format
+msgid "unable to get symbol of %d type by wrong index: %d"
+msgstr "kan symbool van type %d niet verkrijgen wegens onjuiste index: %d"
+
+#: src/libkeymap/ksyms.c:348
+#, c-format
 msgid "assuming iso-8859-1 %s"
-msgstr "iso-8859-1 '%s' wordt aangenomen\n"
+msgstr "iso-8859-1 '%s' wordt aangenomen"
 
-#: src/libkeymap/ksyms.c:310
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:354
+#, c-format
 msgid "assuming iso-8859-15 %s"
-msgstr "iso-8859-15 '%s' wordt aangenomen\n"
+msgstr "iso-8859-15 '%s' wordt aangenomen"
 
-#: src/libkeymap/ksyms.c:316
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:360
+#, c-format
 msgid "assuming iso-8859-2 %s"
-msgstr "iso-8859-2 '%s' wordt aangenomen\n"
+msgstr "iso-8859-2 '%s' wordt aangenomen"
 
-#: src/libkeymap/ksyms.c:322
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:366
+#, c-format
 msgid "assuming iso-8859-3 %s"
-msgstr "iso-8859-3 '%s' wordt aangenomen\n"
+msgstr "iso-8859-3 '%s' wordt aangenomen"
 
-#: src/libkeymap/ksyms.c:328
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:372
+#, c-format
 msgid "assuming iso-8859-4 %s"
-msgstr "iso-8859-4 '%s' wordt aangenomen\n"
+msgstr "iso-8859-4 '%s' wordt aangenomen"
 
-#: src/libkeymap/ksyms.c:333
+#: src/libkeymap/ksyms.c:377
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "onbekende toetsnaam '%s'\n"
 
 #: src/libkeymap/loadkeys.c:26
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "%s: kan niet overschakelen naar Unicode-modus\n"
+msgstr "KDSKBMODE: %s: kan niet overschakelen naar Unicode-modus"
 
 #: src/libkeymap/loadkeys.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "Keymap %d: Permission denied"
-msgstr "Toetsenkaart %d: toegang geweigerd\n"
+msgstr "Toetsenkaart %d: toegang geweigerd"
 
 #: src/libkeymap/loadkeys.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "keycode %d, table %d = %d%s"
-msgstr "toetscode %d, tabel %d = %d%s\n"
+msgstr "toetscode %d, tabel %d = %d%s"
 
 #: src/libkeymap/loadkeys.c:57
 msgid "    FAILED"
 msgstr "    Mislukt"
 
 #: src/libkeymap/loadkeys.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind key %d to value %d"
-msgstr "verbinden van toets %d met waarde %d is mislukt\n"
+msgstr "verbinden van toets %d met waarde %d is mislukt"
 
 #: src/libkeymap/loadkeys.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "deallocate keymap %d"
-msgstr "vrijgeven van toetsenkaart %d\n"
+msgstr "vrijgeven van toetsenkaart %d"
 
 #: src/libkeymap/loadkeys.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "%s: kan toetsenkaart %d niet vrijgeven\n"
+msgstr "KDSKBENT: %s: kan toetsenkaart %d niet vrijgeven"
 
 #: src/libkeymap/loadkeys.c:89
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr "%s: kan toetsenkaart niet vrijgeven of wissen\n"
+msgstr "KDSKBENT: %s: kan toetsenkaart niet vrijgeven of wissen"
 
 #: src/libkeymap/loadkeys.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "%s: kan niet terugkeren naar oorspronkelijke toetsenbordmodus\n"
+msgstr ""
+"KDSKBMODE: %s: kan niet terugkeren naar oorspronkelijke toetsenbordmodus"
 
 #: src/libkeymap/loadkeys.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr "verbinden van tekenreeks '%s' met functie %s is mislukt\n"
+msgstr "verbinden van tekenreeks '%s' met functie %s is mislukt"
 
 #: src/libkeymap/loadkeys.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "failed to clear string %s"
-msgstr "wissen van tekenreeks %s is mislukt\n"
+msgstr "wissen van tekenreeks %s is mislukt"
 
 #: src/libkeymap/loadkeys.c:190
-#, fuzzy
 msgid "too many compose definitions"
-msgstr "te veel samenstellingsdefinities\n"
+msgstr "te veel samenstellingsdefinities"
 
-#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
-#, fuzzy
-msgid "unable to get compose definitions"
-msgstr "te veel samenstellingsdefinities\n"
-
-#: src/libkeymap/loadkeys.c:253
-#, fuzzy, c-format
+#: src/libkeymap/loadkeys.c:251
+#, c-format
 msgid ""
 "\n"
-"Changed %d %s and %d %s"
-msgstr ""
+"Changed %d key"
+msgid_plural ""
 "\n"
-"%d %s en %d %s zijn veranderd.\n"
+"Changed %d keys"
+msgstr[0] ""
+"\n"
+"Er is %d toets veranderd."
+msgstr[1] ""
+"\n"
+"Er zijn %d toetsen veranderd."
 
-#: src/libkeymap/loadkeys.c:254
-msgid "key"
-msgstr "toets"
+#: src/libkeymap/loadkeys.c:252
+#, c-format
+msgid "Changed %d string"
+msgid_plural "Changed %d strings"
+msgstr[0] "Er is %d tekenreeks veranderd."
+msgstr[1] "Er zijn %d tekenreeksen veranderd."
 
-#: src/libkeymap/loadkeys.c:254
-msgid "keys"
-msgstr "toetsen"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "string"
-msgstr "tekenreeks"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "strings"
-msgstr "tekenreeksen"
-
-#: src/libkeymap/loadkeys.c:263
-#, fuzzy, c-format
-msgid "Loaded %d compose %s"
-msgstr "Er zijn %d samenstellings%s geladen.\n"
-
-#: src/libkeymap/loadkeys.c:264
-msgid "definition"
-msgstr "definitie"
+#: src/libkeymap/loadkeys.c:260
+#, c-format
+msgid "Loaded %d compose definition"
+msgid_plural "Loaded %d compose definitions"
+msgstr[0] "Er is %d samenstellingsdefinitie geladen."
+msgstr[1] "Er zijn %d samenstellingsdefinities geladen."
 
 #: src/libkeymap/loadkeys.c:264
-msgid "definitions"
-msgstr "definities"
-
-#: src/libkeymap/loadkeys.c:267
-#, fuzzy
 msgid "(No change in compose definitions)"
-msgstr "(Geen verandering in samenstellingsdefinities.)\n"
+msgstr "(Geen verandering in samenstellingsdefinities.)"
 
-#: src/libkeymap/summary.c:93
+#: src/libkeymap/summary.c:97
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr "door kernel ondersteund toetscodebereik:  1 - %d\n"
 
-#: src/libkeymap/summary.c:95
+#: src/libkeymap/summary.c:99
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr "maximum aantal acties verbindbaar met een toets:  %d\n"
 
-#: src/libkeymap/summary.c:97
-#, fuzzy, c-format
+#: src/libkeymap/summary.c:101
+#, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "aantal gebruikte toetsenbordkaarten:  %d\n"
+msgstr "aantal gebruikte toetsenbordkaarten:  %u\n"
 
-#: src/libkeymap/summary.c:100
-#, fuzzy, c-format
+#: src/libkeymap/summary.c:104
+#, c-format
 msgid "of which %u dynamically allocated\n"
-msgstr "  (waarvan %d dynamisch zijn toegewezen)\n"
+msgstr "  (waarvan %u dynamisch zijn toegewezen)\n"
 
-#: src/libkeymap/summary.c:103
+#: src/libkeymap/summary.c:107
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "door kernel ondersteunde actiecodebereiken:\n"
 
-#: src/libkeymap/summary.c:109
+#: src/libkeymap/summary.c:113
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "door kernel ondersteund aantal functietoetsen:  %d\n"
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:115
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "maximum aantal samenstellingsdefinities:  %d\n"
 
-#: src/libkeymap/summary.c:113
-#, fuzzy, c-format
+#: src/libkeymap/summary.c:117
+#, c-format
 msgid "nr of compose definitions in actual use: %u\n"
-msgstr "aantal gebruikte samenstellingsdefinities:  %d\n"
+msgstr "aantal gebruikte samenstellingsdefinities:  %u\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:142
 #, c-format
 msgid ""
 "\n"
@@ -577,12 +558,12 @@ msgstr ""
 "De volgende synoniemen worden herkend:\n"
 "\n"
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:145
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%-15s voor %s\n"
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:149
 #, c-format
 msgid ""
 "\n"
@@ -593,7 +574,7 @@ msgstr ""
 "\n"
 
 #: src/loadkeys.c:35
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -616,7 +597,7 @@ msgid ""
 msgstr ""
 "loadkeys, versie %s\n"
 "\n"
-"Gebruik:  loadkeys [OPTIE...] [KAARTBESTAND...]\n"
+"Gebruik:  %s [OPTIE...] [KAARTBESTAND...]\n"
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
@@ -636,7 +617,7 @@ msgstr ""
 #: src/loadkeys.c:154 src/version.h:20
 #, c-format
 msgid "%s from %s\n"
-msgstr "%s (%s)\n"
+msgstr "%s (uit %s)\n"
 
 #: src/loadkeys.c:164
 #, c-format
@@ -1785,7 +1766,7 @@ msgstr "toetscode %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "Gebruik:  totextmode\n"
 
-#: src/vlock/auth.c:58
+#: src/vlock/auth.c:79
 msgid ""
 "Please try again later.\n"
 "\n"
@@ -1795,17 +1776,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/vlock/auth.c:67
+#: src/vlock/auth.c:88
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr "Het gehele console-scherm is nu volledig vergrendeld door %s.\n"
 
-#: src/vlock/auth.c:71
+#: src/vlock/auth.c:92
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr "Het %s is nu vergrendeld door %s.\n"
 
-#: src/vlock/auth.c:74
+#: src/vlock/auth.c:95
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 "Gebruik Alt+functietoetsen om naar andere virtuele consoles over te "
@@ -1861,6 +1842,37 @@ msgstr "Huidige terminal (%s) is geen virtuele console.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
+
+# FIXME: missing word "get"?
+#~ msgid "unable to keymap %d"
+#~ msgstr "kan toetsenkaart %d niet verkrijgen"
+
+#~ msgid "func %d not allocated"
+#~ msgstr "functie %d is niet toegewezen"
+
+#~ msgid "unable to get compose definitions"
+#~ msgstr "kan samenstellingsdefinities niet verkrijgen"
+
+#~ msgid "key"
+#~ msgstr "toets"
+
+#~ msgid "keys"
+#~ msgstr "toetsen"
+
+#~ msgid "string"
+#~ msgstr "tekenreeks"
+
+#~ msgid "strings"
+#~ msgstr "tekenreeksen"
+
+#~ msgid "Loaded %d compose %s"
+#~ msgstr "Er zijn %d samenstellings%s geladen."
+
+#~ msgid "definition"
+#~ msgstr "definitie"
+
+#~ msgid "definitions"
+#~ msgstr "definities"
 
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "KDGKBENT-fout op positie 0 in tabel %d\n"
@@ -1918,9 +1930,6 @@ msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 
 #~ msgid "%s: addfunc called with bad func %d\n"
 #~ msgstr "%s: addfunc() is aangeroepen met onjuiste functie %d\n"
-
-#~ msgid "%s: addfunc: func_buf overflow\n"
-#~ msgstr "%s: addfunc: func_buf overloop\n"
 
 #~ msgid "compose table overflow\n"
 #~ msgstr "overloop in samenstellingentabel\n"

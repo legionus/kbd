@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the kbd package.
 #
 # Maxim V. Dziumanenko <dziumanenko@gmail.com>, 2006.
-# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 1.15.4-rc1\n"
+"Project-Id-Version: kbd 2.0.2-rc2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2013-08-13 18:28+0400\n"
-"PO-Revision-Date: 2012-11-26 11:27+0200\n"
+"POT-Creation-Date: 2014-06-29 14:12+0400\n"
+"PO-Revision-Date: 2014-06-29 15:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
 "Language: uk\n"
@@ -16,7 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.5\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: src/chvt.c:28
 #, c-format
@@ -309,261 +310,252 @@ msgstr ""
 "Версія ядра є старішою за 1.1.92\n"
 "Таблиці відповідності Unicode не завантажено.\n"
 
-#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
-#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68
 #: src/libkeymap/loadkeys.c:118
-#, fuzzy
 msgid "out of memory"
-msgstr "%s: недостатньо пам'яті\n"
+msgstr "недостатньо пам'яті"
 
 #: src/libkeymap/common.c:132
 #, c-format
 msgid "unable to initialize array: %s"
-msgstr ""
+msgstr "не вдалося ініціалізувати масив: %s"
 
 #: src/libkeymap/dump.c:82
-#, fuzzy
 msgid "Error writing map to file"
-msgstr "Помилка запису у файл\n"
+msgstr "Помилка запису у файл"
 
-#: src/libkeymap/dump.c:527
+#: src/libkeymap/dump.c:526
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "неможливо: не `meta'?\n"
 
 #: src/libkeymap/kernel.c:31
-#, fuzzy, c-format
+#, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
-msgstr "помилка KDGKBENT за індексом %d у таблиці %d\n"
+msgstr "KDGKBENT: %s: помилка за індексом %d у таблиці %d"
 
 #: src/libkeymap/kernel.c:57
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
-msgstr ""
+msgstr "KDGKBSENT: %s: не вдалося отримати рядок функціональної клавіші"
 
-#: src/libkeymap/kernel.c:87
+#: src/libkeymap/kernel.c:88
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
-msgstr ""
+msgstr "KDGKBDIACR(UC): %s: не вдалося отримати таблицю акцентів"
 
-#: src/libkeymap/kmap.c:72
-#, fuzzy, c-format
-msgid "unable to keymap %d"
-msgstr "Не вдалося відкрити %s"
-
-#: src/libkeymap/kmap.c:91
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:102
+#, c-format
 msgid "unable to get keymap %d"
-msgstr "вилучити розкладку %d\n"
+msgstr "не вдалося отримати розкладку %d"
 
-#: src/libkeymap/kmap.c:99
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:110
+#, c-format
 msgid "unable to unset key %d for table %d"
-msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
+msgstr "не вдалося скасувати визначення клавіші %d для таблиці %d"
 
-#: src/libkeymap/kmap.c:116
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:127
+#, c-format
 msgid "lk_add_key called with bad keycode %d"
-msgstr "addkey викликано з помилковим значенням коду клавіші %d"
+msgstr "lk_add_key викликано з помилковим кодом клавіші %d"
 
-#: src/libkeymap/kmap.c:126
+#: src/libkeymap/kmap.c:137
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "додавання розкладки %d суперечить рядку явного визначення розкладки"
 
-#: src/libkeymap/kmap.c:142
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:153
+#, c-format
 msgid "unable to set key %d for table %d"
-msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
+msgstr "не вдалося визначити клавішу %d для таблиці %d"
 
-#: src/libkeymap/kmap.c:171
-#, fuzzy, c-format
-msgid "func %d not allocated"
-msgstr "з них встановлено динамічно:                  %d\n"
-
-#: src/libkeymap/kmap.c:311
-#, fuzzy
+#: src/libkeymap/kmap.c:245
 msgid "impossible error in lk_add_constants"
-msgstr "неможливо виконати do_constant"
+msgstr "неможлива помилка у lk_add_constants"
 
-#: src/libkeymap/ksyms.c:304
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:147
+#, c-format
+msgid "unable to get symbol by wrong type: %d"
+msgstr "не вдалося отримати символ за помилковим типом: %d"
+
+#: src/libkeymap/ksyms.c:161
+#, c-format
+msgid "unable to get symbol of %d type by wrong index: %d"
+msgstr "не вдалося отримати символ типу %d за помилковим індексом: %d"
+
+#: src/libkeymap/ksyms.c:348
+#, c-format
 msgid "assuming iso-8859-1 %s"
-msgstr "вважається iso-8859-1 %s\n"
+msgstr "припускаємо iso-8859-1 %s"
 
-#: src/libkeymap/ksyms.c:310
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:354
+#, c-format
 msgid "assuming iso-8859-15 %s"
-msgstr "вважається iso-8859-15 %s\n"
+msgstr "припускаємо iso-8859-15 %s"
 
-#: src/libkeymap/ksyms.c:316
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:360
+#, c-format
 msgid "assuming iso-8859-2 %s"
-msgstr "вважається iso-8859-2 %s\n"
+msgstr "припускаємо iso-8859-2 %s"
 
-#: src/libkeymap/ksyms.c:322
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:366
+#, c-format
 msgid "assuming iso-8859-3 %s"
-msgstr "вважається iso-8859-3 %s\n"
+msgstr "припускаємо iso-8859-3 %s"
 
-#: src/libkeymap/ksyms.c:328
-#, fuzzy, c-format
+#: src/libkeymap/ksyms.c:372
+#, c-format
 msgid "assuming iso-8859-4 %s"
-msgstr "вважається iso-8859-4 %s\n"
+msgstr "припускаємо iso-8859-4 %s"
 
-#: src/libkeymap/ksyms.c:333
+#: src/libkeymap/ksyms.c:377
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "невідомий keysym `%s'\n"
 
 #: src/libkeymap/loadkeys.c:26
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "%s: не вдалося перемкнутися у режим Unicode\n"
+msgstr "KDSKBMODE: %s: не вдалося перемкнутися у режим Unicode"
 
 #: src/libkeymap/loadkeys.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "Keymap %d: Permission denied"
-msgstr "Розкладка %d: відмовлено у доступі\n"
+msgstr "Розкладка %d: відмовлено у доступі"
 
 #: src/libkeymap/loadkeys.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "keycode %d, table %d = %d%s"
-msgstr "клавіша %d, таблиця %d = %d%s\n"
+msgstr "клавіша %d, таблиця %d = %d%s"
 
 #: src/libkeymap/loadkeys.c:57
 msgid "    FAILED"
 msgstr "    ПОМИЛКА"
 
 #: src/libkeymap/loadkeys.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind key %d to value %d"
-msgstr "не вдалося прив’язати клавішу %d до значення %d\n"
+msgstr "не вдалося прив’язати клавішу %d до значення %d"
 
 #: src/libkeymap/loadkeys.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "deallocate keymap %d"
-msgstr "вилучити розкладку %d\n"
+msgstr "вилучити розкладку %d"
 
 #: src/libkeymap/loadkeys.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "%s: не вдалося вилучити розкладку %d\n"
+msgstr "KDSKBENT: %s: не вдалося вилучити розкладку %d"
 
 #: src/libkeymap/loadkeys.c:89
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr "%s: не вдалося вилучити або спорожнити розкладку\n"
+msgstr "KDSKBENT: %s: не вдалося вилучити або спорожнити розкладку"
 
 #: src/libkeymap/loadkeys.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "%s: не вдалося повернутися до початкового режиму роботи клавіатури\n"
+msgstr ""
+"KDSKBMODE: %s: не вдалося повернутися до початкового режиму роботи клавіатури"
 
 #: src/libkeymap/loadkeys.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr "не вдалося пов’язати рядок «%s» з функцією %s\n"
+msgstr "не вдалося пов’язати рядок «%s» з функцією %s"
 
 #: src/libkeymap/loadkeys.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "failed to clear string %s"
-msgstr "не вдалося спорожнити рядок %s\n"
+msgstr "не вдалося спорожнити рядок %s"
 
 #: src/libkeymap/loadkeys.c:190
-#, fuzzy
 msgid "too many compose definitions"
-msgstr "занадто багато визначень сполучень\n"
+msgstr "занадто багато визначень сполучень"
 
-#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
-#, fuzzy
-msgid "unable to get compose definitions"
-msgstr "занадто багато визначень сполучень\n"
-
-#: src/libkeymap/loadkeys.c:253
-#, fuzzy, c-format
+#: src/libkeymap/loadkeys.c:251
+#, c-format
 msgid ""
 "\n"
-"Changed %d %s and %d %s"
-msgstr ""
+"Changed %d key"
+msgid_plural ""
 "\n"
-"Змінено %d %s та %d %s.\n"
+"Changed %d keys"
+msgstr[0] ""
+"\n"
+"Змінено %d клавішу"
+msgstr[1] ""
+"\n"
+"Змінено %d клавіші"
+msgstr[2] ""
+"\n"
+"Змінено %d клавіш"
+msgstr[3] ""
+"\n"
+"Змінено %d клавішу"
 
-#: src/libkeymap/loadkeys.c:254
-msgid "key"
-msgstr "клавішу"
+#: src/libkeymap/loadkeys.c:252
+#, c-format
+msgid "Changed %d string"
+msgid_plural "Changed %d strings"
+msgstr[0] "Змінено %d рядок"
+msgstr[1] "Змінено %d рядки"
+msgstr[2] "Змінено %d рядків"
+msgstr[3] "Змінено %d рядок"
 
-#: src/libkeymap/loadkeys.c:254
-msgid "keys"
-msgstr "клавіш"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "string"
-msgstr "рядок"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "strings"
-msgstr "рядків"
-
-#: src/libkeymap/loadkeys.c:263
-#, fuzzy, c-format
-msgid "Loaded %d compose %s"
-msgstr "Завантажено %d сполучень %s.\n"
+#: src/libkeymap/loadkeys.c:260
+#, c-format
+msgid "Loaded %d compose definition"
+msgid_plural "Loaded %d compose definitions"
+msgstr[0] "Завантажено %d визначення сполучень"
+msgstr[1] "Завантажено %d визначення сполучень"
+msgstr[2] "Завантажено %d визначень сполучень"
+msgstr[3] "Завантажено %d визначення сполучення"
 
 #: src/libkeymap/loadkeys.c:264
-msgid "definition"
-msgstr "визначення"
-
-#: src/libkeymap/loadkeys.c:264
-msgid "definitions"
-msgstr "визначення"
-
-#: src/libkeymap/loadkeys.c:267
-#, fuzzy
 msgid "(No change in compose definitions)"
-msgstr "(Немає змін у визначеннях сполучених клавіш.)\n"
+msgstr "(Немає змін у визначеннях сполучених клавіш.)"
 
-#: src/libkeymap/summary.c:93
+#: src/libkeymap/summary.c:97
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr "діапазон кодів клавіш, що відомі ядру:       1 - %d\n"
 
-#: src/libkeymap/summary.c:95
+#: src/libkeymap/summary.c:99
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr "кількість дій, що можна призначити клавіші:      %d\n"
 
-#: src/libkeymap/summary.c:97
-#, fuzzy, c-format
+#: src/libkeymap/summary.c:101
+#, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "кількість розкладок, що дійсно використовуються:                %d\n"
+msgstr "кількість розкладок, що дійсно використовуються:   %u\n"
 
-#: src/libkeymap/summary.c:100
-#, fuzzy, c-format
+#: src/libkeymap/summary.c:104
+#, c-format
 msgid "of which %u dynamically allocated\n"
-msgstr "з них встановлено динамічно:                  %d\n"
+msgstr "з них встановлено динамічно %u\n"
 
-#: src/libkeymap/summary.c:103
+#: src/libkeymap/summary.c:107
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "коди дій, що допускаються ядром:\n"
 
-#: src/libkeymap/summary.c:109
+#: src/libkeymap/summary.c:113
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "кількість функціональних клавіш, що підтримуються ядром: %d\n"
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:115
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "максимальна кількість сполучених визначень: %d\n"
 
-#: src/libkeymap/summary.c:113
-#, fuzzy, c-format
+#: src/libkeymap/summary.c:117
+#, c-format
 msgid "nr of compose definitions in actual use: %u\n"
-msgstr "дійсно використаних сполучених визначень: %d\n"
+msgstr "дійсно використаних сполучених визначень: %u\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:142
 #, c-format
 msgid ""
 "\n"
@@ -574,12 +566,12 @@ msgstr ""
 "Розпізнаються наступні синоніми:\n"
 "\n"
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:145
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%-15s замість %s\n"
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:149
 #, c-format
 msgid ""
 "\n"
@@ -589,7 +581,7 @@ msgstr ""
 "Відомі назви модификаторів та номери відповідних колонок: \n"
 
 #: src/loadkeys.c:35
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -612,7 +604,7 @@ msgid ""
 msgstr ""
 "loadkeys, версія %s\n"
 "\n"
-"Використання: loadkeys [параметр...] [файл розкладки...]\n"
+"Використання: %s [параметр...] [файл розкладки...]\n"
 "\n"
 "Можливі параметри:\n"
 "\n"
@@ -1771,7 +1763,7 @@ msgstr "клавіша %3d (код) %s\n"
 msgid "usage: totextmode\n"
 msgstr "використання: totextmode\n"
 
-#: src/vlock/auth.c:58
+#: src/vlock/auth.c:79
 msgid ""
 "Please try again later.\n"
 "\n"
@@ -1781,17 +1773,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/vlock/auth.c:67
+#: src/vlock/auth.c:88
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr "Показ даних у консолі тепер повністю заблоковано %s.\n"
 
-#: src/vlock/auth.c:71
+#: src/vlock/auth.c:92
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr "%s тепер заблоковано %s.\n"
 
-#: src/vlock/auth.c:74
+#: src/vlock/auth.c:95
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 "Скористайтеся комбінацією Alt-функціональна клавіша для перемикання на інші "
@@ -1842,6 +1834,36 @@ msgstr "Цей пристрій tty (%s) не є віртуальною конс
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Показ даних у консолі не може бути повністю заблоковано.\n"
+
+#~ msgid "unable to keymap %d"
+#~ msgstr "не вдалося визначити розкладку %d"
+
+#~ msgid "func %d not allocated"
+#~ msgstr "функцію %d не розміщено"
+
+#~ msgid "unable to get compose definitions"
+#~ msgstr "занадто багато визначень сполучень"
+
+#~ msgid "key"
+#~ msgstr "клавішу"
+
+#~ msgid "keys"
+#~ msgstr "клавіш"
+
+#~ msgid "string"
+#~ msgstr "рядок"
+
+#~ msgid "strings"
+#~ msgstr "рядків"
+
+#~ msgid "Loaded %d compose %s"
+#~ msgstr "Завантажено %d сполучень %s"
+
+#~ msgid "definition"
+#~ msgstr "визначення"
+
+#~ msgid "definitions"
+#~ msgstr "визначення"
 
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "помилка KDGKBENT за індексом 0 у таблиці %d\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2013-08-13 18:28+0400\n"
+"POT-Creation-Date: 2014-06-29 14:12+0400\n"
 "PO-Revision-Date: 2011-06-03 22:01+0200\n"
 "Last-Translator: Keld Simonsen <keld@keldix.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -307,8 +307,7 @@ msgstr ""
 "Det ser ud til at denne kerne er ældre end 1.1.92\n"
 "Ingen UCS-tabel indlæst.\n"
 
-#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
-#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68
 #: src/libkeymap/loadkeys.c:118
 #, fuzzy
 msgid "out of memory"
@@ -324,7 +323,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "Fejl ved skrivning af tabel til fil\n"
 
-#: src/libkeymap/dump.c:527
+#: src/libkeymap/dump.c:526
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "umuligt: ikke meta?\n"
@@ -339,77 +338,77 @@ msgstr "KDGKBENT-fejl ved indeks %d i tabel %d:\n"
 msgid "KDGKBSENT: %s: Unable to get function key string"
 msgstr ""
 
-#: src/libkeymap/kernel.c:87
+#: src/libkeymap/kernel.c:88
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
 msgstr ""
 
-#: src/libkeymap/kmap.c:72
-#, fuzzy, c-format
-msgid "unable to keymap %d"
-msgstr "Kan ikke åbne %s"
-
-#: src/libkeymap/kmap.c:91
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:102
 #, fuzzy, c-format
 msgid "unable to get keymap %d"
 msgstr "deallokér keymap %d\n"
 
-#: src/libkeymap/kmap.c:99
+#: src/libkeymap/kmap.c:110
 #, fuzzy, c-format
 msgid "unable to unset key %d for table %d"
 msgstr "kunne ikke binde tast %d til værdien %d\n"
 
-#: src/libkeymap/kmap.c:116
+#: src/libkeymap/kmap.c:127
 #, fuzzy, c-format
 msgid "lk_add_key called with bad keycode %d"
 msgstr "addkey kaldt med dårlig keycode %d"
 
-#: src/libkeymap/kmap.c:126
+#: src/libkeymap/kmap.c:137
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "tilføjelse af tabel %d strider mod eksplicit keymaps-linje"
 
-#: src/libkeymap/kmap.c:142
+#: src/libkeymap/kmap.c:153
 #, fuzzy, c-format
 msgid "unable to set key %d for table %d"
 msgstr "kunne ikke binde tast %d til værdien %d\n"
 
-#: src/libkeymap/kmap.c:171
-#, fuzzy, c-format
-msgid "func %d not allocated"
-msgstr "hvoraf %d er dynamisk allokerede\n"
-
-#: src/libkeymap/kmap.c:311
+#: src/libkeymap/kmap.c:245
 #, fuzzy
 msgid "impossible error in lk_add_constants"
 msgstr "umulig fejl i do_constant"
 
-#: src/libkeymap/ksyms.c:304
+#: src/libkeymap/ksyms.c:147
+#, c-format
+msgid "unable to get symbol by wrong type: %d"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:161
+#, c-format
+msgid "unable to get symbol of %d type by wrong index: %d"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:348
 #, fuzzy, c-format
 msgid "assuming iso-8859-1 %s"
 msgstr "antager iso-8859-1 %s\n"
 
-#: src/libkeymap/ksyms.c:310
+#: src/libkeymap/ksyms.c:354
 #, fuzzy, c-format
 msgid "assuming iso-8859-15 %s"
 msgstr "antager iso-8859-15 %s\n"
 
-#: src/libkeymap/ksyms.c:316
+#: src/libkeymap/ksyms.c:360
 #, fuzzy, c-format
 msgid "assuming iso-8859-2 %s"
 msgstr "antager iso-8859-2 %s\n"
 
-#: src/libkeymap/ksyms.c:322
+#: src/libkeymap/ksyms.c:366
 #, fuzzy, c-format
 msgid "assuming iso-8859-3 %s"
 msgstr "antager iso-8859-3 %s\n"
 
-#: src/libkeymap/ksyms.c:328
+#: src/libkeymap/ksyms.c:372
 #, fuzzy, c-format
 msgid "assuming iso-8859-4 %s"
 msgstr "antager iso-8859-4 %s\n"
 
-#: src/libkeymap/ksyms.c:333
+#: src/libkeymap/ksyms.c:377
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "ukendt tegnsymbol \"%s\"\n"
@@ -473,95 +472,81 @@ msgstr "mislykkedes med at nulstille streng %s\n"
 msgid "too many compose definitions"
 msgstr "for mange kompositionsdefinitioner\n"
 
-#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
-#, fuzzy
-msgid "unable to get compose definitions"
-msgstr "for mange kompositionsdefinitioner\n"
-
-#: src/libkeymap/loadkeys.c:253
-#, fuzzy, c-format
+#: src/libkeymap/loadkeys.c:251
+#, c-format
 msgid ""
 "\n"
-"Changed %d %s and %d %s"
-msgstr ""
+"Changed %d key"
+msgid_plural ""
+"\n"
+"Changed %d keys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/libkeymap/loadkeys.c:252
+#, fuzzy, c-format
+msgid "Changed %d string"
+msgid_plural "Changed %d strings"
+msgstr[0] ""
+"\n"
+"Ændrede %d %s og %d %s.\n"
+msgstr[1] ""
 "\n"
 "Ændrede %d %s og %d %s.\n"
 
-#: src/libkeymap/loadkeys.c:254
-msgid "key"
-msgstr "tast"
-
-#: src/libkeymap/loadkeys.c:254
-msgid "keys"
-msgstr "taster"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "string"
-msgstr "streng"
-
-#: src/libkeymap/loadkeys.c:255
-msgid "strings"
-msgstr "strenge"
-
-#: src/libkeymap/loadkeys.c:263
+#: src/libkeymap/loadkeys.c:260
 #, fuzzy, c-format
-msgid "Loaded %d compose %s"
-msgstr "Indlæste %d kompositionér %s\n"
+msgid "Loaded %d compose definition"
+msgid_plural "Loaded %d compose definitions"
+msgstr[0] "for mange kompositionsdefinitioner\n"
+msgstr[1] "for mange kompositionsdefinitioner\n"
 
 #: src/libkeymap/loadkeys.c:264
-msgid "definition"
-msgstr "definition"
-
-#: src/libkeymap/loadkeys.c:264
-msgid "definitions"
-msgstr "definitioner"
-
-#: src/libkeymap/loadkeys.c:267
 #, fuzzy
 msgid "(No change in compose definitions)"
 msgstr "(Ingen ændringer i kompositionsdefinitioner)\n"
 
-#: src/libkeymap/summary.c:93
+#: src/libkeymap/summary.c:97
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr "tastekodeinterval som understøttes af kernen:        1 - %d\n"
 
-#: src/libkeymap/summary.c:95
+#: src/libkeymap/summary.c:99
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr "største antal handlinger bindelige til en tast:   %d\n"
 
-#: src/libkeymap/summary.c:97
+#: src/libkeymap/summary.c:101
 #, fuzzy, c-format
 msgid "number of keymaps in actual use:                 %u\n"
 msgstr "antal tastetabeller som faktisk bruges:          %d\n"
 
-#: src/libkeymap/summary.c:100
+#: src/libkeymap/summary.c:104
 #, fuzzy, c-format
 msgid "of which %u dynamically allocated\n"
 msgstr "hvoraf %d er dynamisk allokerede\n"
 
-#: src/libkeymap/summary.c:103
+#: src/libkeymap/summary.c:107
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "interval af handlingskoder som understøttes af kernen:\n"
 
-#: src/libkeymap/summary.c:109
+#: src/libkeymap/summary.c:113
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "antal funktionstaster som understøttes af kernen: %d\n"
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:115
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "største antal kompositionsdefinitioner: %d\n"
 
-#: src/libkeymap/summary.c:113
+#: src/libkeymap/summary.c:117
 #, fuzzy, c-format
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr "antal kompositionsdefinitioner som faktisk bruges: %d\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:142
 #, c-format
 msgid ""
 "\n"
@@ -572,12 +557,12 @@ msgstr ""
 "Følgende synonymer genkendes:\n"
 "\n"
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:145
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%-15s for %s\n"
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:149
 #, c-format
 msgid ""
 "\n"
@@ -1767,24 +1752,24 @@ msgstr "tastekode %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "brug: totextmode\n"
 
-#: src/vlock/auth.c:58
+#: src/vlock/auth.c:79
 msgid ""
 "Please try again later.\n"
 "\n"
 "\n"
 msgstr ""
 
-#: src/vlock/auth.c:67
+#: src/vlock/auth.c:88
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:71
+#: src/vlock/auth.c:92
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:74
+#: src/vlock/auth.c:95
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 
@@ -1891,6 +1876,27 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "compose table overflow\n"
 #~ msgstr "overløb i kompositionstabel\n"
 
+#~ msgid "key"
+#~ msgstr "tast"
+
+#~ msgid "keys"
+#~ msgstr "taster"
+
+#~ msgid "string"
+#~ msgstr "streng"
+
+#~ msgid "strings"
+#~ msgstr "strenge"
+
+#~ msgid "Loaded %d compose %s.\n"
+#~ msgstr "Indlæste %d kompositionér %s\n"
+
+#~ msgid "definition"
+#~ msgstr "definition"
+
+#~ msgid "definitions"
+#~ msgstr "definitioner"
+
 #~ msgid "loadkeys: don't know how to compose for %s\n"
 #~ msgstr "loadkeys: véd ikke hvordan at kompositionere for %s\n"
 
@@ -1903,6 +1909,9 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "too many key definitions on one line"
 #~ msgstr "for mane definitioner for taster på én linje"
 
+#~ msgid "Searching in %s\n"
+#~ msgstr "Søger i %s\n"
+
 #~ msgid "Loading %s\n"
 #~ msgstr "Indlæser %s\n"
 
@@ -1911,6 +1920,3 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 
 #~ msgid "key bindings not changed\n"
 #~ msgstr "tastebininger ikke ændret\n"
-
-#~ msgid "Searching in %s\n"
-#~ msgstr "Søger i %s\n"

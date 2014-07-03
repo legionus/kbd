@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.10\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2013-08-13 18:28+0400\n"
+"POT-Creation-Date: 2014-06-29 14:12+0400\n"
 "PO-Revision-Date: 2004-01-21 06:15+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -295,8 +295,7 @@ msgid ""
 "No Unicode mapping table loaded.\n"
 msgstr ""
 
-#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:49 src/libkeymap/kmap.c:57
-#: src/libkeymap/kmap.c:195 src/libkeymap/kmap.c:209
+#: src/libkeymap/common.c:126 src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68
 #: src/libkeymap/loadkeys.c:118
 #, fuzzy
 msgid "out of memory"
@@ -312,7 +311,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "E$lem dosyaya yazilirken hata\n"
 
-#: src/libkeymap/dump.c:527
+#: src/libkeymap/dump.c:526
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "imkansiz: meta degil?\n"
@@ -327,84 +326,84 @@ msgstr "%2$d. tablonun %1$d. indisinde KDGKBENT hatasi\n"
 msgid "KDGKBSENT: %s: Unable to get function key string"
 msgstr ""
 
-#: src/libkeymap/kernel.c:87
+#: src/libkeymap/kernel.c:88
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
 msgstr ""
 
-#: src/libkeymap/kmap.c:72
-#, fuzzy, c-format
-msgid "unable to keymap %d"
-msgstr "openvt: %s acilamiyor: %s\n"
-
-#: src/libkeymap/kmap.c:91
-#, fuzzy, c-format
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:102
+#, c-format
 msgid "unable to get keymap %d"
-msgstr "openvt: %s acilamiyor: %s\n"
+msgstr ""
 
-#: src/libkeymap/kmap.c:99
+#: src/libkeymap/kmap.c:110
 #, fuzzy, c-format
 msgid "unable to unset key %d for table %d"
-msgstr "tarama kodu %x tu$ kodu %d ile e$le$tirilirken hata olu$tu\n"
+msgstr "0x%x tarama kodu icin tu$ kodu alinamadi\n"
 
-#: src/libkeymap/kmap.c:116
+#: src/libkeymap/kmap.c:127
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
 msgstr ""
 
-#: src/libkeymap/kmap.c:126
+#: src/libkeymap/kmap.c:137
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr ""
 
-#: src/libkeymap/kmap.c:142
+#: src/libkeymap/kmap.c:153
 #, fuzzy, c-format
 msgid "unable to set key %d for table %d"
-msgstr "tarama kodu %x tu$ kodu %d ile e$le$tirilirken hata olu$tu\n"
+msgstr "0x%x tarama kodu icin tu$ kodu alinamadi\n"
 
-#: src/libkeymap/kmap.c:171
-#, fuzzy, c-format
-msgid "func %d not allocated"
-msgstr "/ %d etkin olarak tahsis edildi\n"
-
-#: src/libkeymap/kmap.c:311
+#: src/libkeymap/kmap.c:245
 msgid "impossible error in lk_add_constants"
 msgstr ""
 
-#: src/libkeymap/ksyms.c:304
+#: src/libkeymap/ksyms.c:147
+#, c-format
+msgid "unable to get symbol by wrong type: %d"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:161
+#, c-format
+msgid "unable to get symbol of %d type by wrong index: %d"
+msgstr ""
+
+#: src/libkeymap/ksyms.c:348
 #, fuzzy, c-format
 msgid "assuming iso-8859-1 %s"
 msgstr "iso-8859-1'deki  %s oldugu varsayildi\n"
 
-#: src/libkeymap/ksyms.c:310
+#: src/libkeymap/ksyms.c:354
 #, fuzzy, c-format
 msgid "assuming iso-8859-15 %s"
 msgstr "iso-8859-15'deki  %s oldugu varsayildi\n"
 
-#: src/libkeymap/ksyms.c:316
+#: src/libkeymap/ksyms.c:360
 #, fuzzy, c-format
 msgid "assuming iso-8859-2 %s"
 msgstr "iso-8859-2'deki  %s oldugu varsayildi\n"
 
-#: src/libkeymap/ksyms.c:322
+#: src/libkeymap/ksyms.c:366
 #, fuzzy, c-format
 msgid "assuming iso-8859-3 %s"
 msgstr "iso-8859-3'deki %s oldugu varsayildi\n"
 
-#: src/libkeymap/ksyms.c:328
+#: src/libkeymap/ksyms.c:372
 #, fuzzy, c-format
 msgid "assuming iso-8859-4 %s"
 msgstr "iso-8859-4'deki %s oldugu varsayildi\n"
 
-#: src/libkeymap/ksyms.c:333
+#: src/libkeymap/ksyms.c:377
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "'%s' sembolu bilinmiyor\n"
 
 #: src/libkeymap/loadkeys.c:26
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "%s: %d konsolu kaldirilamadi\n"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:48
 #, c-format
@@ -426,9 +425,9 @@ msgid "failed to bind key %d to value %d"
 msgstr "tarama kodu %x tu$ kodu %d ile e$le$tirilirken hata olu$tu\n"
 
 #: src/libkeymap/loadkeys.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "deallocate keymap %d"
-msgstr "%s: %d konsolu kaldirilamadi\n"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:74
 #, fuzzy, c-format
@@ -436,117 +435,101 @@ msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "%s: %d konsolu kaldirilamadi\n"
 
 #: src/libkeymap/loadkeys.c:89
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr "%s: %d konsolu kaldirilamadi\n"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "%s: klavye kipi ayarlanirken hata\n"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr "tarama kodu %x tu$ kodu %d ile e$le$tirilirken hata olu$tu\n"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "failed to clear string %s"
-msgstr "ozgun unicode e$lem yerine konamadi\n"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:190
 #, fuzzy
 msgid "too many compose definitions"
 msgstr "en fazla dizgi tanimi sayisi: %d\n"
 
-#: src/libkeymap/loadkeys.c:202 src/libkeymap/loadkeys.c:225
-#, fuzzy
-msgid "unable to get compose definitions"
-msgstr "en fazla dizgi tanimi sayisi: %d\n"
-
-#: src/libkeymap/loadkeys.c:253
+#: src/libkeymap/loadkeys.c:251
 #, c-format
 msgid ""
 "\n"
-"Changed %d %s and %d %s"
-msgstr ""
+"Changed %d key"
+msgid_plural ""
+"\n"
+"Changed %d keys"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/libkeymap/loadkeys.c:254
-msgid "key"
-msgstr ""
-
-#: src/libkeymap/loadkeys.c:254
-msgid "keys"
-msgstr ""
-
-#: src/libkeymap/loadkeys.c:255
-msgid "string"
-msgstr ""
-
-#: src/libkeymap/loadkeys.c:255
-msgid "strings"
-msgstr ""
-
-#: src/libkeymap/loadkeys.c:263
+#: src/libkeymap/loadkeys.c:252
 #, c-format
-msgid "Loaded %d compose %s"
-msgstr ""
+msgid "Changed %d string"
+msgid_plural "Changed %d strings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/libkeymap/loadkeys.c:260
+#, fuzzy, c-format
+msgid "Loaded %d compose definition"
+msgid_plural "Loaded %d compose definitions"
+msgstr[0] "en fazla dizgi tanimi sayisi: %d\n"
+msgstr[1] "en fazla dizgi tanimi sayisi: %d\n"
 
 #: src/libkeymap/loadkeys.c:264
-msgid "definition"
-msgstr ""
-
-#: src/libkeymap/loadkeys.c:264
-msgid "definitions"
-msgstr ""
-
-#: src/libkeymap/loadkeys.c:267
 #, fuzzy
 msgid "(No change in compose definitions)"
 msgstr "en fazla dizgi tanimi sayisi: %d\n"
 
-#: src/libkeymap/summary.c:93
+#: src/libkeymap/summary.c:97
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr "cekirdek tarafindan desteklenen tu$ kodlari:   1 - %d\n"
 
-#: src/libkeymap/summary.c:95
+#: src/libkeymap/summary.c:99
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr "Bir tu$a atanabilecek en fazla eylem sayisi:     %d\n"
 
-#: src/libkeymap/summary.c:97
+#: src/libkeymap/summary.c:101
 #, fuzzy, c-format
 msgid "number of keymaps in actual use:                 %u\n"
 msgstr "kullanimda olan tu$e$lem sayisi:                 %d\n"
 
-#: src/libkeymap/summary.c:100
+#: src/libkeymap/summary.c:104
 #, fuzzy, c-format
 msgid "of which %u dynamically allocated\n"
 msgstr "/ %d etkin olarak tahsis edildi\n"
 
-#: src/libkeymap/summary.c:103
+#: src/libkeymap/summary.c:107
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "cekirdek tarafindan desteklenen eylem kodlari araligi:\n"
 
-#: src/libkeymap/summary.c:109
+#: src/libkeymap/summary.c:113
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "cekirdek tarafindan desteklenen i$lev tu$larinin sayisi: %d\n"
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:115
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "en fazla dizgi tanimi sayisi: %d\n"
 
-#: src/libkeymap/summary.c:113
+#: src/libkeymap/summary.c:117
 #, fuzzy, c-format
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr "kullanimdaki dizgi tanimi sayisi: %d\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:142
 #, c-format
 msgid ""
 "\n"
@@ -557,12 +540,12 @@ msgstr ""
 "A$agidaki e$anlamlilar tanimli:\n"
 "\n"
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:145
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%s icin %-15s\n"
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:149
 #, c-format
 msgid ""
 "\n"
@@ -1711,24 +1694,24 @@ msgstr "tu$ kodu %3d %s\n"
 msgid "usage: totextmode\n"
 msgstr "kullanimi: getkeycodes\n"
 
-#: src/vlock/auth.c:58
+#: src/vlock/auth.c:79
 msgid ""
 "Please try again later.\n"
 "\n"
 "\n"
 msgstr ""
 
-#: src/vlock/auth.c:67
+#: src/vlock/auth.c:88
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:71
+#: src/vlock/auth.c:92
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:74
+#: src/vlock/auth.c:95
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 
@@ -1772,6 +1755,19 @@ msgstr ""
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 
+#~ msgid "        use `openvt -f' to force.\n"
+#~ msgstr "        sorunu a$mak icin `openvt -f' kullanin.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "openvt: could not open %s R/W (%s)\n"
+#~ msgstr ""
+#~ "\n"
+#~ "openvt: %s oku/yaz kipinde acilamadi (%s)\n"
+
+#~ msgid "openvt: could not deallocate console %d\n"
+#~ msgstr "openvt: %d konsolu kaldirilamadi\n"
+
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "%d tablosu endeks 0 da KDGKBENT hatasi\n"
 
@@ -1789,47 +1785,6 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 
 #~ msgid "error executing  %s\n"
 #~ msgstr "%s icra edilirken hata\n"
-
-#, fuzzy
-#~ msgid "Warning: path too long: %s/%s\n"
-#~ msgstr "%s: Uyari: satir cok uzun\n"
-
-#, fuzzy
-#~ msgid "cannot open include file %s"
-#~ msgstr "%s yazitipi dosyasi acilamiyor\n"
-
-#, fuzzy
-#~ msgid "string too long"
-#~ msgstr "%s: Uyari: satir cok uzun\n"
-
-#, fuzzy
-#~ msgid "too many (%d) entries on one line"
-#~ msgstr "Birle$tirilecek dosya sayisi cok fazla\n"
-
-#, fuzzy
-#~ msgid "Loading %s\n"
-#~ msgstr "%s okunurken hata\n"
-
-#, fuzzy
-#~ msgid "syntax error in map file\n"
-#~ msgstr "E$lem dosyaya yazilirken hata\n"
-
-#, fuzzy
-#~ msgid "Searching in %s\n"
-#~ msgstr "%s icra edilirken hata\n"
-
-#~ msgid "        use `openvt -f' to force.\n"
-#~ msgstr "        sorunu a$mak icin `openvt -f' kullanin.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "openvt: could not open %s R/W (%s)\n"
-#~ msgstr ""
-#~ "\n"
-#~ "openvt: %s oku/yaz kipinde acilamadi (%s)\n"
-
-#~ msgid "openvt: could not deallocate console %d\n"
-#~ msgstr "openvt: %d konsolu kaldirilamadi\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "arti %s oncesi yoksayildi\n"
