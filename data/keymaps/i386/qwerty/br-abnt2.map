@@ -9,6 +9,10 @@
 #   Keypad fix
 #   WinL/WinR is Scroll_*
 #   Menu is Compose
+#
+# Vinícius Oliveira <vini.ipsmaker@gmail.com>
+#   Added altgr + q (slash)
+#   Added altgr + w (question)
 alt_is_meta
 keymaps 0-2,4-6,8,12
 include "qwerty-layout"
@@ -88,3 +92,6 @@ keycode 121 = KP_Period
 keycode 125 = Scroll_Backward
 keycode 126 = Scroll_Forward
 keycode 127 = Compose
+
+	altgr   keycode  16 = slash
+	altgr   keycode  17 = question
