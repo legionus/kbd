@@ -13,6 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 #include "keymap.h"
 
