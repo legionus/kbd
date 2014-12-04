@@ -57,7 +57,7 @@ beats rebuilding the kernel!
   kbdrate now first tries if the KDKBDREP ioctl is available. If it
   is, it is used, else the old method is applied.
 
-  1999-02-22 Arkadiusz Mi∂kiewicz <misiek@misiek.eu.org>
+  1999-02-22 Arkadiusz Mi≈õkiewicz <misiek@misiek.eu.org>
   - added Native Language Support
 
   1999-03-17
