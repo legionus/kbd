@@ -143,7 +143,9 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 				sleep (LONG_DELAY);
 				break;
 
-			case PAM_INCOMPLETE:
+			default:
+				printf ("%s.\n\n\n", pam_strerror (pamh, rc));
+				fflush (stdout);
 				/*
 				 * EOF encountered on read?
 				 * If not on VT, check stdin.
@@ -161,11 +163,6 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 					"Cancelled lock of %s on %s for %s by (uid=%u)",
 					locked_name (), tty, username, uid);
 				return EXIT_FAILURE;
-
-			default:
-				printf ("%s.\n\n\n", pam_strerror (pamh, rc));
-				fflush (stdout);
-				sleep (SHORT_DELAY);
 		}
 	}
 }
