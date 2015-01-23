@@ -130,6 +130,19 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 					locked_name (), tty, username, uid);
 				return EXIT_SUCCESS;
 
+			case PAM_MAXTRIES:
+			case PAM_ABORT:
+				msg = pam_strerror (pamh, rc);
+				/* Log the fact of failure. */
+				syslog (LOG_WARNING, "%s", msg);
+				printf ("%s.\n\n\n", msg);
+				fflush (stdout);
+				msg = 0;
+				pam_end (pamh, rc);
+				pamh = 0;
+				sleep (LONG_DELAY);
+				break;
+
 			case PAM_INCOMPLETE:
 				/*
 				 * EOF encountered on read?
@@ -148,19 +161,6 @@ get_password (pam_handle_t * pamh, const char *username, const char *tty)
 					"Cancelled lock of %s on %s for %s by (uid=%u)",
 					locked_name (), tty, username, uid);
 				return EXIT_FAILURE;
-
-			case PAM_MAXTRIES:
-			case PAM_ABORT:
-				msg = pam_strerror (pamh, rc);
-				/* Log the fact of failure. */
-				syslog (LOG_WARNING, "%s", msg);
-				printf ("%s.\n\n\n", msg);
-				fflush (stdout);
-				msg = 0;
-				pam_end (pamh, rc);
-				pamh = 0;
-				sleep (LONG_DELAY);
-				break;
 
 			default:
 				printf ("%s.\n\n\n", pam_strerror (pamh, rc));
