@@ -104,42 +104,35 @@ The keyboard driver supports 9 modifiers. These modifiers are labeled
 CtrlL, CtrlR and CapsShift.
 Each of these modifiers has an associated weight of power of two
 according to the following table:
+
+.ev table
 .LP
 .RS
-.TP 24
+.TP 20
 .I modifier
 .I weight
-.TP 24
-Shift
-  1
-.PD 0
-.TP 24
-AltGr
-  2
-.TP 24
-Control
-  4
-.TP 24
-Alt
-  8
-.TP 24
-ShiftL
- 16
-.TP 24
-ShiftR
- 32
-.TP 24
-CtrlL
- 64
-.TP 24
-CtrlR
-128
-.TP 24
-CapsShift
-256
-.PD
+.P
+.ta T 24R
+Shift	1
+.br
+AltGr	2
+.br
+Control	4
+.br
+Alt	8
+.br
+ShiftL	16
+.br
+ShiftR	32
+.br
+CtrlL	64
+.br
+CtrlR	128
+.br
+CapsShift	256
 .RE
 .LP
+.ev
 The effective action of a key is found out by adding up the weights of
 all the modifiers in effect. By default, no modifiers are in effect, so
 action number zero, i.e. the one in the first column in a key definition
