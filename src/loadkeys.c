@@ -46,6 +46,7 @@ usage(void)
 			  "  -d --default       load \"%s\"\n"
 			  "  -h --help          display this help text\n"
 			  "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+			  "  -p --parse         search and parse keymap without action\n"
 			  "  -q --quiet         suppress all normal output\n"
 			  "  -s --clearstrings  clear kernel string table\n"
 			  "  -u --unicode       force conversion to Unicode\n"
@@ -65,7 +66,7 @@ set_progname(const char *name)
 int
 main(int argc, char *argv[])
 {
-	const char *const short_opts = "abcC:dhmsuqvV";
+	const char *const short_opts = "abcC:dhmpsuqvV";
 	const struct option const long_opts[] = {
 		{ "console", required_argument, NULL, 'C'},
 		{ "ascii",		no_argument, NULL, 'a' },
@@ -74,6 +75,7 @@ main(int argc, char *argv[])
 		{ "default",		no_argument, NULL, 'd' },
 		{ "help",		no_argument, NULL, 'h' },
 		{ "mktable",		no_argument, NULL, 'm' },
+		{ "parse",		no_argument, NULL, 'p' },
 		{ "clearstrings",	no_argument, NULL, 's' },
 		{ "unicode",		no_argument, NULL, 'u' },
 		{ "quiet",		no_argument, NULL, 'q' },
@@ -87,7 +89,8 @@ main(int argc, char *argv[])
 		OPT_B = (1 << 2),
 		OPT_D = (1 << 3),
 		OPT_M = (1 << 4),
-		OPT_U = (1 << 5)
+		OPT_U = (1 << 5),
+		OPT_P = (1 << 6)
 	};
 	int options = 0;
 
@@ -135,6 +138,9 @@ main(int argc, char *argv[])
 			break;
 		case 'm':
 			options |= OPT_M;
+			break;
+		case 'p':
+			options |= OPT_P;
 			break;
 		case 's':
 			flags |= LK_FLAG_CLEAR_STRINGS;
@@ -241,12 +247,14 @@ main(int argc, char *argv[])
 			goto fail;
 	}
 
-	if (options & OPT_B) {
-		rc = lk_dump_bkeymap(ctx, stdout);
-	} else if (options & OPT_M) {
-		rc = lk_dump_ctable(ctx, stdout);
-	} else {
-		rc = lk_load_keymap(ctx, fd, kbd_mode);
+	if (!(options & OPT_P)) {
+		if (options & OPT_B) {
+			rc = lk_dump_bkeymap(ctx, stdout);
+		} else if (options & OPT_M) {
+			rc = lk_dump_ctable(ctx, stdout);
+		} else {
+			rc = lk_load_keymap(ctx, fd, kbd_mode);
+		}
 	}
 
  fail:	lk_free(ctx);
