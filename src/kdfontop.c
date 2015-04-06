@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>		/* free() */
-#include <unistd.h>		/* usleep() */
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "kdfontop.h"
@@ -181,19 +180,7 @@ putfont(int fd, unsigned char *buf, int count, int width, int height) {
 
 	/* Third attempt: PIO_FONT */
 	/* This will load precisely 256 chars, independent of count */
-	int loop = 0;
-
-	/* we allow ourselves to hang here for ca 5 seconds, xdm may be playing tricks on us. */
-	while ((loop++ < 20) && (i = ioctl(fd, PIO_FONT, buf)))
-          {
-	    if (loop <= 1)
-	      fprintf(stderr, "putfont: PIO_FONT trying ...\n");
-	    else
-	      fprintf(stderr, ".");
-	    usleep(250000);
-	  }
-	fprintf(stderr, "\n");
-
+	i = ioctl(fd, PIO_FONT, buf);
 	if (i) {
 		fprintf(stderr, "%s: putfont: %d,%dx%d:  failed: %d\n", progname, count, width, height, i);
 		perror("putfont: PIO_FONT");
