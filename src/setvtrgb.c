@@ -11,7 +11,7 @@
 #include "nls.h"
 #include "version.h"
 
-static unsigned char *cmap;
+static unsigned char cmap[3 * 16];
 
 /* Standard VGA terminal colors, matching those hardcoded in the Linux kernel's
  * drivers/char/vt.c
@@ -70,9 +70,6 @@ parse_file(FILE *fd, const char *filename)
 {
 	int c;
 	unsigned int rows, cols, val;
-
-	if ((cmap = calloc(3 * 16, sizeof(unsigned char))) == NULL)
-		error(EXIT_FAILURE, errno, "calloc");
 
 	for (rows = 0; rows < 3; rows++) {
 		cols = 0;
@@ -148,7 +145,6 @@ main(int argc, char **argv) {
 	}
 
 	set_colormap(cmap);
-	free(cmap);
 
 	return EXIT_SUCCESS;
 }
