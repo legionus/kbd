@@ -72,9 +72,7 @@ parse_file(FILE *fd, const char *filename)
 	unsigned int rows, cols, val;
 
 	for (rows = 0; rows < 3; rows++) {
-		cols = 0;
-
-		while (cols < 16) {
+		for (cols = 0; cols < 16; cols++) {
 			if ((c = fscanf(fd, "%u", &val)) != 1) {
 				if (c == EOF)
 					error(EXIT_FAILURE, errno, "fscanf");
@@ -88,7 +86,6 @@ parse_file(FILE *fd, const char *filename)
 			if (cols < 15 && fgetc(fd) != ',')
 				error(EXIT_FAILURE, 0, _("Error: %s: Insufficient number of fields in line %u."),
 				      filename, rows + 1);
-			cols++;
 		}
 
 		if ((c = fgetc(fd)) == EOF)
