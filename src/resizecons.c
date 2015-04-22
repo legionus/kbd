@@ -78,12 +78,6 @@
 #include <signal.h>
 #include <sys/io.h>
 #include <sys/ioctl.h>
-#if (__GNU_LIBRARY__ >= 6)
-#include <sys/perm.h>
-#else
-#include <linux/types.h>
-#include <linux/termios.h>
-#endif
 #include <linux/vt.h>
 #include "paths.h"
 #include "getfd.h"
