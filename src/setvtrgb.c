@@ -54,18 +54,6 @@ usage(int code)
 }
 
 static void
-set_colormap(unsigned char *colormap)
-{
-	int fd = getfd(NULL);
-
-	/* Apply the color map to the tty via ioctl */
-	if (ioctl(fd, PIO_CMAP, colormap) == -1)
-		error(EXIT_FAILURE, errno, "ioctl");
-
-	close(fd);
-}
-
-static void
 parse_file(FILE *fd, const char *filename)
 {
 	int c;
@@ -100,9 +88,10 @@ parse_file(FILE *fd, const char *filename)
 
 int
 main(int argc, char **argv) {
-	int c;
+	int c, fd;
 	const char *file;
-	FILE *fd;
+	unsigned char *colormap = cmap;
+	FILE *f;
 
 	set_progname(argv[0]);
 
@@ -127,21 +116,26 @@ main(int argc, char **argv) {
 	file = argv[optind];
 
 	if (!strcmp(file, "vga")) {
-		set_colormap(vga_colors);
-		return EXIT_SUCCESS;
+		colormap = vga_colors;
 
 	} else if (!strcmp(file, "-")) {
 		parse_file(stdin, "stdin");
 
 	} else {
-		if ((fd = fopen(file, "r")) == NULL)
+		if ((f = fopen(file, "r")) == NULL)
 			error(EXIT_FAILURE, errno, "fopen");
 
-		parse_file(fd, file);
-		fclose(fd);
+		parse_file(f, file);
+		fclose(f);
 	}
 
-	set_colormap(cmap);
+	fd = getfd(NULL);
+
+	/* Apply the color map to the tty via ioctl */
+	if (ioctl(fd, PIO_CMAP, colormap) == -1)
+		error(EXIT_FAILURE, errno, "ioctl");
+
+	close(fd);
 
 	return EXIT_SUCCESS;
 }
