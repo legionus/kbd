@@ -29,6 +29,7 @@
 #include "vlock.h"
 #include "config.h"
 #include "nls.h"
+#include "version.h"
 
 /*
  * This determines whether the default behavior is to lock only the
@@ -64,7 +65,7 @@ show_help(void)
 	       "       from switching virtual consoles.\n"
 	       "-v or --version: Print the version number of vlock and exit.\n"
 	       "-h or --help: Print this help message and exit.\n"),
-	       program_invocation_short_name, program_invocation_short_name);
+	       progname, progname);
 	exit(0);
 }
 

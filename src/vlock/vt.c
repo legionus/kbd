@@ -23,7 +23,6 @@
 
 #include <stdio.h>
 #include <errno.h>
-#include <error.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,6 +34,7 @@
 
 #include "vlock.h"
 #include "nls.h"
+#include "kbd_error.h"
 
 /* Saved VT mode. */
 struct vt_mode ovtm;
@@ -136,7 +136,7 @@ init_vt (const char *tty)
 	vfd = open (dev_tty, O_RDWR);
 	if (vfd < 0)
 	{
-		error (EXIT_SUCCESS, errno, "could not open %s", dev_tty);
+		kbd_error (EXIT_SUCCESS, errno, "could not open %s", dev_tty);
 		return 0;
 	}
 
@@ -187,7 +187,7 @@ init_vt (const char *tty)
 		/* Set mode of active vt. */
 		if (ioctl (vfd, VT_SETMODE, &vtm) < 0)
 		{
-			error (EXIT_SUCCESS, errno, "ioctl VT_SETMODE");
+			kbd_error (EXIT_SUCCESS, errno, "ioctl VT_SETMODE");
 			return 0;
 		}
 	}

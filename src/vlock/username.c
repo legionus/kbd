@@ -22,7 +22,6 @@
 
 #include <stdio.h>
 #include <errno.h>
-#include <error.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -30,6 +29,7 @@
 
 #include "vlock.h"
 #include "nls.h"
+#include "kbd_error.h"
 
 /*
  * Try to find out proper login name.
@@ -54,11 +54,11 @@ get_username (void)
 		pw = getpwuid (uid);
 
 	if (!pw)
-		error (EXIT_FAILURE, 0, _("unrecognized user"));
+		kbd_error (EXIT_FAILURE, 0, _("unrecognized user"));
 
 	name = strdup (pw->pw_name);
 	if (!name)
-		error (EXIT_FAILURE, errno, "strdup");
+		kbd_error (EXIT_FAILURE, errno, "strdup");
 
 	endpwent ();
 	return name;

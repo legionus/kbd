@@ -7,6 +7,7 @@ bin_PROGRAMS = vlock
 endif
 
 vlock_SOURCES  = \
+	../kbd_error.c \
 	auth.c \
 	pam_auth.h \
 	pam.c \

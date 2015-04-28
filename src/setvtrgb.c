@@ -5,11 +5,11 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <errno.h>
-#include <error.h>
 #include "kbd.h"
 #include "getfd.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static unsigned char cmap[3 * 16];
 
@@ -63,25 +63,25 @@ parse_file(FILE *fd, const char *filename)
 		for (cols = 0; cols < 16; cols++) {
 			if ((c = fscanf(fd, "%u", &val)) != 1) {
 				if (c == EOF)
-					error(EXIT_FAILURE, errno, "fscanf");
+					kbd_error(EXIT_FAILURE, errno, "fscanf");
 
-				error(EXIT_FAILURE, 0, _("Error: %s: Invalid value in field %u in line %u."),
+				kbd_error(EXIT_FAILURE, 0, _("Error: %s: Invalid value in field %u in line %u."),
 				      filename, rows + 1, cols + 1);
 			}
 
 			cmap[rows + cols * 3] = (unsigned char) val;
 
 			if (cols < 15 && fgetc(fd) != ',')
-				error(EXIT_FAILURE, 0, _("Error: %s: Insufficient number of fields in line %u."),
+				kbd_error(EXIT_FAILURE, 0, _("Error: %s: Insufficient number of fields in line %u."),
 				      filename, rows + 1);
 		}
 
 		if ((c = fgetc(fd)) == EOF)
-			error(EXIT_FAILURE, 0, _("Error: %s: Line %u has ended unexpectedly.\n"),
+			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u has ended unexpectedly.\n"),
 			      filename, rows + 1); 
 
 		if (c != '\n')
-			error(EXIT_FAILURE, 0, _("Error: %s: Line %u is too long.\n"),
+			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u is too long.\n"),
 			      filename, rows + 1);
 	}
 }
@@ -123,7 +123,7 @@ main(int argc, char **argv) {
 
 	} else {
 		if ((f = fopen(file, "r")) == NULL)
-			error(EXIT_FAILURE, errno, "fopen");
+			kbd_error(EXIT_FAILURE, errno, "fopen");
 
 		parse_file(f, file);
 		fclose(f);
@@ -133,7 +133,7 @@ main(int argc, char **argv) {
 
 	/* Apply the color map to the tty via ioctl */
 	if (ioctl(fd, PIO_CMAP, colormap) == -1)
-		error(EXIT_FAILURE, errno, "ioctl");
+		kbd_error(EXIT_FAILURE, errno, "ioctl");
 
 	close(fd);
 

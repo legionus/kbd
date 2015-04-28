@@ -22,7 +22,6 @@
 
 #include <stdio.h>
 #include <errno.h>
-#include <error.h>
 #include <stdlib.h>
 #include <syslog.h>
 
@@ -30,6 +29,7 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
+#include "kbd_error.h"
 
 static struct pam_conv conv = {
 	&misc_conv,
@@ -48,7 +48,7 @@ init_pam (const char *username, const char *tty, int log)
 		if (log)
 			syslog (LOG_WARNING, "pam_start failed: %m");
 		else
-			error (EXIT_SUCCESS, errno, "pam_start");
+			kbd_error (EXIT_SUCCESS, errno, "pam_start");
 		return 0;
 	}
 
@@ -59,7 +59,7 @@ init_pam (const char *username, const char *tty, int log)
 			syslog (LOG_WARNING, "pam_set_item: %s",
 				pam_strerror (pamh, rc));
 		else
-			error (EXIT_SUCCESS, 0, "pam_set_item: %s",
+			kbd_error (EXIT_SUCCESS, 0, "pam_set_item: %s",
 			       pam_strerror (pamh, rc));
 		pam_end (pamh, rc);
 		return 0;

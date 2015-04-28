@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <errno.h>
-#include <error.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
@@ -8,6 +7,7 @@
 #include "getfd.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static const char *action = NULL;
 static const char *value  = NULL;
@@ -75,7 +75,7 @@ main(int argc, char **argv) {
 
 	if (!strcasecmp("GETMODE", action)) {
 		if (ioctl(fd, KDGETMODE, &mode) == -1)
-			error(EXIT_FAILURE, errno, "ioctl");
+			kbd_error(EXIT_FAILURE, errno, "ioctl");
 
 		switch (mode) {
 			case KD_TEXT:		rc = answer("text");		break;
@@ -84,7 +84,7 @@ main(int argc, char **argv) {
 
 	} else if (!strcasecmp("GKBMODE", action)) {
 		if (ioctl(fd, KDGKBMODE, &mode) == -1)
-			error(EXIT_FAILURE, errno, "ioctl");
+			kbd_error(EXIT_FAILURE, errno, "ioctl");
 
 		switch (mode) {
 			case K_RAW:		rc = answer("raw");		break;
@@ -95,7 +95,7 @@ main(int argc, char **argv) {
 
 	} else if (!strcasecmp("GKBMETA", action)) {
 		if (ioctl(fd, KDGKBMETA, &mode) == -1)
-			error(EXIT_FAILURE, errno, "ioctl");
+			kbd_error(EXIT_FAILURE, errno, "ioctl");
 
 		switch (mode) {
 			case K_METABIT:		rc = answer("metabit");		break;
@@ -104,7 +104,7 @@ main(int argc, char **argv) {
 
 	} else if (!strcasecmp("GKBLED", action)) {
 		if (ioctl(fd, KDGKBLED, &flags) == -1)
-			error(EXIT_FAILURE, errno, "ioctl");
+			kbd_error(EXIT_FAILURE, errno, "ioctl");
 
 		mode = (flags & 0x7);
 

@@ -23,7 +23,6 @@
 
 #include <stdio.h>
 #include <errno.h>
-#include <error.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -33,6 +32,8 @@
 #include "pam_auth.h"
 #include "vlock.h"
 #include "nls.h"
+#include "version.h"
+#include "kbd_error.h"
 
 int
 main (int ac, char *const av[])
@@ -41,6 +42,8 @@ main (int ac, char *const av[])
 	const char dev_prefix[] = "/dev/";
 	const char *username, *tty;
 	pam_handle_t *pamh;
+
+	set_progname(av[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
@@ -53,7 +56,7 @@ main (int ac, char *const av[])
 	tty = ttyname (STDIN_FILENO);
 	if (!tty)
 		/* stdin is not a tty, so no need to try. */
-		error (EXIT_FAILURE, 0, _("stdin is not a tty"));
+		kbd_error (EXIT_FAILURE, 0, _("stdin is not a tty"));
 
 	/* ... and strip its /dev/ prefix. */
 	if (!strncmp (tty, dev_prefix, sizeof (dev_prefix) - 1))
