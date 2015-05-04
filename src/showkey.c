@@ -57,7 +57,7 @@ clean_up(void) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}
 	if (tcsetattr(fd, 0, &old) == -1)
-		kbd_error(0, errno, "tcsetattr");
+		kbd_warning(errno, "tcsetattr");
 	close(fd);
 }
 
@@ -143,9 +143,9 @@ main (int argc, char *argv[]) {
 	        fd = 0;
 
 		if (tcgetattr(fd, &old) == -1)
-			kbd_error(0, errno, "tcgetattr");
+			kbd_warning(errno, "tcgetattr");
 		if (tcgetattr(fd, &new) == -1)
-			kbd_error(0, errno, "tcgetattr");
+			kbd_warning(errno, "tcgetattr");
 
 		new.c_lflag &= ~ (ICANON | ISIG);
 		new.c_lflag |= (ECHO | ECHOCTL);
@@ -154,7 +154,7 @@ main (int argc, char *argv[]) {
 		new.c_cc[VTIME] = 0;
 
 		if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
-			kbd_error(0, errno, "tcgetattr");
+			kbd_warning(errno, "tcgetattr");
 		printf(_("\nPress any keys - "
 		         "Ctrl-D will terminate this program\n\n"));
 
@@ -168,7 +168,7 @@ main (int argc, char *argv[]) {
 		}
 
 		if (tcsetattr(fd, 0, &old) == -1)
-			kbd_error(0, errno, "tcsetattr");
+			kbd_warning(errno, "tcsetattr");
 		return EXIT_SUCCESS;
 	}
 
@@ -208,9 +208,9 @@ main (int argc, char *argv[]) {
 
 	get_mode();
 	if (tcgetattr(fd, &old) == -1)
-		kbd_error(0, errno, "tcgetattr");
+		kbd_warning(errno, "tcgetattr");
 	if (tcgetattr(fd, &new) == -1)
-		kbd_error(0, errno, "tcgetattr");
+		kbd_warning(errno, "tcgetattr");
 
 	new.c_lflag &= ~ (ICANON | ECHO | ISIG);
 	new.c_iflag = 0;
@@ -218,7 +218,7 @@ main (int argc, char *argv[]) {
 	new.c_cc[VTIME] = 1;	/* 0.1 sec intercharacter timeout */
 
 	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
-		kbd_error(0, errno, "tcsetattr");
+		kbd_warning(errno, "tcsetattr");
 	if (ioctl(fd, KDSKBMODE, show_keycodes ? K_MEDIUMRAW : K_RAW)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}

@@ -28,6 +28,7 @@ kbd_warning(const int errnum, const char *fmt, ...)
 }
 
 void
+__attribute__ ((noreturn))
 __attribute__ ((format (printf, 3, 4)))
 kbd_error(const int exitnum, const int errnum, const char *fmt, ...)
 {
@@ -42,8 +43,5 @@ kbd_error(const int exitnum, const int errnum, const char *fmt, ...)
 	if (errnum > 0)
 		fprintf(stderr, ": %s\n", strerror(errnum));
 
-	if (exitnum)
-		exit(exitnum);
-
-	return;
+	exit(exitnum);
 }

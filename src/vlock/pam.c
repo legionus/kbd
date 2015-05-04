@@ -48,7 +48,7 @@ init_pam (const char *username, const char *tty, int log)
 		if (log)
 			syslog (LOG_WARNING, "pam_start failed: %m");
 		else
-			kbd_error (EXIT_SUCCESS, errno, "pam_start");
+			kbd_warning(errno, "pam_start");
 		return 0;
 	}
 
@@ -59,7 +59,7 @@ init_pam (const char *username, const char *tty, int log)
 			syslog (LOG_WARNING, "pam_set_item: %s",
 				pam_strerror (pamh, rc));
 		else
-			kbd_error (EXIT_SUCCESS, 0, "pam_set_item: %s",
+			kbd_warning(0, "pam_set_item: %s",
 			       pam_strerror (pamh, rc));
 		pam_end (pamh, rc);
 		return 0;

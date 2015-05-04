@@ -136,7 +136,7 @@ init_vt (const char *tty)
 	vfd = open (dev_tty, O_RDWR);
 	if (vfd < 0)
 	{
-		kbd_error (EXIT_SUCCESS, errno, "could not open %s", dev_tty);
+		kbd_warning(errno, "could not open %s", dev_tty);
 		return 0;
 	}
 
@@ -187,7 +187,7 @@ init_vt (const char *tty)
 		/* Set mode of active vt. */
 		if (ioctl (vfd, VT_SETMODE, &vtm) < 0)
 		{
-			kbd_error (EXIT_SUCCESS, errno, "ioctl VT_SETMODE");
+			kbd_warning(errno, "ioctl VT_SETMODE");
 			return 0;
 		}
 	}

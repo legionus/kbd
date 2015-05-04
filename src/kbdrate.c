@@ -300,7 +300,6 @@ main( int argc, char **argv ) {
 		lseek( fd, 0x64, 0 );
 		if (read( fd, &data, 1 ) == -1) {
 			kbd_error(EXIT_FAILURE, errno, "read");
-			exit(EXIT_FAILURE);
 		}
 	} while ((data & 2) == 2 );  /* wait */
 
