@@ -5,10 +5,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <string.h>
 #include <sys/ioctl.h>
 #include "getfd.h"
 #include "nls.h"
+#include "kbd_error.h"
 
 int
 main(int argc, char *argv[]) {
@@ -21,7 +23,7 @@ main(int argc, char *argv[]) {
 
 	if (argc != 2) {
 		fprintf(stderr, _("usage: %s\n"), "setvesablank ON|on|off");
-		exit(1);
+		return EXIT_FAILURE;
 	}
 	fd = getfd(NULL);
 	arg.ten = 10;
@@ -31,8 +33,7 @@ main(int argc, char *argv[]) {
 	else if (!strcmp(argv[1], "ON"))
 		arg.onoff = 2;
 	if (ioctl(fd, TIOCLINUX, &arg)) {
-		perror("setvesablank: TIOCLINUX");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "setvesablank: TIOCLINUX");
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

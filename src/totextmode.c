@@ -1,6 +1,7 @@
 /*
  * totextmode.c - aeb - 2000-01-20
  */
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <linux/vt.h>
@@ -11,6 +12,7 @@
 #include "getfd.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 int
 main(int argc, char *argv[]) {
@@ -26,14 +28,12 @@ main(int argc, char *argv[]) {
 		print_version_and_exit();
 
 	if (argc != 2) {
-		fprintf(stderr, _("usage: totextmode\n"));
-		exit(1);
+		kbd_error(EXIT_FAILURE, 0, _("usage: totextmode\n"));
 	}
 	fd = getfd(NULL);
 	num = atoi(argv[1]);
 	if (ioctl(fd,KDSETMODE,KD_TEXT)) {
-		perror("totextmode: KDSETMODE");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "totextmode: KDSETMODE");
 	}
-	exit(0);
+	return EXIT_SUCCESS;
 }

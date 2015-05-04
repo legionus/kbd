@@ -2,6 +2,7 @@
 /* renamed to showconsolefont.c to avoid clash with the X showfont */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -12,6 +13,8 @@
 #include "version.h"
 #include "kdmapop.h"
 #include "kdfontop.h"
+#include "kbd_error.h"
+#include "xmalloc.h"
 
 /*
  * Showing the font is nontrivial mostly because testing whether
@@ -29,14 +32,12 @@ int have_ounimap = 0;
 static void __attribute__ ((noreturn))
 leave(int n) {
 	if (have_obuf && loaduniscrnmap(fd,obuf)) {
-		fprintf(stderr,
-			_("failed to restore original translation table\n"));
-		n = 1;
+		kbd_warning(0, _("failed to restore original translation table\n"));
+		n = EXIT_FAILURE;
 	}
 	if (have_ounimap && loadunimap(fd,NULL,&ounimap)) {
-		fprintf(stderr,
-			_("failed to restore original unimap\n"));
-		n = 1;
+		kbd_warning(0, _("failed to restore original unimap\n"));
+		n = EXIT_FAILURE;
 	}
 	exit(n);
 }
@@ -53,15 +54,8 @@ settrivialscreenmap(void) {
 		nbuf[i] = i;
 
 	if (loaduniscrnmap(fd,nbuf)) {
-		fprintf(stderr, _("cannot change translation table\n"));
-		exit(1);
+		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table\n"));
 	}
-}
-
-static void __attribute__ ((noreturn))
-out_of_memory(void) {
-	fprintf(stderr, _("%s: out of memory?\n"), progname);
-	leave(1);
 }
 
 static void
@@ -69,7 +63,7 @@ getoldunicodemap(void) {
 	struct unimapdesc descr;
 
 	if (getunimap(fd, &descr))
-		leave(1);
+		leave(EXIT_FAILURE);
 	ounimap = descr;
 	have_ounimap = 1;
 }
@@ -82,10 +76,7 @@ setnewunicodemap(int *list, int cnt) {
 
 	if (!nunimap.entry_ct) {
 		nunimap.entry_ct = 512;
-		nunimap.entries = (struct unipair *)
-			malloc(nunimap.entry_ct * sizeof(struct unipair));
-		if (nunimap.entries == NULL)
-			out_of_memory();
+		nunimap.entries = (struct unipair *) xmalloc(nunimap.entry_ct * sizeof(struct unipair));
 	}
 	for (i=0; i<512; i++) {
 		nunimap.entries[i].fontpos = i;
@@ -95,7 +86,7 @@ setnewunicodemap(int *list, int cnt) {
 		nunimap.entries[list[i]].unicode = BASE+i;
 
 	if (loadunimap(fd, NULL, &nunimap))
-		leave(1);
+		leave(EXIT_FAILURE);
 }
 
 static void __attribute__ ((noreturn))
@@ -110,7 +101,7 @@ usage(void) {
 		  " -v       Be more verbose.\n"
 		  " -i       Don't print out the font table, just show\n"
 		  "          ROWSxCOLSxCOUNT and exit.\n"));
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int
@@ -152,8 +143,8 @@ main (int argc, char **argv) {
 	fd = getfd(console);
 
 	if (ioctl(fd, KDGKBMODE, &mode)) {
-		perror("KDGKBMODE");
-		leave(1);
+		kbd_warning(errno, "ioctl KDGKBMODE");
+		leave(EXIT_FAILURE);
 	}
 	if (mode == K_UNICODE)
 		space = "\xef\x80\xa0";	/* U+F020 (direct-to-font space) */
@@ -164,7 +155,7 @@ main (int argc, char **argv) {
 	    nr = rows = cols = 0;
 	    n = getfont(fd, NULL, &nr, &rows, &cols);
 	    if (n != 0)
-	      leave(1);
+	      leave(EXIT_FAILURE);
 
 	    if (verbose) {
 	        printf(_("Character count: %d\n"), nr);
@@ -173,7 +164,7 @@ main (int argc, char **argv) {
 	    }
 	    else
 		printf("%dx%dx%d\n", rows, cols, nr);
-	    leave(0);
+	    leave(EXIT_SUCCESS);
 	  }
 
 	settrivialscreenmap();
@@ -208,6 +199,6 @@ main (int argc, char **argv) {
 		fflush(stdout);
 	}
 
-	leave(0);
-	exit(0);			/* make gcc happy */
+	leave(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }

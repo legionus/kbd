@@ -6,11 +6,14 @@
 
 /* Send kernel messages to the current console or to console N */
 #include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include "getfd.h"
 #include "nls.h"
+#include "kbd_error.h"
 
 int
 main(int argc, char **argv){
@@ -30,8 +33,7 @@ main(int argc, char **argv){
 	arg.fn = 11;		/* redirect kernel messages */
 	arg.subarg = cons;	/* to specified console */
 	if (ioctl(fd, TIOCLINUX, &arg)) {
-		perror("TIOCLINUX");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "TIOCLINUX");
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

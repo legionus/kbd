@@ -14,6 +14,7 @@
 #include <sys/file.h>
 
 #include "version.h"
+#include "kbd_error.h"
 #include "xmalloc.h"
 #include "getfd.h"
 
@@ -62,34 +63,6 @@ print_help(int ret)
 	exit(ret);
 }
 
-static void
-__attribute__ ((format (printf, 1, 2)))
-openvt_message(const char *fmt, ...) {
-	va_list ap;
-	va_start(ap, fmt);
-	fprintf(stderr, "%s: ", progname);
-	vfprintf(stderr, fmt, ap);
-	fprintf(stderr, "\n");
-	va_end(ap);
-	fflush(stderr);
-}
-
-static void
-__attribute__ ((noreturn))
-__attribute__ ((format (printf, 3, 4)))
-openvt_fatal(const int exitnum, const int errnum, const char *fmt, ...) {
-	va_list ap;
-	va_start(ap, fmt);
-	fprintf(stderr, "%s: ", progname);
-	vfprintf(stderr, fmt, ap);
-	va_end(ap);
-	if (errnum > 0)
-		fprintf(stderr, ": %s", strerror(errnum));
-	fprintf(stderr, "\n");
-	fflush(stderr);
-	exit(exitnum);
-}
-
 /*
  * Support for Spawn_Console: openvt running from init
  * added by Joshua Spoerri, Thu Jul 18 21:13:16 EDT 1996
@@ -128,7 +101,7 @@ authenticate_user(int curvt)
 	struct passwd *pwnam;
 
 	if (!(dp = opendir("/proc")))
-		openvt_fatal(1, errno, "opendir(/proc)");
+		kbd_error(EXIT_FAILURE, errno, "opendir(/proc)");
 
 	/* get the current tty */
 	/* try /dev/ttyN, then /dev/vc/N */
@@ -139,7 +112,7 @@ authenticate_user(int curvt)
 		if (stat(filename, &buf)) {
 			/* give error message for first attempt */
 			sprintf(filename, VTNAME, curvt);
-			openvt_fatal(1, errsv, "%s", filename);
+			kbd_error(EXIT_FAILURE, errsv, "%s", filename);
 		}
 	}
 	console_dev = buf.st_dev;
@@ -148,7 +121,7 @@ authenticate_user(int curvt)
 
 	/* get the owner of current tty */
 	if (!(pwnam = getpwuid(console_uid)))
-		openvt_fatal(1, errno, "getpwuid");
+		kbd_error(EXIT_FAILURE, errno, "getpwuid");
 
 	/* check to make sure that user has a process on that tty */
 	/* this will fail for example when X is running on the tty */
@@ -162,7 +135,7 @@ authenticate_user(int curvt)
 			goto got_a_process;
 	}
 
-	openvt_fatal(1, 0, _("Couldn't find owner of current tty!"));
+	kbd_error(EXIT_FAILURE, 0, _("Couldn't find owner of current tty!"));
 
  got_a_process:
 	return pwnam->pw_name;
@@ -230,7 +203,7 @@ main(int argc, char *argv[])
 				vtno = (int)atol(optarg);
 
 				if (vtno <= 0 || vtno > 63)
-					openvt_fatal(5, 0, _("%s: Illegal vt number"), optarg);
+					kbd_error(5, 0, _("%s: Illegal vt number"), optarg);
 
 				/* close security holes - until we can do this safely */
 				(void)setuid(getuid());
@@ -256,7 +229,7 @@ main(int argc, char *argv[])
 			case 'u':
 				/* we'll let 'em get away with the meaningless -ul combo */
 				if (getuid())
-					openvt_fatal(EXIT_FAILURE, 0, _("Only root can use the -u flag."));
+					kbd_error(EXIT_FAILURE, 0, _("Only root can use the -u flag."));
 
 				as_user = TRUE;
 				break;
@@ -274,26 +247,26 @@ main(int argc, char *argv[])
 		struct stat st;
 
 		if (fstat(i, &st) == -1 && open("/dev/null", O_RDWR) == -1)
-			openvt_fatal(EXIT_FAILURE, errno, "open(/dev/null)");
+			kbd_error(EXIT_FAILURE, errno, "open(/dev/null)");
 	}
 
 	if ((consfd = getfd(NULL)) < 0)
-		openvt_fatal(2, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(2, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (ioctl(consfd, VT_GETSTATE, &vtstat) < 0)
-		openvt_fatal(4, errno, "ioctl(VT_GETSTATE)");
+		kbd_error(4, errno, "ioctl(VT_GETSTATE)");
 
 	if (vtno == -1) {
 		if (ioctl(consfd, VT_OPENQRY, &vtno) < 0 || vtno == -1)
-			openvt_fatal(3, errno, _("Cannot find a free vt"));
+			kbd_error(3, errno, _("Cannot find a free vt"));
 
 	} else if (!force) {
 		if (vtno >= 16)
-			openvt_fatal(7, 0, _("Cannot check whether vt %d is free; use `%s -f' to force."),
+			kbd_error(7, 0, _("Cannot check whether vt %d is free; use `%s -f' to force."),
 			             vtno, progname);
 
 		if (vtstat.v_state & (1 << vtno))
-			openvt_fatal(7, 0, _("vt %d is in use; command aborted; use `%s -f' to force."),
+			kbd_error(7, 0, _("vt %d is in use; command aborted; use `%s -f' to force."),
 			             vtno, progname);
 	}
 
@@ -303,7 +276,7 @@ main(int argc, char *argv[])
 		if (!(argc > optind)) {
 			def_cmd = getenv("SHELL");
 			if (def_cmd == NULL)
-				openvt_fatal(7, 0, _("Unable to find command."));
+				kbd_error(7, 0, _("Unable to find command."));
 			cmd = xmalloc(strlen(def_cmd) + 2);
 		} else {
 			cmd = xmalloc(strlen(argv[optind]) + 2);
@@ -335,7 +308,7 @@ main(int argc, char *argv[])
 #else
 			if (setsid() < 0)
 #endif				/* ESIX_5_3_2_D */
-				openvt_fatal(5, errno, _("Unable to set new session"));
+				kbd_error(5, errno, _("Unable to set new session"));
 		}
 
 		sprintf(vtname, VTNAME, vtno);
@@ -359,31 +332,31 @@ main(int argc, char *argv[])
 				}
 				sprintf(vtname, VTNAME, vtno);
 			}
-			openvt_fatal(5, errsv, _("Unable to open %s"), vtname);
+			kbd_error(5, errsv, _("Unable to open %s"), vtname);
 		}
  got_vtno:
 		if (verbose)
-			openvt_message(_("Using VT %s"), vtname);
+			kbd_warning(0, _("Using VT %s"), vtname);
 
 		/* Maybe we are suid root, and the -c option was given.
 		   Check that the real user can access this VT.
 		   We assume getty has made any in use VT non accessable */
 		if (access(vtname, R_OK | W_OK) < 0)
-			openvt_fatal(5, errno, _("Cannot open %s read/write"), vtname);
+			kbd_error(5, errno, _("Cannot open %s read/write"), vtname);
 
 		if (!as_user && !geteuid()) {
 			uid_t uid = getuid();
 			if (chown(vtname, uid, getgid()) == -1)
-				openvt_fatal(5, errno, "chown");
+				kbd_error(5, errno, "chown");
 			setuid(uid);
 		}
 
 		if (show) {
 			if (ioctl(fd, VT_ACTIVATE, vtno))
-				openvt_fatal(1, errno, _("Couldn't activate vt %d"), vtno);
+				kbd_error(1, errno, _("Couldn't activate vt %d"), vtno);
 
 			if (ioctl(fd, VT_WAITACTIVE, vtno))
-				openvt_fatal(1, errno, _("Activation interrupted?"));
+				kbd_error(1, errno, _("Activation interrupted?"));
 		}
 		close(0);
 		close(1);
@@ -391,7 +364,7 @@ main(int argc, char *argv[])
 		close(consfd);
 
 		if ((dup2(fd, 0) == -1) || (dup2(fd, 1) == -1) || (dup2(fd, 2) == -1))
-			openvt_fatal(1, errno, "dup");
+			kbd_error(1, errno, "dup");
 
 		/* slight problem: after "openvt -su" has finished, the
 		   utmp entry is not removed */
@@ -402,11 +375,11 @@ main(int argc, char *argv[])
 		else
 			execvp(cmd, &argv[optind]);
 
-		openvt_fatal(127, errno, "exec");
+		kbd_error(127, errno, "exec");
 	}
 
 	if (pid < 0)
-		openvt_fatal(6, errno, "fork");
+		kbd_error(6, errno, "fork");
 
 	if (do_wait) {
 		int retval = 0; /* actual value returned form process */
@@ -416,14 +389,14 @@ main(int argc, char *argv[])
 
 		if (show) {	/* Switch back... */
 			if (ioctl(consfd, VT_ACTIVATE, vtstat.v_active))
-				openvt_fatal(8, errno, "ioctl(VT_ACTIVATE)");
+				kbd_error(8, errno, "ioctl(VT_ACTIVATE)");
 
 			/* wait to be really sure we have switched */
 			if (ioctl(consfd, VT_WAITACTIVE, vtstat.v_active))
-				openvt_fatal(8, errno, "ioctl(VT_WAITACTIVE)");
+				kbd_error(8, errno, "ioctl(VT_WAITACTIVE)");
 
 			if (ioctl(consfd, VT_DISALLOCATE, vtno))
-				openvt_fatal(8, 0, _("Couldn't deallocate console %d"), vtno);
+				kbd_error(8, 0, _("Couldn't deallocate console %d"), vtno);
 		}
 
 		/* if all our stuff went right, we want to return the exit code of the command we ran

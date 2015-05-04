@@ -96,6 +96,7 @@ struct my_kbd_repeat {
 
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static int valid_rates[] = { 300, 267, 240, 218, 200, 185, 171, 160, 150,
                                    133, 120, 109, 100, 92, 86, 80, 75, 67,
@@ -121,8 +122,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
 		if (errno == EINVAL || errno == ENOTTY)
 			return 0;
-		perror( "ioctl(KDKBDREP)" );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 	}
 
 #if 0
@@ -142,8 +142,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 		kbdrep_s.delay = 1;
    
 	if (ioctl(0, KDKBDREP, &kbdrep_s)) {
-		perror("ioctl(KDKBDREP)");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 	}
 
 	/* report */
@@ -161,8 +160,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent) {
 	if (ioctl( 0, KDKBDREP, &kbdrep_s )) {
 		if (errno == EINVAL)
 			return 0;
-		perror( "ioctl(KDKBDREP)" );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 	}
 	printf("old delay %d, period %d\n",
 	       kbdrep_s.delay, kbdrep_s.period);
@@ -192,8 +190,7 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 
 	fd = open("/dev/kbd", O_RDONLY);
 	if (fd == -1) {
-		perror( "open(/dev/kbd)" );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, "open /dev/kbd");
 	}
 
 	kbdrate_s.rate = (int) (rate + 0.5);  /* round up */
@@ -202,8 +199,7 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 		kbdrate_s.rate = 50;
 
 	if (ioctl( fd, KIOCSRATE, &kbdrate_s )) {
-		perror( "ioctl(KIOCSRATE)" );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, "ioctl KIOCSRATE");
 	}
 	close( fd );
 
@@ -219,7 +215,7 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 
 static void
 sigalrmhandler(int sig __attribute__ ((unused))) {
-	fprintf( stderr, "kbdrate: Failed waiting for kbd controller!\n" );
+	kbd_warning(0, "Failed waiting for kbd controller!\n");
 	raise( SIGINT );
 }
 
@@ -265,7 +261,7 @@ main( int argc, char **argv ) {
 		default:
 			fprintf(stderr,
 				_("Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"));
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -294,8 +290,7 @@ main( int argc, char **argv ) {
 		}
 
 	if ( (fd = open( "/dev/port", O_RDWR )) < 0) {
-		perror( _("Cannot open /dev/port") );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, _("Cannot open /dev/port"));
 	}
 
 	signal( SIGALRM, sigalrmhandler );
@@ -304,23 +299,21 @@ main( int argc, char **argv ) {
 	do {
 		lseek( fd, 0x64, 0 );
 		if (read( fd, &data, 1 ) == -1) {
-			perror( "read" );
-			exit( 1 );
+			kbd_error(EXIT_FAILURE, errno, "read");
+			exit(EXIT_FAILURE);
 		}
 	} while ((data & 2) == 2 );  /* wait */
 
 	lseek( fd, 0x60, 0 );
 	data = 0xf3;                 /* set typematic rate */
 	if (write( fd, &data, 1 ) == -1) {
-		perror( "write" );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, "write");
 	}
 
 	do {
 		lseek( fd, 0x64, 0 );
 		if (read( fd, &data, 1 ) == -1) {
-			perror( "read" );
-			exit( 1 );
+			kbd_error(EXIT_FAILURE, errno, "read");
 		}
 	} while ((data & 2) == 2 );  /* wait */
 
@@ -329,8 +322,7 @@ main( int argc, char **argv ) {
 	lseek( fd, 0x60, 0 );
 	sleep( 1 );
 	if (write( fd, &value, 1 ) == -1) {
-		perror( "write" );
-		exit( 1 );
+		kbd_error(EXIT_FAILURE, errno, "write");
 	}
 
 	close( fd );
@@ -340,5 +332,5 @@ main( int argc, char **argv ) {
 			valid_rates[value & 0x1f] / 10.0,
 			valid_delays[ (value & 0x60) >> 5 ] );
 
-	return 0;
+	return EXIT_SUCCESS;
 }

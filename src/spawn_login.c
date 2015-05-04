@@ -13,20 +13,23 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
+#include "version.h"
 #include "kbd.h"
+#include "kbd_error.h"
 
 static void
 sighup(int n __attribute__ ((unused))) {
     if (system("openvt -s -l -- login -h spawn") == -1) {
-	perror("system");
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, "system");
     }
     signal(SIGHUP, sighup);
 }
 
 int
-main(void) {
+main(int argc __attribute__ ((unused)), char *argv[]) {
     int fd;
+
+    set_progname(argv[0]);
 
     fd = open("/dev/tty0", 0);
     if (fd < 0 && errno == ENOENT)
@@ -34,7 +37,9 @@ main(void) {
     if (fd < 0)
       fd = 0;
     signal(SIGHUP, sighup);
-    ioctl(fd, KDSIGACCEPT, (long) SIGHUP);
+    if (ioctl(fd, KDSIGACCEPT, (long) SIGHUP))
+	kbd_error(EXIT_FAILURE, errno, "ioctl KDSIGACCEPT");
     while(1)
       sleep(3600);
+    return EXIT_SUCCESS;
 }

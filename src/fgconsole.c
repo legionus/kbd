@@ -3,6 +3,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <sys/ioctl.h>
 #include <getopt.h>
 #include <linux/vt.h>
@@ -10,6 +11,7 @@
 #include "getfd.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static void __attribute__ ((noreturn))
 usage(void)
@@ -24,7 +26,7 @@ usage(void)
 "	-V --version         display program version\n"
 "	-n --next-available  display number of next unallocated VT\n"),
 			progname, PACKAGE_VERSION, progname);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int
@@ -63,23 +65,20 @@ main(int argc, char **argv){
 	fd = getfd(NULL);
 	if (show_vt) {
 	  if ((ioctl(fd, VT_OPENQRY, &vtno) < 0) || vtno == -1) {
-	     perror (_("Couldn't read VTNO: "));
-	     exit(2);
+	     kbd_error(2, errno, _("Couldn't read VTNO: "));
 	  }
 	  printf ("%d\n", vtno);
-	  exit(0);
+	  return EXIT_SUCCESS;
 	}
 	
 	if (ioctl(fd, TIOCGSERIAL, &sr) == 0) {
 	  printf ("serial\n");
-	  exit (0);
+	  return EXIT_SUCCESS;
 	}
 	
-	if (ioctl(fd, VT_GETSTATE, &vtstat)) 
-	  {
-	    perror("fgconsole: VT_GETSTATE");
-	    exit(1);
-	  }
+	if (ioctl(fd, VT_GETSTATE, &vtstat)) {
+	  kbd_error(EXIT_FAILURE, errno, "fgconsole: VT_GETSTATE");
+	}
 	printf("%d\n", vtstat.v_active);
-	return 0;
+	return EXIT_SUCCESS;
 }

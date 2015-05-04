@@ -25,6 +25,7 @@
 #include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 int
 main(int argc, char **argv) {
@@ -47,7 +48,7 @@ main(int argc, char **argv) {
 
     if (argc > 2) {
 	fprintf(stderr, _("usage: screendump [n]\n"));
-	exit(1);
+	exit(EXIT_FAILURE);
     }
 
     cons = (argc == 2) ? atoi(argv[1]) : 0;
@@ -76,8 +77,7 @@ main(int argc, char **argv) {
     outbuf = xmalloc(rows*(cols+1));
 
     if (read(fd, inbuf, rows*cols*2) != (ssize_t) (rows*cols*2)) {
-        fprintf(stderr, _("Error reading %s\n"), infile);
-        exit(1);
+        kbd_error(EXIT_FAILURE, errno, _("Error reading %s"), infile);
     }
     p = inbuf;
     q = outbuf;
@@ -112,8 +112,7 @@ try_ioctl:
 	}
 
 	if (ioctl(fd, TIOCGWINSZ, &win)) {
-	    perror("TIOCGWINSZ");
-	    exit(1);
+	    kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
 	}
 
 	screenbuf = xmalloc(2 + win.ws_row * win.ws_col);
@@ -130,18 +129,17 @@ try_ioctl:
 	    /* we tried this just to be sure, but TIOCLINUX
 	       function 0 has been disabled since 1.1.92
 	       Do not mention `ioctl dump' in error msg */
-	    fprintf(stderr,_("couldn't read %s\n"), infile);
+	    kbd_warning(0, _("couldn't read %s\n"), infile);
 #endif
-	    exit(1);
+	    return EXIT_FAILURE;
 	}
 
         rows = screenbuf[0];
         cols = screenbuf[1];
 	if (rows != win.ws_row || cols != win.ws_col) {
-	    fprintf(stderr,
+	    kbd_error(EXIT_FAILURE, 0,
 		    _("Strange ... screen is both %dx%d and %dx%d ??\n"),
 		    win.ws_col, win.ws_row, cols, rows);
-	    exit(1);
 	}
 
 	outbuf = xmalloc(rows*(cols+1));
@@ -157,8 +155,8 @@ try_ioctl:
     }
 done:
     if (write(1, outbuf, q-outbuf) != q-outbuf) {
-        fprintf(stderr, _("Error writing screendump\n"));
-        exit(1);
+        kbd_error(EXIT_FAILURE, 0, _("Error writing screendump\n"));
     }
-    exit(0);
+
+    return EXIT_SUCCESS;
 }

@@ -7,12 +7,14 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "getfd.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static void __attribute__ ((noreturn))
 usage(char *s) {
@@ -21,7 +23,7 @@ usage(char *s) {
 	    "usage: setkeycode scancode keycode ...\n"
 	    " (where scancode is either xx or e0xx, given in hexadecimal,\n"
 	    "  and keycode is given in decimal)\n"));
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int
@@ -63,14 +65,12 @@ main(int argc, char **argv) {
 		   but we can leave testing to the kernel. */
 #endif
 		if (ioctl(fd,KDSETKEYCODE,&a)) {
-			perror("KDSETKEYCODE");
-			fprintf(stderr,
-				_("failed to set scancode %x to keycode %d\n"),
+			kbd_error(EXIT_FAILURE, errno,
+				_("failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"),
 				a.scancode, a.keycode);
-			exit(1);
 		}
 		argc -= 2;
 		argv += 2;
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

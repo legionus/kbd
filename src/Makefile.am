@@ -38,7 +38,8 @@ EXTRA_DIST = \
 
 libcommon_a_SOURCES = \
 	getfd.c getfd.h \
-	xmalloc.c xmalloc.h
+	xmalloc.c xmalloc.h \
+	kbd_error.c kbd_error.h
 
 libfont_a_SOURCES   = \
 	psf.h psffontop.c psffontop.h \
@@ -64,13 +65,13 @@ resizecons_SOURCES      = $(ALL_S) resizecons.c
 screendump_SOURCES      = $(ALL_S) screendump.c
 setfont_SOURCES         = $(ALL_S) setfont.c mapscrn.c
 setkeycodes_SOURCES     = $(ALL_S) setkeycodes.c
-setvtrgb_SOURCES        = $(ALL_S) setvtrgb.c kbd_error.c kbd_error.h
+setvtrgb_SOURCES        = $(ALL_S) setvtrgb.c
 setlogcons_SOURCES      = $(ALL_S) setlogcons.c
 setpalette_SOURCES      = $(ALL_S) setpalette.c
 setvesablank_SOURCES    = $(ALL_S) setvesablank.c
 showconsolefont_SOURCES = $(ALL_S) showconsolefont.c
 showkey_SOURCES         = $(ALL_S) showkey.c
-kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c kbd_error.c kbd_error.h
+kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
 
 dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c
 loadkeys_SOURCES        = $(ALL_S) loadkeys.c

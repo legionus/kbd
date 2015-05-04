@@ -7,11 +7,14 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static void __attribute__ ((noreturn))
 usage(void)
@@ -24,7 +27,7 @@ usage(void)
 "to change the settings of another vt.\n"
 "The setting before and after the change are reported.\n"
 ));
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 static void
@@ -73,15 +76,13 @@ main(int argc, char **argv) {
 	print_version_and_exit();
 
     if (ioctl(0, KDGKBMETA, &ometa)) {
-	perror("KDGKBMETA");
-	fprintf(stderr,
-		_("Error reading current setting. Maybe stdin is not a VT?\n"));
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, _("Error reading current setting. Maybe stdin is not a VT?: "
+	                                 "ioctl KDGKBMETA"));
     }
 
     if (argc <= 1) {
 	report(ometa);
-	exit(0);
+	exit(EXIT_SUCCESS);
     }
 
     nmeta = 0;			/* make gcc happy */
@@ -98,10 +99,10 @@ main(int argc, char **argv) {
     printf(_("old state:    "));
     report(ometa);
     if (ioctl(0, KDSKBMETA, nmeta)) {
-	perror("KDSKBMETA");
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMETA");
     }
     printf(_("new state:    "));
     report(nmeta);
-    exit(0);
+
+    return EXIT_SUCCESS;
 }

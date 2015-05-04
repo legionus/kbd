@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <unistd.h>
 #include <getopt.h>
 #include <fcntl.h>
@@ -8,6 +10,7 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 #include "getfd.h"
+#include "kbd_error.h"
 #include "nls.h"
 #include "version.h"
 
@@ -26,8 +29,7 @@ get_mode(void) {
         char *m;
 
 	if (ioctl(fd, KDGKBMODE, &oldkbmode)) {
-		perror("KDGKBMODE");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
 	}
 	switch(oldkbmode) {
 	  case K_RAW:
@@ -52,11 +54,10 @@ get_mode(void) {
 static void
 clean_up(void) {
 	if (ioctl(fd, KDSKBMODE, oldkbmode)) {
-		perror("KDSKBMODE");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}
 	if (tcsetattr(fd, 0, &old) == -1)
-		perror("tcsetattr");
+		kbd_error(0, errno, "tcsetattr");
 	close(fd);
 }
 
@@ -64,13 +65,13 @@ static void __attribute__ ((noreturn))
 die(int x) {
 	printf(_("caught signal %d, cleaning up...\n"), x);
 	clean_up();
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 static void __attribute__ ((noreturn))
 watch_dog(int x __attribute__ ((unused))) {
 	clean_up();
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 static void __attribute__ ((noreturn))
@@ -86,7 +87,7 @@ usage(void) {
 "	-s --scancodes	display only the raw scan-codes\n"
 "	-k --keycodes	display only the interpreted keycodes (default)\n"
 ), PACKAGE_VERSION);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int
@@ -142,9 +143,9 @@ main (int argc, char *argv[]) {
 	        fd = 0;
 
 		if (tcgetattr(fd, &old) == -1)
-			perror("tcgetattr");
+			kbd_error(0, errno, "tcgetattr");
 		if (tcgetattr(fd, &new) == -1)
-			perror("tcgetattr");
+			kbd_error(0, errno, "tcgetattr");
 
 		new.c_lflag &= ~ (ICANON | ISIG);
 		new.c_lflag |= (ECHO | ECHOCTL);
@@ -153,7 +154,7 @@ main (int argc, char *argv[]) {
 		new.c_cc[VTIME] = 0;
 
 		if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
-			perror("tcgetattr");
+			kbd_error(0, errno, "tcgetattr");
 		printf(_("\nPress any keys - "
 		         "Ctrl-D will terminate this program\n\n"));
 
@@ -167,8 +168,8 @@ main (int argc, char *argv[]) {
 		}
 
 		if (tcsetattr(fd, 0, &old) == -1)
-			perror("tcsetattr");
-		exit(0);
+			kbd_error(0, errno, "tcsetattr");
+		return EXIT_SUCCESS;
 	}
 
 
@@ -207,9 +208,9 @@ main (int argc, char *argv[]) {
 
 	get_mode();
 	if (tcgetattr(fd, &old) == -1)
-		perror("tcgetattr");
+		kbd_error(0, errno, "tcgetattr");
 	if (tcgetattr(fd, &new) == -1)
-		perror("tcgetattr");
+		kbd_error(0, errno, "tcgetattr");
 
 	new.c_lflag &= ~ (ICANON | ECHO | ISIG);
 	new.c_iflag = 0;
@@ -217,10 +218,9 @@ main (int argc, char *argv[]) {
 	new.c_cc[VTIME] = 1;	/* 0.1 sec intercharacter timeout */
 
 	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
-		perror("tcsetattr");
+		kbd_error(0, errno, "tcsetattr");
 	if (ioctl(fd, KDSKBMODE, show_keycodes ? K_MEDIUMRAW : K_RAW)) {
-		perror("KDSKBMODE");
-		exit(1);
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}
 
 	printf(_("press any key (program terminates 10s after last keypress)...\n"));
@@ -235,7 +235,7 @@ main (int argc, char *argv[]) {
 			printf("\n");
 		}
 		clean_up();
-		exit(0);
+		return EXIT_SUCCESS;
 	}
 
 	/* show keycodes - 2.6 allows 3-byte reports */
@@ -264,5 +264,5 @@ main (int argc, char *argv[]) {
 	}
 
 	clean_up();
-	exit(0);
+	return EXIT_SUCCESS;
 }

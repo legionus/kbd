@@ -8,11 +8,14 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static void __attribute__ ((noreturn))
 usage(void)
@@ -37,7 +40,7 @@ usage(void)
     ""
 #endif
     );
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 #define onoff(a) ((a) ? _("on ") : _("off"))
@@ -81,17 +84,16 @@ struct led {
 static void
 getleds(char *cur_leds) {
     if (ioctl(0, KDGETLED, cur_leds)) {
-	perror("KDGETLED");
-	fprintf(stderr,
-	  _("Error reading current led setting. Maybe stdin is not a VT?\n"));
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting. "
+	                                 "Maybe stdin is not a VT?: "
+	                                 "ioctl KDGETLED"));
     }
 }
 
 static int
 setleds(char cur_leds) {
     if (ioctl(0, KDSETLED, cur_leds)) {
-	perror("KDSETLED");
+	kbd_warning(errno, "ioctl KDSETLED");
 	return -1;
     }
     return 0;
@@ -100,11 +102,9 @@ setleds(char cur_leds) {
 static void
 getflags(char *flags) {
     if (ioctl(0, KDGKBLED, flags)) {
-	perror("KDGKBLED");
-	fprintf(stderr,
-          _("Error reading current flags setting. "
-	    "Maybe you are not on the console?\n"));
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, _("Error reading current flags setting. "
+	                                 "Maybe you are not on the console?: "
+	                                 "ioctl KDGKBLED"));
     }
 }
 
@@ -116,18 +116,15 @@ static int sunkbdfd = -1;
 #define arg_state
 #endif
 
-static void __attribute__ ((noreturn))
+static void
 sungetleds(arg_state char *cur_leds) {
 #ifdef KIOCGLED
     if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
-	perror("KIOCGLED");
-	fprintf(stderr,
-	  _("Error reading current led setting from /dev/kbd.\n"));
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting from /dev/kbd: "
+	                                 "ioctl KIOCGLED"));
     }
 #else
-    fprintf(stderr, _("KIOCGLED unavailable?\n"));
-    exit(1);
+    kbd_error(EXIT_FAILURE, 0, _("KIOCGLED unavailable?\n"));
 #endif
 }
 
@@ -137,18 +134,15 @@ sungetleds(arg_state char *cur_leds) {
 #define arg_state
 #endif
 
-static void __attribute__ ((noreturn))
+static void
 sunsetleds(arg_state char *cur_leds) {
 #ifdef KIOCSLED
     if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {
-	perror("KIOCSLED");
-	fprintf(stderr,
-	  _("Error reading current led setting from /dev/kbd.\n"));
-	exit(1);
+	kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting from /dev/kbd: "
+	                                 "ioctl KIOCSLED"));
     }
 #else
-    fprintf(stderr, _("KIOCSLED unavailable?\n"));
-    exit(1);
+    kbd_error(EXIT_FAILURE, 0, _("KIOCSLED unavailable?\n"));
 #endif
 }
 
@@ -171,10 +165,8 @@ main(int argc, char **argv) {
 	print_version_and_exit();
 
 #ifdef __sparc__
-    sunkbdfd = open("/dev/kbd", O_RDONLY);
-    if (sunkbdfd < 0) {
-	perror("/dev/kbd");
-	fprintf(stderr, _("Error opening /dev/kbd.\n"));
+    if ((sunkbdfd = open("/dev/kbd", O_RDONLY)) < 0) {
+	kbd_error(EXIT_FAILURE, errno, "open /dev/kbd");
 	/* exit(1); */
     }
 #endif
@@ -206,8 +198,7 @@ main(int argc, char **argv) {
 	if (optL) {
 	    nleds = 0xff;
 	    if (setleds(nleds)) {
-		fprintf(stderr, _("Error resetting ledmode\n"));
-		exit(1);
+		kbd_error(EXIT_FAILURE, 0, _("Error resetting ledmode\n"));
 	    }
 	}
 
@@ -229,7 +220,7 @@ main(int argc, char **argv) {
 	    else
 	        report(oleds);
 	}
-	exit(0);
+	exit(EXIT_SUCCESS);
     }
 
     if (!optL)
@@ -285,8 +276,7 @@ main(int argc, char **argv) {
     }
     if (optD || optF) {
 	if (ioctl(0, KDSKBLED, (ndefflags << 4) | nflags)) {
-	    perror("KDSKBLED");
-	    exit(1);
+	    kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBLED");
 	}
     }
     if (optL) {
@@ -308,8 +298,8 @@ main(int argc, char **argv) {
 	        report(nleds);
 	    }
 	    if (setleds(nleds))
-	        exit(1);
+	        exit(EXIT_FAILURE);
 	}
     }
-    exit(0);
+    exit(EXIT_SUCCESS);
 }
