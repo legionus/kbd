@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 
 #include "nls.h"
 #include "kbd.h"
@@ -174,7 +173,7 @@ lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int k
 }
 
 static int
-do_constant_key(struct lk_ctx *ctx, int i, u_short key)
+do_constant_key(struct lk_ctx *ctx, int i, unsigned short key)
 {
 	int typ, val;
 	unsigned int j;
@@ -184,7 +183,7 @@ do_constant_key(struct lk_ctx *ctx, int i, u_short key)
 
 	if ((typ == KT_LATIN || typ == KT_LETTER) &&
 	    ((val >= 'a' && val <= 'z') || (val >= 'A' && val <= 'Z'))) {
-		u_short defs[16];
+		unsigned short defs[16];
 		defs[0] = K(KT_LETTER, val);
 		defs[1] = K(KT_LETTER, val ^ 32);
 		defs[2] = defs[0];
@@ -236,7 +235,7 @@ lk_add_constants(struct lk_ctx *ctx)
 
 	for (i = 0; i < ctx->key_constant->total; i++) {
 		char *constant;
-		u_short key;
+		unsigned short key;
 
 		constant = lk_array_get(ctx->key_constant, i);
 		if (!constant || !(*constant))

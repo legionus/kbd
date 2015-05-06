@@ -11,7 +11,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include <linux/types.h>
 #include <linux/kd.h>
 #include "getfd.h"
 #include "nls.h"

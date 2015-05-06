@@ -9,7 +9,6 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/ioctl.h>
-#include <sys/types.h>
 
 #include "keymap.h"
 
@@ -31,7 +30,7 @@ valid_type(int fd, int t)
 	return (ioctl(fd, KDSKBENT, (unsigned long) &ke) == 0);
 }
 
-static u_char
+static unsigned char
 maximum_val(int fd, int t)
 {
 	struct kbentry ke, ke0;

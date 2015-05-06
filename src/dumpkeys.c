@@ -9,7 +9,6 @@
 #include <fcntl.h>
 #include <getopt.h>
 #include <unistd.h>
-#include <linux/types.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 #include <sys/ioctl.h>
