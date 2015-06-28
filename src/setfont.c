@@ -458,6 +458,7 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	}
 	do_loadfont(fd, bigfontbuf, bigwidth, bigheight, hwunit,
 		    bigfontsize, NULL);
+	free(bigfontbuf);
 
 	if (uclistheads && !no_u)
 		do_loadtable(fd, uclistheads, bigfontsize);
