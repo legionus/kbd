@@ -138,6 +138,8 @@ authenticate_user(int curvt)
 	kbd_error(EXIT_FAILURE, 0, _("Couldn't find owner of current tty!"));
 
  got_a_process:
+	closedir(dp);
+
 	return pwnam->pw_name;
 }
 
