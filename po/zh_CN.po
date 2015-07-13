@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2014-06-29 14:12+0400\n"
+"POT-Creation-Date: 2015-06-30 23:46+0300\n"
 "PO-Revision-Date: 2008-12-10 23:24+0800\n"
 "Last-Translator: Jarod Wang <jarodwang.cn@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -16,42 +16,37 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/chvt.c:28
+#: src/chvt.c:30
 #, c-format
 msgid "usage: chvt N\n"
 msgstr "用法: chvt N\n"
 
-#: src/deallocvt.c:33
+#: src/deallocvt.c:35
 #, c-format
 msgid "%s: unknown option\n"
 msgstr "%s: 未知的选项\n"
 
-#: src/deallocvt.c:45
-#, c-format
-msgid "%s: deallocating all unused consoles failed\n"
-msgstr "%s: 回收所有未使用的控制台失败\n"
-
-#: src/deallocvt.c:53
-#, c-format
-msgid "%s: 0: illegal VT number\n"
+#: src/deallocvt.c:50
+#, fuzzy
+msgid "0: illegal VT number\n"
 msgstr "%s: 0: 非法的 VT 号\n"
 
-#: src/deallocvt.c:57
-#, c-format
-msgid "%s: VT 1 is the console and cannot be deallocated\n"
+#: src/deallocvt.c:52
+#, fuzzy
+msgid "VT 1 is the console and cannot be deallocated\n"
 msgstr "%s: VT 1 是控制台并且无法被回收\n"
 
-#: src/deallocvt.c:63
-#, c-format
-msgid "%s: could not deallocate console %d\n"
+#: src/deallocvt.c:54
+#, fuzzy, c-format
+msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "%s: 无法回收控制台 %d\n"
 
-#: src/dumpkeys.c:28
+#: src/dumpkeys.c:27
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys 版本 %s"
 
-#: src/dumpkeys.c:29
+#: src/dumpkeys.c:28
 #, c-format
 msgid ""
 "\n"
@@ -86,7 +81,7 @@ msgstr ""
 "\t   --compose-only    只显示组合键\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:46
+#: src/dumpkeys.c:45
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -95,17 +90,17 @@ msgstr ""
 "\t\t\t    翻译来自指定字符集的\n"
 "\t\t\t    字符动作代码\n"
 
-#: src/dumpkeys.c:132
+#: src/dumpkeys.c:131
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "未知的字符集 %s - 忽略字符集请求\n"
 
-#: src/dumpkeys.c:153 src/loadkeys.c:176
+#: src/dumpkeys.c:152 src/loadkeys.c:182
 #, fuzzy, c-format
 msgid "%s: error reading keyboard mode: %m\n"
 msgstr "%s: 设置键盘模式出错\n"
 
-#: src/dumpkeys.c:169
+#: src/dumpkeys.c:168
 #, c-format
 msgid ""
 "Symbols recognized by %s:\n"
@@ -116,7 +111,7 @@ msgstr ""
 "(数值, 标志)\n"
 "\n"
 
-#: src/fgconsole.c:17
+#: src/fgconsole.c:19
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -139,7 +134,7 @@ msgstr ""
 "\t-V --version         显示程序版本\n"
 "\t-n --next-available  显示下一个未被分配的 VT 编号\n"
 
-#: src/fgconsole.c:66
+#: src/fgconsole.c:68
 msgid "Couldn't read VTNO: "
 msgstr "无法读取 VT 号:"
 
@@ -153,27 +148,27 @@ msgstr "无法打开 %s\n"
 msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr "无法获取指向控制台的文件描述符\n"
 
-#: src/getkeycodes.c:18
+#: src/getkeycodes.c:19
 #, c-format
 msgid "usage: getkeycodes\n"
 msgstr "用法: getkeycodes\n"
 
-#: src/getkeycodes.c:54
+#: src/getkeycodes.c:55
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr "普通扫描码 xx (十六进制) 对应键码(十进制)\n"
 
-#: src/getkeycodes.c:57
+#: src/getkeycodes.c:58
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr "0 是一个错误；对于等于扫描码 1-88 (0x01-0x58) 的键码来说\n"
 
-#: src/getkeycodes.c:60
+#: src/getkeycodes.c:61
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr "从 1-%d (0x01-0x%02x) 的扫描码等于键码\n"
 
-#: src/getkeycodes.c:66
+#: src/getkeycodes.c:67
 #, c-format
 msgid ""
 "\n"
@@ -184,9 +179,9 @@ msgstr ""
 "\n"
 "跳过扫描码 e0 xx (十六进制)\n"
 
-#: src/getkeycodes.c:91
-#, c-format
-msgid "failed to get keycode for scancode 0x%x\n"
+#: src/getkeycodes.c:90
+#, fuzzy, c-format
+msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr "获取扫描码 0x%x 的键码失败\n"
 
 #: src/getunimap.c:29
@@ -208,26 +203,20 @@ msgid ""
 msgstr ""
 
 #: src/kbdinfo.c:65
-#, c-format
 msgid "Error: Not enough arguments.\n"
 msgstr ""
 
-#: src/kbdinfo.c:124
+#: src/kbdinfo.c:123
 #, fuzzy, c-format
 msgid "Error: Unrecognized action: %s\n"
 msgstr ""
 "无法识别的参数: _%s_\n"
 "\n"
 
-#: src/kbd_mode.c:20
+#: src/kbd_mode.c:22
 #, c-format
 msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 msgstr "用法: kbd_mode [-a|-u|-k|-s] [-C 设备]\n"
-
-#: src/kbd_mode.c:80
-#, c-format
-msgid "kbd_mode: error reading keyboard mode\n"
-msgstr "kbd_mode: 读取键盘模式出错\n"
 
 #: src/kbd_mode.c:85
 #, c-format
@@ -254,36 +243,31 @@ msgstr "键盘处于 Unicode (UTF-8) 模式\n"
 msgid "The keyboard is in some unknown mode\n"
 msgstr "键盘处于某种未知模式\n"
 
-#: src/kbd_mode.c:104
-#, c-format
-msgid "%s: error setting keyboard mode\n"
-msgstr "%s: 设置键盘模式出错\n"
-
-#: src/kbdrate.c:155 src/kbdrate.c:174 src/kbdrate.c:338
+#: src/kbdrate.c:155 src/kbdrate.c:173 src/kbdrate.c:330
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "字元输入速率设置为 %.1f cps (延迟 = %d ms)\n"
 
-#: src/kbdrate.c:266
+#: src/kbdrate.c:263
 #, c-format
 msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 msgstr "用法: kbdrate [-V] [-s] [-r 速率] [-d 延迟]\n"
 
-#: src/kbdrate.c:296
+#: src/kbdrate.c:293
 msgid "Cannot open /dev/port"
 msgstr "无法打开 /dev/port"
 
-#: src/kdfontop.c:95
+#: src/kdfontop.c:94
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "程序错误: 调用 getfont 时 count<256\n"
 
-#: src/kdfontop.c:99
+#: src/kdfontop.c:98
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr "程序错误: 使用 GIO_FONT 时 getfont 需要 buf.\n"
 
-#: src/kdfontop.c:156 src/kdmapop.c:150 src/xmalloc.c:15
+#: src/kdfontop.c:155 src/kdmapop.c:150 src/xmalloc.c:15
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: 内存不足\n"
@@ -316,7 +300,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "将映射写入文件失败\n"
 
-#: src/libkeymap/dump.c:526
+#: src/libkeymap/dump.c:525
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "不可能:不是 meta 键?\n"
@@ -581,6 +565,7 @@ msgid ""
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+"  -p --parse         search and parse keymap without action\n"
 "  -q --quiet         suppress all normal output\n"
 "  -s --clearstrings  clear kernel string table\n"
 "  -u --unicode       force conversion to Unicode\n"
@@ -603,17 +588,17 @@ msgstr ""
 "  -u --unicode       隐式转换为 Unicode\n"
 "  -v --verbose       报告任何改变\n"
 
-#: src/loadkeys.c:154 src/version.h:20
+#: src/loadkeys.c:160 src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s 来自 %s\n"
 
-#: src/loadkeys.c:164
+#: src/loadkeys.c:170
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
-#: src/loadkeys.c:184
+#: src/loadkeys.c:190
 #, fuzzy, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -622,7 +607,7 @@ msgstr ""
 "%s: 警告:映射使用了 Unicode 标志，%s 模式=%d\n"
 "    (或许你想 `kbd_mode -u'？)\n"
 
-#: src/loadkeys.c:196
+#: src/loadkeys.c:202
 #, fuzzy, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -631,12 +616,12 @@ msgstr ""
 "%s: 警告:映射使用了 Unicode 标志，%s 模式=%d\n"
 "    (或许你想 `kbd_mode -u'？)\n"
 
-#: src/loadkeys.c:214
+#: src/loadkeys.c:220
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "无法找到 %s\n"
 
-#: src/loadkeys.c:236
+#: src/loadkeys.c:242
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "无法打开文件 %s\n"
@@ -775,7 +760,7 @@ msgstr "无法读取控制台映射\n"
 msgid "Saved screen map in `%s'\n"
 msgstr "屏幕映射已保存到 '%s'\n"
 
-#: src/openvt.c:44
+#: src/openvt.c:47
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
@@ -796,80 +781,80 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/openvt.c:163
+#: src/openvt.c:138
 #, fuzzy
 msgid "Couldn't find owner of current tty!"
 msgstr "无法找到当前 tty 的所有者！\n"
 
-#: src/openvt.c:231
+#: src/openvt.c:208
 #, fuzzy, c-format
 msgid "%s: Illegal vt number"
 msgstr "openvt: %s: 非法的 VT 号\n"
 
-#: src/openvt.c:257
+#: src/openvt.c:234
 #, fuzzy
 msgid "Only root can use the -u flag."
 msgstr "openvt: 只有 root 用户可以使用 -u 标志。\n"
 
-#: src/openvt.c:279
+#: src/openvt.c:256
 #, fuzzy
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr "无法获取指向控制台的文件描述符\n"
 
-#: src/openvt.c:286
+#: src/openvt.c:263
 #, fuzzy
 msgid "Cannot find a free vt"
 msgstr "openvt: 无法找到一个空闲的 VT\n"
 
-#: src/openvt.c:290
+#: src/openvt.c:267
 #, fuzzy, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: 无法检查 VT %d 是否空闲\n"
 
-#: src/openvt.c:294
+#: src/openvt.c:271
 #, fuzzy, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: VT %d 正在使用中；命令中止\n"
 
-#: src/openvt.c:304
+#: src/openvt.c:281
 msgid "Unable to find command."
 msgstr ""
 
-#: src/openvt.c:336
+#: src/openvt.c:313
 #, fuzzy
 msgid "Unable to set new session"
 msgstr "openvt: 无法设置新的会话 (%s)\n"
 
-#: src/openvt.c:360
+#: src/openvt.c:337
 #, fuzzy, c-format
 msgid "Unable to open %s"
 msgstr "openvt: 无法打开 %s: %s\n"
 
-#: src/openvt.c:364
+#: src/openvt.c:341
 #, fuzzy, c-format
 msgid "Using VT %s"
 msgstr "openvt: 正在使用 VT %s\n"
 
-#: src/openvt.c:370
+#: src/openvt.c:347
 #, fuzzy, c-format
 msgid "Cannot open %s read/write"
 msgstr "openvt: 无法打开 %s 进行读/写 (%s)\n"
 
-#: src/openvt.c:381
+#: src/openvt.c:358
 #, fuzzy, c-format
 msgid "Couldn't activate vt %d"
 msgstr ""
 "\n"
 "openvt: 无法激活 VT %d (%s)\n"
 
-#: src/openvt.c:384
+#: src/openvt.c:361
 #, fuzzy
 msgid "Activation interrupted?"
 msgstr ""
 "\n"
 "openvt: 激活被中断？(%s)\n"
 
-#: src/openvt.c:424
+#: src/openvt.c:401
 #, fuzzy, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "%s: 无法回收控制台 %d\n"
@@ -949,7 +934,7 @@ msgstr "appendunicode: 非法的 unicode %u\n"
 msgid "Cannot write font file header"
 msgstr "无法写入字体文件头部"
 
-#: src/psffontop.c:469 src/setfont.c:678
+#: src/psffontop.c:469 src/setfont.c:679
 #, c-format
 msgid "Cannot write font file"
 msgstr "无法写入字体文件"
@@ -1032,38 +1017,37 @@ msgstr "%s: psf 文件使用了未知的魔数\n"
 msgid "%s: input font does not have an index\n"
 msgstr "%s: 输入字体没有索引\n"
 
-#: src/resizecons.c:153
+#: src/resizecons.c:148
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: 无法找到 videomode 文件 %s\n"
 
-#: src/resizecons.c:172
-#, c-format
+#: src/resizecons.c:164
 msgid "Invalid number of lines\n"
 msgstr "非法的行数\n"
 
-#: src/resizecons.c:238
+#: src/resizecons.c:227
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "旧的模式: %dx%d 新的模式: %dx%d\n"
 
-#: src/resizecons.c:240
+#: src/resizecons.c:229
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "旧的扫描行个数为: %d 新的扫描行个数为: %d 字符高度为: %d\n"
 
-#: src/resizecons.c:251
+#: src/resizecons.c:240
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: 命令 '%s' 失败\n"
 
-#: src/resizecons.c:324
+#: src/resizecons.c:313
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr "resizecons: 不要忘记修改 TERM (也许修改为 con%dx%d 或 linux-%dx%d)\n"
 
-#: src/resizecons.c:337
+#: src/resizecons.c:326
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1076,38 +1060,37 @@ msgstr ""
 "或: resizecons -lines ROWS, 其中 ROWS 为 25, 28, 30, 34, 36, 40, 44, 50, 60 "
 "中的一个\n"
 
-#: src/resizecons.c:375
+#: src/resizecons.c:364
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: 无法获取 I/O 权限。\n"
 
-#: src/screendump.c:49
+#: src/screendump.c:50
 #, c-format
 msgid "usage: screendump [n]\n"
 msgstr "用法: screendump [n]\n"
 
-#: src/screendump.c:79
-#, c-format
-msgid "Error reading %s\n"
+#: src/screendump.c:80
+#, fuzzy, c-format
+msgid "Error reading %s"
 msgstr "读取 %s 出错\n"
 
-#: src/screendump.c:127
+#: src/screendump.c:126
 #, c-format
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "无法读取 %s, 并且不能 ioctl 转储\n"
 
-#: src/screendump.c:133
+#: src/screendump.c:132
 #, c-format
 msgid "couldn't read %s\n"
 msgstr "无法读取 %s\n"
 
-#: src/screendump.c:142
+#: src/screendump.c:141
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgstr "奇怪...屏幕既是 %dx%d 又是 %dx%d ？？\n"
 
-#: src/screendump.c:160
-#, c-format
+#: src/screendump.c:158
 msgid "Error writing screendump\n"
 msgstr "写入屏幕转储出错\n"
 
@@ -1231,7 +1214,7 @@ msgstr "%s: do_loadtable 中的程序错误\n"
 msgid "Loading Unicode mapping table...\n"
 msgstr "正在加载 Unicode 映射表 ...\n"
 
-#: src/setfont.c:414 src/setfont.c:501
+#: src/setfont.c:414 src/setfont.c:502
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "无法打开字体文件 %s\n"
@@ -1256,42 +1239,42 @@ msgstr "当加载多个字体时，它们必须具有相同的高度\n"
 msgid "When loading several fonts, all must have the same width\n"
 msgstr "当加载多个字体时，它们必须具有相同的宽度\n"
 
-#: src/setfont.c:488
+#: src/setfont.c:489
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "无法找到默认字体\n"
 
-#: src/setfont.c:495
+#: src/setfont.c:496
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "无法找到 %s 字体\n"
 
-#: src/setfont.c:507
+#: src/setfont.c:508
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "正在读取字体文件 %s\n"
 
-#: src/setfont.c:547
+#: src/setfont.c:548
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "合并文件结尾处没有新的行\n"
 
-#: src/setfont.c:553
+#: src/setfont.c:554
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "太多的文件需要合并\n"
 
-#: src/setfont.c:577
+#: src/setfont.c:578
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr "嗯 - 一个来自 restorefont 的字体？使用它的前一半。\n"
 
-#: src/setfont.c:594
+#: src/setfont.c:595
 #, c-format
 msgid "Bad input file size\n"
 msgstr "错误的输入文件大小\n"
 
-#: src/setfont.c:615
+#: src/setfont.c:616
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1300,22 +1283,22 @@ msgstr ""
 "这个文件包含3种字体: 8x8, 8x14 和 8x16. 请使用\n"
 "选项 -8 或 -14 或 -16 来指定你想加载哪一个。\n"
 
-#: src/setfont.c:629
+#: src/setfont.c:630
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "你想要字体大小 %d, 但是这里只有 8, 14, 16 可选。\n"
 
-#: src/setfont.c:674
+#: src/setfont.c:675
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "没有找到需要保存的东西\n"
 
-#: src/setfont.c:683
+#: src/setfont.c:684
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "%d-字节 %dx%d 字体文件已保存到 %s\n"
 
-#: src/setkeycodes.c:21
+#: src/setkeycodes.c:23
 #, c-format
 msgid ""
 "usage: setkeycode scancode keycode ...\n"
@@ -1326,24 +1309,24 @@ msgstr ""
 "(其中扫描码为 xx 或 e0xx, 以十六进制形式给出，\n"
 "键码以十进制形式给出)\n"
 
-#: src/setkeycodes.c:43
+#: src/setkeycodes.c:45
 msgid "even number of arguments expected"
 msgstr "请输入偶数个参数"
 
-#: src/setkeycodes.c:50
+#: src/setkeycodes.c:52
 msgid "error reading scancode"
 msgstr "读取扫描码出错"
 
-#: src/setkeycodes.c:58
+#: src/setkeycodes.c:60
 msgid "code outside bounds"
 msgstr "边界外的键码"
 
-#: src/setkeycodes.c:68
-#, c-format
-msgid "failed to set scancode %x to keycode %d\n"
+#: src/setkeycodes.c:69
+#, fuzzy, c-format
+msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "设置扫描码 %x 到键码 %d 失败\n"
 
-#: src/setleds.c:21
+#: src/setleds.c:24
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1372,66 +1355,65 @@ msgstr ""
 "使用 -D，setleds 同时设置标志和默认标志，从而\n"
 "接下来的复位将不会改变标志。\n"
 
-#: src/setleds.c:43
+#: src/setleds.c:46
 msgid "on "
 msgstr "开"
 
-#: src/setleds.c:43
+#: src/setleds.c:46
 msgid "off"
 msgstr "关"
 
-#: src/setleds.c:86
-#, c-format
-msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
+#: src/setleds.c:87
+#, fuzzy
+msgid ""
+"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr "读取当前 LED 设置出错。也许标准输入不是一个 VT？\n"
 
 #: src/setleds.c:105
-#, c-format
+#, fuzzy
 msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
+"Error reading current flags setting. Maybe you are not on the console?: "
+"ioctl KDGKBLED"
 msgstr "读取当前标志设置出错。也许你不是在控制台上？\n"
 
-#: src/setleds.c:125 src/setleds.c:146
-#, c-format
-msgid "Error reading current led setting from /dev/kbd.\n"
+#: src/setleds.c:123
+#, fuzzy
+msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
 msgstr "从 /dev/kbd 读取当前 LED 设置出错。\n"
 
-#: src/setleds.c:129
-#, c-format
+#: src/setleds.c:127
 msgid "KIOCGLED unavailable?\n"
 msgstr "KIOCGLED 不可用？\n"
 
-#: src/setleds.c:150
-#, c-format
+#: src/setleds.c:141
+#, fuzzy
+msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
+msgstr "从 /dev/kbd 读取当前 LED 设置出错。\n"
+
+#: src/setleds.c:145
 msgid "KIOCSLED unavailable?\n"
 msgstr "KIOCSLED 不可用？\n"
 
-#: src/setleds.c:177
-#, c-format
-msgid "Error opening /dev/kbd.\n"
-msgstr "打开 /dev/kbd 出错。\n"
-
-#: src/setleds.c:209
-#, c-format
+#: src/setleds.c:201
 msgid "Error resetting ledmode\n"
 msgstr "复位 LED 模式出错\n"
 
-#: src/setleds.c:218
+#: src/setleds.c:209
 #, c-format
 msgid "Current default flags:  "
 msgstr "当前默认标志:  "
 
-#: src/setleds.c:222
+#: src/setleds.c:213
 #, c-format
 msgid "Current flags:          "
 msgstr "当前标志:          "
 
-#: src/setleds.c:226
+#: src/setleds.c:217
 #, c-format
 msgid "Current leds:           "
 msgstr "当前 LED:           "
 
-#: src/setleds.c:262 src/setmetamode.c:94
+#: src/setleds.c:253 src/setmetamode.c:95
 #, c-format
 msgid ""
 "unrecognized argument: _%s_\n"
@@ -1440,37 +1422,37 @@ msgstr ""
 "无法识别的参数: _%s_\n"
 "\n"
 
-#: src/setleds.c:271
+#: src/setleds.c:262
 #, c-format
 msgid "Old default flags:    "
 msgstr "旧的默认标志:    "
 
-#: src/setleds.c:273
+#: src/setleds.c:264
 #, c-format
 msgid "New default flags:    "
 msgstr "新的默认标志:    "
 
-#: src/setleds.c:280
+#: src/setleds.c:271
 #, c-format
 msgid "Old flags:            "
 msgstr "旧的标志:            "
 
-#: src/setleds.c:282
+#: src/setleds.c:273
 #, c-format
 msgid "New flags:            "
 msgstr "新的标志:            "
 
-#: src/setleds.c:296 src/setleds.c:305
+#: src/setleds.c:286 src/setleds.c:295
 #, c-format
 msgid "Old leds:             "
 msgstr "旧的 LED:             "
 
-#: src/setleds.c:298 src/setleds.c:307
+#: src/setleds.c:288 src/setleds.c:297
 #, c-format
 msgid "New leds:             "
 msgstr "新的 LED:             "
 
-#: src/setmetamode.c:20
+#: src/setmetamode.c:23
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1487,24 +1469,25 @@ msgstr ""
 "来改变另外一个 VT 的设置。\n"
 "改变之前和之后的设置都会被报告。\n"
 
-#: src/setmetamode.c:36
+#: src/setmetamode.c:39
 msgid "Meta key sets high order bit\n"
 msgstr "Meta 键设置了高有效位\n"
 
-#: src/setmetamode.c:39
+#: src/setmetamode.c:42
 msgid "Meta key gives Esc prefix\n"
 msgstr "Meta 键给出了 Esc 前缀\n"
 
-#: src/setmetamode.c:42
+#: src/setmetamode.c:45
 msgid "Strange mode for Meta key?\n"
 msgstr "Meta 键的奇怪模式？\n"
 
-#: src/setmetamode.c:78
-#, c-format
-msgid "Error reading current setting. Maybe stdin is not a VT?\n"
+#: src/setmetamode.c:79
+#, fuzzy
+msgid ""
+"Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
 msgstr "读取当前设置出错。也许标准输出不是一个 VT？\n"
 
-#: src/setmetamode.c:98
+#: src/setmetamode.c:99
 #, c-format
 msgid "old state:    "
 msgstr "旧状态:    "
@@ -1514,7 +1497,7 @@ msgstr "旧状态:    "
 msgid "new state:    "
 msgstr "新状态:    "
 
-#: src/setvesablank.c:23
+#: src/setvesablank.c:25
 #, c-format
 msgid "usage: %s\n"
 msgstr "用法: %s\n"
@@ -1534,47 +1517,39 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/setvtrgb.c:85
+#: src/setvtrgb.c:68
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr ""
 
-#: src/setvtrgb.c:92
+#: src/setvtrgb.c:75
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr ""
 
-#: src/setvtrgb.c:98
+#: src/setvtrgb.c:80
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
 msgstr ""
 
-#: src/setvtrgb.c:102
+#: src/setvtrgb.c:84
 #, fuzzy, c-format
 msgid "Error: %s: Line %u is too long.\n"
 msgstr "%s: %s: 警告: 行太长\n"
 
-#: src/showconsolefont.c:33
-#, c-format
+#: src/showconsolefont.c:35
 msgid "failed to restore original translation table\n"
 msgstr "恢复原始翻译表失败\n"
 
-#: src/showconsolefont.c:38
-#, c-format
+#: src/showconsolefont.c:39
 msgid "failed to restore original unimap\n"
 msgstr "恢复原始 unimap 失败\n"
 
-#: src/showconsolefont.c:56
-#, c-format
+#: src/showconsolefont.c:57
 msgid "cannot change translation table\n"
 msgstr "无法更改翻译表\n"
 
-#: src/showconsolefont.c:63
-#, c-format
-msgid "%s: out of memory?\n"
-msgstr "%s: 内存不足？\n"
-
-#: src/showconsolefont.c:104
+#: src/showconsolefont.c:95
 #, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
@@ -1597,22 +1572,22 @@ msgstr ""
 "-i       不打印字体表，只显示\n"
 "          ROWSxCOLSxCOUNT 并退出。\n"
 
-#: src/showconsolefont.c:170
+#: src/showconsolefont.c:161
 #, c-format
 msgid "Character count: %d\n"
 msgstr "字符总数: %d\n"
 
-#: src/showconsolefont.c:171
+#: src/showconsolefont.c:162
 #, c-format
 msgid "Font width     : %d\n"
 msgstr "字体宽度    : %d\n"
 
-#: src/showconsolefont.c:172
+#: src/showconsolefont.c:163
 #, c-format
 msgid "Font height    : %d\n"
 msgstr "字体高度    : %d\n"
 
-#: src/showconsolefont.c:184
+#: src/showconsolefont.c:175
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1621,16 +1596,16 @@ msgstr ""
 "显示 %d-字节字体\n"
 "\n"
 
-#: src/showkey.c:42
+#: src/showkey.c:44
 msgid "?UNKNOWN?"
 msgstr "?未知的?"
 
-#: src/showkey.c:44
+#: src/showkey.c:46
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "旧的键盘模式是 %s\n"
 
-#: src/showkey.c:46
+#: src/showkey.c:48
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1639,12 +1614,12 @@ msgstr ""
 "[ 如果你在 X 中尝试，它可能不会工作\n"
 "因为 X 服务器也在读取 /dev/console ]\n"
 
-#: src/showkey.c:65
+#: src/showkey.c:66
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "捕获到信号 %d，正在清理...\n"
 
-#: src/showkey.c:79
+#: src/showkey.c:80
 #, c-format
 msgid ""
 "showkey version %s\n"
@@ -1669,7 +1644,7 @@ msgstr ""
 "\t-s --scancodes\t只显示原始扫描码\n"
 "\t-k --keycodes\t只显示翻译后的键码(默认)\n"
 
-#: src/showkey.c:157
+#: src/showkey.c:158
 #, c-format
 msgid ""
 "\n"
@@ -1698,38 +1673,38 @@ msgstr "按下"
 msgid "keycode %3d %s\n"
 msgstr "键码 %3d %s\n"
 
-#: src/totextmode.c:29
-#, fuzzy, c-format
+#: src/totextmode.c:31
+#, fuzzy
 msgid "usage: totextmode\n"
 msgstr "用法: getkeycodes\n"
 
-#: src/vlock/auth.c:79
+#: src/vlock/auth.c:78
 msgid ""
 "Please try again later.\n"
 "\n"
 "\n"
 msgstr ""
 
-#: src/vlock/auth.c:88
+#: src/vlock/auth.c:87
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:92
+#: src/vlock/auth.c:91
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:95
+#: src/vlock/auth.c:94
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 
-#: src/vlock/parse.c:50
+#: src/vlock/parse.c:51
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/vlock/parse.c:58
+#: src/vlock/parse.c:59
 #, c-format
 msgid ""
 "%s: locks virtual consoles, saving your current session.\n"
@@ -1750,7 +1725,7 @@ msgstr ""
 "无法识别的参数: _%s_\n"
 "\n"
 
-#: src/vlock/vlock.c:56
+#: src/vlock/vlock.c:59
 msgid "stdin is not a tty"
 msgstr ""
 
@@ -1763,6 +1738,9 @@ msgstr ""
 #, fuzzy, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 是控制台并且无法被回收\n"
+
+#~ msgid "%s: deallocating all unused consoles failed\n"
+#~ msgstr "%s: 回收所有未使用的控制台失败\n"
 
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "表 %d 的索引 0 处发生 KDGKBENT 错误\n"
@@ -1781,6 +1759,9 @@ msgstr "%s: VT 1 是控制台并且无法被回收\n"
 
 #~ msgid "error executing  %s\n"
 #~ msgstr "执行 %s 出错\n"
+
+#~ msgid "kbd_mode: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: 读取键盘模式出错\n"
 
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "%s 前面的加号已被忽略\n"
@@ -1877,3 +1858,9 @@ msgstr "%s: VT 1 是控制台并且无法被回收\n"
 #~ "Usage: openvt [-c vtnumber] [-f] [-l] [-u] [-s] [-v] [-w] -- "
 #~ "command_line\n"
 #~ msgstr "用法: openvt [-c VT 号] [-f] [-l] [-u] [-s] [-v] [-w] -- 命令行\n"
+
+#~ msgid "Error opening /dev/kbd.\n"
+#~ msgstr "打开 /dev/kbd 出错。\n"
+
+#~ msgid "%s: out of memory?\n"
+#~ msgstr "%s: 内存不足？\n"

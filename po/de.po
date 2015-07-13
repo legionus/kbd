@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.2-rc2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2014-06-29 14:12+0400\n"
+"POT-Creation-Date: 2015-06-30 23:46+0300\n"
 "PO-Revision-Date: 2014-06-29 16:06+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -27,42 +27,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: src/chvt.c:28
+#: src/chvt.c:30
 #, c-format
 msgid "usage: chvt N\n"
 msgstr "Aufruf: chvt N\n"
 
-#: src/deallocvt.c:33
+#: src/deallocvt.c:35
 #, c-format
 msgid "%s: unknown option\n"
 msgstr "%s: Unbekannte Option\n"
 
-#: src/deallocvt.c:45
-#, c-format
-msgid "%s: deallocating all unused consoles failed\n"
-msgstr "%s: Das Freigeben aller unbenutzten Konsolen schlug fehl.\n"
-
-#: src/deallocvt.c:53
-#, c-format
-msgid "%s: 0: illegal VT number\n"
+#: src/deallocvt.c:50
+#, fuzzy
+msgid "0: illegal VT number\n"
 msgstr "%s: 0: Ungültige VT-Nummer.\n"
 
-#: src/deallocvt.c:57
-#, c-format
-msgid "%s: VT 1 is the console and cannot be deallocated\n"
+#: src/deallocvt.c:52
+#, fuzzy
+msgid "VT 1 is the console and cannot be deallocated\n"
 msgstr "%s: VT 1 ist die Konsole und kann deshalb nicht freigegeben werden.\n"
 
-#: src/deallocvt.c:63
-#, c-format
-msgid "%s: could not deallocate console %d\n"
+#: src/deallocvt.c:54
+#, fuzzy, c-format
+msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "%s: Konsole %d konnte nicht freigegeben werden.\n"
 
-#: src/dumpkeys.c:28
+#: src/dumpkeys.c:27
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys Version %s"
 
-#: src/dumpkeys.c:29
+#: src/dumpkeys.c:28
 #, c-format
 msgid ""
 "\n"
@@ -97,7 +92,7 @@ msgstr ""
 "\t   --compose-only   zeigt nur die Tastenfolgen an\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:46
+#: src/dumpkeys.c:45
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -106,17 +101,17 @@ msgstr ""
 "\t\t\t    interpretiert Zeichencodes, als kämen sie aus dem\n"
 "\t\t\t    angegebenen Zeichensatz.\n"
 
-#: src/dumpkeys.c:132
+#: src/dumpkeys.c:131
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "Unbekannter Zeichensatz %s - Zeichensatzanforderung wird ignoriert.\n"
 
-#: src/dumpkeys.c:153 src/loadkeys.c:176
+#: src/dumpkeys.c:152 src/loadkeys.c:182
 #, c-format
 msgid "%s: error reading keyboard mode: %m\n"
 msgstr "%s: Fehler beim Lesen des Tastaturmodus: %m\n"
 
-#: src/dumpkeys.c:169
+#: src/dumpkeys.c:168
 #, c-format
 msgid ""
 "Symbols recognized by %s:\n"
@@ -127,7 +122,7 @@ msgstr ""
 "(Numerischer Wert, Symbol)\n"
 "\n"
 
-#: src/fgconsole.c:17
+#: src/fgconsole.c:19
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -150,7 +145,7 @@ msgstr ""
 "\t-V --version         zeigt die Programmversion an\n"
 "\t-n --next-available  zeigt die Nummer des nächsten unbenutzten VT\n"
 
-#: src/fgconsole.c:66
+#: src/fgconsole.c:68
 msgid "Couldn't read VTNO: "
 msgstr "VT-Nummer konnte nicht gelesen werden: "
 
@@ -166,29 +161,29 @@ msgstr ""
 "Dateideskriptor, der auf die Konsole verweist, konnte nicht gefunden "
 "werden.\n"
 
-#: src/getkeycodes.c:18
+#: src/getkeycodes.c:19
 #, c-format
 msgid "usage: getkeycodes\n"
 msgstr "Aufruf: getkeycodes\n"
 
-#: src/getkeycodes.c:54
+#: src/getkeycodes.c:55
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr "Einfache Scancodes xx (hexadezimal) und Tastencodes (dezimal):\n"
 
-#: src/getkeycodes.c:57
+#: src/getkeycodes.c:58
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
 "0 ist ein Fehler; für 1-88 (0x01-0x58) ist Scancode gleich Tastencode\n"
 
-#: src/getkeycodes.c:60
+#: src/getkeycodes.c:61
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr ""
 "0 ist ein Fehler; für 1-%d (0x01-0x%02x) ist Scancode gleich Tastencode\n"
 
-#: src/getkeycodes.c:66
+#: src/getkeycodes.c:67
 #, c-format
 msgid ""
 "\n"
@@ -199,9 +194,9 @@ msgstr ""
 "\n"
 "Scancodes mit Escape e0 xx (hex):\n"
 
-#: src/getkeycodes.c:91
-#, c-format
-msgid "failed to get keycode for scancode 0x%x\n"
+#: src/getkeycodes.c:90
+#, fuzzy, c-format
+msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr "Tastencode für den Scancode 0x%x kann nicht erhalten werden.\n"
 
 #: src/getunimap.c:29
@@ -227,24 +222,18 @@ msgstr ""
 "  oder: %1$s [-C GERÄT] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:65
-#, c-format
 msgid "Error: Not enough arguments.\n"
 msgstr "Fehler: Nicht genügend Argumente.\n"
 
-#: src/kbdinfo.c:124
+#: src/kbdinfo.c:123
 #, c-format
 msgid "Error: Unrecognized action: %s\n"
 msgstr "Fehler: Unbekannte Aktion: %s\n"
 
-#: src/kbd_mode.c:20
+#: src/kbd_mode.c:22
 #, c-format
 msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 msgstr "Aufruf: kbd_mode [-a|-u|-k|-s] [-C Gerät]\n"
-
-#: src/kbd_mode.c:80
-#, c-format
-msgid "kbd_mode: error reading keyboard mode\n"
-msgstr "kbd_mode: Fehler beim Lesen des Tastaturmodus.\n"
 
 #: src/kbd_mode.c:85
 #, c-format
@@ -271,37 +260,32 @@ msgstr "Die Tastatur ist im Unicode-Modus (UTF-8).\n"
 msgid "The keyboard is in some unknown mode\n"
 msgstr "Der Tastaturmodus ist unbekannt.\n"
 
-#: src/kbd_mode.c:104
-#, c-format
-msgid "%s: error setting keyboard mode\n"
-msgstr "%s: Fehler beim Einstellen des Tastaturmodus\n"
-
-#: src/kbdrate.c:155 src/kbdrate.c:174 src/kbdrate.c:338
+#: src/kbdrate.c:155 src/kbdrate.c:173 src/kbdrate.c:330
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr ""
 "Die Wiederholrate ist auf %.1f Zeichen/s gesetzt (Verzögerung = %d ms).\n"
 
-#: src/kbdrate.c:266
+#: src/kbdrate.c:263
 #, c-format
 msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 msgstr "Aufruf: kbdrate [-V] [-s] [-r Wert] [-d Verzögerung]\n"
 
-#: src/kbdrate.c:296
+#: src/kbdrate.c:293
 msgid "Cannot open /dev/port"
 msgstr "/dev/port kann nicht geöffnet werden."
 
-#: src/kdfontop.c:95
+#: src/kdfontop.c:94
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "Fehler: getfont wurde mit einer Anzahl < 256 aufgerufen.\n"
 
-#: src/kdfontop.c:99
+#: src/kdfontop.c:98
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr "Fehler: Bei Verwendung von GIO_FONT braucht getfont einen Puffer.\n"
 
-#: src/kdfontop.c:156 src/kdmapop.c:150 src/xmalloc.c:15
+#: src/kdfontop.c:155 src/kdmapop.c:150 src/xmalloc.c:15
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: Arbeitsspeicher erschöpft.\n"
@@ -334,7 +318,7 @@ msgstr "Feld konnte nicht initialisiert werden: %s"
 msgid "Error writing map to file"
 msgstr "Fehler beim Schreiben der Tabelle in die Datei."
 
-#: src/libkeymap/dump.c:526
+#: src/libkeymap/dump.c:525
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "unmöglich: Keine Meta?\n"
@@ -583,7 +567,7 @@ msgstr ""
 "Erkannte Wandlernamen und ihre Spaltennummern:\n"
 
 #: src/loadkeys.c:35
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -599,6 +583,7 @@ msgid ""
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+"  -p --parse         search and parse keymap without action\n"
 "  -q --quiet         suppress all normal output\n"
 "  -s --clearstrings  clear kernel string table\n"
 "  -u --unicode       force conversion to Unicode\n"
@@ -623,18 +608,18 @@ msgstr ""
 "  -u --unicode       erzwingt Konvertierung zu Unicode\n"
 "  -v --verbose       berichtet ausführlicher über vorgenommene Änderungen\n"
 
-#: src/loadkeys.c:154 src/version.h:20
+#: src/loadkeys.c:160 src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s von %s\n"
 
-#: src/loadkeys.c:164
+#: src/loadkeys.c:170
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 "%s: Die Optionen --unicode und --ascii schließen sich gegenseitig aus\n"
 
-#: src/loadkeys.c:184
+#: src/loadkeys.c:190
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -643,7 +628,7 @@ msgstr ""
 "%s: Warnung: Nicht-Unicode-Tastaturbelegung wird auf Unicode-Konsole\n"
 "    geladen (vielleicht möchten Sie zuvor „kbd_mode -a“ ausführen?)\n"
 
-#: src/loadkeys.c:196
+#: src/loadkeys.c:202
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -652,12 +637,12 @@ msgstr ""
 "%s: Warnung: Unicode-Tastaturbelegung wird auf Nicht-Unicode-Konsole\n"
 "    geladen (vielleicht möchten Sie zuvor „kbd_mode -u“ ausführen?)\n"
 
-#: src/loadkeys.c:214
+#: src/loadkeys.c:220
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "%s kann nicht gefunden werden.\n"
 
-#: src/loadkeys.c:236
+#: src/loadkeys.c:242
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "Datei %s kann nicht geöffnet werden.\n"
@@ -797,7 +782,7 @@ msgstr "Konsolentabelle kann nicht gelesen werden.\n"
 msgid "Saved screen map in `%s'\n"
 msgstr "Bildschirmtabelle in „%s“ gespeichert.\n"
 
-#: src/openvt.c:44
+#: src/openvt.c:47
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
@@ -835,72 +820,72 @@ msgstr ""
 "  -h, --help          zeigt diesen Hilfetext an.\n"
 "\n"
 
-#: src/openvt.c:163
+#: src/openvt.c:138
 msgid "Couldn't find owner of current tty!"
 msgstr "Eigentümer des aktuellen Terminals konnte nicht gefunden werden!"
 
-#: src/openvt.c:231
+#: src/openvt.c:208
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: Ungültige VT-Nummer"
 
-#: src/openvt.c:257
+#: src/openvt.c:234
 msgid "Only root can use the -u flag."
 msgstr "Nur Root darf die Option -u benutzen."
 
-#: src/openvt.c:279
+#: src/openvt.c:256
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr ""
 "Dateideskriptor, der auf die Konsole verweist, konnte nicht gefunden werden"
 
-#: src/openvt.c:286
+#: src/openvt.c:263
 msgid "Cannot find a free vt"
 msgstr "Freies VT kann nicht gefunden werden"
 
-#: src/openvt.c:290
+#: src/openvt.c:267
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
 "Verfügbarkeit des VT %d kann nicht überprüft werden; „%s -f“ erzwingt dies."
 
-#: src/openvt.c:294
+#: src/openvt.c:271
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "VT %d wird bereits benutzt, Abbruch; „%s -f“ erzwingt dies."
 
-#: src/openvt.c:304
+#: src/openvt.c:281
 msgid "Unable to find command."
 msgstr "Befehl konnte nicht gefunden werden."
 
-#: src/openvt.c:336
+#: src/openvt.c:313
 msgid "Unable to set new session"
 msgstr "Neue Sitzung kann nicht erzeugt werden."
 
-#: src/openvt.c:360
+#: src/openvt.c:337
 #, c-format
 msgid "Unable to open %s"
 msgstr "%s kann nicht geöffnet werden"
 
-#: src/openvt.c:364
+#: src/openvt.c:341
 #, c-format
 msgid "Using VT %s"
 msgstr "VT %s wird benutzt"
 
-#: src/openvt.c:370
+#: src/openvt.c:347
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "%s kann nicht zum Schreiben und Lesen geöffnet werden"
 
-#: src/openvt.c:381
+#: src/openvt.c:358
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "VT %d kann nicht aktiviert werden"
 
-#: src/openvt.c:384
+#: src/openvt.c:361
 msgid "Activation interrupted?"
 msgstr "Aktivierungsvorgang unterbrochen?"
 
-#: src/openvt.c:424
+#: src/openvt.c:401
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "Konsole %d konnte nicht freigegeben werden"
@@ -980,7 +965,7 @@ msgstr "appendunicode: Ungültiges Unicode-Zeichen %u.\n"
 msgid "Cannot write font file header"
 msgstr "Kopf der Font-Datei kann nicht geschrieben werden."
 
-#: src/psffontop.c:469 src/setfont.c:678
+#: src/psffontop.c:469 src/setfont.c:679
 #, c-format
 msgid "Cannot write font file"
 msgstr "Font-Datei kann nicht geschrieben werden."
@@ -1066,32 +1051,31 @@ msgstr "%s: PSF-Datei mit unbekannter magischer Zeichenkette.\n"
 msgid "%s: input font does not have an index\n"
 msgstr "%s: Der Font hat keinen Index.\n"
 
-#: src/resizecons.c:153
+#: src/resizecons.c:148
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: Videomodus-Datei %s kann nicht gefunden werden.\n"
 
-#: src/resizecons.c:172
-#, c-format
+#: src/resizecons.c:164
 msgid "Invalid number of lines\n"
 msgstr "Ungültige Zeilenanzahl.\n"
 
-#: src/resizecons.c:238
+#: src/resizecons.c:227
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Alter Modus: %dx%d  Neuer Modus: %dx%d\n"
 
-#: src/resizecons.c:240
+#: src/resizecons.c:229
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "Zeilenzahl alt: %d  Zeilenzahl neu: %d  Zeichenhöhe: %d\n"
 
-#: src/resizecons.c:251
+#: src/resizecons.c:240
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: Der Befehl „%s“ ist fehlgeschlagen.\n"
 
-#: src/resizecons.c:324
+#: src/resizecons.c:313
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
@@ -1099,7 +1083,7 @@ msgstr ""
 "resizecons: Vergessen Sie nicht, TERM zu ändern (z.B. zu con%dx%d oder linux-"
 "%dx%d).\n"
 
-#: src/resizecons.c:337
+#: src/resizecons.c:326
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1113,39 +1097,38 @@ msgstr ""
 "oder:        resizecons -lines ZEILEN,\n"
 "                 mit ZEILEN in 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 
-#: src/resizecons.c:375
+#: src/resizecons.c:364
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: Ein-/Ausgabe-Erlaubnis kann nicht erhalten werden.\n"
 
-#: src/screendump.c:49
+#: src/screendump.c:50
 #, c-format
 msgid "usage: screendump [n]\n"
 msgstr "Aufruf: screendump [n]\n"
 
-#: src/screendump.c:79
-#, c-format
-msgid "Error reading %s\n"
+#: src/screendump.c:80
+#, fuzzy, c-format
+msgid "Error reading %s"
 msgstr "Fehler beim Lesen von %s.\n"
 
-#: src/screendump.c:127
+#: src/screendump.c:126
 #, c-format
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr ""
 "%s kann nicht gelesen und ioctl auf den Bildschirminhalt angewendet werden.\n"
 
-#: src/screendump.c:133
+#: src/screendump.c:132
 #, c-format
 msgid "couldn't read %s\n"
 msgstr "%s kann nicht gelesen werden.\n"
 
-#: src/screendump.c:142
+#: src/screendump.c:141
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgstr "Seltsam ... der Bildschirm ist sowohl %dx%d als auch %dx%d?\n"
 
-#: src/screendump.c:160
-#, c-format
+#: src/screendump.c:158
 msgid "Error writing screendump\n"
 msgstr "Fehler beim Schreiben des Bildschirminhalts.\n"
 
@@ -1273,7 +1256,7 @@ msgstr "%s: Fehler in do_loadtable.\n"
 msgid "Loading Unicode mapping table...\n"
 msgstr "Unicode-Tabelle wird geladen …\n"
 
-#: src/setfont.c:414 src/setfont.c:501
+#: src/setfont.c:414 src/setfont.c:502
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "Font-Datei %s kann nicht geöffnet werden.\n"
@@ -1301,42 +1284,42 @@ msgid "When loading several fonts, all must have the same width\n"
 msgstr ""
 "Wenn mehrere Fonts geladen werden, müssen alle die gleiche Breite haben.\n"
 
-#: src/setfont.c:488
+#: src/setfont.c:489
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "Standard-Font kann nicht gefunden werden.\n"
 
-#: src/setfont.c:495
+#: src/setfont.c:496
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "Font %s kann nicht gefunden werden.\n"
 
-#: src/setfont.c:507
+#: src/setfont.c:508
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "Font-Datei %s wird gelesen.\n"
 
-#: src/setfont.c:547
+#: src/setfont.c:548
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "Kein abschließender Zeilenumbruch in zusammengefügter Datei.\n"
 
-#: src/setfont.c:553
+#: src/setfont.c:554
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "Zu viele Dateien zum Zusammenfassen.\n"
 
-#: src/setfont.c:577
+#: src/setfont.c:578
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr "Hmm - ein Font von restorefont? Die erste Hälfte wird verwendet.\n"
 
-#: src/setfont.c:594
+#: src/setfont.c:595
 #, c-format
 msgid "Bad input file size\n"
 msgstr "Falsche Eingabedateigröße.\n"
 
-#: src/setfont.c:615
+#: src/setfont.c:616
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1345,24 +1328,24 @@ msgstr ""
 "Diese Datei enthält 3 Fonts: 8x8, 8x14 und 8x16. Wählen Sie bitte\n"
 "mit einer Option aus -8, -14 oder -16 den zu ladenden Font aus.\n"
 
-#: src/setfont.c:629
+#: src/setfont.c:630
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Die Zeichengröße %d wurde verlangt, es sind aber nur 8, 14 und 16 "
 "verfügbar.\n"
 
-#: src/setfont.c:674
+#: src/setfont.c:675
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "Nichts zum Speichern gefunden.\n"
 
-#: src/setfont.c:683
+#: src/setfont.c:684
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "%d-Zeichen %dx%d in Font-Datei %s gespeichert.\n"
 
-#: src/setkeycodes.c:21
+#: src/setkeycodes.c:23
 #, c-format
 msgid ""
 "usage: setkeycode scancode keycode ...\n"
@@ -1373,24 +1356,24 @@ msgstr ""
 " (Wobei Scancode entweder xx oder e0xx hexadezimal\n"
 "  und der Tastencode dezimal angegeben wird.)\n"
 
-#: src/setkeycodes.c:43
+#: src/setkeycodes.c:45
 msgid "even number of arguments expected"
 msgstr "Eine gerade Anzahl von Argumenten wird erwartet."
 
-#: src/setkeycodes.c:50
+#: src/setkeycodes.c:52
 msgid "error reading scancode"
 msgstr "Fehler beim Lesen des Scancodes."
 
-#: src/setkeycodes.c:58
+#: src/setkeycodes.c:60
 msgid "code outside bounds"
 msgstr "Scancode außerhalb der Grenzen."
 
-#: src/setkeycodes.c:68
-#, c-format
-msgid "failed to set scancode %x to keycode %d\n"
+#: src/setkeycodes.c:69
+#, fuzzy, c-format
+msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "Der Scancode %x konnte nicht für den Tastencode %d gesetzt werden.\n"
 
-#: src/setleds.c:21
+#: src/setleds.c:24
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1420,69 +1403,68 @@ msgstr ""
 "Mit -D setzt setleds die Flags und die Standardeinstellungen, sodass\n"
 "ein nachfolgendes Zurücksetzen die Einstellungen nicht ändert.\n"
 
-#: src/setleds.c:43
+#: src/setleds.c:46
 msgid "on "
 msgstr "an "
 
-#: src/setleds.c:43
+#: src/setleds.c:46
 msgid "off"
 msgstr "aus"
 
-#: src/setleds.c:86
-#, c-format
-msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
+#: src/setleds.c:87
+#, fuzzy
+msgid ""
+"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Fehler beim Lesen der LED-Zustände.\n"
 "Ist die Standardeingabe wirklich ein Terminal?\n"
 
 #: src/setleds.c:105
-#, c-format
+#, fuzzy
 msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
+"Error reading current flags setting. Maybe you are not on the console?: "
+"ioctl KDGKBLED"
 msgstr ""
 "Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?\n"
 
-#: src/setleds.c:125 src/setleds.c:146
-#, c-format
-msgid "Error reading current led setting from /dev/kbd.\n"
+#: src/setleds.c:123
+#, fuzzy
+msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
 msgstr "Fehler beim Lesen der LED-Zustände von /dev/kbd.\n"
 
-#: src/setleds.c:129
-#, c-format
+#: src/setleds.c:127
 msgid "KIOCGLED unavailable?\n"
 msgstr "Ist KIOCGLED nicht verfügbar?\n"
 
-#: src/setleds.c:150
-#, c-format
+#: src/setleds.c:141
+#, fuzzy
+msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
+msgstr "Fehler beim Lesen der LED-Zustände von /dev/kbd.\n"
+
+#: src/setleds.c:145
 msgid "KIOCSLED unavailable?\n"
 msgstr "Ist KIOCSLED nicht verfügbar?\n"
 
-#: src/setleds.c:177
-#, c-format
-msgid "Error opening /dev/kbd.\n"
-msgstr "Fehler beim Öffnen von /dev/kbd.\n"
-
-#: src/setleds.c:209
-#, c-format
+#: src/setleds.c:201
 msgid "Error resetting ledmode\n"
 msgstr "Fehler beim Setzen der LEDs.\n"
 
-#: src/setleds.c:218
+#: src/setleds.c:209
 #, c-format
 msgid "Current default flags:  "
 msgstr "Aktuelle Standardeinstellungen:  "
 
-#: src/setleds.c:222
+#: src/setleds.c:213
 #, c-format
 msgid "Current flags:          "
 msgstr "Aktive Einstellungen:            "
 
-#: src/setleds.c:226
+#: src/setleds.c:217
 #, c-format
 msgid "Current leds:           "
 msgstr "Aktive LEDs:                     "
 
-#: src/setleds.c:262 src/setmetamode.c:94
+#: src/setleds.c:253 src/setmetamode.c:95
 #, c-format
 msgid ""
 "unrecognized argument: _%s_\n"
@@ -1491,37 +1473,37 @@ msgstr ""
 "Unbekanntes Argument: _%s_\n"
 "\n"
 
-#: src/setleds.c:271
+#: src/setleds.c:262
 #, c-format
 msgid "Old default flags:    "
 msgstr "Alte Standardeinstellungen:      "
 
-#: src/setleds.c:273
+#: src/setleds.c:264
 #, c-format
 msgid "New default flags:    "
 msgstr "Neue Standardeinstellungen:      "
 
-#: src/setleds.c:280
+#: src/setleds.c:271
 #, c-format
 msgid "Old flags:            "
 msgstr "Alte Einstellungen:              "
 
-#: src/setleds.c:282
+#: src/setleds.c:273
 #, c-format
 msgid "New flags:            "
 msgstr "Neue Einstellungen:              "
 
-#: src/setleds.c:296 src/setleds.c:305
+#: src/setleds.c:286 src/setleds.c:295
 #, c-format
 msgid "Old leds:             "
 msgstr "Alte LEDs:                       "
 
-#: src/setleds.c:298 src/setleds.c:307
+#: src/setleds.c:288 src/setleds.c:297
 #, c-format
 msgid "New leds:             "
 msgstr "Neue LEDs:                       "
 
-#: src/setmetamode.c:20
+#: src/setmetamode.c:23
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1538,26 +1520,27 @@ msgstr ""
 "kann dieses Bit für ein anderes VT geändert werden.\n"
 "Die Einstellungen vor und nach der Änderung werden ausgegeben.\n"
 
-#: src/setmetamode.c:36
+#: src/setmetamode.c:39
 msgid "Meta key sets high order bit\n"
 msgstr "Meta-Taste setzt das Bit mit dem höchsten Stellenwert.\n"
 
-#: src/setmetamode.c:39
+#: src/setmetamode.c:42
 msgid "Meta key gives Esc prefix\n"
 msgstr "Meta-Taste erzeugt ein Umschaltpräfix.\n"
 
-#: src/setmetamode.c:42
+#: src/setmetamode.c:45
 msgid "Strange mode for Meta key?\n"
 msgstr "Merkwürdiger Modus für die Meta-Taste?\n"
 
-#: src/setmetamode.c:78
-#, c-format
-msgid "Error reading current setting. Maybe stdin is not a VT?\n"
+#: src/setmetamode.c:79
+#, fuzzy
+msgid ""
+"Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
 msgstr ""
 "Die aktuellen Einstellungen sind nicht lesbar.\n"
 "Ist die Standardeingabe wirklich ein Terminal?\n"
 
-#: src/setmetamode.c:98
+#: src/setmetamode.c:99
 #, c-format
 msgid "old state:    "
 msgstr "Alter Status:    "
@@ -1567,7 +1550,7 @@ msgstr "Alter Status:    "
 msgid "new state:    "
 msgstr "Neuer Status:    "
 
-#: src/setvesablank.c:23
+#: src/setvesablank.c:25
 #, c-format
 msgid "usage: %s\n"
 msgstr "Aufruf: %s\n"
@@ -1597,49 +1580,41 @@ msgstr ""
 "Dann können Sie die DATEI nach Ihren Vorstellungen bearbeiten.\n"
 "\n"
 
-#: src/setvtrgb.c:85
+#: src/setvtrgb.c:68
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Fehler: %s: Ungültiger Wert im Feld %u in Zeile %u."
 
-#: src/setvtrgb.c:92
+#: src/setvtrgb.c:75
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Fehler: %s: Nicht genügend Felder in Zeile %u."
 
-#: src/setvtrgb.c:98
+#: src/setvtrgb.c:80
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
 msgstr "Fehler: %s: Zeile %u endet unerwartet.\n"
 
-#: src/setvtrgb.c:102
+#: src/setvtrgb.c:84
 #, c-format
 msgid "Error: %s: Line %u is too long.\n"
 msgstr "Fehler: %s: Die Zeile %u ist zu lang.\n"
 
-#: src/showconsolefont.c:33
-#, c-format
+#: src/showconsolefont.c:35
 msgid "failed to restore original translation table\n"
 msgstr ""
 "Das Wiederherstellen der ursprünglichen Übersetzungstabelle ist "
 "fehlgeschlagen.\n"
 
-#: src/showconsolefont.c:38
-#, c-format
+#: src/showconsolefont.c:39
 msgid "failed to restore original unimap\n"
 msgstr "Das Wiederherstellen der ursprünglichen Unimap ist fehlgeschlagen.\n"
 
-#: src/showconsolefont.c:56
-#, c-format
+#: src/showconsolefont.c:57
 msgid "cannot change translation table\n"
 msgstr "Die Übersetzungstabelle konnte nicht gewechselt werden.\n"
 
-#: src/showconsolefont.c:63
-#, c-format
-msgid "%s: out of memory?\n"
-msgstr "%s: Speicher erschöpft?\n"
-
-#: src/showconsolefont.c:104
+#: src/showconsolefont.c:95
 #, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
@@ -1664,22 +1639,22 @@ msgstr ""
 " -i       Die Font-Tabelle nicht ausgeben, stattdessen\n"
 "          ZEILENxSPALTENxANZAHL anzeigen und beenden.\n"
 
-#: src/showconsolefont.c:170
+#: src/showconsolefont.c:161
 #, c-format
 msgid "Character count: %d\n"
 msgstr "Zeichenanzahl: %d\n"
 
-#: src/showconsolefont.c:171
+#: src/showconsolefont.c:162
 #, c-format
 msgid "Font width     : %d\n"
 msgstr "Font-Breite  : %d\n"
 
-#: src/showconsolefont.c:172
+#: src/showconsolefont.c:163
 #, c-format
 msgid "Font height    : %d\n"
 msgstr "Font-Höhe    : %d\n"
 
-#: src/showconsolefont.c:184
+#: src/showconsolefont.c:175
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1688,16 +1663,16 @@ msgstr ""
 "Font mit %d Zeichen wird angezeigt.\n"
 "\n"
 
-#: src/showkey.c:42
+#: src/showkey.c:44
 msgid "?UNKNOWN?"
 msgstr "?UNBEKANNT?"
 
-#: src/showkey.c:44
+#: src/showkey.c:46
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "KB-Modus war %s\n"
 
-#: src/showkey.c:46
+#: src/showkey.c:48
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1706,12 +1681,12 @@ msgstr ""
 "[ Wenn Sie das unter X probieren, muss es nicht funktionieren, \n"
 "  da der X Server ebenfalls von /dev/console liest. ]\n"
 
-#: src/showkey.c:65
+#: src/showkey.c:66
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "Signal %d erhalten, wird aufgeräumt …\n"
 
-#: src/showkey.c:79
+#: src/showkey.c:80
 #, c-format
 msgid ""
 "showkey version %s\n"
@@ -1736,7 +1711,7 @@ msgstr ""
 "\t-s --scancodes\tzeigt die originalen Tastaturcodes an\n"
 "\t-k --keycodes\tzeigt nur die übersetzten Tastaturcodes an (Vorgabe)\n"
 
-#: src/showkey.c:157
+#: src/showkey.c:158
 #, c-format
 msgid ""
 "\n"
@@ -1766,12 +1741,11 @@ msgstr "gedrückt"
 msgid "keycode %3d %s\n"
 msgstr "Tastencode %3d %s\n"
 
-#: src/totextmode.c:29
-#, c-format
+#: src/totextmode.c:31
 msgid "usage: totextmode\n"
 msgstr "Aufruf: totextmode\n"
 
-#: src/vlock/auth.c:79
+#: src/vlock/auth.c:78
 msgid ""
 "Please try again later.\n"
 "\n"
@@ -1781,28 +1755,28 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/vlock/auth.c:88
+#: src/vlock/auth.c:87
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr "Die gesamte Anzeige der Konsole ist nun durch %s gesperrt.\n"
 
-#: src/vlock/auth.c:92
+#: src/vlock/auth.c:91
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr "Die %s ist nun durch %s gesperrt.\n"
 
-#: src/vlock/auth.c:95
+#: src/vlock/auth.c:94
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 "Verwenden Sie Alt+Funktionstasten, um auf andere virtuelle Konsolen zu "
 "wechseln."
 
-#: src/vlock/parse.c:50
+#: src/vlock/parse.c:51
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Versuchen Sie „%s --help“ für mehr Informationen.\n"
 
-#: src/vlock/parse.c:58
+#: src/vlock/parse.c:59
 #, c-format
 msgid ""
 "%s: locks virtual consoles, saving your current session.\n"
@@ -1829,7 +1803,7 @@ msgstr ""
 msgid "unrecognized user"
 msgstr "Benutzer nicht erkannt"
 
-#: src/vlock/vlock.c:56
+#: src/vlock/vlock.c:59
 msgid "stdin is not a tty"
 msgstr "Standardeingabe ist keine tty"
 
@@ -1842,6 +1816,21 @@ msgstr "Diese tty (%s) ist keine virtuelle Konsole.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Die gesamte Konsolenanzeige konnte nicht gesperrt werden.\n"
+
+#~ msgid "%s: deallocating all unused consoles failed\n"
+#~ msgstr "%s: Das Freigeben aller unbenutzten Konsolen schlug fehl.\n"
+
+#~ msgid "kbd_mode: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: Fehler beim Lesen des Tastaturmodus.\n"
+
+#~ msgid "%s: error setting keyboard mode\n"
+#~ msgstr "%s: Fehler beim Einstellen des Tastaturmodus\n"
+
+#~ msgid "Error opening /dev/kbd.\n"
+#~ msgstr "Fehler beim Öffnen von /dev/kbd.\n"
+
+#~ msgid "%s: out of memory?\n"
+#~ msgstr "%s: Speicher erschöpft?\n"
 
 #~ msgid "unable to keymap %d"
 #~ msgstr "Keymap %d kann nicht geöffnet werden"

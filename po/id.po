@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.15.2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2014-06-29 14:12+0400\n"
+"POT-Creation-Date: 2015-06-30 23:46+0300\n"
 "PO-Revision-Date: 2010-07-07 23:30+0700\n"
 "Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -16,42 +16,37 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/chvt.c:28
+#: src/chvt.c:30
 #, c-format
 msgid "usage: chvt N\n"
 msgstr "penggunaan: chvt N\n"
 
-#: src/deallocvt.c:33
+#: src/deallocvt.c:35
 #, c-format
 msgid "%s: unknown option\n"
 msgstr "%s: pilihan tidak diketahui\n"
 
-#: src/deallocvt.c:45
-#, c-format
-msgid "%s: deallocating all unused consoles failed\n"
-msgstr "%s: gagal mendealokasikan semua konsole yang tidak digunakan\n"
-
-#: src/deallocvt.c:53
-#, c-format
-msgid "%s: 0: illegal VT number\n"
+#: src/deallocvt.c:50
+#, fuzzy
+msgid "0: illegal VT number\n"
 msgstr "%s: 0: nomor VT tidak legal\n"
 
-#: src/deallocvt.c:57
-#, c-format
-msgid "%s: VT 1 is the console and cannot be deallocated\n"
+#: src/deallocvt.c:52
+#, fuzzy
+msgid "VT 1 is the console and cannot be deallocated\n"
 msgstr "%s: VT 1 adalah konsole dan tidak dapat didealokasikan\n"
 
-#: src/deallocvt.c:63
-#, c-format
-msgid "%s: could not deallocate console %d\n"
+#: src/deallocvt.c:54
+#, fuzzy, c-format
+msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "%s: tidak dapat didealokasikan console %d\n"
 
-#: src/dumpkeys.c:28
+#: src/dumpkeys.c:27
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys versi %s"
 
-#: src/dumpkeys.c:29
+#: src/dumpkeys.c:28
 #, c-format
 msgid ""
 "\n"
@@ -88,7 +83,7 @@ msgstr ""
 "\t   --compose-only   tampilkan hanya kombinasi tombol compose\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:46
+#: src/dumpkeys.c:45
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -97,17 +92,17 @@ msgstr ""
 "\t\t\t    interpretasikan aksi kode karakter dari\n"
 "\t\t\t    set karakter yang dispesifikasikan\n"
 
-#: src/dumpkeys.c:132
+#: src/dumpkeys.c:131
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "charset %s tidak diketahui - mengabaikan permintaan charset\n"
 
-#: src/dumpkeys.c:153 src/loadkeys.c:176
+#: src/dumpkeys.c:152 src/loadkeys.c:182
 #, fuzzy, c-format
 msgid "%s: error reading keyboard mode: %m\n"
 msgstr "%s: error membaca mode keyboard\n"
 
-#: src/dumpkeys.c:169
+#: src/dumpkeys.c:168
 #, c-format
 msgid ""
 "Symbols recognized by %s:\n"
@@ -118,7 +113,7 @@ msgstr ""
 "(nilai numerik, simbol)\n"
 "\n"
 
-#: src/fgconsole.c:17
+#: src/fgconsole.c:19
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -141,7 +136,7 @@ msgstr ""
 "\t-V --version         tampilkan informasi versi\n"
 "\t-n --next-available  tampilkan VT yang belum dialokasikan selanjutnya\n"
 
-#: src/fgconsole.c:66
+#: src/fgconsole.c:68
 msgid "Couldn't read VTNO: "
 msgstr "Tidak dapat membaca VTNO: "
 
@@ -156,28 +151,28 @@ msgid "Couldn't get a file descriptor referring to the console\n"
 msgstr ""
 "Tidak dapat memperoleh deskripsi berkas yang mereferensikan ke konsole\n"
 
-#: src/getkeycodes.c:18
+#: src/getkeycodes.c:19
 #, c-format
 msgid "usage: getkeycodes\n"
 msgstr "penggunaan: getkeycodes\n"
 
-#: src/getkeycodes.c:54
+#: src/getkeycodes.c:55
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr "Plain scancodes xx (hex) lawan keycodes (dec)\n"
 
-#: src/getkeycodes.c:57
+#: src/getkeycodes.c:58
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
 "0 adalah sebuah error; untuk 1-88 (0x01-0x58) scancode sama dengan keycode\n"
 
-#: src/getkeycodes.c:60
+#: src/getkeycodes.c:61
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr "untuk 1-%d (0x01-0x%02x) scancode sama dengan keycode\n"
 
-#: src/getkeycodes.c:66
+#: src/getkeycodes.c:67
 #, c-format
 msgid ""
 "\n"
@@ -188,9 +183,9 @@ msgstr ""
 "\n"
 "Escaped scancodes e0 xx (hex)\n"
 
-#: src/getkeycodes.c:91
-#, c-format
-msgid "failed to get keycode for scancode 0x%x\n"
+#: src/getkeycodes.c:90
+#, fuzzy, c-format
+msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr "gagal memperoleh keycode untuk scancode 0x%x\n"
 
 #: src/getunimap.c:29
@@ -212,26 +207,20 @@ msgid ""
 msgstr ""
 
 #: src/kbdinfo.c:65
-#, c-format
 msgid "Error: Not enough arguments.\n"
 msgstr ""
 
-#: src/kbdinfo.c:124
+#: src/kbdinfo.c:123
 #, fuzzy, c-format
 msgid "Error: Unrecognized action: %s\n"
 msgstr ""
 "argumen tidak diketahui: _%s_\n"
 "\n"
 
-#: src/kbd_mode.c:20
+#: src/kbd_mode.c:22
 #, c-format
 msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 msgstr "penggunaan: kbd_mode [-a|-u|-k|-s] [-C perangkat]\n"
-
-#: src/kbd_mode.c:80
-#, c-format
-msgid "kbd_mode: error reading keyboard mode\n"
-msgstr "kbd_mode: error membaca mode keyboard\n"
 
 #: src/kbd_mode.c:85
 #, c-format
@@ -258,36 +247,31 @@ msgstr "Keyboard sekarang dalam mode Unicode (UTF-8)\n"
 msgid "The keyboard is in some unknown mode\n"
 msgstr "Keyboard sekarang dalam mode tidak dikenal\n"
 
-#: src/kbd_mode.c:104
-#, c-format
-msgid "%s: error setting keyboard mode\n"
-msgstr "%s: error menset mode keyboard\n"
-
-#: src/kbdrate.c:155 src/kbdrate.c:174 src/kbdrate.c:338
+#: src/kbdrate.c:155 src/kbdrate.c:173 src/kbdrate.c:330
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Typematic Rate diset ke %.1f cps (tunda = %d ms)\n"
 
-#: src/kbdrate.c:266
+#: src/kbdrate.c:263
 #, c-format
 msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 msgstr "Penggunaan: kbdrate [-V] [-s] [-r rate] [-d tunda]\n"
 
-#: src/kbdrate.c:296
+#: src/kbdrate.c:293
 msgid "Cannot open /dev/port"
 msgstr "Tidak dapat membuka /dev/port"
 
-#: src/kdfontop.c:95
+#: src/kdfontop.c:94
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "bug: getfont dipanggil dengan count<256\n"
 
-#: src/kdfontop.c:99
+#: src/kdfontop.c:98
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr "bug: getfont menggunakan GIO_FONT membutuhkan buf.\n"
 
-#: src/kdfontop.c:156 src/kdmapop.c:150 src/xmalloc.c:15
+#: src/kdfontop.c:155 src/kdmapop.c:150 src/xmalloc.c:15
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: kehabisan memori\n"
@@ -320,7 +304,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "Error menulis peta ke berkas\n"
 
-#: src/libkeymap/dump.c:526
+#: src/libkeymap/dump.c:525
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "tidak memungkinkan: bukan meta?\n"
@@ -585,6 +569,7 @@ msgid ""
 "  -d --default       load \"%s\"\n"
 "  -h --help          display this help text\n"
 "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+"  -p --parse         search and parse keymap without action\n"
 "  -q --quiet         suppress all normal output\n"
 "  -s --clearstrings  clear kernel string table\n"
 "  -u --unicode       force conversion to Unicode\n"
@@ -608,17 +593,17 @@ msgstr ""
 "  -u --unicode       konversi implisit ke Unicode\n"
 "  -v --verbose       laporkan perubahan\n"
 
-#: src/loadkeys.c:154 src/version.h:20
+#: src/loadkeys.c:160 src/version.h:20
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s dari %s\n"
 
-#: src/loadkeys.c:164
+#: src/loadkeys.c:170
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
-#: src/loadkeys.c:184
+#: src/loadkeys.c:190
 #, fuzzy, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -627,7 +612,7 @@ msgstr ""
 "%s: peringatan: memuat peta-kunci Unicode dalam console tidak-Unicode\n"
 "    (mungkin anda ingin melakukan `kbd_mode -u'?)\n"
 
-#: src/loadkeys.c:196
+#: src/loadkeys.c:202
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -636,12 +621,12 @@ msgstr ""
 "%s: peringatan: memuat peta-kunci Unicode dalam console tidak-Unicode\n"
 "    (mungkin anda ingin melakukan `kbd_mode -u'?)\n"
 
-#: src/loadkeys.c:214
+#: src/loadkeys.c:220
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "Tidak dapat menemukan %s\n"
 
-#: src/loadkeys.c:236
+#: src/loadkeys.c:242
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "tidak dapat membuka berkas %s\n"
@@ -783,7 +768,7 @@ msgstr "Tidak dapat membaca peta console\n"
 msgid "Saved screen map in `%s'\n"
 msgstr "Peta layar disimpan dalam `%s'\n"
 
-#: src/openvt.c:44
+#: src/openvt.c:47
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
@@ -804,81 +789,81 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/openvt.c:163
+#: src/openvt.c:138
 #, fuzzy
 msgid "Couldn't find owner of current tty!"
 msgstr "Tidak dapat menemukan pemilik dari tty sekarang!\n"
 
-#: src/openvt.c:231
+#: src/openvt.c:208
 #, fuzzy, c-format
 msgid "%s: Illegal vt number"
 msgstr "openvt: %s: nomor vt tidak legal\n"
 
-#: src/openvt.c:257
+#: src/openvt.c:234
 #, fuzzy
 msgid "Only root can use the -u flag."
 msgstr "openvt: hanya root yang dapat menggunakan pilihan -u.\n"
 
-#: src/openvt.c:279
+#: src/openvt.c:256
 #, fuzzy
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr ""
 "Tidak dapat memperoleh deskripsi berkas yang mereferensikan ke konsole\n"
 
-#: src/openvt.c:286
+#: src/openvt.c:263
 #, fuzzy
 msgid "Cannot find a free vt"
 msgstr "openvt: tidak dapat menemukan sebuah free vt\n"
 
-#: src/openvt.c:290
+#: src/openvt.c:267
 #, fuzzy, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: tidak dapat memeriksa apakah vt %d bebas\n"
 
-#: src/openvt.c:294
+#: src/openvt.c:271
 #, fuzzy, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: vt %d sedang digunakan; perintah dibatalkan\n"
 
-#: src/openvt.c:304
+#: src/openvt.c:281
 msgid "Unable to find command."
 msgstr ""
 
-#: src/openvt.c:336
+#: src/openvt.c:313
 #, fuzzy
 msgid "Unable to set new session"
 msgstr "openvt: Tidak dapat menset sesi baru (%s)\n"
 
-#: src/openvt.c:360
+#: src/openvt.c:337
 #, fuzzy, c-format
 msgid "Unable to open %s"
 msgstr "openvt: Tidak dapat membuka %s: %s\n"
 
-#: src/openvt.c:364
+#: src/openvt.c:341
 #, fuzzy, c-format
 msgid "Using VT %s"
 msgstr "openvt: menggunakan VT %s\n"
 
-#: src/openvt.c:370
+#: src/openvt.c:347
 #, fuzzy, c-format
 msgid "Cannot open %s read/write"
 msgstr "openvt: Tidak dapat membuka %s baca/tulis (%s)\n"
 
-#: src/openvt.c:381
+#: src/openvt.c:358
 #, fuzzy, c-format
 msgid "Couldn't activate vt %d"
 msgstr ""
 "\n"
 "openvt: tidak dapat mengaktifkan vt %d (%s)\n"
 
-#: src/openvt.c:384
+#: src/openvt.c:361
 #, fuzzy
 msgid "Activation interrupted?"
 msgstr ""
 "\n"
 "openvt: aktivasi terinterupsi? (%s)\n"
 
-#: src/openvt.c:424
+#: src/openvt.c:401
 #, fuzzy, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "%s: tidak dapat didealokasikan console %d\n"
@@ -958,7 +943,7 @@ msgstr "appendunicode: unicode %u tidak legal\n"
 msgid "Cannot write font file header"
 msgstr "Tidak dapat menulis font berkas header"
 
-#: src/psffontop.c:469 src/setfont.c:678
+#: src/psffontop.c:469 src/setfont.c:679
 #, c-format
 msgid "Cannot write font file"
 msgstr "Tidak dapat menulis berkas font"
@@ -1044,32 +1029,31 @@ msgstr "%s: berkas psf dengan magik tidak diketahui\n"
 msgid "%s: input font does not have an index\n"
 msgstr "%s: font masukan tidak memiliki sebuah indeks\n"
 
-#: src/resizecons.c:153
+#: src/resizecons.c:148
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: tidak dapat menemukan berkas videomode %s\n"
 
-#: src/resizecons.c:172
-#, c-format
+#: src/resizecons.c:164
 msgid "Invalid number of lines\n"
 msgstr "Jumlah dari baris tidak valid\n"
 
-#: src/resizecons.c:238
+#: src/resizecons.c:227
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Mode lama: %dx%d Mode baru: %dx%d\n"
 
-#: src/resizecons.c:240
+#: src/resizecons.c:229
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "Lama #scanlines: %d Baru #scanlines: %d Tinggi karakter: %d\n"
 
-#: src/resizecons.c:251
+#: src/resizecons.c:240
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: perintah `%s' gagal\n"
 
-#: src/resizecons.c:324
+#: src/resizecons.c:313
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
@@ -1077,7 +1061,7 @@ msgstr ""
 "resizecons: jangan lupa untuk mengubah TERM (mungkin ke con%dx%d atau linux-"
 "%dx%d)\n"
 
-#: src/resizecons.c:337
+#: src/resizecons.c:326
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1090,38 +1074,37 @@ msgstr ""
 "atau: resizecons -lines ROWS, dengan ROWS satu dari 25, 28, 30, 34, 36, 40, "
 "44, 50, 60\n"
 
-#: src/resizecons.c:375
+#: src/resizecons.c:364
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: tidak dapat memperoleh ijin I/O.\n"
 
-#: src/screendump.c:49
+#: src/screendump.c:50
 #, c-format
 msgid "usage: screendump [n]\n"
 msgstr "penggunaan: screendump [n]\n"
 
-#: src/screendump.c:79
-#, c-format
-msgid "Error reading %s\n"
+#: src/screendump.c:80
+#, fuzzy, c-format
+msgid "Error reading %s"
 msgstr "Error membaca %s\n"
 
-#: src/screendump.c:127
+#: src/screendump.c:126
 #, c-format
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "tidak dapat membaca %s, dan tidak dapat dump ioctl\n"
 
-#: src/screendump.c:133
+#: src/screendump.c:132
 #, c-format
 msgid "couldn't read %s\n"
 msgstr "tidak dapat membaca %s\n"
 
-#: src/screendump.c:142
+#: src/screendump.c:141
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgstr "Aneh ... layar baik %dx%d dan %dx%d ??\n"
 
-#: src/screendump.c:160
-#, c-format
+#: src/screendump.c:158
 msgid "Error writing screendump\n"
 msgstr "Error menulis screendump\n"
 
@@ -1249,7 +1232,7 @@ msgstr "%s: bug dalam do_loadtable\n"
 msgid "Loading Unicode mapping table...\n"
 msgstr "Meload tabel peta Unicode...\n"
 
-#: src/setfont.c:414 src/setfont.c:501
+#: src/setfont.c:414 src/setfont.c:502
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "Tidak dapat membuka berkas font %s\n"
@@ -1274,44 +1257,44 @@ msgstr "Ketika meload beberapa font, semua harus memiliki tinggi yang sama\n"
 msgid "When loading several fonts, all must have the same width\n"
 msgstr "Ketika meload beberapa fonts, semua harus memiliki lebar yang sama\n"
 
-#: src/setfont.c:488
+#: src/setfont.c:489
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "Tidak dapat menemukan font baku\n"
 
-#: src/setfont.c:495
+#: src/setfont.c:496
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "Tidak dapat menemukan font %s\n"
 
-#: src/setfont.c:507
+#: src/setfont.c:508
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "Membaca berkas font %s\n"
 
-#: src/setfont.c:547
+#: src/setfont.c:548
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "Tidak ada final baris baru dalam kombinasi berkas\n"
 
-#: src/setfont.c:553
+#: src/setfont.c:554
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "Terlalu banyak berkas untuk dikombinasikan\n"
 
-#: src/setfont.c:577
+#: src/setfont.c:578
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr ""
 "Hmm - sebuah font dari restorefont? Menggunakan potongan setengah yang "
 "pertama.\n"
 
-#: src/setfont.c:594
+#: src/setfont.c:595
 #, c-format
 msgid "Bad input file size\n"
 msgstr "Ukuran berkas masukan buruk\n"
 
-#: src/setfont.c:615
+#: src/setfont.c:616
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1321,24 +1304,24 @@ msgstr ""
 "dengan menggunakan sebuah pilihan -8 atau -14 atau -16 mana yang anda ingin "
 "load.\n"
 
-#: src/setfont.c:629
+#: src/setfont.c:630
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Anda bertanya untuk ukuran font %d, tetapi hanya 8, 14, 16 yang memungkinkan "
 "disini.\n"
 
-#: src/setfont.c:674
+#: src/setfont.c:675
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "Ditemukan nothing untuk disimpan\n"
 
-#: src/setfont.c:683
+#: src/setfont.c:684
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "Disimpan %d-char %dx%d font berkas di %s\n"
 
-#: src/setkeycodes.c:21
+#: src/setkeycodes.c:23
 #, c-format
 msgid ""
 "usage: setkeycode scancode keycode ...\n"
@@ -1349,24 +1332,24 @@ msgstr ""
 " (dimana scancode baik xx atau e0xx, diberikan dalam heksa desimal,\n"
 "  dan keycode diberikan dalam desimal)\n"
 
-#: src/setkeycodes.c:43
+#: src/setkeycodes.c:45
 msgid "even number of arguments expected"
 msgstr "jumlah genap dari argumen diduga"
 
-#: src/setkeycodes.c:50
+#: src/setkeycodes.c:52
 msgid "error reading scancode"
 msgstr "error membaca scancode"
 
-#: src/setkeycodes.c:58
+#: src/setkeycodes.c:60
 msgid "code outside bounds"
 msgstr "kode diluar jangkauan"
 
-#: src/setkeycodes.c:68
-#, c-format
-msgid "failed to set scancode %x to keycode %d\n"
+#: src/setkeycodes.c:69
+#, fuzzy, c-format
+msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "gagal untuk menset scancode %x ke keycode %d\n"
 
-#: src/setleds.c:21
+#: src/setleds.c:24
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1396,69 +1379,68 @@ msgstr ""
 "Dengan -D, setleds menset baik pilihan dan pilihan baku, jadi\n"
 "reset selanjutnya tidak akan mengubah pilihan.\n"
 
-#: src/setleds.c:43
+#: src/setleds.c:46
 msgid "on "
 msgstr "nyala"
 
-#: src/setleds.c:43
+#: src/setleds.c:46
 msgid "off"
 msgstr "mati"
 
-#: src/setleds.c:86
-#, c-format
-msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
+#: src/setleds.c:87
+#, fuzzy
+msgid ""
+"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Error membaca konfigurasi led sekarang. Mungkin stdin bukan sebuah VT?\n"
 
 #: src/setleds.c:105
-#, c-format
+#, fuzzy
 msgid ""
-"Error reading current flags setting. Maybe you are not on the console?\n"
+"Error reading current flags setting. Maybe you are not on the console?: "
+"ioctl KDGKBLED"
 msgstr ""
 "Error membaca konfigurasi pilihan sekarang. Mungkin anda tidak berada di "
 "konsole?\n"
 
-#: src/setleds.c:125 src/setleds.c:146
-#, c-format
-msgid "Error reading current led setting from /dev/kbd.\n"
+#: src/setleds.c:123
+#, fuzzy
+msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
 msgstr "Error membaca konfigurasi led sekarang dari /dev/kbd.\n"
 
-#: src/setleds.c:129
-#, c-format
+#: src/setleds.c:127
 msgid "KIOCGLED unavailable?\n"
 msgstr "KIOCGLED tidak tersedia?\n"
 
-#: src/setleds.c:150
-#, c-format
+#: src/setleds.c:141
+#, fuzzy
+msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
+msgstr "Error membaca konfigurasi led sekarang dari /dev/kbd.\n"
+
+#: src/setleds.c:145
 msgid "KIOCSLED unavailable?\n"
 msgstr "KIOCSLED tidak tersedia?\n"
 
-#: src/setleds.c:177
-#, c-format
-msgid "Error opening /dev/kbd.\n"
-msgstr "Error membuka /dev/kbd.\n"
-
-#: src/setleds.c:209
-#, c-format
+#: src/setleds.c:201
 msgid "Error resetting ledmode\n"
 msgstr "Error mereset mode led\n"
 
-#: src/setleds.c:218
+#: src/setleds.c:209
 #, c-format
 msgid "Current default flags:  "
 msgstr "Pilihan baku sekarang:  "
 
-#: src/setleds.c:222
+#: src/setleds.c:213
 #, c-format
 msgid "Current flags:          "
 msgstr "Pilihan sekarang:          "
 
-#: src/setleds.c:226
+#: src/setleds.c:217
 #, c-format
 msgid "Current leds:           "
 msgstr "Led sekarang:           "
 
-#: src/setleds.c:262 src/setmetamode.c:94
+#: src/setleds.c:253 src/setmetamode.c:95
 #, c-format
 msgid ""
 "unrecognized argument: _%s_\n"
@@ -1467,37 +1449,37 @@ msgstr ""
 "argumen tidak diketahui: _%s_\n"
 "\n"
 
-#: src/setleds.c:271
+#: src/setleds.c:262
 #, c-format
 msgid "Old default flags:    "
 msgstr "Pilihan baku lama:       "
 
-#: src/setleds.c:273
+#: src/setleds.c:264
 #, c-format
 msgid "New default flags:    "
 msgstr "Pilihan baku baru:       "
 
-#: src/setleds.c:280
+#: src/setleds.c:271
 #, c-format
 msgid "Old flags:            "
 msgstr "Pilihan lama:            "
 
-#: src/setleds.c:282
+#: src/setleds.c:273
 #, c-format
 msgid "New flags:            "
 msgstr "Pilihan baru:            "
 
-#: src/setleds.c:296 src/setleds.c:305
+#: src/setleds.c:286 src/setleds.c:295
 #, c-format
 msgid "Old leds:             "
 msgstr "Led lama:             "
 
-#: src/setleds.c:298 src/setleds.c:307
+#: src/setleds.c:288 src/setleds.c:297
 #, c-format
 msgid "New leds:             "
 msgstr "Led baru:             "
 
-#: src/setmetamode.c:20
+#: src/setmetamode.c:23
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1514,24 +1496,25 @@ msgstr ""
 "untuk mengubah konfigurasi dari vt lain.\n"
 "Konfigurasi sebelum dan sesudah perubahan akan dilaporkan.\n"
 
-#: src/setmetamode.c:36
+#: src/setmetamode.c:39
 msgid "Meta key sets high order bit\n"
 msgstr "tombol meta menset bit orde tinggi\n"
 
-#: src/setmetamode.c:39
+#: src/setmetamode.c:42
 msgid "Meta key gives Esc prefix\n"
 msgstr "Tombol meta memberikan awalan Esc\n"
 
-#: src/setmetamode.c:42
+#: src/setmetamode.c:45
 msgid "Strange mode for Meta key?\n"
 msgstr "Mode aneh untuk tombol Meta?\n"
 
-#: src/setmetamode.c:78
-#, c-format
-msgid "Error reading current setting. Maybe stdin is not a VT?\n"
+#: src/setmetamode.c:79
+#, fuzzy
+msgid ""
+"Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
 msgstr "Errro membaca konfigurasi sekarang. Mungkin stdin bukan sebuah VT\n"
 
-#: src/setmetamode.c:98
+#: src/setmetamode.c:99
 #, c-format
 msgid "old state:    "
 msgstr "keadaan lama: "
@@ -1541,7 +1524,7 @@ msgstr "keadaan lama: "
 msgid "new state:    "
 msgstr "keadaan baru:  "
 
-#: src/setvesablank.c:23
+#: src/setvesablank.c:25
 #, c-format
 msgid "usage: %s\n"
 msgstr "penggunaan: %s\n"
@@ -1561,47 +1544,39 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/setvtrgb.c:85
+#: src/setvtrgb.c:68
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr ""
 
-#: src/setvtrgb.c:92
+#: src/setvtrgb.c:75
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr ""
 
-#: src/setvtrgb.c:98
+#: src/setvtrgb.c:80
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
 msgstr ""
 
-#: src/setvtrgb.c:102
+#: src/setvtrgb.c:84
 #, fuzzy, c-format
 msgid "Error: %s: Line %u is too long.\n"
 msgstr "%s: %s: Peringatan: baris terlalu panjang\n"
 
-#: src/showconsolefont.c:33
-#, c-format
+#: src/showconsolefont.c:35
 msgid "failed to restore original translation table\n"
 msgstr "gagal untuk merestore tabel terjemahan asli\n"
 
-#: src/showconsolefont.c:38
-#, c-format
+#: src/showconsolefont.c:39
 msgid "failed to restore original unimap\n"
 msgstr "gagal untuk mengembalikan unimap asli\n"
 
-#: src/showconsolefont.c:56
-#, c-format
+#: src/showconsolefont.c:57
 msgid "cannot change translation table\n"
 msgstr "tidak dapat mengubah tabel terjemahan\n"
 
-#: src/showconsolefont.c:63
-#, c-format
-msgid "%s: out of memory?\n"
-msgstr "%s: kehabisan memori?\n"
-
-#: src/showconsolefont.c:104
+#: src/showconsolefont.c:95
 #, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
@@ -1624,22 +1599,22 @@ msgstr ""
 " -i       Jangan tampilkan tabel font, hanya perlihatkan\n"
 "          BARISxKOLOMxJUMLAH dan keluar.\n"
 
-#: src/showconsolefont.c:170
+#: src/showconsolefont.c:161
 #, c-format
 msgid "Character count: %d\n"
 msgstr "Jumlah karakter: %d\n"
 
-#: src/showconsolefont.c:171
+#: src/showconsolefont.c:162
 #, c-format
 msgid "Font width     : %d\n"
 msgstr "Lebar font     : %d\n"
 
-#: src/showconsolefont.c:172
+#: src/showconsolefont.c:163
 #, c-format
 msgid "Font height    : %d\n"
 msgstr "Tinggi font    : %d\n"
 
-#: src/showconsolefont.c:184
+#: src/showconsolefont.c:175
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1648,16 +1623,16 @@ msgstr ""
 "Menampilkan %d-char font\n"
 "\n"
 
-#: src/showkey.c:42
+#: src/showkey.c:44
 msgid "?UNKNOWN?"
 msgstr "?TIDAK DIKETAHUI?"
 
-#: src/showkey.c:44
+#: src/showkey.c:46
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "kb mode adalah %s\n"
 
-#: src/showkey.c:46
+#: src/showkey.c:48
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1666,12 +1641,12 @@ msgstr ""
 "[ jika anda mencoba ini dibawah X, ini mungkin tidak bekerja\n"
 "karena X server juga membaca /dev/console ]\n"
 
-#: src/showkey.c:65
+#: src/showkey.c:66
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "menangkap sinyal %d, membersihkan...\n"
 
-#: src/showkey.c:79
+#: src/showkey.c:80
 #, c-format
 msgid ""
 "showkey version %s\n"
@@ -1696,7 +1671,7 @@ msgstr ""
 "\t-s --scancodes\ttampilkan hanya raw scan-codes\n"
 "\t-k --keycodes\ttampilkan hanya interpretasi keycodes (baku)\n"
 
-#: src/showkey.c:157
+#: src/showkey.c:158
 #, c-format
 msgid ""
 "\n"
@@ -1727,38 +1702,38 @@ msgstr "tekan"
 msgid "keycode %3d %s\n"
 msgstr "keycode %3d %s\n"
 
-#: src/totextmode.c:29
-#, fuzzy, c-format
+#: src/totextmode.c:31
+#, fuzzy
 msgid "usage: totextmode\n"
 msgstr "penggunaan: getkeycodes\n"
 
-#: src/vlock/auth.c:79
+#: src/vlock/auth.c:78
 msgid ""
 "Please try again later.\n"
 "\n"
 "\n"
 msgstr ""
 
-#: src/vlock/auth.c:88
+#: src/vlock/auth.c:87
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:92
+#: src/vlock/auth.c:91
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr ""
 
-#: src/vlock/auth.c:95
+#: src/vlock/auth.c:94
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
 
-#: src/vlock/parse.c:50
+#: src/vlock/parse.c:51
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/vlock/parse.c:58
+#: src/vlock/parse.c:59
 #, c-format
 msgid ""
 "%s: locks virtual consoles, saving your current session.\n"
@@ -1779,7 +1754,7 @@ msgstr ""
 "argumen tidak diketahui: _%s_\n"
 "\n"
 
-#: src/vlock/vlock.c:56
+#: src/vlock/vlock.c:59
 msgid "stdin is not a tty"
 msgstr ""
 
@@ -1792,6 +1767,9 @@ msgstr ""
 #, fuzzy, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 adalah konsole dan tidak dapat didealokasikan\n"
+
+#~ msgid "%s: deallocating all unused consoles failed\n"
+#~ msgstr "%s: gagal mendealokasikan semua konsole yang tidak digunakan\n"
 
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "KDGKBENT error di indeks 0 dalam tabel %d\n"
@@ -1810,6 +1788,12 @@ msgstr "%s: VT 1 adalah konsole dan tidak dapat didealokasikan\n"
 
 #~ msgid "error executing  %s\n"
 #~ msgstr "error menjalankan %s\n"
+
+#~ msgid "kbd_mode: error reading keyboard mode\n"
+#~ msgstr "kbd_mode: error membaca mode keyboard\n"
+
+#~ msgid "%s: error setting keyboard mode\n"
+#~ msgstr "%s: error menset mode keyboard\n"
 
 #~ msgid "'%s' is not a function key symbol"
 #~ msgstr "'%s' adalah sebuah tombol fungsi simbol"
@@ -1905,6 +1889,12 @@ msgstr "%s: VT 1 adalah konsole dan tidak dapat didealokasikan\n"
 #~ msgstr ""
 #~ "Penggunaan: openvt [-c nomor-vt] [-f] [-l] [-u] [-s] [-v] [-w] -- "
 #~ "baris_perintah\n"
+
+#~ msgid "Error opening /dev/kbd.\n"
+#~ msgstr "Error membuka /dev/kbd.\n"
+
+#~ msgid "%s: out of memory?\n"
+#~ msgstr "%s: kehabisan memori?\n"
 
 #~ msgid "loadkeys: error reading keyboard mode\n"
 #~ msgstr "loadkeys: error membaca mode keyboard\n"
