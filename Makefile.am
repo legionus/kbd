@@ -8,7 +8,10 @@ EXTRA_DIST = \
 	CREDITS \
 	contrib docs rc
 
-SUBDIRS = src data po tests docs
+SUBDIRS = src data po docs
+if BUILD_TESTS
+SUBDIRS += tests
+endif
 
 kbd-$(VERSION).tar.xz:
 	make distcheck

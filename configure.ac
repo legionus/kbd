@@ -10,8 +10,21 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.9 -Wall color-tests dist-xz])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_HEADERS(config.h)
+PKG_PROG_PKG_CONFIG
 
-PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
+AC_ARG_ENABLE(tests,
+	[AS_HELP_STRING([--disable-tests], [do not build tests])],
+	[build_tests=$enableval], [build_tests=auto])
+if test "$build_tests" != "no"; then
+	PKG_CHECK_MODULES([CHECK], [check >= 0.9.4],
+		[build_tests="yes"], [
+			if test "$build_tests" = "yes"; then
+				AC_MSG_ERROR([tests requested, but check package is missing])
+			fi
+			build_tests="no"
+		])
+fi
+AM_CONDITIONAL(BUILD_TESTS, test "$build_tests" != "no")
 
 m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 AM_SILENT_RULES([yes])
