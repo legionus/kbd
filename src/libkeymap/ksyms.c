@@ -47,7 +47,7 @@ static const syms_entry syms[] = {
 	E(lock_syms),   /* KT_LOCK */
 	{ NULL, 0 },    /* KT_LETTER */
 	E(sticky_syms), /* KT_SLOCK */
-	{ NULL, 0 },    /*  */
+	{ NULL, 0 },    /* KT_DEAD2 */
 	E(brl_syms)     /* KT_BRL */
 };
 
@@ -283,6 +283,14 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 		/* Avoid error messages for Meta_acute with UTF-8 */
 		else if (direction == TO_UNICODE)
 			return (0);
+
+		/* fall through to error printf */
+	}
+
+	if (!strncmp(s, "dead2_", 6)) {
+		keycode = ksymtocode(ctx, s + 6, TO_8BIT);
+		if (KTYP(keycode) == KT_LATIN)
+			return K(KT_DEAD2, KVAL(keycode));
 
 		/* fall through to error printf */
 	}

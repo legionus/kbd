@@ -397,6 +397,9 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 	else if (!numeric && t == KT_META && v < 128 && v < get_sym_size(ctx, KT_LATIN) &&
 	         (p = get_sym(ctx, KT_LATIN, v))[0])
 		fprintf(fd, "Meta_%-11s", p);
+	else if (!numeric && t == KT_DEAD2 && v < 256 && v < get_sym_size(ctx, KT_LATIN) &&
+		 (p = get_sym(ctx, KT_LATIN, v))[0])
+		printf("dead2_%-10s", p);
 	else
 		fprintf(fd, "0x%04x         %s", code, plus ? "" : " ");
 }
