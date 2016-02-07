@@ -4,7 +4,7 @@ AM_CPPFLAGS = \
 	-DDATADIR=\"$(srcdir)\" -DBUILDDIR=\"$(builddir)\"
 
 AM_CFLAGS = $(CHECK_CFLAGS)
-LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS)
+LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS) @INTLLIBS@
 
 EXTRA_DIST = \
 	alt-is-meta.in \

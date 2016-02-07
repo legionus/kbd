@@ -80,7 +80,7 @@ mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
 noinst_LIBRARIES = libcommon.a libfont.a
-LDADD = libcommon.a libfont.a libkeymap/libkeymap.la
+LDADD = libcommon.a libfont.a libkeymap/libkeymap.la @INTLLIBS@
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \
