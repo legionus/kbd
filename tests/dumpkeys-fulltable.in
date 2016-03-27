@@ -33,7 +33,7 @@ check_keymap "$DATADIR"/dumpkeys.qwerty-layout.map DEFAULT FALSE
 kmap="$DATADIR/dumpkeys.ua-ws.map"
 line0="$(grep '^#keymaps ' "$kmap")" ||:
 line0="${line0#\#}"
-line1="$(./libkeymap-dumpkeys "$kmap" SEPARATE_LINE FALSE |grep '^keymaps ')" ||:
+line1="$(./libkeymap-dumpkeys "$kmap" SEPARATE_LINES FALSE |grep '^keymaps ')" ||:
 
 if [ "$line0" != "$line1" ]; then
 	printf 'was: %s\n' "$line0"
