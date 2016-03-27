@@ -197,7 +197,7 @@ codetoksym(struct lk_ctx *ctx, int code) {
 		i = ctx->charset;
 		while (1) {
 			p = (sym *) charsets[i].charnames;
-			if (p) {
+			if (p && (KVAL(code) >= charsets[i].start)) {
 				p += KVAL(code) - charsets[i].start;
 
 				if (p->name[0])
