@@ -65,7 +65,7 @@ main(int argc, char *argv[]) {
 	}
 		
 	if (argc != 2) {
-		fprintf(stderr, _("usage: %s [-v] [-o map.orig] map-file\n"),
+		fprintf(stderr, _("usage: %s [-V] [-v] [-o map.orig] map-file\n"),
 			progname);
 		exit(1);
 	}

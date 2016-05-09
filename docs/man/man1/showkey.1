@@ -3,7 +3,7 @@
 .SH NAME
 showkey \- examine the codes sent by the keyboard
 .SH SYNOPSIS
-showkey [\-h|\-\-help] [\-a|\-\-ascii] [\-s|\-\-scancodes] [\-k|\-\-keycodes]
+showkey [\-h|\-\-help] [\-a|\-\-ascii] [\-s|\-\-scancodes] [\-k|\-\-keycodes] [\-V|\-\-version]
 .SH DESCRIPTION
 .IX "showkey command" "" "\fLshowkey\fR command"  
 .LP
@@ -66,6 +66,10 @@ are present.
 Starts
 .B showkey
 in `ascii' dump mode.
+.TP
+\-V \-\-version
+.B showkey
+prints version number and exits.
 .SH "2.6 KERNELS"
 In 2.6 kernels key codes lie in the range 1-255, instead of 1-127.
 Key codes larger than 127 are returned as three bytes of which the

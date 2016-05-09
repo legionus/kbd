@@ -39,7 +39,8 @@ static void __attribute__ ((noreturn))
 usage(int code)
 {
 	fprintf(stderr,
-		_("Usage: %s vga|FILE|-\n"
+		_("Usage: %s [-h] [-V]\n"
+		"       %s vga|FILE|-\n"
 		"\n"
 		"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
 		"comma-separated decimal values for RED, GREEN, and BLUE.\n"
@@ -48,8 +49,12 @@ usage(int code)
 		"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
 		"\n"
 		"and then edit the values in FILE.\n"
+		"\n"
+		"Other options:\n"
+		"   -h     print this usage message\n"
+		"   -V     print version number\n"
 		"\n"),
-		progname);
+		progname, progname);
 	exit(code);
 }
 

@@ -5,6 +5,9 @@ loadkeys \- load keyboard translation tables
 .SH SYNOPSIS
 .B loadkeys
 [
+.I -a --ascii
+] [
+[
 .I -b --bkeymap
 ] [
 .I -c --clearcompose
@@ -19,6 +22,8 @@ loadkeys \- load keyboard translation tables
 ] [
 .I -m --mktable
 ] [
+.I -p --parse
+] [
 .I -q --quiet
 ] [
 .I -s --clearstrings
@@ -26,6 +31,8 @@ loadkeys \- load keyboard translation tables
 .I -u --unicode
 ] [
 .I -v --verbose
+] [
+.I -V --version
 ] [
 .I filename...
 ]
@@ -177,14 +184,25 @@ instead of using the
 option.
 .SH "OTHER OPTIONS"
 .TP
+.B \-a \-\-ascii
+Force conversion to ASCII.
+.TP
 .B \-h \-\-help
 .B loadkeys
 prints its version number and a short usage message to the programs
 standard error output and exits.
 .TP
+.B \-p \-\-parse
+.B loadkeys
+searchs and parses keymap without action.
+.TP
 .B \-q \-\-quiet
 .B loadkeys
 suppresses all normal output.
+.TP
+.B \-V \-\-version
+.B loadkeys
+prints version number and exits.
 .SH WARNING
 Note that anyone having read access to
 .B /dev/console

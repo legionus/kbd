@@ -3,7 +3,7 @@
 .SH NAME
 mapscrn \- load screen output mapping table
 .SH SYNOPSIS
-.BR mapscrn " [" -v "] [" -o
+.BR mapscrn " [" -V "] [" -v "] [" -o
 .IR map.orig ]
 .I mapfile
 .SH DESCRIPTION
@@ -96,6 +96,13 @@ Single (possibly multi-byte) UTF-8 character, enclosed in single quotes.
 Note that control characters (with codes < 32) cannot be re-mapped with
 .I mapscrn
 because they have special meaning for the driver.
+.SH OTHER OPTIONS
+.TP
+.B \-V
+Prints version number and exits.
+.TP
+.B \-v
+Be verbose.
 .SH FILES
 .I @DATADIR@/consoletrans
 is the default directory for screen mappings.

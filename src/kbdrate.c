@@ -247,7 +247,7 @@ main( int argc, char **argv ) {
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
 		print_version_and_exit();
 
-	while ( (c = getopt( argc, argv, "r:d:sv" )) != EOF ) {
+	while ( (c = getopt( argc, argv, "r:d:s" )) != EOF ) {
 		switch (c) {
 		case 'r':
 			rate = atof( optarg );
@@ -260,7 +260,7 @@ main( int argc, char **argv ) {
 			break;
 		default:
 			fprintf(stderr,
-				_("Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"));
+				_("Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"));
 			exit(EXIT_FAILURE);
 		}
 	}

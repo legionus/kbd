@@ -50,7 +50,8 @@ usage(void)
 			  "  -q --quiet         suppress all normal output\n"
 			  "  -s --clearstrings  clear kernel string table\n"
 			  "  -u --unicode       force conversion to Unicode\n"
-			  "  -v --verbose       report the changes\n"),
+			  "  -v --verbose       report the changes\n"
+			  "  -V --version       print version number\n"),
 		PACKAGE_VERSION, progname, DEFMAP);
 	exit(EXIT_FAILURE);
 }

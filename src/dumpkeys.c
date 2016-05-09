@@ -33,18 +33,23 @@ valid options are:\n\
 \n\
 	-h --help	    display this help text\n\
 	-i --short-info	    display information about keyboard driver\n\
-	-l --long-info	    display above and symbols known to loadkeys\n\
+	-l -s --long-info   display above and symbols known to loadkeys\n\
 	-n --numeric	    display keytable in hexadecimal notation\n\
 	-f --full-table	    don't use short-hand notations, one row per keycode\n\
 	-1 --separate-lines one line per (modifier,keycode) pair\n\
-	   --funcs-only	    display only the function key strings\n\
-	   --keys-only	    display only key bindings\n\
-	   --compose-only   display only compose key combinations\n\
+	-S --shape=\n\
+	-t --funcs-only	    display only the function key strings\n\
+	-k --keys-only	    display only key bindings\n\
+	-d --compose-only   display only compose key combinations\n\
 	-c --charset="));
 	lk_list_charsets(stderr);
 	fprintf(stderr, _("\
 			    interpret character action codes to be from the\n\
 			    specified character set\n\
+"));
+	fprintf(stderr, _("\
+	-v --verbose\n\
+	-V --version	    print version number\n\
 "));
 	exit(1);
 }

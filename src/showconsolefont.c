@@ -97,10 +97,11 @@ usage(void) {
 		  "(probably after loading a font with `setfont font')\n"
 		  "\n"
 		  "Valid options are:\n"
-		  " -C tty   Device to read the font from. Default: current tty.\n"
-		  " -v       Be more verbose.\n"
-		  " -i       Don't print out the font table, just show\n"
-		  "          ROWSxCOLSxCOUNT and exit.\n"));
+		  " -V --version    Print version number and exit.\n"
+		  " -C tty          Device to read the font from. Default: current tty.\n"
+		  " -v              Be more verbose.\n"
+		  " -i              Don't print out the font table, just show\n"
+		  "                 ROWSxCOLSxCOUNT and exit.\n"));
 	exit(EXIT_FAILURE);
 }
 

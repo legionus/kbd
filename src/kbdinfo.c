@@ -18,7 +18,10 @@ usage(int code) {
 		_("Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 		  "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
 	          "   or: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
-	          "   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"),
+	          "   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
+	          "Other options:\n"
+	          "   -h                   print this usage message\n"
+	          "   -V                   print version number\n"),
 		progname);
 	exit(code);
 }

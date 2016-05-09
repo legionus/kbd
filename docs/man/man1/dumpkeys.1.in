@@ -5,10 +5,15 @@ dumpkeys \- dump keyboard translation tables
 .SH SYNOPSIS
 .B dumpkeys
 [
-.B \-hilfn
+.\".B \-1Vdfhiklnstv
+.B \-h \-\-help \-i \-\-short\-info \-l \-s \-\-long\-info
+.B \-n \-\-numeric \-f \-\-full\-table \-1 \-\-separate-lines
+.BI \-S shape
+.BI \-\-shape= shape
+.B \-t \-\-funcs\-only \-k \-\-keys\-only \-d \-\-compose\-only
 .BI \-c charset
-.B \-\-help \-\-short\-info \-\-long\-info \-\-numeric \-\-full\-table \-\-funcs\-only \-\-keys\-only \-\-compose\-only
 .BI \-\-charset= charset
+.B \-v \-\-verbose \-V \-\-version
 ]
 .SH DESCRIPTION
 .IX "dumpkeys command" "" "\fLdumpkeys\fR command"  
@@ -121,7 +126,7 @@ You can see you current function key definitions with the command
 .RE
 .LP
 .TP
-.B \-l \-\-long-info
+.B \-l \-s \-\-long-info
 This option instructs
 .B dumpkeys
 to print a long information listing. The output is the same as with the
@@ -156,7 +161,10 @@ output of
 .BR dumpkeys .
 .LP
 .TP
-.B \-\-funcs-only
+.BI \-S shape " " " " \-\-shape= shape
+.LP
+.TP
+.B \-t \-\-funcs-only
 When this option is given,
 .B dumpkeys
 prints only the function key string definitions. Normally
@@ -164,7 +172,7 @@ prints only the function key string definitions. Normally
 prints both the key bindings and the string definitions.
 .LP
 .TP
-.B \-\-keys-only
+.B \-k \-\-keys-only
 When this option is given,
 .B dumpkeys
 prints only the key bindings. Normally
@@ -172,7 +180,7 @@ prints only the key bindings. Normally
 prints both the key bindings and the string definitions.
 .LP
 .TP
-.B \-\-compose-only
+.B \-d \-\-compose-only
 When this option is given,
 .B dumpkeys
 prints only the compose key combinations.
@@ -196,6 +204,13 @@ is used as a default.
 This option produces an output line `charset "iso-8859-X"', telling
 loadkeys how to interpret the keymap. (For example, "division" is
 0xf7 in iso-8859-1 but 0xba in iso-8859-8.)
+.LP
+.TP
+.B \-v \-\-verbose
+.LP
+.TP
+.B \-V \-\-version
+Prints version number and exits.
 .LP
 .SH FILES
 .PD 0

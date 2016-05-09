@@ -5,7 +5,13 @@ fgconsole \- print the number of the active VT.
 
 .SH SYNOPSIS
 .B fgconsole
-.BI [ "--help" | "--version" | "--next-available" ]
+.BI [
+\-h \-\-help
+|
+\-V \-\-version
+|
+\-n \-\-next-available
+]
 .SH DESCRIPTION
 If the active Virtual Terminal is
 .IR /dev/ttyN ,
@@ -16,6 +22,12 @@ on standard output.
 If the console is a serial console, then 
 "serial" 
 is printed instead.
+.TP
+.I \-h \-\-help
+Prints short usage message and exits.
+.TP
+.I \-V \-\-version
+Prints version number and exits.
 .TP
 .I \-\-next\-available
 Will show the next unallocated virtual terminal. Normally 6 virtual
