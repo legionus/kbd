@@ -173,10 +173,10 @@ main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	/* get console */
-	fd = getfd(console);
-
 	if (!(options & OPT_M) && !(options & OPT_B)) {
+		/* get console */
+		fd = getfd(console);
+
 		/* check whether the keyboard is in Unicode mode */
 		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
 		    ioctl(fd, KDGETMODE, &kd_mode)) {
