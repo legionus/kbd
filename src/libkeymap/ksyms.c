@@ -60,7 +60,6 @@ const struct cs {
 	const sym *charnames;
 	const int start;
 } charsets[] = {
-	{ "",             NULL,                0 },
 	{ "iso-8859-1",   latin1_syms,       160 },
 	{ "iso-8859-2",   latin2_syms,       160 },
 	{ "iso-8859-3",   latin3_syms,       160 },
@@ -81,7 +80,7 @@ const struct cs {
 	{ "iso-ir-209",   iso_ir_209_syms,   160 }, /* sami */
 };
 
-static unsigned int charsets_size = sizeof(charsets) / sizeof(charsets[0]);
+static const unsigned int charsets_size = sizeof(charsets) / sizeof(charsets[0]);
 
 /* Functions for both dumpkeys and loadkeys. */
 
@@ -106,7 +105,7 @@ lk_list_charsets(FILE *f) {
 		}
 		fprintf(f, "}");
 	}
-	for(i=1; i < charsets_size; i++) {
+	for(i=0; i < charsets_size; i++) {
 		for (j=0; j<sizeof(mm)/sizeof(mm[0]); j++) {
 			lth = strlen(mm[j]);
 			if(!strncmp(charsets[i].charset, mm[j], lth))
@@ -121,7 +120,7 @@ lk_list_charsets(FILE *f) {
 const char *
 lk_get_charset(struct lk_ctx *ctx)
 {
-	if (!ctx || !ctx->charset || ctx->charset >= charsets_size)
+	if (!ctx || ctx->charset >= charsets_size)
 		return NULL;
 
 	return charsets[ctx->charset].charset;
@@ -131,7 +130,7 @@ int
 lk_set_charset(struct lk_ctx *ctx, const char *charset) {
 	unsigned int i;
 
-	for (i = 1; i < charsets_size; i++) {
+	for (i = 0; i < charsets_size; i++) {
 		if (!strcasecmp(charsets[i].charset, charset)) {
 			ctx->charset = i;
 			return 0;
@@ -195,21 +194,11 @@ codetoksym(struct lk_ctx *ctx, int code) {
 			return get_sym(ctx, KTYP(code), KVAL(code));
 
 		i = ctx->charset;
-		while (1) {
-			p = (sym *) charsets[i].charnames;
-			if (p && (KVAL(code) >= charsets[i].start)) {
-				p += KVAL(code) - charsets[i].start;
-
-				if (p->name[0])
-					return p->name;
-			}
-
-			i++;
-
-			if (i == charsets_size)
-				i = 0;
-			if (i == ctx->charset)
-				break;
+		p = (sym *) charsets[i].charnames;
+		if (p && (KVAL(code) >= charsets[i].start)) {
+			p += KVAL(code) - charsets[i].start;
+			if (p->name[0])
+				return p->name;
 		}
 	}
 
@@ -220,23 +209,13 @@ codetoksym(struct lk_ctx *ctx, int code) {
 			return get_sym(ctx, KT_LATIN, code);
 
 		i = ctx->charset;
-		while (1) {
-			p = (sym *) charsets[i].charnames;
-			if (p) {
-				for (j = charsets[i].start; j < 256; j++, p++) {
-					if (p->uni == code && p->name[0])
-						return p->name;
-				}
+		p = (sym *) charsets[i].charnames;
+		if (p) {
+			for (j = charsets[i].start; j < 256; j++, p++) {
+				if (p->uni == code && p->name[0])
+					return p->name;
 			}
-
-			i++;
-
-			if (i == charsets_size)
-				i = 0;
-			if (i == ctx->charset)
-				break;
 		}
-
 	}
 
 	return NULL;
@@ -260,15 +239,13 @@ static int
 kt_latin(struct lk_ctx *ctx, const char *s, int direction) {
 	unsigned int i, max;
 
-	if (ctx->charset) {
-		sym *p = (sym *) charsets[ctx->charset].charnames;
+	sym *p = (sym *) charsets[ctx->charset].charnames;
 
-		max = (direction == TO_UNICODE ? 128 : 256);
+	max = (direction == TO_UNICODE ? 128 : 256); // TODO(dmage): is 256 valid for ethiopic charset?
 
-		for (i = charsets[ctx->charset].start; i < max; i++, p++) {
-			if(p->name[0] && !strcmp(s, p->name))
-				return K(KT_LATIN, i);
-		}
+	for (i = charsets[ctx->charset].start; i < max; i++, p++) {
+		if (p->name[0] && !strcmp(s, p->name))
+			return K(KT_LATIN, i);
 	}
 
 	max = (direction == TO_UNICODE ? 128 : syms[KT_LATIN].size);
@@ -321,22 +298,26 @@ ksymtocode(struct lk_ctx *ctx, const char *s, int direction) {
 
 	if (direction == TO_UNICODE) {
 		i = ctx->charset;
+		p = (sym *) charsets[i].charnames;
+		if (p) {
+			for (j = charsets[i].start; j < 256; j++, p++) {
+				if (!strcmp(s, p->name))
+					return (p->uni ^ 0xf000);
+			}
+		}
 
-		while (1) {
+		/* not found in the current charset, maybe we'll have good luck in others? */
+		for (i = 0; i < charsets_size; i++) {
+			if (i == ctx->charset) {
+				continue;
+			}
 			p = (sym *) charsets[i].charnames;
 			if (p) {
 				for (j = charsets[i].start; j < 256; j++, p++) {
-					if (!strcmp(s,p->name))
+					if (!strcmp(s, p->name))
 						return (p->uni ^ 0xf000);
 				}
 			}
-
-			i++;
-
-			if (i == charsets_size)
-				i = 0;
-			if (i == ctx->charset)
-				break;
 		}
 	} else /* if (!chosen_charset[0]) */ {
 		/* note: some keymaps use latin1 but with euro,
