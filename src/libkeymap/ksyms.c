@@ -68,7 +68,7 @@ const struct cs {
 	{ "iso-8859-5",   iso_8859_5_syms,   160 },
 	{ "iso-8859-7",   iso_8859_7_syms,   160 },
 	{ "iso-8859-8",   iso_8859_8_syms,   160 },
-	{ "iso-8859-9",   iso_8859_9_syms,   208 },
+	{ "iso-8859-9",   iso_8859_9_syms,   160 },
 	{ "iso-8859-10",  latin6_syms,       160 },
 	{ "iso-8859-15",  iso_8859_15_syms,  160 },
 	{ "mazovia",      mazovia_syms,      128 },
