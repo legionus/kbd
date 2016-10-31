@@ -263,7 +263,9 @@ kt_latin(struct lk_ctx *ctx, const char *s, int direction) {
 	if (ctx->charset) {
 		sym *p = (sym *) charsets[ctx->charset].charnames;
 
-		for (i = charsets[ctx->charset].start; i < 256; i++, p++) {
+		max = (direction == TO_UNICODE ? 128 : 256);
+
+		for (i = charsets[ctx->charset].start; i < max; i++, p++) {
 			if(p->name[0] && !strcmp(s, p->name))
 				return K(KT_LATIN, i);
 		}
