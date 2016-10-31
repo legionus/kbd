@@ -38,34 +38,34 @@ const cp1250_syms[] = {	/* 128-255 */
 	{ 0x0165, "tcaron"},
 	{ 0x017e, "zcaron"},
 	{ 0x017a, "zacute"},
-	{ 0x00a0, ""},	/* nbsp */	/* 0240 */
+	{ 0x00a0, "nobreakspace"},	/* 0240 */
 	{ 0x02c7, "caron"},
 	{ 0x02d8, "breve"},
 	{ 0x0141, "Lstroke"},
-	{ 0x00a4, ""},	/* CURRENCY SIGN */
+	{ 0x00a4, "currency"},
 	{ 0x0104, "Aogonek"},
-	{ 0x00a6, ""},	/* BROKEN BAR */
-	{ 0x00a7, ""},	/* SECTION SIGN */
-	{ 0x00a8, ""},	/* DIAERESIS */	/* 0250 */
-	{ 0x00a9, ""},	/* COPYRIGHT SIGN */
+	{ 0x00a6, "brokenbar"},
+	{ 0x00a7, "section"},
+	{ 0x00a8, "diaeresis"},	/* 0250 */
+	{ 0x00a9, "copyright"},
 	{ 0x015e, "Scedilla"},
-	{ 0x00ab, ""},	/* LEFT-POINTING DOUBLE ANGLE QUOTATION MARK */
-	{ 0x00ac, ""},	/* NOT SIGN */
-	{ 0x00ad, ""},	/* SOFT HYPHEN */
-	{ 0x00ae, ""},	/* REGISTERED SIGN */
+	{ 0x00ab, "guillemotleft"},
+	{ 0x00ac, "notsign"},
+	{ 0x00ad, "hyphen"},
+	{ 0x00ae, "registered"},
 	{ 0x017b, "Zabovedot"},
-	{ 0x00b0, ""},	/* DEGREE SIGN */	/* 0260 */
-	{ 0x00b1, ""},	/* PLUS-MINUS SIGN */
+	{ 0x00b0, "degree"},	/* 0260 */
+	{ 0x00b1, "plusminus"},
 	{ 0x02db, "ogonek"},
 	{ 0x0142, "lstroke"},
-	{ 0x00b4, ""},	/* ACUTE ACCENT */
-	{ 0x00b5, ""},	/* MICRO SIGN */
-	{ 0x00b6, ""},	/* PILCROW SIGN */
-	{ 0x00b7, ""},	/* MIDDLE DOT */
-	{ 0x00b8, ""},	/* CEDILLA */	/* 0270 */
+	{ 0x00b4, "acute"},
+	{ 0x00b5, "mu"},
+	{ 0x00b6, "paragraph"},
+	{ 0x00b7, "periodcentered"},
+	{ 0x00b8, "cedilla"},	/* 0270 */
 	{ 0x0105, "aogonek"},
 	{ 0x015f, "scedilla"},
-	{ 0x00bb, ""},	/* RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK */
+	{ 0x00bb, "guillemotright"},
 	{ 0x013d, "Lcaron"},
 	{ 0x02dd, "doubleacute"},
 	{ 0x013e, "lcaron"},

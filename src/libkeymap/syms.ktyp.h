@@ -3,7 +3,7 @@
  */
 static const char *
 const iso646_syms[] = {
-	"nul",
+	"nul",				/* 0x00, 0000 */
 	"Control_a",
 	"Control_b",
 	"Control_c",
@@ -19,7 +19,7 @@ const iso646_syms[] = {
 	"Control_m",
 	"Control_n",
 	"Control_o",
-	"Control_p",
+	"Control_p",			/* 0x10, 0020 */
 	"Control_q",
 	"Control_r",
 	"Control_s",
@@ -35,7 +35,7 @@ const iso646_syms[] = {
 	"Control_bracketright",
 	"Control_asciicircum",
 	"Control_underscore",
-	"space",
+	"space",			/* 0x20, 0040 */
 	"exclam",
 	"quotedbl",
 	"numbersign",
@@ -51,7 +51,7 @@ const iso646_syms[] = {
 	"minus",
 	"period",
 	"slash",
-	"zero",
+	"zero",				/* 0x30, 0060 */
 	"one",
 	"two",
 	"three",
@@ -67,7 +67,7 @@ const iso646_syms[] = {
 	"equal",
 	"greater",
 	"question",
-	"at",
+	"at",				/* 0x40, 0100 */
 	"A",
 	"B",
 	"C",
@@ -83,7 +83,7 @@ const iso646_syms[] = {
 	"M",
 	"N",
 	"O",
-	"P",
+	"P",				/* 0x50, 0120 */
 	"Q",
 	"R",
 	"S",
@@ -99,7 +99,7 @@ const iso646_syms[] = {
 	"bracketright",
 	"asciicircum",
 	"underscore",
-	"grave",
+	"grave",			/* 0x60, 0140 */
 	"a",
 	"b",
 	"c",
@@ -115,7 +115,7 @@ const iso646_syms[] = {
 	"m",
 	"n",
 	"o",
-	"p",
+	"p",				/* 0x70, 0160 */
 	"q",
 	"r",
 	"s",
@@ -131,12 +131,39 @@ const iso646_syms[] = {
 	"braceright",
 	"asciitilde",
 	"Delete",
-
-	/* set_charset() fills in charset dependent strings here. */
-	/* start with the latin1 defaults */
-	"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-	"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-	"nobreakspace",
+	"",				/* 0x80, 0200 */
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",				/* 0x90, 0220 */
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"nobreakspace",			/* 0xa0, 0240 */
 	"exclamdown",
 	"cent",
 	"sterling",
@@ -152,7 +179,7 @@ const iso646_syms[] = {
 	"hyphen",
 	"registered",
 	"macron",
-	"degree",
+	"degree",			/* 0xb0, 0260 */
 	"plusminus",
 	"twosuperior",
 	"threesuperior",
@@ -168,7 +195,7 @@ const iso646_syms[] = {
 	"onehalf",
 	"threequarters",
 	"questiondown",
-	"Agrave",
+	"Agrave",			/* 0xc0, 0300 */
 	"Aacute",
 	"Acircumflex",
 	"Atilde",
@@ -184,7 +211,7 @@ const iso646_syms[] = {
 	"Iacute",
 	"Icircumflex",
 	"Idiaeresis",
-	"ETH",
+	"ETH",				/* 0xd0, 0320 */
 	"Ntilde",
 	"Ograve",
 	"Oacute",
@@ -200,7 +227,7 @@ const iso646_syms[] = {
 	"Yacute",
 	"THORN",
 	"ssharp",
-	"agrave",
+	"agrave",			/* 0xe0, 0340 */
 	"aacute",
 	"acircumflex",
 	"atilde",
@@ -216,7 +243,7 @@ const iso646_syms[] = {
 	"iacute",
 	"icircumflex",
 	"idiaeresis",
-	"eth",
+	"eth",				/* 0xf0, 0360 */
 	"ntilde",
 	"ograve",
 	"oacute",
@@ -231,7 +258,7 @@ const iso646_syms[] = {
 	"udiaeresis",
 	"yacute",
 	"thorn",
-	"ydiaeresis",
+	"ydiaeresis",			/* 0xff, 0377 */
 };
 
 
