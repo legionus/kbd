@@ -272,7 +272,7 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 					YYERROR;
 			}
 		;
-compline        : COMPOSE compsym compsym TO compsym EOL
+compline        : COMPOSE compsym compsym TO CCHAR EOL
                         {
 				struct lk_kbdiacr ptr;
 				ptr.diacr  = $2;
