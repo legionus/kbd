@@ -256,7 +256,7 @@ lk_dump_funcs(struct lk_ctx *ctx, FILE *fd)
 			} else if (isgraph(*ptr) || *ptr == ' ') {
 				fputc(*ptr, fd);
 			} else {
-				fprintf(fd, "\\%03o", *ptr);
+				fprintf(fd, "\\%03hho", *ptr);
 			}
 		}
 		fputc('"', fd);
