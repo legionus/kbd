@@ -65,6 +65,27 @@ CLEANFILES += $(BUILT_SOURCES)
 parser.h: parser.c ; @true
 analyze.h: analyze.c ; @true
 
+syms.latin1.h: ../../data/consoletrans/8859-1_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin1_syms > $@
+syms.latin2.h: ../../data/consoletrans/8859-2_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin2_syms > $@
+syms.latin3.h: ../../data/consoletrans/8859-3_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin3_syms > $@
+syms.latin4.h: ../../data/consoletrans/8859-4_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin4_syms > $@
+syms.iso8859_5.h: ../../data/consoletrans/8859-5_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_5_syms > $@
+syms.iso8859_7.h: ../../data/consoletrans/8859-7_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_7_syms > $@
+syms.iso8859_8.h: ../../data/consoletrans/8859-8_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_8_syms > $@
+syms.iso8859_9.h: ../../data/consoletrans/8859-9_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_9_syms > $@
+syms.iso8859_15.h: ../../data/consoletrans/8859-15_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_15_syms > $@
+syms.koi8.h: ../../data/consoletrans/koi8-u_to_uni.trans ../../contrib/gen_charset_syms.pl
+	cat $< | ../../contrib/gen_charset_syms.pl -s 128 -n koi8_syms > $@
+
 %.pc: %.pc.in Makefile
 	sed \
 	    -e 's,[@]VERSION[@],$(VERSION),g' \
