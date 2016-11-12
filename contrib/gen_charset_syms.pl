@@ -39,7 +39,6 @@ my $keysyms = {
     "cyrillic_small_letter_tshe" => "serbocroatian_cyrillic_small_letter_chje",
     "cyrillic_small_letter_kje" => "macedonian_cyrillic_small_letter_kje",
     "cyrillic_small_letter_short_u" => "bielorussian_cyrillic_small_letter_short_u",
-    "cyrillic_small_letter_dzhe" => "cyrillic_small_letter_dze",
 
     "middle_dot" => "periodcentered",
     "not" => "notsign",
@@ -83,7 +82,6 @@ my $keysyms = {
     "cyrillic_small_letter_hard" => "cyrillic_small_hard_sign",
     "cyrillic_capital_letter_soft" => "cyrillic_capital_soft_sign",
     "cyrillic_capital_letter_hard" => "cyrillic_capital_hard_sign",
-    "cyrillic_capital_letter_dzhe" => "cyrillic_capital_letter_dze",
 };
 
 my $table = [];
