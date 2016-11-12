@@ -71,6 +71,8 @@ const synonyms[] = {
 	{ "cyrillic_small_letter_reversed_e", "cyrillic_small_letter_e" },
 	{ "cyrillic_small_letter_ii", "cyrillic_small_letter_i" },
 	{ "cyrillic_small_letter_short_ii", "cyrillic_small_letter_short_i" },
+	{ "ukrainian_cyrillic_small_letter_ghe_with_upturn", "cyrillic_small_letter_ghe_with_upturn" },
+	{ "ukrainian_cyrillic_capital_letter_ghe_with_upturn", "cyrillic_capital_letter_ghe_with_upturn" },
 /* iso-8859-7 */
 	{ "rightanglequote",    "guillemotright" }
 };
