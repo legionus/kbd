@@ -208,12 +208,13 @@ codetoksym(struct lk_ctx *ctx, int code) {
 		if (code < 0x80)
 			return get_sym(ctx, KT_LATIN, code);
 
-		i = ctx->charset;
-		p = (sym *) charsets[i].charnames;
-		if (p) {
-			for (j = charsets[i].start; j < 256; j++, p++) {
-				if (p->uni == code && p->name[0])
-					return p->name;
+		for (i = 0; i < charsets_size; i++) {
+			p = (sym *) charsets[i].charnames;
+			if (p) {
+				for (j = charsets[i].start; j < 256; j++, p++) {
+					if (p->uni == code && p->name[0])
+						return p->name;
+				}
 			}
 		}
 	}

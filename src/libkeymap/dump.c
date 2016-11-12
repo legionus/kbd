@@ -277,20 +277,16 @@ lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 			continue;
 
 		fprintf(fd, "compose ");
-
-		if (ctx->flags & LK_FLAG_PREFER_UNICODE) {
-			dumpchar(fd, ptr->diacr & 0xff, 0);
-			fprintf(fd, " ");
-			dumpchar(fd, ptr->base & 0xff, 0);
-			fprintf(fd, " to U+%04x\n", ptr->result);
-		} else {
-			dumpchar(fd, ptr->diacr, 0);
-			fprintf(fd, " ");
-			dumpchar(fd, ptr->base, 0);
-			fprintf(fd, " to ");
-			dumpchar(fd, ptr->result, 0);
-			fprintf(fd, "\n");
-		}
+		dumpchar(fd, ptr->diacr, 0);
+		fprintf(fd, " ");
+		dumpchar(fd, ptr->base, 0);
+#ifdef KDGKBDIACRUC
+		fprintf(fd, " to U+%04x\n", ptr->result);
+#else
+		fprintf(fd, " to ");
+		dumpchar(fd, ptr->result, 0);
+		fprintf(fd, "\n");
+#endif
 	}
 }
 
