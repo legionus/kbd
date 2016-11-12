@@ -128,9 +128,6 @@ lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int k
 		return -1;
 	}
 
-	if (!k_index && keycode == K_NOSUCHMAP)
-		return 0;
-
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
 		if (ctx->keywords & LK_KEYWORD_KEYMAPS) {

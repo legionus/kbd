@@ -33,6 +33,9 @@ lk_kernel_keys(struct lk_ctx *ctx, int fd)
 				return -1;
 			}
 
+			if (!i && ke.kb_value == K_NOSUCHMAP)
+				break;
+
 			if (lk_add_key(ctx, t, i, ke.kb_value) < 0)
 				return -1;
 		}

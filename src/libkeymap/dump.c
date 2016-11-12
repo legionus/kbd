@@ -462,8 +462,10 @@ no_shorthands:
 		if (table == LK_SHAPE_FULL_TABLE) {
 			fprintf(fd, "keycode %3d =", i);
 
-			for (j = 0; j < keymapnr; j++)
-				print_keysym(ctx, fd, buf[j], numeric);
+			for (j = 0; j < keymapnr; j++) {
+				if (lk_map_exists(ctx, j))
+					print_keysym(ctx, fd, buf[j], numeric);
+			}
 
 			fprintf(fd, "\n");
 			continue;
