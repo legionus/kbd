@@ -384,7 +384,10 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 		fprintf(fd, "+");
 		plus++;
 	}
-	if (!numeric && t < syms_size && v < get_sym_size(ctx, t) &&
+	if (!numeric && t == KT_LATIN &&
+	    (p = codetoksym(ctx, code)))
+		fprintf(fd, "%-*s", 16 - plus, p);
+	else if (!numeric && t < syms_size && v < get_sym_size(ctx, t) &&
 	    (p = get_sym(ctx, t, v))[0])
 		fprintf(fd, "%-*s", 16 - plus, p);
 	else if (!numeric && t == KT_META && v < 128 && v < get_sym_size(ctx, KT_LATIN) &&
