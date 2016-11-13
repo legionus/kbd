@@ -401,6 +401,10 @@ convert_code(struct lk_ctx *ctx, int code, int direction)
 			result = ksymtocode(ctx, ksym, direction);
 		else
 			result = code;
+		if (direction == TO_UNICODE && KTYP(code) == KT_LETTER && (result ^ 0xf000) < 0x100) {
+			/* Unicode Latin-1 Supplement */
+			result = K(KT_LETTER, result ^ 0xf000);
+		}
 	}
 
 	/* if direction was TO_UNICODE from the beginning, we return the true
