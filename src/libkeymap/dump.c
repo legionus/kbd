@@ -270,6 +270,7 @@ lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 {
 	unsigned int i;
 	struct lk_kbdiacr *ptr;
+	const char *ksym;
 
 	for (i = 0; i < ctx->accent_table->count; i++) {
 		ptr = lk_array_get_ptr(ctx->accent_table, i);
@@ -281,12 +282,28 @@ lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 		fprintf(fd, " ");
 		dumpchar(fd, ptr->base, 0);
 #ifdef KDGKBDIACRUC
-		fprintf(fd, " to U+%04x\n", ptr->result);
-#else
-		fprintf(fd, " to ");
-		dumpchar(fd, ptr->result, 0);
-		fprintf(fd, "\n");
+		if (ctx->flags & LK_FLAG_PREFER_UNICODE) {
+			ksym = codetoksym(ctx, ptr->result ^ 0xf000);
+			if (ksym) {
+				fprintf(fd, " to %s\n", ksym);
+			} else {
+				fprintf(fd, " to U+%04x\n", ptr->result);
+			}
+		} else
 #endif
+		if (ptr->result > 0xff) {
+			// impossible case?
+			fprintf(fd, " to 0x%x\n", ptr->result);
+		} else {
+			ksym = codetoksym(ctx, ptr->result);
+			if (ksym) {
+				fprintf(fd, " to %s\n", ksym);
+			} else {
+				fprintf(fd, " to ");
+				dumpchar(fd, ptr->result, 0);
+				fprintf(fd, "\n");
+			}
+		}
 	}
 }
 
