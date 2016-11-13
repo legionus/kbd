@@ -18,21 +18,25 @@ headers = \
 	keymap/logging.h \
 	keymap/findfile.h
 
+SYMS = \
+  syms.latin1.h/8859-1/160 \
+  syms.latin2.h/8859-2/160 \
+  syms.latin3.h/8859-3/160 \
+  syms.latin4.h/8859-4/160 \
+  syms.iso8859_5.h/8859-5/160 \
+  syms.iso8859_7.h/8859-7/160 \
+  syms.iso8859_8.h/8859-8/160 \
+  syms.iso8859_9.h/8859-9/160 \
+  syms.iso8859_15.h/8859-15/160 \
+  syms.koi8.h/koi8-u/128
+
+ksyms_gen_headers = $(call charset_headers)
 ksyms_headers = \
+	$(ksyms_gen_headers) \
 	syms.ktyp.h \
 	syms.synonyms.h \
 	syms.cp1250.h \
 	syms.ethiopic.h \
-	syms.iso8859_15.h \
-	syms.iso8859_5.h \
-	syms.iso8859_7.h \
-	syms.iso8859_8.h \
-	syms.iso8859_9.h \
-	syms.koi8.h \
-	syms.latin1.h \
-	syms.latin2.h \
-	syms.latin3.h \
-	syms.latin4.h \
 	syms.mazovia.h \
 	syms.sami.h \
 	syms.thai.h
@@ -59,32 +63,21 @@ noinst_LTLIBRARIES = libkeymap.la
 endif
 
 AM_LFLAGS = --header-file=$(CURDIR)/analyze.h
-BUILT_SOURCES = parser.c analyze.c parser.h analyze.h
+BUILT_SOURCES = parser.c analyze.c parser.h analyze.h $(ksyms_gen_headers)
 CLEANFILES += $(BUILT_SOURCES)
+
+GEN_SYMS  = $(top_srcdir)/contrib/gen_charset_syms.pl
+TRANS_DIR = $(top_srcdir)/data/consoletrans
+
+charset_headers = $(foreach x,$(SYMS),$(word 1,$(subst /, ,$(x))))
+charset_trans   = $(TRANS_DIR)/$(word 2,$(subst /, ,$(filter syms.$(1).h/%,$(SYMS))))_to_uni.trans
+charset_start   = $(word 3,$(subst /, ,$(filter syms.$(1).h/%,$(SYMS))))
 
 parser.h: parser.c ; @true
 analyze.h: analyze.c ; @true
 
-syms.latin1.h: ../../data/consoletrans/8859-1_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin1_syms > $@
-syms.latin2.h: ../../data/consoletrans/8859-2_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin2_syms > $@
-syms.latin3.h: ../../data/consoletrans/8859-3_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin3_syms > $@
-syms.latin4.h: ../../data/consoletrans/8859-4_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n latin4_syms > $@
-syms.iso8859_5.h: ../../data/consoletrans/8859-5_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_5_syms > $@
-syms.iso8859_7.h: ../../data/consoletrans/8859-7_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_7_syms > $@
-syms.iso8859_8.h: ../../data/consoletrans/8859-8_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_8_syms > $@
-syms.iso8859_9.h: ../../data/consoletrans/8859-9_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_9_syms > $@
-syms.iso8859_15.h: ../../data/consoletrans/8859-15_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 160 -n iso_8859_15_syms > $@
-syms.koi8.h: ../../data/consoletrans/koi8-u_to_uni.trans ../../contrib/gen_charset_syms.pl
-	cat $< | ../../contrib/gen_charset_syms.pl -s 128 -n koi8_syms > $@
+syms.%.h:
+	$(GEN_SYMS) -n $*_syms -s $(call charset_start,$*) <$(call charset_trans,$*) >$(builddir)/$@
 
 %.pc: %.pc.in Makefile
 	sed \

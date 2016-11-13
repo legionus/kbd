@@ -64,18 +64,18 @@ const struct cs {
 	{ "iso-8859-2",   latin2_syms,       160 },
 	{ "iso-8859-3",   latin3_syms,       160 },
 	{ "iso-8859-4",   latin4_syms,       160 },
-	{ "iso-8859-5",   iso_8859_5_syms,   160 },
-	{ "iso-8859-7",   iso_8859_7_syms,   160 },
-	{ "iso-8859-8",   iso_8859_8_syms,   160 },
-	{ "iso-8859-9",   iso_8859_9_syms,   160 },
+	{ "iso-8859-5",   iso8859_5_syms,    160 },
+	{ "iso-8859-7",   iso8859_7_syms,    160 },
+	{ "iso-8859-8",   iso8859_8_syms,    160 },
+	{ "iso-8859-9",   iso8859_9_syms,    160 },
 	{ "iso-8859-10",  latin6_syms,       160 },
-	{ "iso-8859-15",  iso_8859_15_syms,  160 },
+	{ "iso-8859-15",  iso8859_15_syms,   160 },
 	{ "mazovia",      mazovia_syms,      128 },
 	{ "cp-1250",      cp1250_syms,       128 },
 	{ "koi8-r",       koi8_syms,         128 },
 	{ "koi8-u",       koi8_syms,         128 },
 	{ "tis-620",      tis_620_syms,      160 }, /* thai */
-	{ "iso-10646-18", iso_10646_18_syms, 159 }, /* ethiopic */
+	{ "iso-10646-18", iso10646_18_syms,  159 }, /* ethiopic */
 	{ "iso-ir-197",   iso_ir_197_syms,   160 }, /* sami */
 	{ "iso-ir-209",   iso_ir_209_syms,   160 }, /* sami */
 };
@@ -334,7 +334,7 @@ ksymtocode(struct lk_ctx *ctx, const char *s, int direction) {
 			}
 
 		for (i = 0; i < 256 - 160; i++)
-			if (!strcmp(s, iso_8859_15_syms[i].name)) {
+			if (!strcmp(s, iso8859_15_syms[i].name)) {
 				INFO(ctx, _("assuming iso-8859-15 %s"), s);
 				return K(KT_LATIN, 160 + i);
 			}
