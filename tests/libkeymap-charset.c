@@ -44,7 +44,8 @@ START_TEST(test1)
 
 	s = lk_get_charset(ctx);
 
-	fail_if(s != NULL, "Wrong charset");
+	fail_if(s == NULL, "Charset not found");
+	fail_if(strcmp(s, "iso-8859-1"), "Unable to parse charset");
 
 	lk_free(ctx);
 }
