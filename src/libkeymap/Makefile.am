@@ -28,6 +28,7 @@ SYMS = \
   syms.iso8859_8.h/8859-8/160 \
   syms.iso8859_9.h/8859-9/160 \
   syms.iso8859_15.h/8859-15/160 \
+  syms.cp1250.h/cp1250/128 \
   syms.koi8.h/koi8-u/128
 
 ksyms_gen_headers = $(call charset_headers)

@@ -19,6 +19,8 @@ my $start = int($options{s});
 my $charset = $options{n};
 
 my $keysyms = {
+    "undefined" => "",
+
     "cyrillic_small_letter_ukrainian_ie" => "ukrainian_cyrillic_small_letter_ie",
     "cyrillic_small_letter_byelorussian_ukrainian_i" => "ukrainian_cyrillic_small_letter_i",
     "cyrillic_small_letter_yi" => "ukrainian_cyrillic_small_letter_yi",
@@ -74,6 +76,12 @@ my $keysyms = {
     "multiplication" => "multiply",
     "dotless_i" => "idotless",
     "numero" => "number_acronym",
+    "horizontal_ellipsis" => "ellipsis",
+    "double_dagger" => "doubledagger",
+    "per_mille" => "permille",
+    "em_dash" => "emdash",
+    "en_dash" => "endash",
+    "trade_mark" => "trademark",
 
     # should be synonyms?
     "cyrillic_small_letter_soft" => "cyrillic_small_soft_sign",
@@ -116,7 +124,7 @@ while (<STDIN>) {
         $name =~ s/^final_/final/;
         $name =~ s/_\(.*\)$//;
 
-        $table->[$code-$start] = { uni => $uni, keysym => $keysyms->{$name} || $name };
+        $table->[$code-$start] = { uni => $uni, keysym => $keysyms->{$name} // $name };
     } else {
         die "invalid line: $_";
     }
