@@ -1,0 +1,13 @@
+dist: trusty
+sudo: required
+language: c
+before_install:
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get install autoconf automake autopoint libtool libpam0g-dev bison flex gettext check
+before_script:
+  - ./autogen.sh
+script:
+  - ./configure && make
+  - make check
+  - sudo ./src/loadkeys ./data/keymaps/i386/qwerty/us.map
