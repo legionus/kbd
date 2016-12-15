@@ -188,7 +188,8 @@ main(int argc, char *argv[]) {
 	    exit(EX_USAGE);
 	}
 
-	fd = getfd(console);
+	if ((fd = getfd(console)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	int kd_mode = -1;
 	if (!ioctl(fd, KDGETMODE, &kd_mode) && (kd_mode == KD_GRAPHICS))

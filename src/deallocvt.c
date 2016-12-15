@@ -39,7 +39,8 @@ main(int argc, char *argv[]) {
 		}
 	}
 
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (argc == 1) {
 		/* deallocate all unused consoles */
@@ -57,5 +58,5 @@ main(int argc, char *argv[]) {
 			                                 "ioctl VT_DISALLOCATE"), num);
 		}
 	}
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

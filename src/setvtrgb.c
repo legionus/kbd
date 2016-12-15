@@ -136,7 +136,8 @@ main(int argc, char **argv) {
 		fclose(f);
 	}
 
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	/* Apply the color map to the tty via ioctl */
 	if (ioctl(fd, PIO_CMAP, colormap) == -1)

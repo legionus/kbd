@@ -151,7 +151,8 @@ main(int argc, char **argv) {
         lk_fpclose(&fp);
     }
 
-    fd = getfd(NULL);
+    if ((fd = getfd(NULL)) < 0)
+        kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
     if(ioctl(fd, TIOCGWINSZ, &winsize)) {
         kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");

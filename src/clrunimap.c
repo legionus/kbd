@@ -26,7 +26,8 @@ main(int argc, char *argv[]) {
 	if (argc >= 3 && !strcmp(argv[1], "-C"))
 		console = argv[2];
 
-	fd = getfd(console);
+	if ((fd = getfd(console)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	return loadunimap (fd, NULL, NULL);
 }

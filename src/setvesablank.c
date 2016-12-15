@@ -27,7 +27,8 @@ main(int argc, char *argv[]) {
 		fprintf(stderr, _("usage: %s\n"), "setvesablank ON|on|off");
 		return EXIT_FAILURE;
 	}
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 	arg.ten = 10;
 	arg.onoff = 0;
 	if (!strcmp(argv[1], "on"))

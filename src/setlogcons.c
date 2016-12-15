@@ -31,7 +31,9 @@ main(int argc, char **argv){
 	else
 		cons = 0;	/* current console */
 
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+
 	arg.fn = 11;		/* redirect kernel messages */
 	arg.subarg = cons;	/* to specified console */
 	if (ioctl(fd, TIOCLINUX, &arg)) {

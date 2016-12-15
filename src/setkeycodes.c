@@ -45,7 +45,9 @@ main(int argc, char **argv) {
 
 	if (argc % 2 != 1)
 		usage(_("even number of arguments expected"));
-	fd = getfd(NULL);
+
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	while (argc > 2) {
 		a.keycode = atoi(argv[2]);

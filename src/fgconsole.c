@@ -64,7 +64,9 @@ main(int argc, char **argv){
 	  }
 	}
 	
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+
 	if (show_vt) {
 	  if ((ioctl(fd, VT_OPENQRY, &vtno) < 0) || vtno == -1) {
 	     kbd_error(2, errno, _("Couldn't read VTNO: "));

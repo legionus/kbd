@@ -32,7 +32,10 @@ main(int argc, char *argv[]) {
 	if (argc != 2) {
 		kbd_error(EXIT_FAILURE, 0, _("usage: totextmode\n"));
 	}
-	fd = getfd(NULL);
+
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+
 	num = atoi(argv[1]);
 	if (ioctl(fd,KDSETMODE,KD_TEXT)) {
 		kbd_error(EXIT_FAILURE, errno, "totextmode: KDSETMODE");

@@ -75,7 +75,8 @@ main(int argc, char **argv) {
 	if (optind < argc)
 		value = argv[optind++];
 
-	fd = getfd(console);
+	if ((fd = getfd(console)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (!strcasecmp("GETMODE", action)) {
 		if (ioctl(fd, KDGETMODE, &mode) == -1)

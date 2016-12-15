@@ -78,7 +78,8 @@ main(int argc, char *argv[]) {
 	if (argc > optind+1 || (argc == optind && !outfnam))
 		usage();
 
-	fd = getfd(console);
+	if ((fd = getfd(console)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (outfnam) {
 		saveunicodemap(fd, outfnam);

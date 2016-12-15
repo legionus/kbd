@@ -55,23 +55,24 @@ main(int argc, char *argv[]) {
 		argv++;
 	}
 
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
 	    saveoldmap(fd, argv[2]);
 	    argc -= 2;
 	    argv += 2;
 	    if (argc == 1)
-	      exit(0);
+	      exit(EXIT_SUCCESS);
 	}
 		
 	if (argc != 2) {
 		fprintf(stderr, _("usage: %s [-V] [-v] [-o map.orig] map-file\n"),
 			progname);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	loadnewmap(fd, argv[1]);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 #endif
 

@@ -152,7 +152,8 @@ main (int argc, char *argv[]) {
 	if (optind < argc)
 		usage();
 
-	fd = getfd(NULL);
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	/* check whether the keyboard is in Unicode mode */
 	if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
