@@ -67,6 +67,7 @@ beats rebuilding the kernel!
   with yet another measurement system.  Thus, try for KIOCSRATE, too.
 
 */
+#include "config.h"
 
 #include <fcntl.h>
 #include <stdio.h>

@@ -1,6 +1,7 @@
 /*
  * psffontop.c - aeb@cwi.nl, 990921
  */
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

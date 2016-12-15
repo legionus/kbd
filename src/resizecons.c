@@ -68,6 +68,7 @@
  * 9 pixel wide characters, but that has nothing to do with the font
  * data.
  */
+#include "config.h"
 
 #include <stdlib.h>
 #include <unistd.h>

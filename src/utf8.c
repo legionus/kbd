@@ -1,4 +1,5 @@
 /* utf8.c - collect routines for conversion to/from utf8 */
+#include "config.h"
 #include "utf8.h"
 
 /*

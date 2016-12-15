@@ -1,6 +1,8 @@
 /*
  * chvt.c - aeb - 940227 - Change virtual terminal
  */
+#include "config.h"
+
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <linux/vt.h>

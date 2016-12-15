@@ -1,5 +1,7 @@
 /* outpsfheader - auxiliary fn - not to be installed */
 /* assumes a little-endian machine */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>	/* exit */
 #include "kbd.h"

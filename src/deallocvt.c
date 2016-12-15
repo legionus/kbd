@@ -2,6 +2,8 @@
  * disalloc.c - aeb - 940501 - Disallocate virtual terminal(s)
  * Renamed deallocvt.
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

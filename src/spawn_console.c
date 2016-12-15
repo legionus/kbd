@@ -9,6 +9,8 @@
  * start getty, not openvt, or anybody will have a root shell
  * with a single keystroke.
  */
+#include "config.h"
+
 #include <stdlib.h>
 #include <signal.h>
 #include <errno.h>

@@ -1,6 +1,8 @@
 /*
  * totextmode.c - aeb - 2000-01-20
  */
+#include "config.h"
+
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>

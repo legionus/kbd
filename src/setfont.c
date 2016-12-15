@@ -9,6 +9,7 @@
  * font positions, and the second [-u] giving the correspondence between
  * font positions and Unicode values.
  */
+#include "config.h"
 
 #include <stdio.h>
 #include <memory.h>

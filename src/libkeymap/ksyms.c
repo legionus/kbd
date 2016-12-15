@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <linux/keyboard.h>
 #include <stdio.h>
 #include <string.h>

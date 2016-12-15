@@ -1,5 +1,7 @@
 /* Error-free versions of some libc routines */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -5,6 +5,8 @@
  */
 
 /* Send kernel messages to the current console or to console N */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

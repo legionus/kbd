@@ -5,6 +5,8 @@
  *
  * aeb, 941108, 2004-01-11
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

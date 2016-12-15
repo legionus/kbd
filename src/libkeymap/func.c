@@ -6,6 +6,8 @@
  * This file is covered by the GNU General Public License,
  * which should be included with kbd as the file COPYING.
  */
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
 

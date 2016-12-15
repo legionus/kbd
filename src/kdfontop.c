@@ -4,6 +4,8 @@
  * Font handling differs between various kernel versions.
  * Hide the differences in this file.
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>		/* free() */

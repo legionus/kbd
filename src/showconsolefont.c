@@ -1,6 +1,8 @@
 /* showfont.c - aeb, 940207 - updated 2001-02-06 */
 /* renamed to showconsolefont.c to avoid clash with the X showfont */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

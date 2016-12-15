@@ -3,6 +3,7 @@
  *
  * Note: nowadays this kills kernel console output!
  */
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

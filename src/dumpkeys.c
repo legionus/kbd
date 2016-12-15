@@ -3,6 +3,8 @@
  *
  * derived from version 0.81 - aeb@cwi.nl
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

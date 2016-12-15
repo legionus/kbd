@@ -6,6 +6,7 @@
  * This file is covered by the GNU General Public License,
  * which should be included with kbd as the file COPYING.
  */
+#include "config.h"
 #include <string.h>
 #include <errno.h>
 #include <sys/ioctl.h>

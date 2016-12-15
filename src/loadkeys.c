@@ -9,6 +9,7 @@
  * This file is covered by the GNU General Public License,
  * which should be included with kbd as the file COPYING.
  */
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +18,6 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-#include "../config.h"
 #include "nls.h"
 #include "kbd.h"
 #include "paths.h"

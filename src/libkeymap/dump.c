@@ -9,6 +9,8 @@
  * This file is covered by the GNU General Public License,
  * which should be included with kbd as the file COPYING.
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

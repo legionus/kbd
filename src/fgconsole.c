@@ -1,6 +1,8 @@
 /*
  * fgconsole.c - aeb - 960123 - Print foreground console
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

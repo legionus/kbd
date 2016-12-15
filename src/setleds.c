@@ -6,6 +6,7 @@
  * and report the settings before and after.
  * In particular, setleds without arguments will only report.
  */
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

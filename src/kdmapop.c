@@ -4,6 +4,8 @@
  *
  * Hide the ioctl use in this file.
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>

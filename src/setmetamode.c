@@ -5,6 +5,7 @@
  * and report the setting before and after.
  * Without arguments setmetamode will only report.
  */
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

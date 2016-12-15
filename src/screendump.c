@@ -16,6 +16,8 @@
  *	done
  * and give them your favourite owners and permissions.
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

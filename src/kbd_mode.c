@@ -4,6 +4,7 @@
  * If you make \215A\201 an alias for "kbd_mode -a", and you are
  * in raw mode, then hitting F7 = (two keys) will return you to sanity.
  */
+#include "config.h"
 
 #include <fcntl.h>
 #include <stdio.h>
