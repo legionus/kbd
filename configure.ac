@@ -87,7 +87,7 @@ CC_CHECK_CFLAGS_APPEND([\
 	-Wmissing-declarations])
 
 case $host_cpu in
-	m68*|sparc*) KEYCODES_PROGS=no ;;
+	m68*) KEYCODES_PROGS=no ;;
 	*)           KEYCODES_PROGS=yes ;;
 esac
 AM_CONDITIONAL(KEYCODES_PROGS, test "$KEYCODES_PROGS" = "yes")
