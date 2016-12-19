@@ -36,55 +36,52 @@
  * current VT or all of them.
  * 0 means current, 1 means all.
  */
-int     o_lock_all;
+int o_lock_all;
 
 const char *
-locked_name (void)
+locked_name(void)
 {
 	return o_lock_all ? "console" : (is_vt ? "VC" : "tty");
 }
 
-static void __attribute__ ((__noreturn__))
+static void __attribute__((__noreturn__))
 show_usage(void)
 {
 	fprintf(stderr,
-		_("Try `%s --help' for more information.\n"),
-		program_invocation_short_name);
+	        _("Try `%s --help' for more information.\n"),
+	        program_invocation_short_name);
 	exit(1);
 }
 
-static void __attribute__ ((__noreturn__))
+static void __attribute__((__noreturn__))
 show_help(void)
 {
 	printf(_("%s: locks virtual consoles, saving your current session.\n"
-	       "Usage: %s [options]\n"
-	       "       Where [options] are any of:\n"
-	       "-c or --current: lock only this virtual console, allowing user to\n"
-	       "       switch to other virtual consoles.\n"
-	       "-a or --all: lock all virtual consoles by preventing other users\n"
-	       "       from switching virtual consoles.\n"
-	       "-v or --version: Print the version number of vlock and exit.\n"
-	       "-h or --help: Print this help message and exit.\n"),
+	         "Usage: %s [options]\n"
+	         "       Where [options] are any of:\n"
+	         "-c or --current: lock only this virtual console, allowing user to\n"
+	         "       switch to other virtual consoles.\n"
+	         "-a or --all: lock all virtual consoles by preventing other users\n"
+	         "       from switching virtual consoles.\n"
+	         "-v or --version: Print the version number of vlock and exit.\n"
+	         "-h or --help: Print this help message and exit.\n"),
 	       progname, progname);
 	exit(0);
 }
 
-void
-parse (int ac, char *const av[])
+void parse(int ac, char *const av[])
 {
 	static struct option long_options[] = {
-		{"current", 0, 0, 'c'},
-		{"all", 0, 0, 'a'},
-		{"version", 0, 0, 'v'},
-		{"help", 0, 0, 'h'},
-		{0, 0, 0, 0},
+		{ "current", 0, 0, 'c' },
+		{ "all", 0, 0, 'a' },
+		{ "version", 0, 0, 'v' },
+		{ "help", 0, 0, 'h' },
+		{ 0, 0, 0, 0 },
 	};
-	int     c;
+	int c;
 
-	while ((c = getopt_long(ac, av, "acvh", long_options, 0)) != -1)
-	{
-		switch (c)
-		{
+	while ((c = getopt_long(ac, av, "acvh", long_options, 0)) != -1) {
+		switch (c) {
 			case 'c':
 				o_lock_all = 0;
 				break;

@@ -37,26 +37,26 @@ unsigned char vga_colors[] = {
 	0xff, 0xff, 0xff,
 };
 
-static void __attribute__ ((noreturn))
+static void __attribute__((noreturn))
 usage(int code)
 {
 	fprintf(stderr,
-		_("Usage: %s [-h] [-V]\n"
-		"       %s vga|FILE|-\n"
-		"\n"
-		"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
-		"comma-separated decimal values for RED, GREEN, and BLUE.\n"
-		"\n"
-		"To seed a valid FILE:\n"
-		"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
-		"\n"
-		"and then edit the values in FILE.\n"
-		"\n"
-		"Other options:\n"
-		"   -h     print this usage message\n"
-		"   -V     print version number\n"
-		"\n"),
-		progname, progname);
+	        _("Usage: %s [-h] [-V]\n"
+	          "       %s vga|FILE|-\n"
+	          "\n"
+	          "If you use the FILE parameter, FILE should be exactly 3 lines of\n"
+	          "comma-separated decimal values for RED, GREEN, and BLUE.\n"
+	          "\n"
+	          "To seed a valid FILE:\n"
+	          "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
+	          "\n"
+	          "and then edit the values in FILE.\n"
+	          "\n"
+	          "Other options:\n"
+	          "   -h     print this usage message\n"
+	          "   -V     print version number\n"
+	          "\n"),
+	        progname, progname);
 	exit(code);
 }
 
@@ -73,28 +73,28 @@ parse_file(FILE *fd, const char *filename)
 					kbd_error(EXIT_FAILURE, errno, "fscanf");
 
 				kbd_error(EXIT_FAILURE, 0, _("Error: %s: Invalid value in field %u in line %u."),
-				      filename, rows + 1, cols + 1);
+				          filename, rows + 1, cols + 1);
 			}
 
-			cmap[rows + cols * 3] = (unsigned char) val;
+			cmap[rows + cols * 3] = (unsigned char)val;
 
 			if (cols < 15 && fgetc(fd) != ',')
 				kbd_error(EXIT_FAILURE, 0, _("Error: %s: Insufficient number of fields in line %u."),
-				      filename, rows + 1);
+				          filename, rows + 1);
 		}
 
 		if ((c = fgetc(fd)) == EOF)
 			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u has ended unexpectedly.\n"),
-			      filename, rows + 1); 
+			          filename, rows + 1);
 
 		if (c != '\n')
 			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u is too long.\n"),
-			      filename, rows + 1);
+			          filename, rows + 1);
 	}
 }
 
-int
-main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	int c, fd;
 	const char *file;
 	unsigned char *colormap = cmap;

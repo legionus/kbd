@@ -29,73 +29,72 @@
 #include "version.h"
 #include "kbd_error.h"
 
-int
-main(int argc, char **argv) {
-    int cons = 0;
-    char infile[20];
-    unsigned char header[4];
-    unsigned int rows, cols;
-    int fd;
-    unsigned int i, j;
-    char *inbuf, *outbuf, *p, *q;
+int main(int argc, char **argv)
+{
+	int cons = 0;
+	char infile[20];
+	unsigned char header[4];
+	unsigned int rows, cols;
+	int fd;
+	unsigned int i, j;
+	char *inbuf, *outbuf, *p, *q;
 
-    set_progname(argv[0]);
+	set_progname(argv[0]);
 
-    setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-    textdomain(PACKAGE_NAME);
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
-    if (argc == 2 && !strcmp(argv[1], "-V"))
-	print_version_and_exit();
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+		print_version_and_exit();
 
-    if (argc > 2) {
-	fprintf(stderr, _("usage: screendump [n]\n"));
-	exit(EXIT_FAILURE);
-    }
+	if (argc > 2) {
+		fprintf(stderr, _("usage: screendump [n]\n"));
+		exit(EXIT_FAILURE);
+	}
 
-    cons = (argc == 2) ? atoi(argv[1]) : 0;
+	cons = (argc == 2) ? atoi(argv[1]) : 0;
 
-    sprintf(infile, "/dev/vcsa%d", cons);
-    fd = open(infile, O_RDONLY);
-    if (fd < 0 && cons == 0 && errno == ENOENT) {
-      sprintf(infile, "/dev/vcsa");
-      fd = open(infile, O_RDONLY);
-    }
-    if (fd < 0 && errno == ENOENT) {
-      sprintf(infile, "/dev/vcs/a%d", cons);
-      fd = open(infile, O_RDONLY);
-    }
-    if (fd < 0 && cons == 0 && errno == ENOENT) {
-      sprintf(infile, "/dev/vcs/a");
-      fd = open(infile, O_RDONLY);
-    }
-    if (fd < 0 || read(fd, header, 4) != 4)
-      goto try_ioctl;
-    rows = header[0];
-    cols = header[1];
-    if (rows * cols == 0)
-      goto try_ioctl;
-    inbuf = xmalloc(rows*cols*2);
-    outbuf = xmalloc(rows*(cols+1));
+	sprintf(infile, "/dev/vcsa%d", cons);
+	fd = open(infile, O_RDONLY);
+	if (fd < 0 && cons == 0 && errno == ENOENT) {
+		sprintf(infile, "/dev/vcsa");
+		fd = open(infile, O_RDONLY);
+	}
+	if (fd < 0 && errno == ENOENT) {
+		sprintf(infile, "/dev/vcs/a%d", cons);
+		fd = open(infile, O_RDONLY);
+	}
+	if (fd < 0 && cons == 0 && errno == ENOENT) {
+		sprintf(infile, "/dev/vcs/a");
+		fd = open(infile, O_RDONLY);
+	}
+	if (fd < 0 || read(fd, header, 4) != 4)
+		goto try_ioctl;
+	rows = header[0];
+	cols = header[1];
+	if (rows * cols == 0)
+		goto try_ioctl;
+	inbuf  = xmalloc(rows * cols * 2);
+	outbuf = xmalloc(rows * (cols + 1));
 
-    if (read(fd, inbuf, rows*cols*2) != (ssize_t) (rows*cols*2)) {
-        kbd_error(EXIT_FAILURE, errno, _("Error reading %s"), infile);
-    }
-    p = inbuf;
-    q = outbuf;
-    for(i=0; i<rows; i++) {
-        for(j=0; j<cols; j++) {
-            *q++ = *p;
-            p += 2;
-        }
-        while(j-- > 0 && q[-1] == ' ')
-          q--;
-        *q++ = '\n';
-    }
-    goto done;
+	if (read(fd, inbuf, rows * cols * 2) != (ssize_t)(rows * cols * 2)) {
+		kbd_error(EXIT_FAILURE, errno, _("Error reading %s"), infile);
+	}
+	p = inbuf;
+	q = outbuf;
+	for (i = 0; i < rows; i++) {
+		for (j = 0; j < cols; j++) {
+			*q++ = *p;
+			p += 2;
+		}
+		while (j-- > 0 && q[-1] == ' ')
+			q--;
+		*q++ = '\n';
+	}
+	goto done;
 
-try_ioctl:
-    {
+try_ioctl : {
 	struct winsize win;
 	char consnam[20], devfsconsnam[20];
 	unsigned char *screenbuf;
@@ -103,62 +102,62 @@ try_ioctl:
 	sprintf(consnam, "/dev/tty%d", cons);
 	fd = open(consnam, O_RDONLY);
 	if (fd < 0 && errno == ENOENT) {
-	    sprintf(devfsconsnam, "/dev/vc/%d", cons);
-	    fd = open(devfsconsnam, O_RDONLY);
-	    if (fd < 0)
-		errno = ENOENT;
+		sprintf(devfsconsnam, "/dev/vc/%d", cons);
+		fd = open(devfsconsnam, O_RDONLY);
+		if (fd < 0)
+			errno = ENOENT;
 	}
 	if (fd < 0) {
-	    perror(consnam);
-	    fd = 0;
+		perror(consnam);
+		fd = 0;
 	}
 
 	if (ioctl(fd, TIOCGWINSZ, &win)) {
-	    kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
+		kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
 	}
 
-	screenbuf = xmalloc(2 + win.ws_row * win.ws_col);
+	screenbuf    = xmalloc(2 + win.ws_row * win.ws_col);
 	screenbuf[0] = 0;
-	screenbuf[1] = (unsigned char) cons;
+	screenbuf[1] = (unsigned char)cons;
 
-	if (ioctl(fd,TIOCLINUX,screenbuf) &&
-	    (!fd || ioctl(0,TIOCLINUX,screenbuf))) {
+	if (ioctl(fd, TIOCLINUX, screenbuf) &&
+	    (!fd || ioctl(0, TIOCLINUX, screenbuf))) {
 #if 0
 	    perror("TIOCLINUX");
 	    fprintf(stderr,_("couldn't read %s, and cannot ioctl dump\n"),
 		    infile);
 #else
-	    /* we tried this just to be sure, but TIOCLINUX
+		/* we tried this just to be sure, but TIOCLINUX
 	       function 0 has been disabled since 1.1.92
 	       Do not mention `ioctl dump' in error msg */
-	    kbd_warning(0, _("couldn't read %s\n"), infile);
+		kbd_warning(0, _("couldn't read %s\n"), infile);
 #endif
-	    return EXIT_FAILURE;
+		return EXIT_FAILURE;
 	}
 
-        rows = screenbuf[0];
-        cols = screenbuf[1];
+	rows = screenbuf[0];
+	cols = screenbuf[1];
 	if (rows != win.ws_row || cols != win.ws_col) {
-	    kbd_error(EXIT_FAILURE, 0,
-		    _("Strange ... screen is both %dx%d and %dx%d ??\n"),
-		    win.ws_col, win.ws_row, cols, rows);
+		kbd_error(EXIT_FAILURE, 0,
+		          _("Strange ... screen is both %dx%d and %dx%d ??\n"),
+		          win.ws_col, win.ws_row, cols, rows);
 	}
 
-	outbuf = xmalloc(rows*(cols+1));
-	p = ((char *)screenbuf) + 2;
-	q = outbuf;
-        for (i=0; i<rows; i++) {
-	    for (j=0; j<cols; j++)
-	      *q++ = *p++;
-            while (j-- > 0 && (q[-1] == ' '))
-              q--;
-	    *q++ = '\n';
-        }
-    }
+	outbuf = xmalloc(rows * (cols + 1));
+	p      = ((char *)screenbuf) + 2;
+	q      = outbuf;
+	for (i = 0; i < rows; i++) {
+		for (j = 0; j < cols; j++)
+			*q++ = *p++;
+		while (j-- > 0 && (q[-1] == ' '))
+			q--;
+		*q++ = '\n';
+	}
+}
 done:
-    if (write(1, outbuf, q-outbuf) != q-outbuf) {
-        kbd_error(EXIT_FAILURE, 0, _("Error writing screendump\n"));
-    }
+	if (write(1, outbuf, q - outbuf) != q - outbuf) {
+		kbd_error(EXIT_FAILURE, 0, _("Error writing screendump\n"));
+	}
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }

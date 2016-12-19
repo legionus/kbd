@@ -11,7 +11,6 @@ struct modifier {
 	const char ch;
 };
 
-
 START_TEST(test_parse_0)
 {
 	int c;
@@ -168,11 +167,11 @@ START_TEST(test_parse_5)
 
 	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
 
-	for(i = 0; i < MAX_NR_FUNC; i++) {
-		kbs.kb_func = i;
+	for (i = 0; i < MAX_NR_FUNC; i++) {
+		kbs.kb_func      = i;
 		kbs.kb_string[0] = 0;
 		fail_if(lk_get_func(ctx, &kbs) != 0,
-			"Unable to get func %d", i);
+		        "Unable to get func %d", i);
 	}
 
 	lk_free(ctx);
@@ -194,15 +193,15 @@ START_TEST(test_parse_6)
 
 	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
 
-	kbs.kb_func = 0;
+	kbs.kb_func      = 0;
 	kbs.kb_string[0] = 0;
 	fail_if(lk_get_func(ctx, &kbs) != 0, "Unable to get func 0");
 
-	kbs.kb_func = 1;
+	kbs.kb_func      = 1;
 	kbs.kb_string[0] = 0;
 	fail_if(lk_get_func(ctx, &kbs) != 0, "Unable to get func 1");
 
-	kbs.kb_func = 2;
+	kbs.kb_func      = 2;
 	kbs.kb_string[0] = 0;
 	fail_if(lk_get_func(ctx, &kbs) != -1, "Possible to get not alloced func");
 
@@ -213,7 +212,7 @@ END_TEST
 static Suite *
 libkeymap_suite(void)
 {
-	Suite *s = suite_create("libkeymap");
+	Suite *s       = suite_create("libkeymap");
 	TCase *tc_core = tcase_create(NULL);
 
 	setenv("LOADKEYS_INCLUDE_PATH", DATADIR, 1);
@@ -234,13 +233,13 @@ int main(void)
 {
 	int number_failed;
 
-	Suite *s = libkeymap_suite();
-	SRunner *sr = srunner_create (s);
+	Suite *s    = libkeymap_suite();
+	SRunner *sr = srunner_create(s);
 
 	srunner_run_all(sr, CK_NORMAL);
 
 	number_failed = srunner_ntests_failed(sr);
-	srunner_free (sr);
+	srunner_free(sr);
 
 	return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

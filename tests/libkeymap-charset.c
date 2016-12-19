@@ -3,7 +3,6 @@
 #include <check.h>
 #include <keymap.h>
 
-
 START_TEST(test0)
 {
 	char *s;
@@ -54,7 +53,7 @@ END_TEST
 static Suite *
 libkeymap_suite(void)
 {
-	Suite *s = suite_create("libkeymap");
+	Suite *s       = suite_create("libkeymap");
 	TCase *tc_core = tcase_create(NULL);
 
 	tcase_add_test(tc_core, test0);
@@ -68,13 +67,13 @@ int main(void)
 {
 	int number_failed;
 
-	Suite *s = libkeymap_suite();
-	SRunner *sr = srunner_create (s);
+	Suite *s    = libkeymap_suite();
+	SRunner *sr = srunner_create(s);
 
 	srunner_run_all(sr, CK_NORMAL);
 
 	number_failed = srunner_ntests_failed(sr);
-	srunner_free (sr);
+	srunner_free(sr);
 
 	return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

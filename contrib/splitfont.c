@@ -6,29 +6,29 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-void
-dosplit (int from, int to, char *fontbuf, int size, char *fontfile) {
-	int itemsize = size/256;
+void dosplit(int from, int to, char *fontbuf, int size, char *fontfile)
+{
+	int itemsize = size / 256;
 	int i, fd;
 	char *p, *q, s;
 	char filename[4096];
 
 	if (from < 0 || from > 255 || to < 0 || to > 255) {
 		fprintf(stderr, "splitfont: bad argument %s,%s\n",
-			from, to);
+		        from, to);
 		exit(1);
 	}
-	if(strlen(fontfile) >= sizeof(filename)-4) {
+	if (strlen(fontfile) >= sizeof(filename) - 4) {
 		fprintf(stderr, "splitfont: ridiculously long name\n");
 		exit(1);
 	}
 	while (from <= to) {
 		sprintf(filename, "%s.%02x", fontfile, from);
-		if ((fd = open(filename, O_WRONLY|O_CREAT, 0666)) < 0) {
+		if ((fd = open(filename, O_WRONLY | O_CREAT, 0666)) < 0) {
 			perror("splitfont");
 			fprintf(stderr, "cannot open %s for writing\n", filename);
 		}
-		p = &fontbuf[from*itemsize];
+		p = &fontbuf[from * itemsize];
 		if (write(fd, p, itemsize) != itemsize) {
 			perror("splitfont");
 			fprintf(stderr, "error writing %s\n", filename);
@@ -38,7 +38,8 @@ dosplit (int from, int to, char *fontbuf, int size, char *fontfile) {
 	}
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	struct stat statbuf;
 	char fontbuf[4096];
 	int fd;
@@ -74,20 +75,20 @@ int main(int argc, char **argv) {
 	}
 
 	p = argv[2];
-	while(1) {
-		to = from = strtoul(p,&q,0);
-		if(*q == '-') {
-			p = q+1;
-			to = strtoul(p,&q,0);
+	while (1) {
+		to = from = strtoul(p, &q, 0);
+		if (*q == '-') {
+			p  = q + 1;
+			to = strtoul(p, &q, 0);
 		}
-		if(*q && *q != ',') {
+		if (*q && *q != ',') {
 			fprintf(stderr, "splitfont: garbage in %s\n", p);
 			exit(1);
 		}
 		dosplit(from, to, fontbuf, statbuf.st_size, argv[1]);
 		if (!*q)
 			break;
-		p = q+1;
+		p = q + 1;
 	}
 	return 0;
 }

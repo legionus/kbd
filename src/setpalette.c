@@ -9,8 +9,8 @@
 #include "version.h"
 #include "kbd_error.h"
 
-int
-main(int argc, char **argv){
+int main(int argc, char **argv)
+{
 	int fd, indx, red, green, blue;
 	unsigned char cmap[48];
 
@@ -38,9 +38,9 @@ main(int argc, char **argv){
 	if (ioctl(fd, GIO_CMAP, cmap))
 		kbd_error(EXIT_FAILURE, errno, "ioctl GIO_CMAP");
 
-	cmap[3*indx] = red;
-	cmap[3*indx+1] = green;
-	cmap[3*indx+2] = blue;
+	cmap[3 * indx]     = red;
+	cmap[3 * indx + 1] = green;
+	cmap[3 * indx + 2] = blue;
 
 	if (ioctl(fd, PIO_CMAP, cmap))
 		kbd_error(EXIT_FAILURE, errno, "ioctl PIO_CMAP");

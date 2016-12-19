@@ -29,17 +29,17 @@ static char *conspath[] = {
  */
 
 static int
-is_a_console(int fd) {
+is_a_console(int fd)
+{
 	char arg;
 
 	arg = 0;
-	return (isatty (fd)
-		&& ioctl(fd, KDGKBTYPE, &arg) == 0
-		&& ((arg == KB_101) || (arg == KB_84)));
+	return (isatty(fd) && ioctl(fd, KDGKBTYPE, &arg) == 0 && ((arg == KB_101) || (arg == KB_84)));
 }
 
 static int
-open_a_console(const char *fnam) {
+open_a_console(const char *fnam)
+{
 	int fd;
 
 	/*
@@ -56,8 +56,8 @@ open_a_console(const char *fnam) {
 	return fd;
 }
 
-int
-getfd(const char *fnam) {
+int getfd(const char *fnam)
+{
 	int fd, i;
 
 	if (fnam) {
@@ -83,7 +83,7 @@ getfd(const char *fnam) {
 			return fd;
 
 	fprintf(stderr,
-		_("Couldn't get a file descriptor referring to the console\n"));
+	        _("Couldn't get a file descriptor referring to the console\n"));
 
 	/* total failure */
 	exit(1);

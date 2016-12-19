@@ -23,7 +23,7 @@
 int handle_codepage(int);
 void handle_fontfile(void);
 
-#define PACKED __attribute__ ((packed))
+#define PACKED __attribute__((packed))
 /* Use this (instead of the above) to compile under MSDOS */
 /*#define PACKED  */
 
@@ -31,16 +31,16 @@ struct {
 	unsigned char id0 PACKED;
 	unsigned char id[7] PACKED;
 	unsigned char res[8] PACKED;
-	unsigned short pnum PACKED;	 /* number of pointers */
-	unsigned char ptyp PACKED;	 /* type of pointers */
+	unsigned short pnum PACKED;      /* number of pointers */
+	unsigned char ptyp PACKED;       /* type of pointers */
 	unsigned long fih_offset PACKED; /* FontInfoHeader offset */
 } FontFileHeader;
 
 int drfont = 0;
 
-#define N	4
+#define N 4
 struct {
-	unsigned char num_fonts PACKED;	    /* N = 4 fonts per code page*/
+	unsigned char num_fonts PACKED; /* N = 4 fonts per code page*/
 	unsigned char font_height[N] PACKED;
 	unsigned long dfd_offset[N] PACKED; /* DisplayFontData offset */
 } DRDOS_ExtendedFontFileHeader;
@@ -86,7 +86,8 @@ extern char *optarg;
 
 unsigned short codepage;
 
-int main (int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	if (argc < 2)
 		usage();
 
@@ -95,146 +96,147 @@ int main (int argc, char *argv[]) {
 	if (argc == 2)
 		optl = 1;
 	else
-	while(1) {
-	    switch(getopt(argc, argv, "alLc")) {
-	      case 'a':
-		opta = 1;
-		continue;
-	      case 'c':
-		optc = 1;
-		continue;
-	      case 'L':
-		optL = 1;
-		continue;
-	      case 'l':
-		optl = 1;
-		continue;
-	      case '?':
-	      default:
-		usage();
-	      case -1:
-		break;
-	    }
-	    break;
-        }
+		while (1) {
+			switch (getopt(argc, argv, "alLc")) {
+				case 'a':
+					opta = 1;
+					continue;
+				case 'c':
+					optc = 1;
+					continue;
+				case 'L':
+					optL = 1;
+					continue;
+				case 'l':
+					optl = 1;
+					continue;
+				case '?':
+				default:
+					usage();
+				case -1:
+					break;
+			}
+			break;
+		}
 
 	if (optind < argc) {
-	    if ((in = fopen(argv[optind], "r")) == NULL) {
-		printf("\nUnable to open file %s.\n", argv[optind]);
-		exit(0);
-	    }
-	    optind++;
-        } else
-	    usage();
-	
+		if ((in = fopen(argv[optind], "r")) == NULL) {
+			printf("\nUnable to open file %s.\n", argv[optind]);
+			exit(0);
+		}
+		optind++;
+	} else
+		usage();
+
 	if (optind != argc) {
-	    if (optind != argc-1 || opta)
-	      usage();
-	    codepage = atoi(argv[optind]);
-	    optx = 1;
+		if (optind != argc - 1 || opta)
+			usage();
+		codepage = atoi(argv[optind]);
+		optx     = 1;
 	}
 
 	if (optc)
-	  handle_codepage(0);
+		handle_codepage(0);
 	else
-	  handle_fontfile();
+		handle_fontfile();
 
 	if (optx) {
-	    printf("no page %d found\n", codepage);
-	    exit(1);
+		printf("no page %d found\n", codepage);
+		exit(1);
 	}
 
 	fclose(in);
 	return (0);
 }
 
-void
-handle_fontfile(){
+void handle_fontfile()
+{
 	int i, j;
 
 	j = fread(&FontFileHeader, 1, sizeof(FontFileHeader), in);
 	if (j != sizeof(FontFileHeader)) {
-	    printf("error reading FontFileHeader - got %d chars\n", j);
-	    exit (1);
+		printf("error reading FontFileHeader - got %d chars\n", j);
+		exit(1);
 	}
 	if (optL)
-	  printf("FontFileHeader: id=0x%x \"%7.7s\" res=%8.8s "
-		 "num=%d typ=%d fih_offset=%ld\n\n",
-		 FontFileHeader.id0, FontFileHeader.id, FontFileHeader.res,
-		 FontFileHeader.pnum, FontFileHeader.ptyp,
-		 FontFileHeader.fih_offset);
+		printf("FontFileHeader: id=0x%x \"%7.7s\" res=%8.8s "
+		       "num=%d typ=%d fih_offset=%ld\n\n",
+		       FontFileHeader.id0, FontFileHeader.id, FontFileHeader.res,
+		       FontFileHeader.pnum, FontFileHeader.ptyp,
+		       FontFileHeader.fih_offset);
 
 	if (!strcmp(FontFileHeader.id, "DRFONT ")) {
-	    drfont = 1;
-	    j = fread(&DRDOS_ExtendedFontFileHeader, 1,
-		      sizeof(DRDOS_ExtendedFontFileHeader), in);
-	    if (j != sizeof(DRDOS_ExtendedFontFileHeader)) {
-		printf("error reading ExtendedFontFileHeader - "
-		       "got %d chars\n", j);
-		exit (1);
-	    }
-	    if (DRDOS_ExtendedFontFileHeader.num_fonts != N) {
-		printf("found %d instead of 4 fonts in drfont\n",
-		       DRDOS_ExtendedFontFileHeader.num_fonts);
-		exit (1);
-	    }
-	    if (optL) {
-		printf("ExtendedFontFileHeader:\n");
-		for (j=0; j<N; j++) {
-			printf("font%d: height %d dfd_offset %d\n", j,
-			   DRDOS_ExtendedFontFileHeader.font_height[j],
-			   DRDOS_ExtendedFontFileHeader.dfd_offset[j]);
+		drfont = 1;
+		j      = fread(&DRDOS_ExtendedFontFileHeader, 1,
+		          sizeof(DRDOS_ExtendedFontFileHeader), in);
+		if (j != sizeof(DRDOS_ExtendedFontFileHeader)) {
+			printf("error reading ExtendedFontFileHeader - "
+			       "got %d chars\n",
+			       j);
+			exit(1);
 		}
-		printf("\n");
-	    }
+		if (DRDOS_ExtendedFontFileHeader.num_fonts != N) {
+			printf("found %d instead of 4 fonts in drfont\n",
+			       DRDOS_ExtendedFontFileHeader.num_fonts);
+			exit(1);
+		}
+		if (optL) {
+			printf("ExtendedFontFileHeader:\n");
+			for (j = 0; j < N; j++) {
+				printf("font%d: height %d dfd_offset %d\n", j,
+				       DRDOS_ExtendedFontFileHeader.font_height[j],
+				       DRDOS_ExtendedFontFileHeader.dfd_offset[j]);
+			}
+			printf("\n");
+		}
 	}
 
 	j = fread(&FontInfoHeader, 1, sizeof(FontInfoHeader), in);
 	if (j != sizeof(FontInfoHeader)) {
-	    printf("error reading FontInfoHeader - got %d chars\n", j);
-	    exit (1);
+		printf("error reading FontInfoHeader - got %d chars\n", j);
+		exit(1);
 	}
 	if (optL)
-	  printf("FontInfoHeader: num_codepages=%d\n\n",
-		 FontInfoHeader.num_codepages);
+		printf("FontInfoHeader: num_codepages=%d\n\n",
+		       FontInfoHeader.num_codepages);
 
 #if 1
 	if (drfont) {
-	    printf("this program cannot handle DRDOS font files\n");
-	    exit(1);
+		printf("this program cannot handle DRDOS font files\n");
+		exit(1);
 	}
 #endif
 
 	for (i = FontInfoHeader.num_codepages; i; i--)
-	  if (handle_codepage(i-1))
-	    break;
+		if (handle_codepage(i - 1))
+			break;
 }
 
-int
-handle_codepage(int more_to_come) {
-        int j;
+int handle_codepage(int more_to_come)
+{
+	int j;
 	char outfile[20];
 	unsigned char *fonts;
 	long inpos, nexthdr;
 
 	j = fread(&CPEntryHeader, 1, sizeof(CPEntryHeader), in);
 	if (j != sizeof(CPEntryHeader)) {
-	    printf("error reading CPEntryHeader - got %d chars\n", j);
-	    exit(1);
+		printf("error reading CPEntryHeader - got %d chars\n", j);
+		exit(1);
 	}
 	if (optL) {
-	    int t = CPEntryHeader.device_type;
-	    printf("CPEntryHeader: size=%d dev=%d [%s] name=%8.8s "
-"codepage=%d\n\t\tres=%6.6s nxt=%ld off_font=%ld\n\n",
-		   CPEntryHeader.size,
-		   t, (t==1) ? "screen" : (t==2) ? "printer" : "?",
-		   CPEntryHeader.device_name,
-		   CPEntryHeader.codepage,
-		   CPEntryHeader.res,
-		   CPEntryHeader.off_nexthdr, CPEntryHeader.off_font);
+		int t = CPEntryHeader.device_type;
+		printf("CPEntryHeader: size=%d dev=%d [%s] name=%8.8s "
+		       "codepage=%d\n\t\tres=%6.6s nxt=%ld off_font=%ld\n\n",
+		       CPEntryHeader.size,
+		       t, (t == 1) ? "screen" : (t == 2) ? "printer" : "?",
+		       CPEntryHeader.device_name,
+		       CPEntryHeader.codepage,
+		       CPEntryHeader.res,
+		       CPEntryHeader.off_nexthdr, CPEntryHeader.off_font);
 	} else if (optl) {
-	    printf("\nCodepage = %d\n", CPEntryHeader.codepage);
-	    printf("Device = %.8s\n", CPEntryHeader.device_name);
+		printf("\nCodepage = %d\n", CPEntryHeader.codepage);
+		printf("Device = %.8s\n", CPEntryHeader.device_name);
 	}
 #if 0
 	if (CPEntryHeader.size != sizeof(CPEntryHeader)) {
@@ -247,49 +249,51 @@ handle_codepage(int more_to_come) {
 	}
 #endif
 	if (!opta && (!optx || CPEntryHeader.codepage != codepage) && !optc)
-	  goto next;
+		goto next;
 
 	inpos = ftell(in);
 	if (inpos != CPEntryHeader.off_font && !optc) {
-	    if (optL)
-	      printf("pos=%ld font at %ld\n", inpos, CPEntryHeader.off_font);
-	    fseek(in, CPEntryHeader.off_font, SEEK_SET);
+		if (optL)
+			printf("pos=%ld font at %ld\n", inpos, CPEntryHeader.off_font);
+		fseek(in, CPEntryHeader.off_font, SEEK_SET);
 	}
 
 	j = fread(&CPInfoHeader, 1, sizeof(CPInfoHeader), in);
 	if (j != sizeof(CPInfoHeader)) {
-	    printf("error reading CPInfoHeader - got %d chars\n", j);
-	    exit(1);
+		printf("error reading CPInfoHeader - got %d chars\n", j);
+		exit(1);
 	}
 	if (optl) {
-	    printf("Number of Fonts = %d\n", CPInfoHeader.num_fonts);
-	    printf("Size of Bitmap = %d\n", CPInfoHeader.size);
+		printf("Number of Fonts = %d\n", CPInfoHeader.num_fonts);
+		printf("Size of Bitmap = %d\n", CPInfoHeader.size);
 	}
 	if (CPInfoHeader.num_fonts == 0)
-	  goto next;
+		goto next;
 	if (optc)
-	  return 0;
+		return 0;
 
 	sprintf(outfile, "%d.cp", CPEntryHeader.codepage);
 	if ((out = fopen(outfile, "w")) == NULL) {
-	    printf("\nUnable to open file %s.\n", outfile);
-	    exit(1);		
-	} else printf("\nWriting %s\n", outfile);
+		printf("\nUnable to open file %s.\n", outfile);
+		exit(1);
+	} else
+		printf("\nWriting %s\n", outfile);
 
-	fonts = (unsigned char *) malloc(CPInfoHeader.size);
-		
+	fonts = (unsigned char *)malloc(CPInfoHeader.size);
+
 	fread(fonts, CPInfoHeader.size, 1, in);
 	fwrite(&CPEntryHeader, sizeof(CPEntryHeader), 1, out);
 	fwrite(&CPInfoHeader, sizeof(CPInfoHeader), 1, out);
 	j = fwrite(fonts, 1, CPInfoHeader.size, out);
 	if (j != CPInfoHeader.size) {
-	    printf("error writing %s - wrote %d chars\n", outfile, j);
-	    exit(1);
+		printf("error writing %s - wrote %d chars\n", outfile, j);
+		exit(1);
 	}
 	fclose(out);
 	free(fonts);
-	if (optx) exit(0);
-      next:
+	if (optx)
+		exit(0);
+next:
 	/*
 	 * It seems that if entry headers and fonts are interspersed,
 	 * then nexthdr will point past the font, regardless of
@@ -299,24 +303,24 @@ handle_codepage(int more_to_come) {
 	 */
 	nexthdr = CPEntryHeader.off_nexthdr;
 	if (nexthdr == 0 || nexthdr == -1) {
-	    if (more_to_come) {
-		printf("more codepages expected, but nexthdr=%ld\n",
-		       nexthdr);
-		exit(1);
-	    } else
-	        return 1;
+		if (more_to_come) {
+			printf("more codepages expected, but nexthdr=%ld\n",
+			       nexthdr);
+			exit(1);
+		} else
+			return 1;
 	}
 
 	inpos = ftell(in);
 	if (inpos != CPEntryHeader.off_nexthdr) {
-	    if (optL)
-	      printf("pos=%ld nexthdr at %ld\n", inpos, nexthdr);
-	    if (opta && !more_to_come) {
-		printf("no more code pages, but nexthdr != 0\n");
-		return 1;
-	    }
+		if (optL)
+			printf("pos=%ld nexthdr at %ld\n", inpos, nexthdr);
+		if (opta && !more_to_come) {
+			printf("no more code pages, but nexthdr != 0\n");
+			return 1;
+		}
 
-	    fseek(in, CPEntryHeader.off_nexthdr, SEEK_SET);
+		fseek(in, CPEntryHeader.off_nexthdr, SEEK_SET);
 	}
 
 	return 0;

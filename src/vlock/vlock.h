@@ -21,17 +21,17 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-int     init_vt (const char *tty);
-void    restore_vt (void);
+int init_vt(const char *tty);
+void restore_vt(void);
 
-void    init_screen (void);
-void    restore_screen (void);
+void init_screen(void);
+void restore_screen(void);
 
-const char *get_username (void);
+const char *get_username(void);
 
-void    parse (int ac, char *const av[]);
+void parse(int ac, char *const av[]);
 
-const char *locked_name (void);
+const char *locked_name(void);
 
 /*
  * This determines whether the default behavior is to lock only the

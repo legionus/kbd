@@ -36,18 +36,18 @@
  * translation tables, and this ioctl would get/set the fourth
  * table, while the other three tables are built-in and constant.)
  */
-int
-getscrnmap(int fd, char *map) {
-	if (ioctl(fd,GIO_SCRNMAP,map)) {
+int getscrnmap(int fd, char *map)
+{
+	if (ioctl(fd, GIO_SCRNMAP, map)) {
 		perror("GIO_SCRNMAP");
 		return -1;
 	}
 	return 0;
 }
 
-int
-loadscrnmap(int fd, char *map) {
-	if (ioctl(fd,PIO_SCRNMAP,map)) {
+int loadscrnmap(int fd, char *map)
+{
+	if (ioctl(fd, PIO_SCRNMAP, map)) {
 		perror("PIO_SCRNMAP");
 		return -1;
 	}
@@ -77,19 +77,19 @@ loadscrnmap(int fd, char *map) {
  * In the new scheme, the old PIO_SCRNMAP fills the kernel umap
  * table with such direct-to-font values.
  */
-	
-int
-getuniscrnmap(int fd, unsigned short *map) {
-	if (ioctl(fd,GIO_UNISCRNMAP,map)) {
+
+int getuniscrnmap(int fd, unsigned short *map)
+{
+	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
 		perror("GIO_UNISCRNMAP");
 		return -1;
 	}
 	return 0;
 }
 
-int
-loaduniscrnmap(int fd, unsigned short *map) {
-	if (ioctl(fd,PIO_UNISCRNMAP,map)) {
+int loaduniscrnmap(int fd, unsigned short *map)
+{
+	if (ioctl(fd, PIO_UNISCRNMAP, map)) {
 		perror("PIO_UNISCRNMAP");
 		return -1;
 	}
@@ -133,21 +133,21 @@ loaduniscrnmap(int fd, unsigned short *map) {
  * Linux 2.6.1 makes GIO_UNIMAP, PIO_UNIMAP, PIO_UNIMAPCLR per-vt
  * so that fd no longer is random.
  */
-int
-getunimap(int fd, struct unimapdesc *ud0) {
+int getunimap(int fd, struct unimapdesc *ud0)
+{
 	struct unimapdesc ud;
 	int ct;
 
 	ud.entry_ct = 0;
-	ud.entries = 0;
+	ud.entries  = 0;
 	if (ioctl(fd, GIO_UNIMAP, &ud)) {
-		if(errno != ENOMEM || ud.entry_ct == 0) {
+		if (errno != ENOMEM || ud.entry_ct == 0) {
 			perror("GIO_UNIMAP(0)");
 			return -1;
 		}
-		ct = ud.entry_ct;
+		ct         = ud.entry_ct;
 		ud.entries = (struct unipair *)
-			malloc(ct * sizeof(struct unipair));
+		    malloc(ct * sizeof(struct unipair));
 		if (ud.entries == NULL) {
 			fprintf(stderr, _("%s: out of memory\n"), progname);
 			return -1;
@@ -158,8 +158,8 @@ getunimap(int fd, struct unimapdesc *ud0) {
 		}
 		if (ct != ud.entry_ct)
 			fprintf(stderr,
-				_("strange... ct changed from %d to %d\n"),
-				ct, ud.entry_ct);
+			        _("strange... ct changed from %d to %d\n"),
+			        ct, ud.entry_ct);
 		/* someone could change the unimap between our
 		   first and second ioctl, so the above errors
 		   are not impossible */
@@ -168,27 +168,27 @@ getunimap(int fd, struct unimapdesc *ud0) {
 	return 0;
 }
 
-int
-loadunimap(int fd, struct unimapinit *ui, struct unimapdesc *ud) {
+int loadunimap(int fd, struct unimapinit *ui, struct unimapdesc *ud)
+{
 	struct unimapinit advice;
 
 	if (ui)
 		advice = *ui;
 	else {
-		advice.advised_hashsize = 0;
-		advice.advised_hashstep = 0;
+		advice.advised_hashsize  = 0;
+		advice.advised_hashstep  = 0;
 		advice.advised_hashlevel = 0;
 	}
- again:
+again:
 	if (ioctl(fd, PIO_UNIMAPCLR, &advice)) {
 #ifdef ENOIOCTLCMD
 		if (errno == ENOIOCTLCMD) {
 			fprintf(stderr,
-				_("It seems this kernel is older than 1.1.92\n"
-				  "No Unicode mapping table loaded.\n"));
+			        _("It seems this kernel is older than 1.1.92\n"
+			          "No Unicode mapping table loaded.\n"));
 		} else
 #endif
-		perror("PIO_UNIMAPCLR");
+			perror("PIO_UNIMAPCLR");
 		return -1;
 	}
 	if (ud == NULL)

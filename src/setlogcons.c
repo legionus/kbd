@@ -17,10 +17,12 @@
 #include "nls.h"
 #include "kbd_error.h"
 
-int
-main(int argc, char **argv){
+int main(int argc, char **argv)
+{
 	int fd, cons;
-	struct { char fn, subarg; } arg;
+	struct {
+		char fn, subarg;
+	} arg;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
@@ -29,13 +31,13 @@ main(int argc, char **argv){
 	if (argc == 2)
 		cons = atoi(argv[1]);
 	else
-		cons = 0;	/* current console */
+		cons = 0; /* current console */
 
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
-	arg.fn = 11;		/* redirect kernel messages */
-	arg.subarg = cons;	/* to specified console */
+	arg.fn     = 11;   /* redirect kernel messages */
+	arg.subarg = cons; /* to specified console */
 	if (ioctl(fd, TIOCLINUX, &arg)) {
 		kbd_error(EXIT_FAILURE, errno, "TIOCLINUX");
 	}

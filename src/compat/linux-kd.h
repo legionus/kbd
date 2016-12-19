@@ -20,8 +20,8 @@
  * Changes in use: 1.1.74: you have to be root for PIO_FONT.
  */
 #ifndef GIO_FONT
-#define GIO_FONT        0x4B60
-#define PIO_FONT        0x4B61
+#define GIO_FONT 0x4B60
+#define PIO_FONT 0x4B61
 #endif
 
 /*
@@ -46,8 +46,8 @@
  * The old GIO_FONT will fail if the fontsize is 512.
  */
 #ifndef GIO_FONTX
-#define GIO_FONTX  0x4B6B
-#define PIO_FONTX  0x4B6C
+#define GIO_FONTX 0x4B6B
+#define PIO_FONTX 0x4B6C
 struct consolefontdesc {
 	unsigned short charcount;
 	unsigned short charheight;
@@ -73,7 +73,7 @@ struct consolefontdesc {
  * In other words, this ioctl is totally useless today.
  */
 #ifndef PIO_FONTRESET
-#define PIO_FONTRESET   0x4B6D  /* reset to default font */
+#define PIO_FONTRESET 0x4B6D /* reset to default font */
 #endif
 
 /*
@@ -86,27 +86,27 @@ struct consolefontdesc {
 #ifndef KDFONTOP
 #define KDFONTOP 0x4B72
 struct console_font_op {
-        unsigned int op;	/* KD_FONT_OP_* */
-        unsigned int flags;	/* KD_FONT_FLAG_* */
-        unsigned int width, height;
-        unsigned int charcount;
-        unsigned char *data;	/* font data with height fixed to 32 */
+	unsigned int op;    /* KD_FONT_OP_* */
+	unsigned int flags; /* KD_FONT_FLAG_* */
+	unsigned int width, height;
+	unsigned int charcount;
+	unsigned char *data; /* font data with height fixed to 32 */
 };
 
-#define KD_FONT_OP_SET          0     /* Set font */
-#define KD_FONT_OP_GET          1     /* Get font */
-#define KD_FONT_OP_SET_DEFAULT  2     /* Set font to default,
-					 data points to name / NULL */
-#define KD_FONT_OP_COPY         3     /* Copy from another console */
+#define KD_FONT_OP_SET 0         /* Set font */
+#define KD_FONT_OP_GET 1         /* Get font */
+#define KD_FONT_OP_SET_DEFAULT 2 /* Set font to default, \
+                                    data points to name / NULL */
+#define KD_FONT_OP_COPY 3        /* Copy from another console */
 
-#define KD_FONT_FLAG_OLD	0x80000000 /* Invoked via old interface */
-#define KD_FONT_FLAG_DONT_RECALC 1    /* Don't call adjust_height() */
-			  /* (Used internally for PIO_FONT support) */
-#endif /* KDFONTOP */
+#define KD_FONT_FLAG_OLD 0x80000000 /* Invoked via old interface */
+#define KD_FONT_FLAG_DONT_RECALC 1  /* Don't call adjust_height() */
+                                    /* (Used internally for PIO_FONT support) */
+#endif                              /* KDFONTOP */
 
 #ifndef KDKBDREP
 /* usually defined in <linux/kd.h> */
 /* set keyboard delay/repeat rate;
  * actually used values are returned */
-#define KDKBDREP        0x4B52
+#define KDKBDREP 0x4B52
 #endif

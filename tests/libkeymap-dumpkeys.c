@@ -15,10 +15,14 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	if      (!strcasecmp(argv[2], "FULL_TABLE"))     table = LK_SHAPE_FULL_TABLE;
-	else if (!strcasecmp(argv[2], "SEPARATE_LINES")) table = LK_SHAPE_SEPARATE_LINES;
-	else if (!strcasecmp(argv[2], "UNTIL_HOLE"))     table = LK_SHAPE_UNTIL_HOLE;
-	else                                             table = LK_SHAPE_DEFAULT;
+	if (!strcasecmp(argv[2], "FULL_TABLE"))
+		table = LK_SHAPE_FULL_TABLE;
+	else if (!strcasecmp(argv[2], "SEPARATE_LINES"))
+		table = LK_SHAPE_SEPARATE_LINES;
+	else if (!strcasecmp(argv[2], "UNTIL_HOLE"))
+		table = LK_SHAPE_UNTIL_HOLE;
+	else
+		table = LK_SHAPE_DEFAULT;
 
 	numeric = (!strcasecmp(argv[3], "TRUE")) ? 1 : 0;
 
@@ -27,7 +31,7 @@ int main(int argc, char **argv)
 
 	f.pipe = 0;
 	strcpy(f.pathname, argv[1]);
-	f.fd = fopen( argv[1], "r");
+	f.fd = fopen(argv[1], "r");
 
 	lk_parse_keymap(ctx, &f);
 	lk_dump_keymap(ctx, stdout, table, numeric);

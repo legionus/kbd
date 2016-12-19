@@ -19,14 +19,12 @@
 #include "contextP.h"
 #include "ksyms.h"
 
-int
-lk_diacr_exists(struct lk_ctx *ctx, unsigned int index)
+int lk_diacr_exists(struct lk_ctx *ctx, unsigned int index)
 {
 	return (lk_array_get_ptr(ctx->accent_table, index) != NULL);
 }
 
-int
-lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
+int lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr *ptr;
 
@@ -43,8 +41,7 @@ lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 	return 0;
 }
 
-int
-lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
+int lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr *ptr;
 
@@ -63,8 +60,7 @@ lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 	return 0;
 }
 
-int
-lk_add_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
+int lk_add_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr *ptr;
 
@@ -83,8 +79,7 @@ lk_add_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 	return 0;
 }
 
-int
-lk_del_diacr(struct lk_ctx *ctx, unsigned int index)
+int lk_del_diacr(struct lk_ctx *ctx, unsigned int index)
 {
 	int rc;
 	rc = lk_array_unset(ctx->accent_table, index);
@@ -95,8 +90,7 @@ lk_del_diacr(struct lk_ctx *ctx, unsigned int index)
 	return 0;
 }
 
-int
-lk_append_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
+int lk_append_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr dcr0;
 	int direction = TO_8BIT;
@@ -106,8 +100,8 @@ lk_append_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 		direction = TO_UNICODE;
 #endif
 
-	dcr0.diacr  = convert_code(ctx, dcr->diacr,  direction);
-	dcr0.base   = convert_code(ctx, dcr->base,   direction);
+	dcr0.diacr  = convert_code(ctx, dcr->diacr, direction);
+	dcr0.base   = convert_code(ctx, dcr->base, direction);
 	dcr0.result = convert_code(ctx, dcr->result, direction);
 
 	return lk_append_diacr(ctx, &dcr0);

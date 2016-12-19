@@ -54,38 +54,41 @@
 struct unicode_list *uclistheads;
 
 static void
-addpair(int fontpos, unsigned int uc) {
+addpair(int fontpos, unsigned int uc)
+{
 	struct unicode_list *ul;
 	struct unicode_seq *us;
 
-	ul = xmalloc(sizeof(struct unicode_list));
-	us = xmalloc(sizeof(struct unicode_seq));
-	us->uc = uc;
-	us->prev = us;
-	us->next = NULL;
-	ul->seq = us;
-	ul->prev = uclistheads[fontpos].prev;
-	ul->prev->next = ul;
-	ul->next = NULL;
+	ul                        = xmalloc(sizeof(struct unicode_list));
+	us                        = xmalloc(sizeof(struct unicode_seq));
+	us->uc                    = uc;
+	us->prev                  = us;
+	us->next                  = NULL;
+	ul->seq                   = us;
+	ul->prev                  = uclistheads[fontpos].prev;
+	ul->prev->next            = ul;
+	ul->next                  = NULL;
 	uclistheads[fontpos].prev = ul;
 }
 
 static void
-addseq(int fontpos, unsigned int uc) {
+addseq(int fontpos, unsigned int uc)
+{
 	struct unicode_list *ul;
 	struct unicode_seq *us;
 
-	ul = uclistheads[fontpos].prev;
-	us = xmalloc(sizeof(struct unicode_seq));
-	us->uc = uc;
-	us->prev = ul->seq->prev;
+	ul             = uclistheads[fontpos].prev;
+	us             = xmalloc(sizeof(struct unicode_seq));
+	us->uc         = uc;
+	us->prev       = ul->seq->prev;
 	us->prev->next = us;
-	us->next = NULL;
-	ul->seq->prev = us;
+	us->next       = NULL;
+	ul->seq->prev  = us;
 }
 
 static int
-getunicode(char **p0) {
+getunicode(char **p0)
+{
 	char *p = *p0;
 
 	while (*p == ' ' || *p == '\t')
@@ -94,12 +97,13 @@ getunicode(char **p0) {
 	    !isxdigit(p[2]) || !isxdigit(p[3]) || !isxdigit(p[4]) ||
 	    !isxdigit(p[5]) || isxdigit(p[6]))
 		return -1;
-	*p0 = p+6;
-	return strtol(p+2,0,16);
+	*p0 = p + 6;
+	return strtol(p + 2, 0, 16);
 }
 
 static void
-parse_itab_line(char *buf, int fontlen){
+parse_itab_line(char *buf, int fontlen)
+{
 	char *p, *p1;
 	int i;
 	long fp0, fp1, un0, un1;
@@ -157,7 +161,7 @@ parse_itab_line(char *buf, int fontlen){
 			p++;
 		if (!strncmp(p, "idem", 4)) {
 			for (i = fp0; i <= fp1; i++)
-				addpair(i,i);
+				addpair(i, i);
 			p += 4;
 		} else {
 			un0 = getunicode(&p);
@@ -165,8 +169,8 @@ parse_itab_line(char *buf, int fontlen){
 				p++;
 			if (*p != '-') {
 				char *u = _("%s: Corresponding to a range of "
-					    "font positions, there should be "
-					    "a Unicode range\n");
+				            "font positions, there should be "
+				            "a Unicode range\n");
 				fprintf(stderr, u, progname);
 				exit(EX_DATAERR);
 			}
@@ -174,21 +178,21 @@ parse_itab_line(char *buf, int fontlen){
 			un1 = getunicode(&p);
 			if (un0 < 0 || un1 < 0) {
 				char *u = _("%s: Bad Unicode range "
-					    "corresponding to font position "
-					    "range 0x%x-0x%x\n");
+				            "corresponding to font position "
+				            "range 0x%x-0x%x\n");
 				fprintf(stderr, u, progname, fp0, fp1);
 				exit(EX_DATAERR);
 			}
 			if (un1 - un0 != fp1 - fp0) {
 				char *u = _("%s: Unicode range U+%x-U+%x not "
-					    "of the same length as font "
-					    "position range 0x%x-0x%x\n");
+				            "of the same length as font "
+				            "position range 0x%x-0x%x\n");
 				fprintf(stderr, u, progname,
-					un0, un1, fp0, fp1);
+				        un0, un1, fp0, fp1);
 				exit(EX_DATAERR);
 			}
 			for (i = fp0; i <= fp1; i++)
-				addpair(i, un0-fp0+i);
+				addpair(i, un0 - fp0 + i);
 		} /* not idem */
 	} else {  /* no range */
 		while ((un0 = getunicode(&p)) >= 0) {
@@ -208,18 +212,19 @@ parse_itab_line(char *buf, int fontlen){
 }
 
 static void
-read_itable(FILE *itab, int fontlen, struct unicode_list **uclistheadsp) {
+read_itable(FILE *itab, int fontlen, struct unicode_list **uclistheadsp)
+{
 	char buf[65536];
 	int i;
 
 	if (uclistheadsp) {
 		*uclistheadsp = xrealloc(*uclistheadsp,
-					 fontlen*sizeof(struct unicode_list));
-		for (i=0; i<fontlen; i++) {
+		                         fontlen * sizeof(struct unicode_list));
+		for (i = 0; i < fontlen; i++) {
 			struct unicode_list *up = &((*uclistheadsp)[i]);
-			up->next = NULL;
-			up->seq = NULL;
-			up->prev = up;
+			up->next                = NULL;
+			up->seq                 = NULL;
+			up->prev                = up;
 		}
 		while (fgets(buf, sizeof(buf), itab) != NULL)
 			parse_itab_line(buf, fontlen);
@@ -228,8 +233,8 @@ read_itable(FILE *itab, int fontlen, struct unicode_list **uclistheadsp) {
 
 int debug = 0;
 
-int
-main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	char *ifname, *ofname, *itname, *otname;
 	FILE *ifil, *ofil, *itab, *otab;
 	int psftype, fontlen, charsize, hastable, notable;
@@ -249,8 +254,8 @@ main(int argc, char **argv) {
 
 	ifil = ofil = itab = otab = NULL;
 	ifname = ofname = itname = otname = NULL;
-	fontbuf = NULL;
-	notable = 0;
+	fontbuf                           = NULL;
+	notable                           = 0;
 
 	if (!strcmp(progname, "psfaddtable")) {
 		/* Do not send binary data to stdout without explicit "-" */
@@ -277,29 +282,27 @@ main(int argc, char **argv) {
 			fprintf(stderr, u, progname);
 			exit(EX_USAGE);
 		}
-		ifname = argv[1];
-		ofname = argv[2];
+		ifname  = argv[1];
+		ofname  = argv[2];
 		notable = 1;
 	} else {
-		for (i = 1; i < argc; i ++) {
-			if ((!strcmp(argv[i], "-i") || !strcmp(argv[i], "-if"))
-			    && i < argc-1)
+		for (i = 1; i < argc; i++) {
+			if ((!strcmp(argv[i], "-i") || !strcmp(argv[i], "-if")) && i < argc - 1)
 				ifname = argv[++i];
-			else if((!strcmp(argv[i],"-o")||!strcmp(argv[i],"-of"))
-				&& i < argc-1)
+			else if ((!strcmp(argv[i], "-o") || !strcmp(argv[i], "-of")) && i < argc - 1)
 				ofname = argv[++i];
-			else if(!strcmp(argv[i], "-it") && i < argc-1)
+			else if (!strcmp(argv[i], "-it") && i < argc - 1)
 				itname = argv[++i];
-			else if(!strcmp(argv[i], "-ot") && i < argc-1)
+			else if (!strcmp(argv[i], "-ot") && i < argc - 1)
 				otname = argv[++i];
-			else if(!strcmp(argv[i], "-nt"))
+			else if (!strcmp(argv[i], "-nt"))
 				notable = 1;
 			else
 				break;
 		}
 		if (i < argc || argc <= 1) {
 			char *u = _("Usage:\n\t%s [-i infont] [-o outfont] "
-				    "[-it intable] [-ot outtable] [-nt]\n");
+			            "[-it intable] [-ot outtable] [-nt]\n");
 			fprintf(stderr, u, progname);
 			exit(EX_USAGE);
 		}
@@ -356,19 +359,19 @@ main(int argc, char **argv) {
 	}
 
 	if (readpsffont(ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
-			&width, &fontlen, 0,
-			itab ? NULL : &uclistheads) == -1) {
+	                &width, &fontlen, 0,
+	                itab ? NULL : &uclistheads) == -1) {
 		char *u = _("%s: Bad magic number on %s\n");
 		fprintf(stderr, u, progname, ifname);
 		exit(EX_DATAERR);
 	}
 	fclose(ifil);
 
-	charsize = fontbuflth/fontlen;
-	bytewidth = (width + 7)/8;
+	charsize  = fontbuflth / fontlen;
+	bytewidth = (width + 7) / 8;
 	if (!bytewidth)
 		bytewidth = 1;
-	height = charsize / bytewidth;
+	height            = charsize / bytewidth;
 
 	hastable = (uclistheads != NULL);
 
@@ -398,20 +401,20 @@ main(int argc, char **argv) {
 			exit(EX_DATAERR);
 		}
 		fprintf(otab,
-			"#\n# Character table extracted from font %s\n#\n",
-			ifname);
-		for (i=0; i<fontlen; i++) {
+		        "#\n# Character table extracted from font %s\n#\n",
+		        ifname);
+		for (i = 0; i < fontlen; i++) {
 			fprintf(otab, "0x%03x\t", i);
 			sep = "";
-			ul = uclistheads[i].next;
+			ul  = uclistheads[i].next;
 			while (ul) {
 				us = ul->seq;
-				while(us) {
+				while (us) {
 					fprintf(otab, "%sU+%04x", sep, us->uc);
-					us = us->next;
+					us  = us->next;
 					sep = ", ";
 				}
-				ul = ul->next;
+				ul  = ul->next;
 				sep = " ";
 			}
 			fprintf(otab, "\n");
@@ -421,7 +424,7 @@ main(int argc, char **argv) {
 
 	if (ofil) {
 		writepsffont(ofil, fontbuf, width, height, fontlen, psftype,
-			     notable ? NULL : uclistheads);
+		             notable ? NULL : uclistheads);
 		fclose(ofil);
 	}
 

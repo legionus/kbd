@@ -8,8 +8,7 @@
 
 #include <keymap/array.h>
 
-int
-lk_array_init(struct lk_array *a, size_t memb, size_t size)
+int lk_array_init(struct lk_array *a, size_t memb, size_t size)
 {
 	if (!a)
 		return -EINVAL;
@@ -26,8 +25,7 @@ lk_array_init(struct lk_array *a, size_t memb, size_t size)
 	return 0;
 }
 
-int
-lk_array_free(struct lk_array *a)
+int lk_array_free(struct lk_array *a)
 {
 	if (!a)
 		return -EINVAL;
@@ -36,8 +34,7 @@ lk_array_free(struct lk_array *a)
 	return 0;
 }
 
-int
-lk_array_empty(struct lk_array *a)
+int lk_array_empty(struct lk_array *a)
 {
 	if (!a)
 		return -EINVAL;
@@ -48,8 +45,7 @@ lk_array_empty(struct lk_array *a)
 	return 0;
 }
 
-int
-lk_array_exists(struct lk_array *a, unsigned int i)
+int lk_array_exists(struct lk_array *a, unsigned int i)
 {
 	char *s;
 	size_t k;
@@ -58,7 +54,7 @@ lk_array_exists(struct lk_array *a, unsigned int i)
 		return 0;
 	}
 
-	s = (char *) (a->array + (a->memb * i));
+	s = (char *)(a->array + (a->memb * i));
 
 	for (k = 0; k < a->memb; k++) {
 		if (s[k] != 0)
@@ -107,8 +103,7 @@ array_resize(struct lk_array *a, unsigned int i)
 	return 0;
 }
 
-int
-lk_array_set(struct lk_array *a, unsigned int i, const void *e)
+int lk_array_set(struct lk_array *a, unsigned int i, const void *e)
 {
 	int ret = array_resize(a, i);
 
@@ -121,8 +116,7 @@ lk_array_set(struct lk_array *a, unsigned int i, const void *e)
 	return 0;
 }
 
-int
-lk_array_unset(struct lk_array *a, unsigned int i)
+int lk_array_unset(struct lk_array *a, unsigned int i)
 {
 	if (!a || i >= a->total)
 		return -EINVAL;
@@ -135,8 +129,7 @@ lk_array_unset(struct lk_array *a, unsigned int i)
 	return 0;
 }
 
-int
-lk_array_append(struct lk_array *a, const void *e)
+int lk_array_append(struct lk_array *a, const void *e)
 {
 	int ret = array_resize(a, a->count);
 

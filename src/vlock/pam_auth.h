@@ -22,6 +22,6 @@
 
 #include <security/pam_appl.h>
 
-pam_handle_t *init_pam (const char *username, const char *tty, int log);
-int     get_password (pam_handle_t * pamh, const char *username,
-		      const char *tty);
+pam_handle_t *init_pam(const char *username, const char *tty, int log);
+int get_password(pam_handle_t *pamh, const char *username,
+                 const char *tty);

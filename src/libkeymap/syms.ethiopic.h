@@ -6,8 +6,8 @@
  *
  *  { "iso-10646-18", iso_10646_18_syms, 159 },
  */
-static sym
-const iso10646_18_syms[] = {  /* 0x1200 - 0x137F */
+static sym const iso10646_18_syms[] = {
+	/* 0x1200 - 0x137F */
 	{ 0x1200, "ethiopic_syllable_ha" },
 	{ 0x1201, "ethiopic_syllable_hu" },
 	{ 0x1202, "ethiopic_syllable_hi" },

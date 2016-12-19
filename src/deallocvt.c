@@ -17,11 +17,11 @@
 #include "version.h"
 #include "kbd_error.h"
 
-int
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	int fd, num, i;
 
-	if (argc < 1)		/* unlikely */
+	if (argc < 1) /* unlikely */
 		return EXIT_FAILURE;
 	set_progname(argv[0]);
 
@@ -44,19 +44,21 @@ main(int argc, char *argv[]) {
 
 	if (argc == 1) {
 		/* deallocate all unused consoles */
-		if (ioctl(fd,VT_DISALLOCATE,0)) {
+		if (ioctl(fd, VT_DISALLOCATE, 0)) {
 			kbd_error(EXIT_FAILURE, errno, "ioctl VT_DISALLOCATE");
 		}
-	} else for (i = 1; i < argc; i++) {
-		num = atoi(argv[i]);
-		if (num == 0) {
-			kbd_error(EXIT_FAILURE, 0, _("0: illegal VT number\n"));
-		} else if (num == 1) {
-			kbd_error(EXIT_FAILURE, 0, _("VT 1 is the console and cannot be deallocated\n"));
-		} else if (ioctl(fd,VT_DISALLOCATE,num)) {
-			kbd_error(EXIT_FAILURE, errno, _("could not deallocate console %d: "
-			                                 "ioctl VT_DISALLOCATE"), num);
+	} else
+		for (i = 1; i < argc; i++) {
+			num = atoi(argv[i]);
+			if (num == 0) {
+				kbd_error(EXIT_FAILURE, 0, _("0: illegal VT number\n"));
+			} else if (num == 1) {
+				kbd_error(EXIT_FAILURE, 0, _("VT 1 is the console and cannot be deallocated\n"));
+			} else if (ioctl(fd, VT_DISALLOCATE, num)) {
+				kbd_error(EXIT_FAILURE, errno, _("could not deallocate console %d: "
+				                                 "ioctl VT_DISALLOCATE"),
+				          num);
+			}
 		}
-	}
 	exit(EXIT_SUCCESS);
 }

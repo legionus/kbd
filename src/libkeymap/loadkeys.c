@@ -26,7 +26,7 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			ERR(ctx, _("KDSKBMODE: %s: could not switch to Unicode mode"),
-				strerror(errno));
+			    strerror(errno));
 			goto fail;
 		}
 	}
@@ -56,7 +56,7 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 					ct++;
 
 				INFO(ctx, _("keycode %d, table %d = %d%s"),
-					j, i, lk_get_key(ctx,i, j), fail ? _("    FAILED") : "");
+				     j, i, lk_get_key(ctx, i, j), fail ? _("    FAILED") : "");
 
 				if (fail)
 					WARN(ctx, _("failed to bind key %d to value %d"),
@@ -74,7 +74,7 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 				if (errno != EINVAL) {
 					ERR(ctx, _("KDSKBENT: %s: could not deallocate keymap %d"),
-						strerror(errno), i);
+					    strerror(errno), i);
 					goto fail;
 				}
 				/* probably an old kernel */
@@ -86,10 +86,10 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 
 					if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
 						if (errno == EINVAL && i >= 16)
-							break;	/* old kernel */
+							break; /* old kernel */
 
 						ERR(ctx, _("KDSKBENT: %s: cannot deallocate or clear keymap"),
-							strerror(errno));
+						    strerror(errno));
 						goto fail;
 					}
 				}
@@ -99,22 +99,22 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 
 	if ((ctx->flags & LK_FLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
 		ERR(ctx, _("KDSKBMODE: %s: could not return to original keyboard mode"),
-			strerror(errno));
+		    strerror(errno));
 		goto fail;
 	}
 
 	return ct;
 
- fail:	return -1;
+fail:
+	return -1;
 }
-
 
 static char *
 ostr(struct lk_ctx *ctx, char *s)
 {
-	int lth = strlen(s);
+	int lth   = strlen(s);
 	char *ns0 = malloc(4 * lth + 1);
-	char *ns = ns0;
+	char *ns  = ns0;
 
 	if (ns == NULL) {
 		ERR(ctx, _("out of memory"));
@@ -123,18 +123,18 @@ ostr(struct lk_ctx *ctx, char *s)
 
 	while (*s) {
 		switch (*s) {
-		case '\n':
-			*ns++ = '\\';
-			*ns++ = 'n';
-			break;
-		case '\033':
-			*ns++ = '\\';
-			*ns++ = '0';
-			*ns++ = '3';
-			*ns++ = '3';
-			break;
-		default:
-			*ns++ = *s;
+			case '\n':
+				*ns++ = '\\';
+				*ns++ = 'n';
+				break;
+			case '\033':
+				*ns++ = '\\';
+				*ns++ = '0';
+				*ns++ = '3';
+				*ns++ = '3';
+				break;
+			default:
+				*ns++ = *s;
 		}
 		s++;
 	}
@@ -161,7 +161,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 				if (s == NULL)
 					return -1;
 				ERR(ctx, _("failed to bind string '%s' to function %s"),
-					s, get_sym(ctx, KT_FN, kbs.kb_func));
+				    s, get_sym(ctx, KT_FN, kbs.kb_func));
 				free(s);
 			} else {
 				ct++;
@@ -171,7 +171,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
 				ERR(ctx, _("failed to clear string %s"),
-					get_sym(ctx, KT_FN, kbs.kb_func));
+				    get_sym(ctx, KT_FN, kbs.kb_func));
 			} else {
 				ct++;
 			}
@@ -239,8 +239,7 @@ defdiacs(struct lk_ctx *ctx, int fd)
 	return count;
 }
 
-int
-lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
+int lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 {
 	int keyct, funcct, diacct;
 
@@ -260,7 +259,8 @@ lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 			return -1;
 
 		INFO(ctx, P_("Loaded %d compose definition",
-			     "Loaded %d compose definitions", diacct), diacct);
+		             "Loaded %d compose definitions", diacct),
+		     diacct);
 
 	} else {
 		INFO(ctx, _("(No change in compose definitions)"));

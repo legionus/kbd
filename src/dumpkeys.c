@@ -24,8 +24,9 @@
 
 static int fd;
 
-static void __attribute__ ((noreturn))
-usage(void) {
+static void __attribute__((noreturn))
+usage(void)
+{
 	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
 	fprintf(stderr, _("\
 \n\
@@ -56,35 +57,35 @@ valid options are:\n\
 	exit(1);
 }
 
-int
-main (int argc, char *argv[]) {
-	const char *short_opts = "hilvsnf1tkdS:c:V";
+int main(int argc, char *argv[])
+{
+	const char *short_opts          = "hilvsnf1tkdS:c:V";
 	const struct option long_opts[] = {
-		{ "help",	no_argument,		NULL, 'h' },
-		{ "short-info",	no_argument,		NULL, 'i' },
-		{ "long-info",	no_argument,		NULL, 'l' },
-		{ "numeric",	no_argument,		NULL, 'n' },
-		{ "full-table",	no_argument,		NULL, 'f' },
-		{ "separate-lines",no_argument,		NULL, '1' },
-		{ "shape",	required_argument,	NULL, 'S' },
-		{ "funcs-only",	no_argument,		NULL, 't' },
-		{ "keys-only",	no_argument,		NULL, 'k' },
-		{ "compose-only",no_argument,		NULL, 'd' },
-		{ "charset",	required_argument,	NULL, 'c' },
-		{ "verbose",	no_argument,		NULL, 'v' },
-		{ "version",	no_argument,		NULL, 'V' },
-		{ NULL,	0, NULL, 0 }
+		{ "help", no_argument, NULL, 'h' },
+		{ "short-info", no_argument, NULL, 'i' },
+		{ "long-info", no_argument, NULL, 'l' },
+		{ "numeric", no_argument, NULL, 'n' },
+		{ "full-table", no_argument, NULL, 'f' },
+		{ "separate-lines", no_argument, NULL, '1' },
+		{ "shape", required_argument, NULL, 'S' },
+		{ "funcs-only", no_argument, NULL, 't' },
+		{ "keys-only", no_argument, NULL, 'k' },
+		{ "compose-only", no_argument, NULL, 'd' },
+		{ "charset", required_argument, NULL, 'c' },
+		{ "verbose", no_argument, NULL, 'v' },
+		{ "version", no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
 	};
 	int c, rc;
 	int kbd_mode;
 
-	char long_info = 0;
-	char short_info = 0;
-	char numeric = 0;
+	char long_info       = 0;
+	char short_info      = 0;
+	char numeric         = 0;
 	lk_table_shape table = LK_SHAPE_DEFAULT;
-	char funcs_only = 0;
-	char keys_only = 0;
-	char diac_only = 0;
+	char funcs_only      = 0;
+	char keys_only       = 0;
+	char diac_only       = 0;
 
 	struct lk_ctx *ctx;
 
@@ -100,7 +101,7 @@ main (int argc, char *argv[]) {
 	}
 
 	while ((c = getopt_long(argc, argv,
-		short_opts, long_opts, NULL)) != -1) {
+	                        short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'i':
 				short_info = 1;
@@ -136,7 +137,7 @@ main (int argc, char *argv[]) {
 			case 'c':
 				if ((lk_set_charset(ctx, optarg)) != 0) {
 					fprintf(stderr, _("unknown charset %s - ignoring charset request\n"),
-						optarg);
+					        optarg);
 					usage();
 				}
 				printf("charset \"%s\"\n", optarg);
@@ -158,7 +159,7 @@ main (int argc, char *argv[]) {
 	/* check whether the keyboard is in Unicode mode */
 	if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
 		fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
-			progname);
+		        progname);
 		exit(EXIT_FAILURE);
 	}
 
@@ -174,7 +175,7 @@ main (int argc, char *argv[]) {
 
 		if (long_info) {
 			printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
-				progname);
+			       progname);
 			lk_dump_symbols(ctx, stdout);
 		}
 		exit(EXIT_SUCCESS);
@@ -183,9 +184,9 @@ main (int argc, char *argv[]) {
 #ifdef KDGKBDIACR
 	if (!diac_only) {
 #endif
-	if (!funcs_only) {
-		lk_dump_keymap(ctx, stdout, table, numeric);
-	}
+		if (!funcs_only) {
+			lk_dump_keymap(ctx, stdout, table, numeric);
+		}
 #ifdef KDGKBDIACR
 	}
 
@@ -193,7 +194,8 @@ main (int argc, char *argv[]) {
 		lk_dump_diacs(ctx, stdout);
 #endif
 
- fail:	lk_free(ctx);
+fail:
+	lk_free(ctx);
 	close(fd);
 
 	if (rc < 0)

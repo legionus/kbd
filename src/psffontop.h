@@ -21,21 +21,21 @@ struct unicode_list {
 };
 
 extern int readpsffont(FILE *fontf, char **allbufp, int *allszp,
-		       char **fontbufp, int *fontszp,
-		       int *fontwidthp, int *fontlenp, int fontpos0,
-		       struct unicode_list **uclistheadsp);
+                       char **fontbufp, int *fontszp,
+                       int *fontwidthp, int *fontlenp, int fontpos0,
+                       struct unicode_list **uclistheadsp);
 
 extern int writepsffont(FILE *ofil, char *fontbuf,
-			 int width, int height, size_t fontlen, int psftype,
-			 struct unicode_list *uclistheads);
+                        int width, int height, size_t fontlen, int psftype,
+                        struct unicode_list *uclistheads);
 
-#define WPSFH_HASTAB	1
-#define WPSFH_HASSEQ	2
-extern void writepsffontheader(FILE *ofil, 
-			       int width, int height, int fontlen,
-			       int *psftype, int flags);
+#define WPSFH_HASTAB 1
+#define WPSFH_HASSEQ 2
+extern void writepsffontheader(FILE *ofil,
+                               int width, int height, int fontlen,
+                               int *psftype, int flags);
 
 extern void appendunicode(FILE *fp, unsigned int uc, int utf8);
 extern void appendseparator(FILE *fp, int seq, int utf8);
 
-#endif 	/* _PSFFONTOP_H */
+#endif /* _PSFFONTOP_H */

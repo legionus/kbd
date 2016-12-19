@@ -6,8 +6,7 @@
  * { "iso-ir-197", iso_ir_197_syms, nn },
  */
 
-static sym
-const iso_ir_197_syms[] = {
+static sym const iso_ir_197_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x010c, "Ccaron" },
 	{ 0x010d, "ccaron" },
@@ -118,8 +117,7 @@ const iso_ir_197_syms[] = {
  * 0xBB    0x021F  # LATIN SMALL LETTER H WITH CARON
  */
 
-static sym
-const iso_ir_209_syms[] = {
+static sym const iso_ir_209_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x010c, "Ccaron" },
 	{ 0x010d, "ccaron" },
@@ -218,8 +216,7 @@ const iso_ir_209_syms[] = {
 	{ 0x00ff, "ydiaeresis" },
 };
 
-static sym
-const latin6_syms[] = {
+static sym const latin6_syms[] = {
 	{ 0x00a0, "nobreakspace" },
 	{ 0x0104, "Aogonek" },
 	{ 0x0112, "Emacron" },

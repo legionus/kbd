@@ -7,8 +7,7 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 
-int
-main(void)
+int main(void)
 {
 	struct kbentry ke;
 

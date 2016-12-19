@@ -87,8 +87,8 @@
 #include "version.h"
 #include "kbd_error.h"
 
-#define MODE_RESTORETEXTMODE	0
-#define MODE_VGALINES		1
+#define MODE_RESTORETEXTMODE 0
+#define MODE_VGALINES 1
 
 static void usage(void);
 
@@ -101,172 +101,190 @@ static int vga_get_fontheight(void);
 static void vga_set_cursor(int, int);
 static void vga_set_verticaldisplayend_lowbyte(int);
 
-const char *const dirpath[] = { "", DATADIR "/" VIDEOMODEDIR "/", 0};
+const char *const dirpath[]  = { "", DATADIR "/" VIDEOMODEDIR "/", 0 };
 const char *const suffixes[] = { "", 0 };
 
-int
-main(int argc, char **argv) {
-    int rr, cc, fd, i, mode;
-    struct vt_sizes vtsizes;
-    struct vt_stat vtstat;
-    struct winsize winsize;
-    char *p;
-    char tty[12], cmd[80], infile[1024];
-    char *defaultfont;
-    lkfile_t fp;
+int main(int argc, char **argv)
+{
+	int rr, cc, fd, i, mode;
+	struct vt_sizes vtsizes;
+	struct vt_stat vtstat;
+	struct winsize winsize;
+	char *p;
+	char tty[12], cmd[80], infile[1024];
+	char *defaultfont;
+	lkfile_t fp;
 
-    set_progname(argv[0]);
+	set_progname(argv[0]);
 
-    setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-    textdomain(PACKAGE_NAME);
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
 
-    if (argc < 2)
-      usage();
+	if (argc < 2)
+		usage();
 
-    if (argc == 2 && !strcmp(argv[1], "-V"))
-      print_version_and_exit();
+	if (argc == 2 && !strcmp(argv[1], "-V"))
+		print_version_and_exit();
 
-    rr = 0;			/* make gcc happy */
-    cc = atoi(argv[1]);
-    mode = MODE_RESTORETEXTMODE;
-    if (argc == 3 && strcmp(argv[1], "-lines") == 0) {
-    	mode = MODE_VGALINES;
-    	rr = atoi(argv[2]);
-    }
-    else
-    if (argc == 2 && (p = strchr(argv[1], 'x')) != 0)
-      rr = atoi(p+1);
-    else if(argc == 3)
-      rr = atoi(argv[2]);
-    else
-      usage();
-
-    if (mode == MODE_RESTORETEXTMODE) {
-        /* prepare for: restoretextmode -r 80x25 */
-        sprintf(infile, "%dx%d", cc, rr);
-        if (lk_findfile(infile, dirpath, suffixes, &fp)) {
-            kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s\n"), infile);
-        }
-        lk_fpclose(&fp);
-    }
-
-    if ((fd = getfd(NULL)) < 0)
-        kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
-
-    if(ioctl(fd, TIOCGWINSZ, &winsize)) {
-        kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
-    }
-
-    if (mode == MODE_VGALINES) {
-        /* Get the number of columns. */
-        cc = winsize.ws_col;
-        if (rr != 25 && rr != 28 && rr != 30 && rr != 34 && rr != 36 &&
-            rr != 40 && rr != 44 && rr != 50 && rr != 60) {
-            kbd_error(EXIT_FAILURE, 0, _("Invalid number of lines\n"));
-        }
-    }
-
-    if(ioctl(fd, VT_GETSTATE, &vtstat)) {
-        kbd_error(EXIT_FAILURE, errno, "ioctl VT_GETSTATE");
-    }
-
-    vtsizes.v_rows = rr;
-    vtsizes.v_cols = cc;
-    vtsizes.v_scrollsize = 0;
-
-    vga_init_io();		/* maybe only if (mode == MODE_VGALINES) */
-
-    if(ioctl(fd, VT_RESIZE, &vtsizes)) {
-        kbd_error(EXIT_FAILURE, errno, "ioctl VT_RESIZE");
-    }
-
-    if (mode == MODE_VGALINES) {
-        /* Program the VGA registers. */
-        int scanlines_old;
-        int scanlines_new;
-        int fontheight;
-        if (winsize.ws_row == 25 || winsize.ws_row == 28 ||
-            winsize.ws_row == 36 || winsize.ws_row == 44 ||
-            winsize.ws_row == 50)
-            scanlines_old = 400;
-        else
-            scanlines_old = 480;
-        if (rr == 25 || rr == 28 || rr == 36 || rr == 44 || rr == 50)
-            scanlines_new = 400;
-        else
-            scanlines_new = 480;
-        /* Switch to 400 or 480 scanline vertical timing if required. */
-        if (scanlines_old != 400 && scanlines_new == 400)
-            vga_400_scanlines();
-        if (scanlines_old != 480 && scanlines_new == 480)
-            vga_480_scanlines();
-        switch (rr) {
-        case 25 : fontheight = 16; break;
-        case 28 : fontheight = 14; break;
-        case 30 : fontheight = 16; break;
-        case 34 : fontheight = 14; break;
-        case 36 : fontheight = 12; break;
-        case 40 : fontheight = 12; break;
-        case 44 : fontheight = 9; break;
-        case 50 : fontheight = 8; break;
-        case 60 : fontheight = 8; break;
-        default : fontheight = 8; break;
-        }
-	/* Set the VGA character height. */
-	vga_set_fontheight(fontheight);
-	/* Set the line offsets within a character cell of the cursor. */
-	if (fontheight >= 10)
-	    vga_set_cursor(fontheight - 3, fontheight - 2);
+	rr   = 0; /* make gcc happy */
+	cc   = atoi(argv[1]);
+	mode = MODE_RESTORETEXTMODE;
+	if (argc == 3 && strcmp(argv[1], "-lines") == 0) {
+		mode = MODE_VGALINES;
+		rr   = atoi(argv[2]);
+	} else if (argc == 2 && (p = strchr(argv[1], 'x')) != 0)
+		rr = atoi(p + 1);
+	else if (argc == 3)
+		rr = atoi(argv[2]);
 	else
-	    vga_set_cursor(fontheight - 2, fontheight - 1);
-	/*
+		usage();
+
+	if (mode == MODE_RESTORETEXTMODE) {
+		/* prepare for: restoretextmode -r 80x25 */
+		sprintf(infile, "%dx%d", cc, rr);
+		if (lk_findfile(infile, dirpath, suffixes, &fp)) {
+			kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s\n"), infile);
+		}
+		lk_fpclose(&fp);
+	}
+
+	if ((fd = getfd(NULL)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+
+	if (ioctl(fd, TIOCGWINSZ, &winsize)) {
+		kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
+	}
+
+	if (mode == MODE_VGALINES) {
+		/* Get the number of columns. */
+		cc = winsize.ws_col;
+		if (rr != 25 && rr != 28 && rr != 30 && rr != 34 && rr != 36 &&
+		    rr != 40 && rr != 44 && rr != 50 && rr != 60) {
+			kbd_error(EXIT_FAILURE, 0, _("Invalid number of lines\n"));
+		}
+	}
+
+	if (ioctl(fd, VT_GETSTATE, &vtstat)) {
+		kbd_error(EXIT_FAILURE, errno, "ioctl VT_GETSTATE");
+	}
+
+	vtsizes.v_rows       = rr;
+	vtsizes.v_cols       = cc;
+	vtsizes.v_scrollsize = 0;
+
+	vga_init_io(); /* maybe only if (mode == MODE_VGALINES) */
+
+	if (ioctl(fd, VT_RESIZE, &vtsizes)) {
+		kbd_error(EXIT_FAILURE, errno, "ioctl VT_RESIZE");
+	}
+
+	if (mode == MODE_VGALINES) {
+		/* Program the VGA registers. */
+		int scanlines_old;
+		int scanlines_new;
+		int fontheight;
+		if (winsize.ws_row == 25 || winsize.ws_row == 28 ||
+		    winsize.ws_row == 36 || winsize.ws_row == 44 ||
+		    winsize.ws_row == 50)
+			scanlines_old = 400;
+		else
+			scanlines_old = 480;
+		if (rr == 25 || rr == 28 || rr == 36 || rr == 44 || rr == 50)
+			scanlines_new = 400;
+		else
+			scanlines_new = 480;
+		/* Switch to 400 or 480 scanline vertical timing if required. */
+		if (scanlines_old != 400 && scanlines_new == 400)
+			vga_400_scanlines();
+		if (scanlines_old != 480 && scanlines_new == 480)
+			vga_480_scanlines();
+		switch (rr) {
+			case 25:
+				fontheight = 16;
+				break;
+			case 28:
+				fontheight = 14;
+				break;
+			case 30:
+				fontheight = 16;
+				break;
+			case 34:
+				fontheight = 14;
+				break;
+			case 36:
+				fontheight = 12;
+				break;
+			case 40:
+				fontheight = 12;
+				break;
+			case 44:
+				fontheight = 9;
+				break;
+			case 50:
+				fontheight = 8;
+				break;
+			case 60:
+				fontheight = 8;
+				break;
+			default:
+				fontheight = 8;
+				break;
+		}
+		/* Set the VGA character height. */
+		vga_set_fontheight(fontheight);
+		/* Set the line offsets within a character cell of the cursor. */
+		if (fontheight >= 10)
+			vga_set_cursor(fontheight - 3, fontheight - 2);
+		else
+			vga_set_cursor(fontheight - 2, fontheight - 1);
+		/*
 	 * If there are a few unused scanlines at the bottom of the
 	 * screen, make sure they are not displayed (otherwise
 	 * there is a annoying changing partial line at the bottom).
 	 */
-        vga_set_verticaldisplayend_lowbyte((fontheight * rr - 1) & 0xff);
-	printf(_("Old mode: %dx%d  New mode: %dx%d\n"), winsize.ws_col,
-		winsize.ws_row, cc, rr);
-	printf(_("Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"),
-		scanlines_old, scanlines_new, fontheight);
-    }
-
-    if (mode == MODE_RESTORETEXTMODE) {
-	/* do: restoretextmode -r 25x80 */
-	sprintf(cmd, "restoretextmode -r %s\n", fp.pathname);
-	errno = 0;
-	if(system(cmd)) {
-	    if(errno)
-		perror("restoretextmode");
-	    fprintf(stderr, _("resizecons: the command `%s' failed\n"), cmd);
-	    exit(EXIT_FAILURE);
+		vga_set_verticaldisplayend_lowbyte((fontheight * rr - 1) & 0xff);
+		printf(_("Old mode: %dx%d  New mode: %dx%d\n"), winsize.ws_col,
+		       winsize.ws_row, cc, rr);
+		printf(_("Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"),
+		       scanlines_old, scanlines_new, fontheight);
 	}
-    }
 
-    /*
+	if (mode == MODE_RESTORETEXTMODE) {
+		/* do: restoretextmode -r 25x80 */
+		sprintf(cmd, "restoretextmode -r %s\n", fp.pathname);
+		errno = 0;
+		if (system(cmd)) {
+			if (errno)
+				perror("restoretextmode");
+			fprintf(stderr, _("resizecons: the command `%s' failed\n"), cmd);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	/*
      * for i in /dev/tty[0-9] /dev/tty[0-9][0-9]
      * do
      *     stty rows $rr cols $cc < $i
      * done
      * kill -SIGWINCH `cat /tmp/selection.pid`
      */
-    winsize.ws_row = rr;
-    winsize.ws_col = cc;
-    for (i=0; i<16; i++)
-      if (vtstat.v_state & (1<<i)) {
-	  sprintf(tty, "/dev/tty%d", i);
-	  fd = open(tty, O_RDONLY);
-	  if (fd < 0 && errno == ENOENT) {
-	      sprintf(tty, "/dev/vc/%d", i);
-	      fd = open(tty, O_RDONLY);
-	  }
-	  if (fd >= 0) {
-	      if(ioctl(fd, TIOCSWINSZ, &winsize))
-	          kbd_warning(errno, "ioctl TIOCSWINSZ");
-	      close(fd);
-	  }
-      }
+	winsize.ws_row = rr;
+	winsize.ws_col = cc;
+	for (i = 0; i < 16; i++)
+		if (vtstat.v_state & (1 << i)) {
+			sprintf(tty, "/dev/tty%d", i);
+			fd = open(tty, O_RDONLY);
+			if (fd < 0 && errno == ENOENT) {
+				sprintf(tty, "/dev/vc/%d", i);
+				fd = open(tty, O_RDONLY);
+			}
+			if (fd >= 0) {
+				if (ioctl(fd, TIOCSWINSZ, &winsize))
+					kbd_warning(errno, "ioctl TIOCSWINSZ");
+				close(fd);
+			}
+		}
 
 #if 0
     /* Try to tell selection about the change */
@@ -285,51 +303,62 @@ main(int argc, char **argv) {
     }
 #endif
 
-    /* do: setfont default8x16 */
-    /* (other people might wish other fonts - this should be settable) */
+	/* do: setfont default8x16 */
+	/* (other people might wish other fonts - this should be settable) */
 
-    /* We read the VGA font height register to be sure. */
-    /* There isn't much consistency in this. */
-    switch (vga_get_fontheight()) {
-    case 8 :
-    case 9 : defaultfont = "default8x9"; break;
-    case 10 : defaultfont = "lat1-10"; break;
-    case 11 :
-    case 12 : defaultfont = "lat1-12"; break;
-    case 13 :
-    case 14 : defaultfont = "iso01.14"; break;
-    case 15 :
-    case 16 :
-    default : defaultfont = "default8x16"; break;
-    }
+	/* We read the VGA font height register to be sure. */
+	/* There isn't much consistency in this. */
+	switch (vga_get_fontheight()) {
+		case 8:
+		case 9:
+			defaultfont = "default8x9";
+			break;
+		case 10:
+			defaultfont = "lat1-10";
+			break;
+		case 11:
+		case 12:
+			defaultfont = "lat1-12";
+			break;
+		case 13:
+		case 14:
+			defaultfont = "iso01.14";
+			break;
+		case 15:
+		case 16:
+		default:
+			defaultfont = "default8x16";
+			break;
+	}
 
-    sprintf(cmd, "setfont %s", defaultfont);
-    errno = 0;
-    if(system(cmd)) {
-	if(errno)
-	    perror("setfont");
-	fprintf(stderr, "resizecons: the command `%s' failed\n", cmd);
-	exit(EXIT_FAILURE);
-    }
+	sprintf(cmd, "setfont %s", defaultfont);
+	errno = 0;
+	if (system(cmd)) {
+		if (errno)
+			perror("setfont");
+		fprintf(stderr, "resizecons: the command `%s' failed\n", cmd);
+		exit(EXIT_FAILURE);
+	}
 
-    fprintf(stderr, _("resizecons: don't forget to change TERM "
-		      "(maybe to con%dx%d or linux-%dx%d)\n"),
-	    cc, rr, cc, rr);
-    if (getenv("LINES") || getenv("COLUMNS"))
-      fprintf(stderr,
-	      "Also the variables LINES and COLUMNS may need adjusting.\n");
+	fprintf(stderr, _("resizecons: don't forget to change TERM "
+	                  "(maybe to con%dx%d or linux-%dx%d)\n"),
+	        cc, rr, cc, rr);
+	if (getenv("LINES") || getenv("COLUMNS"))
+		fprintf(stderr,
+		        "Also the variables LINES and COLUMNS may need adjusting.\n");
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
 
-static void __attribute__ ((noreturn))
-usage() {
-    fprintf(stderr,
-	    _("resizecons:\n"
-	      "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-	      "or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34,"
-	      " 36, 40, 44, 50, 60\n"));
-    exit(EXIT_FAILURE);
+static void __attribute__((noreturn))
+usage()
+{
+	fprintf(stderr,
+	        _("resizecons:\n"
+	          "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
+	          "or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34,"
+	          " 36, 40, 44, 50, 60\n"));
+	exit(EXIT_FAILURE);
 }
 
 /*
@@ -340,30 +369,31 @@ usage() {
 /* Port I/O macros. Note that these are not compatible with the ones */
 /* defined in the kernel header files. */
 
-static inline void my_outb( int port, int value )
+static inline void my_outb(int port, int value)
 {
-	__asm__ volatile ("outb %0,%1"
-	: : "a" ((unsigned char)value), "d" ((unsigned short)port));
+	__asm__ volatile("outb %0,%1"
+	                 :
+	                 : "a"((unsigned char)value), "d"((unsigned short)port));
 }
 
-static inline int my_inb( int port )
+static inline int my_inb(int port)
 {
 	unsigned char value;
-	__asm__ volatile ("inb %1,%0"
-		: "=a" (value)
-		: "d" ((unsigned short)port));
+	__asm__ volatile("inb %1,%0"
+	                 : "=a"(value)
+	                 : "d"((unsigned short)port));
 	return value;
 }
-
 
 /* VGA textmode register tweaking functions. */
 
 static int crtcport;
 
-static void vga_init_io() {
+static void vga_init_io()
+{
 	if (iopl(3) < 0) {
 		fprintf(stderr,
-			_("resizecons: cannot get I/O permissions.\n"));
+		        _("resizecons: cannot get I/O permissions.\n"));
 		exit(EXIT_FAILURE);
 	}
 	crtcport = 0x3d4;
@@ -371,31 +401,36 @@ static void vga_init_io() {
 		crtcport = 0x3b4;
 }
 
-static void vga_set_fontheight( int h ) {
+static void vga_set_fontheight(int h)
+{
 	my_outb(crtcport, 0x09);
 	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xe0) | (h - 1));
 }
 
-static int vga_get_fontheight() {
+static int vga_get_fontheight()
+{
 	my_outb(crtcport, 0x09);
 	return (my_inb(crtcport + 1) & 0x1f) + 1;
 }
 
-static void vga_set_cursor( int top, int bottom ) {
+static void vga_set_cursor(int top, int bottom)
+{
 	my_outb(crtcport, 0x0a);
 	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xc0) | top);
 	my_outb(crtcport, 0x0b);
 	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xe0) | bottom);
 }
 
-static void vga_set_verticaldisplayend_lowbyte( int byte ) {
+static void vga_set_verticaldisplayend_lowbyte(int byte)
+{
 	/* CRTC register 0x12 */
 	/* vertical display end */
 	my_outb(crtcport, 0x12);
 	my_outb(crtcport + 1, byte);
 }
 
-static void vga_480_scanlines() {
+static void vga_480_scanlines()
+{
 	/* CRTC register 0x11 */
 	/* vertical sync end (also unlocks CR0-7) */
 	my_outb(crtcport, 0x11);
@@ -436,7 +471,8 @@ static void vga_480_scanlines() {
 	my_outb(0x3c2, (my_inb(0x3cc) & 0x0d) | 0xe2);
 }
 
-static void vga_400_scanlines() {
+static void vga_400_scanlines()
+{
 	/* CRTC register 0x11 */
 	/* vertical sync end (also unlocks CR0-7) */
 	my_outb(crtcport, 0x11);

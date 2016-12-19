@@ -17,8 +17,7 @@
 #include "nls.h"
 #include "contextP.h"
 
-int
-lk_kernel_keys(struct lk_ctx *ctx, int fd)
+int lk_kernel_keys(struct lk_ctx *ctx, int fd)
 {
 	int i, t;
 	struct kbentry ke;
@@ -29,9 +28,9 @@ lk_kernel_keys(struct lk_ctx *ctx, int fd)
 			ke.kb_index = i;
 			ke.kb_value = 0;
 
-			if (ioctl(fd, KDGKBENT, (unsigned long) &ke)) {
+			if (ioctl(fd, KDGKBENT, (unsigned long)&ke)) {
 				ERR(ctx, _("KDGKBENT: %s: error at index %d in table %d"),
-					strerror(errno), i, t);
+				    strerror(errno), i, t);
 				return -1;
 			}
 
@@ -49,8 +48,7 @@ lk_kernel_keys(struct lk_ctx *ctx, int fd)
 	return 0;
 }
 
-int
-lk_kernel_funcs(struct lk_ctx *ctx, int fd)
+int lk_kernel_funcs(struct lk_ctx *ctx, int fd)
 {
 	int i;
 	struct kbsentry kbs;
@@ -58,13 +56,13 @@ lk_kernel_funcs(struct lk_ctx *ctx, int fd)
 	for (i = 0; i < MAX_NR_FUNC; i++) {
 		kbs.kb_func = i;
 
-		if (ioctl(fd, KDGKBSENT, (unsigned long) &kbs)) {
+		if (ioctl(fd, KDGKBSENT, (unsigned long)&kbs)) {
 			ERR(ctx, _("KDGKBSENT: %s: Unable to get function key string"),
-				strerror(errno));
+			    strerror(errno));
 			return -1;
 		}
 
-		if (!strlen((char *) kbs.kb_string))
+		if (!strlen((char *)kbs.kb_string))
 			continue;
 
 		if (lk_add_func(ctx, &kbs) < 0)
@@ -74,8 +72,7 @@ lk_kernel_funcs(struct lk_ctx *ctx, int fd)
 	return 0;
 }
 
-int
-lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
+int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 {
 #ifdef KDGKBDIACRUC
 	int request = KDGKBDIACRUC;
@@ -89,16 +86,16 @@ lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 	unsigned int i;
 	struct lk_kbdiacr dcr;
 
-	if (ioctl(fd, request, (unsigned long) &kd)) {
+	if (ioctl(fd, request, (unsigned long)&kd)) {
 		ERR(ctx, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
-			strerror(errno));
+		    strerror(errno));
 		return -1;
 	}
 
 	for (i = 0; i < kd.kb_cnt; i++) {
-		dcr.diacr  = (ar+i)->diacr;
-		dcr.base   = (ar+i)->base;
-		dcr.result = (ar+i)->result;
+		dcr.diacr  = (ar + i)->diacr;
+		dcr.base   = (ar + i)->base;
+		dcr.result = (ar + i)->result;
 
 		if (lk_add_diacr(ctx, i, &dcr) < 0)
 			return -1;
@@ -107,11 +104,10 @@ lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 	return 0;
 }
 
-int
-lk_kernel_keymap(struct lk_ctx *ctx, int fd)
+int lk_kernel_keymap(struct lk_ctx *ctx, int fd)
 {
-	if (lk_kernel_keys(ctx, fd)   < 0 ||
-	    lk_kernel_funcs(ctx, fd)  < 0 ||
+	if (lk_kernel_keys(ctx, fd) < 0 ||
+	    lk_kernel_funcs(ctx, fd) < 0 ||
 	    lk_kernel_diacrs(ctx, fd) < 0)
 		return -1;
 	return 0;

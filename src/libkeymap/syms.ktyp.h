@@ -1,9 +1,8 @@
 /*
  * Keysyms whose KTYP is KT_LATIN or KT_LETTER and whose KVAL is 0..127.
  */
-static const char *
-const iso646_syms[] = {
-	"nul",				/* 0x00, 0000 */
+static const char *const iso646_syms[] = {
+	"nul", /* 0x00, 0000 */
 	"Control_a",
 	"Control_b",
 	"Control_c",
@@ -19,7 +18,7 @@ const iso646_syms[] = {
 	"Control_m",
 	"Control_n",
 	"Control_o",
-	"Control_p",			/* 0x10, 0020 */
+	"Control_p", /* 0x10, 0020 */
 	"Control_q",
 	"Control_r",
 	"Control_s",
@@ -35,7 +34,7 @@ const iso646_syms[] = {
 	"Control_bracketright",
 	"Control_asciicircum",
 	"Control_underscore",
-	"space",			/* 0x20, 0040 */
+	"space", /* 0x20, 0040 */
 	"exclam",
 	"quotedbl",
 	"numbersign",
@@ -51,7 +50,7 @@ const iso646_syms[] = {
 	"minus",
 	"period",
 	"slash",
-	"zero",				/* 0x30, 0060 */
+	"zero", /* 0x30, 0060 */
 	"one",
 	"two",
 	"three",
@@ -67,7 +66,7 @@ const iso646_syms[] = {
 	"equal",
 	"greater",
 	"question",
-	"at",				/* 0x40, 0100 */
+	"at", /* 0x40, 0100 */
 	"A",
 	"B",
 	"C",
@@ -83,7 +82,7 @@ const iso646_syms[] = {
 	"M",
 	"N",
 	"O",
-	"P",				/* 0x50, 0120 */
+	"P", /* 0x50, 0120 */
 	"Q",
 	"R",
 	"S",
@@ -99,7 +98,7 @@ const iso646_syms[] = {
 	"bracketright",
 	"asciicircum",
 	"underscore",
-	"grave",			/* 0x60, 0140 */
+	"grave", /* 0x60, 0140 */
 	"a",
 	"b",
 	"c",
@@ -115,7 +114,7 @@ const iso646_syms[] = {
 	"m",
 	"n",
 	"o",
-	"p",				/* 0x70, 0160 */
+	"p", /* 0x70, 0160 */
 	"q",
 	"r",
 	"s",
@@ -131,7 +130,7 @@ const iso646_syms[] = {
 	"braceright",
 	"asciitilde",
 	"Delete",
-	"",				/* 0x80, 0200 */
+	"", /* 0x80, 0200 */
 	"",
 	"",
 	"",
@@ -147,7 +146,7 @@ const iso646_syms[] = {
 	"",
 	"",
 	"",
-	"",				/* 0x90, 0220 */
+	"", /* 0x90, 0220 */
 	"",
 	"",
 	"",
@@ -163,7 +162,7 @@ const iso646_syms[] = {
 	"",
 	"",
 	"",
-	"nobreakspace",			/* 0xa0, 0240 */
+	"nobreakspace", /* 0xa0, 0240 */
 	"exclamdown",
 	"cent",
 	"sterling",
@@ -179,7 +178,7 @@ const iso646_syms[] = {
 	"hyphen",
 	"registered",
 	"macron",
-	"degree",			/* 0xb0, 0260 */
+	"degree", /* 0xb0, 0260 */
 	"plusminus",
 	"twosuperior",
 	"threesuperior",
@@ -195,7 +194,7 @@ const iso646_syms[] = {
 	"onehalf",
 	"threequarters",
 	"questiondown",
-	"Agrave",			/* 0xc0, 0300 */
+	"Agrave", /* 0xc0, 0300 */
 	"Aacute",
 	"Acircumflex",
 	"Atilde",
@@ -211,7 +210,7 @@ const iso646_syms[] = {
 	"Iacute",
 	"Icircumflex",
 	"Idiaeresis",
-	"ETH",				/* 0xd0, 0320 */
+	"ETH", /* 0xd0, 0320 */
 	"Ntilde",
 	"Ograve",
 	"Oacute",
@@ -227,7 +226,7 @@ const iso646_syms[] = {
 	"Yacute",
 	"THORN",
 	"ssharp",
-	"agrave",			/* 0xe0, 0340 */
+	"agrave", /* 0xe0, 0340 */
 	"aacute",
 	"acircumflex",
 	"atilde",
@@ -243,7 +242,7 @@ const iso646_syms[] = {
 	"iacute",
 	"icircumflex",
 	"idiaeresis",
-	"eth",				/* 0xf0, 0360 */
+	"eth", /* 0xf0, 0360 */
 	"ntilde",
 	"ograve",
 	"oacute",
@@ -258,83 +257,79 @@ const iso646_syms[] = {
 	"udiaeresis",
 	"yacute",
 	"thorn",
-	"ydiaeresis",			/* 0xff, 0377 */
+	"ydiaeresis", /* 0xff, 0377 */
 };
-
-
 
 /*
  * Keysyms whose KTYP is KT_FN.
  */
-static const char *
-const fn_syms[] = {
-	"F1", 	"F2",	"F3",	"F4",	"F5",
-	"F6",	"F7",	"F8",	"F9",	"F10",
-	"F11",	"F12",	"F13",	"F14",	"F15",
-	"F16",	"F17",	"F18",	"F19",	"F20",
-	"Find",			/* also called: "Home" */
+static const char *const fn_syms[] = {
+	"F1", "F2", "F3", "F4", "F5",
+	"F6", "F7", "F8", "F9", "F10",
+	"F11", "F12", "F13", "F14", "F15",
+	"F16", "F17", "F18", "F19", "F20",
+	"Find", /* also called: "Home" */
 	"Insert",
 	"Remove",
-	"Select",		/* also called: "End" */
-	"Prior",		/* also called: "PageUp" */
-	"Next",			/* also called: "PageDown" */
+	"Select", /* also called: "End" */
+	"Prior",  /* also called: "PageUp" */
+	"Next",   /* also called: "PageDown" */
 	"Macro",
 	"Help",
 	"Do",
 	"Pause",
-	"F21",	"F22",	"F23",	"F24",	"F25",
-	"F26",	"F27",	"F28",	"F29",	"F30",
-	"F31",	"F32",	"F33",	"F34",	"F35",
-	"F36",	"F37",	"F38",	"F39",	"F40",
-	"F41",	"F42",	"F43",	"F44",	"F45",
-	"F46",	"F47",	"F48",	"F49",	"F50",
-	"F51",	"F52",	"F53",	"F54",	"F55",
-	"F56",	"F57",	"F58",	"F59",	"F60",
-	"F61",	"F62",	"F63",	"F64",	"F65",
-	"F66",	"F67",	"F68",	"F69",	"F70",
-	"F71",	"F72",	"F73",	"F74",	"F75",
-	"F76",	"F77",	"F78",	"F79",	"F80",
-	"F81",	"F82",	"F83",	"F84",	"F85",
-	"F86",	"F87",	"F88",	"F89",	"F90",
-	"F91",	"F92",	"F93",	"F94",	"F95",
-	"F96",	"F97",	"F98",	"F99",	"F100",
-	"F101",	"F102",	"F103",	"F104",	"F105",
-	"F106",	"F107",	"F108",	"F109",	"F110",
-	"F111",	"F112",	"F113",	"F114",	"F115",
-	"F116",	"F117",	"F118",	"F119",	"F120",
-	"F121",	"F122",	"F123",	"F124",	"F125",
-	"F126",	"F127",	"F128",	"F129",	"F130",
-	"F131",	"F132",	"F133",	"F134",	"F135",
-	"F136",	"F137",	"F138",	"F139",	"F140",
-	"F141",	"F142",	"F143",	"F144",	"F145",
-	"F146",	"F147",	"F148",	"F149",	"F150",
-	"F151",	"F152",	"F153",	"F154",	"F155",
-	"F156",	"F157",	"F158",	"F159",	"F160",
-	"F161",	"F162",	"F163",	"F164",	"F165",
-	"F166",	"F167",	"F168",	"F169",	"F170",
-	"F171",	"F172",	"F173",	"F174",	"F175",
-	"F176",	"F177",	"F178",	"F179",	"F180",
-	"F181",	"F182",	"F183",	"F184",	"F185",
-	"F186",	"F187",	"F188",	"F189",	"F190",
-	"F191",	"F192",	"F193",	"F194",	"F195",
-	"F196",	"F197",	"F198",	"F199",	"F200",
-	"F201",	"F202",	"F203",	"F204",	"F205",
-	"F206",	"F207",	"F208",	"F209",	"F210",
-	"F211",	"F212",	"F213",	"F214",	"F215",
-	"F216",	"F217",	"F218",	"F219",	"F220",
-	"F221",	"F222",	"F223",	"F224",	"F225",
-	"F226",	"F227",	"F228",	"F229",	"F230",
-	"F231",	"F232",	"F233",	"F234",	"F235",
-	"F236",	"F237",	"F238",	"F239",	"F240",
-	"F241",	"F242",	"F243",	"F244",	"F245",
-	"F246"		/* there are 10 keys named Insert etc., total 256 */
+	"F21", "F22", "F23", "F24", "F25",
+	"F26", "F27", "F28", "F29", "F30",
+	"F31", "F32", "F33", "F34", "F35",
+	"F36", "F37", "F38", "F39", "F40",
+	"F41", "F42", "F43", "F44", "F45",
+	"F46", "F47", "F48", "F49", "F50",
+	"F51", "F52", "F53", "F54", "F55",
+	"F56", "F57", "F58", "F59", "F60",
+	"F61", "F62", "F63", "F64", "F65",
+	"F66", "F67", "F68", "F69", "F70",
+	"F71", "F72", "F73", "F74", "F75",
+	"F76", "F77", "F78", "F79", "F80",
+	"F81", "F82", "F83", "F84", "F85",
+	"F86", "F87", "F88", "F89", "F90",
+	"F91", "F92", "F93", "F94", "F95",
+	"F96", "F97", "F98", "F99", "F100",
+	"F101", "F102", "F103", "F104", "F105",
+	"F106", "F107", "F108", "F109", "F110",
+	"F111", "F112", "F113", "F114", "F115",
+	"F116", "F117", "F118", "F119", "F120",
+	"F121", "F122", "F123", "F124", "F125",
+	"F126", "F127", "F128", "F129", "F130",
+	"F131", "F132", "F133", "F134", "F135",
+	"F136", "F137", "F138", "F139", "F140",
+	"F141", "F142", "F143", "F144", "F145",
+	"F146", "F147", "F148", "F149", "F150",
+	"F151", "F152", "F153", "F154", "F155",
+	"F156", "F157", "F158", "F159", "F160",
+	"F161", "F162", "F163", "F164", "F165",
+	"F166", "F167", "F168", "F169", "F170",
+	"F171", "F172", "F173", "F174", "F175",
+	"F176", "F177", "F178", "F179", "F180",
+	"F181", "F182", "F183", "F184", "F185",
+	"F186", "F187", "F188", "F189", "F190",
+	"F191", "F192", "F193", "F194", "F195",
+	"F196", "F197", "F198", "F199", "F200",
+	"F201", "F202", "F203", "F204", "F205",
+	"F206", "F207", "F208", "F209", "F210",
+	"F211", "F212", "F213", "F214", "F215",
+	"F216", "F217", "F218", "F219", "F220",
+	"F221", "F222", "F223", "F224", "F225",
+	"F226", "F227", "F228", "F229", "F230",
+	"F231", "F232", "F233", "F234", "F235",
+	"F236", "F237", "F238", "F239", "F240",
+	"F241", "F242", "F243", "F244", "F245",
+	"F246" /* there are 10 keys named Insert etc., total 256 */
 };
 
 /*
  * Keysyms whose KTYP is KT_SPEC.
  */
-static const char *
-const spec_syms[] = {
+static const char *const spec_syms[] = {
 	"VoidSymbol",
 	"Return",
 	"Show_Registers",
@@ -360,8 +355,7 @@ const spec_syms[] = {
 /*
  * Keysyms whose KTYP is KT_PAD.
  */
-static const char *
-const pad_syms[] = {
+static const char *const pad_syms[] = {
 	"KP_0",
 	"KP_1",
 	"KP_2",
@@ -385,8 +379,7 @@ const pad_syms[] = {
 /*
  * Keysyms whose KTYP is KT_DEAD.
  */
-static const char *
-const dead_syms[] = {
+static const char *const dead_syms[] = {
 	"dead_grave",
 	"dead_acute",
 	"dead_circumflex",
@@ -398,8 +391,7 @@ const dead_syms[] = {
 /*
  * Keysyms whose KTYP is KT_CONS.
  */
-static const char *
-const cons_syms[] = {
+static const char *const cons_syms[] = {
 	"Console_1",
 	"Console_2",
 	"Console_3",
@@ -468,8 +460,7 @@ const cons_syms[] = {
 /*
  * Keysyms whose KTYP is KT_CUR.
  */
-static const char *
-const cur_syms[] = {
+static const char *const cur_syms[] = {
 	"Down",
 	"Left",
 	"Right",
@@ -479,8 +470,7 @@ const cur_syms[] = {
 /*
  * Keysyms whose KTYP is KT_SHIFT.
  */
-static const char *
-const shift_syms[] = {
+static const char *const shift_syms[] = {
 	"Shift",
 	"AltGr",
 	"Control",
@@ -495,8 +485,7 @@ const shift_syms[] = {
 /*
  * Keysyms whose KTYP is KT_ASCII.
  */
-static const char *
-const ascii_syms[] = {
+static const char *const ascii_syms[] = {
 	"Ascii_0",
 	"Ascii_1",
 	"Ascii_2",
@@ -528,8 +517,7 @@ const ascii_syms[] = {
 /*
  * Keysyms whose KTYP is KT_LOCK.
  */
-static const char *
-const lock_syms[] = {
+static const char *const lock_syms[] = {
 	"Shift_Lock",
 	"AltGr_Lock",
 	"Control_Lock",
@@ -544,8 +532,7 @@ const lock_syms[] = {
 /*
  * Keysyms whose KTYP is KT_SLOCK.
  */
-static const char *
-const sticky_syms[] = {
+static const char *const sticky_syms[] = {
 	"SShift",
 	"SAltGr",
 	"SControl",
@@ -560,8 +547,7 @@ const sticky_syms[] = {
 /*
  * Keysyms whose KTYP is KT_BRL.
  */
-static const char *
-const brl_syms[] = {
+static const char *const brl_syms[] = {
 	"Brl_blank",
 	"Brl_dot1",
 	"Brl_dot2",

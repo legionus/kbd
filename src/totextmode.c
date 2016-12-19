@@ -16,8 +16,8 @@
 #include "version.h"
 #include "kbd_error.h"
 
-int
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	int fd, num;
 
 	set_progname(argv[0]);
@@ -37,7 +37,7 @@ main(int argc, char *argv[]) {
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	num = atoi(argv[1]);
-	if (ioctl(fd,KDSETMODE,KD_TEXT)) {
+	if (ioctl(fd, KDSETMODE, KD_TEXT)) {
 		kbd_error(EXIT_FAILURE, errno, "totextmode: KDSETMODE");
 	}
 	return EXIT_SUCCESS;

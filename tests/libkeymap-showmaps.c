@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
 	f.pipe = 0;
 	strcpy(f.pathname, argv[1]);
-	f.fd = fopen( argv[1], "r");
+	f.fd = fopen(argv[1], "r");
 
 	lk_parse_keymap(ctx, &f);
 

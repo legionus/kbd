@@ -16,7 +16,7 @@
 #include "nls.h"
 #include "version.h"
 
-int tmp;	/* for debugging */
+int tmp; /* for debugging */
 
 int fd;
 int oldkbmode;
@@ -27,34 +27,41 @@ struct termios old;
  * thus making the console unusable when it was called under X.
  */
 static void
-get_mode(void) {
-        char *m;
+get_mode(void)
+{
+	char *m;
 
 	if (ioctl(fd, KDGKBMODE, &oldkbmode)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
 	}
-	switch(oldkbmode) {
-	  case K_RAW:
-	    m = "RAW"; break;
-	  case K_XLATE:
-	    m = "XLATE"; break;
-	  case K_MEDIUMRAW:
-	    m = "MEDIUMRAW"; break;
-	  case K_UNICODE:
-	    m = "UNICODE"; break;
-	  default:
-	    m = _("?UNKNOWN?"); break;
+	switch (oldkbmode) {
+		case K_RAW:
+			m = "RAW";
+			break;
+		case K_XLATE:
+			m = "XLATE";
+			break;
+		case K_MEDIUMRAW:
+			m = "MEDIUMRAW";
+			break;
+		case K_UNICODE:
+			m = "UNICODE";
+			break;
+		default:
+			m = _("?UNKNOWN?");
+			break;
 	}
 	printf(_("kb mode was %s\n"), m);
 	if (oldkbmode != K_XLATE) {
-	    printf(_("[ if you are trying this under X, it might not work\n"
-		     "since the X server is also reading /dev/console ]\n"));
+		printf(_("[ if you are trying this under X, it might not work\n"
+		         "since the X server is also reading /dev/console ]\n"));
 	}
 	printf("\n");
 }
 
 static void
-clean_up(void) {
+clean_up(void)
+{
 	if (ioctl(fd, KDSKBMODE, oldkbmode)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}
@@ -63,53 +70,56 @@ clean_up(void) {
 	close(fd);
 }
 
-static void __attribute__ ((noreturn))
-die(int x) {
+static void __attribute__((noreturn))
+die(int x)
+{
 	printf(_("caught signal %d, cleaning up...\n"), x);
 	clean_up();
 	exit(EXIT_FAILURE);
 }
 
-static void __attribute__ ((noreturn))
-watch_dog(int x __attribute__ ((unused))) {
+static void __attribute__((noreturn))
+watch_dog(int x __attribute__((unused)))
+{
 	clean_up();
 	exit(EXIT_SUCCESS);
 }
 
-static void __attribute__ ((noreturn))
-usage(void) {
+static void __attribute__((noreturn))
+usage(void)
+{
 	fprintf(stderr, _(
-"showkey version %s\n\n"
-"usage: showkey [options...]\n"
-"\n"
-"valid options are:\n"
-"\n"
-"	-h --help	display this help text\n"
-"	-a --ascii	display the decimal/octal/hex values of the keys\n"
-"	-s --scancodes	display only the raw scan-codes\n"
-"	-k --keycodes	display only the interpreted keycodes (default)\n"
-"	-V --version	print version number\n"
-), PACKAGE_VERSION);
+	                    "showkey version %s\n\n"
+	                    "usage: showkey [options...]\n"
+	                    "\n"
+	                    "valid options are:\n"
+	                    "\n"
+	                    "	-h --help	display this help text\n"
+	                    "	-a --ascii	display the decimal/octal/hex values of the keys\n"
+	                    "	-s --scancodes	display only the raw scan-codes\n"
+	                    "	-k --keycodes	display only the interpreted keycodes (default)\n"
+	                    "	-V --version	print version number\n"),
+	        PACKAGE_VERSION);
 	exit(EXIT_FAILURE);
 }
 
-int
-main (int argc, char *argv[]) {
-	const char *short_opts = "haskV";
+int main(int argc, char *argv[])
+{
+	const char *short_opts          = "haskV";
 	const struct option long_opts[] = {
-		{ "help",	no_argument, NULL, 'h' },
-		{ "ascii",	no_argument, NULL, 'a' },
-		{ "scancodes",	no_argument, NULL, 's' },
-		{ "keycodes",	no_argument, NULL, 'k' },
-		{ "version",	no_argument, NULL, 'V' },
+		{ "help", no_argument, NULL, 'h' },
+		{ "ascii", no_argument, NULL, 'a' },
+		{ "scancodes", no_argument, NULL, 's' },
+		{ "keycodes", no_argument, NULL, 'k' },
+		{ "version", no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
 	int show_keycodes = 1;
-	int print_ascii = 0;
+	int print_ascii   = 0;
 
 	struct termios new;
-	unsigned char buf[18];	/* divisible by 3 */
+	unsigned char buf[18]; /* divisible by 3 */
 	int i, n;
 
 	set_progname(argv[0]);
@@ -119,22 +129,22 @@ main (int argc, char *argv[]) {
 	textdomain(PACKAGE_NAME);
 
 	while ((c = getopt_long(argc, argv,
-				short_opts, long_opts, NULL)) != -1) {
+	                        short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
-		case 's':
-			show_keycodes = 0;
-			break;
-		case 'k':
-			show_keycodes = 1;
-			break;
-		case 'a':
-			print_ascii = 1;
-			break;
-		case 'V':
-			print_version_and_exit();
-		case 'h':
-		case '?':
-			usage();
+			case 's':
+				show_keycodes = 0;
+				break;
+			case 'k':
+				show_keycodes = 1;
+				break;
+			case 'a':
+				print_ascii = 1;
+				break;
+			case 'V':
+				print_version_and_exit();
+			case 'h':
+			case '?':
+				usage();
 		}
 	}
 
@@ -143,17 +153,17 @@ main (int argc, char *argv[]) {
 
 	if (print_ascii) {
 		/* no mode and signal and timer stuff - just read stdin */
-	        fd = 0;
+		fd = 0;
 
 		if (tcgetattr(fd, &old) == -1)
 			kbd_warning(errno, "tcgetattr");
 		if (tcgetattr(fd, &new) == -1)
 			kbd_warning(errno, "tcgetattr");
 
-		new.c_lflag &= ~ (ICANON | ISIG);
+		new.c_lflag &= ~(ICANON | ISIG);
 		new.c_lflag |= (ECHO | ECHOCTL);
-		new.c_iflag = 0;
-		new.c_cc[VMIN] = 1;
+		new.c_iflag     = 0;
+		new.c_cc[VMIN]  = 1;
 		new.c_cc[VTIME] = 0;
 
 		if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
@@ -215,10 +225,10 @@ main (int argc, char *argv[]) {
 	if (tcgetattr(fd, &new) == -1)
 		kbd_warning(errno, "tcgetattr");
 
-	new.c_lflag &= ~ (ICANON | ECHO | ISIG);
-	new.c_iflag = 0;
-	new.c_cc[VMIN] = sizeof(buf);
-	new.c_cc[VTIME] = 1;	/* 0.1 sec intercharacter timeout */
+	new.c_lflag &= ~(ICANON | ECHO | ISIG);
+	new.c_iflag     = 0;
+	new.c_cc[VMIN]  = sizeof(buf);
+	new.c_cc[VTIME] = 1; /* 0.1 sec intercharacter timeout */
 
 	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
 		kbd_warning(errno, "tcsetattr");
@@ -252,11 +262,9 @@ main (int argc, char *argv[]) {
 
 			s = (buf[i] & 0x80) ? _("release") : _("press");
 
-			if (i+2 < n && (buf[i] & 0x7f) == 0
-				&& (buf[i+1] & 0x80) != 0
-				&& (buf[i+2] & 0x80) != 0) {
-				kc = ((buf[i+1] & 0x7f) << 7) |
-					(buf[i+2] & 0x7f);
+			if (i + 2 < n && (buf[i] & 0x7f) == 0 && (buf[i + 1] & 0x80) != 0 && (buf[i + 2] & 0x80) != 0) {
+				kc = ((buf[i + 1] & 0x7f) << 7) |
+				     (buf[i + 2] & 0x7f);
 				i += 3;
 			} else {
 				kc = (buf[i] & 0x7f);

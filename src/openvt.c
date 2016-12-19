@@ -29,7 +29,7 @@
 #define FALSE (0)
 
 #ifdef ESIX_5_3_2_D
-#define	VTBASE "/dev/vt%02d"
+#define VTBASE "/dev/vt%02d"
 #endif
 
 // Where your VTs are hidden
@@ -43,25 +43,26 @@
 #endif
 
 static void
-__attribute__ ((noreturn))
-print_help(int ret)
+    __attribute__((noreturn))
+    print_help(int ret)
 {
 	printf(_("Usage: %s [OPTIONS] -- command\n"
-	       "\n"
-	       "This utility help you to start a program on a new virtual terminal (VT).\n"
-	       "\n"
-	       "Options:\n"
-	       "  -c, --console=NUM   use the given VT number;\n"
-	       "  -e, --exec          execute the command, without forking;\n"
-	       "  -f, --force         force opening a VT without checking;\n"
-	       "  -l, --login         make the command a login shell;\n"
-	       "  -u, --user          figure out the owner of the current VT;\n"
-	       "  -s, --switch        switch to the new VT;\n"
-	       "  -w, --wait          wait for command to complete;\n"
-	       "  -v, --verbose       print a message for each action;\n"
-	       "  -V, --version       print program version and exit;\n"
-	       "  -h, --help          output a brief help message.\n"
-	       "\n"), progname);
+	         "\n"
+	         "This utility help you to start a program on a new virtual terminal (VT).\n"
+	         "\n"
+	         "Options:\n"
+	         "  -c, --console=NUM   use the given VT number;\n"
+	         "  -e, --exec          execute the command, without forking;\n"
+	         "  -f, --force         force opening a VT without checking;\n"
+	         "  -l, --login         make the command a login shell;\n"
+	         "  -u, --user          figure out the owner of the current VT;\n"
+	         "  -s, --switch        switch to the new VT;\n"
+	         "  -w, --wait          wait for command to complete;\n"
+	         "  -v, --verbose       print a message for each action;\n"
+	         "  -V, --version       print program version and exit;\n"
+	         "  -h, --help          output a brief help message.\n"
+	         "\n"),
+	       progname);
 	exit(ret);
 }
 
@@ -139,7 +140,7 @@ authenticate_user(int curvt)
 
 	kbd_error(EXIT_FAILURE, 0, _("Couldn't find owner of current tty!"));
 
- got_a_process:
+got_a_process:
 	closedir(dp);
 
 	return pwnam->pw_name;
@@ -161,36 +162,35 @@ open_vt(char *vtname, int force)
 	return fd;
 }
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int opt, pid, i;
 	struct vt_stat vtstat;
-	int vtno = -1;
-	int fd  = -1;
-	int consfd = -1;
-	int force = 0;
-	char optc = FALSE;
-	char show = FALSE;
-	char login = FALSE;
-	char verbose = FALSE;
+	int vtno         = -1;
+	int fd           = -1;
+	int consfd       = -1;
+	int force        = 0;
+	char optc        = FALSE;
+	char show        = FALSE;
+	char login       = FALSE;
+	char verbose     = FALSE;
 	char direct_exec = FALSE;
-	char do_wait = FALSE;
-	char as_user = FALSE;
+	char do_wait     = FALSE;
+	char as_user     = FALSE;
 	char vtname[sizeof(VTNAME) + 2]; /* allow 999 possible VTs */
 	char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
 	struct option long_options[] = {
-		{ "help",	no_argument,		0, 'h' },
-		{ "version",	no_argument,		0, 'V' },
-		{ "verbose",	no_argument,		0, 'v' },
-		{ "exec",	no_argument,		0, 'e' },
-		{ "force",	no_argument,		0, 'f' },
-		{ "login",	no_argument,		0, 'l' },
-		{ "user",	no_argument,		0, 'u' },
-		{ "switch",	no_argument,		0, 's' },
-		{ "wait",	no_argument,		0, 'w' },
-		{ "console",	required_argument,	0, 'c' },
+		{ "help", no_argument, 0, 'h' },
+		{ "version", no_argument, 0, 'V' },
+		{ "verbose", no_argument, 0, 'v' },
+		{ "exec", no_argument, 0, 'e' },
+		{ "force", no_argument, 0, 'f' },
+		{ "login", no_argument, 0, 'l' },
+		{ "user", no_argument, 0, 'u' },
+		{ "switch", no_argument, 0, 's' },
+		{ "wait", no_argument, 0, 'w' },
+		{ "console", required_argument, 0, 'c' },
 		{ 0, 0, 0, 0 }
 	};
 
@@ -203,7 +203,7 @@ main(int argc, char *argv[])
 	while ((opt = getopt_long(argc, argv, "c:lsfuewhvV", long_options, NULL)) != -1) {
 		switch (opt) {
 			case 'c':
-				optc = 1;	/* vtno was specified by the user */
+				optc = 1; /* vtno was specified by the user */
 				vtno = (int)atol(optarg);
 
 				if (vtno <= 0 || vtno > 63)
@@ -267,11 +267,11 @@ main(int argc, char *argv[])
 	} else if (!force) {
 		if (vtno >= 16)
 			kbd_error(7, 0, _("Cannot check whether vt %d is free; use `%s -f' to force."),
-			             vtno, progname);
+			          vtno, progname);
 
 		if (vtstat.v_state & (1 << vtno))
 			kbd_error(7, 0, _("vt %d is in use; command aborted; use `%s -f' to force."),
-			             vtno, progname);
+			          vtno, progname);
 	}
 
 	if (as_user)
@@ -303,15 +303,15 @@ main(int argc, char *argv[])
 	if (direct_exec || ((pid = fork()) == 0)) {
 		/* leave current vt */
 		if (!direct_exec) {
-#ifdef   ESIX_5_3_2_D
+#ifdef ESIX_5_3_2_D
 #ifdef HAVE_SETPGRP
 			if (setpgrp() < 0)
 #else
 			if (1)
-#endif				/* HAVE_SETPGRP */
+#endif /* HAVE_SETPGRP */
 #else
 			if (setsid() < 0)
-#endif				/* ESIX_5_3_2_D */
+#endif /* ESIX_5_3_2_D */
 				kbd_error(5, errno, _("Unable to set new session"));
 		}
 
@@ -338,7 +338,7 @@ main(int argc, char *argv[])
 			}
 			kbd_error(5, errsv, _("Unable to open %s"), vtname);
 		}
- got_vtno:
+	got_vtno:
 		if (verbose)
 			kbd_warning(0, _("Using VT %s"), vtname);
 
@@ -391,7 +391,7 @@ main(int argc, char *argv[])
 		wait(NULL);
 		waitpid(pid, &retval, 0);
 
-		if (show) {	/* Switch back... */
+		if (show) { /* Switch back... */
 			if (ioctl(consfd, VT_ACTIVATE, vtstat.v_active))
 				kbd_error(8, errno, "ioctl(VT_ACTIVATE)");
 
@@ -405,7 +405,7 @@ main(int argc, char *argv[])
 
 		/* if all our stuff went right, we want to return the exit code of the command we ran
 		   super vital for scripting loops etc */
-		return(retval);
+		return (retval);
 	}
 
 	return EXIT_SUCCESS;

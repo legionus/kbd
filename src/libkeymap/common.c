@@ -10,7 +10,7 @@
 #include "nls.h"
 #include "contextP.h"
 
-void __attribute__ ((format (printf, 6, 7)))
+void __attribute__((format(printf, 6, 7)))
 lk_log(struct lk_ctx *ctx, int priority,
        const char *file, int line, const char *fn,
        const char *fmt, ...)
@@ -24,17 +24,17 @@ lk_log(struct lk_ctx *ctx, int priority,
 }
 
 #ifndef DEBUG
-#   define log_unused __attribute__ ((unused))
+#define log_unused __attribute__((unused))
 #else
-#   define log_unused
+#define log_unused
 #endif
 
-static void __attribute__ ((format(printf, 6, 0)))
+static void __attribute__((format(printf, 6, 0)))
 log_file(void *data,
-         int priority     log_unused,
+         int priority log_unused,
          const char *file log_unused,
-         const int line   log_unused,
-         const char *fn   log_unused,
+         const int line log_unused,
+         const char *fn log_unused,
          const char *format, va_list args)
 {
 	FILE *fp = data;
@@ -43,14 +43,30 @@ log_file(void *data,
 	const char *priname;
 
 	switch (priority) {
-		case LOG_EMERG:   priname = "EMERGENCY"; break;
-		case LOG_ALERT:   priname = "ALERT";     break;
-		case LOG_CRIT:    priname = "CRITICAL";  break;
-		case LOG_ERR:     priname = "ERROR";     break;
-		case LOG_WARNING: priname = "WARNING";   break;
-		case LOG_NOTICE:  priname = "NOTICE";    break;
-		case LOG_INFO:    priname = "INFO";      break;
-		case LOG_DEBUG:   priname = "DEBUG";     break;
+		case LOG_EMERG:
+			priname = "EMERGENCY";
+			break;
+		case LOG_ALERT:
+			priname = "ALERT";
+			break;
+		case LOG_CRIT:
+			priname = "CRITICAL";
+			break;
+		case LOG_ERR:
+			priname = "ERROR";
+			break;
+		case LOG_WARNING:
+			priname = "WARNING";
+			break;
+		case LOG_NOTICE:
+			priname = "NOTICE";
+			break;
+		case LOG_INFO:
+			priname = "INFO";
+			break;
+		case LOG_DEBUG:
+			priname = "DEBUG";
+			break;
 		default:
 			snprintf(buf, sizeof(buf), "L:%d", priority);
 			priname = buf;
@@ -63,12 +79,11 @@ log_file(void *data,
 
 #undef log_unused
 
-int
-lk_set_log_fn(struct lk_ctx *ctx,
-	void (*log_fn)(void *data, int priority,
-	               const char *file, int line, const char *fn,
-	               const char *format, va_list args),
-	const void *data)
+int lk_set_log_fn(struct lk_ctx *ctx,
+                  void (*log_fn)(void *data, int priority,
+                                 const char *file, int line, const char *fn,
+                                 const char *format, va_list args),
+                  const void *data)
 {
 	if (!ctx)
 		return -1;
@@ -79,8 +94,7 @@ lk_set_log_fn(struct lk_ctx *ctx,
 	return 0;
 }
 
-int
-lk_get_log_priority(struct lk_ctx *ctx)
+int lk_get_log_priority(struct lk_ctx *ctx)
 {
 	if (!ctx)
 		return -1;
@@ -88,8 +102,7 @@ lk_get_log_priority(struct lk_ctx *ctx)
 	return ctx->log_priority;
 }
 
-int
-lk_set_log_priority(struct lk_ctx *ctx, int priority)
+int lk_set_log_priority(struct lk_ctx *ctx, int priority)
 {
 	if (!ctx)
 		return -1;
@@ -107,8 +120,7 @@ lk_get_parser_flags(struct lk_ctx *ctx)
 	return ctx->flags;
 }
 
-int
-lk_set_parser_flags(struct lk_ctx *ctx, lk_flags flags)
+int lk_set_parser_flags(struct lk_ctx *ctx, lk_flags flags)
 {
 	if (!ctx)
 		return -1;
@@ -154,11 +166,11 @@ lk_init(void)
 	lk_set_log_fn(ctx, log_file, stderr);
 	lk_set_log_priority(ctx, LOG_ERR);
 
-	if (init_array(ctx, &ctx->keymap,       sizeof(void*)) < 0 ||
-	    init_array(ctx, &ctx->func_table,   sizeof(void*)) < 0 ||
-	    init_array(ctx, &ctx->accent_table, sizeof(void*)) < 0 ||
-	    init_array(ctx, &ctx->key_constant, sizeof(char))  < 0 ||
-	    init_array(ctx, &ctx->key_line,     sizeof(int))   < 0) {
+	if (init_array(ctx, &ctx->keymap, sizeof(void *)) < 0 ||
+	    init_array(ctx, &ctx->func_table, sizeof(void *)) < 0 ||
+	    init_array(ctx, &ctx->accent_table, sizeof(void *)) < 0 ||
+	    init_array(ctx, &ctx->key_constant, sizeof(char)) < 0 ||
+	    init_array(ctx, &ctx->key_line, sizeof(int)) < 0) {
 		lk_free(ctx);
 		return NULL;
 	}
@@ -166,11 +178,9 @@ lk_init(void)
 	return ctx;
 }
 
-
-int
-lk_free(struct lk_ctx *ctx)
+int lk_free(struct lk_ctx *ctx)
 {
-	unsigned int i;//, j;
+	unsigned int i; //, j;
 
 	if (!ctx)
 		return -1;

@@ -36,31 +36,30 @@
  * Try to find out proper login name.
  */
 const char *
-get_username (void)
+get_username(void)
 {
 	const char *name;
 	struct passwd *pw = 0;
-	uid_t   uid = getuid ();
+	uid_t uid         = getuid();
 
-	char   *logname = getenv ("LOGNAME");
+	char *logname = getenv("LOGNAME");
 
-	if (logname)
-	{
-		pw = getpwnam (logname);
+	if (logname) {
+		pw = getpwnam(logname);
 		/* Ensure uid is same as current. */
 		if (pw && pw->pw_uid != uid)
 			pw = 0;
 	}
 	if (!pw)
-		pw = getpwuid (uid);
+		pw = getpwuid(uid);
 
 	if (!pw)
-		kbd_error (EXIT_FAILURE, 0, _("unrecognized user"));
+		kbd_error(EXIT_FAILURE, 0, _("unrecognized user"));
 
-	name = strdup (pw->pw_name);
+	name = strdup(pw->pw_name);
 	if (!name)
-		kbd_error (EXIT_FAILURE, errno, "strdup");
+		kbd_error(EXIT_FAILURE, errno, "strdup");
 
-	endpwent ();
+	endpwent();
 	return name;
 }

@@ -1,58 +1,58 @@
-struct syn
-const synonyms[] = {
-	{ "Control_h",		"BackSpace" },
-	{ "Control_i",		"Tab" },
-	{ "Control_j",		"Linefeed" },
-	{ "Home",		"Find" },
-/* Unfortunately Delete already denotes ASCII 0177 */
-/*	{ "Delete",		"Remove" }, */
-	{ "End",		"Select" },
-	{ "PageUp",		"Prior" },
-	{ "PageDown",		"Next" },
-	{ "multiplication",	"multiply" },
-	{ "pound",		"sterling" },
-	{ "pilcrow",		"paragraph" },
-	{ "Oslash",		"Ooblique" },
-	{ "Shift_L",		"ShiftL" },
-	{ "Shift_R",		"ShiftR" },
-	{ "Control_L",		"CtrlL" },
-	{ "Control_R",		"CtrlR" },
-	{ "AltL",		"Alt" },
-	{ "AltR",		"AltGr" },
-	{ "Alt_L",		"Alt" },
-	{ "Alt_R",		"AltGr" },
-	{ "AltGr_L",		"Alt" },
-	{ "AltGr_R",		"AltGr" },
-	{ "AltLLock",		"Alt_Lock" },
-	{ "AltRLock",		"AltGr_Lock" },
-	{ "SCtrl",		"SControl" },
-	{ "Spawn_Console",	"KeyboardSignal" },
-	{ "Uncaps_Shift",	"CapsShift" },
-/* the names of the Greek letters are spelled differently
+struct syn const synonyms[] = {
+	{ "Control_h", "BackSpace" },
+	{ "Control_i", "Tab" },
+	{ "Control_j", "Linefeed" },
+	{ "Home", "Find" },
+	/* Unfortunately Delete already denotes ASCII 0177 */
+	/* { "Delete", "Remove" }, */
+	{ "End", "Select" },
+	{ "PageUp", "Prior" },
+	{ "PageDown", "Next" },
+	{ "multiplication", "multiply" },
+	{ "pound", "sterling" },
+	{ "pilcrow", "paragraph" },
+	{ "Oslash", "Ooblique" },
+	{ "Shift_L", "ShiftL" },
+	{ "Shift_R", "ShiftR" },
+	{ "Control_L", "CtrlL" },
+	{ "Control_R", "CtrlR" },
+	{ "AltL", "Alt" },
+	{ "AltR", "AltGr" },
+	{ "Alt_L", "Alt" },
+	{ "Alt_R", "AltGr" },
+	{ "AltGr_L", "Alt" },
+	{ "AltGr_R", "AltGr" },
+	{ "AltLLock", "Alt_Lock" },
+	{ "AltRLock", "AltGr_Lock" },
+	{ "SCtrl", "SControl" },
+	{ "Spawn_Console", "KeyboardSignal" },
+	{ "Uncaps_Shift", "CapsShift" },
+	/* the names of the Greek letters are spelled differently
    in the iso-8859-7 and the Unicode standards */
-	{ "lambda",             "lamda" },
-	{ "Lambda",             "Lamda" },
-	{ "xi",                 "ksi" },
-	{ "Xi",                 "Ksi" },
-	{ "chi",                "khi" },
-	{ "Chi",                "Khi" },
-/* diacriticals */
-	{ "tilde",		"asciitilde" },
-	{ "circumflex",		"asciicircum" },
-/* as dead_ogonek, dead_caron, dead_breve and dead_doubleacute do not exist
- * (yet), I put also compose lines for use with respectively dead_cedilla,
- * dead_circumflex, dead_tilde and dead_tilde */
-	{ "dead_ogonek",        "dead_cedilla" },
-	{ "dead_caron",         "dead_circumflex" },
-	{ "dead_breve",         "dead_tilde" },
-	{ "dead_doubleacute",   "dead_tilde" },
-/* turkish */
-	{ "Idotabove",          "Iabovedot" },
-	{ "dotlessi",           "idotless" },
-/* cyrillic */
-	{ "no-break_space",     "nobreakspace" },
-	{ "paragraph_sign",     "section" },
-	{ "soft_hyphen",        "hyphen" },
+	{ "lambda", "lamda" },
+	{ "Lambda", "Lamda" },
+	{ "xi", "ksi" },
+	{ "Xi", "Ksi" },
+	{ "chi", "khi" },
+	{ "Chi", "Khi" },
+	/* diacriticals */
+	{ "tilde", "asciitilde" },
+	{ "circumflex", "asciicircum" },
+	/* as dead_ogonek, dead_caron, dead_breve and dead_doubleacute do not exist
+	 * (yet), I put also compose lines for use with respectively dead_cedilla,
+	 * dead_circumflex, dead_tilde and dead_tilde
+	 */
+	{ "dead_ogonek", "dead_cedilla" },
+	{ "dead_caron", "dead_circumflex" },
+	{ "dead_breve", "dead_tilde" },
+	{ "dead_doubleacute", "dead_tilde" },
+	/* turkish */
+	{ "Idotabove", "Iabovedot" },
+	{ "dotlessi", "idotless" },
+	/* cyrillic */
+	{ "no-break_space", "nobreakspace" },
+	{ "paragraph_sign", "section" },
+	{ "soft_hyphen", "hyphen" },
 	{ "bielorussian_cyrillic_capital_letter_i", "ukrainian_cyrillic_capital_letter_i" },
 	{ "cyrillic_capital_letter_kha", "cyrillic_capital_letter_ha" },
 	{ "cyrillic_capital_letter_ge", "cyrillic_capital_letter_ghe" },
@@ -73,6 +73,6 @@ const synonyms[] = {
 	{ "cyrillic_small_letter_short_ii", "cyrillic_small_letter_short_i" },
 	{ "ukrainian_cyrillic_small_letter_ghe_with_upturn", "cyrillic_small_letter_ghe_with_upturn" },
 	{ "ukrainian_cyrillic_capital_letter_ghe_with_upturn", "cyrillic_capital_letter_ghe_with_upturn" },
-/* iso-8859-7 */
-	{ "rightanglequote",    "guillemotright" }
+	/* iso-8859-7 */
+	{ "rightanglequote", "guillemotright" }
 };

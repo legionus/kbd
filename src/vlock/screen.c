@@ -32,20 +32,18 @@
 
 static unsigned char lines, columns;
 static void *screen_buf = 0;
-static int vcs = -1;
+static int vcs          = -1;
 
-void
-init_screen(void)
+void init_screen(void)
 {
-	int     failed = 1;
+	int failed             = 1;
 	const char clear_str[] = "\33[3J\33[H\33[J";
 
 	vcs = -1;
-	do
-	{
+	do {
 		struct stat st;
 		unsigned i, size;
-		char    path[16];
+		char path[16];
 
 		if (fstat(STDIN_FILENO, &st) == -1)
 			break;
@@ -68,13 +66,12 @@ init_screen(void)
 		if (read(vcs, &lines, 1) != 1)
 			break;
 
-		size = 2 * lines * columns + 2;
+		size       = 2 * lines * columns + 2;
 		screen_buf = malloc(size);
 		if (!screen_buf)
 			break;
 
-		if (read(vcs, screen_buf, size) != (int) size)
-		{
+		if (read(vcs, screen_buf, size) != (int)size) {
 			free(screen_buf);
 			screen_buf = NULL;
 			break;
@@ -83,8 +80,7 @@ init_screen(void)
 		failed = 0;
 	} while (0);
 
-	if (failed && vcs >= 0)
-	{
+	if (failed && vcs >= 0) {
 		close(vcs);
 		vcs = -1;
 	}
@@ -95,13 +91,10 @@ init_screen(void)
 		return;
 }
 
-void
-restore_screen(void)
+void restore_screen(void)
 {
-	if (screen_buf)
-	{
-		do
-		{
+	if (screen_buf) {
+		do {
 			if (lseek(vcs, 0, SEEK_SET))
 				break;
 			if (write(vcs, &columns, 1) != 1)
