@@ -52,6 +52,22 @@ addseq(struct unicode_list *up, unsigned int uc)
 	//ul->seq->prev = us;
 }
 
+unsigned int
+get_font_bytewidth(unsigned int width)
+{
+	if (width < 2) {
+		fprintf(stderr, _("Font width too small\n"));
+		exit(EX_DATAERR);
+	}
+
+	if (width > MAX_FONT_WIDTH) {
+		fprintf(stderr, _("Font width too large\n"));
+		exit(EX_DATAERR);
+	}
+
+	return (width + 7) / 8;
+}
+
 static unsigned int
 assemble_int(unsigned char *ip)
 {
@@ -186,9 +202,9 @@ get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8)
  */
 extern char *progname;
 
-int readpsffont(FILE *fontf, char **allbufp, int *allszp,
-                char **fontbufp, int *fontszp,
-                int *fontwidthp, int *fontlenp, int fontpos0,
+int readpsffont(FILE *fontf, char **allbufp, unsigned int *allszp,
+                char **fontbufp, unsigned int *fontszp,
+                unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
                 struct unicode_list **uclistheadsp)
 {
 	char *inputbuf     = NULL;
@@ -213,8 +229,7 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 			}
 			n += fread(inputbuf + n, 1, inputbuflth - n, fontf);
 			if (ferror(fontf)) {
-				char *u = _("%s: Error reading input font");
-				fprintf(stderr, u, progname);
+				fprintf(stderr, _("%s: Error reading input font"), progname);
 				exit(EX_DATAERR);
 			}
 			if (feof(fontf))
@@ -224,7 +239,7 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 			*allbufp = inputbuf;
 		if (allszp)
 			*allszp = n;
-		inputlth        = n;
+		inputlth = n;
 	} else {
 		if (!allbufp || !allszp) {
 			char *u = _("%s: Bad call of readpsffont\n");
@@ -411,7 +426,7 @@ void writepsffontheader(FILE *ofil, int width, int height, int fontlen,
 {
 	int bytewidth, charsize, ret;
 
-	bytewidth = (width + 7) / 8;
+	bytewidth = get_font_bytewidth(width);
 	charsize  = bytewidth * height;
 
 	if ((fontlen != 256 && fontlen != 512) || width != 8)
@@ -463,7 +478,7 @@ int writepsffont(FILE *ofil, char *fontbuf, int width, int height, size_t fontle
 	int bytewidth, charsize, flags, utf8;
 	size_t i;
 
-	bytewidth = (width + 7) / 8;
+	bytewidth = get_font_bytewidth(width);
 	charsize  = bytewidth * height;
 	flags     = 0;
 

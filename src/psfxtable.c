@@ -237,11 +237,11 @@ int main(int argc, char **argv)
 {
 	char *ifname, *ofname, *itname, *otname;
 	FILE *ifil, *ofil, *itab, *otab;
-	int psftype, fontlen, charsize, hastable, notable;
-	int i;
-	int width = 8, bytewidth, height;
+	int psftype, charsize, hastable, notable;
+	unsigned int i;
+	unsigned int bytewidth, height;
 	char *inbuf, *fontbuf;
-	int inbuflth, fontbuflth;
+	unsigned int inbuflth, fontbuflth, fontlen, width = 8;
 
 	set_progname(argv[0]);
 
@@ -286,21 +286,21 @@ int main(int argc, char **argv)
 		ofname  = argv[2];
 		notable = 1;
 	} else {
-		for (i = 1; i < argc; i++) {
-			if ((!strcmp(argv[i], "-i") || !strcmp(argv[i], "-if")) && i < argc - 1)
+		for (i = 1; i < (unsigned int) argc; i++) {
+			if ((!strcmp(argv[i], "-i") || !strcmp(argv[i], "-if")) && i < (unsigned int)(argc - 1))
 				ifname = argv[++i];
-			else if ((!strcmp(argv[i], "-o") || !strcmp(argv[i], "-of")) && i < argc - 1)
+			else if ((!strcmp(argv[i], "-o") || !strcmp(argv[i], "-of")) && i < (unsigned int)(argc - 1))
 				ofname = argv[++i];
-			else if (!strcmp(argv[i], "-it") && i < argc - 1)
+			else if (!strcmp(argv[i], "-it") && i < (unsigned int)(argc - 1))
 				itname = argv[++i];
-			else if (!strcmp(argv[i], "-ot") && i < argc - 1)
+			else if (!strcmp(argv[i], "-ot") && i < (unsigned int)(argc - 1))
 				otname = argv[++i];
 			else if (!strcmp(argv[i], "-nt"))
 				notable = 1;
 			else
 				break;
 		}
-		if (i < argc || argc <= 1) {
+		if (i < (unsigned int)argc || argc <= 1) {
 			char *u = _("Usage:\n\t%s [-i infont] [-o outfont] "
 			            "[-it intable] [-ot outtable] [-nt]\n");
 			fprintf(stderr, u, progname);
@@ -368,7 +368,7 @@ int main(int argc, char **argv)
 	fclose(ifil);
 
 	charsize  = fontbuflth / fontlen;
-	bytewidth = (width + 7) / 8;
+	bytewidth = get_font_bytewidth(width);
 	if (!bytewidth)
 		bytewidth = 1;
 	height            = charsize / bytewidth;
