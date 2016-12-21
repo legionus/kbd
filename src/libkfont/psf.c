@@ -197,10 +197,10 @@ enum kfont_error kfont_parse_psf_font(struct kfont *font)
 		}
 
 		font->version     = KFONT_VERSION_PSF1;
-		font->font_len    = 0; // ((psfhdr->mode & PSF1_MODE512) ? 512 : 256);
-		font->char_size   = 0; // psfhdr->charsize;
-		font->has_table   = 0; // (psfhdr->mode & (PSF1_MODEHASTAB | PSF1_MODEHASSEQ));
-		font->font_offset = 0; // sizeof(struct psf1_header);
+		font->font_len    = (psf1_header.mode & PSF1_MODE512 ? 512 : 256);
+		font->char_size   = psf1_header.char_size;
+		font->has_table   = (psf1_header.mode & (PSF1_MODE_HAS_TAB | PSF1_MODE_HAS_SEQ));
+		font->font_offset = 4;
 		font->font_width  = 8;
 		font->utf8        = 0;
 	} else {
