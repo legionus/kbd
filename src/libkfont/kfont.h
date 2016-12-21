@@ -8,6 +8,8 @@ enum kfont_error {
 	KFONT_ERROR_UNSUPPORTED_PSF1_MODE    = -3,
 	KFONT_ERROR_BAD_PSF2_HEADER          = -4,
 	KFONT_ERROR_UNSUPPORTED_PSF2_VERSION = -5,
+	KFONT_ERROR_TRAILING_GARBAGE         = -6,
+	KFONT_ERROR_SHORT_UNICODE_TABLE      = -7,
 };
 
 enum kfont_version {
@@ -25,6 +27,13 @@ struct kfont_slice {
 	uint8_t *end;
 };
 
+struct kfont_unicode_pair {
+	struct kfont_unicode_pair *next;
+	unsigned int font_pos;
+	uint32_t seq_length;
+	uint32_t seq[1];
+};
+
 struct kfont {
 	enum kfont_version version;
 
@@ -33,7 +42,8 @@ struct kfont {
 	uint32_t font_width;
 	uint32_t char_size;
 	uint32_t has_table;
-	uint32_t utf8;
+
+	struct kfont_unicode_pair *unicode_map_head;
 
 	struct kfont_string content;
 };

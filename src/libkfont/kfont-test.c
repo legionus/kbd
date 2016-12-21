@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
 	printf("has table   : %lu\n", (unsigned long)font.has_table);
 	printf("font offset : %lu\n", (unsigned long)font.font_offset);
 	printf("font width  : %lu\n", (unsigned long)font.font_width);
-	printf("utf8        : %lu\n", (unsigned long)font.utf8);
 
 	if (font.font_len != 0) {
 		// TODO(dmage): check content size ; add some wrapper?
@@ -56,6 +55,14 @@ int main(int argc, char *argv[])
 			printf("%c", bit ? '%' : '-');
 		}
 		printf("\n");
+	}
+
+	struct kfont_unicode_pair *pair = font.unicode_map_head;
+	for ( ; pair; pair = pair->next) {
+		for (int i = 0; i < pair->seq_length; i++) {
+			printf("U+%04X ", pair->seq[i]);
+		}
+		printf("-> %u\n", pair->font_pos);
 	}
 
 	kfont_free(&font);
