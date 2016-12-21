@@ -5,7 +5,7 @@ AM_CPPFLAGS = \
 	-D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
 
-SUBDIRS = vlock libkeymap
+SUBDIRS = vlock libkeymap libkfont
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
