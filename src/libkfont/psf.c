@@ -92,19 +92,19 @@ static inline bool read_utf8_rune(struct kfont_slice *slice, uint32_t *out)
 	int need;
 	uint32_t result;
 	if ((c & 0xfe) == 0xfc) {
-		need = 5;
+		need   = 5;
 		result = c & 0x01;
 	} else if ((c & 0xfc) == 0xf8) {
-		need = 4;
+		need   = 4;
 		result = c & 0x03;
 	} else if ((c & 0xf8) == 0xf0) {
-		need = 3;
+		need   = 3;
 		result = c & 0x07;
 	} else if ((c & 0xf0) == 0xe0) {
-		need = 2;
+		need   = 2;
 		result = c & 0x0f;
 	} else if ((c & 0xe0) == 0xc0) {
-		need = 1;
+		need   = 1;
 		result = c & 0x1f;
 	} else {
 		*out = INVALID_RUNE;
@@ -156,7 +156,7 @@ static bool kfont_read_psf2_header(struct kfont_slice *slice, struct kfont_psf2_
 static bool kfont_read_unicode_map(struct kfont_slice *slice, unsigned int font_pos, enum kfont_version version, struct kfont_unicode_pair **out)
 {
 	if (version != KFONT_VERSION_PSF2) {
-		abort();  // TODO(dmage): handle PSF1
+		abort(); // TODO(dmage): handle PSF1
 	}
 
 	while (1) {
@@ -179,19 +179,20 @@ static bool kfont_read_unicode_map(struct kfont_slice *slice, unsigned int font_
 		}
 		if (rune == INVALID_RUNE) {
 			printf("kfont_read_unicode_map %d: <invalid utf8 sequence>\n", font_pos);
-			abort();  // TODO(dmage)
+			abort(); // TODO(dmage)
 		}
 		// printf("kfont_read_unicode_map %d: U+%04X\n", font_pos, rune);
 
 		// TODO(dmage): find font with PSF2_START_SEQ and write rest of the code
 
 		struct kfont_unicode_pair *pair = xmalloc(sizeof(struct kfont_unicode_pair));
-		pair->font_pos = font_pos;
+
+		pair->font_pos   = font_pos;
 		pair->seq_length = 1;
-		pair->seq[0] = rune;
+		pair->seq[0]     = rune;
 
 		pair->next = *out;
-		*out = pair;
+		*out       = pair;
 	}
 	return true;
 }
