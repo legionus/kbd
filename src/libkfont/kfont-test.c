@@ -7,6 +7,15 @@
 #include "version.h"
 #include "kfont.h"
 
+static void draw_bit(int bit)
+{
+	if (bit) {
+		printf("\x1b[7m  \x1b[0m");
+	} else {
+		printf("  ");
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	set_progname(argv[0]);
@@ -44,17 +53,20 @@ int main(int argc, char *argv[])
 	printf("font offset : %lu\n", (unsigned long)font.font_offset);
 	printf("font width  : %lu\n", (unsigned long)font.font_width);
 
-	if (font.font_len != 0) {
-		// TODO(dmage): check content size ; add some wrapper?
-		printf("first glyph:");
-		for (int i = 0; i < 8*font.char_size; i++) {
-			if (i % font.font_width == 0) {
-				printf("\n");
+	if (font.font_width > 0 && font.font_width <= 32) {
+		int row_size = (font.font_width + 7) / 8;
+		for (unsigned int font_pos = 0; font_pos < font.font_len; font_pos++) {
+			printf("position %u:\n", font_pos);
+			for (unsigned int row = 0; (row + 1) * row_size <= font.char_size; row++) {
+				printf("|");
+				for (int col = 0; col < font.font_width; col++) {
+					int offset = font.font_offset + font_pos * font.char_size + row * row_size;
+					int value = (font.content.data[offset + col / 8] << (col % 8)) & 0x80;
+					draw_bit(value);
+				}
+				printf("|\n");
 			}
-			int bit = (font.content.data[font.font_offset + i / 8] >> (i % 8)) & 1;
-			printf("%c", bit ? '%' : '-');
 		}
-		printf("\n");
 	}
 
 	struct kfont_unicode_pair *pair = font.unicode_map_head;
