@@ -205,6 +205,10 @@ bool kfont_read_file(FILE *f, struct kfont *font)
 
 	while (1) {
 		if (n == buflen) {
+			if (buflen > UINT32_MAX / 2) {
+				xfree(buf);
+				return false;
+			}
 			buflen *= 2;
 			buf = xrealloc(buf, buflen);
 		}
@@ -219,6 +223,7 @@ bool kfont_read_file(FILE *f, struct kfont *font)
 
 	font->content.data = buf;
 	font->content.size = n;
+	font->unicode_map_head = NULL;
 
 	return true;
 }
@@ -302,7 +307,21 @@ enum kfont_error kfont_parse_psf_font(struct kfont *font)
 		return KFONT_ERROR_BAD_MAGIC;
 	}
 
-	font->unicode_map_head = NULL;
+	if (font->font_offset > font->content.size) {
+		return KFONT_ERROR_FONT_OFFSET_TOO_BIG;
+	}
+
+	if (font->char_size == 0) {
+		return KFONT_ERROR_CHAR_SIZE_ZERO;
+	}
+
+	if (font->char_size > font->content.size - font->font_offset) {
+		return KFONT_ERROR_CHAR_SIZE_TOO_BIG;
+	}
+
+	if (font->font_len > (font->content.size - font->font_offset) / font->char_size) {
+		return KFONT_ERROR_FONT_LENGTH_TOO_BIG;
+	}
 
 	if (font->has_table) {
 		p.ptr = font->content.data + font->font_offset + font->font_len * font->char_size;
