@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	printf("version     : %lu\n", (unsigned long)font.version);
 	printf("font length : %lu\n", (unsigned long)font.font_len);
 	printf("char size   : %lu\n", (unsigned long)font.char_size);
-	printf("has table   : %lu\n", (unsigned long)font.has_table);
+	printf("has table   : %u\n",  font.unicode_map_head != NULL);
 	printf("font offset : %lu\n", (unsigned long)font.font_offset);
 	printf("font width  : %lu\n", (unsigned long)font.font_width);
 
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 			printf("position %u:\n", font_pos);
 			for (unsigned int row = 0; (row + 1) * row_size <= font.char_size; row++) {
 				printf("|");
-				for (int col = 0; col < font.font_width; col++) {
+				for (uint32_t col = 0; col < font.font_width; col++) {
 					int offset = font.font_offset + font_pos * font.char_size + row * row_size;
 					int value = (font.content.data[offset + col / 8] << (col % 8)) & 0x80;
 					draw_bit(value);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
 	struct kfont_unicode_pair *pair = font.unicode_map_head;
 	for ( ; pair; pair = pair->next) {
-		for (int i = 0; i < pair->seq_length; i++) {
+		for (uint32_t i = 0; i < pair->seq_length; i++) {
 			printf("U+%04X ", pair->seq[i]);
 		}
 		printf("-> %u\n", pair->font_pos);

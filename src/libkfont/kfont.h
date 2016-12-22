@@ -45,7 +45,6 @@ struct kfont {
 	uint32_t font_offset;
 	uint32_t font_width;
 	uint32_t char_size;
-	uint32_t has_table;
 
 	struct kfont_unicode_pair *unicode_map_head;
 

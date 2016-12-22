@@ -248,6 +248,8 @@ void kfont_free(struct kfont *font)
 
 enum kfont_error kfont_parse_psf_font(struct kfont *font)
 {
+	uint32_t has_table = 0;
+
 	struct kfont_slice p;
 	p.ptr = font->content.data;
 	p.end = font->content.data + font->content.size;
@@ -277,9 +279,9 @@ enum kfont_error kfont_parse_psf_font(struct kfont *font)
 		font->version     = KFONT_VERSION_PSF2;
 		font->font_len    = psf2_header.length;
 		font->char_size   = psf2_header.char_size;
-		font->has_table   = (psf2_header.flags & PSF2_HAS_UNICODE_TABLE);
 		font->font_offset = psf2_header.header_size;
 		font->font_width  = psf2_header.width;
+		has_table         = (psf2_header.flags & PSF2_HAS_UNICODE_TABLE);
 	} else if (font->content.size >= 2 && peek_uint16(font->content.data) == PSF1_MAGIC) {
 		p.ptr += 2;
 
@@ -300,9 +302,9 @@ enum kfont_error kfont_parse_psf_font(struct kfont *font)
 		font->version     = KFONT_VERSION_PSF1;
 		font->font_len    = (psf1_header.mode & PSF1_MODE512 ? 512 : 256);
 		font->char_size   = psf1_header.char_size;
-		font->has_table   = (psf1_header.mode & (PSF1_MODE_HAS_TAB | PSF1_MODE_HAS_SEQ));
 		font->font_offset = 4;
 		font->font_width  = 8;
+		has_table         = (psf1_header.mode & (PSF1_MODE_HAS_TAB | PSF1_MODE_HAS_SEQ));
 	} else {
 		return KFONT_ERROR_BAD_MAGIC;
 	}
@@ -323,11 +325,11 @@ enum kfont_error kfont_parse_psf_font(struct kfont *font)
 		return KFONT_ERROR_FONT_LENGTH_TOO_BIG;
 	}
 
-	if (font->has_table) {
+	if (has_table) {
 		p.ptr = font->content.data + font->font_offset + font->font_len * font->char_size;
 		p.end = font->content.data + font->content.size;
 
-		for (unsigned int i = 0; i < font->font_len; i++) {
+		for (uint32_t i = 0; i < font->font_len; i++) {
 			if (!kfont_read_unicode_map(&p, i, font->version, &font->unicode_map_head)) {
 				return KFONT_ERROR_SHORT_UNICODE_TABLE;
 			}
