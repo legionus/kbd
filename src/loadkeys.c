@@ -22,6 +22,7 @@
 #include "kbd.h"
 #include "paths.h"
 #include "getfd.h"
+#include "kbd_error.h"
 
 #include "keymap.h"
 
@@ -101,7 +102,7 @@ int main(int argc, char *argv[])
 	lk_flags flags = 0;
 
 	int c, i, rc = -1;
-	int fd;
+	int fd = -1;
 	int kbd_mode;
 	int kd_mode;
 	char *console = NULL;
@@ -174,7 +175,7 @@ int main(int argc, char *argv[])
 
 	if (!(options & OPT_M) && !(options & OPT_B)) {
 		/* get console */
-		if ((fd = getfd(NULL)) < 0)
+		if ((fd = getfd(console)) < 0)
 			kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 		/* check whether the keyboard is in Unicode mode */
@@ -260,7 +261,9 @@ int main(int argc, char *argv[])
 fail:
 	lk_free(ctx);
 	lk_fpclose(&f);
-	close(fd);
+
+	if (fd >= 0)
+		close(fd);
 
 	if (rc < 0)
 		exit(EXIT_FAILURE);

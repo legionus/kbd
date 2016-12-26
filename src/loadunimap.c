@@ -25,6 +25,7 @@
 #include "utf8.h"
 #include "psf.h"
 #include "nls.h"
+#include "kbd_error.h"
 
 extern char *progname;
 extern int force;

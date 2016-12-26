@@ -18,6 +18,7 @@
 #include "kdmapop.h"
 #include "utf8.h"
 #include "nls.h"
+#include "kbd_error.h"
 
 /* the two exported functions */
 void saveoldmap(int fd, char *omfil);

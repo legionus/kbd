@@ -21,6 +21,7 @@
 #include "modifiers.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static int fd;
 

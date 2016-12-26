@@ -34,6 +34,7 @@
 #include "xmalloc.h"
 #include "nls.h"
 #include "version.h"
+#include "kbd_error.h"
 
 static int position_codepage(int iunit);
 static void saveoldfont(int fd, char *ofil);
