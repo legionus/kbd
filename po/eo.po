@@ -1,21 +1,22 @@
 # Esperanto translation
-# Copyright (C) 2010, 2011, 2012, 2014 Free Software Foundation, Inc.
+# Copyright (C) 2010, 2011, 2012, 2014, 2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the kbd package.
 # Alexey Gladkov <gladkov.alexey@gmail.com>, 2010.
-# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2012, 2014.
+# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2012, 2014, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.2-rc2\n"
+"Project-Id-Version: kbd 2.0.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2014-07-01 09:16-0300\n"
+"PO-Revision-Date: 2016-03-04 11:20-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -32,7 +33,7 @@ msgstr "uzmaniero: chvt N\n"
 #: src/setvtrgb.c:140 src/showconsolefont.c:152 src/showkey.c:189
 #: src/totextmode.c:37
 msgid "Couldn't get a file descriptor referring to the console"
-msgstr "Ni ne povis preni dosier-priskribilon rilatanta al la konzolo"
+msgstr "Ne eblis preni dosier-priskribilon rilatanta al la konzolo"
 
 #: src/deallocvt.c:37
 #, c-format
@@ -40,19 +41,17 @@ msgid "%s: unknown option\n"
 msgstr "%s: nekonata modifilo\n"
 
 #: src/deallocvt.c:54
-#, fuzzy
 msgid "0: illegal VT number\n"
-msgstr "%s: 0: malpermesata VT-numero\n"
+msgstr "0: malpermesata VT-numero\n"
 
 #: src/deallocvt.c:56
-#, fuzzy
 msgid "VT 1 is the console and cannot be deallocated\n"
-msgstr "%s: VT 1 estas la konzolo kaj ne povas esti liberigata\n"
+msgstr "VT 1 estas la konzolo kaj ne povas esti liberigata\n"
 
 #: src/deallocvt.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
-msgstr "%s: ni ne povis liberigi la konzolon %d\n"
+msgstr "ne eblis liberigi la konzolon %d: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:31
 #, c-format
@@ -158,17 +157,17 @@ msgstr ""
 
 #: src/fgconsole.c:73
 msgid "Couldn't read VTNO: "
-msgstr "Ni ne povis legi VTNO: "
+msgstr "Ne eblis legi VTNO: "
 
 #: src/getfd.c:69
 #, c-format
 msgid "Couldn't open %s\n"
-msgstr "Ni ne povis malfermi %s\n"
+msgstr "Ne eblis malfermi %s\n"
 
 #: src/getfd.c:86
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Ni ne povis preni dosier-priskriblon rilatanta al la konzolo\n"
+msgstr "Ne eblis preni dosier-priskriblon rilatanta al la konzolo\n"
 
 #: src/getkeycodes.c:22
 #, c-format
@@ -202,9 +201,9 @@ msgstr ""
 "Ni preterpasis skankodojn e0 xx (16-ume)\n"
 
 #: src/getkeycodes.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr "malsukcesis preni klavkodon por skankodo 0x%x\n"
+msgstr "malsukcesis preni klavkodon por skankodo 0x%x: ioctl KDGETKEYCODE"
 
 #: src/getunimap.c:33
 #, c-format
@@ -610,6 +609,7 @@ msgstr ""
 "  -d --default       ŝargi je \"%s\"\n"
 "  -h --help          montri tiun ĉi help-tekston\n"
 "  -m --mktable       eligi \"defkeymap.c\" al stdout\n"
+"  -p --parse         serĉi kaj analizi klavmapon sen ago\n"
 "  -q --quiet         forkaŝi ĉiun normalan eligon\n"
 "  -s --clearstrings  forviŝi kernan ĉen-tabelon\n"
 "  -u --unicode       devigi konvertadon al Unikodo\n"
@@ -888,7 +888,7 @@ msgstr "Ĉu aktivigo interrompita?"
 #: src/openvt.c:403
 #, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "Ni ne povis liberigi la konzolon %d"
+msgstr "Ne eblis liberigi la konzolon %d"
 
 #: src/psffontop.c:76
 #, c-format
@@ -1102,9 +1102,9 @@ msgid "usage: screendump [n]\n"
 msgstr "uzmaniero: screendump [n]\n"
 
 #: src/screendump.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading %s"
-msgstr "Eraro dum legado de %s\n"
+msgstr "Eraro dum legado de %s"
 
 #: src/screendump.c:127
 #, c-format
@@ -1114,7 +1114,7 @@ msgstr "ne eblis legi %s, kaj ne eblas uzi ioctl dump\n"
 #: src/screendump.c:133
 #, c-format
 msgid "couldn't read %s\n"
-msgstr "ne povis legi %s\n"
+msgstr "ne eblis legi %s\n"
 
 #: src/screendump.c:142
 #, c-format
@@ -1357,9 +1357,9 @@ msgid "code outside bounds"
 msgstr "kodo for de limoj"
 
 #: src/setkeycodes.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
-msgstr "malsukcesis alĝustigi skankodon %x al klavkodo %d\n"
+msgstr "malsukcesis alĝustigi skankodon %x al klavkodo %d: ioctl KDSETKEYCODE"
 
 #: src/setleds.c:25
 #, c-format
@@ -1399,31 +1399,33 @@ msgid "off"
 msgstr "malŝaltita"
 
 #: src/setleds.c:90
-#, fuzzy
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr "Eraro dum legado de aktuala lumdioda stato. Eble stdin ne estas VT?\n"
+msgstr ""
+"Eraro dum legado de aktuala lumdioda stato. Eble stdin ne estas VT?: ioctl "
+"KDGETLED"
 
 #: src/setleds.c:110
-#, fuzzy
 msgid ""
 "Error reading current flags setting. Maybe you are not on the console?: "
 "ioctl KDGKBLED"
-msgstr "Eraro dum legado de aktuala flag-stato. Eble vi ne estas ĉe konzolo?\n"
+msgstr ""
+"Eraro dum legado de aktuala flag-stato. Eble vi ne estas ĉe konzolo?: ioctl "
+"KDGKBLED"
 
 #: src/setleds.c:129
-#, fuzzy
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
-msgstr "Eraro dum legado de aktuala lumdioda stato el /dev/kbd.\n"
+msgstr ""
+"Eraro dum legado de aktuala stato de lumdiodo el /dev/kbd: ioctl KIOCGLED"
 
 #: src/setleds.c:133
 msgid "KIOCGLED unavailable?\n"
 msgstr "Ĉu KIOCGLED ne disponeblas?\n"
 
 #: src/setleds.c:148
-#, fuzzy
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
-msgstr "Eraro dum legado de aktuala lumdioda stato el /dev/kbd.\n"
+msgstr ""
+"Eraro dum legado de aktuala stato de lumdiodo el /dev/kbd: ioctl KIOCSLED"
 
 #: src/setleds.c:152
 msgid "KIOCSLED unavailable?\n"
@@ -1431,7 +1433,7 @@ msgstr "Ĉu KIOCSLED ne disponeblas?\n"
 
 #: src/setleds.c:208
 msgid "Error resetting ledmode\n"
-msgstr "Eraro dum rekomencigo de ledmode\n"
+msgstr "Eraro dum rekomencigo de 'ledmode'\n"
 
 #: src/setleds.c:216
 #, c-format
@@ -1517,10 +1519,10 @@ msgid "Strange mode for Meta key?\n"
 msgstr "Ĉu stranga reĝimo por klavo Meta?\n"
 
 #: src/setmetamode.c:80
-#, fuzzy
 msgid ""
 "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-msgstr "Eraro dum legado de aktuala stato. Eble stdin ne estas VT?\n"
+msgstr ""
+"Eraro dum legado de aktuala stato. Eble stdin ne estas VT?: ioctl KDGKBMETA"
 
 #: src/setmetamode.c:100
 #, c-format

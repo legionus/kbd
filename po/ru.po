@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the kbd package.
 #
 # QingLong <QingLong@Bolizm>, 1999.
-# Yuri Kozlov <yuray@komyakino.ru>, 2010, 2011, 2012, 2014, 2015.
+# Yuri Kozlov <yuray@komyakino.ru>, 2010, 2011, 2012, 2014, 2015, 2016.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.3-rc1\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2015-07-05 08:17+0300\n"
+"PO-Revision-Date: 2016-12-27 19:55+0300\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
-"Language-Team: Russian <gnu@mx.ru>\n"
+"Language-Team: Russian <gnu@d07.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
@@ -59,7 +60,7 @@ msgid "dumpkeys version %s"
 msgstr "dumpkeys, версия %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -85,15 +86,16 @@ msgstr ""
 "\n"
 "\t-h --help\t    показать эту справку\n"
 "\t-i --short-info\t    показать информацию о драйвере клавиатуры\n"
-"\t-l --long-info\t    показать что и выше и символы известные loadkeys\n"
+"\t-l -s --long-info    показать что и выше и символы известные loadkeys\n"
 "\t-n --numeric\t    показать таблицу клавиш в шестнадцатеричном "
 "представлении\n"
 "\t-f --full-table\t    не использовать сокращённое представление,\n"
 "\t\t\t    по одной строке на код клавиши\n"
 "\t-1 --separate-lines одна строка на пару (модификатор, код клавиши)\n"
-"\t   --funcs-only\t    показать только строки функциональных клавиш\n"
-"\t   --keys-only\t    показать только назначения клавиш\n"
-"\t   --compose-only   показать только составные комбинации клавиш\n"
+"\t-S --shape=\n"
+"\t-t --funcs-only\t    показать только строки функциональных клавиш\n"
+"\t-k --keys-only\t    показать только назначения клавиш\n"
+"\t-d --compose-only   показать только составные комбинации клавиш\n"
 "\t-c --charset="
 
 #: src/dumpkeys.c:50
@@ -111,6 +113,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"\t-v --verbose\n"
+"\t-V --version\t    показать номер версии\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -218,7 +222,7 @@ msgstr ""
 "\t%s [-s] [-C консоль]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -232,6 +236,9 @@ msgstr ""
 "   или: %1$s [-C УСТРОЙСТВО] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "   или: %1$s [-C УСТРОЙСТВО] gkbmeta [metabit|escprefix]\n"
 "   или: %1$s [-C УСТРОЙСТВО] gkbled  [scrolllock|numlock|capslock]\n"
+"Другие параметры:\n"
+"   -h                   показать эту справку\n"
+"   -V                   показать номер версии\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -278,9 +285,10 @@ msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Скорость ввода равна %.1f знак/сек (задержка = %d мс)\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Использование: kbdrate [-V] [-s] [-r скорость] [-d задержка]\n"
+msgstr ""
+"Использование: kbdrate [-V | --version] [-s] [-r скорость] [-d задержка]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -582,7 +590,7 @@ msgstr ""
 "Распознанные имена модификаторов и их номера колонок:\n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -624,6 +632,7 @@ msgstr ""
 "  -s --clearstrings  очистить таблицу строк ядра\n"
 "  -u --unicode       принудительно преобразовать в Юникод\n"
 "  -v --verbose       сообщить об изменениях\n"
+"  -V --version       показать номер версии\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -749,9 +758,9 @@ msgid "Appended Unicode map\n"
 msgstr "Юникодная карта добавлена\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "Использование: %s [-v] [-o map.orig] файл_карты\n"
+msgstr "Использование: %s [-v] [-v] [-o map.orig] файл_карты\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -1574,7 +1583,7 @@ msgid "usage: %s\n"
 msgstr "Использование: %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1592,15 +1601,20 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
-"Использование: %s vga|ФАЙЛ|-\n"
+"Использование: %s [-h] [-V]\n"
+"       %s vga|ФАЙЛ|-\n"
 "\n"
 "Если указан параметр ФАЙЛ, то в ФАЙЛЕ должно содержаться 3 строки\n"
 "с десятичными значениями КРАСНОГО, ЗЕЛЁНОГО и СИНЕГО через запятую.\n"
 "\n"
 "Начальное заполнение ФАЙЛА:\n"
-"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
+"   cat /sys/module/vt/parameters/default_{red,grn,blu} > ФАЙЛ\n"
 "\n"
 "После этого отредактируйте содержимое ФАЙЛА.\n"
+"\n"
+"Другие параметры:\n"
+"   -h     показать эту справку\n"
+"   -V     показать номер версии\n"
 "\n"
 
 #: src/setvtrgb.c:75
@@ -1636,7 +1650,7 @@ msgid "cannot change translation table\n"
 msgstr "не удалось изменить таблицу трансляций\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1654,11 +1668,12 @@ msgstr ""
 "(вероятно, после загрузки шрифта с помощью «setfont шрифт»)\n"
 "\n"
 "Допустимые параметры:\n"
-" -C tty   Устройство, из которого читается шрифт. По умолчанию: текущий "
-"tty.\n"
-" -v       Выводить подробности выполнения.\n"
-" -i       Не выводить таблицу шрифта, просто показать.\n"
-"          СТРОКxСТОЛБЦОВxКОЛИЧЕСТВО и выйти.\n"
+" -V --version     показать номер версии и закончить работу\n"
+" -C tty           устройство, из которого читается шрифт\n"
+"                  по умолчанию: текущий tty\n"
+" -v               выводить подробности выполнения\n"
+" -i               не выводить таблицу шрифта, просто показать\n"
+"                  СТРОКxСТОЛБЦОВxКОЛИЧЕСТВО и выйти\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1708,7 +1723,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "пойман сигнал %d, очистка...\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1727,12 +1742,14 @@ msgstr ""
 "Использование: showkey [параметры...]\n"
 "\n"
 "Допустимые параметры:\n"
+"\n"
 "\t-h --help     \tпоказать эту справку\n"
 "\t-a --ascii    \tпоказать десятичные/восьмеричные/шестнадцатеричные\n"
 "\t              \tзначения клавиш\n"
 "\t-s --scancodes\tпоказать только скан-коды\n"
 "\t-k --keycodes \tпоказать только обработанные коды клавиш\n"
 "\t              \t(по умолчанию)\n"
+"\t-V --version\tпоказать номер версии\n"
 
 #: src/showkey.c:171
 #, c-format

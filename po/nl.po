@@ -3,21 +3,22 @@
 #
 # "We strive to retain action in ditches already dug."
 #
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011, 2012, 2014, 2015.
+# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2007, 2008, 2010, 2011, 2012, 2014, 2015, 2017.
 # Erwin Poeze <erwin.poeze@gmail.com>, 2009.
 # Elros Cyriatan <cyriatan@fastmail.fm>, 2003, 2004.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-2.0.3-rc1\n"
+"Project-Id-Version: kbd-2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2015-07-01 20:52+0200\n"
+"PO-Revision-Date: 2017-01-07 15:02+0100\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.0\n"
 
@@ -60,7 +61,7 @@ msgid "dumpkeys version %s"
 msgstr "dumpkeys, versie %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -111,6 +112,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"  -v, --verbose         uitgebreidere uitvoer produceren\n"
+"  -V, --version         programmaversie tonen\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -153,8 +156,9 @@ msgstr ""
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h, --help              deze hulptekst tonen\n"
 "  -n, --next-available    nummer van eerste ongebruikte VT tonen\n"
+"\n"
+"  -h, --help              deze hulptekst tonen\n"
 "  -V, --version           programmaversie tonen\n"
 
 #: src/fgconsole.c:73
@@ -217,7 +221,7 @@ msgid ""
 msgstr "Gebruik:  %s [-s] [-C console]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -231,6 +235,10 @@ msgstr ""
 "     of:  %1$s [-C APPARAAT] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "     of:  %1$s [-C APPARAAT] gkbmeta [metabit|escprefix]\n"
 "     of:  %1$s [-C APPARAAT] gkbled  [scrolllock|numlock|capslock]\n"
+"\n"
+"Andere opties:\n"
+"  -h    deze hulptekst tonen\n"
+"  -V    programmaversie tonen\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -278,9 +286,10 @@ msgstr ""
 "Toetssnelheid is ingesteld op %.1f tekens per seconde (vertraging = %d ms)\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Gebruik:  kbdrate [-V] [-s] [-r frequentie] [-d vertraging]\n"
+msgstr ""
+"Gebruik:  kbdrate [-V|--version] [-s] [-r frequentie] [-d vertraging]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -577,7 +586,7 @@ msgstr ""
 "\n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -612,13 +621,15 @@ msgstr ""
 "  -c, --clearcompose  de samenstellingentabel van de kernel leegmaken\n"
 "  -C, --console=APPARAAT  te gebruiken console-apparaat\n"
 "  -d, --default       '%s' laden\n"
-"  -h, --help          deze hulptekst tonen\n"
 "  -m, --mktable       een 'defkeymap.c' naar standaarduitvoer schrijven\n"
 "  -p, --parse         toetsenkaart ontleden zonder actie te ondernemen\n"
 "  -q, --quiet         alle gewone uitvoer onderdrukken\n"
 "  -s, --clearstrings  functietoetstekenreeksentabel van kernel leegmaken\n"
 "  -u, --unicode       conversie naar Unicode afdwingen\n"
 "  -v, --verbose       de veranderingen tonen\n"
+"\n"
+"  -h, --help          deze hulptekst tonen\n"
+"  -V, --version       programmaversie tonen\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -741,9 +752,9 @@ msgid "Appended Unicode map\n"
 msgstr "Unicodekaart is achteraan toegevoegd\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "Gebruik:  %s [-v] [-o kaart.orig] kaartbestand\n"
+msgstr "Gebruik:  %s [-V] [-v] [-o kaart.orig] kaartbestand\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -817,19 +828,20 @@ msgid ""
 msgstr ""
 "Gebruik:  %s [OPTIE...] -- OPDRACHT\n"
 "\n"
-"Start programma OPDRACHT op een nieuwe virtuele terminal (VT).\n"
+"Start het programma OPDRACHT op een nieuwe virtuele terminal (VT).\n"
 "\n"
 "Opties:\n"
-"  -c, --console=NR    de VT met dit nummer gebruiken;\n"
-"  -e, --exec          OPDRACHT uitvoeren zonder nieuw proces te starten;\n"
-"  -f, --force         openen van VT afdwingen zonder controle;\n"
-"  -l, --login         van de gegeven opdracht een login shell maken;\n"
-"  -u, --user          de eigenaar van de huidige VT bepalen;\n"
-"  -s, --switch        naar de nieuwe VT overschakelen;\n"
-"  -w, --wait          wachten tot de gegeven opdracht beëindigd is;\n"
-"  -v, --verbose       een bericht tonen voor elke uitgevoerde actie;\n"
-"  -V, --version       de programmaversie tonen en stoppen;\n"
-"  -h, --help          deze hulptekst tonen en stoppen.\n"
+"  -c, --console=NR    de VT met dit nummer gebruiken\n"
+"  -e, --exec          OPDRACHT uitvoeren zonder nieuw proces te starten\n"
+"  -f, --force         openen van VT afdwingen zonder controle\n"
+"  -l, --login         van de gegeven opdracht een login shell maken\n"
+"  -u, --user          de eigenaar van de huidige VT bepalen\n"
+"  -s, --switch        naar de nieuwe VT overschakelen\n"
+"  -w, --wait          wachten tot de gegeven opdracht beëindigd is\n"
+"  -v, --verbose       een bericht tonen voor elke uitgevoerde actie\n"
+"\n"
+"  -h, --help          deze hulptekst tonen en stoppen\n"
+"  -V, --version       de programmaversie tonen en stoppen\n"
 "\n"
 
 #: src/openvt.c:141
@@ -1569,7 +1581,7 @@ msgid "usage: %s\n"
 msgstr "Gebruik:  %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1588,6 +1600,7 @@ msgid ""
 "\n"
 msgstr ""
 "Gebruik:  %s vga|BESTAND|-\n"
+"     of:  %s [-h] [-V]\n"
 "\n"
 "Als u BESTAND als argument geeft, dan moet dit BESTAND precies drie regels\n"
 "van kommagescheiden decimale waarden voor rood, groen en blauw bevatten.\n"
@@ -1595,6 +1608,10 @@ msgstr ""
 "Om een geldig BESTAND aan te maken kunt u het volgende doen:\n"
 "  cat /sys/module/vt/parameters/default_{red,grn,blu} > BESTAND\n"
 "waarna u de waarden in dit BESTAND bewerkt.\n"
+"\n"
+"Opties:\n"
+"  -h    deze hulptekst tonen\n"
+"  -V    programmaversie tonen\n"
 "\n"
 
 #: src/setvtrgb.c:75
@@ -1630,7 +1647,7 @@ msgid "cannot change translation table\n"
 msgstr "kan vertaaltabel niet wijzigen\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1649,10 +1666,12 @@ msgstr ""
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -C TTY  apparaat waarvan het lettertype getoond moet worden\n"
-"            (standaard de huidige terminal)\n"
-"  -i      niet de lettertypetabel maar alleen RIJENxKOLOMMENxAANTAL tonen\n"
-"  -v      uitgebreidere uitvoer produceren\n"
+"  -C TTY         apparaat waarvan het lettertype getoond moet worden\n"
+"                   (standaard de huidige terminal)\n"
+"  -i             niet de lettertypetabel maar alleen RIJENxKOLOMMENxAANTAL "
+"tonen\n"
+"  -v             uitgebreidere uitvoer produceren\n"
+"  -V, --version  programmaversie tonen en stoppen\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1700,7 +1719,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "signaal %d ontvangen; bezig met opschonen...\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1720,12 +1739,14 @@ msgstr ""
 "\n"
 "  Geldige opties zijn:\n"
 "\n"
-"  -h, --help       deze hulptekst tonen en stoppen\n"
 "  -a, --ascii      decimale/octale/hexadecimale waarden van de toetsen "
 "weergeven\n"
 "  -k, --keycodes   alleen de geïnterpreteerde toetscodes weergeven "
 "(standaard)\n"
 "  -s, --scancodes  alleen de ruwe scancodes weergeven\n"
+"\n"
+"  -h, --help       deze hulptekst tonen\n"
+"  -V, --version    programmaversie tonen\n"
 
 #: src/showkey.c:171
 #, c-format
@@ -1818,8 +1839,9 @@ msgstr ""
 "  -a, --all      alle virtuele consoles vergrendelen, door te verhinderen "
 "dat\n"
 "                   andere gebruikers naar andere consoles overschakelen\n"
-"  -v, --version  programmaversie tonen en stoppen\n"
+"\n"
 "  -h, --help     deze hulptekst tonen en stoppen\n"
+"  -v, --version  programmaversie tonen en stoppen\n"
 
 #: src/vlock/username.c:57
 msgid "unrecognized user"

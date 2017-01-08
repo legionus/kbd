@@ -1,20 +1,25 @@
 # Chinese translations for kbd package.
-# Copyright (C) 2008 THE kbd'S COPYRIGHT HOLDER
+# Copyright (C) 2002 Nils Naumann
+#           (C) 2008 Michael Schutte
 # This file is distributed under the same license as the kbd package.
 # Jarod Wang <jarodwang.cn@gmail.com>, 2008.
+# Mingye Wang <arthur200126@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-1.15\n"
+"Project-Id-Version: kbd 2.0.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2008-12-10 23:24+0800\n"
-"Last-Translator: Jarod Wang <jarodwang.cn@gmail.com>\n"
+"PO-Revision-Date: 2015-11-03 10:39-0500\n"
+"Last-Translator: Mingye Wang (Arthur2e5) <arthur200126@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: src/chvt.c:32
 #, c-format
@@ -28,9 +33,8 @@ msgstr "用法: chvt N\n"
 #: src/setlogcons.c:37 src/setpalette.c:36 src/setvesablank.c:33
 #: src/setvtrgb.c:140 src/showconsolefont.c:152 src/showkey.c:189
 #: src/totextmode.c:37
-#, fuzzy
 msgid "Couldn't get a file descriptor referring to the console"
-msgstr "无法获取指向控制台的文件描述符\n"
+msgstr "无法获取指向控制台的文件描述符"
 
 #: src/deallocvt.c:37
 #, c-format
@@ -38,19 +42,17 @@ msgid "%s: unknown option\n"
 msgstr "%s: 未知的选项\n"
 
 #: src/deallocvt.c:54
-#, fuzzy
 msgid "0: illegal VT number\n"
-msgstr "%s: 0: 非法的 VT 号\n"
+msgstr "0: 非法的 VT 号\n"
 
 #: src/deallocvt.c:56
-#, fuzzy
 msgid "VT 1 is the console and cannot be deallocated\n"
-msgstr "%s: VT 1 是控制台并且无法被回收\n"
+msgstr "VT 1 是控制台并且无法被回收\n"
 
 #: src/deallocvt.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
-msgstr "%s: 无法回收控制台 %d\n"
+msgstr "无法回收控制台 %d: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:31
 #, c-format
@@ -99,7 +101,7 @@ msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
 "\t\t\t    specified character set\n"
 msgstr ""
-"\t\t\t    翻译来自指定字符集的\n"
+"\t\t\t    解释来自指定字符集的\n"
 "\t\t\t    字符动作代码\n"
 
 #: src/dumpkeys.c:54
@@ -115,9 +117,9 @@ msgid "unknown charset %s - ignoring charset request\n"
 msgstr "未知的字符集 %s - 忽略字符集请求\n"
 
 #: src/dumpkeys.c:162 src/loadkeys.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: 设置键盘模式出错\n"
+msgstr "%s: 设置键盘模式出错: %m\n"
 
 #: src/dumpkeys.c:178
 #, c-format
@@ -185,7 +187,7 @@ msgstr "0 是一个错误；对于等于扫描码 1-88 (0x01-0x58) 的键码来�
 #: src/getkeycodes.c:66
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "从 1-%d (0x01-0x%02x) 的扫描码等于键码\n"
+msgstr "对于 1-%d (0x01-0x%02x) 的扫描码等于键码\n"
 
 #: src/getkeycodes.c:72
 #, c-format
@@ -199,9 +201,9 @@ msgstr ""
 "跳过扫描码 e0 xx (十六进制)\n"
 
 #: src/getkeycodes.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr "获取扫描码 0x%x 的键码失败\n"
+msgstr "获取扫描码 0x%x 的键码失败: ioctl KDGETKEYCODE"
 
 #: src/getunimap.c:33
 #, c-format
@@ -213,7 +215,7 @@ msgstr ""
 "\t%s [-s] [-C 控制台]\n"
 
 #: src/kbdinfo.c:21
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -223,16 +225,20 @@ msgid ""
 "   -h                   print this usage message\n"
 "   -V                   print version number\n"
 msgstr ""
+"用法：%1$s [-C 设备] getmode [text|graphics]\n"
+"或者：%1$s [-C 设备] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"或者：%1$s [-C 设备] gkbmeta [metabit|escprefix]\n"
+"或者：%1$s [-C 设备] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
-msgstr ""
+msgstr "错误: 参数不足。\n"
 
 #: src/kbdinfo.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Unrecognized action: %s\n"
 msgstr ""
-"无法识别的参数: _%s_\n"
+"错误：无法识别的动作: _%s_\n"
 "\n"
 
 #: src/kbd_mode.c:24
@@ -297,7 +303,7 @@ msgstr "%s: 内存不足\n"
 #: src/kdmapop.c:161
 #, c-format
 msgid "strange... ct changed from %d to %d\n"
-msgstr ""
+msgstr "奇怪...ct 从 %d 变成了 %d。\n"
 
 #: src/kdmapop.c:187
 #, c-format
@@ -305,22 +311,22 @@ msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded.\n"
 msgstr ""
+"看来这个内核比 1.1.92 旧。\n"
+"未加载任何 Unicode 映射表。\n"
 
 #: src/libkeymap/common.c:140 src/libkeymap/kmap.c:58 src/libkeymap/kmap.c:66
 #: src/libkeymap/loadkeys.c:120
-#, fuzzy
 msgid "out of memory"
-msgstr "%s: 内存不足\n"
+msgstr "%内存不足"
 
 #: src/libkeymap/common.c:146
 #, c-format
 msgid "unable to initialize array: %s"
-msgstr ""
+msgstr "无法初始化数组: %s"
 
 #: src/libkeymap/dump.c:86
-#, fuzzy
 msgid "Error writing map to file"
-msgstr "将映射写入文件失败\n"
+msgstr "将映射写入文件失败"
 
 #: src/libkeymap/dump.c:542
 #, c-format
@@ -328,34 +334,34 @@ msgid "impossible: not meta?\n"
 msgstr "不可能:不是 meta 键?\n"
 
 #: src/libkeymap/kernel.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
-msgstr "表 %2$d 的索引 %1$d 处发生 KDGKBENT 错误\n"
+msgstr "KDGKBENT: %s: 错误出现在索引 %d，表 %d"
 
 #: src/libkeymap/kernel.c:60
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
-msgstr ""
+msgstr "KDGKBSENT: %s: 无法获取功能键字符串"
 
 #: src/libkeymap/kernel.c:90
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
-msgstr ""
+msgstr "KDGKBDIACR(UC): %s: 无法获取重音字符表"
 
 #: src/libkeymap/kmap.c:80 src/libkeymap/kmap.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get keymap %d"
-msgstr "回收键映射 %d\n"
+msgstr "无法获取键映射 %d"
 
 #: src/libkeymap/kmap.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "unable to unset key %d for table %d"
-msgstr "将键 %d 绑定到值 %d 失败\n"
+msgstr "将键 %d 取消绑定到表 %d 失败"
 
 #: src/libkeymap/kmap.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "lk_add_key called with bad keycode %d"
-msgstr "调用 addkey 时使用了错误的键码 %d"
+msgstr "调用 lk_add_key 时使用了错误的键码 %d"
 
 #: src/libkeymap/kmap.c:129
 #, c-format
@@ -363,49 +369,48 @@ msgid "adding map %d violates explicit keymaps line"
 msgstr "添加映射 %d 违反了显式键映射行"
 
 #: src/libkeymap/kmap.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set key %d for table %d"
-msgstr "将键 %d 绑定到值 %d 失败\n"
+msgstr "将键 %d 绑定到表 %d 失败"
 
 #: src/libkeymap/kmap.c:236
-#, fuzzy
 msgid "impossible error in lk_add_constants"
-msgstr "do_constant 中发生不可能的错误"
+msgstr "lk_add_constants 中发生不可能的错误"
 
 #: src/libkeymap/ksyms.c:150
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
-msgstr ""
+msgstr "无法以错误的类型获取符号: %d"
 
 #: src/libkeymap/ksyms.c:164
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
-msgstr ""
+msgstr "无法以错误的索引获取 %d 类型的符号: %d"
 
 #: src/libkeymap/ksyms.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "assuming iso-8859-1 %s"
-msgstr "使用 iso-8859-1 %s\n"
+msgstr "假定 iso-8859-1 %s"
 
 #: src/libkeymap/ksyms.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "assuming iso-8859-15 %s"
-msgstr "使用 iso-8859-15 %s\n"
+msgstr "假定 iso-8859-15 %s"
 
 #: src/libkeymap/ksyms.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "assuming iso-8859-2 %s"
-msgstr "使用 iso-8859-2 %s\n"
+msgstr "假定 iso-8859-2 %s"
 
 #: src/libkeymap/ksyms.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "assuming iso-8859-3 %s"
-msgstr "使用 iso-8859-3 %s\n"
+msgstr "假定 iso-8859-3 %s"
 
 #: src/libkeymap/ksyms.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "assuming iso-8859-4 %s"
-msgstr "使用 iso-8859-4 %s\n"
+msgstr " iso-8859-4 %s"
 
 #: src/libkeymap/ksyms.c:368
 #, c-format
@@ -415,61 +420,60 @@ msgstr "未知的 keysym '%s'\n"
 #: src/libkeymap/loadkeys.c:28
 #, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr ""
+msgstr "KDSKBMODE: %s: 不能切换到 Unicode 模式"
 
 #: src/libkeymap/loadkeys.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Keymap %d: Permission denied"
-msgstr "键映射 %d: 权限不足\n"
+msgstr "键映射 %d: 权限不足"
 
 #: src/libkeymap/loadkeys.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "keycode %d, table %d = %d%s"
-msgstr "键码 %d, 表 %d = %d%s\n"
+msgstr "键码 %d, 表 %d = %d%s"
 
 #: src/libkeymap/loadkeys.c:59
 msgid "    FAILED"
 msgstr "    失败"
 
 #: src/libkeymap/loadkeys.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind key %d to value %d"
-msgstr "将键 %d 绑定到值 %d 失败\n"
+msgstr "将键 %d 绑定到值 %d 失败"
 
 #: src/libkeymap/loadkeys.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "deallocate keymap %d"
-msgstr "回收键映射 %d\n"
+msgstr "回收键映射 %d"
 
 #: src/libkeymap/loadkeys.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "%s: 无法回收键映射 %d\n"
+msgstr "KDSKBENT: %s: 无法回收键映射 %d"
 
 #: src/libkeymap/loadkeys.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr "%s: 无法回收或清除键映射\n"
+msgstr "KDSKBENT: %s: 无法回收或清除键映射"
 
 #: src/libkeymap/loadkeys.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "%s: 恢复键盘模式失败\n"
+msgstr "KDSKBMODE: %s: 无法回到原来的键盘模式"
 
 #: src/libkeymap/loadkeys.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr "将字符串 '%s' 绑定到函数 %s 失败\n"
+msgstr "将字符串 '%s' 绑定到函数 %s 失败"
 
 #: src/libkeymap/loadkeys.c:173
-#, fuzzy, c-format
+#, c-format
 msgid "failed to clear string %s"
-msgstr "清除字符串 %s 失败\n"
+msgstr "清除字符串 %s 失败"
 
 #: src/libkeymap/loadkeys.c:192
-#, fuzzy
 msgid "too many compose definitions"
-msgstr "太多组合定义\n"
+msgstr "太多组合定义"
 
 #: src/libkeymap/loadkeys.c:252
 #, c-format
@@ -480,30 +484,24 @@ msgid_plural ""
 "\n"
 "Changed %d keys"
 msgstr[0] ""
-msgstr[1] ""
+"\n"
+"更改了 %d 个键"
 
 #: src/libkeymap/loadkeys.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
-msgstr[0] ""
-"\n"
-"已修改 %d %s 和 %d %s.\n"
-msgstr[1] ""
-"\n"
-"已修改 %d %s 和 %d %s.\n"
+msgstr[0] "已修改 %d 个字符串"
 
 #: src/libkeymap/loadkeys.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
-msgstr[0] "太多组合定义\n"
-msgstr[1] "太多组合定义\n"
+msgstr[0] "加载了 %d 个组合定义"
 
 #: src/libkeymap/loadkeys.c:266
-#, fuzzy
 msgid "(No change in compose definitions)"
-msgstr "(组合定义没有改变。)\n"
+msgstr "(组合定义没有改变)"
 
 #: src/libkeymap/summary.c:95
 #, c-format
@@ -516,14 +514,14 @@ msgid "max number of actions bindable to a key:         %d\n"
 msgstr "可绑定到一个键上的动作的最大个数:         %d\n"
 
 #: src/libkeymap/summary.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "实际使用的键映射个数为:                 %d\n"
+msgstr "实际使用的键映射个数为:                       %u\n"
 
 #: src/libkeymap/summary.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "of which %u dynamically allocated\n"
-msgstr "其中 %d 为动态分配\n"
+msgstr "其中 %u 个为动态分配\n"
 
 #: src/libkeymap/summary.c:105
 #, c-format
@@ -541,9 +539,9 @@ msgid "max nr of compose definitions: %d\n"
 msgstr "组合定义的最大个数: %d\n"
 
 #: src/libkeymap/summary.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "nr of compose definitions in actual use: %u\n"
-msgstr "实际使用的组合定义的个数: %d\n"
+msgstr "实际使用的组合定义的个数: %u\n"
 
 #: src/libkeymap/summary.c:139
 #, c-format
@@ -596,17 +594,18 @@ msgid ""
 msgstr ""
 "loadkeys 版本 %s\n"
 "\n"
-"用法: loadkeys [选项...] [映射文件...]\n"
+"用法: %s [选项...] [映射文件...]\n"
 "\n"
 "有效的选项:\n"
-"\n"
+"  -a --ascii           强制转换到 ASCII\n"
 "  -b --bkeymap       输出一个二进制键映射到标准输出\n"
 "  -c --clearcompose  清除内核组合表\n"
-"  -C <控制台1,控制台2,...> --console=<控制台1,控制台2,...>\n"
-"                     使用的控制台设备\n"
+"  -C --console=文件   使用的控制台设备\n"
 "  -d --default       加载 \"%s\"\n"
 "  -h --help          显示帮助文本\n"
 "  -m --mktable       输出一个 \"defkeymap.c\" 到标准输出\n"
+"  -p --parse         搜索并解析键映射文件，什么都不做\n"
+"  -q --quiet         略过一切正常输出\n"
 "  -s --clearstrings  清除内核字符串表\n"
 "  -u --unicode       隐式转换为 Unicode\n"
 "  -v --verbose       报告任何改变\n"
@@ -619,24 +618,24 @@ msgstr "%s 来自 %s\n"
 #: src/loadkeys.c:171
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
-msgstr ""
+msgstr "%s: 选项 --unicode 和 --ascii 互斥\n"
 
 #: src/loadkeys.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
-"%s: 警告:映射使用了 Unicode 标志，%s 模式=%d\n"
+"%s: 警告：正在 Unicode 终端上加载非 Unicode 键映射\n"
 "    (或许你想 `kbd_mode -u'？)\n"
 
 #: src/loadkeys.c:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
-"%s: 警告:映射使用了 Unicode 标志，%s 模式=%d\n"
+"%s: 警告：正在非 Unicode 终端上加载 Unicode 键映射\n"
 "    (或许你想 `kbd_mode -u'？)\n"
 
 #: src/loadkeys.c:222
@@ -803,79 +802,86 @@ msgid ""
 "  -h, --help          output a brief help message.\n"
 "\n"
 msgstr ""
+"用法：%s [选项] -- 命令\n"
+"\n"
+"本实用工具帮助你在新的虚拟终端上启动一个程序。\n"
+"\n"
+"选项：\n"
+"  -c, --console=数字  使用给定的 VT 号；\n"
+"  -e, --exec          直接 exec 执行命令，不分叉子进程（fork）；\n"
+"  -f, --force         强行打开 VT 而不检查\n"
+"  -l, --login         使命令成为登录 shell\n"
+"  -u, --user          找出目前 VT 的所有者\n"
+"  -s, --switch        切换到新 VT\n"
+"  -w, --wait          等待命令完成\n"
+"  -v, --verbose       对每步操作打印信息\n"
+"  -V, --version       打印程序版本并退出\n"
+"  -h, --help          输出简短的帮助信息\n"
+"\n"
 
 #: src/openvt.c:141
-#, fuzzy
 msgid "Couldn't find owner of current tty!"
-msgstr "无法找到当前 tty 的所有者！\n"
+msgstr "无法找到当前 tty 的所有者！"
 
 #: src/openvt.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Illegal vt number"
-msgstr "openvt: %s: 非法的 VT 号\n"
+msgstr "%s: 非法的 VT 号"
 
 #: src/openvt.c:236
-#, fuzzy
 msgid "Only root can use the -u flag."
-msgstr "openvt: 只有 root 用户可以使用 -u 标志。\n"
+msgstr "只有 root 用户可以使用 -u 标志。"
 
 #: src/openvt.c:265
-#, fuzzy
 msgid "Cannot find a free vt"
-msgstr "openvt: 无法找到一个空闲的 VT\n"
+msgstr "无法找到一个空闲的 VT"
 
 #: src/openvt.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "openvt: 无法检查 VT %d 是否空闲\n"
+msgstr "无法检查 VT %d 是否空闲；使用“%s -f”强制执行。"
 
 #: src/openvt.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr "openvt: VT %d 正在使用中；命令中止\n"
+msgstr "VT %d 正在使用中；使用“%s -f”强制执行。"
 
 #: src/openvt.c:283
 msgid "Unable to find command."
-msgstr ""
+msgstr "无法找到命令。"
 
 #: src/openvt.c:315
-#, fuzzy
 msgid "Unable to set new session"
-msgstr "openvt: 无法设置新的会话 (%s)\n"
+msgstr "无法设置新的会话"
 
 #: src/openvt.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open %s"
-msgstr "openvt: 无法打开 %s: %s\n"
+msgstr "无法打开 %s"
 
 #: src/openvt.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "Using VT %s"
-msgstr "openvt: 正在使用 VT %s\n"
+msgstr "正在使用 VT %s"
 
 #: src/openvt.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open %s read/write"
-msgstr "openvt: 无法打开 %s 进行读/写 (%s)\n"
+msgstr "无法打开 %s 以供读写"
 
 #: src/openvt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't activate vt %d"
-msgstr ""
-"\n"
-"openvt: 无法激活 VT %d (%s)\n"
+msgstr "无法激活 VT %d"
 
 #: src/openvt.c:363
-#, fuzzy
 msgid "Activation interrupted?"
-msgstr ""
-"\n"
-"openvt: 激活被中断？(%s)\n"
+msgstr "激活被中断？"
 
 #: src/openvt.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "%s: 无法回收控制台 %d\n"
+msgstr "无法回收控制台 %d"
 
 #: src/psffontop.c:76
 #, c-format
@@ -1089,9 +1095,9 @@ msgid "usage: screendump [n]\n"
 msgstr "用法: screendump [n]\n"
 
 #: src/screendump.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading %s"
-msgstr "读取 %s 出错\n"
+msgstr "读取 %s 出错"
 
 #: src/screendump.c:127
 #, c-format
@@ -1340,9 +1346,9 @@ msgid "code outside bounds"
 msgstr "边界外的键码"
 
 #: src/setkeycodes.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
-msgstr "设置扫描码 %x 到键码 %d 失败\n"
+msgstr "设置扫描码 %x 到键码 %d 失败：ioctl KDSETKEYCODE"
 
 #: src/setleds.c:25
 #, c-format
@@ -1382,31 +1388,27 @@ msgid "off"
 msgstr "关"
 
 #: src/setleds.c:90
-#, fuzzy
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr "读取当前 LED 设置出错。也许标准输入不是一个 VT？\n"
+msgstr "读取当前 LED 设置出错。也许标准输入不是一个 VT？：ioctl KDGETLED"
 
 #: src/setleds.c:110
-#, fuzzy
 msgid ""
 "Error reading current flags setting. Maybe you are not on the console?: "
 "ioctl KDGKBLED"
-msgstr "读取当前标志设置出错。也许你不是在控制台上？\n"
+msgstr "读取当前标志设置出错。也许你不是在控制台上（ioctl KDGKBLED）？"
 
 #: src/setleds.c:129
-#, fuzzy
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
-msgstr "从 /dev/kbd 读取当前 LED 设置出错。\n"
+msgstr "从 /dev/kbd 读取当前 LED 设置出错：ioctl KIOCGLED"
 
 #: src/setleds.c:133
 msgid "KIOCGLED unavailable?\n"
 msgstr "KIOCGLED 不可用？\n"
 
 #: src/setleds.c:148
-#, fuzzy
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
-msgstr "从 /dev/kbd 读取当前 LED 设置出错。\n"
+msgstr "从 /dev/kbd 读取当前 LED 设置出错：ioctl KIOCSLED"
 
 #: src/setleds.c:152
 msgid "KIOCSLED unavailable?\n"
@@ -1500,10 +1502,9 @@ msgid "Strange mode for Meta key?\n"
 msgstr "Meta 键的奇怪模式？\n"
 
 #: src/setmetamode.c:80
-#, fuzzy
 msgid ""
 "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-msgstr "读取当前设置出错。也许标准输出不是一个 VT？\n"
+msgstr "读取当前设置出错。也许标准输入不是一个 VT？： ioctl KDGKBMETA"
 
 #: src/setmetamode.c:100
 #, c-format
@@ -1521,7 +1522,7 @@ msgid "usage: %s\n"
 msgstr "用法: %s\n"
 
 #: src/setvtrgb.c:44
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1539,26 +1540,36 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
+"使用方法: %s vga|文件|-\n"
+"\n"
+"如果您使用 <文件> 参数，文件应正好含三行逗号分隔的十进制数值，\n"
+"分别对应红、绿、蓝。\n"
+"\n"
+"要获得一个有效的 <文件> 作为模板：\n"
+"   cat /sys/module/vt/parameters/default_{red,grn,blu} > 文件\n"
+"\n"
+"然后编辑 <文件> 内的数值。\n"
+"\n"
 
 #: src/setvtrgb.c:75
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr ""
+msgstr "错误: %1$s: 行 %3$u 中的字段 %2$u 有无效值。"
 
 #: src/setvtrgb.c:82
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr ""
+msgstr "错误: %s: %u 行中字段的数目不足。"
 
 #: src/setvtrgb.c:87
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
-msgstr ""
+msgstr "错误: %s: 行 %u 意外结束。\n"
 
 #: src/setvtrgb.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Line %u is too long.\n"
-msgstr "%s: %s: 警告: 行太长\n"
+msgstr "错误：%s: 行 %u 太长。\n"
 
 #: src/showconsolefont.c:38
 msgid "failed to restore original translation table\n"
@@ -1699,9 +1710,8 @@ msgid "keycode %3d %s\n"
 msgstr "键码 %3d %s\n"
 
 #: src/totextmode.c:33
-#, fuzzy
 msgid "usage: totextmode\n"
-msgstr "用法: getkeycodes\n"
+msgstr "用法：totextmode\n"
 
 #: src/vlock/auth.c:75
 msgid ""
@@ -1709,25 +1719,28 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"请稍后再试\n"
+"\n"
+"\n"
 
 #: src/vlock/auth.c:83
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
-msgstr ""
+msgstr "整个控制台显示器已被 %s 锁定。\n"
 
 #: src/vlock/auth.c:86
 #, c-format
 msgid "The %s is now locked by %s.\n"
-msgstr ""
+msgstr "此 %s 现已被 %s 锁定。\n"
 
 #: src/vlock/auth.c:89
 msgid "Use Alt-function keys to switch to other virtual consoles."
-msgstr ""
+msgstr "使用 Alt-功能键 (F1..F12) 切换到其他虚拟控制台。"
 
 #: src/vlock/parse.c:51
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "尝试“%s --help”以获得更多信息。\n"
 
 #: src/vlock/parse.c:59
 #, c-format
@@ -1742,27 +1755,30 @@ msgid ""
 "-v or --version: Print the version number of vlock and exit.\n"
 "-h or --help: Print this help message and exit.\n"
 msgstr ""
+"%s: 锁定虚拟控制台，保存你的的当前会话。\n"
+"用法：%s [选项]，其中 <选项> 可以为以下中的任意几个：\n"
+"  -c, --current 仅锁定此虚拟控制台，允许用户切换到其他虚拟控制台。\n"
+"  -a, --all     锁定所有虚拟控制台。通过防止其他用户切换虚拟控制台达成。\n"
+"  -v, --version 打印 vlock 和 exit 的版本号\n"
+"  -h, --help    显示此帮助消息并退出。\n"
 
 #: src/vlock/username.c:57
-#, fuzzy
 msgid "unrecognized user"
-msgstr ""
-"无法识别的参数: _%s_\n"
-"\n"
+msgstr "无法识别的用户"
 
 #: src/vlock/vlock.c:59
 msgid "stdin is not a tty"
-msgstr ""
+msgstr "stdin 不是 tty"
 
 #: src/vlock/vt.c:148
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
-msgstr ""
+msgstr "这个 tty (%s) 不是一个虚拟控制台。\n"
 
 #: src/vlock/vt.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "The entire console display cannot be locked.\n"
-msgstr "%s: VT 1 是控制台并且无法被回收\n"
+msgstr "无法锁定整个控制台显示器。\n"
 
 #~ msgid "%s: deallocating all unused consoles failed\n"
 #~ msgstr "%s: 回收所有未使用的控制台失败\n"

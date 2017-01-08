@@ -1,19 +1,20 @@
 # Polish translations for kbd.
 # This file is distributed under the same license as the kbd package.
-# Jakub Bogusz <qboosh@pld-linux.org>, 2002-2015.
+# Jakub Bogusz <qboosh@pld-linux.org>, 2002-2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.3-rc1\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2015-07-02 16:29+0200\n"
+"PO-Revision-Date: 2016-12-28 16:31+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
 
@@ -56,7 +57,7 @@ msgid "dumpkeys version %s"
 msgstr "dumpkeys wersja %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -82,14 +83,15 @@ msgstr ""
 "\n"
 "\t-h --help\t    wyświetlenie tego opisu\n"
 "\t-i --short-info\t    wyświetlenie informacji o sterowniku klawiatury\n"
-"\t-l --long-info\t    wyświetlenie powyższego i symboli znanych loadkeys\n"
+"\t-l -s --long-info   wyświetlenie powyższego i symboli znanych loadkeys\n"
 "\t-n --numeric\t    wyświetlenie tablicy klawiatury w notacji szesnastkowej\n"
 "\t-f --full-table\t    nie używanie notacji skróconych, jeden wiersz na kod\n"
 "\t-1 --separate-lines jedna linia na parę (modyfikator,kod)\n"
-"\t   --funcs-only\t    wyświetlenie tylko łańcuchów dla klawiszy "
+"\t-S --shape=\n"
+"\t-t --funcs-only\t    wyświetlenie tylko łańcuchów dla klawiszy "
 "funkcyjnych\n"
-"\t   --keys-only\t    wyświetlenie tylko przypisań klawiszy\n"
-"\t   --compose-only   wyświetlenie tylko kombinacji compose\n"
+"\t-k --keys-only\t    wyświetlenie tylko przypisań klawiszy\n"
+"\t-d --compose-only   wyświetlenie tylko kombinacji compose\n"
 "\t-c --charset="
 
 #: src/dumpkeys.c:50
@@ -107,6 +109,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"\t-v --verbose\n"
+"\t-V --version\t    wypisanie numeru wersji\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -214,7 +218,7 @@ msgstr ""
 "\t%s [-s] [-C konsola]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -228,6 +232,9 @@ msgstr ""
 "     lub: %1$s [-C URZĄDZENIE] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "     lub: %1$s [-C URZĄDZENIE] gkbmeta [metabit|escprefix]\n"
 "     lub: %1$s [-C URZĄDZENIE] gkbled  [scrolllock|numlock|capslock]\n"
+"Inne opcje:\n"
+"   -h                   wyświetlenie tego opisu\n"
+"   -V                   wyświetlenie numeru wersji\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -275,9 +282,10 @@ msgstr ""
 "Częstotliwość powtarzania ustawiono na %.1f zn/sek (opóźnienie = %d ms)\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Składnia: kbdrate [-V] [-s] [-r częstotliwość] [-d opóźnienie]\n"
+msgstr ""
+"Składnia: kbdrate [-V | --version] [-s] [-r częstotliwość] [-d opóźnienie]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -577,7 +585,7 @@ msgstr ""
 "Rozpoznawane nazwy modyfikatorów i numery ich kolumn:\n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -619,6 +627,7 @@ msgstr ""
 "  -s --clearstrings  wyczyszczenie tabeli łańcuchów w jądrze\n"
 "  -u --unicode       wymuszenie konwersji do Unicode\n"
 "  -v --verbose       informowanie o zmianach\n"
+"  -V --version       wyświetlenie numeru wersji\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -740,9 +749,9 @@ msgid "Appended Unicode map\n"
 msgstr "Dołączono mapę unikodową\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "składnia: %s [-v] [-o mapa.orig] plik-mapy\n"
+msgstr "składnia: %s [-V] [-v] [-o mapa.orig] plik-mapy\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -1551,7 +1560,7 @@ msgid "usage: %s\n"
 msgstr "składnia: %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1569,7 +1578,8 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
-"Składnia: %s vga|PLIK|-\n"
+"Składnia: %s [-h] [-V]\n"
+"          %s vga|PLIK|-\n"
 "\n"
 "W przypadku użycia parametru PLIK, PLIK powinien mieć dokładnie 3 linie\n"
 "oddzielonych przecinkami wartości dziesiętnych CZERWIENI, ZIELENI i "
@@ -1579,6 +1589,10 @@ msgstr ""
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > PLIK\n"
 "\n"
 "a następnie zmodyfikować wartości w PLIKU.\n"
+"\n"
+"Inne opcje:\n"
+"   -h     wyświetlenie tego opisu\n"
+"   -V     wyświetlenie informacji o wersji\n"
 "\n"
 
 #: src/setvtrgb.c:75
@@ -1614,7 +1628,7 @@ msgid "cannot change translation table\n"
 msgstr "nie można zmienić tablicy translacji\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1632,10 +1646,11 @@ msgstr ""
 "(prawdopodobnie po wczytaniu fontu poprzez `setfont font')\n"
 "\n"
 "Poprawne opcje to:\n"
-" -C tty   Urządzenie do odczytania fontu. Domyślne: bieżący tty.\n"
-" -v       Wypisywanie większej ilości informacji.\n"
-" -i       Nie wypisywanie tabeli fontów, a jedynie WIERSZExKOLUMNYxLICZBA\n"
-"          i zakończenie.\n"
+" -V --version    Wypisanie numeru wersji i zakończenie.\n"
+" -C tty          Urządzenie do odczytania fontu. Domyślne: bieżący tty.\n"
+" -v              Wypisywanie większej ilości informacji.\n"
+" -i              Nie wypisywanie tabeli fontów, a jedynie\n"
+"                 WIERSZExKOLUMNYxLICZBA i zakończenie.\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1685,7 +1700,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "złapano sygnał %d, sprzątanie...\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1709,6 +1724,7 @@ msgstr ""
 "\t-a --ascii\twartości dziesiętne/ósemkowe/szesnastkowe klawiszy\n"
 "\t-s --scancodes\ttylko surowe skankody\n"
 "\t-k --keycodes\ttylko interpretowane kody klawiszy (domyślne)\n"
+"\t-V --version\twyświetlenie numeru wersji\n"
 
 #: src/showkey.c:171
 #, c-format

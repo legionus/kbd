@@ -4,20 +4,21 @@
 # This file is distributed under the same license as the kbd package.
 # Phan Vinh Thinh <teppi82@gmail.com>, 2005.
 # Clytie Siddall <clytie@riverland.net.au>, 2008-2010.
-# Trần Ngọc Quân <vnwildman@gmail.com>, 2012-2014, 2015.
+# Trần Ngọc Quân <vnwildman@gmail.com>, 2012-2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.3-rc1\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2015-07-02 07:18+0700\n"
+"PO-Revision-Date: 2016-12-28 13:46+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <translation-team-vi@lists.sourceforge.net>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Gtranslator 2.91.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -61,7 +62,7 @@ msgid "dumpkeys version %s"
 msgstr "phiên bản dumpkeys %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -86,16 +87,17 @@ msgstr ""
 "Tùy chọn có thể dùng:\n"
 "\n"
 "\t-h --help\t    hiển thị trợ giúp này\n"
-"\t-i --short-info\t    hiển thị thôngtin về driver bàn phím\n"
+"\t-i -s --short-info  hiển thị thông tin về driver bàn phím\n"
 "\t-l --long-info\t    hiển thị thông tin ở trên và những ký tự loadkeys biết "
 "đến\n"
 "\t-n --numeric\t    hiển thị bảng phím (keytable) trong mã mười sáu\n"
 "\t-f --full-table\t    không sử dụng ký hiệu \"viết tắt\" (short-hand), một "
 "hàng cho mỗi mã phím\n"
 "\t-1 --separate-lines một dòng cho mỗi cặp (modifier, mã phím)\n"
-"\t   --funcs-only\t    chỉ hiển thị chuỗi của phím chức năng\n"
-"\t   --keys-only\t    chỉ hiện thị phím ràng buộc\n"
-"\t   --compose-only   chỉ hiện thị tổ hợp phím soạn thảo\n"
+"\t-S --shape=\n"
+"\t-t --funcs-only\t    chỉ hiển thị chuỗi của phím chức năng\n"
+"\t-k --keys-only\t    chỉ hiện thị phím ràng buộc\n"
+"\t-d --compose-only   chỉ hiện thị tổ hợp phím soạn thảo\n"
 "\t-c --charset="
 
 #: src/dumpkeys.c:50
@@ -113,6 +115,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"\t-v --verbose\n"
+"\t-V --version\t    hiển thị số hiệu phiên bản\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -223,7 +227,7 @@ msgstr ""
 "\t%s [-s] [-C thiết bị điều khiển]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -237,6 +241,9 @@ msgstr ""
 "     hoặc: %1$s [-C THIẾT-BỊ] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "     hoặc: %1$s [-C THIẾT-BỊ] gkbmeta [metabit|escprefix]\n"
 "     hoặc: %1$s [-C THIẾT-BỊ] gkbled  [scrolllock|numlock|capslock]\n"
+"Các tùy chọn khác:\n"
+"   -h                   in cách dùng này\n"
+"   -V                   hiển thị số hiệu phiên bản\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -283,9 +290,9 @@ msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Tốc độ “Typematic” đặt thành  %.1f cps (chậm trễ = %d ms)\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Cách dùng: kbdrate [-V] [-s] [-r tốc_độ] [-d trì_hoãn]\n"
+msgstr "Cách dùng: kbdrate [-V | --version] [-s] [-r tốc_độ] [-d độ_trễ]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -575,7 +582,7 @@ msgstr ""
 "Nhận ra tên bộ điều chỉnh và số cột của chúng:\n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -617,6 +624,7 @@ msgstr ""
 "  -s --clearstrings  xóa sạch bảng chuỗi hạt nhân\n"
 "  -u --unicode       chuyển đổi dứt khoát sang Unicode\n"
 "  -v --verbose       thông báo các thay đổi\n"
+"  -V --version       hiển thị số hiệu phiên bản\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -741,9 +749,9 @@ msgid "Appended Unicode map\n"
 msgstr "Nhập thêm ánh xạ Unicode\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "Cách dùng: %s [-v] [-o ánh-xạ.gốc] tập-tin-ánh-xạ\n"
+msgstr "Cách dùng: %s [-V] [-v] [-o ánh-xạ.gốc] tập-tin-ánh-xạ\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -1561,7 +1569,7 @@ msgid "usage: %s\n"
 msgstr "cách dùng: %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1579,7 +1587,8 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
-"Cách dùng: %s vga|TẬP-TIN|-\n"
+"Cách dùng: %s [-h] [-V]\n"
+"           %s vga|TẬP-TIN|-\n"
 "\n"
 "Nếu bạn sử dụng đối số TẬP-TIN, TẬP-TIN có chính xách 3 dòng\n"
 "chứa các giá trị dạng thập phân ngăn cách bởi dấu phẩy, cho ĐỎ, LỤC và "
@@ -1589,6 +1598,10 @@ msgstr ""
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > TẬP-TIN\n"
 "\n"
 "và sau đó sửa giá trị trong TẬP-TIN.\n"
+"\n"
+"Các tùy chọn khác:\n"
+"   -h     in cách dùng này\n"
+"   -V     in số hiệu phiên bản\n"
 "\n"
 
 #: src/setvtrgb.c:75
@@ -1624,7 +1637,7 @@ msgid "cannot change translation table\n"
 msgstr "không thể thay đổi bảng dịch thuật\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1638,14 +1651,15 @@ msgid ""
 "                 ROWSxCOLSxCOUNT and exit.\n"
 msgstr ""
 "cách dùng: showconsolefont -V|--version\n"
-"       showconsolefont [-C tty] [-v] [-i]\n"
+"           showconsolefont [-C tty] [-v] [-i]\n"
 "(rất có thể sau khi nạp phông chữ với “setfont phông”)\n"
 "\n"
 "Tùy chọn hợp lệ:\n"
-" -C tty   Thiết bị từ đó cần đọc phông. Mặc định: tty hiện tại.\n"
-" -v       Xuất thêm chi tiết.\n"
-" -i       Đừng in ra bảng phông, chỉ hiển thị\n"
-"          HÀNG×CỘT×ĐẾM rồi thoát.\n"
+" -V --version    In số hiệu phiên bản rồi thoát.\n"
+" -C tty          Thiết bị từ đó cần đọc phông. Mặc định: tty hiện tại.\n"
+" -v              Xuất thêm chi tiết.\n"
+" -i              Đừng in ra bảng phông, chỉ hiển thị\n"
+"                 HÀNG×CỘT×SỐ_LƯỢNG rồi thoát.\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1695,7 +1709,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "nhận được tín hiệu %d, đang dọn dẹp…\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1719,6 +1733,7 @@ msgstr ""
 "\t-a --ascii\thiển thị giá trị của phím trong các hệ mười/tám/mười_sáu\n"
 "\t-s --scancodes\tchỉ hiển thị mã quét thô\n"
 "\t-k --keycodes\tchỉ hiển thị mã phím đã dịch (mặc định)\n"
+"\t-V --version\tin số hiệu phiên bản\n"
 
 #: src/showkey.c:171
 #, c-format

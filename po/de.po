@@ -4,7 +4,7 @@
 # This file is distributed under the same license as the kbd package.
 # Nils Naumann <naumann@epost.de>, 2002, 2004.
 # Michael Schutte <m.schutte.jr@gmail.com>, 2008, 2009, 2011.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2014.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2014-2016.
 #
 # Anmerkungen zur Übersetzung:
 # - “Keymaps”, “Flags” und “Fonts” bleiben, wie sie sind.
@@ -14,18 +14,19 @@
 # - “File descriptor” wird zu „Dateideskriptor“.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.2-rc2\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2014-06-29 16:06+0100\n"
+"PO-Revision-Date: 2016-12-28 12:59+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: src/chvt.c:32
 #, c-format
@@ -49,19 +50,17 @@ msgid "%s: unknown option\n"
 msgstr "%s: Unbekannte Option\n"
 
 #: src/deallocvt.c:54
-#, fuzzy
 msgid "0: illegal VT number\n"
-msgstr "%s: 0: Ungültige VT-Nummer.\n"
+msgstr "0: Ungültige VT-Nummer.\n"
 
 #: src/deallocvt.c:56
-#, fuzzy
 msgid "VT 1 is the console and cannot be deallocated\n"
-msgstr "%s: VT 1 ist die Konsole und kann deshalb nicht freigegeben werden.\n"
+msgstr "VT 1 ist die Konsole und kann deshalb nicht freigegeben werden\n"
 
 #: src/deallocvt.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
-msgstr "%s: Konsole %d konnte nicht freigegeben werden.\n"
+msgstr "Konsole %d konnte nicht freigegeben werden.: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:31
 #, c-format
@@ -69,7 +68,7 @@ msgid "dumpkeys version %s"
 msgstr "dumpkeys Version %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -95,13 +94,14 @@ msgstr ""
 "\n"
 "\t-h --help\t    gibt diese Hilfe aus\n"
 "\t-i --short-info\t    zeigt Informationen zum Tastaturtreiber an\n"
-"\t-l --long-info\t    short-info und die von loadkeys erkannten Symbole\n"
+"\t-l -s --long-info    short-info und die von loadkeys erkannten Symbole\n"
 "\t-n --numeric\t    Tastaturtabelle in hexadezimaler Notierung\n"
 "\t-f --full-table\t    ohne Abkürzungen, eine Zeile pro Tastencode\n"
-"\t-1 --separate-lines eine Zeile für jedes (Wandler, Tastencode) Paar\n"
-"\t   --funcs-only\t    zeigt nur die Funktionstastenbelegungen\n"
-"\t   --keys-only\t    zeigt nur die Tastenbelegungen\n"
-"\t   --compose-only   zeigt nur die Tastenfolgen an\n"
+"\t-1 --separate-lines eine Zeile für jedes (Wandler,Tastencode)-Paar\n"
+"\t-S --shape=\n"
+"\t-t --funcs-only\t    zeigt nur die Funktionstastenbelegungen\n"
+"\t-k --keys-only\t    zeigt nur die Tastenbelegungen\n"
+"\t-d --compose-only   zeigt nur die Tastenfolgen an\n"
 "\t-c --charset="
 
 #: src/dumpkeys.c:50
@@ -119,6 +119,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"\t-v --verbose\n"
+"\t-V --version\t    zeigt die Versionsnummer an\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -214,9 +216,11 @@ msgstr ""
 "Scancodes mit Escape e0 xx (hex):\n"
 
 #: src/getkeycodes.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr "Tastencode für den Scancode 0x%x kann nicht erhalten werden.\n"
+msgstr ""
+"Tastencode für den Scancode 0x%x kann nicht erhalten werden.: ioctl "
+"KDGETKEYCODE"
 
 #: src/getunimap.c:33
 #, c-format
@@ -228,7 +232,7 @@ msgstr ""
 "\t%s [-s] [-C Konsole]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -242,6 +246,9 @@ msgstr ""
 "  oder: %1$s [-C GERÄT] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "  oder: %1$s [-C GERÄT] gkbmeta [metabit|escprefix]\n"
 "  oder: %1$s [-C GERÄT] gkbled  [scrolllock|numlock|capslock]\n"
+"Weitere Optionen:\n"
+"   -h                   zeigt diese Hilfe an\n"
+"   -V                   zeigt die Versionsnummer an\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -289,9 +296,9 @@ msgstr ""
 "Die Wiederholrate ist auf %.1f Zeichen/s gesetzt (Verzögerung = %d ms).\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Aufruf: kbdrate [-V] [-s] [-r Wert] [-d Verzögerung]\n"
+msgstr "Aufruf: kbdrate [-V | --version] [-s] [-r Wert] [-d Verzögerung]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -589,7 +596,7 @@ msgstr ""
 "Erkannte Wandlernamen und ihre Spaltennummern:\n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -614,7 +621,7 @@ msgid ""
 msgstr ""
 "loadkeys Version %s\n"
 "\n"
-"Aufruf: %s loadkeys [OPTION...] [MAPDATEI...]\n"
+"Aufruf: %s [OPTION...] [MAPDATEI...]\n"
 "\n"
 "Gültige Optionen sind:\n"
 "\n"
@@ -626,10 +633,13 @@ msgstr ""
 "  -d --default       lädt „%s“\n"
 "  -h --help          gibt diese Hilfe aus\n"
 "  -m --mktable       schreibt eine „defkeymap.c“ auf die Standardausgabe\n"
+"  -p --parse         durchsucht die Keymap und wertet sie aus,\n"
+"                     aber ohne weitere Aktionen\n"
 "  -q --quiet         unterdrückt die Ausgabe von Meldungen\n"
 "  -s --clearstrings  leert die String-Tabelle des Kernels\n"
 "  -u --unicode       erzwingt Konvertierung zu Unicode\n"
 "  -v --verbose       berichtet ausführlicher über vorgenommene Änderungen\n"
+"  -V --version       zeigt die Versionsnummer an\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -751,9 +761,9 @@ msgid "Appended Unicode map\n"
 msgstr "Unicode-Tabelle angehängt.\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "Aufruf: %s [-v] [-o Originaltabelle] Tabellendatei\n"
+msgstr "Aufruf: %s [-V] [-v] [-o Originaltabelle] Tabellendatei\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -1126,9 +1136,9 @@ msgid "usage: screendump [n]\n"
 msgstr "Aufruf: screendump [n]\n"
 
 #: src/screendump.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading %s"
-msgstr "Fehler beim Lesen von %s.\n"
+msgstr "Fehler beim Lesen von %s"
 
 #: src/screendump.c:127
 #, c-format
@@ -1387,9 +1397,11 @@ msgid "code outside bounds"
 msgstr "Scancode außerhalb der Grenzen."
 
 #: src/setkeycodes.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
-msgstr "Der Scancode %x konnte nicht für den Tastencode %d gesetzt werden.\n"
+msgstr ""
+"Der Scancode %x konnte nicht für den Tastencode %d gesetzt werden.: ioctl "
+"KDSETKEYCODE"
 
 #: src/setleds.c:25
 #, c-format
@@ -1430,34 +1442,31 @@ msgid "off"
 msgstr "aus"
 
 #: src/setleds.c:90
-#, fuzzy
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
-"Fehler beim Lesen der LED-Zustände.\n"
-"Ist die Standardeingabe wirklich ein Terminal?\n"
+"Fehler beim Lesen der LED-Zustände. Ist die Standardeingabe wirklich ein "
+"Terminal?: ioctl KDGETLED"
 
 #: src/setleds.c:110
-#, fuzzy
 msgid ""
 "Error reading current flags setting. Maybe you are not on the console?: "
 "ioctl KDGKBLED"
 msgstr ""
-"Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?\n"
+"Fehler beim Lesen der Flags. Befinden Sie sich wirklich auf der Konsole?: "
+"ioctl KDGKBLED"
 
 #: src/setleds.c:129
-#, fuzzy
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
-msgstr "Fehler beim Lesen der LED-Zustände von /dev/kbd.\n"
+msgstr "Fehler beim Lesen der LED-Zustände von /dev/kbd: ioctl KIOCGLED"
 
 #: src/setleds.c:133
 msgid "KIOCGLED unavailable?\n"
 msgstr "Ist KIOCGLED nicht verfügbar?\n"
 
 #: src/setleds.c:148
-#, fuzzy
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
-msgstr "Fehler beim Lesen der LED-Zustände von /dev/kbd.\n"
+msgstr "Fehler beim Lesen der LED-Zustände von /dev/kbd: ioctl KIOCSLED"
 
 #: src/setleds.c:152
 msgid "KIOCSLED unavailable?\n"
@@ -1551,12 +1560,11 @@ msgid "Strange mode for Meta key?\n"
 msgstr "Merkwürdiger Modus für die Meta-Taste?\n"
 
 #: src/setmetamode.c:80
-#, fuzzy
 msgid ""
 "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
 msgstr ""
-"Die aktuellen Einstellungen sind nicht lesbar.\n"
-"Ist die Standardeingabe wirklich ein Terminal?\n"
+"Die aktuellen Einstellungen sind nicht lesbar. Ist die Standardeingabe "
+"wirklich ein Terminal?: ioctl KDGKBMETA"
 
 #: src/setmetamode.c:100
 #, c-format
@@ -1574,7 +1582,7 @@ msgid "usage: %s\n"
 msgstr "Aufruf: %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1592,7 +1600,8 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
-"Aufruf: %s vga|DATEI|-\n"
+"Aufruf: %s [-h] [-V]\n"
+"        %s vga|DATEI|-\n"
 "\n"
 "Wenn Sie eine DATEI angeben, sollte sie aus genau drei Zeilen mit\n"
 "Komma-getrennten Werten für ROT, GRÜN und BLAU bestehen.\n"
@@ -1601,6 +1610,10 @@ msgstr ""
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > DATEI\n"
 "\n"
 "Dann können Sie die DATEI nach Ihren Vorstellungen bearbeiten.\n"
+"\n"
+"Weitere Optionen:\n"
+"   -h     zeigt diese Hilfe an\n"
+"   -V     zeigt die Versionsnummer an\n"
 "\n"
 
 #: src/setvtrgb.c:75
@@ -1638,7 +1651,7 @@ msgid "cannot change translation table\n"
 msgstr "Die Übersetzungstabelle konnte nicht gewechselt werden.\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1656,12 +1669,12 @@ msgstr ""
 "(möglicherweise nach dem Laden eines Fonts mit „setfont font“)\n"
 "\n"
 "Gültige Optionen sind:\n"
-"\n"
-" -C tty   Gerät, von dem der Font gelesen werden soll. Standard ist\n"
-"          das aktive Terminal.\n"
-" -v       Ausführlichere Meldungen ausgeben.\n"
-" -i       Die Font-Tabelle nicht ausgeben, stattdessen\n"
-"          ZEILENxSPALTENxANZAHL anzeigen und beenden.\n"
+" -V --version    zeigt die Versionsnummer an und beendet das Programm.\n"
+" -C tty          Gerät, von dem der Font gelesen werden soll. Standard ist\n"
+"                 das aktive Terminal.\n"
+" -v              gibt ausführlichere Meldungen aus.\n"
+" -i              gibt die Font-Tabelle nicht aus, zeigt stattdessen\n"
+"                 ZEILENxSPALTENxANZAHL an und beendet das Programm.\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1711,7 +1724,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "Signal %d erhalten, wird aufgeräumt …\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1735,6 +1748,7 @@ msgstr ""
 "\t-a --ascii\tzeigt die dezimalen/oktalen/hexadezimalen Tastencodes\n"
 "\t-s --scancodes\tzeigt die originalen Tastaturcodes an\n"
 "\t-k --keycodes\tzeigt nur die übersetzten Tastaturcodes an (Vorgabe)\n"
+"\t-V --version\tzeigt die Versionsnummer an\n"
 
 #: src/showkey.c:171
 #, c-format

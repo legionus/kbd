@@ -1,22 +1,23 @@
 # Czech translation of kbd.
 # This file is distributed under the same license as the kbd package.
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2007, 2008.
-# Petr Pisar <petr.pisar@atlas.cz>, 2012, 2014, 2015.
+# Petr Pisar <petr.pisar@atlas.cz>, 2012, 2014, 2015, 2016.
 #
 # keymap → mapa kláves
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.3-rc1\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2015-07-02 20:56+0200\n"
+"PO-Revision-Date: 2016-12-30 18:14+01:00\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/chvt.c:32
@@ -58,7 +59,7 @@ msgid "dumpkeys version %s"
 msgstr "verze dumpkeys %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -84,13 +85,14 @@ msgstr ""
 "\n"
 "\t-h --help\t    zobrazit tento text nápovědy\n"
 "\t-i --short-info\t    zobrazit informace o ovladači klávesnice\n"
-"\t-l --long-info\t    zobrazit výše uvedené a symboly známé v loadkeys\n"
+"\t-l -s --long-info\t  zobrazit výše uvedené a symboly známé v loadkeys\n"
 "\t-n --numeric\t    zobrazit tabulku kláves v šestnáctkovém zápisu\n"
 "\t-f --full-table\t    nepoužívat zkratky, jeden řádek na kód klávesy\n"
 "\t-1 --separate-lines jeden řádek na dvojici (modifikátor,kód klávesy)\n"
-"\t   --funcs-only\t    zobrazit jen řetězce funkčních kláves\n"
-"\t   --keys-only\t    zobrazit jen přiřazení kláves\n"
-"\t   --compose-only   zobrazit jen kombinace kláves compose\n"
+"\t-S --shape=\n"
+"\t-t --funcs-only\t    zobrazit jen řetězce funkčních kláves\n"
+"\t-k --keys-only\t    zobrazit jen přiřazení kláves\n"
+"\t-d --compose-only   zobrazit jen kombinace kláves compose\n"
 "\t-c --charset="
 
 #: src/dumpkeys.c:50
@@ -108,6 +110,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"\t-v --verbose\n"
+"\t-V --version\t    zobrazí číslo verze\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -213,7 +217,7 @@ msgstr ""
 "\t%s [-s] [-C konzola]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -227,6 +231,9 @@ msgstr ""
 "   nebo: %1$s [-C ZAŘÍZENÍ] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "   nebo: %1$s [-C ZAŘÍZENÍ] gkbmeta [metabit|escprefix]\n"
 "   nebo: %1$s [-C ZAŘÍZENÍ] gkbled  [scrolllock|numlock|capslock]\n"
+"Další přepínače:\n"
+"   -h                       zobrazí tento návod na použití\n"
+"   -V                       zobrazí číslo verze\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -273,9 +280,9 @@ msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Rychlost opakování nastavena %.1f z/s (zpoždění = %d ms)\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Použití: kbdrate [-V] [-s] [-r rychlost] [-d zpoždění]\n"
+msgstr "Použití: kbdrate [-V | --version] [-s] [-r rychlost] [-d zpoždění]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -576,7 +583,7 @@ msgstr ""
 "Rozpoznávané názvy modifikátorů a jejich čísla sloupců:\n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -618,6 +625,7 @@ msgstr ""
 "  -s --clearstrings  vyprázdní jadernou tabulku řetězců\n"
 "  -u --unicode       vynutí převod do Unicodu\n"
 "  -v --verbose       hlásí změny\n"
+"  -V --version       zobrazí číslo verze\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -738,9 +746,9 @@ msgid "Appended Unicode map\n"
 msgstr "Připojena mapa Unicode\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "použití: %s [-v] [-o mapa.původní] soubor-mapy\n"
+msgstr "použití: %s [-V] [-v] [-o mapa.původní] soubor-mapy\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -1545,7 +1553,7 @@ msgid "usage: %s\n"
 msgstr "použití: %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1563,7 +1571,8 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
-"Použití: %s vga|SOUBOR|-\n"
+"Použití: %s [-h] [-V]\n"
+"         %s vga|SOUBOR|-\n"
 "\n"
 "Použijete-li parametr SOUBOR, SOUBOR by měl obsahovat přesně 3 řádky\n"
 "čárkou oddělených desítkových hodnot pro ČERVENOU, ZELENOU a MODROU.\n"
@@ -1572,6 +1581,10 @@ msgstr ""
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > SOUBOR\n"
 "\n"
 "a pak upravte hodnoty v SOUBORU.\n"
+"\n"
+"Další přepínače:\n"
+"   -h     zobrazí tento návod na použití\n"
+"   -V     zobrazí číslo verze\n"
 "\n"
 
 #: src/setvtrgb.c:75
@@ -1607,7 +1620,7 @@ msgid "cannot change translation table\n"
 msgstr "nemohu změnit tabulku překladu\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1625,10 +1638,11 @@ msgstr ""
 "(pravděpodobně po načtení písma pomocí `setfont font')\n"
 "\n"
 "Platné přepínače jsou:\n"
-" -C tty   Zařízení, ze kterého číst písmo.  Implicitně aktuální tty.\n"
-" -v       Být podrobnější.\n"
-" -i       Nevypisovat tabulku písma, jen zobrazit ŘÁDKŮxSLOUPCŮxPOČET a "
-"skončit.\n"
+" -V --version    Zobrazí číslo verze a skončí.\n"
+" -C TTY          Zařízení, ze kterého načte písmo. Výchozí je aktuální TTY.\n"
+" -v              Bude podrobnější.\n"
+" -i              Nevypíše tabulku písma, jen zobrazí ŘÁDKŮxSLOUPCŮxPOČET\n"
+"                 a skončí.\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1678,7 +1692,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "chytil jsem signál %d, uklízím...\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1698,10 +1712,11 @@ msgstr ""
 "\n"
 "platné přepínače jsou:\n"
 "\n"
-"\t-h --help\tzobrazit tento text nápovědy\n"
-"\t-a --ascii\tzobrazit desítkové/osmičkové/hex hodnoty kláves\n"
-"\t-s --scancodes\tzobrazit jen přímé scan-kódy\n"
-"\t-k --keycodes\tzobrazit jen interpretované kódy kláves (implicitní)\n"
+"\t-h --help\tzobrazí tento text nápovědy\n"
+"\t-a --ascii\tzobrazí desítkové/osmičkové/hex hodnoty kláves\n"
+"\t-s --scancodes\tzobrazí jen přímé scan-kódy\n"
+"\t-k --keycodes\tzobrazí jen interpretované kódy kláves (implicitní)\n"
+"\t-V --version\tzobrazí číslo verze\n"
 
 #: src/showkey.c:171
 #, c-format

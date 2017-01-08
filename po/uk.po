@@ -2,19 +2,20 @@
 # This file is distributed under the same license as the kbd package.
 #
 # Maxim V. Dziumanenko <dziumanenko@gmail.com>, 2006.
-# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015, 2016.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.0.3-rc1\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2016-12-26 17:38+0100\n"
-"PO-Revision-Date: 2015-07-01 20:35+0300\n"
+"PO-Revision-Date: 2016-12-27 13:13+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
@@ -58,7 +59,7 @@ msgid "dumpkeys version %s"
 msgstr "dumpkeys версії %s"
 
 #: src/dumpkeys.c:32
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
@@ -84,14 +85,16 @@ msgstr ""
 "\n"
 "\t-h --help\t    вивести текст довідки\n"
 "\t-i --short-info\t    вивести інформацію про драйвер клавіатури\n"
-"\t-l --long-info\t    вивести вказане вище та символи, що відомі loadkeys\n"
+"\t-l -s --long-info\t    вивести вказане вище та символи, що відомі "
+"loadkeys\n"
 "\t-n --numeric\t    вивести таблицю клавіш к шістнадцятковому вигляді\n"
 "\t-f --full-table\t    не вживати короткі нотації, один рядок на код "
 "клавіші\n"
 "\t-1 --separate-lines одна лінія на пару (модифікатор, код клавіші)\n"
-"\t   --funcs-only\t    вивести лише рядки функцій клавіш\n"
-"\t   --keys-only\t    вивести лише прив'язки клавіш\n"
-"\t   --compose-only   вивести лише комбінації сполучених клавіш\n"
+"\t-S --shape=\n"
+"\t-t --funcs-only\t    вивести лише рядки функцій клавіш\n"
+"\t-k --keys-only\t    вивести лише прив'язки клавіш\n"
+"\t-d --compose-only   вивести лише комбінації сполучених клавіш\n"
 "\t-c --charset="
 
 #: src/dumpkeys.c:50
@@ -109,6 +112,8 @@ msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
+"\t-v --verbose\n"
+"\t-V --version\t    вивести дані щодо номера версії\n"
 
 #: src/dumpkeys.c:140
 #, c-format
@@ -216,7 +221,7 @@ msgstr ""
 "\t%s [-s] [-C консоль]\n"
 
 #: src/kbdinfo.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
 "   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -230,6 +235,9 @@ msgstr ""
 "   або: %1$s [-C ПРИСТРІЙ] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "   або: %1$s [-C ПРИСТРІЙ] gkbmeta [metabit|escprefix]\n"
 "   або: %1$s [-C ПРИСТРІЙ] gkbled  [scrolllock|numlock|capslock]\n"
+"Інші параметри:\n"
+"   -h                   вивести це повідомлення щодо користування\n"
+"   -V                   вивести дані щодо номера версії\n"
 
 #: src/kbdinfo.c:72
 msgid "Error: Not enough arguments.\n"
@@ -278,9 +286,10 @@ msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Значення частоти повтору: %.1f симв/сек (затримка = %d мс)\n"
 
 #: src/kbdrate.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Використання: kbdrate [-V] [-s] [-r частота] [-d затримка]\n"
+msgstr ""
+"Користування: kbdrate [-V | --version] [-s] [-r частота] [-d затримка]\n"
 
 #: src/kbdrate.c:295
 msgid "Cannot open /dev/port"
@@ -586,7 +595,7 @@ msgstr ""
 "Відомі назви модификаторів та номери відповідних колонок: \n"
 
 #: src/loadkeys.c:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
@@ -628,6 +637,7 @@ msgstr ""
 "  -s --clearstrings  спорожнити таблицю рядків ядра\n"
 "  -u --unicode       примусове перетворення у Unicode\n"
 "  -v --verbose       повідомити про внесені зміни\n"
+"  -V --version       вивести номер версії\n"
 
 #: src/loadkeys.c:161 src/version.h:22
 #, c-format
@@ -742,17 +752,18 @@ msgstr "пункти"
 #: src/loadunimap.c:344
 #, c-format
 msgid "Saved unicode map on `%s'\n"
-msgstr "Записав unicode-схему в `%s'\n"
+msgstr "Збережено unicode-схему до `%s'\n"
 
 #: src/loadunimap.c:380
 #, c-format
 msgid "Appended Unicode map\n"
-msgstr "Додав в Unicode-схему\n"
+msgstr "Додано у Unicode-схему\n"
 
 #: src/mapscrn.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "Використання: %s [-o початкова_розкладка] файл_з_розкладкою\n"
+msgstr ""
+"Користування: %s [-V] [-v] [-o початкова_розкладка] файл_з_розкладкою\n"
 
 #: src/mapscrn.c:138
 #, c-format
@@ -1569,7 +1580,7 @@ msgid "usage: %s\n"
 msgstr "використання: %s\n"
 
 #: src/setvtrgb.c:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
 "       %s vga|FILE|-\n"
@@ -1587,7 +1598,8 @@ msgid ""
 "   -V     print version number\n"
 "\n"
 msgstr ""
-"Використання: %s vga|ФАЙЛ|-\n"
+"Користування: %s [-h] [-V]\n"
+"              %s vga|ФАЙЛ|-\n"
 "\n"
 "Якщо буде використано параметр ФАЙЛ, у ФАЙЛі має бути точно 3 рядки\n"
 "відокремлених комами десяткових значень для каналів червоного, зеленого,\n"
@@ -1632,7 +1644,7 @@ msgid "cannot change translation table\n"
 msgstr "не вдалося змінити таблицю перетворень\n"
 
 #: src/showconsolefont.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1645,15 +1657,17 @@ msgid ""
 " -i              Don't print out the font table, just show\n"
 "                 ROWSxCOLSxCOUNT and exit.\n"
 msgstr ""
-"використання: showconsolefont -V|--version\n"
+"користування: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
 "(ймовірно, після завантаження шрифту командою «setfont шрифт»)\n"
 "\n"
 "Можливі параметри:\n"
-" -C tty   пристрій для читання шрифту. Типове значення: поточний tty.\n"
-" -v       докладний режим повідомлень.\n"
-" -i       не виводити таблицю шрифту, просто показати дані\n"
-"          РЯДКИxСТОВПЧИКИxКІЛЬКІСТЬ і завершити роботу.\n"
+" -V --version    вивести дані щодо версії і завершити роботу.\n"
+" -C tty          пристрій для читання шрифту. Типове значення: поточний "
+"tty.\n"
+" -v              докладний режим повідомлень.\n"
+" -i              не виводити таблицю шрифту, просто показати дані\n"
+"                 РЯДКИxСТОВПЧИКИxКІЛЬКІСТЬ і завершити роботу.\n"
 
 #: src/showconsolefont.c:170
 #, c-format
@@ -1703,7 +1717,7 @@ msgid "caught signal %d, cleaning up...\n"
 msgstr "отримано сигнал %d, очищення...\n"
 
 #: src/showkey.c:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "showkey version %s\n"
 "\n"
@@ -1719,7 +1733,7 @@ msgid ""
 msgstr ""
 "showkey версії %s\n"
 "\n"
-"використання: showkey [параметри...]\n"
+"користування: showkey [параметри...]\n"
 "\n"
 "Параметри:\n"
 "\t-h --help     \tвивести довідку\n"
@@ -1728,6 +1742,7 @@ msgstr ""
 "\t-s --scancodes\tпоказати лише скан-коди\n"
 "\t-k --keycodes \tпоказати лише інтерпретовані коди клавіш\n"
 "\t              \t(якщо не вказано інше, вважається вказаним `keycodes')\n"
+"\t-V --version  \tвивести дані щодо номера версії\n"
 
 #: src/showkey.c:171
 #, c-format
