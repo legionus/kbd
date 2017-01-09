@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes: NCD keyboards</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-6.html">Previous</a></li>
+				<li class="next"><a href="scancodes-8.html">Next</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-header">
+			<h2><a name="NCD"></a><a name="s7">7. NCD keyboards</a></h2>
+		</div>
+
+		<p>Some keyboards natively produce 
+		<a href="scancodes-10.html#scancodesets">Set 3</a> scancodes.
+		When connected to a PC one will by default see translated Set 3 scancodes.
+		This means that the F9 and F10 keys have make codes <b>60</b> and <b>61</b>
+		and break codes <b>e0</b> and <b>e1</b>. Thus, these latter codes are
+		ordinary key release codes here, not protocol codes.</p>
+
+		<p>The N-nnn type numbers indicate the number nnn of keys the keyboard has.</p>
+
+		<div class="page-header">
+			<h3><a name="e0_as_key"></a><a name="ss7.1">7.1 A Japanese keyboard using e0 as ordinary scancode</a></h3>
+		</div>
+
+		<p>Benjamin Carter &lt;<code>bcarter@ultra5.cs.umr.edu</code>&gt; reports:</p>
+
+		<p>I recently came into possession of a 97-key keyboard with Japanese
+		markings on the keys.  (The keys also have the standard
+		qwerty-characters on them, with the exception of some of the meta-keys
+		(there are 3 keys near the Alt keys on either side of the spacebar with
+		only Japanese characters on them so I don't know what they are).
+		In any case, the keyboard sends out scancodes that work for all the main
+		keys (backspace, letters and numbers, enter, shift), but the numeric
+		keypad, Alt keys, and function keys don't work.
+		I have run the board through <code>showkey -s</code>, so I know what
+		scancodes this keyboard sends out.
+		However, the F9 and F10 keys send out <b>60</b> and <b>61</b>,
+		respectively, so their key release events send out <b>e0</b>
+		and <b>e1</b>, confusing the keyboard driver.</p>
+
+		<p>(Compare this with the 
+		<a href="scancodes-10.html#correspondence">table</a>
+		giving the translated Set 3 scancodes. The reported codes are
+		almost identical.)</p>
+
+		<p># These are across the top of the keyboard.</p>
+
+		<p><b>58</b> (F1), <b>59</b> (F2), <b>5a</b> (F3),
+		<b>5b</b> (F4), <b>5c</b> (F5), <b>5d</b> (F6),
+		<b>5e</b> (F7), <b>5f</b> (F8), <b>60</b> (F9),
+		<b>61</b> (F10), <b>62</b> (F11), <b>63</b> (F12)
+		<b>76</b> (Break), <b>77</b> (Setup).</p>
+
+		<p># top row</p>
+
+		<p><b>64</b> (Esc),
+		<b>02</b> (1), <b>03</b> (2), <b>04</b> (3),
+		<b>05</b> (4), <b>06</b> (5), <b>07</b> (6),
+		<b>08</b> (7), <b>09</b> (8), <b>0a</b> (9),
+		<b>0b</b> (0), <b>0c</b> (-), <b>0d</b> (=),
+		<b>29</b> (`), <b>0e</b> (Backspace)</p>
+
+		<p># 2nd row</p>
+
+		<p><b>0f</b> (Tab),
+		<b>10</b> (Q), <b>11</b> (W), <b>12</b> (E),
+		<b>13</b> (R), <b>14</b> (T), <b>15</b> (Y),
+		<b>16</b> (U), <b>17</b> (I), <b>18</b> (O),
+		<b>19</b> (P), <b>1a</b> ([), <b>1b</b> (]),
+		<b>79</b> (Del), <b>6e</b> (Line Feed)</p>
+
+		<p># 3rd row</p>
+
+		<p><b>38</b> (Ctrl),
+		<b>1e</b> (A), <b>1f</b> (S), <b>20</b> (D),
+		<b>21</b> (F), <b>22</b> (G), <b>23</b> (H),
+		<b>24</b> (J), <b>25</b> (K), <b>26</b> (L),
+		<b>27</b> (;), <b>28</b> ('), <b>75</b> (\),
+		<b>1c</b> (Return)</p>
+
+		<p># 4th row</p>
+
+		<p><b>2a</b> (Shift_L),
+		<b>2c</b> (Z), <b>2d</b> (X), <b>2e</b> (C),
+		<b>2f</b> (V), <b>30</b> (B), <b>31</b> (N),
+		<b>32</b> (M), <b>33</b> (,), <b>34</b> (.),
+		<b>35</b> (/),
+		<b>3a</b> ((unknown)),
+		<b>36</b> (Shift_R)</p>
+
+		<p># bottom row</p>
+
+		<p><b>1d</b> (Caps Lock), <b>71</b> (Alt_L),
+		<b>01</b> ((unknown)),
+		<b>39</b> (Space),
+		<b>45</b> ((unknown)),
+		<b>72</b> (Alt_R),
+		<b>46</b> ((unknown))</p>
+
+		<p># numeric keypad.  No "grey" section on the keyboard.</p>
+
+		<p><b>47</b> (7), <b>48</b> (8), <b>49</b> (9),
+		<b>54</b> (Keypad -),
+		<b>4b</b> (4), <b>4c</b> (5), <b>4d</b> (6),
+		<b>37</b> (Keypad +),
+		<b>4f</b> (1), <b>50</b> (2), <b>51</b> (3),
+		<b>4e</b> (Keypad Enter),
+		<b>52</b> (0),
+		<b>78</b> (Up),
+		<b>53</b> (Keypad .),
+		<b>56</b> (Left),
+		<b>55</b> (Down),
+		<b>7d</b> (Right),
+		<b>7e</b> (Keypad ,).</p>
+
+		<div class="page-header">
+			<h3><a name="ss7.2">7.2 The NCD N-123NA keyboard</a></h3>
+		</div>
+
+		<p>There are more keyboards that do not use <b>e0</b> as escape code.
+		For example, Paul Schulz &lt;<code>pauls@caemrad.com.au</code>&gt;
+		reports the same for Sun Type 5 Keyboard with PS/2 connector,
+		NCD model N-123NA. The scancodes are very similar to those given above:</p>
+
+		<p># Sun Keys (far left)</p>
+
+		<p><b>44</b> (Help),
+		<b>42</b> (Stop),
+		<b>40</b> (Again),
+		<b>3e</b> (Props),
+		<b>65</b> (Undo),
+		<b>70</b> (Front),
+		<b>66</b> (Copy),
+		<b>67</b> (Open),
+		<b>68</b> (Paste),
+		<b>69</b> (Find),
+		<b>6a</b> (Cut),</p>
+
+		<p># Top row</p>
+
+		<p><b>64</b> (ESC),
+		<b>58</b> (F1),
+		<b>59</b> (F2),
+		<b>5a</b> (F3),
+		<b>5b</b> (F4),
+		<b>5c</b> (F5),
+		<b>5d</b> (F6),
+		<b>5e</b> (F7),
+		<b>5f</b> (F8),
+		<b>60</b> (F9),
+		<b>61</b> (F10),
+		<b>62</b> (F11),
+		<b>63</b> (F12),</p>
+
+		<p># 1st row</p>
+
+		<p><b>29</b> (~/`),
+		<b>02</b> (!/1),
+		<b>03</b> (@/2),
+		<b>04</b> (#/3),
+		<b>05</b> ($/4),
+		<b>06</b> (%/5),
+		<b>07</b> (^/6),
+		<b>08</b> (&amp;/7),
+		<b>09</b> (*/8),
+		<b>0a</b> ((/9),
+		<b>0b</b> ()/0),
+		<b>0c</b> (_/-),
+		<b>0d</b> (+/=),
+		<b>0e</b> (BS),</p>
+
+		<p># 2nd row</p>
+
+		<p><b>0f</b> (TAB),
+		<b>10</b> (Q),
+		<b>11</b> (W),
+		<b>12</b> (E),
+		<b>13</b> (R),
+		<b>14</b> (T),
+		<b>15</b> (Y),
+		<b>16</b> (U),
+		<b>17</b> (I),
+		<b>18</b> (O),
+		<b>19</b> (P),
+		<b>1a</b> ({/[),
+		<b>1b</b> (}/]),
+		<b>75</b> (|/\),</p>
+
+		<p># 3rd row</p>
+
+		<p><b>29</b> (CAPS),
+		<b>30</b> (A),
+		<b>31</b> (S),
+		<b>32</b> (D),
+		<b>33</b> (F),
+		<b>34</b> (G),
+		<b>35</b> (H),
+		<b>36</b> (J),
+		<b>37</b> (K),
+		<b>38</b> (L),
+		<b>39</b> (:/;),
+		<b>40</b> ("/'),
+		<b>28</b> (Enter),</p>
+
+		<p># 4th row</p>
+
+		<p><b>2a</b> (Shift),
+		<b>2c</b> (Z),
+		<b>2d</b> (X),
+		<b>2e</b> (C),
+		<b>2f</b> (V),
+		<b>30</b> (B),
+		<b>31</b> (N),
+		<b>32</b> (M),
+		<b>33</b> (&lt;/,),
+		<b>34</b> (>/.),
+		<b>35</b> (?//),
+		<b>36</b> (Shift),</p>
+
+		<p># Bottom row</p>
+
+		<p><b>38</b> (Ctrl),
+		<b>71</b> (Alt),
+		<b>66</b> (Meta),
+		<b>39</b> (Space),
+		<b>6c</b> (Meta),
+		<b>72</b> (Compose),
+		<b>3a</b> (Alt),</p>
+
+		<p># To the right</p>
+
+		<p><b>6e</b> (PrintScreen/SysRq),
+		<b>76</b> (ScrollLock),
+		<b>77</b> (Pause/Break),</p>
+
+		<p><b>76</b> (Insert),
+		<b>7f</b> (Home),
+		<b>6f</b> (PageUp),</p>
+
+		<p><b>79</b> (Del),
+		<b>7a</b> (End),
+		<b>7e</b> (PageDown),</p>
+
+		<p><b>80</b> (.),
+		<b>81</b> (.),
+		<b>82</b> (.),</p>
+
+		<p><b>d4</b> (.),
+		<b>78</b> (Up),
+		<b>41</b> (.),</p>
+
+		<p><b>56</b> (Left),
+		<b>55</b> (Down),
+		<b>7d</b> (Right),</p>
+
+		<p># Keypad</p>
+
+		<p><b>6d</b> (Mute),
+		<b>73</b> (Brightness/Vol Down),
+		<b>74</b> (Brightness/Vol Up),
+		<b>53</b> (Setup),</p>
+
+		<p><b>01</b> (NumLock),
+		<b>45</b> (/),
+		<b>46</b> (*),
+		<b>54</b> (-),</p>
+
+		<p><b>47</b> (7/Home),
+		<b>48</b> (8/Up),
+		<b>4d</b> (9/PgUp),
+		<b>37</b> (+),</p>
+
+		<p><b>4b</b> (4/Left),
+		<b>4c</b> (5),
+		<b>4d</b> (6/Right),</p>
+
+		<p><b>4f</b> (1/End),
+		<b>50</b> (2/Down),
+		<b>51</b> (3/PgDn),
+		<b>4e</b> (Enter),</p>
+
+		<p><b>52</b> (0/Ins),
+		<b>53</b> (./Del).</p>
+
+		<div class="page-header">
+			<h3><a name="ss7.3">7.3 The NCD N-123UX keyboard</a></h3>
+		</div>
+
+		<p>Don Christensen reports that his NCD N-123UX keyboard
+		returns scancode Set 3.</p>
+
+		<div class="page-header">
+			<h3><a name="NCD97"></a> <a name="ss7.4">7.4 The NCD N-97 keyboard</a></h3>
+		</div>
+
+		<p>David Monro reports: I have a PS/2 keyboard, an NCD N-97,
+		which shipped with some NCD X terminals and also with some Mips
+		workstations IIRC. This keyboard returns Set 3 keycodes
+		even when its told to be in Set 2. In particular, the release
+		codes for F9 and F10 are <b>e0</b> and <b>e1</b>.
+		The <a href="scancodes-10.html#keyboardid">keyboard ID</a> is <b>ab</b> <b>85</b>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss7.5">7.5 NCD X terminals</a></h3>
+		</div>
+
+		<p>NCD keyboards are often used with NCD X terminals.
+		Here the key combinations to get into the boot monitor.</p>
+
+		<table class="table table-bordered"><tr><td>
+		N-101 </td><td> LCtrl-LAlt-Setup </td></tr><tr><td>
+		N-102 or Windows compatible </td><td> LAlt-CapsLock-Setup </td></tr><tr><td>
+		VT220-compatible </td><td> Ctrl-Compose-F3 </td></tr><tr><td>
+		N-108LK </td><td> Ctrl-LAlt-F3 </td></tr><tr><td>
+		N-97 </td><td> LAlt-CapsLock-Setup </td></tr><tr><td>
+		N-97 Kana and Hitachi Kana </td><td> LAlt-CapsLock-Setup </td></tr><tr><td>
+		N-107 Sun type 4 compatible </td><td> Stop A (L1-A) </td></tr><tr><td>
+		N-123 Sun type 5 compatible </td><td> Stop-A (L1-A) </td></tr><tr><td>
+		Nokia 122 </td><td> </td></tr><tr><td>
+		3270 (122-key Lexmark) </td><td> LShift LAlt Setup </td></tr><tr><td>
+		</td><td> (on the left keypad) </td></tr>
+		</table>
+
+		<hr>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-6.html">Previous</a></li>
+				<li class="next"><a href="scancodes-8.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

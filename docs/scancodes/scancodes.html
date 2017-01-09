@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="../../index.html#documentation">Back</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-header">
+			<h2>Keyboard scancodes</h2>
+		</div>
+
+		<blockquote>v1.2e, 2004-05-20</blockquote>
+
+		<p>This note contains some information about PC keyboard scancodes.</p>
+
+		<ol>
+			<li><a name="toc1" href="scancodes-1.html">Keyboard scancodes</a>
+				<ol>
+					<li><a href="scancodes-1.html#ss1.1">Key release</a></li>
+					<li><a href="scancodes-1.html#ss1.2">Protocol scancodes</a></li>
+					<li><a href="scancodes-1.html#ss1.3">Escape scancodes</a></li>
+					<li><a href="scancodes-1.html#ss1.4">Ordinary scancodes</a></li>
+					<li><a href="scancodes-1.html#ss1.5">Escaped scancodes</a></li>
+					<li><a href="scancodes-1.html#ss1.6">Fake shifts</a></li>
+					<li><a href="scancodes-1.html#ss1.7">Added non-fake shifts</a></li>
+					<li><a href="scancodes-1.html#ss1.8">Turbo Mode</a></li>
+					<li><a href="scancodes-1.html#ss1.9">Power Saving</a></li>
+					<li><a href="scancodes-1.html#ss1.10">Initializing special keyboards</a></li>
+					<li><a href="scancodes-1.html#ss1.11">Manipulating extra LEDs</a></li>
+					<li><a href="scancodes-1.html#ss1.12">The laptop FN key</a></li>
+				</ol>
+			</li>
+			<li><a name="toc2" href="scancodes-2.html">Special keyboards - XT keyboards</a>
+				<ol>
+					<li><a href="scancodes-2.html#ss2.1">XT keyboard</a></li>
+					<li><a href="scancodes-2.html#ss2.2">Victor keyboard</a></li>
+					<li><a href="scancodes-2.html#ss2.3">Olivetti M24 keyboard</a></li>
+					<li><a href="scancodes-2.html#ss2.4">Telerate keyboard</a></li>
+					<li><a href="scancodes-2.html#ss2.5">NCR keyboard</a></li>
+					<li><a href="scancodes-2.html#ss2.6">Cherry G80-0777</a></li>
+				</ol>
+			</li>
+			<li><a name="toc3" href="scancodes-3.html">Special keyboards - Amstrad/Schneider keyboards</a>
+				<ol>
+					<li><a href="scancodes-3.html#ss3.1">Amstrad/Schneider PC1512</a></li>
+					<li><a href="scancodes-3.html#ss3.2">Amstrad/Schneider other models</a></li>
+				</ol>
+			</li>
+			<li><a name="toc4" href="scancodes-4.html">Special keyboards - AT keyboards</a></li>
+			<li><a name="toc5" href="scancodes-5.html">Special keyboards - MF II keyboards</a>
+				<ol>
+					<li><a href="scancodes-5.html#ss5.1">Nokia keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.2">Focus KeyPro FK-9000 keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.3">BTC keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.4">LK411 and LK450 keyboards</a></li>
+					<li><a href="scancodes-5.html#ss5.5">An OmniKey keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.6">Compaq Armada laptop keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.7">GRiD 2260 keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.8">An old Olivetti keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.9">Cherry G81-3000</a></li>
+					<li><a href="scancodes-5.html#ss5.10">Accord keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.11">Trust Ergonomic keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.12">Brazilian keyboards</a></li>
+					<li><a href="scancodes-5.html#ss5.13">RC930 keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.14">Tandberg Data keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.15">Host Connected keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.16">Safeway keyboards</a></li>
+					<li><a href="scancodes-5.html#ss5.17">a nameless USB keyboard</a></li>
+					<li><a href="scancodes-5.html#ss5.18">Keyboards with many keys</a></li>
+					<li><a href="scancodes-5.html#ss5.19">A keyboard treating PrtSc/SysRq like Pause/Break</a></li>
+				</ol>
+			</li>
+			<li><a name="toc6" href="scancodes-6.html">Special keyboards - MF II keyboards with CD and/or Internet buttons</a>
+				<ol>
+					<li><a href="scancodes-6.html#ss6.1">Compaq keyboards</a></li>
+					<li><a href="scancodes-6.html#ss6.2">IBM keyboards</a></li>
+					<li><a href="scancodes-6.html#ss6.3">Logitech keyboards</a></li>
+					<li><a href="scancodes-6.html#ss6.4">Microsoft keyboards</a></li>
+					<li><a href="scancodes-6.html#ss6.5">Labtec keyboards</a></li>
+					<li><a href="scancodes-6.html#ss6.6">Safeway keyboards</a></li>
+					<li><a href="scancodes-6.html#ss6.7">Internet Wireless Keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.8">Omnibook keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.9">EZ Button keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.10">Chicony KBP-8993 keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.11">Keyboards for HP Kayak and Vectra</a></li>
+					<li><a href="scancodes-6.html#ss6.12">A keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.13">Yahoo! keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.14">Honeywell Multimedia Keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.15">Samsung Ergonomics Keyboard</a></li>
+					<li><a href="scancodes-6.html#ss6.16">The "LiteOn MediaTouch Keyboard" type SK-2500</a></li>
+					<li><a href="scancodes-6.html#ss6.17">The Acer Aspire 1310LC laptop</a></li>
+					<li><a href="scancodes-6.html#ss6.18">The Emachines eKB-5190(A) keyboard</a></li>
+				</ol>
+			</li>
+			<li><a name="toc7" href="scancodes-7.html">NCD keyboards</a>
+				<ol>
+					<li><a href="scancodes-7.html#ss7.1">A Japanese keyboard using e0 as ordinary scancode</a>
+					<li><a href="scancodes-7.html#ss7.2">The NCD N-123NA keyboard</a>
+					<li><a href="scancodes-7.html#ss7.3">The NCD N-123UX keyboard</a>
+					<li><a href="scancodes-7.html#ss7.4">The NCD N-97 keyboard</a>
+					<li><a href="scancodes-7.html#ss7.5">NCD X terminals</a>
+				</ol>
+			</li>
+			<li><a name="toc8" href="scancodes-8.html">Japanese keyboards</a>
+				<ol>
+					<li><a href="scancodes-8.html#ss8.1">Japanese 86/106 keyboards</a>
+					<li><a href="scancodes-8.html#ss8.2">Description of the all-Japanese keys</a>
+					<li><a href="scancodes-8.html#ss8.3">A Japanese keyboard that imitates a US one</a>
+				</ol>
+			</li>
+			<li><a name="toc9" href="scancodes-9.html">Korean keyboards</a>
+				<ol>
+					<li><a href="scancodes-9.html#ss9.1">An A4tech keyboard</a>
+					<li><a href="scancodes-9.html#ss9.2">The DEC LK201-K</a>
+				</ol>
+			</li>
+			<li><a name="toc10" href="scancodes-10.html">Keyboard-internal scancodes</a>
+				<ol>
+					<li><a href="scancodes-10.html#ss10.1">Three scancode sets</a>
+					<li><a href="scancodes-10.html#ss10.2">Make and Break codes</a>
+					<li><a href="scancodes-10.html#ss10.3">Translation</a>
+					<li><a href="scancodes-10.html#ss10.4">Correspondence</a>
+					<li><a href="scancodes-10.html#ss10.5">Use</a>
+					<li><a href="scancodes-10.html#ss10.6">A table</a>
+					<li><a href="scancodes-10.html#ss10.7">Vendor extensions</a>
+				</ol>
+			</li>
+			<li><a name="toc11" href="scancodes-11.html">The AT keyboard controller</a>
+				<ol>
+					<li><a href="scancodes-11.html#ss11.1">The keyboard controller status register</a>
+					<li><a href="scancodes-11.html#ss11.2">The keyboard controller command byte</a>
+					<li><a href="scancodes-11.html#ss11.3">Keyboard controller commands</a>
+					<li><a href="scancodes-11.html#ss11.4">The input port P1</a>
+					<li><a href="scancodes-11.html#ss11.5">The output port P2</a>
+					<li><a href="scancodes-11.html#ss11.6">The test port T</a>
+				</ol>
+			</li>
+			<li><a name="toc12" href="scancodes-12.html">Keyboard commands</a>
+				<ol>
+					<li><a href="scancodes-12.html#ss12.1">Keyboard command details</a>
+				</ol>
+			</li>
+			<li><a name="toc13" href="scancodes-13.html">The PS/2 Mouse</a>
+				<ol>
+					<li><a href="scancodes-13.html#ss13.1">Modes</a>
+					<li><a href="scancodes-13.html#ss13.2">Scaling</a>
+					<li><a href="scancodes-13.html#ss13.3">PS/2 mouse protocol</a>
+					<li><a href="scancodes-13.html#ss13.4">Mouse Commands</a>
+					<li><a href="scancodes-13.html#ss13.5">Sliced parameters</a>
+					<li><a href="scancodes-13.html#ss13.6">Synaptics Touchpad</a>
+					<li><a href="scancodes-13.html#ss13.7">Vendor extensions</a>
+				</ol>
+			</li>
+			<li><a name="toc14" href="scancodes-14.html">USB</a></li>
+			<li><a name="toc15" href="scancodes-15.html">Reporting</a></li>
+		</ol>
+		<hr/>
+		<address>
+			<strong>Andries Brouwer</strong><br>
+			<a href="mailto:#">aeb@cwi.nl</a>
+		</address>
+
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="../../index.html#documentation">Back</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

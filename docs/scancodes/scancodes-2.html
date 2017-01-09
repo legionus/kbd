@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes: Special keyboards - XT keyboards</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-1.html">Previous</a></li>
+				<li class="next"><a href="scancodes-3.html">Next</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-header">
+			<h2><a name="s2">2. Special keyboards - XT keyboards</a></h2>
+		</div>
+
+		<p><i>First keyboards with an XT interface.
+		There is no keyboard controller, no commands to the keyboard.
+		On a modern computer these will usually yield "keyboard error"
+		or "KB/interface error" or some such, but sometimes they can be
+		used nevertheless.</i></p>
+
+		<p>The IBM PC (all models) and the IBM XT (models 68, 78, 86, 87, 88,
+		267, 277) came with this 83-key keyboard.
+		The IBM AT (models 68, 99, 239, 319) came with an 84-key keyboard.
+		The IBM XT (models 89, 268, 278, 286) and the IBM AT model 339
+		came with a 101-key keyboard.</p>
+
+		<p>The original IBM 83-key PC/XT keyboard did not have LEDs.
+		The original IBM 84-key AT keyboard has LEDs, separates the
+		keypad from the main area, moves the Esc key to the right,
+		and adds the SysReq key.
+		The original IBM 101-key keyboard moves the ten function keys
+		from the left to the top row and adds two more. The Esc key is moved
+		in front of this row of function keys. The "number" and "cursor"
+		functions of the keypad are separated. There are duplicate Ctrl and Alt
+		keys.</p>
+
+		<div class="page-header">
+			<h3><a name="ss2.1">2.1 XT keyboard</a></h3>
+		</div>
+
+		<p>The <a href="xtkbd.jpg">XT keyboard</a>
+		has 83 keys, nicely numbered 1-83, that is, with scancodes
+		<b>01</b>-<b>53</b>. No escaped scancodes.</p>
+
+		<img class="img-thumbnail" src="xtkbd-s.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss2.2">2.2 Victor keyboard</a></h3>
+		</div>
+
+		<p>This <a href="victor.jpg">Victor keyboard</a>
+		is very similar. The keypad is separated here, and the Esc key
+		has been moved to the keypad. The frontside of the ScrollLock key
+		says Break. It resembles an AT keyboard but has only 83 keys,
+		the SysRq is still missing.</p>
+
+		<img class="img-thumbnail" src="victor-s.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss2.3">2.3 Olivetti M24 keyboard</a></h3>
+		</div>
+
+		<img class="img-thumbnail" src="m24.jpg">
+
+		<p>The Olivetti M24 (also sold under the names Logabax 1600 and
+		ATT PC-6300) was an IBM compatible manufactured in 1984.</p>
+
+		<p>John Elliott writes:
+		The Olivetti M24 is an XT sort-of clone. It
+		has two possible keyboards - the normal (83-key) IBM one,
+		and a "deluxe" one (102 keys) with 18 function keys.</p>
+
+		<p>Unlike a normal XT keyboard, it is possible to send commands to it.
+		The BIOS does this twice:
+		(1) Command 01h makes the keyboard perform a self-test.
+		(2) Command 05h makes the keyboard return a 1-byte ID. The least signficant
+		bit is set for a "deluxe" layout.</p>
+
+		<p>The keyboard connector is DE-9 rather than DIN. Pins are:<pre>
+1   KBDATA
+2   KBCLOCK
+3   GND
+4   GND
+5  +12V
+6   -RESET1
+7   Keyboard/-Typewriter
+8   TEST0
+9   +5V
+</pre>
+
+		(pins 6-9 are not used by the supplied keyboards).
+
+		<p>Attached <a href="m24kbd.png">the diagram</a>
+		of the 'deluxe' keyboard, which shows its scancodes in decimal.</p>
+
+		<p>A mouse can be attached to the keyboard. The following is based
+		on disassembling attmouse.drv from Windows 1.0.</p>
+
+		<p>Windows initialises the mouse by sending the following bytes to the
+		keyboard: 0x12, 0x77, 0x78, 0x79, 0x00.
+		The 0x12 is almost certainly a command byte; 0x77, 0x78 and 0x79 are the
+		scancodes to be returned by the three mouse buttons. I don't know what the
+		0x00 is for.</p>
+
+		<p>It then handles the following scancodes:
+		0xFE -- mouse movement. The next two scancodes are delta X, then delta Y,
+		in ones' complement.
+		0x77, 0x78, 0x79 (and 0xF7, 0xF8, 0xF9) -- button presses / releases.</p>
+
+		<p>When shutting down the mouse, it sends these bytes to the keyboard:
+		0x11, 0x1C, 0x53, 0x01, 0x4B, 0x4D, 0x48, 0x50, 0x02, 0x04.
+		My guesses here are:
+		0x11: Mouse movement becomes simulated keypresses.
+		0x1C, 0x53, 0x01: Scancodes to be returned by mouse button presses.
+		0x4B, 0x4D, 0x48, 0x50: Scancodes to be returned by mouse movement.
+		0x02, 0x04: Don't know.</p>
+
+		<div class="page-header">
+			<h3><a name="telerate"></a> <a name="ss2.4">2.4 Telerate keyboard</a></h3>
+		</div>
+
+		<p>The <a href="telerate.jpg">Telerate keyboard</a> was used
+		for financial applications, as is clear from the keycaps.
+		This keyboard (in the old XT version, without <b>e0</b> prefixes)
+		has four additional keys, with scancodes <b>61</b>,
+		<b>62</b>, <b>63</b>, <b>64</b>. The F11 and F12 keys have
+		scancodes <b>54</b> and <b>55</b> (instead of the common <b>57</b>
+		and <b>58</b>). There are two LEDs (for CapsLock and NumLock).</p>
+
+		<img class="img-thumbnail" src="telerate-s.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss2.5">2.5 NCR keyboard</a></h3>
+		</div>
+
+		<p>Also with an XT interface this <a href="ncr.jpg">NCR keyboard</a>,
+		still with ten function keys on the left, but already with a separate
+		block of keys between the ordinary keys and the numeric keypad.
+		This middle block has on top five keys
+		Ctrl (<b>1d</b>, same as the Ctrl on the left),
+		Del (<b>53</b>, same as Keypad-Del/.),
+		PgUp (<b>49</b>, same as Keypad-9/PgUp),
+		End (<b>4f</b>, same as Keypad-1/End),
+		PgDn (<b>51</b>, same as Keypad-3/PgDn), and below five cursor keys
+		(<b>48</b>, same as Keypad-8/Up;
+		<b>4b</b>, same as Keypad-4/Left;
+		<b>47</b>, same as Keypad-7/Home;
+		<b>4d</b>, same as Keypad-6/Right;
+		<b>50</b>, same as Keypad-2/Down).
+		Enter and Keypad-enter are both <b>1c</b>.
+		Below the Enter key PrtScn/* (<b>37</b>), and below that again
+		Ins (<b>52</b>, same as Keypad-0/Ins).
+		CapsLock and NumLock have a built-in LED.</p>
+
+		<img class="img-thumbnail" src="ncr-s.jpg">
+
+		<div class="page-header">
+			<h3><a name="cherry80"></a> <a name="ss2.6">2.6 Cherry G80-0777</a></h3>
+		</div>
+
+		<p>According to <a href="http://titan.informatik.uni-bonn.de/~frinke/FreeKEYB/kbdinfo.html">FreeKEYB/kbdinfo.html</a>
+		this keyboard has five additional keys with scancodes
+		<b>55</b> (F11), <b>56</b> (F12),
+		<b>57</b> (F13), <b>58</b> (F14), <b>59</b> (F15).</p>
+
+		<hr>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-1.html">Previous</a></li>
+				<li class="next"><a href="scancodes-3.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

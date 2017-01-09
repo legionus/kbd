@@ -1,0 +1,1607 @@
+</p><!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes: Special keyboards - MF II keyboards with CD and/or Internet buttons</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-5.html">Previous</a></li>
+				<li class="next"><a href="scancodes-7.html">Next</a></li>
+			</ul>
+		</nav>
+		<div class="page-header">
+			<h2><a name="s6">6. Special keyboards - MF II keyboards with CD and/or Internet buttons</a></h2>
+		</div>
+
+		<p>Recent keyboards are basically MF II keyboards, but provided with a
+		bewildering variety of additional keys.</p>
+
+		<p>The keyboards are grouped according to manufacturer.</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.1">6.1 Compaq keyboards</a></h3>
+		</div>
+
+		<h4>Compaq Easy Accesss Internet Keyboard</h4>
+
+		<p>Petr Slansky &lt;<code>slansky@usa.net</code>&gt; writes:</p>
+
+		<p>Internet buttons:
+		<b>e0</b> <b>13</b> online community button (people icon),
+		<b>e0</b> <b>14</b> online Compaq button (Q icon),
+		<b>e0</b> <b>15</b> online services button (bulb icon),
+		<b>e0</b> <b>1e</b> online e-mail button (envelope icon),
+		<b>e0</b> <b>21</b> online Search button (magnifier icon),
+		<b>e0</b> <b>23</b> online start button (i icon),
+		<b>e0</b> <b>32</b> online commerce button (shopping basket icon),
+		<b>e0</b> <b>68</b> Quick Print button (printer icon),
+		<b>e0</b> <b>1f</b> Favorite Application Launch button (racket icon),
+		<b>e0</b> <b>5f</b> Sleep button</p>
+
+		<p>CD/DVD player buttons:
+		<b>e0</b> <b>22</b> Play/Pause,
+		<b>e0</b> <b>24</b> Stop,
+		<b>e0</b> <b>19</b> Next Track,
+		<b>e0</b> <b>10</b> Previous Track,
+		<b>e0</b> <b>2c</b> Eject</p>
+
+		<p>Volume Control buttons:
+		<b>e0</b> <b>30</b> Volume increase (+),
+		<b>e0</b> <b>2e</b> Volume decrease (-),
+		<b>e0</b> <b>20</b> Mute.</p>
+
+		<img class="img-thumbnail" src="compaq_easy_access.jpg">
+
+		<h4>Compaq Eight-Button Easy Access Keyboard</h4>
+
+		<p>A <a href="compaq_unkn.jpg">Compaq keyboard</a> that I have here,
+		has the usual setup (with Windows keys) plus a top row of eight buttons,
+		that produce scancodes
+		<b>e0</b> <b>23</b>,
+		<b>e0</b> <b>1f</b>,
+		<b>e0</b> <b>1a</b>,
+		<b>e0</b> <b>1e</b>,
+		<b>e0</b> <b>13</b>,
+		<b>e0</b> <b>14</b>,
+		<b>e0</b> <b>15</b>,
+		<b>e0</b> <b>1b</b>.
+		These keys do not produce any codes in scan code Set 3.</p>
+
+		<img class="img-thumbnail" src="compaq_unkn-s.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss6.2">6.2 IBM keyboards</a></h3>
+		</div>
+
+		<h4>IBM Rapid Access keyboard</h4>
+
+		<p><a name="ibmrapidaccess"></a> 
+		(Information from Dennis Bjorklund &lt;<code>dennisb@cs.chalmers.se</code>&gt;
+		and others.)</p>
+
+		<p>The IBM Rapid Access keyboard has 14 extra buttons and two more leds
+		than a normal PC keyboard. By default, these buttons do not generate
+		any scancodes. To activate them one has to send the sequence
+		<b>ea</b> <b>71</b> to the keyboard.
+		Once that is done the extra keys generate normal e0xx sequences.
+		To turn off the extra keys you send <b>ea</b> <b>70</b>.</p>
+
+		<p>These 14 keys send the following scancodes (when activated):</p>
+
+		<p><b>e0</b> <b>25</b> (Suspend),
+		<b>e0</b> <b>26</b> (Help),
+		<b>e0</b> <b>32</b> (Prg 1),
+		<b>e0</b> <b>17</b> (Prg 2),
+		<b>e0</b> <b>30</b> (Prg 3),
+		<b>e0</b> <b>2e</b> (Prg 4),
+		<b>e0</b> <b>19</b> (Play CD),
+		<b>e0</b> <b>24</b> (CD Stop),
+		<b>e0</b> <b>22</b> (CD Pause),
+		<b>e0</b> <b>1e</b> (Vol -),
+		<b>e0</b> <b>20</b> (Vol +),
+		<b>e0</b> <b>23</b> (Prev song),
+		<b>e0</b> <b>21</b> (Next song),
+		<b>e0</b> <b>12</b> (Mute).</p>
+
+		<p>The Suspend and Mute buttons have extra LEDs on them.
+		Sending the sequence<b><a href="scancodes-1.html#LEDmanip">eb</a></b> <b>00</b> <b>ff</b>
+		to the keyboard makes all five LEDs lit up for a moment.
+		The sequence <b>eb</b> <b>00</b> <b>04</b> lights the Suspend LED
+		(behind a waning moon).
+		The sequence <b>eb</b> <b>00</b> <b>20</b> makes the Mute LED blink.
+		The sequence <b>eb</b> <b>00</b> <b>80</b> locks the keyboard;
+		if the Mute LED was blinking it now is lit permanently.
+		Sending <b>eb</b> <b>00</b> <b>ff</b> unlocks the keyboard again.</p>
+
+		<p>The command <b>ec</b> returns <b>0c</b> <b>01</b> (untranslated)
+		which becomes <b>3e</b> <b>43</b> in translated scancode Set 2.
+		(Possibly an ID?)</p>
+
+		<p><a name="rapidinit"></a> 
+		Dennis Bjorklund writes:
+		Here is the hack I use to send commands to the keyboard. After you have
+		compiled it you can do things like <code>send_to_keyboard ea 71</code>,
+		but don't run two of these at the exact same moment, and don't send
+		strange codes because the keyboard might lock up.</p>
+
+		<p>My computer runs this at every startup. After that the extra buttons on
+		the rapid access work just fine in XFree86.</p>
+
+		<pre>
+/* gcc -O2 -s -Wall -osend_to_keyboard main.c */
+#include &lt;stdlib.h>
+#include &lt;unistd.h>
+#include &lt;sys/io.h>
+
+int main(int argc, char *argv[]) {
+  int i;
+
+  ioperm(0x60, 3, 1);
+
+  for (i = 1; i &lt; argc; i++) {
+    int x = strtol(argv[i], 0, 16);
+
+    usleep(300);
+    outb(x, 0x60);
+  }
+
+  return 0;
+}
+</pre>
+
+		<img class="img-thumbnail" src="ibm_rapid_access.jpg">
+
+		<h4><a name="ibmrapidaccessii"></a> IBM Rapid Access II keyboard</h4>
+
+		<p>This keyboard has a top row of seven color-coded buttons.
+		On the upper right a "wheel" composite button with six parts.
+		Below it a blue button ("mute").
+		Finally, the usual block with four arrow keys has been enlarged
+		by two more keys ("page left" and "page right").</p>
+
+		<p>Keys:</p>
+
+		<p><b>e0</b> <b>25</b> (Green, "Internet"),
+		<b>e0</b> <b>26</b> (Blue, "Internet shopping"),
+		<b>e0</b> <b>32</b> (Yellow, "IBM Web support"),
+		<b>e0</b> <b>17</b> (Purple),
+		<b>e0</b> <b>30</b> (Red),
+		<b>e0</b> <b>2e</b> (Cyan, "Help"),
+		<b>e0</b> <b>5f</b> (White, "Standby" - has a LED),
+		<b>e0</b> <b>20</b> (CD stop),
+		<b>e0</b> <b>22</b> (CD play),
+		<b>e0</b> <b>21</b> (Volume D),
+		<b>e0</b> <b>23</b> (Volume U),
+		<b>e0</b> <b>24</b> (CD back),
+		<b>e0</b> <b>12</b> (CD fwd),
+		<b>e0</b> <b>1e</b> (Mute - no LED).</p>
+
+		<p>(In translated scancode Set 3, these become
+		<b>41</b>, <b>3f</b>, <b>3d</b>, <b>3b</b>, <b>3c</b>,
+		<b>66</b>, <b>--</b>, <b>69</b>, <b>6a</b>, <b>6b</b>,
+		<b>6c</b>, <b>6d</b>, <b>44</b>, <b>68</b>, respectively.)</p>
+
+		<p>The "back" ("page left") and "forward" ("page right") keys
+		generate ALT+left and ALT+right respectively:
+		<b>38</b> <b>e0</b> <b>4b</b> (release sequence
+		<b>b8</b> <b>e0</b> <b>cb</b>) and
+		<b>38</b> <b>e0</b> <b>4d</b>.</p>
+
+		<p>The commands <b>ea</b> <b>70</b> and <b>ea</b> <b>71</b>
+		serve to switch off (resp. on) the special keys.
+		(These are on by default, but can be switched off.)
+		However, the white Standby key is always on.</p>
+
+		<p>The white Standby button has a LED (that is flashed during a reset).
+		It is set by the command <b><a href="scancodes-1.html#LEDmanip">eb</a></b> <b>71</b>
+		and cleared by the command <b>eb</b> <b>70</b>.
+
+		<img class="img-thumbnail" src="ibm_rapid_access_II.jpg">
+
+		<h4>IBM ThinkPad</h4>
+
+		<p>George Staikos &lt;<code>staikos@0wned.org</code>&gt; writes:</p>
+
+		<p>I have an IBM ThinkPad i1460. It has the IBM EasyLaunch&lt;tm&gt; keys.
+		These are four multicoloured keys up at the top of the keyboard
+		for "Home Page", "Search", "Shop", "Mail".  They dont' seem to create
+		any keyboard events at all.  The keyboard interrupt doesn't trigger,
+		<code>showkeys</code> doesn't see them do anything, and in DOS, a simple
+		sequence of BIOS calls doesn't see them either.
+		Also, being a laptop, it has an FN key.  This key generates <b>55</b>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.3">6.3 Logitech keyboards</a></h3>
+		</div>
+
+		<h4><a name="logitechinternet"></a> Logitech Internet keyboard</h4>
+
+		<p>Jonathan DeBoer &lt;<code>deboer@ugrad.cs.ualberta.ca</code>&gt; reports:
+		This keyboard has 18 unusual keys.</p>
+
+		<p><b>e0</b> <b>7a</b> (WWW),
+		<b>e0</b> <b>32</b> (History),
+		<b>e0</b> <b>21</b> (Open URL),
+		<b>e0</b> <b>23</b> (Home),
+		<b>38</b> <b>2a</b> <b>0f</b> <b>8f</b> (key press)
+		<b>8f</b> <b>b8</b> <b>aa</b> (key release) (Send To Back) -
+		this sequence simulates Alt+Shift+Tab, but contains two Tab releases,
+		<b>e0</b> <b>17</b> (Print),
+		<b>e0</b> <b>10</b> (Back),
+		<b>e0</b> <b>22</b> (Forward),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>19</b> (Refresh),
+		<b>e0</b> <b>1e</b> (Search),
+		<b>e0</b> <b>12</b> (Find),
+		<b>e0</b> <b>26</b> (Add Favourite),
+		<b>e0</b> <b>18</b> (Open Favourites),
+		<b>e0</b> <b>20</b> (Hot Links),
+		<b>e0</b> <b>30</b> (Scroll Up),
+		<b>e0</b> <b>2e</b> (Scroll Down),
+		<b>e0</b> <b>25</b> (Logitech).</p>
+
+		<p>Ryan Lortie &lt;<code>desertangel@globalserve.net</code>&gt; writes:
+		The "Logitech" key is used as a modifier.
+		In windows, Logitech-Keypad+ increases volume, Logitech-Keypad- decreases.
+		There is a conjoined dual-button key for "scroll".
+		You press the top part to scroll up, the bottom to scroll down.</p>
+
+		<p>Graham Hay adds: The extra LED is an amber colour, placed above
+		the www key with a recessed line linking them. Sending <b>eb</b> alone
+		turns it on. It will flash on/off about once per second after that.
+		A single <b>ec</b> will turn it off.</p>
+
+		<img class="img-thumbnail" src="logitech-internet-s.jpg">
+
+		<a href="logitech-internet.jpg">(enlarge)</a>
+
+		<h4>Logitech Access keyboard</h4>
+
+		<p>Denis Kosygin &lt;<code>kosygin@math.princeton.edu</code>&gt; reports:</p>
+
+		<p>In addition to usual 104 keys in the usual PC layout this keyboard
+		has 11 extra keys.  Ten of them produce the following escape scancodes:
+		<b>e0</b> <b>5f</b> (User (moon)),
+		<b>e0</b> <b>6c</b> (E-mail),
+		<b>e0</b> <b>11</b> (Messenger/SMS),
+		<b>e0</b> <b>12</b> (Webcam),
+		<b>e0</b> <b>20</b> (Mute (crossed speaker)),
+		<b>e0</b> <b>30</b> (VolUp (triangle up with + sign in it)),
+		<b>e0</b> <b>2e</b> (VolDown (triangle down with - sign in it)),
+		<b>e0</b> <b>6d</b> (Media),
+		<b>e0</b> <b>32</b> (My Home),
+		<b>e0</b> <b>65</b> (Search).</p>
+
+		<p>The eleventh key (with keycap "F lock") is a switch between two sets
+		of scancodes for function keys F1-F12.  When "F lock" is pressed, then
+		F1-F12 act as function keys and produce usual keyscans for these keys.  
+		When "F lock" is depressed, F1-F12 generate the following keyscans:</p>
+
+		<p><b>e0</b> <b>3b</b> (new [F1]),
+		<b>e0</b> <b>3c</b> (reply [F2]),
+		<b>e0</b> <b>3d</b> (forward [F3]),
+		<b>e0</b> <b>3e</b> (send [F4]),
+		<b>e0</b> <b>10</b> (rewind [F5]),
+		<b>e0</b> <b>19</b> (fast forward [F6]),
+		<b>e0</b> <b>22</b> (play/pause [F7]),
+		<b>e0</b> <b>24</b> (stop [F8]),
+		<b>e0</b> <b>43</b> (my com [F9]),
+		<b>e0</b> <b>44</b> (my doc [F10]),
+		<b>e0</b> <b>57</b> (my pic [F11]),
+		<b>e0</b> <b>58</b> (my music [F12]).</p>
+
+		<img class="img-thumbnail" src="logitech-access.jpg">
+
+		<h4>Logitech Cordless Desktop Pro keyboard</h4>
+
+
+		<p>Nick Rusnov &lt;<code>nick@grawk.net</code>&gt; reports:</p>
+
+		<p>The special buttons on a Logitech Cordless Desktop Pro keyboard
+		produce the following scancodes:</p>
+
+		<p><b>e0</b> <b>5f</b> (Moon (sleep)),
+		<b>e0</b> <b>32</b> (Homepage),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>65</b> (Search),
+		<b>e0</b> <b>66</b> (runningguuy),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>2e</b> (VolDown),
+		<b>e0</b> <b>30</b> (VolUp),
+		<b>e0</b> <b>22</b> (Play/Pause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>10</b> (Rewind),
+		<b>e0</b> <b>19</b> (ff),
+		<b>e0</b> <b>21</b> (Logitech).</p>
+
+		<h4>Logitech Cordless Desktop Optical keyboard</h4>
+
+		<p>Stefan reports:</p>
+
+		<p>The special buttons on a Logitech Cordless Desktop Optical keyboard
+		produce the following scancodes:</p>
+
+		<p><b>e0</b> <b>69</b> (Go),
+		<b>e0</b> <b>6a</b> (Back),
+		<b>e0</b> <b>5f</b> (Sleep),
+		<b>e0</b> <b>66</b> (Favorites),
+		<b>e0</b> <b>24</b> (SeekBack),
+		<b>e0</b> <b>22</b> (SeekForward),
+		<b>e0</b> <b>01</b> (Media),
+		<b>e0</b> <b>1e</b> (VolUp),
+		<b>e0</b> <b>25</b> (VolDown),
+		<b>e0</b> <b>26</b> (Mute),
+		<b>e0</b> <b>1f</b> (PlayPause),
+		<b>e0</b> <b>17</b> (Stop),
+		<b>e0</b> <b>6c</b> (Email),
+		<b>e0</b> <b>65</b> (Search),
+		<b>e0</b> <b>02</b> (Homepage).</p>
+
+		<p>Some other keys behave differently.</p>
+
+		<h4>Logitech Cordless Desktop LX 700</h4>
+
+		<p>Robin Lionheart reports the following:</p>
+
+		<p>On the left hand side there is a Zoom button. The top side of that zooms in,
+		the bottom side zooms out. Right of the Zoom button there is a %-button
+		meant to go back to 100%. Scancodes are
+		<b>6a</b> (Zoom +),
+		<b>6b</b> (%),
+		<b>e0</b> <b>04</b> (Zoom -).</p>
+
+		<p>Below those buttons there is the "iNav Tilt Wheel".
+		Clicking the left side ("&lt;") gives scancode <b>6c</b>,
+		the right side (">") gives scancode <b>6e</b>.
+		Other details are unknown yet.</p>
+
+		<p>Below the wheel there are three buttons: Close Application
+		(black x in solid white rectangle) <b>6d</b>,
+		Task Select (window rectangle overlapping lower right of another window)
+		<b>e0</b> <b>01</b>, and Enter (copy of the usual Enter key).</p>
+
+		<p>Top left there are four buttons:  three labeled below "Digital media library"
+		with Camera (reel-to-reel camera icon) <b>e0</b> <b>14</b>,
+		Music (eighth note icon) <b>e0</b> <b>13</b>, Photos
+		(left-leaning photograph icon of standing person) <b>e0</b> <b>15</b>,
+		and one labeled below "My Documents" <b>e0</b> <b>55</b>.</p>
+
+		<p>Top center there is the "Media Center" with a central dial
+		and thirteen buttons:
+		Mute <b>e0</b> <b>20</b>,
+		Burn <b>e0</b> <b>31</b>,
+		Record <b>e0</b> <b>78</b>,
+		Media <b>e0</b> <b>6d</b>,
+		Rewind (&lt;&lt;) <b>e0</b> <b>10</b>,
+		Fast Forward (>>) <b>e0</b> <b>19</b>,
+		Remote Control <b>e0</b> <b>2d</b>,
+		Volume down (turn dial counterclockwise) <b>e0</b> <b>2e</b>,
+		Volume up (turn dial clockwise) <b>e0</b> <b>30</b>,
+		Audio Preset 1 <b>e0</b> <b>2c</b>,
+		Audio Preset 2 <b>e0</b> <b>25</b>,
+		Audio Preset 3 <b>e0</b> <b>26</b>,
+		Eject <b>e0</b> <b>2f</b>,
+		Play/Pause <b>e0</b> <b>22</b>,
+		Stop <b>e0</b> <b>24</b>.</p>
+
+		<p>Top right there are four buttons:
+		Email <b>e0</b> <b>6c</b>,
+		Messenger <b>e0</b> <b>11</b>,
+		Status <b>e0</b> <b>75</b>,
+		Webcam <b>e0</b> <b>74</b>.</p>
+
+		<p>Right above the numerical keypad:
+		Calculator <b>e0</b> <b>21</b>,
+		Standby (Moon) <b>e0</b> <b>5f</b>.</p>
+
+		<p>Left above the numerical keypad sits the F-mode button.
+		It sends no scan code, but switches the function keys between
+		two modes: the function key mode (this is the default),
+		where the function keys send the usual scan codes,
+		and the application key mode, where the send other scan codes,
+		unreported so far. The status is reported by the F-mode LED.</p>
+
+		<p>There are four LEDs, situated in the receiver, not on the keyboard,
+		namely CapsLock, F-mode, NumLock, ScrollLock.
+		When the F-mode LED is on, the function keys have their ordinary
+		scan codes.</p>
+
+		<img class="img-thumbnail" src="logitech-lx700.jpg">
+
+		<h4>Logitech Cordless Desktop LX 700 combo</h4>
+
+		<p>The following scancodes have been reported:</p>
+
+		<p><b>6a</b> (Zoom +),
+		<b>6b</b> (%),
+		<b>6d</b> (Cancel),
+		<b>e0</b> <b>01</b> (Switch frame),
+		<b>e0</b> <b>02</b> (Down),
+		<b>e0</b> <b>03</b> (Up),
+		<b>e0</b> <b>04</b> (Zoom -),
+		<b>e0</b> <b>11</b> (Messenger),
+		<b>e0</b> <b>13</b> (Music),
+		<b>e0</b> <b>14</b> (Camera),
+		<b>e0</b> <b>15</b> (Photos),
+		<b>e0</b> <b>25</b> (Audio Preset 2),
+		<b>e0</b> <b>26</b> (Audio Preset 3),
+		<b>e0</b> <b>2c</b> (Audio Preset 1),
+		<b>e0</b> <b>2d</b> (Remote control),
+		<b>e0</b> <b>2f</b> (Eject),
+		<b>e0</b> <b>31</b> (Burn),
+		<b>e0</b> <b>55</b> (My Documents),
+		<b>e0</b> <b>74</b> (Webcam),
+		<b>e0</b> <b>75</b> (Status),
+		<b>e0</b> <b>78</b> (Record).
+		There are also keys labeled
+		Previous,
+		Next,
+		Media ,
+		Mute sound,
+		Volume down,
+		Volume up,
+		Play/pauze,
+		Stop,
+		Email,
+		Sleep ,
+		Calculator,
+		with unreported scancodes.</p>
+
+		<h4>Logitech Media Keyboard</h4>
+
+		<p>Aliaksandr Lakhanko reports the following:</p>
+
+		<p>This keyboard has the following additional keys:
+		On the left side: <b>e0</b> <b>6a</b> (Back), <b>6d</b> (Close).
+		On the upper side: standard media keys <b>e0</b> <b>22</b> (Play/Pause),
+		<b>e0</b> <b>24</b> (Stop), <b>e0</b> <b>10</b> (Prev Track),
+		<b>e0</b> <b>19</b> (Next Track), <b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>2e</b> (Volume Down), <b>e0</b> <b>30</b> (Volume Up),
+		and three application keys <b>e0</b> <b>6c</b> (E-Mail),
+		<b>e0</b> <b>32</b> (Web/Home), <b>e0</b> <b>21</b> (Calculator).</p>
+
+		<p>The "F-mode" key sends scancode <b>e0</b> <b>5a</b>, and at the same time
+		switches the keyboard F-lock state.
+		With enabled F-lock F1-F12 works as usually, with disabled F-lock they
+		send the following scancodes:
+		<b>e0</b> <b>3b</b> (Help [F1]),
+		<b>e0</b> <b>3c</b> (Documents/[W] [F2]),
+		<b>e0</b> <b>3d</b> (Spreadsheets/[X] [F3]),
+		<b>e0</b> <b>3e</b> (Presentations/[O] [F4]),
+		<b>e0</b> <b>3f</b> (Undo [F5]),
+		<b>e0</b> <b>40</b> (Redo [F6]),
+		<b>e0</b> <b>41</b> (Print [F7]),
+		<b>e0</b> <b>42</b> (Save [F8]),
+		<b>e0</b> <b>43</b> (Programmable/[A] [F9]),
+		<b>e0</b> <b>44</b> (Programmable/[B] [F10]),
+		<b>e0</b> <b>57</b> (Programmable/[C] [F11]),
+		<b>e0</b> <b>58</b> (Programmable/[D] [F12]).</p>
+
+		<p>The keys F1-F12 do repeat while pressed,
+		but in disabled F-lock mode they send their scancode only once.</p>
+
+		<p>The keyboard has 3 leds: [A] (Capslock), [F] (F-mode), [l] (Numlock).
+		There is no Scrolllock key and led.</p>
+
+		<p>The keyboard does not support simultaneous pressing of
+		CapsLock + Shift + one of letters W, S or X (internal scanning scheme design).</p>
+
+		<h4>Logitech Media Elite Keyboard</h4>
+
+		<p>Paul Menzel reports that his Logitech Media Elite keyboard
+		is mostly like the above Logitech Media keyboard.</p>
+
+		<p><b>e0</b> <b>22</b> (Play/Pause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>6d</b> (Media),
+		<b>e0</b> <b>2e</b> (Lower Volume),
+		<b>e0</b> <b>30</b> (Raise Volume),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>10</b> (Wind backward),
+		<b>e0</b> <b>19</b> (Wind forward),
+		<b>e0</b> <b>66</b> (Favorites),
+		<b>e0</b> <b>32</b> (Homepage),
+		<b>e0</b> <b>6c</b> (E-Mail),
+		<b>e0</b> <b>11</b> (Messenger), 
+		<b>6a</b> (Zoom In), 
+		<b>e0</b> <b>04</b> (Zoom Out), 
+		<b>6b</b> (Zoom Reset).</p>
+
+		<p>Same as above:
+		<b>e0</b> <b>5a</b>  Mode F (switch function keys),
+		<b>e0</b> <b>3b</b>  (F1/Help),
+		<b>e0</b> <b>3c</b>  (F2/Word),
+		<b>e0</b> <b>3d</b>  (F3/Excel),
+		<b>e0</b> <b>3e</b>  (F4/Powerpoint),
+		<b>e0</b> <b>3f</b>  (F5/Undo),
+		<b>e0</b> <b>40</b>  (F6/Redo),
+		<b>e0</b> <b>41</b>  (F7/Print),
+		<b>e0</b> <b>42</b>  (F8/Save),
+		<b>e0</b> <b>43</b>  (F9/Box A),
+		<b>e0</b> <b>44</b>  (F10/Box B),
+		<b>e0</b> <b>57</b>  (F11/Box C),
+		<b>e0</b> <b>58</b>  (F12/Box D).</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.4">6.4 Microsoft keyboards</a></h3>
+		</div>
+
+		<p>Some common scancodes found on some Microsoft keyboards.</p>
+
+		<table class="table table-bordered">
+			<tr>
+				<td><b>e0&nbsp;05</b></td>
+				<td>Messenger or Files</td>
+				<td><b>e0&nbsp;07</b></td>
+				<td>Redo (on F3 or not)</td>
+
+				<td><b>e0&nbsp;08</b></td>
+				<td>Undo (on F2 or not)</td>
+
+				<td><b>e0&nbsp;09</b></td>
+				<td>Application Left</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;0a</b></td>
+				<td>Paste</td>
+
+				<td><b>e0&nbsp;0b</b>/<b>8b</b></td>
+				<td>Scroll Up/Down Normal</td>
+
+				<td><b>e0&nbsp;10</b></td>
+				<td>Prev Track, |&lt;&lt;</td>
+
+				<td><b>e0&nbsp;11</b>/<b>91</b></td>
+				<td>Scroll Up/Down Fast</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;12</b>/<b>92</b></td>
+				<td>Scroll Up/Down Faster</td>
+
+				<td><b>e0&nbsp;13</b></td>
+				<td>Word</td>
+
+				<td><b>e0&nbsp;14</b></td>
+				<td>Excel</td>
+
+				<td><b>e0&nbsp;15</b></td>
+				<td>Calendar</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;16</b></td>
+				<td>Log Off</td>
+
+				<td><b>e0&nbsp;17</b></td>
+				<td>Cut</td>
+
+				<td><b>e0&nbsp;18</b></td>
+				<td>Copy</td>
+
+				<td><b>e0&nbsp;19</b></td>
+				<td>Next Track, >>|</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;1e</b></td>
+				<td>Application Right</td>
+
+				<td><b>e0&nbsp;1f</b>/<b>9f</b></td>
+				<td>Scroll Up/Down Fastest</td>
+
+				<td><b>e0&nbsp;20</b></td>
+				<td>Mute</td>
+
+				<td><b>e0&nbsp;21</b></td>
+				<td>Calculator</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;22</b></td>
+				<td>Play/Pause</td>
+
+				<td><b>e0&nbsp;23</b></td>
+				<td>Spell (on F10)</td>
+
+				<td><b>e0&nbsp;24</b></td>
+				<td>Stop (cf <b>e0&nbsp;68</b>)</td>
+
+				<td><b>e0&nbsp;2e</b></td>
+				<td>Volume -</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;30</b></td>
+				<td>Volume +</td>
+
+				<td><b>e0&nbsp;32</b></td>
+				<td>Web/Home</td>
+
+				<td><b>e0&nbsp;3b</b></td>
+				<td>Help (on F1)</td>
+
+				<td><b>e0&nbsp;3c</b></td>
+				<td>My Music or Office Home (on F2)</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;3d</b></td>
+				<td>Task Pane (on F3)</td>
+
+				<td><b>e0&nbsp;3e</b></td>
+				<td>New (on F4)</td>
+
+				<td><b>e0&nbsp;3f</b></td>
+				<td>Open (on F5)</td>
+
+				<td><b>e0&nbsp;40</b></td>
+				<td>Close (on F6)</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;41</b></td>
+				<td>Reply (on F7)</td>
+
+				<td><b>e0&nbsp;42</b></td>
+				<td>Fwd (on F8)</td>
+
+				<td><b>e0&nbsp;43</b></td>
+				<td>Send (on F9)</td>
+
+				<td><b>e0&nbsp;57</b></td>
+				<td>Save (on F11)</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;58</b></td>
+				<td>Print (on F12)</td>
+
+				<td><b>e0&nbsp;5b</b></td>
+				<td>LeftWindows</td>
+
+				<td><b>e0&nbsp;5c</b></td>
+				<td>RightWindows</td>
+
+				<td><b>e0&nbsp;5d</b></td>
+				<td>Application (Menu)</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;5e</b></td>
+				<td>Power</td>
+
+				<td><b>e0&nbsp;5f</b></td>
+				<td>Sleep</td>
+
+				<td><b>e0&nbsp;63</b></td>
+				<td>Wake</td>
+
+				<td><b>e0&nbsp;64</b></td>
+				<td>My Pictures</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;65</b></td>
+				<td>Search</td>
+
+				<td><b>e0&nbsp;66</b></td>
+				<td>Favorites</td>
+
+				<td><b>e0&nbsp;67</b></td>
+				<td>Refresh</td>
+
+				<td><b>e0&nbsp;68</b></td>
+				<td>Stop (cf <b>e0&nbsp;24</b>)</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;69</b></td>
+				<td>Forward</td>
+
+				<td><b>e0&nbsp;6a</b></td>
+				<td>Back</td>
+
+				<td><b>e0&nbsp;6b</b></td>
+				<td>My Computer</td>
+
+				<td><b>e0&nbsp;6c</b></td>
+				<td>Mail</td>
+			</tr>
+			<tr>
+				<td><b>e0&nbsp;6d</b></td>
+				<td>Media</td>
+			</tr>
+		</table>
+
+		<h4><a name="microsoft"></a> Microsoft Natural keyboard</h4>
+
+		<p>This keyboard has three additional keys, with escaped scancodes
+		<b>e0</b> <b>5b</b> (LeftWindow),
+		<b>e0</b> <b>5c</b> (RightWindow),
+		<b>e0</b> <b>5d</b> (Menu).
+		The untranslated Set 2 scancodes (see 
+		<a href="scancodes-10.html#scancodesets">below</a>)
+		are <b>e0</b> <b>1f</b>, <b>e0</b> <b>27</b> and
+		<b>e0</b> <b>2f</b>, respectively.
+		The USB key codes are usage page 0x07, usage index 227, 231, 101
+		(decimal), respectively.
+		Microsoft <a href="http://www.microsoft.com/hwdev/download/desinit/scancode.zip">describes</a>
+		the intended use in detail. Both Windows keys are intended to be
+		used as modifier keys, like both shift and control and alt keys.
+		The Menu key may be modified by shift etc.</p>
+
+		<h4><a name="msinternet"></a> Microsoft Internet keyboard</h4>
+
+		<p>In addition to the three extra keys on the Microsoft Natural keyboard,
+		this keyboard has ten keys, with escaped scancodes
+		<b>e0</b> <b>6a</b> (Back),
+		<b>e0</b> <b>69</b> (Forward),
+		<b>e0</b> <b>68</b> (Stop),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>65</b> (Search),
+		<b>e0</b> <b>66</b> (Favorites),
+		<b>e0</b> <b>32</b> (Web/Home),
+		<b>e0</b> <b>6b</b> (My Computer),
+		<b>e0</b> <b>21</b> (Calculator),
+		<b>e0</b> <b>5f</b> (Sleep).
+		The untranslated Set 1 codes are as expected (make codes identical to
+		the above translated Set 2 ones). The translated Set 3 codes are
+		<b>6a</b>, <b>69</b>, <b>68</b>, <b>6c</b>, <b>65</b>,
+		<b>66</b>, <b>97</b>, <b>6b</b>, <b>99</b>, <b>54</b>,
+		respectively.</p>
+
+		<h4>Microsoft Natural keyboard pro</h4>
+
+		<p>Marco Melgazzi &lt;<code>marco@techie.com</code>&gt; reports:
+		The Microsoft Natural keyboard pro has 19 additional keys,
+		with escaped scancodes
+		<b>e0</b> <b>6a</b> (Back),
+		<b>e0</b> <b>69</b> (Forward),
+		<b>e0</b> <b>68</b> (Stop),
+		<b>e0</b> <b>67</b> (Refresh),
+		<b>e0</b> <b>65</b> (Search),
+		<b>e0</b> <b>66</b> (Favorites),
+		<b>e0</b> <b>32</b> (Web/Home),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>2e</b> (Volume -),
+		<b>e0</b> <b>30</b> (Volume +),
+		<b>e0</b> <b>22</b> (Play/Pause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>10</b> (Prev Track),
+		<b>e0</b> <b>19</b> (Next Track),
+		<b>e0</b> <b>6d</b> (Media),
+		<b>e0</b> <b>6b</b> (My Computer),
+		<b>e0</b> <b>21</b> (Calculator),
+		<b>e0</b> <b>5f</b> (Sleep).
+		(That is, we have the ten extra keys of the Microsoft Internet keyboard,
+		with the same scancodes, and also Refresh, Mute, Volume -, Volume +,
+		Play/Pause, Stop, Prev Track, Next Track, Media.)</p>
+
+		<h4>Microsoft Natural Multimedia Keyboard</h4>
+
+		<p>Jeremy Brand &lt;<code>jeremy@nirvani.net</code>&gt; reports:
+		The Microsoft Natural Multimedia Keyboard has 17 additional keys.
+		Scancodes are? (My Documents),
+		<b>e0</b> <b>64</b> (My Pictures),
+		<b>e0</b> <b>3c</b> (My Music),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>22</b> (Play/Pause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>30</b> (Volume +),
+		<b>e0</b> <b>2e</b> (Volume -),
+		<b>e0</b> <b>10</b> (|&lt;&lt;),
+		<b>e0</b> <b>19</b> (>>|),
+		<b>e0</b> <b>6d</b> (Media),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>32</b> (Web/Home),
+		<b>e0</b> <b>05</b> (Messenger),
+		<b>e0</b> <b>21</b> (Calculator),
+		<b>e0</b> <b>16</b> (Log Off),
+		<b>e0</b> <b>5f</b> (Sleep).</p>
+
+		<p>Moreover, the function keys are dual purpose.
+		There is a "function lock" key.
+		By default the function keys are not function keys, they are
+		"Help", "Undo", etc.  You have to press the function lock key
+		and then the function keys act like the usual function keys.
+		In the default state the scancodes are
+		<b>e0</b> <b>3b</b> (Help) on F1 key,
+		<b>e0</b> <b>08</b> (Undo) on F2 key,
+		<b>e0</b> <b>07</b> (Redo) on F3 key,
+		? (New) on F4 key,
+		? (Open) on F5 key,
+		? (Close) on F6 key,
+		? (Replay) on F7 key,
+		<b>e0</b> <b>42</b> (Fwd) on F8 key,
+		<b>e0</b> <b>43</b> (Send) on F9 key,
+		<b>e0</b> <b>23</b> (Spell) on F10 key,
+		<b>e0</b> <b>57</b> (Save) on F11 key,
+		<b>e0</b> <b>58</b> (Print) on F12 key.</p>
+
+		<h4><a name="msoffice"></a> Microsoft Office keyboard</h4>
+
+		<p>Christian Hammond 
+		<a href="http://www.chipx86.com/linuxstuff/officekb/wheel.php">reports</a>
+		about the keyboard Scroll Wheel:
+		The following is my interpretation of the results of
+		<code>showkey -s</code>. I had read that the wheel has 3 speeds,
+		normal, fast, and faster. However, my results show 4.</p>
+
+		<p>Scroll Up: Normal <b>e0</b> <b>0b</b>,
+		Fast <b>e0</b> <b>11</b>,
+		Faster <b>e0</b> <b>12</b>,
+		Fastest <b>e0</b> <b>1f</b>.</p>
+
+		<p>Scroll Down: Normal <b>e0</b> <b>8b</b>,
+		Fast <b>e0</b> <b>91</b>,
+		Faster <b>e0</b> <b>92</b>,
+		Fastest <b>e0</b> <b>9f</b>.</p>
+
+		<p>Wouter van Wijk &lt;<code>woutervanwijk@netscape.net</code>&gt; reported the scancodes
+		given below.</p>
+
+		<p>On the left touchpad above the scroll wheel:
+		<b>e0</b> <b>6a</b> (Back),
+		<b>e0</b> <b>69</b> (Forward).
+		On the left touchpad below the scroll wheel:
+		<b>e0</b> <b>17</b> (Cut),
+		<b>e0</b> <b>18</b> (Copy),
+		<b>e0</b> <b>0a</b> (Paste),
+		<b>e0</b> <b>09</b> (Application Left),
+		<b>e0</b> <b>1e</b> (Application Right)</p>
+
+		<p>Buttons on the top row:
+		No scancode (F Lock),
+		<b>e0</b> <b>13</b> (Word),
+		<b>e0</b> <b>14</b> (Excel),
+		<b>e0</b> <b>32</b> (Web/Home),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>15</b> (Calendar),
+		<b>e0</b> <b>05</b> (Files),
+		<b>e0</b> <b>21</b> (Calculator),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>2e</b> (Volume -),
+		<b>e0</b> <b>30</b> (Volume +),
+		<b>e0</b> <b>16</b> (Log Off),
+		<b>e0</b> <b>5f</b> (Sleep).
+		This is the expected code for Sleep. However, there do not seem to be
+		Power and WakeUp keys.</p>
+
+		<p>The twelve function keys can be in two states. In the default state
+		they produce the (new) codes below. The FLock toggle switches them
+		back to good old function key state.
+		<b>e0</b> <b>3b</b> (Help [F1]),
+		<b>e0</b> <b>3c</b> (Office Home [F2]),
+		<b>e0</b> <b>3d</b> (Task Pane [F3]),
+		<b>e0</b> <b>3e</b> (New [F4]),
+		<b>e0</b> <b>3f</b> (Open [F5]),
+		<b>e0</b> <b>40</b> (Close [F6]),
+		<b>e0</b> <b>41</b> (Reply [F7]),
+		<b>e0</b> <b>42</b> (Fwd [F8]),
+		<b>e0</b> <b>43</b> (Send [F9]),
+		<b>e0</b> <b>23</b> (Spell [F10]),
+		<b>e0</b> <b>57</b> (Save [F11]),
+		<b>e0</b> <b>58</b> (Print [F12]).
+		Note that each of these codes is just the <b>e0</b> variation
+		of the ordinary function key code, except for that for Spell [F10].
+		When the FLock light is off (default) the <b>e0</b>-version
+		is activated.</p>
+
+		<p>Above the 5-key block with Insert, Home, Delete, PgUp, PgDown:
+		<b>e0</b> <b>08</b> (Undo),
+		<b>e0</b> <b>07</b> (Redo).</p>
+
+		<p>Above the number pad:
+		<b>59</b> (=),
+		<b>e0</b> <b>4c</b> (( [PrintScreen]),
+		<b>e0</b> <b>64</b> () [ScrollLock]),
+		<b>0e</b> (Backspace),
+		<b>0f</b> (Tab).
+		These are the usual codes for Backspace and Tab but new codes
+		for (, ), =. PrintScreen and ScrollLock have the usual codes.</p>
+
+		<img class="img-thumbnail" src="ms_office.jpg">
+
+		<p>See the <a href="http://www.microsoft.com/hardware/keyboard/ok_info.asp">Microsoft ad</a>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.5">6.5 Labtec keyboards</a></h3>
+		</div>
+
+		<h4>Labtec media PS/2 keyboard</h4>
+
+		<p>Petr Slansky reports for the Labtec media PS/2 keyboard:</p>
+
+		<p>Browser keys:
+		<b>e0</b> <b>65</b> (Search),
+		<b>e0</b> <b>66</b> (Favorites),
+		<b>e0</b> <b>6a</b> (Back),
+		<b>e0</b> <b>69</b> (Forward),
+		<b>e0</b> <b>68</b> (Stop),
+		<b>e0</b> <b>67</b> (Refresh).</p>
+
+		<p>Player keys:
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>2e</b> (Vol-),
+		<b>e0</b> <b>30</b> (Vol+),
+		<b>e0</b> <b>22</b> (PlayPause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>10</b> (&lt;&lt;),
+		<b>e0</b> <b>19</b> (>>).</p>
+
+		<p>Application keys:
+		<b>e0</b> <b>6d</b> (Music player),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>32</b> (Home),
+		<b>e0</b> <b>6b</b> (My Computer),
+		<b>e0</b> <b>21</b> (Calculator),
+		<b>e0</b> <b>5f</b> (Sleep).</p>
+
+		<p>All codes agree with the common Microsoft ones.</p>
+
+		<img class="img-thumbnail" src="labtec_kbd2.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss6.6">6.6 Safeway keyboards</a></h3>
+		</div>
+
+		<h4><a name="safeway23"></a> Safeway SW23 keyboard</h4>
+
+		<p>The Safeway SW23 keyboard has 132 keys: the usual 104 keys
+		(101 plus three Windows keys), five more keys called Turbo
+		(below Enter, right of RShift), and Power, Sleep, Wake
+		(below Delete, End, PageDown), and Ez (above Keypad-Minus),
+		and 23 buttons in two rows above the row of function keys.
+		By default, the five extra keys do not produce scancodes.
+		(The Ez is a mode toggle. The Turbo key is used to enable
+		the Power, Sleep, Wake keys.)</p>
+
+		<p>First row of buttons: three Volume buttons:
+		<b>e0</b> <b>58</b> (Mute),
+		<b>e0</b> <b>5a</b> (Vol -),
+		<b>e0</b> <b>70</b> (Vol +),
+		five CD Player buttons:
+		<b>e0</b> <b>59</b> (Prev),
+		<b>e0</b> <b>42</b> (Play),
+		<b>e0</b> <b>69</b> (Next),
+		<b>e0</b> <b>64</b> (Stop),
+		<b>e0</b> <b>71</b> (Eject),
+		two Recorder buttons:
+		<b>e0</b> <b>40</b> (Rew/Play),
+		<b>e0</b> <b>29</b> (Rec/Stop).</p>
+
+		<p>Second row of buttons:
+		<b>e0</b> <b>23</b> (Sleep),
+		<b>e0</b> <b>7d</b> (Cut),
+		<b>e0</b> <b>7e</b> (Copy),
+		<b>e0</b> <b>7f</b> (Paste),
+		<b>e0</b> <b>20</b> (Rotate),
+		<b>e0</b> <b>43</b> (Close),
+		<b>e0</b> <b>30</b> (My Doc),
+		<b>e0</b> <b>44</b> (DOS),
+		<b>e0</b> <b>79</b> (Game),
+		<b>e0</b> <b>77</b> (WWW),
+		<b>e0</b> <b>6e</b> (Calc),
+		<b>e0</b> <b>3e</b> (X'fer),
+		<b>e0</b> <b>6a</b> (Menu/?).</p>
+
+		<p>The Ez key does not produce scancodes, but toggles a
+		M/Mode LED, the fourth next to the Num, Caps, Scroll LEDs.
+		When that LED is set, the 17 keypad keys give different
+		scancodes:
+		<b>e0</b> <b>3c</b> (N/Lock),
+		<b>e0</b> <b>7b</b> (/),
+		<b>e0</b> <b>22</b> (*),
+		<b>e0</b> <b>61</b> (-),
+		<b>e0</b> <b>0f</b> (7),
+		<b>e0</b> <b>21</b> (8),
+		<b>e0</b> <b>6b</b> (9),
+		<b>e0</b> <b>3d</b> (+),
+		<b>e0</b> <b>04</b> (4),
+		<b>e0</b> <b>62</b> (5),
+		<b>e0</b> <b>39</b> (6),
+		<b>e0</b> <b>10</b> (1),
+		<b>e0</b> <b>24</b> (2),
+		<b>e0</b> <b>05</b> (3),
+		<b>e0</b> <b>02</b> (0),
+		<b>e0</b> <b>41</b> (.),
+		<b>e0</b> <b>3f</b> (Enter).</p>
+
+		<p>The Turbo key does not produce scancodes, and neither do
+		Power, Sleep, Wake. However, when Turbo is pressed simultaneously,
+		the Power, Sleep, Wake keys yield <b>e0</b> <b>5e</b>,
+		<b>e0</b> <b>5f</b>, <b>e0</b> <b>63</b> as
+		<a href="scancodes-1.html#power">they should</a>.</p>
+
+		<p>In untranslated scancode mode 3, the multimedia and power keys
+		do not yield any code. In untranslated scancode mode 1 they
+		yield the same code as in untranslated scancode mode 2.
+		(This is a design bug: untranslated scancode mode 1 should be the same
+		as translated scancode mode 2 (see 
+		<a href="scancodes-10.html#scancodesets">below</a>),
+		and this is true for the ordinary keys, but fails here for the
+		"multimedia" keys. For example, the keys End and Keypad-Minus
+		(in M/Mode) yield the same <b>e0</b> <b>4f</b> in
+		untranslated scancode mode 1.)</p>
+
+		<p>Note that some "protocol keycodes" occur here with <b>e0</b> prefix.
+		Indeed, we see <b>e1</b>, <b>ee</b>, <b>f1</b>, <b>fe</b>, <b>ff</b>
+		in the key up sequence for the multimedia keys Keypad-Minus
+		(<b>e0</b> <b>e1</b>), Calc (<b>e0</b> <b>ee</b>),
+		Eject (<b>e0</b> <b>f1</b>), Copy (<b>e0</b> <b>fe</b>),
+		Paste (<b>e0</b> <b>ff</b>).</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.7">6.7 Internet Wireless Keyboard</a></h3>
+		</div>
+
+		<p>This keyboard (nameless, made in China) has 9+1+9 buttons,
+		nine on each side of the Sleep button.
+		Buttons:
+		<b>e0</b> <b>6a</b> (Web Backward),
+		<b>e0</b> <b>69</b> (Web Forward),
+		<b>e0</b> <b>68</b> (Web Stop),
+		<b>e0</b> <b>67</b> (Web Refresh),
+		<b>e0</b> <b>65</b> (Web Search),
+		<b>e0</b> <b>66</b> (Web Favorites),
+		<b>e0</b> <b>32</b> (Web Home),
+		<b>e0</b> <b>6c</b> (E-mail),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>5f</b> (Sleep),
+		<b>e0</b> <b>2e</b> (Volume Down),
+		<b>e0</b> <b>30</b> (Volume Up),
+		<b>e0</b> <b>22</b> (Play/Pause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>10</b> (Fast Backward),
+		<b>e0</b> <b>19</b> (Fast Forward),
+		<b>e0</b> <b>6d</b> (Media Player),
+		<b>e0</b> <b>6b</b> (My Computer),
+		<b>e0</b> <b>21</b> (Calculator).</p>
+
+		<p>This keyboard reports 
+		<a href="scancodes-10.html#keyboardid">keyboard ID</a>
+		<b>ab</b> <b>83</b> (translated <b>ab</b> <b>c1</b>).
+		Scancode sets 1 and 2 are reported as <b>01</b> and <b>02</b>
+		(translated <b>c3</b> and <b>c1</b>).
+		These translations are bugs, but otherwise all seems to function
+		as expected, except that this keyboard does not recognize
+		scancode set 3 and returns <b>fe</b> for an attempt to set Set 3.
+		Every command <b>ed</b> <b>xx</b> is accepted, but there are no LEDs,
+		there is only a battery indicator.</p>
+
+		<p>The mouse that accompanies the keyboard shows no reactions.
+		It may need a special driver.</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.8">6.8 Omnibook keyboard</a></h3>
+		</div>
+
+		<h4>Activation of special keys</h4>
+
+		<p><a name="omnibookinit"></a> The HP Omnibook XE3 laptop has special multimedia keys (aka OneTouch buttons)
+		disabled by default. It is enabled by writing 0x59 to port 0x64
+		and then 0x90 to port 0x60 (as was found by Pavel Mihaylov).
+		Various kernel patches can be found on the net. See, for example,
+		<a href="http://zurich.ai.mit.edu/pipermail/omnibook/2002-April/001230.html">this one</a>.</p>
+
+		<h4>XE3 GC keys</h4>
+
+		<p>Keys (on a XE3 GC model):</p>
+
+		<p><b>e0</b> <b>73</b> (WWW),
+		<b>e0</b> <b>74</b> (Mail),
+		<b>e0</b> <b>72</b> (Demo),
+		<b>e0</b> <b>71</b> (Help),
+		<b>e0</b> <b>10</b> (Previous Track),
+		<b>e0</b> <b>22</b> (Play / Pause),
+		<b>e0</b> <b>24</b> (Stop / Eject),
+		<b>e0</b> <b>19</b> (Next Track).</p>
+
+		<p>It is unknown how to activate the volume control buttons on a XE3 GC.</p>
+
+		<h4>XE3 GF keys</h4>
+
+		<p>Keys (on a XE3 GF model):</p>
+
+		<p><b>e0</b> <b>32</b> (WWW),
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>74</b> (Demo),
+		<b>e0</b> <b>73</b> (Help),
+		<b>e0</b> <b>10</b> (Previous Track),
+		<b>e0</b> <b>22</b> (Play / Pause),
+		<b>e0</b> <b>24</b> (Stop / Eject),
+		<b>e0</b> <b>19</b> (Next Track),
+		<b>e0</b> <b>2e</b> (Volume Down; also Fn-Down arrow),
+		<b>e0</b> <b>30</b> (Volume Up; also Fn-Up arrow),
+		<b>e0</b> <b>20</b> (Mute / Unmute; also Fn-F7).</p>
+
+		<div class="page-header">
+			<h3><a name="EZButton"></a> <a name="ss6.9">6.9 EZ Button keyboard</a></h3>
+		</div>
+
+		<p>Eric Schott &lt;<code>eric@morningjoy.com</code>&gt; writes:</p>
+
+		<p>I have an IBM EZ Button keyboard (US layout), which seems to
+		generate codes that are similar - but not identical - to the
+		Rapid Access keycodes listed above.</p>
+
+		<p>There are 14 additional keys:</p>
+
+		<p><b>e0</b> <b>25</b> ("Power" moon - has an LED),
+		<b>e0</b> <b>26</b> ("Help"),
+		<b>e0</b> <b>32</b> ("Internet"),
+		<b>e0</b> <b>17</b> ("Lotus Word Pro"),
+		<b>e0</b> <b>30</b> ("Lotus Organizer"),
+		<b>e0</b> <b>2e</b> ("Aptiva Installer"),
+		<b>e0</b> <b>19</b> ("Delete Message"),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>22</b> (Pause),
+		<b>e0</b> <b>1e</b> ("Msg" - has an LED),
+		<b>e0</b> <b>20</b> ("CD" - has an LED),
+		<b>e0</b> <b>23</b> (Rewind),
+		<b>e0</b> <b>21</b> (Fast Forward), and
+		<b>e0</b> <b>12</b> ("Talk" - has an LED).</p>
+
+		<p>The LEDs in the buttons are controlled by the sequence
+		<b><a href="scancodes-1.html#LEDmanip">eb</a></b> <b>00</b> <b>xx</b>
+		where the <b>xx</b> controls the LEDs. Bit 0 controls the "Msg" LED,
+		1 the CD LED, 2 the Power LED, 4 the Talk LED, and 5 the Message
+		Waiting LED.</p>
+
+		<div class="page-header">
+			<h3><a name="chicony"></a> <a name="ss6.10">6.10 Chicony KBP-8993 keyboard</a></h3>
+		</div>
+
+		<p>Matthijs Melchior &lt;<code>mmelchio@xs4all.nl</code>&gt; reports:</p>
+
+		<p>The Chicony KBP-8993 keyboard is similar. It has 14 additional
+		keys, enabled by sending <b>ea</b> <b>71</b> and disabled
+		by sending <b>ea</b> <b>70</b>.</p>
+
+		<p>These keys generate the following scan codes:</p>
+
+		<p><b>e0</b> <b>25</b> (Moon),
+		<b>e0</b> <b>32</b> (WWW),
+		<b>e0</b> <b>30</b> (DOS),
+		<b>e0</b> <b>17</b> (MyDoc),
+		<b>e0</b> <b>26</b> (Menu),
+		<b>e0</b> <b>1e</b> (zzZ),
+		<b>e0</b> <b>2e</b> (Close),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>23</b> (Back),
+		<b>e0</b> <b>22</b> (Play),
+		<b>e0</b> <b>21</b> (Forward),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>12</b> (VolDown),
+		<b>e0</b> <b>19</b> (VolUp).</p>
+
+		<p>The two extra LEDs, above the Moon key, and next to the zzZ key
+		are manipulated by sending: <b><a href="scancodes-1.html#LEDmanip">eb</a></b> <b>00</b> <b>0x</b>,
+		where bit 0 is the Moon LED and bit 1 is the zzZ LED.</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.11">6.11 Keyboards for HP Kayak and Vectra</a></h3>
+		</div>
+
+		<p>Fons Rademakers &lt;<code>Fons.Rademakers@cern.ch</code>&gt; writes:</p>
+
+		<p>The electronics for this keyboard was first developed by HP's
+		Home Products Division (HPD).
+		They now make improved versions, which I don't know much about.
+		We (HP Corporate PC Divisions, in Grenoble) reused the electronics,
+		and changed the serigraphy printed on the keys.</p>
+
+		<table class="table table-bordered">
+			<tr>
+				<td>Msg</td>
+				<td>TTl</td>
+				<td>WWW</td>
+				<td>?</td>
+				<td>Lck</td>
+				<td></td>
+				<td>Msg</td>
+				<td>Phn</td>
+				<td>WWW</td>
+				<td>xxx</td>
+				<td>Slp</td>
+				<td></td>
+				<td>133</td>
+				<td>134</td>
+				<td>135</td>
+				<td>136</td>
+				<td>137</td>
+			</tr>
+			<tr>
+				<td>Phn</td>
+				<td>S3</td>
+				<td>S4</td>
+				<td>S5</td>
+				<td>i</td>
+				<td></td>
+				<td>&lt;&lt;</td>
+				<td>&gt;||</td>
+				<td>[]</td>
+				<td>&gt;&gt;</td>
+				<td>HP</td>
+				<td></td>
+				<td>138</td>
+				<td>139</td>
+				<td>140</td>
+				<td>141</td>
+				<td>142</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Mut</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Mut</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>143</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Vl+</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Vl+</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>144</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>VL-</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>VL-</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>145</td>
+			</tr>
+		</table>
+
+		<p><caption>Grenoble keyboard ------- Old HPD keyboard -------- key numbers</caption></p>
+
+		<table class="table table-bordered">
+			<tr>
+				<td>Key#</td>
+				<td>Scancode</td>
+				<td>Gren. Name</td>
+				<td>HPD name</td>
+				<td>ASCII</td>
+			</tr>
+			<tr>
+				<td>133</td>
+				<td><b>e0 1e</b></td>
+				<td>Message/SC1</td>
+				<td>Message</td>
+				<td>a</td>
+			</tr>
+			<tr>
+				<td>134</td>
+				<td><b>e0 12</b></td>
+				<td>Top Tools</td>
+				<td>Phone</td>
+				<td>e</td>
+			</tr>
+			<tr>
+				<td>135</td>
+				<td><b>e0 32</b></td>
+				<td>Web Browser</td>
+				<td>Internet</td>
+				<td>m</td>
+			</tr>
+			<tr>
+				<td>136</td>
+				<td><b>e0 17</b></td>
+				<td>Reminder</td>
+				<td>Shortcut</td>
+				<td>i</td>
+			</tr>
+			<tr>
+				<td>137</td>
+				<td><b>e0 25</b></td>
+				<td>Lock</td>
+				<td>Suspend</td>
+				<td>k</td>
+			</tr>
+			<tr>
+				<td>138</td>
+				<td><b>e0 23</b></td>
+				<td>Phone/SC2</td>
+				<td>&lt;&lt;</td>
+				<td>h</td>
+			</tr>
+			<tr>
+				<td>139</td>
+				<td><b>e0 22</b></td>
+				<td>ShortCut 3</td>
+				<td>&gt;||</td>
+				<td>g</td>
+			</tr>
+			<tr>
+				<td>140</td>
+				<td><b>e0 24</b></td>
+				<td>ShortCut 4</td>
+				<td>[]</td>
+				<td>j</td>
+			</tr>
+			<tr>
+				<td>141</td>
+				<td><b>e0 21</b></td>
+				<td>ShortCut 5</td>
+				<td>&gt;&gt;</td>
+				<td>f</td>
+			</tr>
+			<tr>
+				<td>142</td>
+				<td><b>e0 26</b></td>
+				<td>Information</td>
+				<td>Information</td>
+				<td>l</td>
+			</tr>
+			<tr>
+				<td>143</td>
+				<td><b>e0 20</b></td>
+				<td>Mute</td>
+				<td>Mute</td>
+				<td>d</td>
+			</tr>
+			<tr>
+				<td>144</td>
+				<td><b>e0 30</b></td>
+				<td>Volume +</td>
+				<td>Volume +</td>
+				<td>b</td>
+			</tr>
+			<tr>
+				<td>145</td>
+				<td><b>e0 2e</b></td>
+				<td>Volume -</td>
+				<td>Volume -</td>
+				<td>c</td>
+			</tr>
+		</table>
+
+		<p>Note the scancodes above are those read by x86 software in port 0x60.
+		This is also called Scancode Set 1.
+		Break codes are the same, with bit 7 of the second scancode set.
+		Example: <b>e0 9e</b> for the Message key.</p>
+
+		<p>&lt;<code>spikboll@gmx.net</code>&gt; adds:
+		These keyboards have a "mail LED" (it's positioned above the Message
+		button) that kan be controlled by the Rapid Access hack:
+		'send_to_keyboard <b>eb</b>' makes the led blink and
+		'send_to_keyboard <b>ec</b>' turns the led off.<
+		'send_to_keyboard <b>ed</b>' makes the led light steadily
+		and locks up the keys.</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.12">6.12 A keyboard</a></h3>
+		</div>
+
+		<p>Jon Masters &lt;<code>jonathan@easypenguin.co.uk</code>&gt; writes:</p>
+
+		<p>My new 121 key keyboard has 105 keys + 16 multimedia keys
+		(including cool stuff like a volume jog dial that sends one scancode
+		when turned one way and anther when turned the opposite way).</p>
+
+		<p><b>e0</b> <b>5e</b> (Power Off),
+		<b>e0</b> <b>5f</b> (Sleep),
+		<b>e0</b> <b>63</b> (Resume),
+		<b>e0</b> <b>2e</b> (Help),
+		<b>e0</b> <b>20</b> (My Favourite),
+		<b>e0</b> <b>30</b> (Browser),
+		<b>e0</b> <b>32</b> (WWW Search),
+		<b>e0</b> <b>26</b> (Shortcut),
+		<b>e0</b> <b>25</b> (Volume Down),
+		<b>e0</b> <b>1e</b> (Volume Up),
+		<b>e0</b> <b>12</b> (Mute),
+		<b>e0</b> <b>22</b> (Previous),
+		<b>e0</b> <b>10</b> (Stop),
+		<b>e0</b> <b>24</b> (Next),
+		<b>e0</b> <b>21</b> (Eject),
+		<b>e0</b> <b>19</b> (Play).</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.13">6.13 Yahoo! keyboard</a></h3>
+		</div>
+
+		<p>Bernhard Polzin &lt;<code>B.Polzin@web.de</code>&gt; writes:</p>
+
+		<p>I have a transparent violet colored "Yahoo!" Keyboard with extra keys
+		for Internet and Audio. Unusual scancodes (untranslated/translated):</p>
+
+		<p><b>e0</b> <b>37</b> / <b>e0</b> <b>5e</b> (Power),
+		<b>e0</b> <b>3f</b> / <b>e0</b> <b>5f</b> (Sleep),
+		<b>e0</b> <b>5e</b> / <b>e0</b> <b>63</b> (Wake),
+		<b>e0</b> <b>21</b> / <b>e0</b> <b>2e</b> (Y!),
+		<b>e0</b> <b>4b</b> / <b>e0</b> <b>26</b> (Short Cut),
+		<b>e0</b> <b>3a</b> / <b>e0</b> <b>32</b> (E-Mail),
+		<b>e0</b> <b>23</b> / <b>e0</b> <b>20</b> (My Doc),
+		<b>e0</b> <b>32</b> / <b>e0</b> <b>30</b> (WWW),
+		<b>e0</b> <b>1c</b> / <b>e0</b> <b>1e</b> (Volume +),
+		<b>e0</b> <b>42</b> / <b>e0</b> <b>25</b> (Volume -),
+		<b>e0</b> <b>24</b> / <b>e0</b> <b>12</b> (Mute),
+		<b>e0</b> <b>15</b> / <b>e0</b> <b>10</b> (Stop),
+		<b>e0</b> <b>4e</b> / <b>e0</b> <b>0c</b> (Play/Pause), 
+		<b>e0</b> <b>34</b> / <b>e0</b> <b>22</b> (Prev Track),
+		<b>e0</b> <b>3d</b> / <b>e0</b> <b>08</b> (Next Track),
+		<b>e0</b> <b>4d</b> / <b>e0</b> <b>19</b> (Eject).
+		(Volume +), (Volume -), (Prev Track) and (Next Track) are typematic.</p>
+
+		<p>Note that this is very similar to the previous one.</p>
+
+		<img class="img-thumbnail" src="yahoo912.jpg">
+
+		<div class="page-header">
+			<h3><a name="honeywell"></a> <a name="ss6.14">6.14 Honeywell Multimedia Keyboard</a></h3>
+		</div>
+
+		<p>Eric Yeo reports that his Honeywell Multimedia Keyboard has the following
+		additional keys:
+		<b>e0</b> <b>25</b> (Screen saver),
+		<b>e0</b> <b>24</b> (Mail),
+		<b>e0</b> <b>32</b> (WWW),
+		<b>e0</b> <b>10</b> (Game),
+		<b>e0</b> <b>26</b> (Calc),
+		<b>e0</b> <b>1e</b> (Shortcut 1),
+		<b>e0</b> <b>18</b> (Shortcut 2),
+		<b>e0</b> <b>12</b> (Prev),
+		<b>e0</b> <b>22</b> (Next),
+		<b>e0</b> <b>19</b> (Play),
+		<b>e0</b> <b>23</b> (Stop),
+		<b>e0</b> <b>30</b> (Vol up),
+		<b>e0</b> <b>2e</b> (Vol down),
+		<b>e0</b> <b>17</b> (Eject),
+		<b>e0</b> <b>20</b> (Mute).</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.15">6.15 Samsung Ergonomics Keyboard</a></h3>
+		</div>
+
+		<p>Miguel Costa reports that his 
+		<a href="samsung.jpg">Samsung Ergonomics Keyboard</a> has the following additional keys:
+		<b>e0</b> <b>2e</b> (Vol down),
+		<b>e0</b> <b>30</b> (Vol up),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>18</b> (Eject),
+		<b>e0</b> <b>22</b> (PlayPause),
+		<b>e0</b> <b>24</b> (Stop),
+		<b>e0</b> <b>10</b> (Rewind),
+		<b>e0</b> <b>19</b> (Forward),
+		<b>e0</b> <b>26</b> (Help),
+		<b>e0</b> <b>59</b> (Favorites),
+		<b>e0</b> <b>09</b> (Exit),
+		<b>e0</b> <b>0a</b> (Address book),
+		<b>e0</b> <b>02</b> (Action 1),
+		<b>e0</b> <b>03</b> (Action 2),
+		<b>e0</b> <b>04</b> (Action 3),
+		<b>e0</b> <b>05</b> (Action 4),
+		<b>e0</b> <b>06</b> (Action 5),
+		<b>e0</b> <b>32</b> (Internet),
+		<b>e0</b> <b>6c</b> (Email),
+		<b>e0</b> <b>5f</b> (Standby),
+		<b>e0</b> <b>5b</b> (Windows left),
+		<b>e0</b> <b>5c</b> (Windows right),
+		<b>e0</b> <b>5d</b> (Windows task).</p>
+
+		<img class="img-thumbnail" src="samsung-s.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss6.16">6.16 The "LiteOn MediaTouch Keyboard" type SK-2500</a></h3>
+		</div>
+
+		<p>Serge van den Boom reports that his LiteOn MediaTouch Keyboard
+		(a Trust "Direct Access Keyboard"), has 18 additional keys:
+		<b>e0</b> <b>25</b> (Suspend),
+		<b>e0</b> <b>7a</b> (Coffee),
+		<b>e0</b> <b>32</b> (WWW),
+		<b>e0</b> <b>21</b> (Calculator),
+		<b>e0</b> <b>23</b> (Xfer),
+		<b>38</b> <b>2a</b> <b>0f</b> <b>8f</b> / <b>8f</b> <b>b8</b>
+		<b>aa</b> (Switch window),
+		<b>e0</b> <b>17</b> (Close),
+		<b>e0</b> <b>10</b> (|&lt;&lt;),
+		<b>e0</b> <b>22</b> (>| / []),
+		<b>e0</b> <b>24</b> ([]),
+		<b>e0</b> <b>19</b> (>>|),
+		<b>e0</b> <b>1e</b> (Record),
+		<b>e0</b> <b>12</b> (Rewind),
+		<b>e0</b> <b>26</b> (Menu/?),
+		<b>e0</b> <b>18</b> (Eject),
+		<b>e0</b> <b>20</b> (Mute),
+		<b>e0</b> <b>30</b> (Volume +),
+		<b>e0</b> <b>2e</b> (Volume -).
+		Of these, the keys (|&lt;&lt;), (>>|), (Volume +), (Volume -) repeat.
+		The others do not, except for the rather special (Switch window)
+		key. Upon press it produces the LAlt-down, LShift-down, Tab-down,
+		Tab-up sequence; it repeats <b>0f</b>, that is, Tab-down;
+		and upon release it produces the Tab-up, LAlt-up, LShift-up sequence.</p>
+
+		<img class="img-thumbnail" src="sk2500.jpg">
+
+		<div class="page-header">
+			<h3><a name="ss6.17">6.17 The Acer Aspire 1310LC laptop</a></h3>
+		</div>
+
+		<p>Pau Aliagas reports that his Acer Aspire 1310LC laptop has 4
+		additional keys:
+		<b>e0</b> <b>6c</b> (Mail),
+		<b>e0</b> <b>32</b> (WWW),
+		<b>e0</b> <b>74</b> (P1),
+		<b>e0</b> <b>73</b> (P2).</p>
+
+		<div class="page-header">
+			<h3><a name="ss6.18">6.18 The Emachines eKB-5190(A) keyboard</a></h3>
+		</div>
+
+		<p>This keyboard has 18 additional keys, with translated Set 2 scancodes:
+		<b>e0</b> <b>1e</b> (Banking),
+		<b>e0</b> <b>25</b> (Brokerage),
+		<b>e0</b> <b>26</b> (Pay Bills),
+		<b>e0</b> <b>24</b> (News),
+		<b>e0</b> <b>21</b> (Sports),
+		<b>e0</b> <b>22</b> (Travel),
+		<b>e0</b> <b>32</b> (Shopping),
+		<b>e0</b> <b>23</b> (Tickets),
+		<b>e0</b> <b>31</b> (Music),
+		<b>e0</b> <b>18</b> (Health),
+		<b>e0</b> <b>30</b> (Greetings),
+		<b>e0</b> <b>1f</b> (Games),
+		<b>e0</b> <b>13</b> (Auctions),
+		<b>e0</b> <b>2e</b> (MySite),
+		<b>e0</b> <b>20</b> (Telephone),
+		<b>e0</b> <b>12</b> (Surf),
+		<b>e0</b> <b>19</b> (Search),
+		<b>e0</b> <b>10</b> (Vol -),
+		<b>e0</b> <b>17</b> (Vol +).
+		The respective untranslated Set 3 codes are
+		<b>95</b>, <b>9d</b>, <b>9c</b>, <b>94</b>, <b>99</b>,
+		<b>93</b>, <b>97</b>, <b>9a</b>, <b>9e</b>, <b>9f</b>,
+		<b>91</b>, <b>a3</b>, <b>a2</b>, <b>92</b>, <b>9b</b>,
+		<b>96</b>, <b>a0</b>, <b>a1</b>, <b>98</b> (equal to the
+		translated Set 3 codes).</p>
+
+		<p>Unusual commands are <b>e4</b> <b>0b</b>, which returns
+		<b>bc</b> <b>1c</b> (untranslated <b>06</b> <b>f0</b> <b>5a</b>),
+		and <b>e4</b> <b>0c</b>, which returns
+		<b>ff</b> (untranslated <b>00</b>),
+		and <b>ec</b> <b>0c</b>, which returns <b>06</b> regardless of
+		translation. I do not know the meaning or function of these.</p>
+
+		<hr>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-5.html">Previous</a></li>
+				<li class="next"><a href="scancodes-7.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

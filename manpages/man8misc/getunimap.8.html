@@ -1,0 +1,122 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of GETUNIMAP</TITLE>
+</HEAD><BODY>
+<H1>GETUNIMAP</H1>
+Section: Linux (8)<BR>Updated: 2004-01-01<BR><A HREF="#index">Index</A>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+
+<P>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+getunimap - dump the unicode map for the current console to stdout
+<P>
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>getunimap [ -s ] [ -C</B>
+
+<I>console</I>
+
+]
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<B>getunimap</B>
+
+program is old and obsolete. It is now part of
+<B>setfont (1).</B>
+
+<P>
+
+The 
+<B>getunimap</B>
+
+program outputs the unicode map (also called a &quot;Screen Font Map&quot;) 
+for the current console to standard output.
+<P>
+
+The
+<B>-C</B>
+
+option may be used with Linux 2.6.1 and later to get the map for
+a console different from the current one. Its argument is a pathname.
+<P>
+
+The output of
+<B>getunimap</B>
+
+is of the form
+<P>
+
+<DL COMPACT><DT><DD>
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>0xAA U+1234 # comment<BR>
+</DL>
+
+<P>
+
+where 0xAA is the font character code and U+1234 is a unicode character,
+that if displayed, will be displayed using glyph 0xAA in the font.
+Many unicode characters may be mapped to the same glyph.
+<BR>
+
+the Hash symbol
+<B>#</B>
+
+is used as a comment delimiter; characters after a hash sign (to the end of 
+the line) are comments.
+
+The 
+<B>-s</B>
+
+option will sort and merge elements, sorting on font character.
+Hence, it will produce output of the form:
+<P>
+
+<DL COMPACT><DT><DD>
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>0x22 U+1234 U+5678 U+3456<BR>
+<BR>
+
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>0x23 U+0023<BR>
+</DL>
+
+<P>
+
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>etc., listing the multiple unicode characters that map to a font glyph.<BR>
+
+The output of
+<B>getunimap</B>
+
+is of the form accepted by 
+<B>setfont</B>
+
+and
+<B>psfaddtable</B>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfaddtable">psfaddtable</A></B>(1),
+
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+setfont">setfont</A></B>(1).
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 08:24:05 GMT, January 09, 2017
+</BODY>
+</HTML>

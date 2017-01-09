@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes: Keyboard scancodes</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes.html">Previous</a></li>
+				<li class="next"><a href="scancodes-2.html">Next</a></li>
+			</ul>
+		</nav>
+		<div class="page-header">
+			<h2><a name="s1">1. Keyboard scancodes</a></h2>
+		</div>
+
+		<p>The data from a keyboard comes mainly in the form of scancodes,
+		produced by key presses or used in the protocol with the computer.
+		(<a href="scancodes-10.html#scancodesets">Different codes</a> are used by the keyboard
+		firmware internally, and there also exist several
+		<a href="scancodes-10.html#scancodesets">sets of scancodes</a>.
+		Here in this section we only talk about the default codes - those from
+		translated scancode set 2. Less common modes are discussed
+		<a href="scancodes-10.html#scancodesets">below</a>.)
+		Each key press and key release produces between 0 and 6 scancodes.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.1">1.1 Key release</a></H3>
+		</div>
+
+		<p>Below I'll only mention the scancode for key press (`make').
+		The scancode for key release (`break') is obtained from it
+		by setting the high order bit (adding 0x80 = 128).
+		Thus, Esc press produces scancode <b>01</b>, Esc release
+		scancode <b>81</b> (hex).
+		For sequences things are similar: Keypad-/ gives <b>e0</b> <b>35</b>
+		when pressed, <b>e0</b> <b>b5</b> when released. Most keyboards will
+		repeat the make code (key down code) when the key repeats. Some will also
+		fake Shift down and Shift up events during the repeat.</p>
+
+		<p>The keys PrtSc/SysRq and Pause/Break are special.
+		The former produces scancode <b>e0</b> <b>2a</b> <b>e0</b> <b>37</b>
+		when no modifier key is pressed simultaneously, <b>e0</b> <b>37</b>
+		together with Shift or Ctrl, but <b>54</b> together with (left or right) Alt.
+		(And one gets the expected sequences upon release. But see
+		<a href="scancodes-5.html#mtek">below</a>.)
+		The latter produces scancode sequence
+		<b>e1</b> <b>1d</b> <b>45</b> <b>e1</b> <b>9d</b> <b>c5</b>
+		when pressed (without modifier) and nothing at all upon release.
+		However, together with (left or right) Ctrl, one gets
+		<b>e0</b> <b>46</b> <b>e0</b> <b>c6</b>,
+		and again nothing at release. It does not repeat.</p>
+
+		<p>See <a href="#dellnoup">below</a> for a report on keys with a different behaviour.</p>
+
+		<p>There are many reports of laptops with badly debounced key-up events.
+		Thus, unexpected key-up events should probably be regarded as not
+		unusual, and be ignored. Another source of key-up events without
+		preceding key-down can be the 
+		<a href="#fakeshifts">fake shift</a>.</p>
+
+
+		<div class="page-header">
+			<h3><a name="ss1.2">1.2 Protocol scancodes</a></h3>
+		</div>
+
+		<p>Most scancodes indicate a key press or release.
+		Some are used in the communication protocol.</p>
+
+		<table class="table table-bordered">
+			<tr>
+				<td><b>00</b></td>
+				<td>Keyboard error - see <b>ff</b></td>
+			</tr>
+			<tr>
+				<td><b>aa</b></td>
+				<td>BAT (Basic Assurance Test) OK</td>
+			</tr>
+			<tr>
+				<td><b>ee</b></td>
+				<td>Result of echo command</td>
+			</tr>
+			<tr>
+				<td><b>f1</b></td>
+				<td>Some keyboards, as reply to command <b>a4</b>:Password not installed</td>
+			</tr>
+			<tr>
+				<td><b>fa</b></td>
+				<td>Acknowledge from kbd</td>
+			</tr>
+			<tr>
+				<td><b>fc</b></td>
+				<td>BAT error or Mouse transmit error</td>
+			</tr>
+			<tr>
+				<td><b>fd</b></td>
+				<td>Internal failure</td>
+			</tr>
+			<tr>
+				<td><b>fe</b></td>
+				<td>Keyboard fails to ack, please resend</td>
+			</tr>
+			<tr>
+				<td><b>ff</b></td>
+				<td>Keyboard error</td>
+			</tr>
+		</table>
+
+		<p>Three common causes for keyboard error are:
+		(i) several keys pressed simultaneously,
+		(ii) keyboard buffer overflow,
+		(iii) parity error on the serial line used by keyboard
+		and keyboard controller for communication.
+		The error reported is <b>ff</b> in
+		<a href="scancodes-10.html#scancodesets">scancode mode</a> 1,
+		and <b>00</b> in scancode modes 2 and 3.
+		If translation is on, both <b>00</b> and <b>ff</b>
+		are translated as <b>ff</b>.</p>
+
+		<p>Usually these codes have the protocol meaning. However,
+		they also occur as actual scancodes, especially when
+		prefixed by <b>e0</b>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.3">1.3 Escape scancodes</a></h3>
+		</div>
+
+		<p>The codes <b>e0</b> and <b>e1</b> introduce scancode sequences,
+		and are not usually used as isolated scancodes themselves
+		(but see <a href="scancodes-7.html#e0_as_key">below</a>).</p>
+
+		<p>(The prefix <b>e0</b> was originally used for the grey duplicates
+		of keys on the original PC/XT keyboard. These days <b>e0</b> is
+		just used to expand code space. The prefix <b>e1</b> used for
+		Pause/Break indicated that this key sends the make/break sequence
+		at make time, and does nothing upon release.)</p>
+
+		<p>This, and the above, means that the values
+		<b>00</b>, <b>60</b>, <b>61</b>, <b>6e</b>, <b>71</b>,
+		<b>7a</b>, <b>7c</b>, <b>7e</b>, <b>7f</b>
+		are unavailable to signify key presses (on a default keyboard).
+		Nevertheless they also occur as scancodes, see for example the
+		<a href="scancodes-2.html#telerate">Telerate</a> and
+		<a href="scancodes-6.html#safeway23">Safeway SW23</a> keyboards below.</p>
+
+		<p>Also other prefixes occur, see <a href="scancodes-5.html#prefix_80">below</a>.</p>
+
+		<p><a href="scancodes-10.html#logiteche2">Logitech</a> uses an <b>e2</b> prefix
+		for the codes sent by a pointing device integrated on the keyboard.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.4">1.4 Ordinary scancodes</a></h3>
+		</div>
+
+		<p>The scancodes in translated scancode set 2 are given in hex.
+		Between parentheses the keycap on a US keyboard.
+		The scancodes are given in order, grouped according
+		to groups of keys that are usually found next to each other.</p>
+
+		<p>
+		<b>00</b></span> is normally an error code>, <b>01</b> (Esc), <b>02</b> (1!), <b>03</b> (2@), <b>04</b> (3#), <b>05</b> (4$),
+		<b>06</b> (5%E), <b>07</b> (6^), <b>08</b> (7&amp;),
+		<b>09</b> (8*), <b>0a</b> (9(), <b>0b</b> (0)), <b>0c</b> (-_),
+		<b>0d</b> (=+), <b>0e</b> (Backspace), <b>0f</b> (Tab), <b>10</b> (Q), <b>11</b> (W), <b>12</b> (E),
+		<b>13</b> (R), <b>14</b> (T), <b>15</b> (Y), <b>16</b> (U), <b>17</b> (I), <b>18</b> (O),
+		<b>19</b> (P), <b>1a</b> ([{), <b>1b</b> (]}), <b>1c</b> (Enter), <b>1d</b> (LCtrl),
+		<b>1e</b> (A), <b>1f</b> (S), <b>20</b> (D), <b>21</b> (F), <b>22</b> (G), <b>23</b> (H),
+		<b>24</b> (J), <b>25</b> (K), <b>26</b> (L), <b>27</b> (;:), <b>28</b> ('"),
+		<b>29</b> (`~), <b>2a</b> (LShift), <b>2b</b> (\|), on a 102-key keyboard, <b>2c</b> (Z),
+		<b>2d</b> (X), <b>2e</b> (C), <b>2f</b> (V), <b>30</b> (B), <b>31</b> (N), <b>32</b> (M), <b>33</b> (,&lt;),
+		<b>34</b> (.&gt;), <b>35</b> (/?), <b>36</b> (RShift), <b>37</b> (Keypad-*) or (*/PrtScn) on a 83/84-key keyboard,
+		<b>38</b> (LAlt), <b>39</b> (Space bar), <b>3a</b> (CapsLock), <b>3b</b> (F1), <b>3c</b> (F2), <b>3d</b> (F3), <b>3e</b> (F4),
+		<b>3f</b> (F5), <b>40</b> (F6), <b>41</b> (F7), <b>42</b> (F8), <b>43</b> (F9), <b>44</b> (F10), <b>45</b> (NumLock),
+		<b>46</b> (ScrollLock), <b>47</b> (Keypad-7/Home), <b>48</b> (Keypad-8/Up), <b>49</b> (Keypad-9/PgUp), <b>4a</b> (Keypad--), <b>4b</b> (Keypad-4/Left), <b>4c</b> (Keypad-5),
+		<b>4d</b> (Keypad-6/Right), <b>4e</b> (Keypad-+), <b>4f</b> (Keypad-1/End), <b>50</b> (Keypad-2/Down),
+		<b>51</b> (Keypad-3/PgDn), <b>52</b> (Keypad-0/Ins), <b>53</b> (Keypad-./Del),
+
+		<b>54</b> (Alt-SysRq) on a 84+ key keyboard,
+		
+		<b>55</b> is less common; occurs e.g. as F11 on a Cherry G80-0777 keyboard,
+		as F12 on a Telerate keyboard,
+		as PF1 on a Focus 9000 keyboard, and as FN on an IBM ThinkPad.
+
+		<b>56</b> mostly on non-US keyboards. It is often an unlabelled key
+		<a href="laser.jpg">to the left</a> or <a href="toshiba.jpg">to the right</a>
+		of the left Alt key.
+
+		<img class="img-thumbnail" src="laser-s.jpg">
+		<img class="img-thumbnail" src="toshiba-s.jpg">
+
+		<b>57</b> (F11), <b>58</b> (F12) both on a 101+ key keyboard, <b>59</b>-<b>5a</b>-...-<b>7f</b> are less common.</p>
+
+		<p>Assignment is essentially random. Scancodes <b>55</b>-<b>59</b> occur as F11-F15 on the
+		<a href="scancodes-2.html#cherry80">Cherry G80-0777</a> keyboard.
+		Scancodes <b>59</b>-<b>5c</b> occur on the <a href="scancodes-5.html#RC930">RC930</a> keyboard.
+		X calls <b>5d</b> `KEY_Begin'.
+		Scancodes <b>61</b>-<b>64</b> occur on a <a href="scancodes-2.html#telerate">Telerate</a> keyboard.
+		Scancodes <b>55</b>, <b>6d</b>, <b>6f</b>, <b>73</b>, <b>74</b>,
+		<b>77</b>, <b>78</b>, <b>79</b>, <b>7a</b>, <b>7b</b>,
+		<b>7c</b>, <b>7e</b> occur on the <a href="scancodes-5.html#focus">Focus 9000</a> keyboard.
+		Scancodes <b>65</b>, <b>67</b>, <b>69</b>, <b>6b</b> occur on a 
+		<a href="scancodes-5.html#armada">Compaq Armada</a> keyboard.
+		Scancodes <b>66</b>-<b>68</b>, <b>73</b> occur on the <a href="scancodes-5.html#cherry81">Cherry G81-3000</a> keyboard.
+		Scancodes <b>70</b>, <b>73</b>, <b>79</b>, <b>7b</b>, <b>7d</b> occur on a <a href="scancodes-8.html#japanese">Japanese 86/106 keyboard</a>.
+		Scancodes <b>f1</b> and <b>f2</b> occur on <a href="scancodes-9.html#korean">Korean keyboards</a>.
+		</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.5">1.5 Escaped scancodes</a></h3>
+		</div>
+
+<p>Apart from the Pause/Break key, that has an escaped sequence starting
+with <b>e1</b>, the escape used is <b>e0</b>. Often, the codes
+are chosen in such a way that something meaningful happens when
+the receiver just discards the <b>e0</b>.
+
+		<table class="table table-bordered">
+			<tr>
+				<td><b>e0</b> <b>1c</b> (Keypad Enter)</td>
+				<td><b>1c</b> (Enter)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>1d</b> (RCtrl)</td>
+				<td><b>1d</b> (LCtrl)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>2a</b> (fake LShift)</td>
+				<td><b>2a</b> (LShift)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>35</b> (Keypad-/)</td>
+				<td><b>35</b> (/?)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>36</b> (fake RShift)</td>
+				<td><b>36</b> (RShift)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>37</b> (Ctrl-PrtScn)</td>
+				<td><b>37</b> (*/PrtScn)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>38</b> (RAlt)</td>
+				<td><b>38</b> (LAlt)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>46</b> (Ctrl-Break)</td>
+				<td><b>46</b> (ScrollLock)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>47</b> (Grey Home)</td>
+				<td><b>47</b> (Keypad-7/Home)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>48</b> (Grey Up)</td>
+				<td><b>48</b> (Keypad-8/UpArrow)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>49</b> (Grey PgUp)</td>
+				<td><b>49</b> (Keypad-9/PgUp)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>4b</b> (Grey Left)</td>
+				<td><b>4b</b> (Keypad-4/Left)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>4d</b> (Grey Right)</td>
+				<td><b>4d</b> (Keypad-6/Right)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>4f</b> (Grey End)</td>
+				<td><b>4f</b> (Keypad-1/End)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>50</b> (Grey Down)</td>
+				<td><b>50</b> (Keypad-2/DownArrow)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>51</b> (Grey PgDn)</td>
+				<td><b>51</b> (Keypad-3/PgDn)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>52</b> (Grey Insert)</td>
+				<td><b>52</b> (Keypad-0/Ins)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>53</b> (Grey Delete)</td>
+				<td><b>53</b> (Keypad-./Del)</td>
+			</tr>
+		</table>
+
+<p>These escaped scancodes occur only on 101+ key keyboards.
+The <a href="scancodes-6.html#microsoft">Microsoft keyboard</a> adds</p>
+
+		<table class="table table-bordered">
+			<tr>
+				<td><b>e0</b> <b>5b</b> (LeftWindow)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>5c</b> (RightWindow)</td>
+			</tr>
+			<tr>
+				<td><b>e0</b> <b>5d</b> (Menu)</td>
+			</tr>
+		</table>
+
+		<p>Other escaped scancodes occur - see below under the individual keyboards.</p>
+
+		<div class="page-header">
+			<h3><a name="fakeshifts"></a> <a name="ss1.6">1.6 Fake shifts</a></h3>
+		</div>
+
+		<p>The ten grey keys Insert, Home, PgUp, Delete, End, PgDn,
+		Up, Left, Down, Right are supposed to function regardless
+		of the state of Shift and NumLock keys. But for an old AT keyboard
+		the keypad keys would produce digits when Numlock was on or Shift
+		was down. Therefore, in order to fool old programs,
+		fake scancodes are sent: when LShift is down, and Insert is
+		pressed, <b>e0</b> <b>aa</b> <b>e0</b> <b>52</b> is sent;
+		upon release of Insert <b>e0</b> <b>d2</b> <b>e0</b> <b>2a</b>
+		is sent. In other words, a fake LShift-up and
+		fake LShift-down are inserted.</p>
+
+		<p>If the Shift key is released earlier than the repeated key,
+		then a real Shift-up code occurs (without preceding fake Shift-down)
+		so that a program ignoring <b>e0</b> would see one more Shift-up
+		than Shift-down.</p>
+
+		<p>When NumLock is on, no fake Shifts are sent when Shift was down,
+		but fake Shifts are sent when Shift was not down. Thus,
+		with Numlock, if Insert is pressed,
+		<b>e0</b> <b>2a</b> <b>e0</b> <b>52</b> is sent
+		and upon release <b>e0</b> <b>d2</b> <b>e0</b> <b>aa</b> is sent.
+		The keyboard maintains a private NumLock mode, toggled when
+		NumLock is pressed, and set when the NumLock LED is set.</p>
+
+		<p>In the same way, when Shift is down, the Grey-/ key produces
+		fake Shift-up and fake Shift-down sequences. However, it does
+		not react to the state of NumLock. The purpose of course is to
+		fool programs that identify Grey-/ with ordinary /, so that they
+		don't treat Shift-Grey-/ like Shift-/, i.e., ?.</p>
+
+		<p>On a Toshiba notebook, the three Windows keys are treated like
+		the group of ten keys mentioned, and get fake shifts when
+		(left or right) Shift is down. They do not react to NumLock.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.7">1.7 Added non-fake shifts</a></h3>
+		</div>
+
+		<p>On my 121-key 
+		<a href="scancodes-5.html#nokia">Nokia Data</a> keyboard there are
+		function keys F1, ..., F24, where F1, ..., F12 send the expected codes
+		<b>3b</b>, ..., <b>58</b>, and F13, ..., F24 send the same codes
+		together with the LShift code <b>2a</b>.
+		Thus, F13 gives <b>2a</b> <b>3b</b> on press,
+		and <b>bb</b> <b>aa</b> on release.
+		Similarly, there are keys with added LCtrl code <b>1d</b>.
+		But there are also keys with added fake shifts <b>e0 2a</b>.</p>
+
+		<p><a href="http://www.delorie.com/djgpp/doc/rbinter/it/06/0.html">Delorie</a>
+		reports that <i>the "Preh Commander AT" keyboard with additional F11-F22 keys
+		treats F11-F20 as Shift-F1..Shift-F10 and F21/F22 as Ctrl-F1/Ctrl-F2; the
+		Eagle PC-2 keyboard with F11-F24 keys treats those additional keys
+		in the same way</i>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.8">1.8 Turbo Mode</a></h3>
+		</div>
+
+		<p>On some motherboards the LCtrl-LAlt-GreyPlus and LCtrl-LAlt-GreyMinus
+		switch Turbo mode on/off, respectively. For these, the motherboard
+		may generate the same scancode sequence when the Turbo button is
+		pushed: Turbo Switch (High->Low):
+		<b>1d</b> <b>38</b> <b>4a</b> <b>ce</b> <b>b8</b> <b>9d</b>
+		and Turbo Switch (Low->High):
+		<b>1d</b> <b>38</b> <b>4e</b> <b>ce</b> <b>b8</b> <b>9d</b>.</p>
+
+		<p>Other peculiar combinations in this style include
+		LCtrl-LAlt-LShift-GreyMinus and LCtrl-LAlt-LShift-GreyPlus to turn
+		system cache off/on.</p>
+
+		<p>If Green PC system power saving mode is enabled in AMIBIOS Setup,
+		the AMI MegaKey keyboard controller recognizes the combinations
+		Ctrl-Alt-\ (put the system into immediate power down mode),
+		Ctrl-Alt-[ (disable the Green PC power savings mode temporarily),
+		Ctrl-Alt-] (enables the Green PC power down mode).</p>
+
+		<p>Thio Yu Jin &lt;<code>jin@singmail.com</code>&gt; complains that on his Toshiba 4010CDS
+		the Ctrl-Alt-Shift-T key combination brings up the Toshiba user manual.
+		(04 Mar 1999 - not April 1.)</p>
+
+		<div class="page-header">
+			<h3><a name="power"></a> <a name="ss1.9">1.9 Power Saving</a></h3>
+		</div>
+
+		<p><a href="http://www.microsoft.com/hwdev/tech/input/Scancode.asp">Microsoft</a> recommends: "i8042-based keyboards should deploy the
+		following scan codes for power management buttons, i.e., POWER and SLEEP
+		buttons:</p>
+
+		<table class="table table-bordered">
+			<tr>
+				<Th></Th>
+				<th>Set-1 make/break</th>
+				<th>Set-2 make/break</th>
+			</tr>
+			<tr>
+				<td>Power</td>
+				<td><b>e0</b> <b>5e</b> / <b>e0</b> <b>de</b></td>
+				<td><b>e0</b> <b>37</b> / <b>e0</b> <b>f0</b> <b>37</b></td>
+			</tr>
+			<tr>
+				<td>Sleep</td>
+				<td><b>e0</b> <b>5f</b> / <b>e0</b> <b>df</b></td>
+				<td><b>e0</b> <b>3f</b> / <b>e0</b> <b>f0</b> <b>3f</b></td>
+			</tr>
+			<tr>
+				<td>Wake</td>
+				<td><b>e0</b> <b>63</b> / <b>e0</b> <b>e3</b></td>
+				<td><b>e0</b> <b>5e</b> / <b>e0</b> <b>f0</b> <b>5e</b></td>
+			</tr>
+		</table>
+
+		<p>The Power, Sleep, and Wake event scan codes are the i8042 equivalents
+		to the System Power Down, System Sleep, and System Wake Up HID usages".</p>
+
+		<p>Many keyboards have Power/Sleep/Wake keys that have to be
+		activated by a fourth key (unlabeled, or labeled FN): pressing
+		one of these four keys does not produce any scancodes, but
+		when the FN key is pressed simultaneously, the Power/Sleep/Wake
+		keys give the codes listed above.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.10">1.10 Initializing special keyboards</a></h3>
+		</div>
+
+		<p>Many keyboards have more keys and buttons than the standard ones.
+		Sometimes these additional keys produce scancode combinations
+		that were unused before. But on other keyboard such additional
+		keys do not produce any code at all, until some initializing
+		action is taken.</p>
+
+		<p>Sometimes that action consists of writing some bytes to keyboard
+		registers. See, for example, the
+		<a href="scancodes-6.html#rapidinit">IBM Rapid Access keyboard</a>, and the
+		<a href="scancodes-6.html#omnibookinit">Omnibook keyboard</a>.</p>
+
+		<div class="page-header">
+			<h3><a name="LEDmanip"></a> <a name="ss1.11">1.11 Manipulating extra LEDs</a></h3>
+		</div>
+
+		<p>Some keyboards have additional LEDs, and in a few cases we know
+		how to manipulate those.</p>
+
+		<p>The <a href="scancodes-6.html#chicony">Chicony keyboard</a> needs command sequences
+		<b>eb</b> <b>00</b> <i>xy</i>, with
+		<i>xy</i> = <b>01</b> for the Moon LED and
+		<i>xy</i> = <b>02</b> for the zzZ LED.</p>
+
+		<p>The <a href="scancodes-6.html#EZButton">IBM EZ Button keyboard</a> needs
+		command sequences <b>eb</b> <b>00</b> <i>xy</i>, with
+		<i>xy</i> = <b>01</b> for the Msg LED,
+		<i>xy</i> = <b>02</b> for the CD LED,
+		<i>xy</i> = <b>04</b> for the Power LED,
+		<i>xy</i> = <b>10</b> for the Talk LED, and
+		<i>xy</i> = <b>20</b> for the Message Waiting LED.</p>
+
+		<p>The <a href="scancodes-6.html#ibmrapidaccess">IBM Rapid Access keyboard</a> needs
+		command sequences <b>eb</b> <b>00</b> <i>xy</i>, with
+		<i>xy</i> = <b>04</b> for the Suspend LED and
+		<i>xy</i> = <b>20</b> for the Mute LED.</p>
+
+		<p>The <a href="scancodes-6.html#ibmrapidaccessii">IBM Rapid Access keyboard II</a> needs
+		the command sequences <b>eb</b> <b>71</b> and <b>eb</b> <b>70</b>
+		to switch the Standby LED on and off.</p>
+
+		<p>The <a href="scancodes-6.html#logitechinternet">Logitech Internet Keyboard</a>
+		has an additional amber LED. It is turned on by sending <b>eb</b>,
+		and then blinks about once a second. It is turned off again by <b>ec</b>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss1.12">1.12 The laptop FN key</a></h3>
+		</div>
+
+		<p>Laptops have no room for all nonsensical keys one usually find
+		on a regular keyboard. So, the number pad and other keys are
+		folded into the main part of the keyboard. A key without label,
+		or labelled FN is often used to modify the meaning of other keys.
+		This FN does not produce scancodes itself, it only modifies the
+		scancodes produced by other keys.</p>
+
+		<p><a name="dellnoup"></a> 
+		Neil Brown reports about his Dell Latitude D800 laptop that it has
+		five key combinations that do not produce proper break codes.
+		The five combinations FN+F2, FN+F3, FN+F10, FN+Down, FN+Up
+		(labelled Wireless, Brighter, Darker, Battery, CDEject)
+		produce make codes <b>e0</b> <b>08</b>, <b>e0</b> <b>07</b>,
+		<b>e0</b> <b>09</b>, <b>e0</b> <b>05</b>, <b>e0</b> <b>06</b>,
+		respectively. The first three do not produce any break code.
+		The last two have a break code that is identical to the make code.</p>
+
+
+		<hr/>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes.html">Previous</a></li>
+				<li class="next"><a href="scancodes-2.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

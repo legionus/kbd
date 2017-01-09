@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Font-formats recognized by the Linux kbd package: PSF fonts</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="font-formats.html">Previous</a></li>
+				<li class="next"><a href="font-formats-2.html">Next</a></li>
+			</ul>
+		</nav>
+		<div class="page-header">
+			<h2><a name="s1">1. PSF fonts</a></h2>
+		</div>
+
+		PSF fonts come in two types: old (psf1) and new (psf2).
+		A PSF font consists of
+		<ol>
+			<li><a href="#psfheader">The header</a>,</li>
+			<li><a href="#psffont">The font</a>,</li>
+			<li><a href="#psfunimap">Unicode information</a>.
+		</ol>
+
+		<div class="page-header">
+			<h4><a name="psfheader"></a> <a name="ss1.1">1.1 The header</a></h4>
+		</div>
+
+		<p>For psf1 this is
+<pre>
+#define PSF1_MAGIC0     0x36
+#define PSF1_MAGIC1     0x04
+
+#define PSF1_MODE512    0x01
+#define PSF1_MODEHASTAB 0x02
+#define PSF1_MODEHASSEQ 0x04
+#define PSF1_MAXMODE    0x05
+
+#define PSF1_SEPARATOR  0xFFFF
+#define PSF1_STARTSEQ   0xFFFE
+
+struct psf1_header {
+        unsigned char magic[2];     /* Magic number */
+        unsigned char mode;         /* PSF font mode */
+        unsigned char charsize;     /* Character size */
+};
+</pre></p>
+
+		<p>For psf2 this is
+<pre>
+#define PSF2_MAGIC0     0x72
+#define PSF2_MAGIC1     0xb5
+#define PSF2_MAGIC2     0x4a
+#define PSF2_MAGIC3     0x86
+
+/* bits used in flags */
+#define PSF2_HAS_UNICODE_TABLE 0x01
+
+/* max version recognized so far */
+#define PSF2_MAXVERSION 0
+
+/* UTF8 separators */
+#define PSF2_SEPARATOR  0xFF
+#define PSF2_STARTSEQ   0xFE
+
+struct psf2_header {
+        unsigned char magic[4];
+        unsigned int version;
+        unsigned int headersize;    /* offset of bitmaps in file */
+        unsigned int flags;
+        unsigned int length;        /* number of glyphs */
+        unsigned int charsize;      /* number of bytes for each character */
+        unsigned int height, width; /* max dimensions of glyphs */
+        /* charsize = height * ((width + 7) / 8) */
+};
+</pre>
+		</p>
+
+		<p>The meaning is fairly clear from the field names.
+		The fonts here are bitmap fonts (not, for example, vector fonts),
+		and each glyph has a <code>height</code> and a <code>width</code>.
+		The bitmap for a glyph is stored as <code>height</code> consecutive
+		pixel rows, where each pixel row consists of <code>width</code> bits
+		followed by some filler bits in order to fill an integral number
+		of (8-bit) bytes. Altogether the bitmap of a glyph takes
+		<code>charsize</code> bytes.</p>
+
+		<p>For psf1 the width is constant 8, so that the height equals the charsize.</p>
+
+		<p>The number of glyphs in the font equals <code>length</code>.
+		For psf1 the length is constant 256, unless the <code>PSF1_MODE512</code> bit
+		is set in the <code>mode</code> field, in which case it is 512.</p>
+
+		<p>The font is followed by a table associating Unicode values with each
+		glyph in case (for psf1) the <code>PSF1_MODEHASTAB</code> bit is set in
+		the <code>mode</code> field, or (for psf2) the <code>PSF2_HAS_UNICODE_TABLE</code>
+		bit is set in the <code>flags</code> field.</p>
+
+		<p>The starting offset of the bitmaps in the font file is given by
+		<code>headersize</code>. (This allows the header to grow, probably
+		depending on <code>version</code>, without changes in the code.)</p>
+
+		<p>The integers in the psf2 header struct are little endian 4-byte integers.</p>
+
+		<div class="page-header">
+			<h4><a name="psffont"></a> <a name="ss1.2">1.2 The font</a></h4>
+		</div>
+
+		<p>The actual bitmaps.</p>
+
+		<div class="page-header">
+			<h4><a name="psfunimap"></a> <a name="ss1.3">1.3 Unicode information</a></h4>
+		</div>
+
+		<p>The bitmaps may be followed by a Unicode description
+		of the glyphs. This Unicode description of a position
+		has grammar
+<pre>
+&lt;unicodedescription> := &lt;uc>*&lt;seq>*&lt;term>
+&lt;seq> := &lt;ss>&lt;uc>&lt;uc>*
+&lt;ss> := psf1 ? 0xFFFE : 0xFE
+&lt;term> := psf1 ? 0xFFFF : 0xFF
+</pre>
+		where <code>&lt;uc&gt;</code> is a 2-byte little endian Unicode value (psf1),
+		or a Unicode value coded in UTF-8 (psf2),
+		and <code>*</code> denotes zero or more occurrences of the preceding item.</p>
+
+		<p>The semantics is as follows.
+		The leading <code>&lt;uc&gt;*</code> part gives Unicode symbols that are all
+		represented by this font position. The following sequences
+		are sequences of Unicode symbols - probably a symbol
+		together with combining accents - also represented by
+		this font position.</p>
+
+		<p>Example:
+		At the font position for a capital A-ring glyph, we
+		may have (psf1):
+<pre>
+     00C5,212B,FFFE,0041,030A,FFFF
+</pre>
+
+		where the Unicode values here are
+			LATIN CAPITAL LETTER A WITH RING ABOVE
+		and
+			ANGSTROM SIGN
+		and
+			LATIN CAPITAL LETTER A
+		and
+			COMBINING RING ABOVE.
+
+		Some font positions may be described by sequences only,
+		namely when there is no precomposed Unicode value for the glyph.</p>
+
+		<div class="page-header">
+			<h4><a name="ss1.4">1.4 Historical</a></h4>
+		</div>
+		<p>PSF stands for PC Screen Font.
+		The psf1 format without Unicode map was designed by
+		H. Peter Anvin in 1989 or so for his DOS screen font editor
+		<code>FONTEDIT.EXE</code>. In Oct 1994 he added the Unicode map
+		and the programs <code>psfaddtable</code>, <code>psfgettable</code>,
+		<code>psfstriptable</code> to manipulate it - see <code>kbd-0.90</code>.
+		Andries Brouwer added support for sequences of Unicode values
+		and the psf2 format in Sep 1999 in order to handle Tibetan -
+		see <code>kbd-1.00</code>.</p>
+
+		<hr/>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="font-formats.html">Previous</a></li>
+				<li class="next"><a href="font-formats-2.html">Next</a></li>
+			</ul>
+		</nav>
+</body>
+</html>

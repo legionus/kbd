@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Font-formats recognized by the Linux kbd package: CP and raw fonts</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="font-formats-3.html">Previous</a></li>
+				<li class="next"><a href="font-formats.html">Next</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-header">
+			<h2><a name="s4">4. CP and raw fonts</a></h2>
+		</div>
+
+		<p>PSF is the Linux standard font format, but various old and very
+		obsolete formats still exist.</p>
+
+		<p>CP font files are just fragments of CPI fonts, obtained by concatenating
+		<code>CPEntryHeader</code> (28 bytes), <code>FontDataHeader</code> (6 bytes),
+		and for each font <code>ScreenFontHeader</code> (6 bytes) and
+		<code>ScreenFontData</code>, that is, the part of a CPI font describing
+		one code page.</p>
+
+		<p>(History: the first <code>.cp</code> files used with Linux that I know of
+		were <code>972.cp</code> and <code>880.cp</code> included in
+		<code>codepage.tar.gz</code> by Joel M. Hoffman, dated June 14, 1992.
+		Support for such files was added in <code>kbd-0.84</code>.)</p>
+
+		<p>Of the <code>CPEntryHeader</code>, the only meaningful field is <code>codepage</code>.
+		Of the <code>FontDataHeader</code>, the only meaningful fields are
+		<code>num_fonts</code> (1 or 3) and <code>size</code>, giving the size
+		of the following <code>ScreenFontData</code>.
+		A CP file containing three fonts of pointsizes 16, 14, 8 will have
+		size 34+(6+16*256)+(6+14*256)+(6+8*256) = 9780 bytes, with the three
+		fonts at offsets 40, 4142, 7732.
+		A CP file containing one font of point size 16 will have size
+		34+(6+16*256) = 4136 bytes, with the font at offset 40.</p>
+
+		<p>There are other sources of fonts, and binary files with a length
+		that is a multiple of 256 or a multiple of 256 plus 40 are
+		accepted as possible binary font data (perhaps with a 40-byte
+		header) for fonts of size 256.</p>
+
+		<p>Binary font files of size 32768 are treated as binary font data
+		for a 512-char font of height 32. Such files are written by
+		the obsolete <code>restorefont -w</code>.</p>
+
+		<hr/>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="font-formats-3.html">Previous</a></li>
+				<li class="next"><a href="font-formats.html">Next</a></li>
+			</ul>
+		</nav>
+</body>
+</html>

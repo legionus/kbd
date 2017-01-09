@@ -4,7 +4,7 @@ Content-type: text/html
 </HEAD><BODY>
 <H1>SETKEYCODES</H1>
 Section: Keyboard Support (8)<BR>Updated: 8 Nov 1994<BR><A HREF="#index">Index</A>
-<A HREF="../index.html">Return to Main Contents</A><HR>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
@@ -37,7 +37,7 @@ recognize.
 
 The usual PC keyboard produces a series of scancodes for each
 key press and key release. (Scancodes are shown by
-<B>showkey -s</B>, see <A HREF="../man1/showkey.1.html">showkey</A>(1).)
+<B>showkey -s</B>, see <A HREF="http://localhost/cgi-bin/man/man2html?1+showkey">showkey</A>(1).)
 The kernel parses this stream of scancodes, and converts it to
 a stream of keycodes (key press/release events).
 (Keycodes are shown by <B>showkey</B>.)
@@ -49,13 +49,13 @@ scancodes xx (7 bits) and escaped scancodes e0 xx (8+7 bits).
 To these scancodes or scancode pairs, a corresponding keycode can be
 assigned (in the range 1-127).
 For example, if you have a Macro key that produces e0 6f according
-to <A HREF="../man1/showkey.1.html">showkey</A>(1), the command
+to <A HREF="http://localhost/cgi-bin/man/man2html?1+showkey">showkey</A>(1), the command
 <DL COMPACT><DT><DD>
 <B>setkeycodes e06f 112</B>
 
 </DL>
 
-will assign the keycode 112 to it, and then <A HREF="../man1/loadkeys.1.html">loadkeys</A>(1) can be used
+will assign the keycode 112 to it, and then <A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A>(1) can be used
 to define the function of this key.
 <P>
 
@@ -73,7 +73,7 @@ In 2.6 kernels key codes lie in the range 1-255, instead of 1-127.
 In 2.6 kernels raw mode, or scancode mode, is not very raw at all.
 The code returned by showkey -s will change after use of setkeycodes.
 A kernel bug. See also
-<B><A HREF="../man1/showkey.1.html">showkey</A></B>(1).
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+showkey">showkey</A></B>(1).
 
 <A NAME="lbAG">&nbsp;</A>
 <H2>OPTIONS</H2>
@@ -109,6 +109,6 @@ Unusual keys can be made visible under Linux, but not under X.
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 00:15:50 GMT, October 30, 2011
+Time: 08:23:39 GMT, January 09, 2017
 </BODY>
 </HTML>

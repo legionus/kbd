@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes: Keyboard-internal scancodes</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-9.html">Previous</a></li>
+				<li class="next"><a href="scancodes-11.html">Next</a></li>
+			</ul>
+		</nav>
+		<div class="page-header">
+			<h2><a name="scancodesets"></a> <a name="s10">10. Keyboard-internal scancodes</a></h2>
+		</div>
+
+		<div class="page-header">
+			<h3><a name="ss10.1">10.1 Three scancode sets</a></h3>
+		</div>
+
+		<p>The usual PC keyboards are capable of producing three sets of scancodes.
+		Writing 0xf0 followed by 1, 2 or 3 to port 0x60 will put the keyboard
+		in scancode mode 1, 2 or 3. Writing 0xf0 followed by 0 queries the mode,
+		resulting in a scancode byte <b>43</b>, <b>41</b> or <b>3f</b>
+		from the keyboard.</p>
+
+		<p>Set 1 contains the values that the XT keyboard (with only one set
+		of scancodes) produced, with extensions for new keys. Someone
+		decided that another numbering was more logical and invented
+		scancode Set 2. However, it was realized that new scancodes
+		would break old programs, so the keyboard output was fed to a
+		8042 microprocessor on the motherboard that could translate Set 2
+		back into Set 1. Indeed a smart construction. This is the default today.
+		Finally there is the PS/2 version, Set 3, more regular, but used by
+		almost nobody.</p>
+
+		<p>(I wrote this long ago. Nowadays Linux 2.5 may try to use Set 3.
+		Also certain HP machines, like the PS/2 version of the HP9000
+		workstation, have used Set 3.)</p>
+
+		<p>Sets 2 and 3 are designed to be translated by the 8042.
+		Set 1 should not be translated.</p>
+
+		<p>Not all keyboards support all scancode sets. For example, my MyCom
+		laptop only supports scancode Set 2, and its keyboard does not react
+		at all when in mode 1 or 3.</p>
+
+		<div class="page-header">
+			<h3><a name="ss10.2">10.2 Make and Break codes</a></h3>
+		</div>
+
+		<p>The key press / key release is coded as follows:</p>
+
+		<p>For Set 1, if the make code of a key is <i>c</i>, the break code
+		will be <i>c</i>+0x80. If the make code is <b>e0</b> <i>c</i>,
+		the break code will be <b>e0</b> <i>c</i>+0x80.
+		The Pause key has make code <b>e1</b> <b>1d</b> <b>45</b>
+		<b>e1</b> <b>9d</b> <b>c5</b> and does not generate a break code.</p>
+
+		<p>For Set 2, if the make code of a key is <i>c</i>, the break code
+		will be <b>f0</b> <i>c</i>. If the make code is <b>e0</b> <i>c</i>,
+		the break code will be <b>e0</b> <b>f0</b> <i>c</i>.
+		The Pause key has the 8-byte make code <b>e1</b> <b>14</b> <b>77</b>
+		<b>e1</b> <b>f0</b> <b>14</b> <b>f0</b> <b>77</b>.</p>
+
+		<p>For Set 3, by default most keys do not generate a break code - only CapsLock,
+		LShift, RShift, LCtrl and LAlt do. However, by default all non-traditional
+		keys do generate a break code - thus, LWin, RWin, Menu do, and for example
+		on the Microsoft Internet keyboard, so do Back, Forward, Stop,
+		Mail, Search, Favorites, Web/Home, MyComputer, Calculator, Sleep.
+		On my BTC keyboard, also the Macro key does.</p>
+
+		<p>In Scancode Mode 3 it is possible to enable or disable key repeat
+		and the production of break codes either on a key-by-key basis
+		or for all keys at once.
+		And just like for Set 2, key release is indicated by a <b>f0</b> prefix
+		in those cases where it is indicated.
+		There is nothing special with the Pause key in scancode mode 3.</p>
+
+		<div class="page-header">
+			<h3><a name="ss10.3">10.3 Translation</a></h3>
+		</div>
+
+		<p>The 8042 microprocessor translates the incoming byte stream produced
+		by the keyboard, and turns an <b>f0</b> prefix into an OR with
+		<b>80</b> for the next byte.
+		<a name="contagious"></a> 
+		(Some implementations do this for the next byte that does not have
+		this bit set already. A consequence is that in Set 3 the keys with Set-3
+		value 0x80 or more are broken in a peculiar way: hitting such a key and
+		then some other key turns the make code for this last key into a break code.
+		For example the Sleep key on a Microsoft Internet keyboard generates
+		<b>54</b> / <b>d4</b> for press/release. But pressing and
+		releasing first Menu and then Sleep produces
+		<b>8d</b> <b>8d</b> <b>d4</b> <b>d4</b> as translation of
+		<b>8d</b> <b>f0</b> <b>8d</b> <b>54</b> <b>f0</b> <b>54</b>.
+		Other implementations are OK.)</p>
+
+		<p>Unless told not to translate, the keyboard controller translates
+		keyboard scancodes into the scancodes it returns to the CPU
+		using the following table (in hex):</p>
+
+		<table class="table table-bordered"><tr><td>
+		</td><td> 00 </td><td> 01 </td><td> 02 </td><td> 03 </td><td> 04 </td><td> 05 </td><td> 06 </td><td> 07 </td><td> 08 </td><td> 09 </td><td> 0a </td><td> 0b </td><td> 0c </td><td> 0d </td><td> 0e </td><td> 0f </td></tr><tr><td>
+		00 </td><td> ff </td><td> 43 </td><td> 41 </td><td> 3f </td><td> 3d </td><td> 3b </td><td> 3c </td><td> 58 </td><td> 64 </td><td> 44 </td><td> 42 </td><td> 40 </td><td> 3e </td><td> 0f </td><td> 29 </td><td> 59 </td></tr><tr><td>
+		10 </td><td> 65 </td><td> 38 </td><td> 2a </td><td> 70 </td><td> 1d </td><td> 10 </td><td> 02 </td><td> 5a </td><td> 66 </td><td> 71 </td><td> 2c </td><td> 1f </td><td> 1e </td><td> 11 </td><td> 03 </td><td> 5b </td></tr><tr><td>
+		20 </td><td> 67 </td><td> 2e </td><td> 2d </td><td> 20 </td><td> 12 </td><td> 05 </td><td> 04 </td><td> 5c </td><td> 68 </td><td> 39 </td><td> 2f </td><td> 21 </td><td> 14 </td><td> 13 </td><td> 06 </td><td> 5d </td></tr><tr><td>
+		30 </td><td> 69 </td><td> 31 </td><td> 30 </td><td> 23 </td><td> 22 </td><td> 15 </td><td> 07 </td><td> 5e </td><td> 6a </td><td> 72 </td><td> 32 </td><td> 24 </td><td> 16 </td><td> 08 </td><td> 09 </td><td> 5f </td></tr><tr><td>
+		40 </td><td> 6b </td><td> 33 </td><td> 25 </td><td> 17 </td><td> 18 </td><td> 0b </td><td> 0a </td><td> 60 </td><td> 6c </td><td> 34 </td><td> 35 </td><td> 26 </td><td> 27 </td><td> 19 </td><td> 0c </td><td> 61 </td></tr><tr><td>
+		50 </td><td> 6d </td><td> 73 </td><td> 28 </td><td> 74 </td><td> 1a </td><td> 0d </td><td> 62 </td><td> 6e </td><td> 3a </td><td> 36 </td><td> 1c </td><td> 1b </td><td> 75 </td><td> 2b </td><td> 63 </td><td> 76 </td></tr><tr><td>
+		60 </td><td> 55 </td><td> 56 </td><td> 77 </td><td> 78 </td><td> 79 </td><td> 7a </td><td> 0e </td><td> 7b </td><td> 7c </td><td> 4f </td><td> 7d </td><td> 4b </td><td> 47 </td><td> 7e </td><td> 7f </td><td> 6f </td></tr><tr><td>
+		70 </td><td> 52 </td><td> 53 </td><td> 50 </td><td> 4c </td><td> 4d </td><td> 48 </td><td> 01 </td><td> 45 </td><td> 57 </td><td> 4e </td><td> 51 </td><td> 4a </td><td> 37 </td><td> 49 </td><td> 46 </td><td> 54 </td></tr><tr><td>
+		80 </td><td> 80?</td><td> 81 </td><td> 82 </td><td> 41 </td><td> 54 </td><td> 85 </td><td> 86 </td><td> 87 </td><td> 88 </td><td> 89 </td><td> 8a </td><td> 8b </td><td> 8c </td><td> 8d </td><td> 8e </td><td> 8f </td></tr><tr><td>
+		90 </td><td> 90 </td><td> 91 </td><td> 92 </td><td> 93 </td><td> 94 </td><td> 95 </td><td> 96 </td><td> 97 </td><td> 98 </td><td> 99 </td><td> 9a </td><td> 9b </td><td> 9c </td><td> 9d </td><td> 9e </td><td> 9f </td></tr><tr><td>
+		a0 </td><td> a0 </td><td> a1 </td><td> a2 </td><td> a3 </td><td> a4 </td><td> a5 </td><td> a6 </td><td> a7 </td><td> a8 </td><td> a9 </td><td> aa </td><td> ab </td><td> ac </td><td> ad </td><td> ae </td><td> af </td></tr><tr><td>
+		b0 </td><td> b0 </td><td> b1 </td><td> b2 </td><td> b3 </td><td> b4 </td><td> b5 </td><td> b6 </td><td> b7 </td><td> b8 </td><td> b9 </td><td> ba </td><td> bb </td><td> bc </td><td> bd </td><td> be </td><td> bf </td></tr><tr><td>
+		c0 </td><td> c0 </td><td> c1 </td><td> c2 </td><td> c3 </td><td> c4 </td><td> c5 </td><td> c6 </td><td> c7 </td><td> c8 </td><td> c9 </td><td> ca </td><td> cb </td><td> cc </td><td> cd </td><td> ce </td><td> cf </td></tr><tr><td>
+		d0 </td><td> d0 </td><td> d1 </td><td> d2 </td><td> d3 </td><td> d4 </td><td> d5?</td><td> d6 </td><td> d7 </td><td> d8 </td><td> d9?</td><td> da?</td><td> db </td><td> dc </td><td> dd </td><td> de </td><td> df </td></tr><tr><td>
+		e0 </td><td> e0 </td><td> e1 </td><td> e2 </td><td> e3 </td><td> e4 </td><td> e5 </td><td> e6 </td><td> e7 </td><td> e8 </td><td> e9 </td><td> ea </td><td> eb </td><td> ec </td><td> ed </td><td> ee </td><td> ef?</td></tr><tr><td>
+		f0 </td><td> - </td><td> f1?</td><td> f2?</td><td> f3?</td><td> f4?</td><td> f5?</td><td> f6?</td><td> f7?</td><td> f8?</td><td> f9?</td><td> fa?</td><td> fb?</td><td> fc?</td><td> fd?</td><td> fe?</td><td> ff </td></tr>
+		</table>
+
+		<p>A reference for the first half of this table is the book by Gary J Konzak
+		<i>PC 8042 Controller</i>, ISBN 0-929392-21-3.
+		(Report by <code>vojtech@suse.cz</code>.)</p>
+
+		<p>A way to check this table is: (i) put the keyboard in untranslated modes
+		1, 2, 3 and look at the 
+		<a href="table.h">resulting values</a>,
+		and (ii) put the keyboard in translated scancode modes 1, 2, 3. Now compare
+		the values. The entries with question marks were not checked in this way.</p>
+
+		<p>Note that the range <b>01</b>-<b>7f</b> of this table is 1-1.
+		In the second half of the table, translated and untranslated values
+		are equal in all known cases, with the two exceptions <b>83</b> and <b>84</b>.</p>
+
+		<p>One asks the controller to transmit untranslated scancodes by writing
+		a keyboard controller command with bit 5 set and bit 6 cleared.
+		E.g., use the command byte <b>45</b> to get translated codes,
+		and <b>24</b> to get untranslated codes that do not cause interrupts.</p>
+
+		<h4>Effects of translation</h4>
+
+		<h4>Origin of strange scan code set values</h4>
+
+		<p>The keyboard command <b>f0</b> with argument 1, 2 or 3
+		sets the current scancode set, and this same command
+		with argument 0 asks for the current scancode set.
+		The reply is <b>43</b>, <b>41</b> or <b>3f</b>
+		for sets 1, 2, 3. Why? Because in reality the reply is 1, 2 or 3,
+		and that is what one sees when translation is off. But translation
+		turns these into <b>43</b>, <b>41</b>, <b>3f</b>.</p>
+
+		<h4><a name="keyboardid"></a> Keyboard IDs</h4>
+
+		<p>Keyboards do report an ID as a reply to the command
+		<b><a href="scancodes-12.html#kcf2">f2</a></b>.
+		(An XT keyboard does not reply, an AT keyboard only replies with an ACK.)
+		An MF2 AT keyboard reports ID <b>ab</b> <b>83</b>.
+		Translation turns this into <b>ab</b> <b>41</b>.</p>
+
+		<p>Many short keyboards, like IBM ThinkPads, and Spacesaver keyboards,
+		send <b>ab</b> <b>84</b> untranslated,
+		which becomes <b>ab</b> <b>54</b> translated.
+		(The netbsd source has a misunderstanding here, and seems to associate
+		the <b>54</b> and <b>84</b> to the ThinkPad model - cf. the defines
+		KEYB_R_MF2ID2TP75X, KEYB_R_MF2ID2TP76X.)</p>
+
+		<p>Several 122-key keyboards are reported to send <b>ab</b> <b>86</b>.
+		Here translated and untranslated values coincide.
+		(Reports mention "122-Key Enhanced Keyboard", "standard 122-key keyboard",
+		"122 Key Mainframe Interactive (MFI) Keyboard".)</p>
+
+		<p>David Monro reports <b>ab</b> <b>85</b> for a
+		<a href="scancodes-7.html#NCD97">NCD N-97</a> keyboard.
+		Tim Clarke reports <b>ab</b> <b>85</b> for the
+		"122-Key Host Connect(ed) Keyboard".</p>
+
+		<p>He also reports
+		<i>Also, when playing with my KVM problems Belkin gave me a
+		105-key Windows keyboard which Id.s itself as 18ABh</i>.</p>
+
+		<p>Linux 2.5.25 kernel source has 0xaca1 for a
+		"NCD Sun layout keyboard". It also mentions 0xab02 and 0xab7f,
+		but these arise as (mistaken) back translations from
+		<b>ab</b> <b>41</b> and <b>ab</b> <b>54</b>.</p>
+
+		<p>Ralph Brown's Interrupt list mentions "old Japanese 'G', 'P', 'A' keyboards",
+		with keyboard IDs <b>ab</b> <b>90</b>, <b>ab</b> <b>91</b>,
+		<b>ab</b> <b>92</b>. Here translated and untranslated versions
+		coincide. ID <b>ab</b> <b>90</b> was also mentioned
+		<a href="scancodes-8.html#bradford">above</a>.</p>
+
+		<div class="page-header">
+			<h3><a name="ss10.4">10.4 Correspondence</a></h3>
+		</div>
+
+		<p>For the traditional keys the correspondence is fairly clear:
+		above we saw the <a href="#translationtable">translation table</a>,
+		and Set 1 equals translated Set 2, and Set 3 equals Set 2 in most cases
+		where Set 2 has a single (non-escaped) scancode,
+		and in any case the correspondence is constant (and given
+		<a href="#correspondence">below</a>).</p>
+
+		<p>On the other hand, modern keyboards have all kinds of multimedia
+		and other additional keys, and what happens for them is completely
+		random, and varies from keyboard to keyboard.</p>
+
+		<p>Let us look at an example.</p>
+
+		<p>The <a href="scancodes-6.html#msinternet">Microsoft Internet keyboard</a>
+		has keys Search, Favorites, Stop, Forward, Back, My Computer,
+		Mail, Web / Home, Calculator with translated Set 3 scancodes
+		<b>65</b>, <b>66</b>, <b>68</b>, <b>69</b>, <b>6a</b>,
+		<b>6b</b>, <b>6c</b>, <b>97</b>, <b>99</b>, respectively,
+		and translated Set 2 scancodes <b>e0</b> <i>xx</i>, with
+		<i>xx</i> = <b>65</b>, <b>66</b>, <b>68</b>, <b>69</b>,
+		<b>6a</b>, <b>6b</b>, <b>6c</b>, <b>32</b>, <b>21</b>.</p>
+
+		<p>On the other hand, the
+		<a href="scancodes-6.html#ibmrapidaccessii">IBM Rapid Access II keyboard</a>
+		has keys CD stop, CD play, Volume D, Volume U, CD back, CD fwd
+		with translated Set 3 scancodes
+		<b>69</b>, <b>6a</b>, <b>6b</b>, <b>6c</b>, <b>6d</b>, <b>44</b>,
+		and translated Set 2 scancodes <b>e0</b> <i>xx</i>, with
+		<i>xx</i> = <b>20</b>, <b>22</b>, <b>21</b>, <b>23</b>,
+		<b>24</b>, <b>12</b>.</p>
+
+		<p>Thus, different keyboards have different mappings between Set 2
+		and Set 3 codes.</p>
+
+		<div class="page-header">
+			<h3><a name="ss10.5">10.5 Use</a></h3>
+		</div>
+
+		<p>Can these other scancode sets be used? Probably not.</p>
+
+		<p>() Translated scancode Set 1 has weird codes that nobody wants to use.</p>
+
+		<p>(i) My MyCom laptop does not support scancode sets 1 and 3 at all.</p>
+
+		<p>(ii) Some laptops have special key combinations that bring one
+		into a setup or configuration utility. It is impossible to do
+		anything useful, or to get out of it again, when the scancode mode
+		is not translated Set 2.</p>
+
+		<p>(iii) Many keyboards have bugs in scancode sets 1 and/or 3 but
+		are fine in scancode Set 2.
+		Vojtech Pavlik reports that his BTC keyboard has the same codes
+		for the '1' and '2' keys in Set3, both having the code for '1').
+		On my BTC keyboard the key up value for Esc and 1 are both <b>ff</b>
+		in scancode Set 1. My Safeway keyboard has untranslated Set 1 equal
+		to translated Set 2, except for the multimedia keys, where
+		untranslated Set 1 equals untranslated Set 2.</p>
+
+		<p>(iv) A big advantage of Set 3 is that each key generates a unique code
+		so that one does not need to parse sequences. However, the BTC keyboard
+		mentioned <a href="scancodes-5.html#BTC">above</a> generates <b>e0</b> <b>6f</b>
+		for its Macro key also in scancode mode 3. The Safeway keyboard mentioned
+		<a href="scancodes-6.html#safeway23">above</a> does not generate any codes
+		for its multimedia keys in scancode mode 3.</p>
+
+		<p>(v) Some keyboard controllers cannot handle Set 3 values that are
+		larger than 0x7f, and give <a href="#contagious">peculiar results</a>
+		for e.g. the Windows keys in translated scancode mode 3.
+		The result is that the following key is "eaten": the key down action
+		turns into a key up.</p>
+
+		<p>(vi) The USB legacy support only supports translated Set 2.</p>
+
+		<p>(vii) The <a href="http://www.microsoft.com/hwdev/download/desinit/scancode.zip">Microsoft Keyboard Scan Code Specification</a> writes:
+		In the very early days of Windows NT, an attempt was made
+		to use the much more orthogonal Scan Code Set 3, but due to bugs
+		in the implementation of this Scan Code Set on numerous OEM
+		keyboards, the idea was abandoned.
+		And also: Scan Code Set 3 is not used or required for operation
+		of Microsoft operating systems.</p>
+
+		<p>(viii) Others also tried Set 3. The PS/2 version of the HP9000
+		workstation uses it. This is fine with HP's keyboards but causes
+		some problems with foreign keyboards.</p>
+
+		<p>(ix) It is said that Hal Snyder of Mark Williams, Co remarked:
+		"We find that about 10% of cheap no-name keyboards do not work
+		in scan code set 3".</p>
+
+		<p>(x) These days Linux probes the keyboard, and may try to enable Set 3.
+		This is good for learning a lot about strange keyboards.
+		It is bad for having a stable system that just works.</p>
+
+		<div class="page-header">
+			<h3><a name="correspondence"></a> <a name="ss10.6">10.6 A table</a></h3>
+		</div>
+
+		<p>(USB codes in decimal, scancodes in hex.)</p>
+
+		<table class="table table-bordered"><tr><td>
+		# </td><td> USB </td><td> Set 1 </td><td> X(Set 1) </td><td> Set 2 </td><td> X(Set 2) </td><td> Set 3 </td><td> X(Set 3) </td><td> keycap </td></tr><tr><td>
+		1 </td><td> 53 </td><td> 29 </td><td> 39 </td><td> 0e </td><td> 29 </td><td> 0e </td><td> 29 </td><td> ` ~ </td></tr><tr><td>
+		2 </td><td> 30 </td><td> 02 </td><td> 41 </td><td> 16 </td><td> 02 </td><td> 16 </td><td> 02 </td><td> 1 ! </td></tr><tr><td>
+		3 </td><td> 31 </td><td> 03 </td><td> 3f </td><td> 1e </td><td> 03 </td><td> 1e </td><td> 03 </td><td> 2 @ </td></tr><tr><td>
+		4 </td><td> 32 </td><td> 04 </td><td> 3d </td><td> 26 </td><td> 04 </td><td> 26 </td><td> 04 </td><td> 3 # </td></tr><tr><td>
+		5 </td><td> 33 </td><td> 05 </td><td> 3b </td><td> 25 </td><td> 05 </td><td> 25 </td><td> 05 </td><td> 4 $ </td></tr><tr><td>
+		6 </td><td> 34 </td><td> 06 </td><td> 3c </td><td> 2e </td><td> 06 </td><td> 2e </td><td> 06 </td><td> 5 % E </td></tr><tr><td>
+		7 </td><td> 35 </td><td> 07 </td><td> 58 </td><td> 36 </td><td> 07 </td><td> 36 </td><td> 07 </td><td> 6 ^ </td></tr><tr><td>
+		8 </td><td> 36 </td><td> 08 </td><td> 64 </td><td> 3d </td><td> 08 </td><td> 3d </td><td> 08 </td><td> 7 &amp; </td></tr><tr><td>
+		9 </td><td> 37 </td><td> 09 </td><td> 44 </td><td> 3e </td><td> 09 </td><td> 3e </td><td> 09 </td><td> 8 * </td></tr><tr><td>
+		10 </td><td> 38 </td><td> 0a </td><td> 42 </td><td> 46 </td><td> 0a </td><td> 46 </td><td> 0a </td><td> 9 ( </td></tr><tr><td>
+		11 </td><td> 39 </td><td> 0b </td><td> 40 </td><td> 45 </td><td> 0b </td><td> 45 </td><td> 0b </td><td> 0 ) </td></tr><tr><td>
+		12 </td><td> 45 </td><td> 0c </td><td> 3e </td><td> 4e </td><td> 0c </td><td> 4e </td><td> 0c </td><td> - _ </td></tr><tr><td>
+		13 </td><td> 46 </td><td> 0d </td><td> 0f </td><td> 55 </td><td> 0d </td><td> 55 </td><td> 0d </td><td> = + </td></tr><tr><td>
+		15 </td><td> 42 </td><td> 0e </td><td> 29 </td><td> 66 </td><td> 0e </td><td> 66 </td><td> 0e </td><td> Backspace </td></tr><tr><td>
+		16 </td><td> 43 </td><td> 0f </td><td> 59 </td><td> 0d </td><td> 0f </td><td> 0d </td><td> 0f </td><td> Tab </td></tr><tr><td>
+		17 </td><td> 20 </td><td> 10 </td><td> 65 </td><td> 15 </td><td> 10 </td><td> 15 </td><td> 10 </td><td> Q </td></tr><tr><td>
+		18 </td><td> 26 </td><td> 11 </td><td> 38 </td><td> 1d </td><td> 11 </td><td> 1d </td><td> 11 </td><td> W </td></tr><tr><td>
+		19 </td><td> 8 </td><td> 12 </td><td> 2a </td><td> 24 </td><td> 12 </td><td> 24 </td><td> 12 </td><td> E </td></tr><tr><td>
+		20 </td><td> 21 </td><td> 13 </td><td> 70 </td><td> 2d </td><td> 13 </td><td> 2d </td><td> 13 </td><td> R </td></tr><tr><td>
+		21 </td><td> 23 </td><td> 14 </td><td> 1d </td><td> 2c </td><td> 14 </td><td> 2c </td><td> 14 </td><td> T </td></tr><tr><td>
+		22 </td><td> 28 </td><td> 15 </td><td> 10 </td><td> 35 </td><td> 15 </td><td> 35 </td><td> 15 </td><td> Y </td></tr><tr><td>
+		23 </td><td> 24 </td><td> 16 </td><td> 02 </td><td> 3c </td><td> 16 </td><td> 3c </td><td> 16 </td><td> U </td></tr><tr><td>
+		24 </td><td> 12 </td><td> 17 </td><td> 5a </td><td> 43 </td><td> 17 </td><td> 43 </td><td> 17 </td><td> I </td></tr><tr><td>
+		25 </td><td> 18 </td><td> 18 </td><td> 66 </td><td> 44 </td><td> 18 </td><td> 44 </td><td> 18 </td><td> O </td></tr><tr><td>
+		26 </td><td> 19 </td><td> 19 </td><td> 71 </td><td> 4d </td><td> 19 </td><td> 4d </td><td> 19 </td><td> P </td></tr><tr><td>
+		27 </td><td> 47 </td><td> 1a </td><td> 2c </td><td> 54 </td><td> 1a </td><td> 54 </td><td> 1a </td><td> [ { </td></tr><tr><td>
+		28 </td><td> 48 </td><td> 1b </td><td> 1f </td><td> 5b </td><td> 1b </td><td> 5b </td><td> 1b </td><td> ] } </td></tr><tr><td>
+		29 </td><td> 49 </td><td> 2b </td><td> 21 </td><td> 5d </td><td> 2b </td><td> 5c </td><td> 75 </td><td> \ | </td></tr><tr><td>
+		30 </td><td> 57 </td><td> 3a </td><td> 32 </td><td> 58 </td><td> 3a </td><td> 14 </td><td> 1d </td><td> CapsLock </td></tr><tr><td>
+		31 </td><td> 4 </td><td> 1e </td><td> 03 </td><td> 1c </td><td> 1e </td><td> 1c </td><td> 1e </td><td> A </td></tr><tr><td>
+		32 </td><td> 22 </td><td> 1f </td><td> 5b </td><td> 1b </td><td> 1f </td><td> 1b </td><td> 1f </td><td> S </td></tr><tr><td>
+		33 </td><td> 7 </td><td> 20 </td><td> 67 </td><td> 23 </td><td> 20 </td><td> 23 </td><td> 20 </td><td> D </td></tr><tr><td>
+		34 </td><td> 9 </td><td> 21 </td><td> 2e </td><td> 2b </td><td> 21 </td><td> 2b </td><td> 21 </td><td> F </td></tr><tr><td>
+		35 </td><td> 10 </td><td> 22 </td><td> 2d </td><td> 34 </td><td> 22 </td><td> 34 </td><td> 22 </td><td> G </td></tr><tr><td>
+		36 </td><td> 11 </td><td> 23 </td><td> 20 </td><td> 33 </td><td> 23 </td><td> 33 </td><td> 23 </td><td> H </td></tr><tr><td>
+		37 </td><td> 13 </td><td> 24 </td><td> 12 </td><td> 3b </td><td> 24 </td><td> 3b </td><td> 24 </td><td> J </td></tr><tr><td>
+		38 </td><td> 14 </td><td> 25 </td><td> 05 </td><td> 42 </td><td> 25 </td><td> 42 </td><td> 25 </td><td> K </td></tr><tr><td>
+		39 </td><td> 15 </td><td> 26 </td><td> 04 </td><td> 4b </td><td> 26 </td><td> 4b </td><td> 26 </td><td> L </td></tr><tr><td>
+		40 </td><td> 51 </td><td> 27 </td><td> 5c </td><td> 4c </td><td> 27 </td><td> 4c </td><td> 27 </td><td> ; : </td></tr><tr><td>
+		41 </td><td> 52 </td><td> 28 </td><td> 68 </td><td> 52 </td><td> 28 </td><td> 52 </td><td> 28 </td><td> ' " </td></tr><tr><td>
+		42 </td><td> 50 </td><td> 00 </td><td> ff </td><td> 00 </td><td> ff </td><td> 00 </td><td> ff </td><td> non-US-1 </td></tr><tr><td>
+		43 </td><td> 40 </td><td> 1c </td><td> 1e </td><td> 5a </td><td> 1c </td><td> 5a </td><td> 1c </td><td> Enter </td></tr><tr><td>
+		44 </td><td> 225 </td><td> 2a </td><td> 2f </td><td> 12 </td><td> 2a </td><td> 12 </td><td> 2a </td><td> LShift </td></tr><tr><td>
+		46 </td><td> 29 </td><td> 2c </td><td> 14 </td><td> 1a </td><td> 2c </td><td> 1a </td><td> 2c </td><td> Z </td></tr><tr><td>
+		47 </td><td> 27 </td><td> 2d </td><td> 13 </td><td> 22 </td><td> 2d </td><td> 22 </td><td> 2d </td><td> X </td></tr><tr><td>
+		48 </td><td> 6 </td><td> 2e </td><td> 06 </td><td> 21 </td><td> 2e </td><td> 21 </td><td> 2e </td><td> C </td></tr><tr><td>
+		49 </td><td> 25 </td><td> 2f </td><td> 5d </td><td> 2a </td><td> 2f </td><td> 2a </td><td> 2f </td><td> V </td></tr><tr><td>
+		50 </td><td> 5 </td><td> 30 </td><td> 69 </td><td> 32 </td><td> 30 </td><td> 32 </td><td> 30 </td><td> B </td></tr><tr><td>
+		51 </td><td> 17 </td><td> 31 </td><td> 31 </td><td> 31 </td><td> 31 </td><td> 31 </td><td> 31 </td><td> N </td></tr><tr><td>
+		52 </td><td> 16 </td><td> 32 </td><td> 30 </td><td> 3a </td><td> 32 </td><td> 3a </td><td> 32 </td><td> M </td></tr><tr><td>
+		53 </td><td> 54 </td><td> 33 </td><td> 23 </td><td> 41 </td><td> 33 </td><td> 41 </td><td> 33 </td><td> , &lt; </td></tr><tr><td>
+		54 </td><td> 55 </td><td> 34 </td><td> 22 </td><td> 49 </td><td> 34 </td><td> 49 </td><td> 34 </td><td> . &gt; </td></tr><tr><td>
+		55 </td><td> 56 </td><td> 35 </td><td> 15 </td><td> 4a </td><td> 35 </td><td> 4a </td><td> 35 </td><td> / ? </td></tr><tr><td>
+		57 </td><td> 229 </td><td> 36 </td><td> 07 </td><td> 59 </td><td> 36 </td><td> 59 </td><td> 36 </td><td> RShift </td></tr><tr><td>
+		58 </td><td> 224 </td><td> 1d </td><td> 11 </td><td> 14 </td><td> 1d </td><td> 11 </td><td> 38 </td><td> LCtrl </td></tr><tr><td>
+		60 </td><td> 226 </td><td> 38 </td><td> 6a </td><td> 11 </td><td> 38 </td><td> 19 </td><td> 71 </td><td> LAlt </td></tr><tr><td>
+		61 </td><td> 44 </td><td> 39 </td><td> 72 </td><td> 29 </td><td> 39 </td><td> 29 </td><td> 39 </td><td> space </td></tr><tr><td>
+		62 </td><td> 230 </td><td> e0-38 </td><td> e0-6a </td><td> e0-11 </td><td> e0-38 </td><td> 39 </td><td> 72 </td><td> RAlt </td></tr><tr><td>
+		64 </td><td> 228 </td><td> e0-1d </td><td> e0-11 </td><td> e0-14 </td><td> e0-1d </td><td> 58 </td><td> 3a </td><td> RCtrl </td></tr><tr><td>
+		75 </td><td> 73 </td><td> e0-52 </td><td> e0-28 </td><td> e0-70 </td><td> e0-52 </td><td> 67 </td><td> 7b </td><td> Insert </td></tr><tr><td>
+		76 </td><td> 76 </td><td> e0-53 </td><td> e0-74 </td><td> e0-71 </td><td> e0-53 </td><td> 64 </td><td> 79 </td><td> Delete </td></tr><tr><td>
+		80 </td><td> 74 </td><td> e0-47 </td><td> e0-60 </td><td> e0-6c </td><td> e0-47 </td><td> 6e </td><td> 7f </td><td> Home </td></tr><tr><td>
+		81 </td><td> 77 </td><td> e0-4f </td><td> e0-61 </td><td> e0-69 </td><td> e0-4f </td><td> 65 </td><td> 7a </td><td> End </td></tr><tr><td>
+		85 </td><td> 75 </td><td> e0-49 </td><td> e0-34 </td><td> e0-7d </td><td> e0-49 </td><td> 6f </td><td> 6f </td><td> PgUp </td></tr><tr><td>
+		86 </td><td> 78 </td><td> e0-51 </td><td> e0-73 </td><td> e0-7a </td><td> e0-51 </td><td> 6d </td><td> 7e </td><td> PgDn </td></tr><tr><td>
+		79 </td><td> 80 </td><td> e0-4b </td><td> e0-26 </td><td> e0-6b </td><td> e0-4b </td><td> 61 </td><td> 56 </td><td> Left </td></tr><tr><td>
+		83 </td><td> 82 </td><td> e0-48 </td><td> e0-6c </td><td> e0-75 </td><td> e0-48 </td><td> 63 </td><td> 78 </td><td> Up </td></tr><tr><td>
+		84 </td><td> 81 </td><td> e0-50 </td><td> e0-6d </td><td> e0-72 </td><td> e0-50 </td><td> 60 </td><td> 55 </td><td> Down </td></tr><tr><td>
+		89 </td><td> 79 </td><td> e0-4d </td><td> e0-19 </td><td> e0-74 </td><td> e0-4d </td><td> 6a </td><td> 7d </td><td> Right </td></tr><tr><td>
+		90 </td><td> 83 </td><td> 45 </td><td> 0b </td><td> 77 </td><td> 45 </td><td> 76 </td><td> 01 </td><td> NumLock </td></tr><tr><td>
+		91 </td><td> 95 </td><td> 47 </td><td> 60 </td><td> 6c </td><td> 47 </td><td> 6c </td><td> 47 </td><td> KP-7 / Home </td></tr><tr><td>
+		92 </td><td> 92 </td><td> 4b </td><td> 26 </td><td> 6b </td><td> 4b </td><td> 6b </td><td> 4b </td><td> KP-4 / Left </td></tr><tr><td>
+		93 </td><td> 89 </td><td> 4f </td><td> 61 </td><td> 69 </td><td> 4f </td><td> 69 </td><td> 4f </td><td> KP-1 / End </td></tr><tr><td>
+		95 </td><td> 84 </td><td> e0-35 </td><td> e0-15 </td><td> e0-4a </td><td> e0-35 </td><td> 77 </td><td> 45 </td><td> KP-/ </td></tr><tr><td>
+		96 </td><td> 96 </td><td> 48 </td><td> 6c </td><td> 75 </td><td> 48 </td><td> 75 </td><td> 48 </td><td> KP-8 / Up </td></tr><tr><td>
+		97 </td><td> 93 </td><td> 4c </td><td> 27 </td><td> 73 </td><td> 4c </td><td> 73 </td><td> 4c </td><td> KP-5 </td></tr><tr><td>
+		98 </td><td> 90 </td><td> 50 </td><td> 6d </td><td> 72 </td><td> 50 </td><td> 72 </td><td> 50 </td><td> KP-2 / Down </td></tr><tr><td>
+		99 </td><td> 98 </td><td> 52 </td><td> 28 </td><td> 70 </td><td> 52 </td><td> 70 </td><td> 52 </td><td> KP-0 / Ins </td></tr><tr><td>
+		100 </td><td> 85 </td><td> 37 </td><td> 5e </td><td> 7c </td><td> 37 </td><td> 7e </td><td> 46 </td><td> KP-* </td></tr><tr><td>
+		101 </td><td> 97 </td><td> 49 </td><td> 34 </td><td> 7d </td><td> 49 </td><td> 7d </td><td> 49 </td><td> KP-9 / PgUp </td></tr><tr><td>
+		102 </td><td> 94 </td><td> 4d </td><td> 19 </td><td> 74 </td><td> 4d </td><td> 74 </td><td> 4d </td><td> KP-6 / Right </td></tr><tr><td>
+		103 </td><td> 91 </td><td> 51 </td><td> 73 </td><td> 7a </td><td> 51 </td><td> 7a </td><td> 51 </td><td> KP-3 / PgDn </td></tr><tr><td>
+		104 </td><td> 99 </td><td> 53 </td><td> 74 </td><td> 71 </td><td> 53 </td><td> 71 </td><td> 53 </td><td> KP-. / Del </td></tr><tr><td>
+		105 </td><td> 86 </td><td> 4a </td><td> 35 </td><td> 7b </td><td> 4a </td><td> 84 </td><td> 54 </td><td> KP-- </td></tr><tr><td>
+		106 </td><td> 87 </td><td> 4e </td><td> 0c </td><td> 79 </td><td> 4e </td><td> 7c </td><td> 37 </td><td> KP-+ </td></tr><tr><td>
+		108 </td><td> 88 </td><td> e0-1c </td><td> e0-1e </td><td> e0-5a </td><td> e0-1c </td><td> 79 </td><td> 4e </td><td> KP-Enter </td></tr><tr><td>
+		110 </td><td> 41 </td><td> 01 </td><td> 43 </td><td> 76 </td><td> 01 </td><td> 08 </td><td> 64 </td><td> Esc </td></tr><tr><td>
+		112 </td><td> 58 </td><td> 3b </td><td> 24 </td><td> 05 </td><td> 3b </td><td> 07 </td><td> 58 </td><td> F1 </td></tr><tr><td>
+		113 </td><td> 59 </td><td> 3c </td><td> 16 </td><td> 06 </td><td> 3c </td><td> 0f </td><td> 59 </td><td> F2 </td></tr><tr><td>
+		114 </td><td> 60 </td><td> 3d </td><td> 08 </td><td> 04 </td><td> 3d </td><td> 17 </td><td> 5a </td><td> F3 </td></tr><tr><td>
+		115 </td><td> 61 </td><td> 3e </td><td> 09 </td><td> 0c </td><td> 3e </td><td> 1f </td><td> 5b </td><td> F4 </td></tr><tr><td>
+		116 </td><td> 62 </td><td> 3f </td><td> 5f </td><td> 03 </td><td> 3f </td><td> 27 </td><td> 5c </td><td> F5 </td></tr><tr><td>
+		117 </td><td> 63 </td><td> 40 </td><td> 6b </td><td> 0b </td><td> 40 </td><td> 2f </td><td> 5d </td><td> F6 </td></tr><tr><td>
+		118 </td><td> 64 </td><td> 41 </td><td> 33 </td><td> 83 </td><td> 41 </td><td> 37 </td><td> 5e </td><td> F7 </td></tr><tr><td>
+		119 </td><td> 65 </td><td> 42 </td><td> 25 </td><td> 0a </td><td> 42 </td><td> 3f </td><td> 5f </td><td> F8 </td></tr><tr><td>
+		120 </td><td> 66 </td><td> 43 </td><td> 17 </td><td> 01 </td><td> 43 </td><td> 47 </td><td> 60 </td><td> F9 </td></tr><tr><td>
+		121 </td><td> 67 </td><td> 44 </td><td> 18 </td><td> 09 </td><td> 44 </td><td> 4f </td><td> 61 </td><td> F10 </td></tr><tr><td>
+		122 </td><td> 68 </td><td> 57 </td><td> 6e </td><td> 78 </td><td> 57 </td><td> 56 </td><td> 62 </td><td> F11 </td></tr><tr><td>
+		123 </td><td> 69 </td><td> 58 </td><td> 3a </td><td> 07 </td><td> 58 </td><td> 5e </td><td> 63 </td><td> F12 </td></tr><tr><td>
+		124 </td><td> 70 </td><td> e0-37 </td><td> e0-5e </td><td> e0-7c </td><td> e0-37 </td><td> 57 </td><td> 6e </td><td> PrtScr </td></tr><tr><td>
+		0 </td><td> 154 </td><td> 54 </td><td> 1a </td><td> 84 </td><td> 54 </td><td> 57 </td><td> 6e </td><td> Alt+SysRq </td></tr><tr><td>
+		125 </td><td> 71 </td><td> 46 </td><td> 0a </td><td> 7e </td><td> 46 </td><td> 5f </td><td> 76 </td><td> ScrollLock </td></tr><tr><td>
+		126 </td><td> 72 </td><td> e1-1d-45 </td><td> e1-11-0b </td><td> e1-14-77 </td><td> e1-1d-45 </td><td> 62 </td><td> 77 </td><td> Pause </td></tr><tr><td>
+		0 </td><td> 0 </td><td> e0-46 </td><td> e0-0a </td><td> e0-7e </td><td> e0-46 </td><td> 62 </td><td> 77 </td><td> Ctrl+Break </td></tr><tr><td>
+		0 </td><td> 227 </td><td> e0-5b </td><td> e0-1b </td><td> e0-1f </td><td> e0-5b </td><td> 8b </td><td> 8b </td><td> LWin (USB: LGUI) </td></tr><tr><td>
+		0 </td><td> 231 </td><td> e0-5c </td><td> e0-75 </td><td> e0-27 </td><td> e0-5c </td><td> 8c </td><td> 8c </td><td> RWin (USB: RGUI) </td></tr><tr><td>
+		0 </td><td> 0 </td><td> e0-5d </td><td> e0-2b </td><td> e0-2f </td><td> e0-5d </td><td> 8d </td><td> 8d </td><td> Menu </td></tr><tr><td>
+		0 </td><td> 0 </td><td> e0-5f </td><td> e0-76 </td><td> e0-3f </td><td> e0-5f </td><td> 7f </td><td> 54 </td><td> Sleep </td></tr><tr><td>
+		0 </td><td> 0 </td><td> e0-5e </td><td> e0-63 </td><td> e0-37 </td><td> e0-5e </td><td> 00 </td><td> ff </td><td> Power </td></tr><tr><td>
+		0 </td><td> 0 </td><td> e0-63 </td><td> e0-78 </td><td> e0-5e </td><td> e0-63 </td><td> 00 </td><td> ff </td><td> Wake </td></tr>
+		</table>
+
+		<div class="page-header">
+			<h3><a name="ss10.7">10.7 Vendor extensions</a></h3>
+		</div>
+
+		<p><a name="logiteche2"></a> Logitech uses an <b>e2</b> prefix for the codes sent by a
+		pointing device integrated on the keyboard.</p>
+
+		<hr>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-9.html">Previous</a></li>
+				<li class="next"><a href="scancodes-11.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

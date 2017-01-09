@@ -4,7 +4,7 @@ Content-type: text/html
 </HEAD><BODY>
 <H1>DUMPKEYS</H1>
 Section: User Commands  (1)<BR>Updated: 1 Sep 1993<BR><A HREF="#index">Index</A>
-<A HREF="../index.html">Return to Main Contents</A><HR>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
@@ -16,13 +16,22 @@ dumpkeys - dump keyboard translation tables
 <B>dumpkeys</B>
 
 [
-<B>-hilfn</B>
+
+<B>-h --help -i --short-info -l -s --long-info</B>
+
+<B>-n --numeric -f --full-table -1 --separate-lines</B>
+
+<B>-S</B><I>shape</I>
+
+<B>--shape=</B><I>shape</I>
+
+<B>-t --funcs-only -k --keys-only -d --compose-only</B>
 
 <B>-c</B><I>charset</I>
 
-<B>--help --short-info --long-info --numeric --full-table --funcs-only --keys-only --compose-only</B>
-
 <B>--charset=</B><I>charset</I>
+
+<B>-v --verbose -V --version</B>
 
 ]
 <A NAME="lbAD">&nbsp;</A>
@@ -35,16 +44,16 @@ dumpkeys - dump keyboard translation tables
 
 writes, to the standard output, the current contents of the keyboard
 driver's translation tables, in the format specified by
-<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5).
+<B><A HREF="http://localhost/cgi-bin/man/man2html?5+keymaps">keymaps</A></B>(5).
 
 <P>
 
 Using the various options, the format of the output can be controlled
 and also other information from the kernel and the programs
-<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+dumpkeys">dumpkeys</A></B>(1)
 
 and
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
 can be obtained.
 <A NAME="lbAE">&nbsp;</A>
@@ -73,7 +82,7 @@ This tells what values can be used after the
 <B>keycode</B>
 
 keyword in keytable files. See
-<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?5+keymaps">keymaps</A></B>(5)
 
 for more information and the syntax of these files.
 </DL>
@@ -119,23 +128,23 @@ in a line
 <P>
 
 (see
-<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?5+keymaps">keymaps</A></B>(5)
 
 for more information about the format of key definition lines).
-<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+dumpkeys">dumpkeys</A></B>(1)
 
 and
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
 support a symbolic notation, which is preferable to the numeric one, as
 the action codes may vary from kernel to kernel while the symbolic names
 usually remain the same. However, the list of action code ranges can be
 used to determine, if the kernel actually supports all the symbols
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
 knows, or are there maybe some actions supported by the kernel that
 have no symbolic name in your
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
 program. To see this, you compare the range list with the action symbol
 list, see option
@@ -159,7 +168,7 @@ Especially if the number of this item is greater than the number of
 function and editing keys in your keyboard, you may have some &quot;spare&quot;
 action codes that you can bind to AltGr-letter combinations, for example,
 to send some useful strings. See
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
 for more details.
 </DL>
@@ -187,7 +196,7 @@ You can see you current function key definitions with the command
 <P>
 
 <DL COMPACT>
-<DT><B>-l --long-info</B>
+<DT><B>-l -s --long-info</B>
 
 <DD>
 This option instructs
@@ -197,10 +206,10 @@ to print a long information listing. The output is the same as with the
 <B>--short-info</B>
 
 appended with the list of action symbols supported by
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
 and
-<B><A HREF="../man1/dumpkeys.1.html">dumpkeys</A></B>(1),
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+dumpkeys">dumpkeys</A></B>(1),
 
 along with the symbols' numeric values.
 </DL>
@@ -226,7 +235,7 @@ This makes
 <B>dumpkeys</B>
 
 skip all the short-hand heuristics (see
-<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5))
+<B><A HREF="http://localhost/cgi-bin/man/man2html?5+keymaps">keymaps</A></B>(5))
 
 and output the key bindings in the canonical form. First a keymaps
 line describing the currently defined modifier combinations
@@ -242,7 +251,14 @@ output of
 <P>
 
 <DL COMPACT>
-<DT><B>--funcs-only</B>
+<DT><B>-S</B><I>shape</I><B> </B><I> </I><B>--shape=</B><I>shape</I>
+
+<DD>
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-t --funcs-only</B>
 
 <DD>
 When this option is given,
@@ -256,7 +272,7 @@ prints both the key bindings and the string definitions.
 <P>
 
 <DL COMPACT>
-<DT><B>--keys-only</B>
+<DT><B>-k --keys-only</B>
 
 <DD>
 When this option is given,
@@ -270,7 +286,7 @@ prints both the key bindings and the string definitions.
 <P>
 
 <DL COMPACT>
-<DT><B>--compose-only</B>
+<DT><B>-d --compose-only</B>
 
 <DD>
 When this option is given,
@@ -309,6 +325,21 @@ loadkeys how to interpret the keymap. (For example, &quot;division&quot; is
 </DL>
 <P>
 
+<DL COMPACT>
+<DT><B>-v --verbose</B>
+
+<DD>
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-V --version</B>
+
+<DD>
+Prints version number and exits.
+</DL>
+<P>
+
 <A NAME="lbAF">&nbsp;</A>
 <H2>FILES</H2>
 
@@ -323,9 +354,9 @@ recommended directory for keytable files
 <A NAME="lbAG">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
-<B><A HREF="../man1/loadkeys.1.html">loadkeys</A></B>(1),
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1),
 
-<B><A HREF="../man5/keymaps.5.html">keymaps</A></B>(5)
+<B><A HREF="http://localhost/cgi-bin/man/man2html?5+keymaps">keymaps</A></B>(5)
 
 <P>
 <P>
@@ -344,6 +375,6 @@ recommended directory for keytable files
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 00:03:38 GMT, October 30, 2011
+Time: 08:21:23 GMT, January 09, 2017
 </BODY>
 </HTML>

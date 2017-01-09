@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Keyboard scancodes: Keyboard commands</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-11.html">Previous</a></li>
+				<li class="next"><a href="scancodes-13.html">Next</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-header">
+			<h3><a name="s12">12. Keyboard commands</a></h3>
+		</div>
+
+		<p>One can not only talk to the keyboard controller (by writing to
+		port 0x64), but also to the keyboard (by writing to port 0x60).</p>
+
+		<p>In order to avoid interference between scancode sequences or
+		mouse packets and the reponses given to commands, the keyboard
+		or mouse should always be disabled before giving a command that
+		requires a response, and probably enabled afterwards.
+		Some keyboards or mice do the disable automatically in this
+		situation, but still require an explicit enable afterwards.</p>
+
+		<p>Each command (other than 0xfe) is ACKed by 0xfa.
+		Each unknown command is NACKed by 0xfe.
+		Some mice expect a corrected byte as reply to the 0xfe,
+		and will double-NACK with 0xfc when also that is wrong.</p>
+
+		<p>Here a list with the common commands.</p>
+
+		<table class="table table-bordered">
+		<tr><td>
+		<a href="#kced">0xed</a></td>
+		<td>Write LEDs</td>
+		</tr>
+		<tr><td>
+		<a href="#kcee">0xee</a></td>
+		<td>Diagnostic echo</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf0">0xf0</a></td>
+		<td>Set/Get scancode set</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf2">0xf2</a></td>
+		<td>Read keyboard ID</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf3">0xf3</a></td>
+		<td>Set repeat rate and delay</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf4">0xf4</a></td>
+		<td>Keyboard enable</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf5">0xf5</a></td>
+		<td>Set defaults and disable keyboard</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf6">0xf6</a></td>
+		<td>Set defaults</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf7">0xf7</a></td>
+		<td>Set all keys to repeat</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf8">0xf8</a></td>
+		<td>Set all keys to give make/break codes</td>
+		</tr>
+		<tr><td>
+		<a href="#kcf9">0xf9</a></td>
+		<td>Set all keys to give make codes only</td>
+		</tr>
+		<tr><td>
+		<a href="#kcfa">0xfa</a></td>
+		<td>Set all keys to repeat and give make/break codes</td>
+		</tr>
+		<tr><td>
+		<a href="#kcfb">0xfb</a></td>
+		<td>Set a single key to repeat</td>
+		</tr>
+		<tr><td>
+		<a href="#kcfc">0xfc</a></td>
+		<td>Set a single key to give make/break codes</td>
+		</tr>
+		<tr><td>
+		<a href="#kcfd">0xfd</a></td>
+		<td>Set a single key to give make codes only</td>
+		</tr>
+		<tr><td>
+		<a href="#kcfe">0xfe</a></td>
+		<td>Resend</td>
+		</tr>
+		<tr><td>
+		<a href="#kcff">0xff</a></td>
+		<td>Keyboard reset</td>
+		</tr>
+		</table>
+
+		<p>If the command is preceded by writing 0xd4 to port 0x64, then
+		it goes to the mouse instead of the keyboard. Common commands:</p>
+
+		<table class="table table-bordered">
+		<tr><td>
+		<a href="scancodes-13.html#mce6">0xe6</a></td>
+		<td>Set mouse scaling to 1:1</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mce7">0xe7</a></td>
+		<td>Set mouse scaling to 2:1</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mce8">0xe8</a></td>
+		<td>Set mouse resolution</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mce9">0xe9</a></td>
+		<td>Get mouse information</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mcf2">0xf2</a></td>
+		<td>Read mouse ID</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mcf3">0xf3</a></td>
+		<td>Set mouse sample rate</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mcf4">0xf4</a></td>
+		<td>Mouse enable</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mcf5">0xf5</a></td>
+		<td>Mouse disable</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mcf6">0xf6</a></td>
+		<td>Set defaults</td>
+		</tr>
+		<tr><td>
+		<a href="scancodes-13.html#mcff">0xff</a></td>
+		<td>Mouse reset</td>
+		</tr>
+		</table>
+
+		<div class="page-header">
+			<h3><a name="ss12.1">12.1 Keyboard command details</a></h3>
+		</div>
+
+		<p><i>Command <b>e8</b></i>: Nonstandard. Reported to give a
+		2-byte ID on an 
+		<a href="scancodes-5.html#omnikey">OmniKey</a> keyboard.</p>
+
+		<p><i>Command <b>ea</b></i>: Nonstandard. The sequences
+		<b>ea</b> <b>70</b> and <b>ea</b> <b>71</b> are
+		used by some IBM keyboards to disable and enable extra keys.</p>
+
+		<p><i>Command <b>eb</b></i>: Nonstandard. Sequences involving <b>eb</b>
+		are often used for 
+		<a href="scancodes-1.html#LEDmanip">manipulating extra LEDs</a>.</p>
+
+		<p><i>Command <b>ec</b></i>: Nonstandard. On the
+		<a href="scancodes-6.html#ibmrapidaccess">IBM Rapid Access keyboard</a>
+		this command yields a 2-byte ID.</p>
+
+		<p><i>Command <b>ed</b>: 
+		<a name="kced"></a> Write LEDs</i></p>
+
+		<p>
+		<blockquote>
+		This command is followed by a byte indicating the desired LEDs setting.
+		Bits 7-3: unused, 0.
+		Bit 2: 1: CapsLock LED on.
+		Bit 1: 1: NumLock LED on.
+		Bit 0: 1: ScrollLock LED on.
+		When OK, both bytes are ACKed. If the second byte is recognized as a
+		command, that command is ACKed and done instead. Otherwise a NACK is
+		returned (and a keyboard enable may be needed).
+		</blockquote></p>
+
+		<p><i>Command <b>ee</b>: 
+		<a name="kcee"></a> Diagnostic echo</i></p>
+
+		<p>
+		<blockquote>
+		This command returns a single byte, again <b>ee</b>.
+		</blockquote></p>
+
+		<p><i>Command <b>f0</b>: 
+		<a name="kcf0"></a> Set/Get scancode set</i></p>
+
+		<p>
+		<blockquote>
+		Many, but not all, keyboards can be switched to three different
+		<a href="scancodes-10.html#scancodesets">scancode sets</a>.
+		This command, followed by a byte <b>01</b>, <b>02</b>, or <b>03</b>
+		selects the corresponding scancode set. This command, followed by
+		a zero byte, reads the current scancode set. The reply (translated)
+		is <b>43</b>, <b>41</b> or <b>3f</b>, from untranslated 1, 2 or 3.
+		Note that scancode set 1 should not be translated, while sets
+		2 and 3 should be translated.
+
+		<p>Set 2 was introduced by the AT. Set 3 by the PS/2.</p>
+		</blockquote></p>
+
+		<p><i>Command <b>f2</b>: 
+		<a name="kcf2"></a> Read keyboard ID</i></p>
+
+		<p>
+		<blockquote>
+		This command reads a 2-byte 
+		<a href="scancodes-10.html#keyboardid">keyboard ID</a>.
+		XT keyboards do not answer at all (of course),
+		AT keyboards reply with an ACK (<b>fa</b>) only,
+		MF2 and other keyboards reply with a 2-byte ID.
+		Wait at least 10ms after issuing this command.
+
+		<p>For the mouse reply, see 
+		<a href="scancodes-13.html#mcf2">below</a>.
+		</blockquote></p>
+
+		<p><i>Command <b>f3</b>: 
+		<a name="kcf3"></a> Set repeat rate and delay</i></p>
+
+		<p>
+		A following byte gives the desired delay before a pressed key
+		starts repeating, and the repeat rate.</p>
+
+		<p>Bit 7: unused, 0.</p>
+
+		<p>Bits 6-5: 0, 1, 2, 3: 250, 500, 750, 1000 ms delay.
+		Default after reset is 500 ms.</p>
+
+		<p>Bits 4-0: inter-character delay. The number of characters per second
+		is given by</p>
+
+		<table class="table table-bordered">
+		<tr><td>
+		</td>
+		<td>0</td>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+		<td>7</td>
+		</tr>
+		<tr><td>
+		0</td>
+		<td>30.0</td>
+		<td>26.7</td>
+		<td>24.0</td>
+		<td>21.8</td>
+		<td>20.0</td>
+		<td>18.5</td>
+		<td>17.1</td>
+		<td>16.0</td>
+		</tr>
+		<tr><td>
+		8</td>
+		<td>15.0</td>
+		<td>13.3</td>
+		<td>12.0</td>
+		<td>10.9</td>
+		<td>10.0</td>
+		<td>9.2</td>
+		<td>8.6</td>
+		<td>8.0</td>
+		</tr>
+		<tr><td>
+		16</td>
+		<td>7.5</td>
+		<td>6.7</td>
+		<td>6.0</td>
+		<td>5.5</td>
+		<td>5.0</td>
+		<td>4.6</td>
+		<td>4.3</td>
+		<td>4.0</td>
+		</tr>
+		<tr><td>
+		24</td>
+		<td>3.7</td>
+		<td>3.3</td>
+		<td>3.0</td>
+		<td>2.7</td>
+		<td>2.5</td>
+		<td>2.3</td>
+		<td>2.1</td>
+		<td>2.0</td>
+		</tr>
+		</table>
+
+		<p>(that is, the inter-character delay is (2 ^ B) * (D + 8) / 240 sec,
+		where B gives Bits 4-3 and D gives Bits 2-0).</p>
+
+		<p>Default after reset is 10.9 characters per second.</p>
+
+		<p><b>Logitech extended commands</b>
+		Logitech uses escape sequences involving <b>f3</b> for extended commands.
+		A Logitech extended command looks like
+		<b>f3</b> <b>7f</b> <b>f3</b> <b>00</b> <b>f3</b> <i>xx</i>
+		(for varying 7-bit values of <i>xx</i>). For example:</p>
+
+		<p><i>xx</i> = <b>01</b>: SendStatus: send the E1 XX codes for SubDeviceType,
+		BatteryStatus, (Channel if relevant) KbdStatus (=wireless status).</p>
+
+		<p><i>xx</i> = <b>02</b>: OpenLocking</p>
+
+		<p><i>xx</i> = <b>03</b>: CloseLocking</p>
+
+		<p><i>xx</i> = <b>06</b> <b>f3</b> <i>aa</i>:
+		Read byte at address <i>aa</i> (in 0x01-0x1e).</p>
+
+		<p><i>xx</i> = <b>07</b> <b>F3</b> <i>aa</i> <b>f3</b> <i>dd</i>:
+		Write <i>dd</i> at address <i>aa</i> (in 0x01-0x1e).</p>
+
+		<p><i>xx</i> = <b>10</b> or <b>11</b>: Clear all device-related data
+		in EEPROM and RAM. Now device is disconnected.</p>
+
+		<p><i>Command <b>f4</b>: 
+		<a name="kcf4"></a> Keyboard enable</i></p>
+
+		<p>
+		<blockquote>
+		If a transmit error occurs, the keyboard is automatically disabled.
+		This command re-enables the keyboard and clears its internal 16-byte
+		buffer.
+		</blockquote></p>
+
+		<p><i>Command <b>f5</b>: 
+		<a name="kcf5"></a> Set defaults and
+		disable keyboard</i></p>
+
+		<p>
+		<blockquote>
+		Reset keyboard, clear output buffer, switch off LEDs, reset
+		repeat rate and delay to defaults. Disable the keyboard scan.
+		</blockquote></p>
+
+		<p><i>Command <b>f6</b>: 
+		<a name="kcf6"></a> Set defaults</i></p>
+
+		<p>
+		<blockquote>
+		Reset keyboard, clear output buffer, switch off LEDs, reset
+		repeat rate and delay to defaults.
+		</blockquote></p>
+
+		<p><i>Command <b>f7</b>: 
+		<a name="kcf7"></a> Set all keys to repeat</i></p>
+
+		<p>
+		<blockquote>
+		Keyboards that support scancode Set 3 keep for each key two bits:
+		does it repeat? does it generate a break code?
+		This command sets the "repeat" bit for all keys.
+		It does not influence keyboard operation when the scancode set is not Set 3.
+		</blockquote></p>
+
+		<p><i>Command <b>f8</b>: 
+		<a name="kcf8"></a> Set all keys to give make/break
+		codes</i></p>
+
+		<p>
+		<blockquote>
+		This command sets the "generate break code" bit for all keys.
+		It does not influence keyboard operation when the scancode set is not Set 3.
+		</blockquote></p>
+
+		<p><i>Command <b>f9</b>: 
+		<a name="kcf9"></a> Set all keys to give
+		make codes only</i></p>
+
+		<p>
+		<blockquote>
+		This command clears the "generate break code" bit for all keys.
+		It does not influence keyboard operation when the scancode set is not Set 3.
+		</blockquote></p>
+
+		<p><i>Command <b>fa</b>: 
+		<a name="kcfa"></a> Set all keys to repeat
+		and give make/break codes</i></p>
+
+		<p>
+		<blockquote>
+		This command sets the "repeat" and "generate break code" bits for all keys.
+		It does not influence keyboard operation when the scancode set is not Set 3.
+		</blockquote></p>
+
+		<p><i>Command <b>fb</b>: 
+		<a name="kcfb"></a> Set some keys to repeat</i></p>
+
+		<p>
+		<blockquote>
+		This command sets the "repeat" bits for the indicated keys.
+		It is followed by the untranslated Set 3 scancodes of the keys
+		for which this bit must be set. The sequence is ended by a command
+		code (<b>ed</b>, <b>ee</b>, <b>f0</b>, <b>f2</b>-<b>ff</b>).
+		Afterwards, a "keyboard enable" <b>f4</b> is required.
+		</blockquote></p>
+
+		<p><i>Command <b>fc</b>: 
+		<a name="kcfc"></a> Set some keys to give make/break
+		codes</i></p>
+
+		<p>
+		<blockquote>
+		This command sets the "generate break code" bits for the indicated keys.
+		It is followed by the untranslated Set 3 scancodes of the keys
+		for which this bit must be set. The sequence is ended by a command
+		code (<b>ed</b>, <b>ee</b>, <b>f0</b>, <b>f2</b>-<b>ff</b>).
+		Afterwards, a "keyboard enable" <b>f4</b> is required.
+		</blockquote></p>
+
+		<p><i>Command <b>fd</b>: 
+		<a name="kcfd"></a> Set some keys to give make codes
+		only</i></p>
+
+		<p>
+		<blockquote>
+		This command clears the "generate break code" bits for the indicated keys.
+		It is followed by the untranslated Set 3 scancodes of the keys for which
+		this bit must be set. The sequence is ended by a recognized command code
+		(such as <b>ed</b>, <b>ee</b>, <b>f0</b>, <b>f2</b>-<b>ff</b>).
+		Afterwards, a "keyboard enable" <b>f4</b> is required.
+		</blockquote></p>
+
+		<p><i>Command <b>fe</b>: 
+		<a name="kcfe"></a> Resend</i></p>
+
+		<p>
+		<blockquote>
+		Meant for use by the keyboard controller after a transmission error.
+		Not for use by the CPU.
+		</blockquote></p>
+
+		<p><i>Command <b>ff</b>: 
+		<a name="kcff"></a> Keyboard reset</i></p>
+
+		<p>
+		<blockquote>
+		Reset and self-test.
+		The self-test (BAT) will return <b>aa</b> when OK, and <b>fc</b> otherwise.
+		As part of the self-test, all LEDs are flashed.
+		</blockquote></p>
+
+		<hr>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="scancodes-11.html">Previous</a></li>
+				<li class="next"><a href="scancodes-13.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

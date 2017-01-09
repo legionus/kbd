@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>Font-formats recognized by the Linux kbd package: Combining PSF fonts</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="font-formats-1.html">Previous</a></li>
+				<li class="next"><a href="font-formats-3.html">Next</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-header">
+			<h2><a name="s2">2. Combining PSF fonts</a></h2>
+		</div>
+
+		<p>The program <code>setfont</code> will accept font descriptions like
+		<pre>
+# combine partial fonts
+none.00-17.16
+ascii.20-7f.16
+none.00-17.16
+8859-1.a0-ff.16
+</pre>
+		where the first line is precisely <code># combine partial fonts</code>
+		and the remaining lines contain filenames for PSF fonts to load.
+		The above example (it is the file <code>iso01.16</code>)
+		describes a font with 256 positions, of which the first 32 are taken
+		from the file <code>none.00-17.16</code>, the following 96 from
+		<code>ascii.20-7f.16</code>, the following 32 from
+		<code>none.00-17.16</code> again, and the final 96 from
+		<code>8859-1.a0-ff.16</code>.
+		In this way all ISO 8859-* fonts of a given pointsize (here 16)
+		can share the same initial 160 positions.</p>
+
+		<hr/>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="font-formats-1.html">Previous</a></li>
+				<li class="next"><a href="font-formats-3.html">Next</a></li>
+			</ul>
+		</nav>
+</body>
+</html>
