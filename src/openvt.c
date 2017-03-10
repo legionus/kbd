@@ -48,7 +48,7 @@ static void
 {
 	printf(_("Usage: %s [OPTIONS] -- command\n"
 	         "\n"
-	         "This utility help you to start a program on a new virtual terminal (VT).\n"
+	         "This utility helps you to start a program on a new virtual terminal (VT).\n"
 	         "\n"
 	         "Options:\n"
 	         "  -c, --console=NUM   use the given VT number;\n"
