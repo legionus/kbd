@@ -144,11 +144,10 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 	dir_len = strlen(dir);
 
 	fdir = NULL;
-	if ((ff = strchr(fnam, '/')) != NULL) {
-		if ((fdir = strndup(fnam, ff - fnam)) == NULL) {
-			closedir(d);
-			return -1;
-		}
+	if ((ff = strchr(fnam, '/')) != NULL &&
+	    (fdir = strndup(fnam, (size_t) (ff - fnam))) == NULL) {
+		closedir(d);
+		return -1;
 	}
 
 /* Scan the directory twice: first for files, then
@@ -251,7 +250,8 @@ EndScan:
 int lk_findfile(const char *fnam, const char *const *dirpath, const char *const *suffixes, lkfile_t *fp)
 {
 	char *dir;
-	int dl, recdepth, rc, i;
+	size_t dl;
+	int recdepth, rc, i;
 
 	fp->fd   = NULL;
 	fp->pipe = 0;

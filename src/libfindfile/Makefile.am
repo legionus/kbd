@@ -1,4 +1,10 @@
+WARNINGS = -Wall -Wextra -W -Wshadow -Wcast-align \
+	-Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes \
+	-Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn \
+	-Wmissing-format-attribute -Wredundant-decls -Wdisabled-optimization
+
 AM_CPPFLAGS = \
+	$(WARNINGS) \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
