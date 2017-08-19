@@ -1,11 +1,12 @@
 AM_CPPFLAGS = \
 	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
 	-I$(srcdir)/libkeymap/keymap -I$(builddir)/libkeymap/keymap \
+	-I$(srcdir)/libfindfile/keymap -I$(builddir)/libfindfile/keymap \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
 
-SUBDIRS = vlock libkeymap
+SUBDIRS = vlock libfindfile libkeymap
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
@@ -80,7 +81,7 @@ mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
 noinst_LIBRARIES = libcommon.a libfont.a
-LDADD = libcommon.a libfont.a libkeymap/libkeymap.la @INTLLIBS@
+LDADD = libcommon.a libfont.a libkeymap/libkeymap.la libfindfile/libfindfile.la @INTLLIBS@
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \

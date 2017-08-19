@@ -1,10 +1,15 @@
 AM_CPPFLAGS = \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
+	-I$(srcdir)/../libfindfile \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
 CLEANFILES = libkeymap.pc
 EXTRA_DIST = libkeymap.pc.in
+
+LK_CURRENT  = 1
+LK_REVISION = 0
+LK_AGE      = 0
 
 headers = \
 	keymap.h \
@@ -15,8 +20,7 @@ headers = \
 	keymap/dump.h \
 	keymap/kernel.h \
 	keymap/kmap.h \
-	keymap/logging.h \
-	keymap/findfile.h
+	keymap/logging.h
 
 SYMS = \
   syms.latin1.h/8859-1/160 \
@@ -45,12 +49,14 @@ ksyms_headers = \
 libkeymap_la_SOURCES = \
 	$(headers) \
 	array.c \
-	findfile.c common.c kernel.c dump.c kmap.c diacr.c func.c summary.c loadkeys.c \
+	common.c kernel.c dump.c kmap.c diacr.c func.c summary.c loadkeys.c \
 	contextP.h \
 	parser.y parser.h analyze.l analyze.h \
 	modifiers.c modifiers.h \
 	ksyms.c ksyms.h $(ksyms_headers) \
 	$(srcdir)/../nls.h $(srcdir)/../paths.h $(srcdir)/../kbd.h
+
+libkeymap_la_LIBADD = $(builddir)/../libfindfile/libfindfile.la
 
 if BUILD_LIBKEYMAP
 pkgconfigdir   = $(libdir)/pkgconfig
@@ -58,7 +64,7 @@ pkgconfig_DATA = libkeymap.pc
 
 lib_LTLIBRARIES = libkeymap.la
 nobase_include_HEADERS = $(headers)
-libkeymap_la_LDFLAGS = -export-symbols-regex ^lk_.*
+libkeymap_la_LDFLAGS = -export-symbols-regex ^lk_.* -version-info $(LK_CURRENT):$(LK_REVISION):$(LK_AGE)
 else
 noinst_LTLIBRARIES = libkeymap.la
 endif

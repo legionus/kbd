@@ -28,8 +28,10 @@ static struct decompressor {
 	const char *ext; /* starts with `.', has no other dots */
 	const char *cmd;
 } decompressors[] = {
-	{ ".gz", "gzip -d -c" },
-	{ ".bz2", "bzip2 -d -c" },
+	{ ".gz",  "gzip -d -c"    },
+	{ ".bz2", "bzip2 -d -c"   },
+	{ ".xz",  "xz -d -c"      },
+	{ ".zst", "zstd -d -q -c" },
 	{ 0, 0 }
 };
 
