@@ -1,6 +1,7 @@
 AM_CPPFLAGS = \
 	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
 	-I$(srcdir)/libkeymap/keymap -I$(builddir)/libkeymap/keymap \
+	-I$(srcdir)/libfindfile -I$(builddir)/libfindfile \
 	-I$(srcdir)/libfindfile/keymap -I$(builddir)/libfindfile/keymap \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-D_FORTIFY_SOURCE=2 \
