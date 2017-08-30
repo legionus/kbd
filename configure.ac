@@ -150,7 +150,7 @@ AC_CONFIG_FILES([Makefile
 		docs/reference/libkeymap/Makefile
 		po/Makefile.in
 		src/Makefile
-		src/libfindfile/Makefile
+		src/libkbdfile/Makefile
 		src/libkeymap/Makefile
 		src/vlock/Makefile
 		tests/Makefile])
@@ -172,6 +172,6 @@ AC_MSG_RESULT([
 	resizecons:		${RESIZECONS_PROGS}
 	optional progs:		${OPTIONAL_PROGS}
 	vlock:			${VLOCK_PROG}
-	libfindfile:		${BUILD_LIBKEYMAP}
+	libkbdfile:		${BUILD_LIBKEYMAP}
 	libkeymap:		${BUILD_LIBKEYMAP}
 ])

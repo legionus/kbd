@@ -13,14 +13,14 @@ AM_CPPFLAGS = \
 headers = \
 	keymap/findfile.h
 
-libfindfile_la_SOURCES = \
+libkbdfile_la_SOURCES = \
 	$(headers) $(srcdir)/../nls.h \
 	findfile.c
 
 if BUILD_LIBKEYMAP
-lib_LTLIBRARIES = libfindfile.la
+lib_LTLIBRARIES = libkbdfile.la
 nobase_include_HEADERS = $(headers)
-libfindfile_la_LDFLAGS = -export-symbols-regex ^lk_.*
+libkbdfile_la_LDFLAGS = -export-symbols-regex ^lk_.*
 else
-noinst_LTLIBRARIES = libfindfile.la
+noinst_LTLIBRARIES = libkbdfile.la
 endif

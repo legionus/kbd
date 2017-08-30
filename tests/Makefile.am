@@ -1,8 +1,8 @@
 AM_CPPFLAGS = \
 	-I$(srcdir)/../src/libkeymap \
 	-I$(builddir)/../src/libkeymap \
-	-I$(srcdir)/../src/libfindfile \
-	-I$(builddir)/../src/libfindfile \
+	-I$(srcdir)/../src/libkbdfile \
+	-I$(builddir)/../src/libkbdfile \
 	-DDATADIR=\"$(srcdir)\" -DBUILDDIR=\"$(builddir)\"
 
 AM_CFLAGS = $(CHECK_CFLAGS)

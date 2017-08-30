@@ -1,6 +1,6 @@
 AM_CPPFLAGS = \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
-	-I$(srcdir)/../libfindfile \
+	-I$(srcdir)/../libkbdfile \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
 	-funit-at-a-time
@@ -56,7 +56,7 @@ libkeymap_la_SOURCES = \
 	ksyms.c ksyms.h $(ksyms_headers) \
 	$(srcdir)/../nls.h $(srcdir)/../paths.h $(srcdir)/../kbd.h
 
-libkeymap_la_LIBADD = $(builddir)/../libfindfile/libfindfile.la
+libkeymap_la_LIBADD = $(builddir)/../libkbdfile/libkbdfile.la
 
 if BUILD_LIBKEYMAP
 pkgconfigdir   = $(libdir)/pkgconfig
