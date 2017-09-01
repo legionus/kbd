@@ -15,6 +15,7 @@ KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
 
 # Do not use GZIP - it is interpreted by gzip
 MYGZIP = gzip -f -n -9
+MYGZIP_SUFFIX = .gz
 
 install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 	install -d -m 755 $(DESTDIR)$(datadir)
@@ -45,7 +46,11 @@ install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 $(KEYMAPDIR)_Z:
 	cp -r $(srcdir)/$(KEYMAPDIR) $(KEYMAPDIR)_Z
 	chmod -R u+w $(KEYMAPDIR)_Z
-	cd $(KEYMAPDIR)_Z && $(MYGZIP) */*.map */*/*.map
+	cd $(KEYMAPDIR)_Z; \
+	for f in */*.map */*/*.map; do \
+	  $(MYGZIP) < "$$f" > "$$f$(MYGZIP_SUFFIX)"; \
+	done; \
+	rm -f -- */*.map */*/*.map;
 
 $(FONTDIR)_Z:
 	cp -r $(srcdir)/$(FONTDIR) $(FONTDIR)_Z
