@@ -1,57 +1,64 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<HTML>
-<HEAD>
- <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
- <TITLE>The Linux keyboard and console HOWTO: Hardware incompatibility</TITLE>
- <LINK HREF="kbd-23.html" REL=next>
- <LINK HREF="kbd-21.html" REL=previous>
- <LINK HREF="kbd.html#toc22" REL=contents>
-</HEAD>
-<BODY>
-<A HREF="kbd-23.html">Next</A>
-<A HREF="kbd-21.html">Previous</A>
-<A HREF="kbd.html#toc22">Contents</A>
-<HR>
-<H2><A NAME="s22">22. Hardware incompatibility</A></H2>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<title>The Linux keyboard and console HOWTO: Hardware incompatibility</title>
+	</head>
+	<body class="container">
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="kbd-21.html">Previous</a></li>
+				<li class="next"><a href="kbd-23.html">Next</a></li>
+			</ul>
+		</nav>
 
-<P>
-<!--
-keyboard!hardware incompatibilities
--->
+		<div class="page-header">
+			<h2><a name="s22">Hardware incompatibility</a></h2>
+		</div>
 
-<!--
-incompatibility!keyboard-related
--->
-<P>Several people have noticed that they lose typed characters when
-a floppy disk is active. It seems that this might be a problem with
-Uni-486WB motherboards.
-<P>Tjalling Tjalkens (<CODE>tjalling@ei.ele.tue.nl</CODE>) reports very similar problems
-with "a no-brand GMB-486 UNP Vesa motherboard with AMD 486DX2-66 CPU" -
-during floppy activity some keystrokes are lost, during floppy tape streamer
-(Conner C 250 MQ) activity many keystrokes are lost.
-<P>Some people experience sporadic lockups - sometimes associated to
-hard disk activity or other I/O.
-<P>Ulf Tietz (<CODE>ulf@rio70.bln.sni.de</CODE>) wrote:
-`I have had the same problems, when I had my motherboard tuned too fast.
-So I reset all the timings ( CLK, wait statements etc ) to more 
-conventional values, and the problems are gone.'
-<P>Bill Hogan (<CODE>bhogan@crl.com</CODE>) wrote:
-`If you have an AMI BIOS, you might try setting the Gate A20 emulation
-parameter to "chipset" (if you have that option). Whenever I have had
-that parameter set to any of the other options on my machine
-("fast", "both", "disabled") I have had frequent keyboard lockups.'
-<P>There may be a relation between keyboard problems and the video card in use.
-<P>Shawn K. Quinn (<CODE>skquinn@wt.net</CODE>) wrote:
-`I have a Zeos Pantera Pentium-90 that originally came with a Diamond Stealth
-64 S3-based video card. Under X I frequently got q's inserted into my text
-(how annoying) especially if I typed very fast (during Netrek for instance,
-even more annoying because guess what that does :-( ).
-Switching to a Creative Labs Graphics Blaster MA202 solved the problem.
-I'm assuming the Stealth 64 did something funny with the timings.'
-<P>
-<HR>
-<A HREF="kbd-23.html">Next</A>
-<A HREF="kbd-21.html">Previous</A>
-<A HREF="kbd.html#toc22">Contents</A>
-</BODY>
-</HTML>
+		<p>Several people have noticed that they lose typed characters when
+		a floppy disk is active. It seems that this might be a problem with
+		Uni-486WB motherboards.</p>
+
+		<p>Tjalling Tjalkens (<code>tjalling@ei.ele.tue.nl</code>) reports very similar problems
+		with "a no-brand GMB-486 UNP Vesa motherboard with AMD 486DX2-66 CPU" -
+		during floppy activity some keystrokes are lost, during floppy tape streamer
+		(Conner C 250 MQ) activity many keystrokes are lost.</p>
+
+		<p>Some people experience sporadic lockups - sometimes associated to
+		hard disk activity or other I/O.</p>
+
+		<p>Ulf Tietz (<code>ulf@rio70.bln.sni.de</code>) wrote:
+		`I have had the same problems, when I had my motherboard tuned too fast.
+		So I reset all the timings ( CLK, wait statements etc ) to more 
+		conventional values, and the problems are gone.'</p>
+
+		<p>Bill Hogan (<code>bhogan@crl.com</code>) wrote:
+		`If you have an AMI BIOS, you might try setting the Gate A20 emulation
+		parameter to "chipset" (if you have that option). Whenever I have had
+		that parameter set to any of the other options on my machine
+		("fast", "both", "disabled") I have had frequent keyboard lockups.'</p>
+
+		<p>There may be a relation between keyboard problems and the video card in use.</p>
+
+		<p>Shawn K. Quinn (<code>skquinn@wt.net</code>) wrote:
+		`I have a Zeos Pantera Pentium-90 that originally came with a Diamond Stealth
+		64 S3-based video card. Under X I frequently got q's inserted into my text
+		(how annoying) especially if I typed very fast (during Netrek for instance,
+		even more annoying because guess what that does :-( ).
+		Switching to a Creative Labs Graphics Blaster MA202 solved the problem.
+		I'm assuming the Stealth 64 did something funny with the timings.'</p>
+
+		<hr/>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="kbd-21.html">Previous</a></li>
+				<li class="next"><a href="kbd-23.html">Next</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>
