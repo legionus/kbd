@@ -520,8 +520,10 @@ no_shorthands:
 				defs[j] = K(KT_META, KVAL(defs[j - 8]));
 
 			for (j = 0; j < keymapnr; j++) {
-				if ((j >= 16 && buf[j] != K_HOLE) || (j < 16 && buf[j] != defs[j]))
-					goto unexpected;
+				if (lk_map_exists(ctx, j)) {
+					if ((j >= 16 && buf[j] != K_HOLE) || (j < 16 && buf[j] != defs[j]))
+						goto unexpected;
+				}
 			}
 
 			isasexpected = 1;
@@ -577,8 +579,10 @@ no_shorthands:
 				fprintf(fd, "\n");
 
 				for (j = 1; j < keymapnr; j++) {
-					if (buf[j] != buf[0] && !zapped[j]) {
-						print_bind(ctx, fd, buf[j], i, j, numeric);
+					if (lk_map_exists(ctx, j)) {
+						if (buf[j] != buf[0] && !zapped[j]) {
+							print_bind(ctx, fd, buf[j], i, j, numeric);
+						}
 					}
 				}
 			} else {
