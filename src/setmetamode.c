@@ -50,7 +50,7 @@ report(int meta)
 
 struct meta {
 	char *name;
-	int val;
+	unsigned int val;
 } metas[] = {
 	{ "metabit", K_METABIT },
 	{ "meta", K_METABIT },
@@ -64,7 +64,7 @@ struct meta {
 
 int main(int argc, char **argv)
 {
-	char ometa, nmeta;
+	unsigned int ometa, nmeta;
 	struct meta *mp;
 
 	set_progname(argv[0]);
