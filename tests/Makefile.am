@@ -1,12 +1,14 @@
 AM_CPPFLAGS = \
+	$(CODE_COVERAGE_CPPFLAGS) \
+	-I$(srcdir)/../src \
 	-I$(srcdir)/../src/libkeymap \
 	-I$(builddir)/../src/libkeymap \
 	-I$(srcdir)/../src/libkbdfile \
 	-I$(builddir)/../src/libkbdfile \
 	-DDATADIR=\"$(srcdir)\" -DBUILDDIR=\"$(builddir)\"
 
-AM_CFLAGS = $(CHECK_CFLAGS)
-LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS) @INTLLIBS@
+AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
+LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS) @INTLLIBS@ $(CODE_COVERAGE_LIBS)
 
 EXTRA_DIST = \
 	alt-is-meta.in \
@@ -29,8 +31,7 @@ EXTRA_DIST = \
 
 #check_SCRIPTS  = dumpkeys-fulltable dumpkeys-mktable dumpkeys-bkeymap alt-is-meta
 check_SCRIPTS  = dumpkeys-fulltable alt-is-meta
-check_PROGRAMS = libkeymap-init libkeymap-kmap libkeymap-keys libkeymap-parse \
-	libkeymap-charset
+check_PROGRAMS = libkeymap
 
 noinst_PROGRAMS = \
 	libkeymap-dumpkeys libkeymap-mktable libkeymap-bkeymap libkeymap-showmaps \
@@ -39,15 +40,13 @@ noinst_PROGRAMS = \
 TESTS = $(check_PROGRAMS) $(check_SCRIPTS)
 CLEANFILES = $(check_SCRIPTS)
 
-libkeymap_init_SOURCES     = libkeymap-init.c
-libkeymap_kmap_SOURCES     = libkeymap-kmap.c
-libkeymap_keys_SOURCES     = libkeymap-keys.c
-libkeymap_parse_SOURCES    = libkeymap-parse.c
-libkeymap_charset_SOURCES  = libkeymap-charset.c
 libkeymap_dumpkeys_SOURCES = libkeymap-dumpkeys.c
 libkeymap_mktable_SOURCES  = libkeymap-mktable.c
 libkeymap_bkeymap_SOURCES  = libkeymap-bkeymap.c
 libkeymap_showmaps_SOURCES = libkeymap-showmaps.c
+
+libkeymap_SOURCES = libkeymap.c
+libkeymap_LDADD   = $(top_builddir)/src/libkeymap/libkeymap.la $(LDADD)
 
 %: %.in
 	sed \

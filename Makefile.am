@@ -1,4 +1,11 @@
+CODE_COVERAGE_DIRECTORY        = $(top_builddir)/src
+CODE_COVERAGE_OUTPUT_FILE      = coverage.info
+CODE_COVERAGE_OUTPUT_DIRECTORY = coverage
+
+include $(top_srcdir)/aminclude_static.am
+
 AM_DISTCHECK_CONFIGURE_FLAGS = \
+	--disable-code-coverage \
 	--enable-libkeymap \
 	--enable-optional-progs
 
@@ -29,3 +36,6 @@ tar-sync: kbd-$(VERSION).tar.xz kbd-$(VERSION).tar.sign
 	    kbd-$(VERSION).tar.xz \
 	    kbd-$(VERSION).tar.sign \
 	    /pub/linux/utils/kbd/
+
+clean-local: code-coverage-clean
+dist-clean-local: code-coverage-dist-clean

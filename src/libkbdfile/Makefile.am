@@ -1,14 +1,12 @@
-WARNINGS = -Wall -Wextra -W -Wshadow -Wcast-align \
-	-Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes \
-	-Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn \
-	-Wmissing-format-attribute -Wredundant-decls -Wdisabled-optimization
-
 AM_CPPFLAGS = \
-	$(WARNINGS) \
+	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
-	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
+	-U_GNU_SOURCE \
 	-funit-at-a-time
+
+AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
+LDADD     = $(CODE_COVERAGE_LIBS)
 
 headers = \
 	keymap/findfile.h

@@ -1,9 +1,14 @@
 AM_CPPFLAGS = \
+	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
 	-I$(srcdir)/../libkbdfile \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
-	-U_GNU_SOURCE -D_FORTIFY_SOURCE=2 \
+	-U_GNU_SOURCE \
 	-funit-at-a-time
+
+AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
+LDADD     = $(CODE_COVERAGE_LIBS)
+
 CLEANFILES = libkeymap.pc
 EXTRA_DIST = libkeymap.pc.in
 

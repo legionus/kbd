@@ -3,11 +3,12 @@
 #include <string.h>
 #include <keymap.h>
 
+#include "kbd.h"
 #include "contextP.h"
 
-int main(int argc, char **argv)
+int main(int __attribute__((unused)) argc, char **argv)
 {
-	int i;
+	unsigned int i;
 	struct lk_ctx *ctx;
 	lkfile_t f;
 

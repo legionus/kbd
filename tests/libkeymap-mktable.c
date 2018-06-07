@@ -3,7 +3,9 @@
 #include <string.h>
 #include <keymap.h>
 
-int main(int argc, char **argv)
+#include "kbd.h"
+
+int main(int __attribute__((unused)) argc, char **argv)
 {
 	struct lk_ctx *ctx;
 	lkfile_t f;

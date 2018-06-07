@@ -11,25 +11,14 @@ AM_INIT_AUTOMAKE([1.9 -Wall -Wno-portability color-tests dist-xz])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_HEADERS(config.h)
 PKG_PROG_PKG_CONFIG
-
-AC_ARG_ENABLE(tests,
-	[AS_HELP_STRING([--disable-tests], [do not build tests])],
-	[build_tests=$enableval], [build_tests=auto])
-if test "$build_tests" != "no"; then
-	PKG_CHECK_MODULES([CHECK], [check >= 0.9.4],
-		[build_tests="yes"], [
-			if test "$build_tests" = "yes"; then
-				AC_MSG_ERROR([tests requested, but check package is missing])
-			fi
-			build_tests="no"
-		])
-fi
-AM_CONDITIONAL(BUILD_TESTS, test "$build_tests" != "no")
+AX_CODE_COVERAGE
 
 m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 AM_SILENT_RULES([yes])
 
 # Checks for programs.
+CFLAGS="${CFLAGS:-}"
+
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_YACC
@@ -47,8 +36,6 @@ LT_INIT
 AM_GNU_GETTEXT_VERSION([0.14.1])
 AM_GNU_GETTEXT([external])
 ALL_LINGUAS=`cd $srcdir/po > /dev/null && echo *.po | sed 's/\.po//g'`
-
-# Checks for libraries.
 
 # Checks for header files.
 AC_HEADER_DIRENT
@@ -74,21 +61,41 @@ AC_FUNC_STAT
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul setpgrp malloc realloc])
 
+# Optimization level
+CC_O_LEVEL="-O2"
+FORTIFY_SOURCE="-D_FORTIFY_SOURCE=2"
+
+if test "$enable_code_coverage" = yes; then
+	CC_O_LEVEL="-O0"
+	FORTIFY_SOURCE=
+fi
+
+case "$GCC,$ac_cv_prog_cc_g" in
+	yes,yes) CFLAGS="-g $CC_O_LEVEL $FORTIFY_SOURCE" ;;
+	yes,)    CFLAGS="$CC_O_LEVEL $FORTIFY_SOURCE" ;;
+	   ,yes) CFLAGS="-g" ;;
+esac
+
 CC_CHECK_CFLAGS_APPEND([\
+	-Waggregate-return \
 	-Wall \
-	-Wextra \
-	-Wmissing-noreturn \
-	-Wdisabled-optimization \
 	-Wcast-align \
-	-Wshadow \
+	-Wconversion \
+	-Wdisabled-optimization \
+	-Wextra \
+	-Wmissing-declarations \
 	-Wmissing-format-attribute \
+	-Wmissing-noreturn \
 	-Wmissing-prototypes \
+	-Wredundant-decls \
+	-Wshadow \
 	-Wstrict-prototypes \
-	-Wmissing-declarations])
+	-Wwrite-strings \
+])
 
 case $host_cpu in
 	m68*) KEYCODES_PROGS=no ;;
-	*)           KEYCODES_PROGS=yes ;;
+	*)    KEYCODES_PROGS=yes ;;
 esac
 AM_CONDITIONAL(KEYCODES_PROGS, test "$KEYCODES_PROGS" = "yes")
 
@@ -127,6 +134,21 @@ if test "$VLOCK_PROG" = "yes"; then
 		AC_MSG_ERROR([libpam-devel required.])
 	fi
 	AC_SUBST(PAM_LIBS, "-lpam -lpam_misc")
+fi
+
+AC_ARG_ENABLE(tests,
+	[AS_HELP_STRING([--disable-tests], [do not build tests])],
+	[build_tests=$enableval], [build_tests=auto])
+AM_CONDITIONAL(BUILD_TESTS, test "$build_tests" != "no")
+
+if test "$build_tests" != "no"; then
+	PKG_CHECK_MODULES([CHECK], [check >= 0.9.4],
+		[build_tests="yes"], [
+			if test "$build_tests" = "yes"; then
+				AC_MSG_ERROR([tests requested, but check package is missing])
+			fi
+			build_tests="no"
+		])
 fi
 
 AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
