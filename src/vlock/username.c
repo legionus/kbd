@@ -29,8 +29,8 @@
 #include <pwd.h>
 
 #include "vlock.h"
-#include "nls.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 /*
  * Try to find out proper login name.

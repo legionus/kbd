@@ -81,11 +81,9 @@
 #include <sys/ioctl.h>
 #include <linux/vt.h>
 #include "paths.h"
-#include "getfd.h"
 #include "findfile.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 #define MODE_RESTORETEXTMODE 0
 #define MODE_VGALINES 1

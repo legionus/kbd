@@ -34,8 +34,7 @@
 #include <sys/wait.h>
 
 #include "vlock.h"
-#include "nls.h"
-#include "kbd_error.h"
+#include "libcommon.h"
 
 /* Saved VT mode. */
 struct vt_mode ovtm;

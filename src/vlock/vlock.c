@@ -32,9 +32,8 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 int main(int ac, char *const av[])
 {

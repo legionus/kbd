@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
 #include <getopt.h>
@@ -15,10 +16,7 @@
 #include <sys/wait.h>
 #include <sys/file.h>
 
-#include "version.h"
-#include "kbd_error.h"
-#include "xmalloc.h"
-#include "getfd.h"
+#include "libcommon.h"
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-limits.h"
@@ -62,7 +60,7 @@ static void
 	         "  -V, --version       print program version and exit;\n"
 	         "  -h, --help          output a brief help message.\n"
 	         "\n"),
-	       progname);
+	       get_progname());
 	exit(ret);
 }
 
@@ -267,11 +265,11 @@ int main(int argc, char *argv[])
 	} else if (!force) {
 		if (vtno >= 16)
 			kbd_error(7, 0, _("Cannot check whether vt %d is free; use `%s -f' to force."),
-			          vtno, progname);
+			          vtno, get_progname());
 
 		if (vtstat.v_state & (1 << vtno))
 			kbd_error(7, 0, _("vt %d is in use; command aborted; use `%s -f' to force."),
-			          vtno, progname);
+			          vtno, get_progname());
 	}
 
 	if (as_user)

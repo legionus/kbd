@@ -8,7 +8,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include "nls.h"
+
+#include "libcommon.h"
 #include "keymap/findfile.h"
 
 void lk_fpclose(lkfile_t *fp)

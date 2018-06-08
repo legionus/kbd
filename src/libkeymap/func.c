@@ -11,11 +11,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "nls.h"
-#include "kbd.h"
-
 #include "keymap.h"
 
+#include "libcommon.h"
 #include "contextP.h"
 
 int lk_func_exists(struct lk_ctx *ctx, unsigned int index)

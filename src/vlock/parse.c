@@ -28,8 +28,8 @@
 #include <getopt.h>
 
 #include "vlock.h"
-#include "nls.h"
-#include "version.h"
+
+#include "libcommon.h"
 
 /*
  * This determines whether the default behavior is to lock only the
@@ -56,6 +56,7 @@ show_usage(void)
 static void __attribute__((__noreturn__))
 show_help(void)
 {
+	const char *progname = get_progname();
 	printf(_("%s: locks virtual consoles, saving your current session.\n"
 	         "Usage: %s [options]\n"
 	         "       Where [options] are any of:\n"

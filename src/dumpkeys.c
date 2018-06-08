@@ -17,11 +17,9 @@
 #include <string.h>
 #include <errno.h>
 #include "ksyms.h"
-#include "getfd.h"
 #include "modifiers.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 static int fd;
 
@@ -160,7 +158,7 @@ int main(int argc, char *argv[])
 	/* check whether the keyboard is in Unicode mode */
 	if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
 		fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
-		        progname);
+		        get_progname());
 		exit(EXIT_FAILURE);
 	}
 
@@ -176,7 +174,7 @@ int main(int argc, char *argv[])
 
 		if (long_info) {
 			printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
-			       progname);
+			       get_progname());
 			lk_dump_symbols(ctx, stdout);
 		}
 		exit(EXIT_SUCCESS);

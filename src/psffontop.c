@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sysexits.h>
-#include "xmalloc.h"
-#include "nls.h"
+
+#include "libcommon.h"
+
 #include "psf.h"
 #include "psffontop.h"
 #include "utf8.h"

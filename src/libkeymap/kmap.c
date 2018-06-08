@@ -3,11 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "nls.h"
-#include "kbd.h"
-
 #include "keymap.h"
 
+#include "libcommon.h"
 #include "contextP.h"
 #include "ksyms.h"
 #include "modifiers.h"

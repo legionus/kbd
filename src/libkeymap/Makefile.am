@@ -1,7 +1,8 @@
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
-	-I$(srcdir)/../libkbdfile \
+	-I$(srcdir)/../libcommon -I$(builddir)/../libcommon \
+	-I$(srcdir)/../libkbdfile -I$(builddir)/../libkbdfile \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-U_GNU_SOURCE \
 	-funit-at-a-time
@@ -59,7 +60,7 @@ libkeymap_la_SOURCES = \
 	parser.y parser.h analyze.l analyze.h \
 	modifiers.c modifiers.h \
 	ksyms.c ksyms.h $(ksyms_headers) \
-	$(srcdir)/../nls.h $(srcdir)/../paths.h $(srcdir)/../kbd.h
+	$(srcdir)/../paths.h
 
 libkeymap_la_LIBADD = $(builddir)/../libkbdfile/libkbdfile.la
 

@@ -11,9 +11,10 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
+
+#include "libcommon.h"
+
 #include "kdmapop.h"
-#include "nls.h"
-#include "version.h"
 
 /*
  * Linux pre-0.96 defined GIO_SCRNMAP, PIO_SCRNMAP:
@@ -149,7 +150,7 @@ int getunimap(int fd, struct unimapdesc *ud0)
 		ud.entries = (struct unipair *)
 		    malloc(ct * sizeof(struct unipair));
 		if (ud.entries == NULL) {
-			fprintf(stderr, _("%s: out of memory\n"), progname);
+			fprintf(stderr, _("%s: out of memory\n"), get_progname());
 			return -1;
 		}
 		if (ioctl(fd, GIO_UNIMAP, &ud)) {

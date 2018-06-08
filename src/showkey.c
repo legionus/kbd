@@ -11,10 +11,8 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include "getfd.h"
-#include "kbd_error.h"
-#include "nls.h"
-#include "version.h"
+
+#include "libcommon.h"
 
 int tmp; /* for debugging */
 

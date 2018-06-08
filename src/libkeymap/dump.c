@@ -21,7 +21,8 @@
 #include "contextP.h"
 #include "ksyms.h"
 #include "modifiers.h"
-#include "nls.h"
+
+#include "libcommon.h"
 
 #define U(x) ((x) ^ 0xf000)
 

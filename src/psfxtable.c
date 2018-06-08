@@ -18,10 +18,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <sysexits.h>
-#include "nls.h"
-#include "version.h"
+
+#include "libcommon.h"
+
 #include "psf.h"
-#include "xmalloc.h"
 #include "psffontop.h"
 
 /*
@@ -112,7 +112,7 @@ parse_itab_line(char *buf, int fontlen)
 		*p = 0;
 	else {
 		char *u = _("%s: Warning: line too long\n");
-		fprintf(stderr, u, progname);
+		fprintf(stderr, u, get_progname());
 		exit(EX_DATAERR);
 	}
 
@@ -126,7 +126,7 @@ parse_itab_line(char *buf, int fontlen)
 	fp0 = strtol(p, &p1, 0);
 	if (p1 == p) {
 		char *u = _("%s: Bad input line: %s\n");
-		fprintf(stderr, u, progname, buf);
+		fprintf(stderr, u, get_progname(), buf);
 		exit(EX_DATAERR);
 	}
 	p = p1;
@@ -136,7 +136,7 @@ parse_itab_line(char *buf, int fontlen)
 		fp1 = strtol(p, &p1, 0);
 		if (p1 == p) {
 			char *u = _("%s: Bad input line: %s\n");
-			fprintf(stderr, u, progname, buf);
+			fprintf(stderr, u, get_progname(), buf);
 			exit(EX_DATAERR);
 		}
 		p = p1;
@@ -145,12 +145,12 @@ parse_itab_line(char *buf, int fontlen)
 
 	if (fp0 < 0 || fp0 >= fontlen) {
 		char *u = _("%s: Glyph number (0x%lx) past end of font\n");
-		fprintf(stderr, u, progname, fp0);
+		fprintf(stderr, u, get_progname(), fp0);
 		exit(EX_DATAERR);
 	}
 	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
 		char *u = _("%s: Bad end of range (0x%lx)\n");
-		fprintf(stderr, u, progname, fp1);
+		fprintf(stderr, u, get_progname(), fp1);
 		exit(EX_DATAERR);
 	}
 
@@ -171,7 +171,7 @@ parse_itab_line(char *buf, int fontlen)
 				char *u = _("%s: Corresponding to a range of "
 				            "font positions, there should be "
 				            "a Unicode range\n");
-				fprintf(stderr, u, progname);
+				fprintf(stderr, u, get_progname());
 				exit(EX_DATAERR);
 			}
 			p++;
@@ -180,14 +180,14 @@ parse_itab_line(char *buf, int fontlen)
 				char *u = _("%s: Bad Unicode range "
 				            "corresponding to font position "
 				            "range 0x%x-0x%x\n");
-				fprintf(stderr, u, progname, fp0, fp1);
+				fprintf(stderr, u, get_progname(), fp0, fp1);
 				exit(EX_DATAERR);
 			}
 			if (un1 - un0 != fp1 - fp0) {
 				char *u = _("%s: Unicode range U+%x-U+%x not "
 				            "of the same length as font "
 				            "position range 0x%x-0x%x\n");
-				fprintf(stderr, u, progname,
+				fprintf(stderr, u, get_progname(),
 				        un0, un1, fp0, fp1);
 				exit(EX_DATAERR);
 			}
@@ -206,7 +206,7 @@ parse_itab_line(char *buf, int fontlen)
 			p++;
 		if (*p && *p != '#') {
 			char *u = _("%s: trailing junk (%s) ignored\n");
-			fprintf(stderr, u, progname, p);
+			fprintf(stderr, u, get_progname(), p);
 		}
 	}
 }
@@ -257,29 +257,29 @@ int main(int argc, char **argv)
 	fontbuf                           = NULL;
 	notable                           = 0;
 
-	if (!strcmp(progname, "psfaddtable")) {
+	if (!strcmp(get_progname(), "psfaddtable")) {
 		/* Do not send binary data to stdout without explicit "-" */
 		if (argc != 4) {
 			char *u = _("Usage:\n\t%s infont intable outfont\n");
-			fprintf(stderr, u, progname);
+			fprintf(stderr, u, get_progname());
 			exit(EX_USAGE);
 		}
 		ifname = argv[1];
 		itname = argv[2];
 		ofname = argv[3];
-	} else if (!strcmp(progname, "psfgettable")) {
+	} else if (!strcmp(get_progname(), "psfgettable")) {
 		if (argc < 2 || argc > 3) {
 			char *u = _("Usage:\n\t%s infont [outtable]\n");
-			fprintf(stderr, u, progname);
+			fprintf(stderr, u, get_progname());
 			exit(EX_USAGE);
 		}
 		ifname = argv[1];
 		otname = (argc == 3) ? argv[2] : "-";
-	} else if (!strcmp(progname, "psfstriptable")) {
+	} else if (!strcmp(get_progname(), "psfstriptable")) {
 		/* Do not send binary data to stdout without explicit "-" */
 		if (argc != 3) {
 			char *u = _("Usage:\n\t%s infont outfont\n");
-			fprintf(stderr, u, progname);
+			fprintf(stderr, u, get_progname());
 			exit(EX_USAGE);
 		}
 		ifname  = argv[1];
@@ -303,7 +303,7 @@ int main(int argc, char **argv)
 		if (i < argc || argc <= 1) {
 			char *u = _("Usage:\n\t%s [-i infont] [-o outfont] "
 			            "[-it intable] [-ot outtable] [-nt]\n");
-			fprintf(stderr, u, progname);
+			fprintf(stderr, u, get_progname());
 			exit(EX_USAGE);
 		}
 	}
@@ -362,7 +362,7 @@ int main(int argc, char **argv)
 	                &width, &fontlen, 0,
 	                itab ? NULL : &uclistheads) == -1) {
 		char *u = _("%s: Bad magic number on %s\n");
-		fprintf(stderr, u, progname, ifname);
+		fprintf(stderr, u, get_progname(), ifname);
 		exit(EX_DATAERR);
 	}
 	fclose(ifil);
@@ -381,7 +381,7 @@ int main(int argc, char **argv)
 		psftype = 2;
 	} else {
 		char *u = _("%s: psf file with unknown magic\n");
-		fprintf(stderr, u, progname);
+		fprintf(stderr, u, get_progname());
 		exit(EX_DATAERR);
 	}
 
@@ -397,7 +397,7 @@ int main(int argc, char **argv)
 
 		if (!hastable) {
 			char *u = _("%s: input font does not have an index\n");
-			fprintf(stderr, u, progname);
+			fprintf(stderr, u, get_progname());
 			exit(EX_DATAERR);
 		}
 		fprintf(otab,

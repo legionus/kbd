@@ -12,13 +12,13 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "kbd.h"
+
+#include "libcommon.h"
+
 #include "paths.h"
 #include "findfile.h"
 #include "kdmapop.h"
 #include "utf8.h"
-#include "nls.h"
-#include "kbd_error.h"
 
 /* the two exported functions */
 void saveoldmap(int fd, char *omfil);
@@ -31,9 +31,6 @@ static const char *const mapdirpath[]  = { "", DATADIR "/" TRANSDIR "/", 0 };
 static const char *const mapsuffixes[] = { "", ".trans", "_to_uni.trans", ".acm", 0 };
 
 #ifdef MAIN
-#include "getfd.h"
-#include "version.h"
-
 int verbose = 0;
 int debug   = 0;
 
@@ -69,7 +66,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 2) {
 		fprintf(stderr, _("usage: %s [-V] [-v] [-o map.orig] map-file\n"),
-		        progname);
+		        get_progname());
 		exit(EXIT_FAILURE);
 	}
 	loadnewmap(fd, argv[1]);

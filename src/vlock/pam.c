@@ -30,7 +30,7 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
-#include "kbd_error.h"
+#include "libcommon.h"
 
 static struct pam_conv conv = {
 	&misc_conv,

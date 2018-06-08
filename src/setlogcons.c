@@ -13,9 +13,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
-#include "getfd.h"
-#include "nls.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 int main(int argc, char **argv)
 {
@@ -23,6 +22,8 @@ int main(int argc, char **argv)
 	struct {
 		char fn, subarg;
 	} arg;
+
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);

@@ -13,8 +13,7 @@
 #define YY_HEADER_EXPORT_START_CONDITIONS 1
 
 #include "config.h"
-#include "nls.h"
-#include "kbd.h"
+#include "libcommon.h"
 
 #include "contextP.h"
 #include "ksyms.h"

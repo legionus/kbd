@@ -13,7 +13,7 @@
 
 #include "keymap.h"
 
-#include "nls.h"
+#include "libcommon.h"
 #include "contextP.h"
 #include "ksyms.h"
 #include "modifiers.h"

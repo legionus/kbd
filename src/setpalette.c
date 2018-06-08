@@ -5,9 +5,8 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "getfd.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 int main(int argc, char **argv)
 {
@@ -17,7 +16,7 @@ int main(int argc, char **argv)
 	set_progname(argv[0]);
 
 	if (argc != 5) {
-		fprintf(stderr, "usage: %s index red green blue\n", progname);
+		fprintf(stderr, "usage: %s index red green blue\n", get_progname());
 		exit(EXIT_FAILURE);
 	}
 

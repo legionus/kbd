@@ -18,15 +18,11 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-#include "nls.h"
-#include "kbd.h"
-#include "paths.h"
-#include "getfd.h"
-#include "kbd_error.h"
+#include "libcommon.h"
 
+#include "paths.h"
 #include "keymap.h"
 
-static const char *progname         = NULL;
 static const char *const dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
 static const char *const suffixes[] = { "", ".kmap", ".map", 0 };
 
@@ -53,16 +49,8 @@ usage(void)
 	                  "  -u --unicode       force conversion to Unicode\n"
 	                  "  -v --verbose       report the changes\n"
 	                  "  -V --version       print version number\n"),
-	        PACKAGE_VERSION, progname, DEFMAP);
+	        PACKAGE_VERSION, get_progname(), DEFMAP);
 	exit(EXIT_FAILURE);
-}
-
-static inline const char *
-set_progname(const char *name)
-{
-	char *p;
-	p = strrchr(name, '/');
-	return (p && p + 1 ? p + 1 : name);
 }
 
 int main(int argc, char *argv[])
@@ -113,7 +101,7 @@ int main(int argc, char *argv[])
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
 
-	progname = set_progname(argv[0]);
+	set_progname(argv[0]);
 
 	ctx = lk_init();
 	if (!ctx) {
@@ -158,8 +146,7 @@ int main(int argc, char *argv[])
 				lk_set_log_priority(ctx, LOG_INFO);
 				break;
 			case 'V':
-				fprintf(stdout, _("%s from %s\n"), progname, PACKAGE_STRING);
-				exit(0);
+				print_version_and_exit();
 			case 'h':
 			case '?':
 				usage();
@@ -169,7 +156,7 @@ int main(int argc, char *argv[])
 	if ((options & OPT_U) && (options & OPT_A)) {
 		fprintf(stderr,
 		        _("%s: Options --unicode and --ascii are mutually exclusive\n"),
-		        progname);
+		        get_progname());
 		exit(EXIT_FAILURE);
 	}
 
@@ -182,7 +169,7 @@ int main(int argc, char *argv[])
 		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
 		    ioctl(fd, KDGETMODE, &kd_mode)) {
 			fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
-			        progname);
+			        get_progname());
 			exit(EXIT_FAILURE);
 		}
 
@@ -191,7 +178,7 @@ int main(int argc, char *argv[])
 				fprintf(stderr,
 				        _("%s: warning: loading non-Unicode keymap on Unicode console\n"
 				          "    (perhaps you want to do `kbd_mode -a'?)\n"),
-				        progname);
+				        get_progname());
 			} else {
 				flags |= LK_FLAG_PREFER_UNICODE;
 			}
@@ -203,7 +190,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr,
 			        _("%s: warning: loading Unicode keymap on non-Unicode console\n"
 			          "    (perhaps you want to do `kbd_mode -u'?)\n"),
-			        progname);
+			        get_progname());
 		}
 	}
 

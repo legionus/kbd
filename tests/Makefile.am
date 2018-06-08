@@ -1,6 +1,8 @@
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(srcdir)/../src \
+	-I$(srcdir)/../src/libcommon \
+	-I$(builddir)/../src/libcommon \
 	-I$(srcdir)/../src/libkeymap \
 	-I$(builddir)/../src/libkeymap \
 	-I$(srcdir)/../src/libkbdfile \

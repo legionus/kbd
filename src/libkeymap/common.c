@@ -6,8 +6,7 @@
 
 #include "keymap.h"
 
-#include "kbd.h"
-#include "nls.h"
+#include "libcommon.h"
 #include "contextP.h"
 
 void __attribute__((format(printf, 6, 7)))

@@ -1,14 +1,15 @@
 #include "config.h"
-#include "kbd.h"
-#include "nls.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-char *progname;
+#include "libcommon.h"
 
-static inline void
-set_progname(char *name)
+const char *progname;
+
+void
+set_progname(const char *name)
 {
 	char *p;
 
@@ -16,7 +17,13 @@ set_progname(char *name)
 	progname = (p ? p + 1 : name);
 }
 
-static inline void __attribute__((noreturn))
+const char *
+get_progname(void)
+{
+	return progname;
+}
+
+void __attribute__((noreturn))
 print_version_and_exit(void)
 {
 	printf(_("%s from %s\n"), progname, PACKAGE_STRING);

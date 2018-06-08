@@ -172,6 +172,7 @@ AC_CONFIG_FILES([Makefile
 		docs/reference/libkeymap/Makefile
 		po/Makefile.in
 		src/Makefile
+		src/libcommon/Makefile
 		src/libkbdfile/Makefile
 		src/libkeymap/Makefile
 		src/vlock/Makefile

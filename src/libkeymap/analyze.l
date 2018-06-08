@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h> /* readlink */
 
-#include "nls.h"
-#include "kbd.h"
+#include "libcommon.h"
 #include "contextP.h"
 #include "ksyms.h"
 #include "paths.h"

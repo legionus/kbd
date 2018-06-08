@@ -1,4 +1,7 @@
-AM_CPPFLAGS = -I$(srcdir)/.. -I$(builddir)/.. -D_GNU_SOURCE -DLOCALEDIR=\"$(localedir)\"
+AM_CPPFLAGS = \
+	-I$(srcdir)/.. -I$(builddir)/.. \
+	-I$(srcdir)/../libcommon -I$(builddir)/../libcommon \
+	-D_GNU_SOURCE -DLOCALEDIR=\"$(localedir)\"
 
 EXTRA_DIST = README.vlock
 
@@ -7,7 +10,6 @@ bin_PROGRAMS = vlock
 endif
 
 vlock_SOURCES  = \
-	../kbd_error.c \
 	auth.c \
 	pam_auth.h \
 	pam.c \
@@ -18,4 +20,4 @@ vlock_SOURCES  = \
 	vlock.h \
 	vt.c
 
-vlock_LDADD = @PAM_LIBS@
+vlock_LDADD = $(top_builddir)/src/libcommon/libcommon.a @PAM_LIBS@

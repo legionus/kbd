@@ -31,7 +31,8 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
-#include "nls.h"
+
+#include "libcommon.h"
 
 /* Delay after fatal PAM errors, in seconds. */
 #define LONG_DELAY 10

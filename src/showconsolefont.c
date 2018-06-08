@@ -10,13 +10,11 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "nls.h"
-#include "getfd.h"
-#include "version.h"
+
+#include "libcommon.h"
+
 #include "kdmapop.h"
 #include "kdfontop.h"
-#include "kbd_error.h"
-#include "xmalloc.h"
 
 /*
  * Showing the font is nontrivial mostly because testing whether

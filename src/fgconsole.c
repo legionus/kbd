@@ -10,14 +10,13 @@
 #include <getopt.h>
 #include <linux/vt.h>
 #include <linux/serial.h>
-#include "getfd.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 static void __attribute__((noreturn))
 usage(void)
 {
+	const char *progname = get_progname();
 	fprintf(stderr, _("%s version %s\n"
 	                  "\n"
 	                  "Usage: %s [options]\n"

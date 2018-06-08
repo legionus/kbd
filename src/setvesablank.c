@@ -10,9 +10,8 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include "getfd.h"
-#include "nls.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +19,8 @@ int main(int argc, char *argv[])
 	struct {
 		char ten, onoff;
 	} arg;
+
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);

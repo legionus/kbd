@@ -12,8 +12,8 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "kdfontop.h"
-#include "nls.h"
-#include "version.h"
+
+#include "libcommon.h"
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-kd.h"
@@ -155,7 +155,7 @@ int putfont(int fd, unsigned char *buf, int count, int width, int height)
 		unsigned char *mybuf = malloc(32 * ct);
 
 		if (!mybuf) {
-			fprintf(stderr, _("%s: out of memory\n"), progname);
+			fprintf(stderr, _("%s: out of memory\n"), get_progname());
 			return -1;
 		}
 		memset(mybuf, 0, 32 * ct);
@@ -176,7 +176,7 @@ int putfont(int fd, unsigned char *buf, int count, int width, int height)
 	if (i == 0)
 		return 0;
 	if (errno != ENOSYS && errno != EINVAL) {
-		fprintf(stderr, "%s: putfont: %d,%dx%d:failed: %d\n", progname, count, width, height, i);
+		fprintf(stderr, "%s: putfont: %d,%dx%d:failed: %d\n", get_progname(), count, width, height, i);
 		perror("putfont: PIO_FONTX");
 		return -1;
 	}
@@ -185,7 +185,7 @@ int putfont(int fd, unsigned char *buf, int count, int width, int height)
 	/* This will load precisely 256 chars, independent of count */
 	i = ioctl(fd, PIO_FONT, buf);
 	if (i) {
-		fprintf(stderr, "%s: putfont: %d,%dx%d:  failed: %d\n", progname, count, width, height, i);
+		fprintf(stderr, "%s: putfont: %d,%dx%d:  failed: %d\n", get_progname(), count, width, height, i);
 		perror("putfont: PIO_FONT");
 		return -1;
 	}

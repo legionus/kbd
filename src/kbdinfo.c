@@ -1,15 +1,14 @@
 #include "config.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <getopt.h>
-#include "getfd.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 static const char *action = NULL;
 static const char *value  = NULL;
@@ -25,7 +24,7 @@ usage(int code)
 	          "Other options:\n"
 	          "   -h                   print this usage message\n"
 	          "   -V                   print version number\n"),
-	        progname);
+	        get_progname());
 	exit(code);
 }
 

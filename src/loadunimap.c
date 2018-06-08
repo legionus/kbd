@@ -16,16 +16,14 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "paths.h"
-#include "getfd.h"
-#include "xmalloc.h"
 #include "findfile.h"
 #include "kdmapop.h"
 #include "psffontop.h"
 #include "loadunimap.h"
 #include "utf8.h"
 #include "psf.h"
-#include "nls.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 extern char *progname;
 extern int force;
@@ -34,7 +32,6 @@ static const char *const unidirpath[]  = { "", DATADIR "/" UNIMAPDIR "/", 0 };
 static const char *const unisuffixes[] = { "", ".uni", ".sfm", 0 };
 
 #ifdef MAIN
-#include "version.h"
 int verbose = 0;
 int force   = 0;
 int debug   = 0;

@@ -7,11 +7,9 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "getfd.h"
-#include "xmalloc.h"
 #include "kdmapop.h"
-#include "nls.h"
-#include "version.h"
+
+#include "libcommon.h"
 
 #ifndef USE_LIBC
 /* There is such function in libc5 but it doesn't work for me [libc 5.4.13] */
@@ -30,7 +28,7 @@ ud_compar(const void *u1, const void *u2)
 static void __attribute__((noreturn))
 usage(void)
 {
-	fprintf(stderr, _("Usage:\n\t%s [-s] [-C console]\n"), progname);
+	fprintf(stderr, _("Usage:\n\t%s [-s] [-C console]\n"), get_progname());
 	exit(EXIT_FAILURE);
 }
 

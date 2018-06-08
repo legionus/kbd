@@ -11,13 +11,15 @@
 #include <string.h>
 #include <linux/kd.h>
 #include "kdmapop.h"
-#include "getfd.h"
-#include "nls.h"
+
+#include "libcommon.h"
 
 int main(int argc, char *argv[])
 {
 	int fd;
 	char *console = NULL;
+
+	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);

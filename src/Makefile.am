@@ -1,5 +1,6 @@
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
+	-I$(srcdir)/libcommon -I$(builddir)/libcommon \
 	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
 	-I$(srcdir)/libkeymap/keymap -I$(builddir)/libkeymap/keymap \
 	-I$(srcdir)/libkbdfile -I$(builddir)/libkbdfile \
@@ -9,7 +10,7 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 
-SUBDIRS = vlock libkbdfile libkeymap
+SUBDIRS = libcommon libkbdfile libkeymap vlock
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
@@ -39,12 +40,6 @@ EXTRA_DIST = \
 	totextmode.c README.cad README.init README.openvt \
 	cad
 
-
-libcommon_a_SOURCES = \
-	getfd.c getfd.h \
-	xmalloc.c xmalloc.h \
-	kbd_error.c kbd_error.h
-
 libfont_a_SOURCES   = \
 	psf.h psffontop.c psffontop.h \
 	utf8.c utf8.h \
@@ -52,7 +47,7 @@ libfont_a_SOURCES   = \
 	loadunimap.c loadunimap.h \
 	kdfontop.c kdfontop.h
 
-ALL_S   = nls.h paths.h version.h kbd.h
+ALL_S   = paths.h
 
 chvt_SOURCES            = $(ALL_S) chvt.c
 clrunimap_SOURCES       = $(ALL_S) clrunimap.c
@@ -83,8 +78,14 @@ loadkeys_SOURCES        = $(ALL_S) loadkeys.c
 mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
-noinst_LIBRARIES = libcommon.a libfont.a
-LDADD = libcommon.a libfont.a libkeymap/libkeymap.la libkbdfile/libkbdfile.la @INTLLIBS@ $(CODE_COVERAGE_LIBS)
+noinst_LIBRARIES = libfont.a
+LDADD = \
+	libfont.a \
+	libkeymap/libkeymap.la \
+	libkbdfile/libkbdfile.la \
+	$(top_builddir)/src/libcommon/libcommon.a \
+	@INTLLIBS@ \
+	$(CODE_COVERAGE_LIBS)
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \

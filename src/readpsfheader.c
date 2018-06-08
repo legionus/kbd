@@ -2,13 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h> /* exit */
-#include "nls.h"
-#include "getfd.h"
-#include "version.h"
+
 #include "kdmapop.h"
 #include "kdfontop.h"
-#include "kbd_error.h"
-#include "xmalloc.h"
+
+#include "libcommon.h"
 
 int verbose = 0;
 int debug   = 0;

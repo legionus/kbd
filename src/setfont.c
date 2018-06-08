@@ -23,18 +23,16 @@
 #include <linux/kd.h>
 #include <endian.h>
 #include <sysexits.h>
+
+#include "libcommon.h"
+
 #include "paths.h"
-#include "getfd.h"
 #include "findfile.h"
 #include "loadunimap.h"
 #include "psf.h"
 #include "psffontop.h"
 #include "kdfontop.h"
 #include "kdmapop.h"
-#include "xmalloc.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
 
 static int position_codepage(int iunit);
 static void saveoldfont(int fd, char *ofil);
@@ -291,19 +289,19 @@ do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 		if (bad_video_erase_char) {
 			fprintf(stderr,
 			        _("%s: font position 32 is nonblank\n"),
-			        progname);
+			        get_progname());
 			switch (erase_mode) {
 				case 3:
 					exit(EX_DATAERR);
 				case 2:
 					for (i                          = 0; i < kcharsize; i++)
 						buf[32 * kcharsize + i] = 0;
-					fprintf(stderr, _("%s: wiped it\n"), progname);
+					fprintf(stderr, _("%s: wiped it\n"), get_progname());
 					break;
 				case 1:
 					fprintf(stderr,
 					        _("%s: background will look funny\n"),
-					        progname);
+					        get_progname());
 			}
 			fflush(stderr);
 			sleep(2);
@@ -378,7 +376,7 @@ do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize)
 	}
 	if (ct != maxct) {
 		char *u = _("%s: bug in do_loadtable\n");
-		fprintf(stderr, u, progname);
+		fprintf(stderr, u, get_progname());
 		exit(EX_SOFTWARE);
 	}
 

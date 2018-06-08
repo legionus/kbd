@@ -12,10 +12,8 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <linux/vt.h>
-#include "getfd.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,7 +32,7 @@ int main(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++) {
 		if (!isdigit(argv[i][0])) {
-			fprintf(stderr, _("%s: unknown option\n"), progname);
+			fprintf(stderr, _("%s: unknown option\n"), get_progname());
 			return EXIT_FAILURE;
 		}
 	}

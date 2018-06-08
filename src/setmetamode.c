@@ -13,9 +13,8 @@
 #include <fcntl.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 static void __attribute__((noreturn))
 usage(void)

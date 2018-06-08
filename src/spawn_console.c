@@ -21,9 +21,7 @@
 #include <sys/ioctl.h> /* ioctl */
 #include <unistd.h>    /* sleep */
 
-#include "version.h"
-#include "kbd.h"
-#include "kbd_error.h"
+#include "libcommon.h"
 
 static void
 sighup(int n __attribute__((unused)))

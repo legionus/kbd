@@ -10,8 +10,7 @@
 
 #include "keymap.h"
 
-#include "nls.h"
-#include "kbd.h"
+#include "libcommon.h"
 #include "contextP.h"
 #include "ksyms.h"
 

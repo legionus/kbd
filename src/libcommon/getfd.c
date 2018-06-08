@@ -7,10 +7,10 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "nls.h"
-#include "getfd.h"
 
-static char *conspath[] = {
+#include "libcommon.h"
+
+static const char *conspath[] = {
 	"/proc/self/fd/0",
 	"/dev/tty",
 	"/dev/tty0",

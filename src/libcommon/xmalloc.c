@@ -6,13 +6,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sysexits.h>
-#include "kbd.h"
-#include "nls.h"
-#include "xmalloc.h"
+
+#include "libcommon.h"
 
 extern char *progname;
 
-static void __attribute__((noreturn))
+static void
+__attribute__((noreturn))
 nomem(void)
 {
 	fprintf(stderr, _("%s: out of memory\n"), progname);

@@ -7,11 +7,8 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <errno.h>
-#include "kbd.h"
-#include "getfd.h"
-#include "nls.h"
-#include "version.h"
-#include "kbd_error.h"
+
+#include "libcommon.h"
 
 static unsigned char cmap[3 * 16];
 
@@ -40,6 +37,7 @@ unsigned char vga_colors[] = {
 static void __attribute__((noreturn))
 usage(int code)
 {
+	const char *progname = get_progname();
 	fprintf(stderr,
 	        _("Usage: %s [-h] [-V]\n"
 	          "       %s vga|FILE|-\n"

@@ -4,7 +4,9 @@
 
 #include <stdio.h>
 #include <stdlib.h> /* exit */
-#include "kbd.h"
+
+#include "libcommon.h"
+
 #include "psf.h"
 
 static void __attribute__((noreturn))
