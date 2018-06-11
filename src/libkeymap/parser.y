@@ -24,6 +24,7 @@
 %}
 
 %code requires {
+#include <kbdfile.h>
 #include "keymap.h"
 
 #ifndef STRDATA_STRUCT
@@ -403,7 +404,7 @@ rvalue		: NUMBER	{ $$ = convert_code(ctx, $1, TO_AUTO);		}
 %%
 
 int
-lk_parse_keymap(struct lk_ctx *ctx, lkfile_t *f)
+lk_parse_keymap(struct lk_ctx *ctx, struct kbdfile *fp)
 {
 	yyscan_t scanner;
 	int rc = -1;
@@ -413,9 +414,9 @@ lk_parse_keymap(struct lk_ctx *ctx, lkfile_t *f)
 	yylex_init(&scanner);
 	yylex_init_extra(ctx, &scanner);
 
-	INFO(ctx, _("Loading %s"), f->pathname);
+	INFO(ctx, _("Loading %s"), kbdfile_get_pathname(fp));
 
-	if (stack_push(ctx, f, scanner) == -1)
+	if (stack_push(ctx, fp, scanner) == -1)
 		goto fail;
 
 	if (yyparse(scanner, ctx))

@@ -8,7 +8,6 @@
 
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <keymap/findfile.h>
 #include <keymap/array.h>
 
 /**

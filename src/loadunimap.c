@@ -15,8 +15,10 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
+
+#include <kbdfile.h>
+
 #include "paths.h"
-#include "findfile.h"
 #include "kdmapop.h"
 #include "psffontop.h"
 #include "loadunimap.h"
@@ -266,33 +268,41 @@ void loadunicodemap(int fd, char *tblname)
 {
 	char buffer[65536];
 	char *p;
-	lkfile_t fp;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
 
-	if (lk_findfile(tblname, unidirpath, unisuffixes, &fp)) {
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
+		nomem();
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+		nomem();
+
+	if (kbdfile_find((char *) tblname, unidirpath, unisuffixes, fp)) {
 		perror(tblname);
 		exit(EX_NOINPUT);
 	}
 
 	if (verbose)
-		printf(_("Loading unicode map from file %s\n"), fp.pathname);
+		printf(_("Loading unicode map from file %s\n"), kbdfile_get_pathname(fp));
 
-	while (fgets(buffer, sizeof(buffer), fp.fd) != NULL) {
+	while (fgets(buffer, sizeof(buffer), kbdfile_get_file(fp)) != NULL) {
 		if ((p = strchr(buffer, '\n')) != NULL)
 			*p = '\0';
 		else
 			fprintf(stderr, _("%s: %s: Warning: line too long\n"),
-			        progname, tblname);
+			        get_progname(), tblname);
 
 		parseline(buffer, tblname);
 	}
 
-	lk_fpclose(&fp);
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 
 	if (listct == 0 && !force) {
 		fprintf(stderr,
 		        _("%s: not loading empty unimap\n"
 		          "(if you insist: use option -f to override)\n"),
-		        progname);
+		        get_progname());
 	} else {
 		descr.entry_ct = listct;
 		descr.entries  = list;

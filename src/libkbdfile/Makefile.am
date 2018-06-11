@@ -12,16 +12,22 @@ LDADD = \
 	$(CODE_COVERAGE_LIBS)
 
 headers = \
-	keymap/findfile.h
+	kbdfile.h
 
 libkbdfile_la_SOURCES = \
 	$(headers) \
-	findfile.c
+	contextP.h \
+	init.c \
+	kbdfile.c
+
+KBDFILE_CURRENT  = 1
+KBDFILE_REVISION = 0
+KBDFILE_AGE      = 0
 
 if BUILD_LIBKEYMAP
 lib_LTLIBRARIES = libkbdfile.la
 nobase_include_HEADERS = $(headers)
-libkbdfile_la_LDFLAGS = -export-symbols-regex ^lk_.*
+libkbdfile_la_LDFLAGS = -export-symbols-regex ^kbdfile_.* -version-info $(KBDFILE_CURRENT):$(KBDFILE_REVISION):$(KBDFILE_AGE)
 else
 noinst_LTLIBRARIES = libkbdfile.la
 endif

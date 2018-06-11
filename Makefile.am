@@ -1,4 +1,4 @@
-CODE_COVERAGE_DIRECTORY        = $(top_builddir)/src
+CODE_COVERAGE_DIRECTORY        = $(top_builddir)/src $(top_builddir)/tests
 CODE_COVERAGE_OUTPUT_FILE      = coverage.info
 CODE_COVERAGE_OUTPUT_DIRECTORY = coverage
 

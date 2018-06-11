@@ -11,7 +11,7 @@
 
 extern char *progname;
 
-static void
+void
 __attribute__((noreturn))
 nomem(void)
 {

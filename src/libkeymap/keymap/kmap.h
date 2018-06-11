@@ -6,7 +6,6 @@
 #define LK_KMAP_H
 
 #include <keymap/context.h>
-#include <keymap/findfile.h>
 
 int lk_add_map(struct lk_ctx *ctx, unsigned int k_table);
 int lk_map_exists(struct lk_ctx *ctx, unsigned int k_table);
@@ -34,7 +33,9 @@ int lk_append_compose(struct lk_ctx *ctx, struct lk_kbdiacr *dcr);
 
 int lk_add_constants(struct lk_ctx *ctx);
 
-int lk_parse_keymap(struct lk_ctx *ctx, lkfile_t *f);
+#include <kbdfile.h>
+
+int lk_parse_keymap(struct lk_ctx *ctx, struct kbdfile *f);
 int lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode);
 
 #endif /* LK_KMAP_H */

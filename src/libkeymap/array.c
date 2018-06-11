@@ -45,7 +45,7 @@ int lk_array_empty(struct lk_array *a)
 	return 0;
 }
 
-int lk_array_exists(struct lk_array *a, unsigned int i)
+int lk_array_exists(struct lk_array *a, size_t i)
 {
 	char *s;
 	size_t k;
@@ -65,7 +65,7 @@ int lk_array_exists(struct lk_array *a, unsigned int i)
 }
 
 void *
-lk_array_get(struct lk_array *a, unsigned int i)
+lk_array_get(struct lk_array *a, size_t i)
 {
 	if (!a || i >= a->total) {
 		return NULL;
@@ -74,7 +74,7 @@ lk_array_get(struct lk_array *a, unsigned int i)
 }
 
 void *
-lk_array_get_ptr(struct lk_array *a, unsigned int i)
+lk_array_get_ptr(struct lk_array *a, size_t i)
 {
 	void **ptr;
 	if (!a || i >= a->total) {
@@ -85,7 +85,7 @@ lk_array_get_ptr(struct lk_array *a, unsigned int i)
 }
 
 static int
-array_resize(struct lk_array *a, unsigned int i)
+array_resize(struct lk_array *a, size_t i)
 {
 	if (!a)
 		return -EINVAL;
@@ -103,7 +103,7 @@ array_resize(struct lk_array *a, unsigned int i)
 	return 0;
 }
 
-int lk_array_set(struct lk_array *a, unsigned int i, const void *e)
+int lk_array_set(struct lk_array *a, size_t i, const void *e)
 {
 	int ret = array_resize(a, i);
 
@@ -116,7 +116,7 @@ int lk_array_set(struct lk_array *a, unsigned int i, const void *e)
 	return 0;
 }
 
-int lk_array_unset(struct lk_array *a, unsigned int i)
+int lk_array_unset(struct lk_array *a, size_t i)
 {
 	if (!a || i >= a->total)
 		return -EINVAL;

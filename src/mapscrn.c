@@ -13,10 +13,11 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
+#include <kbdfile.h>
+
 #include "libcommon.h"
 
 #include "paths.h"
-#include "findfile.h"
 #include "kdmapop.h"
 #include "utf8.h"
 
@@ -129,15 +130,22 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 	struct stat stbuf;
 	int u      = 0;
 	int lineno = 0;
-	lkfile_t fp;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
 
-	if (lk_findfile(mfil, mapdirpath, mapsuffixes, &fp)) {
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
+		nomem();
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+		nomem();
+
+	if (kbdfile_find(mfil, mapdirpath, mapsuffixes, fp)) {
 		fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
 		        mfil);
 		exit(1);
 	}
-	if (stat(fp.pathname, &stbuf)) {
-		perror(fp.pathname);
+	if (stat(kbdfile_get_pathname(fp), &stbuf)) {
+		perror(kbdfile_get_pathname(fp));
 		fprintf(stderr, _("Cannot stat map file"));
 		exit(1);
 	}
@@ -145,38 +153,39 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 		if (verbose)
 			printf(_("Loading binary direct-to-font screen map "
 			         "from file %s\n"),
-			       fp.pathname);
-		if (fread(buf, E_TABSZ, 1, fp.fd) != 1) {
+			       kbdfile_get_pathname(fp));
+		if (fread(buf, E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
 			fprintf(stderr,
 			        _("Error reading map from file `%s'\n"),
-			        fp.pathname);
+			        kbdfile_get_pathname(fp));
 			exit(1);
 		}
 	} else if (stbuf.st_size == 2 * E_TABSZ) {
 		if (verbose)
 			printf(_("Loading binary unicode screen map "
 			         "from file %s\n"),
-			       fp.pathname);
-		if (fread(ubuf, 2 * E_TABSZ, 1, fp.fd) != 1) {
+			       kbdfile_get_pathname(fp));
+		if (fread(ubuf, 2 * E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
 			fprintf(stderr,
 			        _("Error reading map from file `%s'\n"),
-			        fp.pathname);
+			        kbdfile_get_pathname(fp));
 			exit(1);
 		}
 		u = 1;
 	} else {
 		if (verbose)
 			printf(_("Loading symbolic screen map from file %s\n"),
-			       fp.pathname);
-		if (parsemap(fp.fd, buf, ubuf, &u, &lineno)) {
+			       kbdfile_get_pathname(fp));
+		if (parsemap(kbdfile_get_file(fp), buf, ubuf, &u, &lineno)) {
 			fprintf(stderr,
 			        _("Error parsing symbolic map "
 			          "from `%s', line %d\n"),
-			        fp.pathname, lineno);
+			        kbdfile_get_pathname(fp), lineno);
 			exit(1);
 		}
 	}
-	lk_fpclose(&fp);
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	return u;
 }
 

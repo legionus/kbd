@@ -83,7 +83,7 @@ LDADD = \
 	libfont.a \
 	libkeymap/libkeymap.la \
 	libkbdfile/libkbdfile.la \
-	$(top_builddir)/src/libcommon/libcommon.a \
+	libcommon/libcommon.a \
 	@INTLLIBS@ \
 	$(CODE_COVERAGE_LIBS)
 

@@ -7,10 +7,15 @@ AM_CPPFLAGS = \
 	-I$(builddir)/../src/libkeymap \
 	-I$(srcdir)/../src/libkbdfile \
 	-I$(builddir)/../src/libkbdfile \
-	-DDATADIR=\"$(srcdir)\" -DBUILDDIR=\"$(builddir)\"
+	-DDATADIR=\"$(srcdir)\" \
+	-DABS_DATADIR=\"$(realpath $(srcdir))\" \
+	-DBUILDDIR=\"$(builddir)\"
 
 AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
-LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS) @INTLLIBS@ $(CODE_COVERAGE_LIBS)
+LDADD  = \
+	$(top_builddir)/src/libkeymap/libkeymap.la \
+	$(top_builddir)/src/libkbdfile/libkbdfile.la \
+	$(CHECK_LIBS) @INTLLIBS@ $(CODE_COVERAGE_LIBS)
 
 EXTRA_DIST = \
 	alt-is-meta.in \
@@ -29,11 +34,13 @@ EXTRA_DIST = \
 	\
 	alt-is-meta.output \
 	dumpkeys.bkeymap.bin \
-	dumpkeys.defkeymap.c
+	dumpkeys.defkeymap.c \
+	\
+	findfile
 
 #check_SCRIPTS  = dumpkeys-fulltable dumpkeys-mktable dumpkeys-bkeymap alt-is-meta
 check_SCRIPTS  = dumpkeys-fulltable alt-is-meta
-check_PROGRAMS = libkeymap
+check_PROGRAMS = libkeymap libkbdfile
 
 noinst_PROGRAMS = \
 	libkeymap-dumpkeys libkeymap-mktable libkeymap-bkeymap libkeymap-showmaps \
@@ -48,7 +55,7 @@ libkeymap_bkeymap_SOURCES  = libkeymap-bkeymap.c
 libkeymap_showmaps_SOURCES = libkeymap-showmaps.c
 
 libkeymap_SOURCES = libkeymap.c
-libkeymap_LDADD   = $(top_builddir)/src/libkeymap/libkeymap.la $(LDADD)
+libkbdfile_SOURCES = libkbdfile.c
 
 %: %.in
 	sed \

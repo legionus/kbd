@@ -24,10 +24,11 @@
 #include <endian.h>
 #include <sysexits.h>
 
+#include <kbdfile.h>
+
 #include "libcommon.h"
 
 #include "paths.h"
-#include "findfile.h"
 #include "loadunimap.h"
 #include "psf.h"
 #include "psffontop.h"
@@ -58,15 +59,15 @@ const char *const partfontdirpath[]  = { "", DATADIR "/" FONTDIR "/" PARTIALDIR 
 const char *const partfontsuffixes[] = { "", 0 };
 
 static inline int
-findfont(char *fnam, lkfile_t *fp)
+findfont(char *fnam, struct kbdfile *fp)
 {
-	return lk_findfile(fnam, fontdirpath, fontsuffixes, fp);
+	return kbdfile_find(fnam, fontdirpath, fontsuffixes, fp);
 }
 
 static inline int
-findpartialfont(char *fnam, lkfile_t *fp)
+findpartialfont(char *fnam, struct kbdfile *fp)
 {
-	return lk_findfile(fnam, partfontdirpath, partfontsuffixes, fp);
+	return kbdfile_find(fnam, partfontdirpath, partfontsuffixes, fp);
 }
 
 static void __attribute__((noreturn))
@@ -398,12 +399,20 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
 	int i;
-	lkfile_t fp;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
+
 
 	if (ifilct == 1) {
 		loadnewfont(fd, ifiles[0], iunit, hwunit, no_m, no_u);
 		return;
 	}
+
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
+		nomem();
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+		nomem();
 
 	/* several fonts that must be merged */
 	/* We just concatenate the bitmaps - only allow psf fonts */
@@ -416,7 +425,7 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 
 	for (i = 0; i < ifilct; i++) {
 		ifil = ifiles[i];
-		if (findfont(ifil, &fp) && findpartialfont(ifil, &fp)) {
+		if (findfont(ifil, fp) && findpartialfont(ifil, fp)) {
 			fprintf(stderr, _("Cannot open font file %s\n"), ifil);
 			exit(EX_NOINPUT);
 		}
@@ -425,21 +434,26 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 		inputlth = fontbuflth = 0;
 		fontsize              = 0;
 
-		if (readpsffont(fp.fd, &inbuf, &inputlth, &fontbuf, &fontbuflth,
+		if (readpsffont(kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
 		                &width, &fontsize, bigfontsize,
 		                no_u ? NULL : &uclistheads)) {
 			fprintf(stderr, _("When loading several fonts, all "
 			                  "must be psf fonts - %s isn't\n"),
-			        fp.pathname);
-			lk_fpclose(&fp);
+			        kbdfile_get_pathname(fp));
+			kbdfile_free(fp);
+			kbdfile_context_free(kbdfile_ctx);
 			exit(EX_DATAERR);
 		}
-		lk_fpclose(&fp); // avoid zombies, jw@suse.de (#88501)
+
+		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
+		kbdfile_context_free(kbdfile_ctx);
+
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
+
 		if (verbose)
 			printf(_("Read %d-char %dx%d font from file %s\n"),
-			       fontsize, width, height, fp.pathname);
+			       fontsize, width, height, kbdfile_get_pathname(fp));
 
 		if (bigheight == 0)
 			bigheight = height;
@@ -473,12 +487,21 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 static void
 loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 {
-	lkfile_t fp;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
+
 	char defname[20];
 	int height, width, bytewidth, def = 0;
 	char *inbuf, *fontbuf;
 	int inputlth, fontbuflth, fontsize, offset;
 	struct unicode_list *uclistheads;
+
+
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
+		nomem();
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+		nomem();
 
 	if (!*ifil) {
 		/* try to find some default file */
@@ -488,23 +511,23 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		if (iunit < 0 || iunit > 32)
 			iunit = 0;
 		if (iunit == 0) {
-			if (findfont(ifil = "default", &fp) &&
-			    findfont(ifil = "default8x16", &fp) &&
-			    findfont(ifil = "default8x14", &fp) &&
-			    findfont(ifil = "default8x8", &fp)) {
+			if (findfont(ifil = "default", fp) &&
+			    findfont(ifil = "default8x16", fp) &&
+			    findfont(ifil = "default8x14", fp) &&
+			    findfont(ifil = "default8x8", fp)) {
 				fprintf(stderr, _("Cannot find default font\n"));
 				exit(EX_NOINPUT);
 			}
 		} else {
 			sprintf(defname, "default8x%d", iunit);
-			if (findfont(ifil = defname, &fp) &&
-			    findfont(ifil = "default", &fp)) {
+			if (findfont(ifil = defname, fp) &&
+			    findfont(ifil = "default", fp)) {
 				fprintf(stderr, _("Cannot find %s font\n"), ifil);
 				exit(EX_NOINPUT);
 			}
 		}
 	} else {
-		if (findfont(ifil, &fp)) {
+		if (findfont(ifil, fp)) {
 			fprintf(stderr, _("Cannot open font file %s\n"), ifil);
 			exit(EX_NOINPUT);
 		}
@@ -517,16 +540,18 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	inputlth = fontbuflth = fontsize = 0;
 	width                            = 8;
 	uclistheads                      = NULL;
-	if (readpsffont(fp.fd, &inbuf, &inputlth, &fontbuf, &fontbuflth,
+	if (readpsffont(kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
 	                &width, &fontsize, 0,
 	                no_u ? NULL : &uclistheads) == 0) {
-		lk_fpclose(&fp);
+		kbdfile_free(fp);
+		kbdfile_context_free(kbdfile_ctx);
+
 		/* we've got a psf font */
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
 
 		do_loadfont(fd, fontbuf, width, height, hwunit,
-		            fontsize, fp.pathname);
+		            fontsize, kbdfile_get_pathname(fp));
 		if (uclistheads && !no_u)
 			do_loadtable(fd, uclistheads, fontsize);
 #if 1
@@ -535,7 +560,8 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 #endif
 		return;
 	}
-	lk_fpclose(&fp); // avoid zombies, jw@suse.de (#88501)
+	kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
+	kbdfile_context_free(kbdfile_ctx);
 
 	/* instructions to combine fonts? */
 	{
@@ -607,7 +633,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		height   = inputlth / 256;
 	}
 	do_loadfont(fd, inbuf + offset, width, height, hwunit, fontsize,
-	            fp.pathname);
+	            kbdfile_get_pathname(fp));
 }
 
 static int

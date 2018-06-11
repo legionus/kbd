@@ -7,7 +7,6 @@
 #include <keymap/kernel.h>
 #include <keymap/kmap.h>
 #include <keymap/logging.h>
-#include <keymap/findfile.h>
 #include <keymap/charset.h>
 
 #endif /* LK_KEYMAP_H */

@@ -80,8 +80,10 @@
 #include <sys/io.h>
 #include <sys/ioctl.h>
 #include <linux/vt.h>
+
+#include <kbdfile.h>
+
 #include "paths.h"
-#include "findfile.h"
 
 #include "libcommon.h"
 
@@ -111,7 +113,8 @@ int main(int argc, char **argv)
 	char *p;
 	char tty[12], cmd[80], infile[1024];
 	char *defaultfont;
-	lkfile_t fp;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
 
 	set_progname(argv[0]);
 
@@ -138,13 +141,29 @@ int main(int argc, char **argv)
 	else
 		usage();
 
+	if (cc <= 0 || cc > USHRT_MAX) {
+		kbd_error(EXIT_FAILURE, 0, _("resizecons: invalid columns number %d\n"), cc);
+		usage();
+	}
+
+	if (rr <= 0 || rr > USHRT_MAX) {
+		kbd_error(EXIT_FAILURE, 0, _("resizecons: invalid rows number %d\n"), rr);
+		usage();
+	}
+
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
+		nomem();
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+		nomem();
+
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* prepare for: restoretextmode -r 80x25 */
 		sprintf(infile, "%dx%d", cc, rr);
-		if (lk_findfile(infile, dirpath, suffixes, &fp)) {
+		if (kbdfile_find(infile, dirpath, suffixes, fp)) {
 			kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s\n"), infile);
 		}
-		lk_fpclose(&fp);
+		kbdfile_close(fp);
 	}
 
 	if ((fd = getfd(NULL)) < 0)
@@ -250,7 +269,7 @@ int main(int argc, char **argv)
 
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* do: restoretextmode -r 25x80 */
-		sprintf(cmd, "restoretextmode -r %s\n", fp.pathname);
+		sprintf(cmd, "restoretextmode -r %s\n", kbdfile_get_pathname(fp));
 		errno = 0;
 		if (system(cmd)) {
 			if (errno)
@@ -259,6 +278,9 @@ int main(int argc, char **argv)
 			exit(EXIT_FAILURE);
 		}
 	}
+
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 
 	/*
      * for i in /dev/tty[0-9] /dev/tty[0-9][0-9]

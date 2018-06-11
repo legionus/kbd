@@ -91,7 +91,7 @@ fail:
 static char *
 mk_mapname(char modifier)
 {
-	static char *mods[8] = {
+	static const char *mods[8] = {
 		"shift", "altgr", "ctrl", "alt", "shl", "shr", "ctl", "ctr"
 	};
 	static char buf[60];

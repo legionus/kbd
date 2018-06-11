@@ -50,6 +50,7 @@ void kbd_error(const int exitnum, const int errnum, const char *fmt, ...);
 // xmalloc.c
 #include <sys/param.h>
 
+void nomem(void);
 void *xmalloc(size_t sz);
 void *xrealloc(void *p, size_t sz);
 char *xstrdup(char *p);

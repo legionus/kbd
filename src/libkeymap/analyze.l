@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <unistd.h> /* readlink */
 
+#include <kbdfile.h>
+
 #include "libcommon.h"
 #include "contextP.h"
 #include "ksyms.h"
@@ -14,7 +16,7 @@
 
 %top {
 #include "keymap.h"
-int stack_push(struct lk_ctx *ctx, lkfile_t *fp, void *scanner);
+int stack_push(struct lk_ctx *ctx, struct kbdfile *fp, void *scanner);
 int stack_pop(struct lk_ctx *ctx, void *scanner);
 }
 
@@ -31,7 +33,7 @@ int stack_pop(struct lk_ctx *ctx, void *scanner);
 
 %{
 int
-stack_push(struct lk_ctx *ctx, lkfile_t *fp, void *scanner)
+stack_push(struct lk_ctx *ctx, struct kbdfile *fp, void *scanner)
 {
 	int i = 0;
 
@@ -44,7 +46,7 @@ stack_push(struct lk_ctx *ctx, lkfile_t *fp, void *scanner)
 
 	ctx->stack[i] = fp;
 
-	yypush_buffer_state(yy_create_buffer(fp->fd, YY_BUF_SIZE, scanner), scanner);
+	yypush_buffer_state(yy_create_buffer(kbdfile_get_file(fp), YY_BUF_SIZE, scanner), scanner);
 	return 0;
 }
 
@@ -62,8 +64,7 @@ stack_pop(struct lk_ctx *ctx, void *scanner)
 	 * The top of stack is input file for library. No need to close it.
 	 */
 	if (i) {
-		lk_fpclose(ctx->stack[i]);
-		free(ctx->stack[i]);
+		kbdfile_free(ctx->stack[i]);
 	}
 	ctx->stack[i] = NULL;
 
@@ -108,7 +109,7 @@ static const char *const include_dirpath3[] = {
 static const char *const include_suffixes[] = { "", ".inc", 0 };
 
 static int
-find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, lkfile_t *fp)
+find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, struct kbdfile *fp)
 {
 	const char *include_dirpath2[] = { 0, 0, 0, 0 };
 	char *t, *te, *t1 = NULL, *t2 = NULL;
@@ -136,7 +137,7 @@ find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, lkfile_t *fp)
 		strcat(t1, "../include/");
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
-		rc = lk_findfile(s, include_dirpath2, include_suffixes, fp);
+		rc = kbdfile_find(s, include_dirpath2, include_suffixes, fp);
 		free(t1);
 		free(t2);
 	}
@@ -151,7 +152,7 @@ nomem:	ERR(ctx, _("out of memory"));
 }
 
 static int
-find_standard_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
+find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 {
 	char *pathname;
 	int rc = 1;
@@ -161,9 +162,9 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
 	if (i == 0)
 		return -1;
 	i--;
-	pathname = ctx->stack[i]->pathname;
+	pathname = kbdfile_get_pathname(ctx->stack[i]);
 
-	if (lk_findfile(s, include_dirpath1, include_suffixes, fp)) {
+	if (kbdfile_find(s, include_dirpath1, include_suffixes, fp)) {
 		if ((rc = find_incl_file_near_fn(ctx, s, pathname, fp)) == -1)
 			return rc;
 	}
@@ -192,12 +193,12 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
 	}
 
 	if (rc)
-		rc = lk_findfile(s, include_dirpath3, include_suffixes, fp);
+		rc = kbdfile_find(s, include_dirpath3, include_suffixes, fp);
 	return rc;
 }
 
 static int
-find_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
+find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 {
 	char *ev;
 
@@ -205,7 +206,7 @@ find_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
 		return 1;
 
 	if (*s == '/')		/* no path required */
-		return (lk_findfile(s, include_dirpath0, include_suffixes, fp));
+		return (kbdfile_find(s, include_dirpath0, include_suffixes, fp));
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
@@ -220,7 +221,7 @@ find_incl_file(struct lk_ctx *ctx, char *s, lkfile_t *fp)
 			}
 			user_dir[0] = ev;
 			if (*ev)
-				rc = lk_findfile(s, user_dir, include_suffixes, fp);
+				rc = kbdfile_find(s, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
 				rc = find_standard_incl_file(ctx, s, fp);
 
@@ -239,16 +240,15 @@ static int
 open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
 {
 	int rc;
-	lkfile_t *fp;
+	struct kbdfile *fp;
 
 	INFO(ctx, _("switching to %s"), s);
 
-	fp = malloc(sizeof(lkfile_t));
+	fp = kbdfile_new(ctx->kbdfile_ctx);
 	if (!fp) {
 		ERR(ctx, _("out of memory"));
 		return -1;
 	}
-	memset(fp, 0, sizeof(lkfile_t));
 
 	rc = find_incl_file(ctx, s, fp);
 	if (rc > 0) {

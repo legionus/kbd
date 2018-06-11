@@ -9,6 +9,7 @@
 #include <stdarg.h>
 
 #include <keymap/context.h>
+#include <keymap/logging.h>
 
 /** Initializes the structures necessary to read and/or parse keymap.
  *
@@ -62,10 +63,6 @@ int lk_set_log_priority(struct lk_ctx *ctx, int priority);
  *
  * @return 0 on success, -1 on error.
  */
-int lk_set_log_fn(struct lk_ctx *ctx,
-                  void (*log_fn)(void *data, int priority,
-                                 const char *file, int line, const char *fn,
-                                 const char *format, va_list args),
-                  const void *data);
+int lk_set_log_fn(struct lk_ctx *ctx, lk_logger_t log_fn, const void *data);
 
 #endif /* LK_COMMON_H */

@@ -8,17 +8,29 @@
 int main(int __attribute__((unused)) argc, char **argv)
 {
 	struct lk_ctx *ctx;
-	lkfile_t f;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
+
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL) {
+		perror("nomem");
+		exit(1);
+	}
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL) {
+		perror("nomem");
+		exit(1);
+	}
 
 	ctx = lk_init();
 
-	f.pipe = 0;
-	strcpy(f.pathname, argv[1]);
-	f.fd = fopen(argv[1], "r");
+	kbdfile_set_pathname(fp, argv[1]);
+	kbdfile_set_file(fp, fopen(argv[1], "r"));
 
-	lk_parse_keymap(ctx, &f);
+	lk_parse_keymap(ctx, fp);
 	lk_dump_bkeymap(ctx, stdout);
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 	return 0;
 }

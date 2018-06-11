@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include <check.h>
 
@@ -15,22 +16,35 @@ struct modifier {
 START_TEST(charset_0)
 {
 	const char *s;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "charset-keymap0.map");
-	f.fd = fopen(DATADIR "/charset-keymap0.map", "r");
+	kbdfile_set_pathname(fp, "charset-keymap0.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/charset-keymap0.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/charset-keymap0.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	s = lk_get_charset(ctx);
 
 	fail_if(strcmp(s, "iso-8859-2"), "Unable to parse charset");
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -38,23 +52,36 @@ END_TEST
 START_TEST(charset_1)
 {
 	const char *s;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
+
+	kbdfile_set_pathname(fp, "null");
+
+	f = fopen("/dev/null", "r");
+	fail_if(!f, "Unable to open: /dev/null: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "null");
-	f.fd = fopen("/dev/null", "r");
-
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	s = lk_get_charset(ctx);
 
 	fail_if(s == NULL, "Charset not found");
 	fail_if(strcmp(s, "iso-8859-1"), "Unable to parse charset");
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -95,17 +122,28 @@ END_TEST
 START_TEST(keymap_parse_0)
 {
 	int c;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap0.map");
-	f.fd = fopen(DATADIR "/keymap0.map", "r");
+	kbdfile_set_pathname(fp, "keymap0.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap0.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap0.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	c = lk_get_key(ctx, 0, 16);
 	fail_if(KVAL(c) != 'q', "Unable to get keycode 16");
@@ -125,6 +163,8 @@ START_TEST(keymap_parse_0)
 	c = lk_get_key(ctx, 0, 21);
 	fail_if(KVAL(c) != 'y', "Unable to get keycode 21");
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -132,17 +172,28 @@ END_TEST
 START_TEST(keymap_parse_1)
 {
 	int c;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap1.map");
-	f.fd = fopen(DATADIR "/keymap1.map", "r");
+	kbdfile_set_pathname(fp, "keymap1.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap1.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap1.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	c = lk_get_key(ctx, 0, 16);
 	fail_if(KVAL(c) != 'q', "Unable to get keycode");
@@ -150,6 +201,8 @@ START_TEST(keymap_parse_1)
 	c = lk_get_key(ctx, 1, 16);
 	fail_if(KVAL(c) != 'Q', "Unable to get keycode");
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -157,17 +210,28 @@ END_TEST
 START_TEST(keymap_parse_2)
 {
 	unsigned int i = 0;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap2.map");
-	f.fd = fopen(DATADIR "/keymap2.map", "r");
+	kbdfile_set_pathname(fp, "keymap2.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap2.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap2.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	while (i < MAX_NR_KEYMAPS) {
 		int c = lk_get_key(ctx, i, 17);
@@ -175,6 +239,8 @@ START_TEST(keymap_parse_2)
 		i++;
 	}
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -183,23 +249,36 @@ START_TEST(keymap_parse_3)
 {
 	unsigned int i;
 	char str[] = "qwertyuiopasdfghjklzxcvbnm";
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap3.map");
-	f.fd = fopen(DATADIR "/keymap3.map", "r");
+	kbdfile_set_pathname(fp, "keymap3.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap3.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap3.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	for (i = 0; i < 26; i++) {
 		int c = lk_get_key(ctx, i, 17);
 		fail_if(KVAL(c) != str[i], "Unable to get keycode");
 	}
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -207,17 +286,28 @@ END_TEST
 START_TEST(keymap_parse_4)
 {
 	int c;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap4.map");
-	f.fd = fopen(DATADIR "/keymap4.map", "r");
+	kbdfile_set_pathname(fp, "keymap4.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap4.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap4.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	c = lk_get_key(ctx, 0, 16);
 	fail_if(KVAL(c) != 'q', "Unable to get keycode");
@@ -228,6 +318,8 @@ START_TEST(keymap_parse_4)
 	c = lk_get_key(ctx, 0, 18);
 	fail_if(KVAL(c) != 'e', "Include41.map failed");
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
@@ -235,18 +327,29 @@ END_TEST
 START_TEST(keymap_parse_5)
 {
 	unsigned int i;
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct kbsentry kbs;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap5.map");
-	f.fd = fopen(DATADIR "/keymap5.map", "r");
+	kbdfile_set_pathname(fp, "keymap5.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap5.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap5.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	for (i = 0; i < MAX_NR_FUNC; i++) {
 		kbs.kb_func      = (unsigned char) i;
@@ -255,24 +358,37 @@ START_TEST(keymap_parse_5)
 		        "Unable to get func %d", i);
 	}
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST
 
 START_TEST(keymap_parse_6)
 {
-	lkfile_t f;
+	FILE *f = NULL;
+	struct kbdfile *fp = NULL;
+	struct kbdfile_ctx *kbdfile_ctx;
 	struct kbsentry kbs;
 	struct lk_ctx *ctx;
+
+	kbdfile_ctx = kbdfile_context_new();
+	fail_if(!kbdfile_ctx, "Unable to create kbdfile context");
+
+	fp = kbdfile_new(kbdfile_ctx);
+	fail_if(!fp, "Unable to create kbdfile");
 
 	ctx = lk_init();
 	lk_set_log_fn(ctx, NULL, NULL);
 
-	f.pipe = 0;
-	strcpy(f.pathname, "keymap6.map");
-	f.fd = fopen(DATADIR "/keymap6.map", "r");
+	kbdfile_set_pathname(fp, "keymap6.map");
 
-	fail_if(lk_parse_keymap(ctx, &f) != 0, "Unable to parse keymap");
+	f = fopen(DATADIR "/keymap6.map", "r");
+	fail_if(!f, "Unable to open: %s", DATADIR "/keymap6.map: %s", strerror(errno));
+
+	kbdfile_set_file(fp, f);
+
+	fail_if(lk_parse_keymap(ctx, fp) != 0, "Unable to parse keymap");
 
 	kbs.kb_func      = 0;
 	kbs.kb_string[0] = 0;
@@ -286,6 +402,8 @@ START_TEST(keymap_parse_6)
 	kbs.kb_string[0] = 0;
 	fail_if(lk_get_func(ctx, &kbs) != -1, "Possible to get not alloced func");
 
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 	lk_free(ctx);
 }
 END_TEST

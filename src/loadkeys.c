@@ -95,7 +95,8 @@ int main(int argc, char *argv[])
 	int kd_mode;
 	char *console = NULL;
 	char *ev;
-	lkfile_t f;
+	struct kbdfile *fp;
+	struct kbdfile_ctx *kbdfile_ctx;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
@@ -107,6 +108,12 @@ int main(int argc, char *argv[])
 	if (!ctx) {
 		exit(EXIT_FAILURE);
 	}
+
+	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
+		nomem();
+
+	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+		nomem();
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -205,33 +212,33 @@ int main(int argc, char *argv[])
 	if (options & OPT_D) {
 		/* first read default map - search starts in . */
 
-		if (lk_findfile(DEFMAP, dirpath, suffixes, &f)) {
+		if (kbdfile_find((char *) DEFMAP, dirpath, suffixes, fp)) {
 			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
 			exit(EXIT_FAILURE);
 		}
 
-		if ((rc = lk_parse_keymap(ctx, &f)) == -1)
+		if ((rc = lk_parse_keymap(ctx, fp)) == -1)
 			goto fail;
 
 	} else if (optind == argc) {
-		f.fd = stdin;
-		strcpy(f.pathname, "<stdin>");
+		kbdfile_set_file(fp, stdin);
+		kbdfile_set_pathname(fp, "<stdin>");
 
-		if ((rc = lk_parse_keymap(ctx, &f)) == -1)
+		if ((rc = lk_parse_keymap(ctx, fp)) == -1)
 			goto fail;
 	}
 
 	for (i = optind; argv[i]; i++) {
 		if (!strcmp(argv[i], "-")) {
-			f.fd = stdin;
-			strcpy(f.pathname, "<stdin>");
+			kbdfile_set_file(fp, stdin);
+			kbdfile_set_pathname(fp, "<stdin>");
 
-		} else if (lk_findfile(argv[i], dirpath, suffixes, &f)) {
+		} else if (kbdfile_find(argv[i], dirpath, suffixes, fp)) {
 			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
 			goto fail;
 		}
 
-		if ((rc = lk_parse_keymap(ctx, &f)) == -1)
+		if ((rc = lk_parse_keymap(ctx, fp)) == -1)
 			goto fail;
 	}
 
@@ -247,7 +254,8 @@ int main(int argc, char *argv[])
 
 fail:
 	lk_free(ctx);
-	lk_fpclose(&f);
+	kbdfile_free(fp);
+	kbdfile_context_free(kbdfile_ctx);
 
 	if (fd >= 0)
 		close(fd);

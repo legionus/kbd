@@ -2,6 +2,7 @@
 #define LK_CONTEXTP_H
 
 #include <stdarg.h>
+#include <kbdfile.h>
 
 #include "keymap.h"
 
@@ -40,11 +41,14 @@ struct lk_ctx {
 	struct lk_array *accent_table;
 
 	/**
+	 * Context for libkbdfile.
+	 */
+	struct kbdfile_ctx *kbdfile_ctx;
+
+	/**
 	 * User defined logging function.
 	 */
-	void (*log_fn)(void *data, int priority,
-	               const char *file, int line, const char *fn,
-	               const char *format, va_list args);
+	lk_logger_t log_fn;
 
 	/**
 	 * The data passed to the @ref log_fn logging function as the first argument.
@@ -65,8 +69,42 @@ struct lk_ctx {
 
 	struct lk_array *key_constant;
 	struct lk_array *key_line;
-	int mod;
-	lkfile_t *stack[MAX_INCLUDE_DEPTH];
+	unsigned int mod;
+	struct kbdfile *stack[MAX_INCLUDE_DEPTH];
 };
+
+#define lk_log_cond(ctx, level, arg...)                                          \
+	do {                                                                     \
+		if (ctx->log_priority >= level)                                  \
+			lk_log(ctx, level, __FILE__, __LINE__, __func__, ##arg); \
+	} while (0)
+
+/**
+ * Wrapper to output debug-level messages
+ * @param ctx is a keymap library context.
+ * @param arg is output message.
+ */
+#define DBG(ctx, arg...) lk_log_cond(ctx, LOG_DEBUG, ##arg)
+
+/**
+ * Wrapper to output informational messages
+ * @param ctx is a keymap library context.
+ * @param arg is output message.
+ */
+#define INFO(ctx, arg...) lk_log_cond(ctx, LOG_INFO, ##arg)
+
+/**
+ * Wrapper to output warning conditions
+ * @param ctx is a keymap library context.
+ * @param arg is output message.
+ */
+#define WARN(ctx, arg...) lk_log_cond(ctx, LOG_WARNING, ##arg)
+
+/**
+ * Wrapper to output error conditions
+ * @param ctx is a keymap library context.
+ * @param arg is output message.
+ */
+#define ERR(ctx, arg...) lk_log_cond(ctx, LOG_ERR, ##arg)
 
 #endif /* LK_CONTEXTP_H */

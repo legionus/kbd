@@ -8,6 +8,12 @@
 #include <syslog.h>
 #include <keymap/context.h>
 
+#ifndef __GNUC__
+#define __attribute__(x) /*NOTHING*/
+#endif
+
+typedef void (*lk_logger_t)(void *, int, const char *, int, const char *, const char *, va_list) __attribute__((format(printf, 6, 0)));
+
 /**
  * Logging function which uses @ref lk_ctx::log_fn "log_fn" and
  * @ref lk_ctx::log_data "log_data" to write log messages.
@@ -17,39 +23,5 @@
 void lk_log(struct lk_ctx *ctx, int priority,
             const char *file, int line, const char *fn,
             const char *fmt, ...);
-
-#define lk_log_cond(ctx, level, arg...)                                          \
-	do {                                                                     \
-		if (ctx->log_priority >= level)                                  \
-			lk_log(ctx, level, __FILE__, __LINE__, __func__, ##arg); \
-	} while (0)
-
-/**
- * Wrapper to output debug-level messages
- * @param ctx is a keymap library context.
- * @param arg is output message.
- */
-#define DBG(ctx, arg...) lk_log_cond(ctx, LOG_DEBUG, ##arg)
-
-/**
- * Wrapper to output informational messages
- * @param ctx is a keymap library context.
- * @param arg is output message.
- */
-#define INFO(ctx, arg...) lk_log_cond(ctx, LOG_INFO, ##arg)
-
-/**
- * Wrapper to output warning conditions
- * @param ctx is a keymap library context.
- * @param arg is output message.
- */
-#define WARN(ctx, arg...) lk_log_cond(ctx, LOG_WARNING, ##arg)
-
-/**
- * Wrapper to output error conditions
- * @param ctx is a keymap library context.
- * @param arg is output message.
- */
-#define ERR(ctx, arg...) lk_log_cond(ctx, LOG_ERR, ##arg)
 
 #endif /* LK_LOGGING_H */

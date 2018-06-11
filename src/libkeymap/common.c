@@ -78,11 +78,7 @@ log_file(void *data,
 
 #undef log_unused
 
-int lk_set_log_fn(struct lk_ctx *ctx,
-                  void (*log_fn)(void *data, int priority,
-                                 const char *file, int line, const char *fn,
-                                 const char *format, va_list args),
-                  const void *data)
+int lk_set_log_fn(struct lk_ctx *ctx, lk_logger_t log_fn, const void *data)
 {
 	if (!ctx)
 		return -1;
@@ -174,6 +170,13 @@ lk_init(void)
 		return NULL;
 	}
 
+	ctx->kbdfile_ctx = kbdfile_context_new();
+
+	if (ctx->kbdfile_ctx == NULL) {
+		lk_free(ctx);
+		return NULL;
+	}
+
 	return ctx;
 }
 
@@ -244,6 +247,11 @@ int lk_free(struct lk_ctx *ctx)
 		free(ctx->key_line);
 		ctx->key_line = NULL;
 	}
+
+	if (ctx->kbdfile_ctx != NULL)
+		ctx->kbdfile_ctx = kbdfile_context_free(ctx->kbdfile_ctx);
+
+	free(ctx);
 
 	return 0;
 }
