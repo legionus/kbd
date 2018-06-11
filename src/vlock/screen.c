@@ -66,7 +66,7 @@ void init_screen(void)
 		if (read(vcs, &lines, 1) != 1)
 			break;
 
-		size       = 2 * lines * columns + 2;
+		size       = (unsigned) 2 * lines * columns + 2;
 		screen_buf = malloc(size);
 		if (!screen_buf)
 			break;
@@ -101,7 +101,7 @@ void restore_screen(void)
 				break;
 			if (write(vcs, &lines, 1) != 1)
 				break;
-			if (write(vcs, screen_buf, 2 * lines * columns + 2) !=
+			if (write(vcs, screen_buf, (unsigned) 2 * lines * columns + 2) !=
 			    2 * lines * columns + 2)
 				break;
 		} while (0);
