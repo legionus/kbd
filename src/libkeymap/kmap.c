@@ -22,7 +22,12 @@ int lk_get_keys_total(struct lk_ctx *ctx, unsigned int k_table)
 	if (!map) {
 		return 0;
 	}
-	return map->total;
+
+	if (map->total >= NR_KEYS) {
+		return -1;
+	}
+
+	return (int) map->total;
 }
 
 int lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)

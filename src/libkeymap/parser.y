@@ -32,7 +32,7 @@
 #define STRDATA_STRUCT
 #define MAX_PARSER_STRING 512
 struct strdata {
-	unsigned int len;
+	unsigned long len;
 	unsigned char data[MAX_PARSER_STRING];
 };
 #endif
@@ -85,7 +85,7 @@ strings_as_usual(struct lk_ctx *ctx)
 	/*
 	 * 26 strings, mostly inspired by the VT100 family
 	 */
-	char *stringvalues[30] = {
+	const char *stringvalues[30] = {
 		/* F1 .. F20 */
 		"\033[[A",  "\033[[B",  "\033[[C",  "\033[[D",  "\033[[E",
 		"\033[17~", "\033[18~", "\033[19~", "\033[20~", "\033[21~",

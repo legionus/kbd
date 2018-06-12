@@ -63,7 +63,7 @@ struct lk_ctx {
 	/**
 	 * User defined charset.
 	 */
-	unsigned int charset;
+	unsigned short charset;
 
 	/* Fields used by keymap parser */
 

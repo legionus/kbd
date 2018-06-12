@@ -10,7 +10,7 @@ typedef struct {
 
 typedef struct {
 	const char *const *table;
-	const unsigned int size;
+	const unsigned short size;
 } syms_entry;
 
 struct syn {

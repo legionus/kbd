@@ -113,7 +113,8 @@ find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, struct kbdfile *fp
 {
 	const char *include_dirpath2[] = { 0, 0, 0, 0 };
 	char *t, *te, *t1 = NULL, *t2 = NULL;
-	int len, rc = 1;
+	size_t len;
+	int rc = 1;
 
 	if (!fn)
 		return 1;
@@ -172,15 +173,15 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 	/* If filename is a symlink, also look near its target. */
 	if (rc) {
 		char buf[MAXPATHLEN], path[MAXPATHLEN], *ptr;
-		unsigned int n;
+		ssize_t n;
 
 		n = readlink(pathname, buf, sizeof(buf));
-		if (n > 0 && n < sizeof(buf)) {
+		if (n > 0 && n < (ssize_t) sizeof(buf)) {
 			buf[n] = 0;
 			if (buf[0] == '/') {
 				rc = find_incl_file_near_fn(ctx, s, buf, fp);
 
-			} else if (strlen(pathname) + n < sizeof(path)) {
+			} else if (strlen(pathname) + (size_t) n < sizeof(path)) {
 				strcpy(path, pathname);
 				path[sizeof(path) - 1] = 0;
 				ptr = strrchr(path, '/');
@@ -414,11 +415,29 @@ To                      to|To|TO
 				yy_push_state(STR, yyscanner);
 			}
 <STR>\\{Octa}		{
+				long int i;
 				if (yylval->str.len == MAX_PARSER_STRING) {
 					ERR(yyextra, _("string too long"));
 					return(ERROR);
 				}
-				yylval->str.data[yylval->str.len++] = strtol(yytext + 1, NULL, 8);
+
+				i = strtol(yytext + 1, NULL, 8);
+
+				if (i == LONG_MIN || i == LONG_MAX) {
+					char buf[200];
+
+					strerror_r(errno, buf, sizeof(buf));
+
+					ERR(yyextra, buf);
+					return(ERROR);
+				}
+
+				if (i > UCHAR_MAX) {
+					ERR(yyextra, _("octal number too big"));
+					return(ERROR);
+				}
+
+				yylval->str.data[yylval->str.len++] = (unsigned char) i;
 			}
 <STR>\\\"               {
 				if (yylval->str.len == MAX_PARSER_STRING) {
@@ -442,7 +461,7 @@ To                      to|To|TO
 				yylval->str.data[yylval->str.len++] = '\n';
 			}
 <STR>[^\"\\]*		{
-				int len = strlen(yytext);
+				size_t len = strlen(yytext);
 
 				if (yylval->str.len + len >= MAX_PARSER_STRING) {
 					ERR(yyextra, _("string too long"));
