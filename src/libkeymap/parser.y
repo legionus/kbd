@@ -342,7 +342,7 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					}
 
 					if (i < ctx->key_line->count) {
-						ERR(ctx, _("too many (%d) entries on one line"),
+						ERR(ctx, _("too many (%ld) entries on one line"),
 							ctx->key_line->count);
 						YYERROR;
 					}

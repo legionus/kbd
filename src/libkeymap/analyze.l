@@ -285,7 +285,7 @@ parse_int(struct lk_ctx *ctx, char *text, char *value, int base, int *res)
 	}
 
 	if (v > INT_MAX) {
-		ERR(ctx, _("value must be less than %d: %s"), text, INT_MAX);
+		ERR(ctx, _("value must be less than %d: %s"), INT_MAX, text);
 		return -1;
 	}
 
