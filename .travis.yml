@@ -9,5 +9,6 @@ before_script:
   - ./autogen.sh
 script:
   - ./configure && make
-  - make check
+  - make check || { ! test -f tests/test-suite.log || cat tests/test-suite.log; exit 1; }
   - sudo ./src/loadkeys ./data/keymaps/i386/qwerty/us.map
+  - make distcheck
