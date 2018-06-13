@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	int fd, c;
 	char *console = NULL;
 	char *outfnam = NULL;
-	char *infnam  = "def.uni";
+	const char *infnam  = "def.uni";
 
 	set_progname(argv[0]);
 
@@ -162,7 +162,7 @@ addpair(int fp, int un)
  */
 
 static void
-parseline(char *buffer, char *tblname)
+parseline(char *buffer, const char *tblname)
 {
 	int fontlen = 512;
 	int i;
@@ -264,7 +264,7 @@ lookattail:
 		        tblname, p);
 }
 
-void loadunicodemap(int fd, char *tblname)
+void loadunicodemap(int fd, const char *tblname)
 {
 	char buffer[65536];
 	char *p;
@@ -312,26 +312,23 @@ void loadunicodemap(int fd, char *tblname)
 	}
 }
 
-static struct unimapdesc
-getunicodemap(int fd)
+static int
+getunicodemap(int fd, struct unimapdesc *unimap_descr)
 {
-	struct unimapdesc unimap_descr;
-
-	if (getunimap(fd, &unimap_descr))
-		exit(1);
+	if (getunimap(fd, unimap_descr))
+		return -1;
 
 #ifdef MAIN
-	fprintf(stderr, "# %d %s\n", unimap_descr.entry_ct,
-	        (unimap_descr.entry_ct == 1) ? _("entry") : _("entries"));
+	fprintf(stderr, "# %d %s\n", unimap_descr->entry_ct,
+	        (unimap_descr->entry_ct == 1) ? _("entry") : _("entries"));
 #endif
-
-	return unimap_descr;
+	return 0;
 }
 
 void saveunicodemap(int fd, char *oufil)
 {
 	FILE *fpo;
-	struct unimapdesc unimap_descr;
+	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
 	int i;
 
@@ -340,8 +337,10 @@ void saveunicodemap(int fd, char *oufil)
 		exit(1);
 	}
 
-	unimap_descr = getunicodemap(fd);
-	unilist      = unimap_descr.entries;
+	if (getunicodemap(fd, &unimap_descr) < 0)
+		exit(1);
+
+	unilist = unimap_descr.entries;
 
 	for (i = 0; i < unimap_descr.entry_ct; i++)
 		fprintf(fpo, "0x%02x\tU+%04x\n", unilist[i].fontpos, unilist[i].unicode);
@@ -353,12 +352,14 @@ void saveunicodemap(int fd, char *oufil)
 
 void appendunicodemap(int fd, FILE *fp, int fontsize, int utf8)
 {
-	struct unimapdesc unimap_descr;
+	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
 	int i, j;
 
-	unimap_descr = getunicodemap(fd);
-	unilist      = unimap_descr.entries;
+	if (getunicodemap(fd, &unimap_descr) < 0)
+		exit(1);
+
+	unilist = unimap_descr.entries;
 
 	for (i = 0; i < fontsize; i++) {
 #if 0

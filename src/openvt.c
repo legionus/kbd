@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include <unistd.h>
 #include <getopt.h>
 #include <dirent.h>
@@ -208,7 +209,8 @@ int main(int argc, char *argv[])
 					kbd_error(5, 0, _("%s: Illegal vt number"), optarg);
 
 				/* close security holes - until we can do this safely */
-				(void)setuid(getuid());
+				if (setuid(getuid()) < 0)
+					kbd_error(5, errno, "%s: setuid", optarg);
 				break;
 			case 'l':
 				login = TRUE;
@@ -350,7 +352,8 @@ int main(int argc, char *argv[])
 			uid_t uid = getuid();
 			if (chown(vtname, uid, getgid()) == -1)
 				kbd_error(5, errno, "chown");
-			setuid(uid);
+			if (setuid(uid) < 0)
+				kbd_error(5, errno, "setuid");
 		}
 
 		if (show) {

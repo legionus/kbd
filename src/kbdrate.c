@@ -73,6 +73,7 @@ beats rebuilding the kernel!
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
@@ -134,7 +135,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 	if (rate == 0) /* switch repeat off */
 		kbdrep_s.period = 0;
 	else
-		kbdrep_s.period = 1000.0 / rate; /* convert cps to msec */
+		kbdrep_s.period = (int) (1000.0 / rate); /* convert cps to msec */
 	if (kbdrep_s.period < 1)
 		kbdrep_s.period = 1;
 	kbdrep_s.delay          = delay;
@@ -236,8 +237,7 @@ int main(int argc, char **argv)
 	int fd;
 	char data;
 	int c;
-	unsigned int i;
-	extern char *optarg;
+	int i;
 
 	set_progname(argv[0]);
 
@@ -275,14 +275,14 @@ int main(int argc, char **argv)
 
 	/* The ioport way */
 
-	for (i = 0; i < RATE_COUNT; i++)
+	for (i = 0; i < (int) RATE_COUNT; i++)
 		if (rate * 10 >= valid_rates[i]) {
 			value &= 0x60;
 			value |= i;
 			break;
 		}
 
-	for (i = 0; i < DELAY_COUNT; i++)
+	for (i = 0; i < (int) DELAY_COUNT; i++)
 		if (delay <= valid_delays[i]) {
 			value &= 0x1f;
 			value |= i << 5;
@@ -304,7 +304,7 @@ int main(int argc, char **argv)
 	} while ((data & 2) == 2); /* wait */
 
 	lseek(fd, 0x60, 0);
-	data = 0xf3; /* set typematic rate */
+	data = (char) 0xf3; /* set typematic rate */
 	if (write(fd, &data, 1) == -1) {
 		kbd_error(EXIT_FAILURE, errno, "write");
 	}

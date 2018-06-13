@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <linux/kd.h>
@@ -30,7 +31,7 @@ usage(void)
 }
 
 static void
-report(int meta)
+report(unsigned int meta)
 {
 	char *s;
 
@@ -48,7 +49,7 @@ report(int meta)
 }
 
 struct meta {
-	char *name;
+	const char *name;
 	unsigned int val;
 } metas[] = {
 	{ "metabit", K_METABIT },

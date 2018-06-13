@@ -143,6 +143,7 @@ int main(int argc, char *argv[])
 				break;
 			case 'V':
 				print_version_and_exit();
+				break;
 			case 'h':
 			case '?':
 				usage();

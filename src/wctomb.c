@@ -55,9 +55,9 @@ our_wctomb(char *s, unsigned long wc)
 {
 	if (s == 0)
 		return 0; /* no shift states */
-	if (wc & ~Wchar2) {
-		if (wc & ~Wchar4) {
-			if (wc & ~Wchar5) {
+	if (wc & ~(unsigned long)Wchar2) {
+		if (wc & ~(unsigned long)Wchar4) {
+			if (wc & ~(unsigned long)Wchar5) {
 				/* 6 bytes */
 				s[0] = T6 | ((wc >> 5 * Bitx) & Mask6);
 				s[1] = Tx | ((wc >> 4 * Bitx) & Maskx);
@@ -75,7 +75,7 @@ our_wctomb(char *s, unsigned long wc)
 			s[4] = Tx | (wc & Maskx);
 			return 5;
 		}
-		if (wc & ~Wchar3) {
+		if (wc & ~(unsigned long)Wchar3) {
 			/* 4 bytes */
 			s[0] = T4 | (wc >> 3 * Bitx);
 			s[1] = Tx | ((wc >> 2 * Bitx) & Maskx);
@@ -89,7 +89,7 @@ our_wctomb(char *s, unsigned long wc)
 		s[2] = Tx | (wc & Maskx);
 		return 3;
 	}
-	if (wc & ~Wchar1) {
+	if (wc & ~(unsigned long)Wchar1) {
 		/* 2 bytes */
 		s[0] = T2 | (wc >> 1 * Bitx);
 		s[1] = Tx | (wc & Maskx);

@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -46,13 +47,13 @@ leave(int n)
 static void
 settrivialscreenmap(void)
 {
-	int i;
+	unsigned short i;
 
 	if (getuniscrnmap(fd, obuf))
 		exit(1);
 	have_obuf = 1;
 
-	for (i          = 0; i < E_TABSZ; i++)
+	for (i = 0; i < E_TABSZ; i++)
 		nbuf[i] = i;
 
 	if (loaduniscrnmap(fd, nbuf)) {
@@ -76,7 +77,7 @@ getoldunicodemap(void)
 static void
 setnewunicodemap(int *list, int cnt)
 {
-	int i;
+	unsigned short i;
 
 	if (!nunimap.entry_ct) {
 		nunimap.entry_ct = 512;
@@ -86,8 +87,8 @@ setnewunicodemap(int *list, int cnt)
 		nunimap.entries[i].fontpos = i;
 		nunimap.entries[i].unicode = 0;
 	}
-	for (i                                   = 0; i < cnt; i++)
-		nunimap.entries[list[i]].unicode = BASE + i;
+	for (i = 0; i < cnt; i++)
+		nunimap.entries[list[i]].unicode = (unsigned short) (BASE + i);
 
 	if (loadunimap(fd, NULL, &nunimap))
 		leave(EXIT_FAILURE);
@@ -114,7 +115,8 @@ int main(int argc, char **argv)
 {
 	int c, n, cols, rows, nr, i, j, k;
 	int mode;
-	char *space, *sep, *console = NULL;
+	const char *space, *sep;
+	char *console = NULL;
 	int list[64], lth, info = 0, verbose = 0;
 
 	set_progname(argv[0]);

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h> /* free() */
+#include <string.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "kdfontop.h"
@@ -152,14 +153,14 @@ int putfont(int fd, unsigned char *buf, int count, int width, int height)
 	   round up and try again. */
 	if (errno == EINVAL && width == 8 && count != 256 && count < 512) {
 		int ct               = ((count > 256) ? 512 : 256);
-		unsigned char *mybuf = malloc(32 * ct);
+		unsigned char *mybuf = malloc(32U * ct);
 
 		if (!mybuf) {
 			fprintf(stderr, _("%s: out of memory\n"), get_progname());
 			return -1;
 		}
-		memset(mybuf, 0, 32 * ct);
-		memcpy(mybuf, buf, 32 * count);
+		memset(mybuf, 0, 32U * ct);
+		memcpy(mybuf, buf, 32U * count);
 		cfo.data      = mybuf;
 		cfo.charcount = ct;
 		i             = ioctl(fd, KDFONTOP, &cfo);

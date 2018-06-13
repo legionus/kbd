@@ -27,7 +27,7 @@ struct termios old;
 static void
 get_mode(void)
 {
-	char *m;
+	const char *m;
 
 	if (ioctl(fd, KDGKBMODE, &oldkbmode)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
@@ -116,9 +116,10 @@ int main(int argc, char *argv[])
 	int show_keycodes = 1;
 	int print_ascii   = 0;
 
-	struct termios new;
+	struct termios new = { 0 };
 	unsigned char buf[18]; /* divisible by 3 */
-	int i, n;
+	int i;
+	ssize_t n;
 
 	set_progname(argv[0]);
 
@@ -140,6 +141,7 @@ int main(int argc, char *argv[])
 				break;
 			case 'V':
 				print_version_and_exit();
+				break;
 			case 'h':
 			case '?':
 				usage();
@@ -158,7 +160,7 @@ int main(int argc, char *argv[])
 		if (tcgetattr(fd, &new) == -1)
 			kbd_warning(errno, "tcgetattr");
 
-		new.c_lflag &= ~(ICANON | ISIG);
+		new.c_lflag &= ~((tcflag_t)(ICANON | ISIG));
 		new.c_lflag |= (ECHO | ECHOCTL);
 		new.c_iflag     = 0;
 		new.c_cc[VMIN]  = 1;
@@ -223,7 +225,7 @@ int main(int argc, char *argv[])
 	if (tcgetattr(fd, &new) == -1)
 		kbd_warning(errno, "tcgetattr");
 
-	new.c_lflag &= ~(ICANON | ECHO | ISIG);
+	new.c_lflag &= ~((tcflag_t)(ICANON | ECHO | ISIG));
 	new.c_iflag     = 0;
 	new.c_cc[VMIN]  = sizeof(buf);
 	new.c_cc[VTIME] = 1; /* 0.1 sec intercharacter timeout */

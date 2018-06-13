@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <ctype.h>
 #include <unistd.h>
@@ -36,7 +37,7 @@ int main(int argc, char **argv)
 {
 	int sortflag = 0;
 	char mb[]    = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	unsigned mb_length;
+	int mb_length;
 	int fd, c, i;
 	char *console = NULL;
 	struct unimapdesc ud;

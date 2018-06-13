@@ -72,6 +72,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 #include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -112,7 +113,7 @@ int main(int argc, char **argv)
 	struct winsize winsize;
 	char *p;
 	char tty[12], cmd[80], infile[1024];
-	char *defaultfont;
+	const char *defaultfont;
 	struct kbdfile *fp;
 	struct kbdfile_ctx *kbdfile_ctx;
 
@@ -186,8 +187,8 @@ int main(int argc, char **argv)
 		kbd_error(EXIT_FAILURE, errno, "ioctl VT_GETSTATE");
 	}
 
-	vtsizes.v_rows       = rr;
-	vtsizes.v_cols       = cc;
+	vtsizes.v_rows       = (unsigned short) rr;
+	vtsizes.v_cols       = (unsigned short) cc;
 	vtsizes.v_scrollsize = 0;
 
 	vga_init_io(); /* maybe only if (mode == MODE_VGALINES) */
@@ -289,8 +290,8 @@ int main(int argc, char **argv)
      * done
      * kill -SIGWINCH `cat /tmp/selection.pid`
      */
-	winsize.ws_row = rr;
-	winsize.ws_col = cc;
+	winsize.ws_row = (unsigned short) rr;
+	winsize.ws_col = (unsigned short) cc;
 	for (i = 0; i < 16; i++)
 		if (vtstat.v_state & (1 << i)) {
 			sprintf(tty, "/dev/tty%d", i);

@@ -15,8 +15,6 @@
 #include "utf8.h"
 #include "paths.h"
 
-extern char *progname;
-
 static void
 addpair(struct unicode_list *up, unsigned int uc)
 {
@@ -75,7 +73,7 @@ assemble_ucs2(char **inptr, int cnt)
 
 	if (cnt < 2) {
 		char *u = _("%s: short ucs2 unicode table\n");
-		fprintf(stderr, u, progname);
+		fprintf(stderr, u, get_progname());
 		exit(EX_DATAERR);
 	}
 
@@ -104,7 +102,7 @@ assemble_utf8(char **inptr, int cnt)
 			default:
 				u = _("%s: unknown utf8 error\n");
 		}
-		fprintf(stderr, u, progname);
+		fprintf(stderr, u, get_progname());
 		exit(EX_DATAERR);
 	}
 	return uc;
@@ -135,7 +133,7 @@ get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8)
 	while (1) {
 		if (*endptr == *inptr) {
 			char *u = _("%s: short unicode table\n");
-			fprintf(stderr, u, progname);
+			fprintf(stderr, u, get_progname());
 			exit(EX_DATAERR);
 		}
 		if (utf8) {

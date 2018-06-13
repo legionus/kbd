@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <linux/kd.h>
@@ -70,7 +71,7 @@ report(int leds)
 }
 
 struct led {
-	char *name;
+	const char *name;
 	int bit;
 	int sunbit;
 } leds[] = {
@@ -202,7 +203,7 @@ int main(int argc, char **argv)
 
 	if (argc <= 1) {
 		if (optL) {
-			nleds = 0xff;
+			nleds = (char) 0xff;
 			if (setleds(nleds)) {
 				kbd_error(EXIT_FAILURE, 0, _("Error resetting ledmode\n"));
 			}

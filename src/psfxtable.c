@@ -54,7 +54,7 @@
 struct unicode_list *uclistheads;
 
 static void
-addpair(int fontpos, unsigned int uc)
+addpair(long fontpos, unicode uc)
 {
 	struct unicode_list *ul;
 	struct unicode_seq *us;
@@ -72,7 +72,7 @@ addpair(int fontpos, unsigned int uc)
 }
 
 static void
-addseq(int fontpos, unsigned int uc)
+addseq(long fontpos, unicode uc)
 {
 	struct unicode_list *ul;
 	struct unicode_seq *us;
@@ -86,7 +86,7 @@ addseq(int fontpos, unsigned int uc)
 	ul->seq->prev  = us;
 }
 
-static int
+static long
 getunicode(char **p0)
 {
 	char *p = *p0;
@@ -105,7 +105,7 @@ static void
 parse_itab_line(char *buf, int fontlen)
 {
 	char *p, *p1;
-	int i;
+	long i;
 	long fp0, fp1, un0, un1;
 
 	if ((p = strchr(buf, '\n')) != NULL)
@@ -235,9 +235,9 @@ int debug = 0;
 
 int main(int argc, char **argv)
 {
-	char *ifname, *ofname, *itname, *otname;
+	const char *ifname, *ofname, *itname, *otname;
 	FILE *ifil, *ofil, *itab, *otab;
-	int psftype, fontlen, charsize, hastable, notable;
+	int psftype, charsize, fontlen, hastable, notable;
 	int i;
 	int width = 8, bytewidth, height;
 	char *inbuf, *fontbuf;
@@ -393,7 +393,7 @@ int main(int argc, char **argv)
 	if (otab) {
 		struct unicode_list *ul;
 		struct unicode_seq *us;
-		char *sep;
+		const char *sep;
 
 		if (!hastable) {
 			char *u = _("%s: input font does not have an index\n");

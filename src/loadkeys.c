@@ -56,7 +56,7 @@ usage(void)
 int main(int argc, char *argv[])
 {
 	const char *const short_opts          = "abcC:dhmpsuqvV";
-	const struct option const long_opts[] = {
+	const struct option long_opts[] = {
 		{ "console", required_argument, NULL, 'C' },
 		{ "ascii", no_argument, NULL, 'a' },
 		{ "bkeymap", no_argument, NULL, 'b' },
@@ -154,6 +154,7 @@ int main(int argc, char *argv[])
 				break;
 			case 'V':
 				print_version_and_exit();
+				break;
 			case 'h':
 			case '?':
 				usage();

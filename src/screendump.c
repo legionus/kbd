@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -114,7 +115,7 @@ try_ioctl : {
 		kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
 	}
 
-	screenbuf    = xmalloc(2 + win.ws_row * win.ws_col);
+	screenbuf    = xmalloc(2 + (size_t)(win.ws_row * win.ws_col));
 	screenbuf[0] = 0;
 	screenbuf[1] = (unsigned char)cons;
 
@@ -153,7 +154,7 @@ try_ioctl : {
 	}
 }
 done:
-	if (write(1, outbuf, q - outbuf) != q - outbuf) {
+	if (write(1, outbuf, (size_t) (q - outbuf)) != q - outbuf) {
 		kbd_error(EXIT_FAILURE, 0, _("Error writing screendump\n"));
 	}
 

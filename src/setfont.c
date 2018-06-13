@@ -765,7 +765,7 @@ saveoldfontplusunicodemap(int fd, char *Ofil)
 /* For the moment: only the current console, only the G0 set */
 
 static void
-send_escseq(int fd, char *seq, int n)
+send_escseq(int fd, const char *seq, int n)
 {
 	if (write(fd, seq, n) != n) /* maybe fd is read-only */
 		printf("%s", seq);

@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
@@ -65,7 +66,7 @@ int main(int argc, char **argv)
 		       sc0 - 1, sc0 - 1);
 	}
 
-	for (sc = (sc0 & ~7); sc < 256; sc++) {
+	for (sc = (sc0 & ~7U); sc < 256; sc++) {
 		if (sc == 128)
 			printf(_("\n\nEscaped scancodes e0 xx (hex)\n"));
 		if (sc % 8 == 0) {
