@@ -11,6 +11,7 @@
  */
 %{
 #define YY_HEADER_EXPORT_START_CONDITIONS 1
+#define YY_YY_Y_TAB_H_INCLUDED 1
 
 #include "config.h"
 #include "libcommon.h"
@@ -411,7 +412,6 @@ lk_parse_keymap(struct lk_ctx *ctx, struct kbdfile *fp)
 
 	ctx->mod = 0;
 
-	yylex_init(&scanner);
 	yylex_init_extra(ctx, &scanner);
 
 	INFO(ctx, _("Loading %s"), kbdfile_get_pathname(fp));
@@ -424,8 +424,9 @@ lk_parse_keymap(struct lk_ctx *ctx, struct kbdfile *fp)
 
 	rc = 0;
 
+fail:
 	stack_pop(ctx, scanner);
 
- fail:	yylex_destroy(scanner);
+	yylex_destroy(scanner);
 	return rc;
 }
