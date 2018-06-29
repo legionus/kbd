@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-2.0.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2016-12-26 17:38+0100\n"
+"POT-Creation-Date: 2018-06-29 18:31+0100\n"
 "PO-Revision-Date: 2015-08-30 02:12+0300\n"
 "Last-Translator: Lefteris Dimitroulakis <ledimitro@gmail.com>\n"
 "Language-Team: Greek <team@lists.gnome.gr>\n"
@@ -19,45 +19,45 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/chvt.c:32
+#: src/chvt.c:31
 #, c-format
 msgid "usage: chvt N\n"
 msgstr "χρήση: chvt N\n"
 
-#: src/chvt.c:37 src/clrunimap.c:30 src/deallocvt.c:43 src/dumpkeys.c:158
-#: src/fgconsole.c:69 src/getkeycodes.c:45 src/getunimap.c:73 src/kbdinfo.c:81
-#: src/kbd_mode.c:79 src/loadkeys.c:179 src/loadunimap.c:84 src/mapscrn.c:60
-#: src/openvt.c:258 src/resizecons.c:153 src/setfont.c:195 src/setkeycodes.c:51
-#: src/setlogcons.c:37 src/setpalette.c:36 src/setvesablank.c:33
-#: src/setvtrgb.c:140 src/showconsolefont.c:152 src/showkey.c:189
-#: src/totextmode.c:37
+#: src/chvt.c:36 src/clrunimap.c:32 src/deallocvt.c:42 src/dumpkeys.c:157
+#: src/fgconsole.c:68 src/getkeycodes.c:44 src/getunimap.c:72 src/kbdinfo.c:81
+#: src/kbd_mode.c:78 src/loadkeys.c:174 src/loadunimap.c:83 src/mapscrn.c:58
+#: src/openvt.c:258 src/resizecons.c:171 src/setfont.c:194 src/setkeycodes.c:50
+#: src/setlogcons.c:38 src/setpalette.c:35 src/setvesablank.c:34
+#: src/setvtrgb.c:139 src/showconsolefont.c:152 src/showkey.c:189
+#: src/totextmode.c:35
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr "Δέν μπορώ να λάβω περιγραφέα αρχείου πού αφορά την κονσόλα"
 
-#: src/deallocvt.c:37
+#: src/deallocvt.c:36
 #, c-format
 msgid "%s: unknown option\n"
 msgstr "%s: άγνωστη επιλογή\n"
 
-#: src/deallocvt.c:54
+#: src/deallocvt.c:53
 msgid "0: illegal VT number\n"
 msgstr "0: παράτυπος αριθμός VT\n"
 
-#: src/deallocvt.c:56
+#: src/deallocvt.c:55
 msgid "VT 1 is the console and cannot be deallocated\n"
 msgstr "VT 1 είναι η κονσόλα και δεν μπορεί ν' αποδεσμευτεί\n"
 
-#: src/deallocvt.c:58
+#: src/deallocvt.c:57
 #, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "αδυναμία αποδέσμευσης της κονσόλας %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:31
+#: src/dumpkeys.c:29
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys έκδοση %s"
 
-#: src/dumpkeys.c:32
+#: src/dumpkeys.c:30
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -96,7 +96,7 @@ msgstr ""
 "\t   --compose-only    εμφάνιση μόνο των συνδιασμών compose των πλήκτρων\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:50
+#: src/dumpkeys.c:48
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -105,24 +105,24 @@ msgstr ""
 "\t\t\t    διερμηνεία κωδικών των χαρακτήρων ενέργειας\n"
 "\t\t\t    από το προδιαγεγραμμένο σύνολο χαρακτήρων\n"
 
-#: src/dumpkeys.c:54
+#: src/dumpkeys.c:52
 #, c-format
 msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
 
-#: src/dumpkeys.c:140
+#: src/dumpkeys.c:138
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "άγνωστο σύνολο χαρακτήρων %s - η αίτηση αγνοήθηκε\n"
 
-#: src/dumpkeys.c:162 src/loadkeys.c:184
+#: src/dumpkeys.c:161 src/loadkeys.c:179
 #, c-format
 msgid "%s: error reading keyboard mode: %m\n"
 msgstr "%s: σφάλμα ανάγνωσης keyboard mode: %m\n"
 
-#: src/dumpkeys.c:178
+#: src/dumpkeys.c:177
 #, c-format
 msgid ""
 "Symbols recognized by %s:\n"
@@ -133,7 +133,7 @@ msgstr ""
 "(αριθμητική τιμή, σύμβολο)\n"
 "\n"
 
-#: src/fgconsole.c:21
+#: src/fgconsole.c:20
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -156,45 +156,35 @@ msgstr ""
 "\t-V --version         εμφάνιση έκδοσης προγράμματος\n"
 "\t-n --next-available  εμφάνιση αριθμού του επόμενου μη δεσμευμένου VT\n"
 
-#: src/fgconsole.c:73
+#: src/fgconsole.c:72
 msgid "Couldn't read VTNO: "
 msgstr "Δεν μπόρεσα να διαβάσω VTNO: "
 
-#: src/getfd.c:69
-#, c-format
-msgid "Couldn't open %s\n"
-msgstr "Αδυνατώ ν' ανοίξω το %s\n"
-
-#: src/getfd.c:86
-#, c-format
-msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Δέν μπορώ να λάβω περιγραφέα αρχείου πού αφορά την κονσόλα\n"
-
-#: src/getkeycodes.c:22
+#: src/getkeycodes.c:21
 #, c-format
 msgid "usage: getkeycodes\n"
 msgstr "χρήση: getkeycodes\n"
 
-#: src/getkeycodes.c:60
+#: src/getkeycodes.c:59
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr ""
 "Απλοί κωδικοί σάρωσης xx (hex) και οι αντίστοιχοι κωδικοί πλήκτρων (dec)\n"
 
-#: src/getkeycodes.c:63
+#: src/getkeycodes.c:62
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
 "0 είναι ένα σφάλμα, γιά 1-88 (0x01-0x58) ο κωδικός σάρωσης ισούται με τον "
 "κωδικό πλήκτρου\n"
 
-#: src/getkeycodes.c:66
+#: src/getkeycodes.c:65
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr ""
 "για 1-%d (0x01-0x%02x) ο κωδικός σάρωσης ισούται με τον κωδικό πλήκτρου\n"
 
-#: src/getkeycodes.c:72
+#: src/getkeycodes.c:71
 #, c-format
 msgid ""
 "\n"
@@ -205,14 +195,14 @@ msgstr ""
 "\n"
 "Κωδικοί σάρωσης διαφυγής e0 xx (hex)\n"
 
-#: src/getkeycodes.c:95
+#: src/getkeycodes.c:94
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr ""
 "αποτυχία κατά τη λήψη κωδικού πλήκτρου  γιά τον κώδικα σάρωσης 0x%x: ioctl "
 "KDGETKEYCODE"
 
-#: src/getunimap.c:33
+#: src/getunimap.c:32
 #, c-format
 msgid ""
 "Usage:\n"
@@ -246,71 +236,71 @@ msgstr "Σφάλμα: Όχι αρκετά ορίσματα.\n"
 msgid "Error: Unrecognized action: %s\n"
 msgstr "Σφάλμα: Άγνωστη ενέργεια: %s\n"
 
-#: src/kbd_mode.c:24
+#: src/kbd_mode.c:23
 #, c-format
 msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 msgstr "χρήση: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 
-#: src/kbd_mode.c:88
+#: src/kbd_mode.c:87
 #, c-format
 msgid "The keyboard is in raw (scancode) mode\n"
 msgstr "Το πληκτρολόγιο βρίσκεται σε ακατέργαστη (scancode) κατάσταση\n"
 
-#: src/kbd_mode.c:91
+#: src/kbd_mode.c:90
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode\n"
 msgstr "Το πληκτρολόγιο είναι σε ημικατεργασμένη (keycode) κατάσταση\n"
 
-#: src/kbd_mode.c:94
+#: src/kbd_mode.c:93
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode\n"
 msgstr "Το πληκτρολόγιο βρίσκεται στην προεπιλεγμένη κατάσταση (ASCII)\n"
 
-#: src/kbd_mode.c:97
+#: src/kbd_mode.c:96
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode\n"
 msgstr "Το πληκτρολόγιο βρίσκεται σε κατάσταση Unicode (UTF-8)\n"
 
-#: src/kbd_mode.c:100
+#: src/kbd_mode.c:99
 #, c-format
 msgid "The keyboard is in some unknown mode\n"
 msgstr "Το πληκτρολόγιο βρίσκεται σε κάποια άγνωστη κατάσταση\n"
 
-#: src/kbdrate.c:157 src/kbdrate.c:175 src/kbdrate.c:332
+#: src/kbdrate.c:156 src/kbdrate.c:174 src/kbdrate.c:330
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Ο ρυθμός επανάληψης ρυθμίστηκε σε %.1f cps (καθυστέρηση = %d ms)\n"
 
-#: src/kbdrate.c:267
+#: src/kbdrate.c:265
 #, fuzzy, c-format
 msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
 msgstr "Χρήσις: kbdrate [-V] [-s] [-r ρυθμός] [-d καθυστέρηση]\n"
 
-#: src/kbdrate.c:295
+#: src/kbdrate.c:293
 msgid "Cannot open /dev/port"
 msgstr "Αδυνατώ ν' ανοίξω το /dev/port"
 
-#: src/kdfontop.c:97
+#: src/kdfontop.c:98
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "bug: getfont κλήθηκε με μετρητή<256\n"
 
-#: src/kdfontop.c:101
+#: src/kdfontop.c:102
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr "bug: getfont using GIO_FONT needs buf.\n"
 
-#: src/kdfontop.c:158 src/kdmapop.c:152 src/xmalloc.c:18
+#: src/kdfontop.c:159 src/kdmapop.c:153 src/libcommon/xmalloc.c:18
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: εξάντληση μνήμης\n"
 
-#: src/kdmapop.c:161
+#: src/kdmapop.c:162
 #, c-format
 msgid "strange... ct changed from %d to %d\n"
 msgstr "περίεργο... ct άλλαξε από %d σε %d\n"
 
-#: src/kdmapop.c:187
+#: src/kdmapop.c:188
 #, c-format
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
@@ -319,21 +309,36 @@ msgstr ""
 "Φαίνεται πως ο πυρήνας είναι παλαιότερος του 1.1.92\n"
 "Δεν φορτώθηκε πίνακας Unicode.\n"
 
-#: src/libkeymap/common.c:140 src/libkeymap/kmap.c:58 src/libkeymap/kmap.c:66
+#: src/libcommon/getfd.c:69
+#, c-format
+msgid "Couldn't open %s\n"
+msgstr "Αδυνατώ ν' ανοίξω το %s\n"
+
+#: src/libcommon/getfd.c:86
+#, c-format
+msgid "Couldn't get a file descriptor referring to the console\n"
+msgstr "Δέν μπορώ να λάβω περιγραφέα αρχείου πού αφορά την κονσόλα\n"
+
+#: src/libcommon/version.c:29
+#, c-format
+msgid "%s from %s\n"
+msgstr "%s από %s\n"
+
+#: src/libkeymap/common.c:135 src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
 #: src/libkeymap/loadkeys.c:120
 msgid "out of memory"
 msgstr "εξάντληση μνήμης"
 
-#: src/libkeymap/common.c:146
+#: src/libkeymap/common.c:141
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "unable to initialize array: %s"
 
-#: src/libkeymap/dump.c:86
+#: src/libkeymap/dump.c:87
 msgid "Error writing map to file"
 msgstr "Σφάλμα εγγραφής του πίνακα απεικόνισης στο αρχείο"
 
-#: src/libkeymap/dump.c:542
+#: src/libkeymap/dump.c:545
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "αδύνατον: δεν είναι meta;\n"
@@ -353,71 +358,71 @@ msgstr "KDGKBSENT: %s: Unable to get function key string"
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
 msgstr "KDGKBDIACR(UC): %s: Δεν μπορώ να βρω τον πίνακα των τόνων"
 
-#: src/libkeymap/kmap.c:80 src/libkeymap/kmap.c:98
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:101
 #, c-format
 msgid "unable to get keymap %d"
 msgstr "unable to get keymap %d"
 
-#: src/libkeymap/kmap.c:106
+#: src/libkeymap/kmap.c:109
 #, c-format
 msgid "unable to unset key %d for table %d"
 msgstr "unable to unset key %d for table %d"
 
-#: src/libkeymap/kmap.c:122
+#: src/libkeymap/kmap.c:125
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
 msgstr "η lk_add_key κλήθηκε με λάθος κωδικό πλήκτρου %d"
 
-#: src/libkeymap/kmap.c:129
+#: src/libkeymap/kmap.c:132
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "η προσθήκη map %d παραβιάζει υπάρχουσα σαφή αντιστοίχιση πλήκτρων"
 
-#: src/libkeymap/kmap.c:145
+#: src/libkeymap/kmap.c:148
 #, c-format
 msgid "unable to set key %d for table %d"
 msgstr "αποτυχία απόδωσης στο πλήκτρο %d της τιμής %d"
 
-#: src/libkeymap/kmap.c:236
+#: src/libkeymap/kmap.c:239
 msgid "impossible error in lk_add_constants"
 msgstr "αδύνατο σφάλμα σε lk_add_constants"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:151
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "unable to get symbol by wrong type: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:165
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "unable to get symbol of %d type by wrong index: %d"
 
-#: src/libkeymap/ksyms.c:339
+#: src/libkeymap/ksyms.c:340
 #, c-format
 msgid "assuming iso-8859-1 %s"
 msgstr "υποθέτοντας iso-8859-1 %s"
 
-#: src/libkeymap/ksyms.c:345
+#: src/libkeymap/ksyms.c:346
 #, c-format
 msgid "assuming iso-8859-15 %s"
 msgstr "υποθέτοντας iso-8859-15 %s"
 
-#: src/libkeymap/ksyms.c:351
+#: src/libkeymap/ksyms.c:352
 #, c-format
 msgid "assuming iso-8859-2 %s"
 msgstr "υποθέτοντας iso-8859-2 %s"
 
-#: src/libkeymap/ksyms.c:357
+#: src/libkeymap/ksyms.c:358
 #, c-format
 msgid "assuming iso-8859-3 %s"
 msgstr "υποθέτοντας iso-8859-3 %s"
 
-#: src/libkeymap/ksyms.c:363
+#: src/libkeymap/ksyms.c:364
 #, c-format
 msgid "assuming iso-8859-4 %s"
 msgstr "υποθέτοντας iso-8859-4 %s"
 
-#: src/libkeymap/ksyms.c:368
+#: src/libkeymap/ksyms.c:369
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "άγνωστο keysym «%s»\n"
@@ -466,12 +471,12 @@ msgstr "KDSKBENT: %s: αδυναμία αποδέσμευσης ή καθαρι�
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: αποτυχία επιστροφής στην αρχική keyboard mode"
 
-#: src/libkeymap/loadkeys.c:163
+#: src/libkeymap/loadkeys.c:164
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "αποτυχία σύνδεσης συμβολοσειράς «%s» με τη συνάρτηση %s"
 
-#: src/libkeymap/loadkeys.c:173
+#: src/libkeymap/loadkeys.c:174
 #, c-format
 msgid "failed to clear string %s"
 msgstr "αποτυχία καθαρισμού συμβολοσειράς %s"
@@ -480,7 +485,7 @@ msgstr "αποτυχία καθαρισμού συμβολοσειράς %s"
 msgid "too many compose definitions"
 msgstr "πάρα πολλοί ορισμοί compose"
 
-#: src/libkeymap/loadkeys.c:252
+#: src/libkeymap/loadkeys.c:254
 #, c-format
 msgid ""
 "\n"
@@ -495,21 +500,21 @@ msgstr[1] ""
 "\n"
 "Changed %d keys"
 
-#: src/libkeymap/loadkeys.c:253
+#: src/libkeymap/loadkeys.c:255
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
 msgstr[0] "Αλλαγή του %d"
 msgstr[1] "Changed %d strings"
 
-#: src/libkeymap/loadkeys.c:261
+#: src/libkeymap/loadkeys.c:263
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "Loaded %d compose definition"
 msgstr[1] "Loaded %d compose definitions"
 
-#: src/libkeymap/loadkeys.c:266
+#: src/libkeymap/loadkeys.c:268
 msgid "(No change in compose definitions)"
 msgstr "(Ουδεμία αλλαγή στους ορισμούς compose.)"
 
@@ -579,7 +584,7 @@ msgstr ""
 "\n"
 "Ονόματα αναγνωρισμένων μετατροπέων και οι αριθμοί τους στήλης :\n"
 
-#: src/loadkeys.c:36
+#: src/loadkeys.c:32
 #, fuzzy, c-format
 msgid ""
 "loadkeys version %s\n"
@@ -623,17 +628,12 @@ msgstr ""
 "  -u --unicode       υποχρεωτική μετατροπή σε Unicode\n"
 "  -v --verbose       αναφορά των αλλαγών\n"
 
-#: src/loadkeys.c:161 src/version.h:22
-#, c-format
-msgid "%s from %s\n"
-msgstr "%s από %s\n"
-
-#: src/loadkeys.c:171
+#: src/loadkeys.c:166
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr "%s: Οι επιλογές --unicode and --ascii είναι αμοιβέα αποκλειόμενες\n"
 
-#: src/loadkeys.c:192
+#: src/loadkeys.c:187
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -642,7 +642,7 @@ msgstr ""
 "%s: προειδοποίηση: φόρτωση μη-Unicode keymap σε κονσόλα Unicode\n"
 "    (μήπως θες να δώσεις «kbd_mode -a»;)\n"
 
-#: src/loadkeys.c:204
+#: src/loadkeys.c:199
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -651,17 +651,17 @@ msgstr ""
 "%s: προειδοποίηση: φόρτωση Unicode keymap σε μη-Unicode κονσόλα\n"
 "    (μήπως θέλεις να δώσεις `kbd_mode -u';)\n"
 
-#: src/loadkeys.c:222
+#: src/loadkeys.c:217
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "Αδυναμία εύρεσης %s\n"
 
-#: src/loadkeys.c:243
+#: src/loadkeys.c:238
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "Αδυνατώ ν' ανοίξω το αρχείο %s\n"
 
-#: src/loadunimap.c:46
+#: src/loadunimap.c:45
 #, c-format
 msgid ""
 "Usage:\n"
@@ -670,30 +670,30 @@ msgstr ""
 "Χρήση:\n"
 "\t%s [-C console] [-o map.orig]\n"
 
-#: src/loadunimap.c:182 src/loadunimap.c:193
+#: src/loadunimap.c:181 src/loadunimap.c:192
 #, c-format
 msgid "Bad input line: %s\n"
 msgstr "Εσφαλμένη γραμμή εισόδου: %s\n"
 
-#: src/loadunimap.c:202
+#: src/loadunimap.c:201
 #, c-format
 msgid "%s: Glyph number (0x%x) larger than font length\n"
 msgstr ""
 "%s: Αριθμός γλύφου (0x%x) μεγαλύτερος απ' το μήκος της γραμματοσειράς\n"
 
-#: src/loadunimap.c:208
+#: src/loadunimap.c:207
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
 msgstr "%s: Εσφαλμένο πέρας περιοχής (0x%x)\n"
 
-#: src/loadunimap.c:238 src/psfxtable.c:180
+#: src/loadunimap.c:237 src/psfxtable.c:180
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 msgstr ""
 "%s: Εσφαλμένη περιοχή Unicode πού αντιστοιχεί στη περιοχή θέσεων 0x%x-0x%x "
 "της γραμματοσειράς.\n"
 
-#: src/loadunimap.c:245 src/psfxtable.c:187
+#: src/loadunimap.c:244 src/psfxtable.c:187
 #, c-format
 msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
@@ -702,22 +702,22 @@ msgstr ""
 "%s: περιοχή Unicode U+%x-U+%x όχι του ιδίου μήκους με την περιοχή θέσεων 0x "
 "%x-0x%x της γραμματοσειράς\n"
 
-#: src/loadunimap.c:264 src/psfxtable.c:208
+#: src/loadunimap.c:263 src/psfxtable.c:208
 #, c-format
 msgid "%s: trailing junk (%s) ignored\n"
 msgstr "%s: σκουπίδια στο τέλος (%s) αγνοήθηκαν\n"
 
-#: src/loadunimap.c:280
+#: src/loadunimap.c:286
 #, c-format
 msgid "Loading unicode map from file %s\n"
 msgstr "Φόρτωση της απεικόνισης unicode από το αρχείο %s\n"
 
-#: src/loadunimap.c:286
+#: src/loadunimap.c:292
 #, c-format
 msgid "%s: %s: Warning: line too long\n"
 msgstr "%s: %s: Προειδοποίηση: γραμμή πολύ μεγάλη\n"
 
-#: src/loadunimap.c:296
+#: src/loadunimap.c:303
 #, c-format
 msgid ""
 "%s: not loading empty unimap\n"
@@ -726,89 +726,89 @@ msgstr ""
 "%s: δεν φορτώνεται άδεια unimap\n"
 "(άν επιμένετε: χρησιμοποιείστε την επιλογή -f γιά παράβλεψη)\n"
 
-#: src/loadunimap.c:318
+#: src/loadunimap.c:323
 msgid "entry"
 msgstr "καταχώρηση"
 
-#: src/loadunimap.c:318
+#: src/loadunimap.c:323
 msgid "entries"
 msgstr "καταχωρήσεις"
 
-#: src/loadunimap.c:344
+#: src/loadunimap.c:350
 #, c-format
 msgid "Saved unicode map on `%s'\n"
 msgstr "Ο πίνακας απεικόνισης unicode διασώθηκε στο «%s»\n"
 
-#: src/loadunimap.c:380
+#: src/loadunimap.c:388
 #, c-format
 msgid "Appended Unicode map\n"
 msgstr "Προστέθηκε πίνακας απεικόνισης Unicode \n"
 
-#: src/mapscrn.c:71
+#: src/mapscrn.c:69
 #, fuzzy, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
 msgstr "χρήση: %s [-v] [-o map.orig] map-αρχείο\n"
 
-#: src/mapscrn.c:138
+#: src/mapscrn.c:143
 #, c-format
 msgid "mapscrn: cannot open map file _%s_\n"
 msgstr "mapscrn: αδυνατώ ν' ανοίξω το αρχείο απεικόνισης _%s_\n"
 
-#: src/mapscrn.c:144
+#: src/mapscrn.c:149
 #, c-format
 msgid "Cannot stat map file"
 msgstr "Cannot stat map file"
 
-#: src/mapscrn.c:149
+#: src/mapscrn.c:154
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s\n"
 msgstr ""
 "Φόρτωση δυαδικής απεικόνισης της οθόνης απευθείας-στη-γραμματοσειρά από το "
 "αρχείο %s\n"
 
-#: src/mapscrn.c:154 src/mapscrn.c:165
+#: src/mapscrn.c:159 src/mapscrn.c:170
 #, c-format
 msgid "Error reading map from file `%s'\n"
 msgstr "Σφάλμα κατά την ανάγνωση του πίνακα απεικόνισης από το αρχείο «%s»\n"
 
-#: src/mapscrn.c:160
+#: src/mapscrn.c:165
 #, c-format
 msgid "Loading binary unicode screen map from file %s\n"
 msgstr "Φόρτωση της δυαδικής απεικόνισης unicode της οθόνης από το αρχείο %s\n"
 
-#: src/mapscrn.c:172
+#: src/mapscrn.c:177
 #, c-format
 msgid "Loading symbolic screen map from file %s\n"
 msgstr "Φόρτωση του πίνακα απεικόνισης συμβόλων της οθόνης από το αρχείο %s\n"
 
-#: src/mapscrn.c:176
+#: src/mapscrn.c:181
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
 msgstr ""
 "Σφάλμα κατά τη γραμματοσυντακτική ανάλυση του πίνακα απεικόνισης συμβόλων "
 "από «%s», γραμμή %d\n"
 
-#: src/mapscrn.c:281 src/mapscrn.c:286
+#: src/mapscrn.c:287 src/mapscrn.c:292
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Σφάλμα εγγραφής του πίνακα απεικόνισης στο αρχείο\n"
 
-#: src/mapscrn.c:290
+#: src/mapscrn.c:296
 #, c-format
 msgid "Cannot read console map\n"
 msgstr "Αδυναμία ανάγνωσης του πίνακα απεικόνισης της κονσόλας\n"
 
-#: src/mapscrn.c:296
+#: src/mapscrn.c:302
 #, c-format
 msgid "Saved screen map in `%s'\n"
 msgstr "Ο πίνακας απεικόνισης της οθόνης διασώθηκε στο «%s»\n"
 
-#: src/openvt.c:49
-#, c-format
+#: src/openvt.c:48
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
 "\n"
-"This utility help you to start a program on a new virtual terminal (VT).\n"
+"This utility helps you to start a program on a new virtual terminal (VT).\n"
 "\n"
 "Options:\n"
 "  -c, --console=NUM   use the given VT number;\n"
@@ -840,11 +840,11 @@ msgstr ""
 "  -h, --help          output a brief help message.\n"
 "\n"
 
-#: src/openvt.c:141
+#: src/openvt.c:140
 msgid "Couldn't find owner of current tty!"
 msgstr "Δεν μπόρεσα να βρω τον ιδιοκτήτη του τρέχοντος tty!"
 
-#: src/openvt.c:210
+#: src/openvt.c:209
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: παράτυπος αριθμός vt"
@@ -891,96 +891,96 @@ msgstr "χρησιμοποίηση VT %s"
 msgid "Cannot open %s read/write"
 msgstr "Δεν μπορώ ν' ανοίξω το %s σε ανάγνωση/εγγραφή"
 
-#: src/openvt.c:360
+#: src/openvt.c:361
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "αδυναμία ενεργοποίησης vt %d"
 
-#: src/openvt.c:363
+#: src/openvt.c:364
 msgid "Activation interrupted?"
 msgstr "η ενεργοποίηση διακόπηκε;"
 
-#: src/openvt.c:403
+#: src/openvt.c:404
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "αδυναμία αποδέσμευσης της κονσόλας %d"
 
-#: src/psffontop.c:76
+#: src/psffontop.c:75
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s: λειψός πίνακας unicode usc2\n"
 
-#: src/psffontop.c:98
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s: λειψός πίνακας utf8 unicode\n"
 
-#: src/psffontop.c:101
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s: εσφαλμένος utf8\n"
 
-#: src/psffontop.c:104
+#: src/psffontop.c:103
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s: άγνωστο σφάλμα utf8\n"
 
-#: src/psffontop.c:136
+#: src/psffontop.c:135
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s: λειψός πίνακας unicode\n"
 
-#: src/psffontop.c:216
+#: src/psffontop.c:215
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s: Σφάλμα κατά την ανάγνωση της γραμματοσειράς εισόδου"
 
-#: src/psffontop.c:230
+#: src/psffontop.c:229
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s: Εσφαλμένη κλήση της readpsffont\n"
 
-#: src/psffontop.c:245
+#: src/psffontop.c:244
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s: Μη υποστηριζόμενη κατάσταση αρχείου psf (%d)\n"
 
-#: src/psffontop.c:263
+#: src/psffontop.c:262
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s: Μή υποστηριζόμενη έκδοση psf (%d)\n"
 
-#: src/psffontop.c:279
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s: μήκος γραμματοσειράς εισόδου μηδέν;\n"
 
-#: src/psffontop.c:284
+#: src/psffontop.c:283
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s: μέγεθος χαρακτήρα εισόδου μηδέν;\n"
 
-#: src/psffontop.c:290
+#: src/psffontop.c:289
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s: Αρχείο εισόδου: εσφαλμένο μήκος εισόδου (%d)\n"
 
-#: src/psffontop.c:322
+#: src/psffontop.c:321
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s: Αρχείο εισόδου: σκουπίδια στο τέλος\n"
 
-#: src/psffontop.c:361
+#: src/psffontop.c:360
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode: παράτυπος κωδικός unicode %u\n"
 
-#: src/psffontop.c:455
+#: src/psffontop.c:454
 #, c-format
 msgid "Cannot write font file header"
 msgstr "Αδυνατώ να γράψω την επικεφαλίδα του αρχείου γραμματοσειράς"
 
-#: src/psffontop.c:480 src/setfont.c:693
+#: src/psffontop.c:479 src/setfont.c:717
 #, c-format
 msgid "Cannot write font file"
 msgstr "Δεν μπορώ να γράψω στο αρχείο της γραμματοσειράς"
@@ -1065,38 +1065,48 @@ msgstr "%s: αρχείο psf με άγνωστο μαγικό αριθμό\n"
 msgid "%s: input font does not have an index\n"
 msgstr "%s: η γραμματοσειρά εισόδου δεν περιέχει ευρετήριο\n"
 
-#: src/resizecons.c:147
+#: src/resizecons.c:146
+#, fuzzy, c-format
+msgid "resizecons: invalid columns number %d\n"
+msgstr "resizecons: αδυνατώ να βρώ το αρχείο videomode %s\n"
+
+#: src/resizecons.c:151
+#, c-format
+msgid "resizecons: invalid rows number %d\n"
+msgstr ""
+
+#: src/resizecons.c:165
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: αδυνατώ να βρώ το αρχείο videomode %s\n"
 
-#: src/resizecons.c:164
+#: src/resizecons.c:182
 msgid "Invalid number of lines\n"
 msgstr "Ακυρος αριθμός γραμμών\n"
 
-#: src/resizecons.c:247
+#: src/resizecons.c:265
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Παλαιά κατάσταση: %dx%d  Νέα κατάσταση: %dx%d\n"
 
-#: src/resizecons.c:249
+#: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "Παλαιές #scanlines: %d  Νέες #scanlines: %d  Υψος χαρακτήρα: %d\n"
 
-#: src/resizecons.c:260
+#: src/resizecons.c:278
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: η διαταγή «%s» αστόχησε\n"
 
-#: src/resizecons.c:343
+#: src/resizecons.c:364
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: μή ξεχνάτε την αλλαγή του TERM (ίσως σε con%dx%d ή linux-%dx%d)\n"
 
-#: src/resizecons.c:357
+#: src/resizecons.c:378
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1109,42 +1119,42 @@ msgstr ""
 "ή: resizecons -lines ROWS, με ROWS μία από 25, 28, 30, 34, 36, 40, 44, 50, "
 "60\n"
 
-#: src/resizecons.c:396
+#: src/resizecons.c:417
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: αδυνατώ να λάβω άδειες I/O.\n"
 
-#: src/screendump.c:52
+#: src/screendump.c:51
 #, c-format
 msgid "usage: screendump [n]\n"
 msgstr "χρήση: screendump [n]\n"
 
-#: src/screendump.c:82
+#: src/screendump.c:81
 #, c-format
 msgid "Error reading %s"
 msgstr "Σφάλμα ανάγνωσης %s"
 
-#: src/screendump.c:127
+#: src/screendump.c:126
 #, c-format
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr ""
 "αδυναμία ανάγνωσης του %s, και δεν μπορώ να το εμφανίσω με την ioctl()\n"
 
-#: src/screendump.c:133
+#: src/screendump.c:132
 #, c-format
 msgid "couldn't read %s\n"
 msgstr "αδύνατη ανάγνωση %s\n"
 
-#: src/screendump.c:142
+#: src/screendump.c:141
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgstr "Περίεργο ...η οθόνη είναι συγχρόνως %dx%d και %dx%d ;;\n"
 
-#: src/screendump.c:159
+#: src/screendump.c:158
 msgid "Error writing screendump\n"
 msgstr "Σφάλμα εγγραφής screendump\n"
 
-#: src/setfont.c:78
+#: src/setfont.c:77
 #, c-format
 msgid ""
 "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
@@ -1201,12 +1211,12 @@ msgstr ""
 "    -V           Εμφάνιση πληροφοριών έκδοσης κι έξοδος.\n"
 "Τα αρχεία φορτώνονται από τον τρέχοντα κατάλογο ή από %s/*/.\n"
 
-#: src/setfont.c:181
+#: src/setfont.c:180
 #, c-format
 msgid "setfont: too many input files\n"
 msgstr "setfont: πάρα πολλά αρχεία εισόδου\n"
 
-#: src/setfont.c:189
+#: src/setfont.c:188
 #, c-format
 msgid ""
 "setfont: cannot both restore from character ROM and from file. Font "
@@ -1215,126 +1225,126 @@ msgstr ""
 "setfont: αδύνατη επαναφορά από τη ROM χαρακτήρων και απο αρχείο συγχρόνως.Η "
 "γραμματοσειρά παραμένει αμετάβλητη.\n"
 
-#: src/setfont.c:264
+#: src/setfont.c:263
 #, c-format
 msgid "Bad character height %d\n"
 msgstr "Εσφαλμένο ύψος χαρακτήρα %d\n"
 
-#: src/setfont.c:268
+#: src/setfont.c:267
 #, c-format
 msgid "Bad character width %d\n"
 msgstr "Εσφαλμένο πλάτος χαρακτήρα %d\n"
 
-#: src/setfont.c:293
+#: src/setfont.c:292
 #, c-format
 msgid "%s: font position 32 is nonblank\n"
 msgstr "%s: η θέση 32 της γραμματοσειράς δεν είναι κενή\n"
 
-#: src/setfont.c:301
+#: src/setfont.c:300
 #, c-format
 msgid "%s: wiped it\n"
 msgstr "%s: το καθάρισα\n"
 
-#: src/setfont.c:305
+#: src/setfont.c:304
 #, c-format
 msgid "%s: background will look funny\n"
 msgstr "%s: το υπόβαθρο θα φαίνεται αλλόκοτο\n"
 
-#: src/setfont.c:315
+#: src/setfont.c:314
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s\n"
 msgstr "Φόρτωση των %d-χαρακτ. της γραμμ/σειράς %dx%d απο το αρχείο %s\n"
 
-#: src/setfont.c:318
+#: src/setfont.c:317
 #, c-format
 msgid "Loading %d-char %dx%d font\n"
 msgstr "Φόρτωση των %d-χαρακτ. της γραμμ/σειράς %dx%d\n"
 
-#: src/setfont.c:321
+#: src/setfont.c:320
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s\n"
 msgstr "Φόρτωση των %d-χαρακτ. της γραμμ/σειράς %dx%d (%d) απο το αρχείο %s\n"
 
-#: src/setfont.c:324
+#: src/setfont.c:323
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font\n"
 msgstr "Φόρτωση των %d-χαρακτ. της γραμμ/σειράς %dx%d (%d)\n"
 
-#: src/setfont.c:380
+#: src/setfont.c:379
 #, c-format
 msgid "%s: bug in do_loadtable\n"
 msgstr "%s: bug στο do_loadtable\n"
 
-#: src/setfont.c:386
+#: src/setfont.c:385
 #, c-format
 msgid "Loading Unicode mapping table...\n"
 msgstr "Φόρτωση πίνακα απεικόνισης Unicode...\n"
 
-#: src/setfont.c:422 src/setfont.c:510
+#: src/setfont.c:429 src/setfont.c:531
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "Αδυνατώ ν' ανοίξω το αρχείο γραμματοσειράς %s\n"
 
-#: src/setfont.c:433
+#: src/setfont.c:440
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
 msgstr ""
 "Κατά τη φόρτωση διαφόρων γραμμ/σειρών, όλες πρέπει να είναι psf - %s δεν "
 "είναι\n"
 
-#: src/setfont.c:443
+#: src/setfont.c:455
 #, c-format
 msgid "Read %d-char %dx%d font from file %s\n"
 msgstr "Ανάγνωση %d-χαρακτ. της γραμματοσειράς %dx%d από το αρχείο %s\n"
 
-#: src/setfont.c:449
+#: src/setfont.c:461
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
 msgstr ""
 "Κατά τη φόρτωση πολλών γραμματοσειρών, όλες πρέπει να έχουν το ίδιο ύψος\n"
 
-#: src/setfont.c:456
+#: src/setfont.c:468
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
 msgstr ""
 "Κατά τη φόρτωση πολλών γραμματοσειρών, όλες πρέπει να έχουν ίδιο πλάτος\n"
 
-#: src/setfont.c:497
+#: src/setfont.c:518
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "Αδυνατώ να βρώ την προεπιλεγμένη γραμματοσειρά\n"
 
-#: src/setfont.c:504
+#: src/setfont.c:525
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "Αδυνατώ να βρώ τη γραμματοσειρά %s\n"
 
-#: src/setfont.c:516
+#: src/setfont.c:537
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "Ανάγνωση αρχείου γραμματοσειράς %s\n"
 
-#: src/setfont.c:557
+#: src/setfont.c:581
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "Δεν υπάρχει τελική γραμμή στο συνδιασμένο αρχείο\n"
 
-#: src/setfont.c:563
+#: src/setfont.c:587
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "Πάρα πολλά αρχεία γιά συνδιασμό\n"
 
-#: src/setfont.c:587
+#: src/setfont.c:611
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr "Χμμ - γραμματοσειρά απο το restorefont; Χρήση του πρώτου μισού.\n"
 
-#: src/setfont.c:604
+#: src/setfont.c:628
 #, c-format
 msgid "Bad input file size\n"
 msgstr "Εσφαλμένο μέγεθος αρχείου εισόδου\n"
 
-#: src/setfont.c:626
+#: src/setfont.c:650
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1343,23 +1353,23 @@ msgstr ""
 "Αυτό το αρχείο περιέχει 3 γραμματοσειρές: 8x8, 8x14 και 8x16. Παρακαλώ\n"
 "υποδείξτε με τις επιλογές -8 ή -14 ή -16 ποιά θέλετε.\n"
 
-#: src/setfont.c:643
+#: src/setfont.c:667
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Ζητήσατε μέγεθος γραμματοσειράς %d, αλλά μόνον 8, 14, 16 είναι δυνατόν εδώ.\n"
 
-#: src/setfont.c:689
+#: src/setfont.c:713
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "Τίποτε γιά διάσωση\n"
 
-#: src/setfont.c:698
+#: src/setfont.c:722
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "%d-χαρακτ. της γραμματοσειράς %dx%d διασώθηκαν στο αρχείο %s\n"
 
-#: src/setkeycodes.c:26
+#: src/setkeycodes.c:25
 #, c-format
 msgid ""
 "usage: setkeycode scancode keycode ...\n"
@@ -1370,19 +1380,19 @@ msgstr ""
 " (όπου ο scancode είναι xx ή e0xx, σε δεκαεξαδική μορφή,\n"
 "  και ο keycode σε δεκαδική)\n"
 
-#: src/setkeycodes.c:48
+#: src/setkeycodes.c:47
 msgid "even number of arguments expected"
 msgstr "αναμενόταν ζυγός αριθμός ορισμάτων "
 
-#: src/setkeycodes.c:57
+#: src/setkeycodes.c:56
 msgid "error reading scancode"
 msgstr "σφάλμα ανάγνωσης κωδικού σάρωσης"
 
-#: src/setkeycodes.c:65
+#: src/setkeycodes.c:64
 msgid "code outside bounds"
 msgstr "κωδικός εκτός ορίων"
 
-#: src/setkeycodes.c:74
+#: src/setkeycodes.c:73
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
@@ -1566,12 +1576,12 @@ msgstr "παλαιά κατάσταση:        "
 msgid "new state:    "
 msgstr "νέα κατάσταση:       "
 
-#: src/setvesablank.c:29
+#: src/setvesablank.c:30
 #, c-format
 msgid "usage: %s\n"
 msgstr "χρήση: %s\n"
 
-#: src/setvtrgb.c:44
+#: src/setvtrgb.c:43
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-h] [-V]\n"
@@ -1601,39 +1611,39 @@ msgstr ""
 "and then edit the values in FILE.\n"
 "\n"
 
-#: src/setvtrgb.c:75
+#: src/setvtrgb.c:74
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Σφάλμα: %s: Άκυρη τιμή στο πεδίο %u στη γραμμή %u."
 
-#: src/setvtrgb.c:82
+#: src/setvtrgb.c:81
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Σφάλμα: %s: Ανεπαρκής αριθμός πεδίων στη γραμμή %u."
 
-#: src/setvtrgb.c:87
+#: src/setvtrgb.c:86
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly.\n"
 msgstr "Σφαλμα: %s: Η γραμμη %u περατωθηκε αναπαντεχα.\n"
 
-#: src/setvtrgb.c:91
+#: src/setvtrgb.c:90
 #, c-format
 msgid "Error: %s: Line %u is too long.\n"
 msgstr "Σφάλμα: %s: Γραμμή %u είναι πολύ μεγάλη.\n"
 
-#: src/showconsolefont.c:38
+#: src/showconsolefont.c:37
 msgid "failed to restore original translation table\n"
 msgstr "αποτυχία αποκατάστασης αρχικού πίνακα μετάφρασης\n"
 
-#: src/showconsolefont.c:42
+#: src/showconsolefont.c:41
 msgid "failed to restore original unimap\n"
 msgstr "αποτυχία αποκατάστασης αρχικού unimap\n"
 
-#: src/showconsolefont.c:61
+#: src/showconsolefont.c:60
 msgid "cannot change translation table\n"
 msgstr "αδυνατώ ν' αλλάξω τον πίνακα μετάφρασης\n"
 
-#: src/showconsolefont.c:102
+#: src/showconsolefont.c:101
 #, fuzzy, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
@@ -1682,16 +1692,16 @@ msgstr ""
 "Εμφάνιση γραμματοσειράς %d-χαρακτήρων\n"
 "\n"
 
-#: src/showkey.c:51
+#: src/showkey.c:49
 msgid "?UNKNOWN?"
 msgstr ";ΑΓΝΩΣΤΗ;"
 
-#: src/showkey.c:54
+#: src/showkey.c:52
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "Η κατάσταση kb ήταν %s\n"
 
-#: src/showkey.c:56
+#: src/showkey.c:54
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1700,12 +1710,12 @@ msgstr ""
 "[ αν το προσπαθείτε στα Χ, ίσως να μη δουλεύει\n"
 "αφού κι ο εξυπηρετητής Χ διαβάζει επίσης το /dev/console ]\n"
 
-#: src/showkey.c:76
+#: src/showkey.c:74
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "ελήφθη το σήμα %d, καθαρισμός...\n"
 
-#: src/showkey.c:92
+#: src/showkey.c:90
 #, fuzzy, c-format
 msgid ""
 "showkey version %s\n"
@@ -1763,11 +1773,11 @@ msgstr "πάτημα"
 msgid "keycode %3d %s\n"
 msgstr "κωδικός πλήκτρου %3d %s\n"
 
-#: src/totextmode.c:33
+#: src/totextmode.c:31
 msgid "usage: totextmode\n"
 msgstr "χρήση: totextmode\n"
 
-#: src/vlock/auth.c:75
+#: src/vlock/auth.c:76
 msgid ""
 "Please try again later.\n"
 "\n"
@@ -1777,17 +1787,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/vlock/auth.c:83
+#: src/vlock/auth.c:84
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr "Ολόκληρη η κονσόλα είναι τώρα τελείως κλειδωμένη από %s.\n"
 
-#: src/vlock/auth.c:86
+#: src/vlock/auth.c:87
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr "%s κλειδώθηκε από %s.\n"
 
-#: src/vlock/auth.c:89
+#: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr "Χρησιμοποίησε Alt-Fn για μετάβαση σε άλλες εικονικές κονσόλες."
 
@@ -1796,7 +1806,7 @@ msgstr "Χρησιμοποίησε Alt-Fn για μετάβαση σε άλλε�
 msgid "Try `%s --help' for more information.\n"
 msgstr "Δοκίμασε «%s --help» για περισσότερες πληροφορίες.\n"
 
-#: src/vlock/parse.c:59
+#: src/vlock/parse.c:60
 #, c-format
 msgid ""
 "%s: locks virtual consoles, saving your current session.\n"
@@ -1825,16 +1835,16 @@ msgstr ""
 msgid "unrecognized user"
 msgstr "ο χρήστης δεν αναγνωρίζεται"
 
-#: src/vlock/vlock.c:59
+#: src/vlock/vlock.c:58
 msgid "stdin is not a tty"
 msgstr "stdin δεν είναι tty"
 
-#: src/vlock/vt.c:148
+#: src/vlock/vt.c:147
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
 msgstr "Αυτό το tty (%s) δεν είναι εικονική κονσόλα.\n"
 
-#: src/vlock/vt.c:155
+#: src/vlock/vt.c:154
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Ολόκληρη η κονσόλα δεν μπορεί να κλειδωθεί.\n"
