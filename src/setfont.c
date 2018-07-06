@@ -224,7 +224,9 @@ int main(int argc, char *argv[])
 		saveunicodemap(fd, oufil);
 
 	if (mfil) {
-		loadnewmap(fd, mfil);
+		if (loadnewmap(fd, mfil) < 0)
+			exit(EXIT_FAILURE);
+
 		activatemap(fd);
 		no_m = 1;
 	}

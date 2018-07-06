@@ -65,6 +65,9 @@ int main(int argc, char *argv[])
 		        get_progname());
 		exit(EXIT_FAILURE);
 	}
-	loadnewmap(fd, argv[1]);
+
+	if (loadnewmap(fd, argv[1]) < 0)
+		exit(EXIT_FAILURE);
+
 	exit(EXIT_SUCCESS);
 }

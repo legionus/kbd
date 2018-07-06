@@ -69,7 +69,7 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 				} else {
 					if (!ret)
 						*lineno = ln;
-					ret             = -1;
+					ret = -1;
 				}
 			}
 		}
@@ -78,29 +78,28 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 }
 
 static int
-readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
+readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, int *res)
 {
 	struct stat stbuf;
-	int u      = 0;
 	int lineno = 0;
 	struct kbdfile *fp;
 	struct kbdfile_ctx *kbdfile_ctx;
 
 	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
+		return -1;
 
 	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
-		nomem();
+		return -1;
 
 	if (kbdfile_find(mfil, mapdirpath, mapsuffixes, fp)) {
 		fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
 		        mfil);
-		exit(1);
+		return -1;
 	}
 	if (stat(kbdfile_get_pathname(fp), &stbuf)) {
 		perror(kbdfile_get_pathname(fp));
 		fprintf(stderr, _("Cannot stat map file"));
-		exit(1);
+		return -1;
 	}
 	if (stbuf.st_size == E_TABSZ) {
 		if (verbose)
@@ -111,7 +110,7 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 			fprintf(stderr,
 			        _("Error reading map from file `%s'\n"),
 			        kbdfile_get_pathname(fp));
-			exit(1);
+			return -1;
 		}
 	} else if (stbuf.st_size == 2 * E_TABSZ) {
 		if (verbose)
@@ -122,27 +121,31 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 			fprintf(stderr,
 			        _("Error reading map from file `%s'\n"),
 			        kbdfile_get_pathname(fp));
-			exit(1);
+			return -1;
 		}
-		u = 1;
+		*res = 1;
+
 	} else {
 		if (verbose)
 			printf(_("Loading symbolic screen map from file %s\n"),
 			       kbdfile_get_pathname(fp));
-		if (parsemap(kbdfile_get_file(fp), buf, ubuf, &u, &lineno)) {
+		if (parsemap(kbdfile_get_file(fp), buf, ubuf, res, &lineno)) {
 			fprintf(stderr,
 			        _("Error parsing symbolic map "
 			          "from `%s', line %d\n"),
 			        kbdfile_get_pathname(fp), lineno);
-			exit(1);
+			return -1;
 		}
 	}
+
 	kbdfile_free(fp);
 	kbdfile_context_free(kbdfile_ctx);
-	return u;
+
+	return 0;
 }
 
-void loadnewmap(int fd, char *mfil)
+int
+loadnewmap(int fd, char *mfil)
 {
 	unsigned short ubuf[E_TABSZ];
 	char buf[E_TABSZ];
@@ -155,19 +158,21 @@ void loadnewmap(int fd, char *mfil)
 	}
 
 	u = 0;
-	if (mfil)
-		u = readnewmapfromfile(mfil, buf, ubuf);
+	if (mfil && readnewmapfromfile(mfil, buf, ubuf, &u) < 0)
+		return -1;
 
 	/* do we need to use loaduniscrnmap() ? */
 	if (u) {
 		/* yes */
 		if (loaduniscrnmap(fd, ubuf))
-			exit(1);
+			return -1;
 	} else {
 		/* no */
 		if (loadscrnmap(fd, buf))
-			exit(1);
+			return -1;
 	}
+
+	return 0;
 }
 
 /*

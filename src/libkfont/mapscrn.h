@@ -2,6 +2,6 @@
 #define _MAPSCRN_H
 
 int saveoldmap(int fd, char *omfil);
-void loadnewmap(int fd, char *mfil);
+int loadnewmap(int fd, char *mfil);
 
 #endif // _MAPSCRN_H
