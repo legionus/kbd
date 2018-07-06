@@ -176,6 +176,7 @@ AC_CONFIG_FILES([Makefile
 		src/libcommon/Makefile
 		src/libkbdfile/Makefile
 		src/libkeymap/Makefile
+		src/libkfont/Makefile
 		src/vlock/Makefile
 		tests/Makefile])
 AC_OUTPUT

@@ -34,6 +34,7 @@
 #include "psffontop.h"
 #include "kdfontop.h"
 #include "kdmapop.h"
+#include "mapscrn.h"
 
 static int position_codepage(int iunit);
 static void saveoldfont(int fd, char *ofil);
@@ -42,8 +43,6 @@ static void loadnewfont(int fd, char *ifil,
                         int iunit, int hwunit, int no_m, int no_u);
 static void loadnewfonts(int fd, char **ifiles, int ifilct,
                          int iunit, int hwunit, int no_m, int no_u);
-extern void saveoldmap(int fd, char *omfil);
-extern void loadnewmap(int fd, char *mfil);
 extern void activatemap(int fd);
 extern void disactivatemap(int fd);
 
@@ -216,8 +215,10 @@ int main(int argc, char *argv[])
 	if (ofil)
 		saveoldfont(fd, ofil);
 
-	if (omfil)
-		saveoldmap(fd, omfil);
+	if (omfil) {
+		if (saveoldmap(fd, omfil) < 0)
+			exit(EXIT_FAILURE);
+	}
 
 	if (oufil)
 		saveunicodemap(fd, oufil);
