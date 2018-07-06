@@ -16,7 +16,7 @@
 #include "libcommon.h"
 #include "contextP.h"
 
-int lk_func_exists(struct lk_ctx *ctx, unsigned int index)
+int lk_func_exists(struct lk_ctx *ctx, int index)
 {
 	return (lk_array_get_ptr(ctx->func_table, index) != NULL);
 }
@@ -56,7 +56,7 @@ int lk_add_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 	return 0;
 }
 
-int lk_del_func(struct lk_ctx *ctx, unsigned int index)
+int lk_del_func(struct lk_ctx *ctx, int index)
 {
 	if (lk_array_unset(ctx->func_table, index) < 0) {
 		ERR(ctx, _("Unable to remove item from the list of functions"));

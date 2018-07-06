@@ -19,8 +19,7 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 {
 	struct kbentry ke;
 	int ct = 0;
-	unsigned int i, j;
-	int fail;
+	int i, j, fail;
 
 	if (ctx->flags & LK_FLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
@@ -39,9 +38,16 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 				if (!lk_key_exists(ctx, i, j))
 					continue;
 
+				int value = lk_get_key(ctx, i, j);
+
+				if (value < 0 || value > USHRT_MAX) {
+					WARN(ctx, _("can not bind key %d to value %d because it is too large"), j, value);
+					continue;
+				}
+
 				ke.kb_index = (unsigned char) j;
 				ke.kb_table = (unsigned char) i;
-				ke.kb_value = lk_get_key(ctx, i, j);
+				ke.kb_value = (unsigned short) value;
 
 				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
 
@@ -226,9 +232,16 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			if (!ptr)
 				continue;
 
-			kd.kbdiacr[j].diacr  = ptr->diacr;
-			kd.kbdiacr[j].base   = ptr->base;
-			kd.kbdiacr[j].result = ptr->result;
+			if (ptr->diacr > UCHAR_MAX ||
+			    ptr->base > UCHAR_MAX ||
+			    ptr->result > UCHAR_MAX) {
+				ERR(ctx, "unable to load compose definitions because some of them are too large");
+				return -1;
+			}
+
+			kd.kbdiacr[j].diacr  = (unsigned char) ptr->diacr;
+			kd.kbdiacr[j].base   = (unsigned char) ptr->base;
+			kd.kbdiacr[j].result = (unsigned char) ptr->result;
 			j++;
 		}
 

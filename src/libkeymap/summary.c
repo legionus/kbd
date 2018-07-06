@@ -25,7 +25,7 @@ valid_type(int fd, int t)
 
 	ke.kb_index = 0;
 	ke.kb_table = 0;
-	ke.kb_value = K(t, 0);
+	ke.kb_value = (unsigned short) K(t, 0);
 
 	return (ioctl(fd, KDSKBENT, (unsigned long)&ke) == 0);
 }
@@ -44,14 +44,14 @@ maximum_val(int fd, int t)
 	ioctl(fd, KDGKBENT, (unsigned long)&ke0);
 
 	for (i = 0; i < 256; i++) {
-		ke.kb_value = K(t, i);
+		ke.kb_value = (unsigned short) K(t, i);
 		if (ioctl(fd, KDSKBENT, (unsigned long)&ke))
 			break;
 	}
 	ke.kb_value = K_HOLE;
 	ioctl(fd, KDSKBENT, (unsigned long)&ke0);
 
-	return i - 1;
+	return (unsigned char) (i - 1);
 }
 
 int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
@@ -118,7 +118,7 @@ void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 
 void lk_dump_symbols(struct lk_ctx *ctx, FILE *fd)
 {
-	unsigned int t, v;
+	int t, v;
 	modifier_t *mod;
 	const char *p;
 

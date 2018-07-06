@@ -56,8 +56,8 @@ const syms_entry syms[] = {
 
 #undef E
 
-const unsigned int syms_size = sizeof(syms) / sizeof(syms_entry);
-const unsigned int syn_size  = sizeof(synonyms) / sizeof(synonyms[0]);
+const int syms_size = sizeof(syms) / sizeof(syms_entry);
+const int syn_size  = sizeof(synonyms) / sizeof(synonyms[0]);
 
 const struct cs {
 	const char *charset;
@@ -144,8 +144,8 @@ int lk_set_charset(struct lk_ctx *ctx, const char *charset)
 	return 1;
 }
 
-unsigned int
-get_sym_size(struct lk_ctx *ctx, unsigned int ktype)
+int
+get_sym_size(struct lk_ctx *ctx, int ktype)
 {
 	if (ktype >= syms_size) {
 		ERR(ctx, _("unable to get symbol by wrong type: %d"), ktype);
@@ -156,7 +156,7 @@ get_sym_size(struct lk_ctx *ctx, unsigned int ktype)
 }
 
 const char *
-get_sym(struct lk_ctx *ctx, unsigned int ktype, unsigned int index)
+get_sym(struct lk_ctx *ctx, int ktype, int index)
 {
 	if (!get_sym_size(ctx, ktype))
 		return NULL;
@@ -170,7 +170,7 @@ get_sym(struct lk_ctx *ctx, unsigned int ktype, unsigned int index)
 }
 
 char *
-lk_get_sym(struct lk_ctx *ctx, unsigned int ktype, unsigned int index)
+lk_get_sym(struct lk_ctx *ctx, int ktype, int index)
 {
 	const char *ksym = get_sym(ctx, ktype, index);
 	return (ksym ? strdup(ksym) : NULL);

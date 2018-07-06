@@ -266,6 +266,34 @@ open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
 	return stack_push(ctx, fp, scanner);
 }
 
+static int
+parse_int(struct lk_ctx *ctx, char *text, char *value, int base, int *res)
+{
+	long v;
+
+	errno = 0;
+	v = strtol(value, NULL, base);
+
+	if (errno) {
+		ERR(ctx, _("unable to parse number: %s"), text);
+		return -1;
+	}
+
+	if (v < 0) {
+		ERR(ctx, _("value must be a positive number: %s"), text);
+		return -1;
+	}
+
+	if (v > INT_MAX) {
+		ERR(ctx, _("value must be less than %d: %s"), text, INT_MAX);
+		return -1;
+	}
+
+	*res = (int) v;
+
+	return 0;
+}
+
 %}
 %s RVALUE
 %x STR
@@ -360,16 +388,21 @@ To                      to|To|TO
 				return(TO);
 			}
 {Unicode}		{
-				yylval->num = strtol(yytext + 1, NULL, 16);
+				if (parse_int(yyextra, yytext, yytext + 1, 16, &(yylval->num)) < 0)
+					return(ERROR);
+
 				if (yylval->num >= 0xf000) {
 					ERR(yyextra, _("unicode keysym out of range: %s"),
 						yytext);
 					return(ERROR);
 				}
+
 				return(UNUMBER);
 			}
 {Decimal}|{Octal}|{Hex}	{
-				yylval->num = strtol(yytext, NULL, 0);
+				if (parse_int(yyextra, yytext, yytext, 0, &(yylval->num)) < 0)
+					return(ERROR);
+
 				return(NUMBER);
 			}
 <RVALUE>{Literal}	{	return((yylval->num = ksymtocode(yyextra, yytext, TO_AUTO)) == -1 ? ERROR : LITERAL);	}
@@ -397,7 +430,9 @@ To                      to|To|TO
 {On}			{	return(ON);		}
 {For}			{	return(FOR);		}
 '\\{Octa}'              {
-				yylval->num = strtol(yytext + 2, NULL, 8);
+				if (parse_int(yyextra, yytext, yytext + 2, 8, &(yylval->num)) < 0)
+					return(ERROR);
+
 				return(CCHAR);
 			}
 '\\.'                   {

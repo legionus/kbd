@@ -19,13 +19,21 @@
 
 int lk_kernel_keys(struct lk_ctx *ctx, int fd)
 {
-	int i, t;
+	unsigned short i, t;
 	struct kbentry ke;
 
 	for (t = 0; t < MAX_NR_KEYMAPS; t++) {
+		if (t > UCHAR_MAX) {
+			ERR(ctx, _("table %d must be less than %d"), t, UCHAR_MAX);
+			return -1;
+		}
 		for (i = 0; i < NR_KEYS; i++) {
-			ke.kb_table = t;
-			ke.kb_index = i;
+			if (i > UCHAR_MAX) {
+				ERR(ctx, _("index %d must be less than %d"), t, UCHAR_MAX);
+				return -1;
+			}
+			ke.kb_table = (unsigned char) t;
+			ke.kb_index = (unsigned char) i;
 			ke.kb_value = 0;
 
 			if (ioctl(fd, KDGKBENT, (unsigned long)&ke)) {
@@ -50,11 +58,15 @@ int lk_kernel_keys(struct lk_ctx *ctx, int fd)
 
 int lk_kernel_funcs(struct lk_ctx *ctx, int fd)
 {
-	int i;
+	unsigned short i;
 	struct kbsentry kbs;
 
 	for (i = 0; i < MAX_NR_FUNC; i++) {
-		kbs.kb_func = i;
+		if (i > UCHAR_MAX) {
+			ERR(ctx, _("function index %d must be less than %d"), i, UCHAR_MAX);
+			return -1;
+		}
+		kbs.kb_func = (unsigned char) i;
 
 		if (ioctl(fd, KDGKBSENT, (unsigned long)&kbs)) {
 			ERR(ctx, _("KDGKBSENT: %s: Unable to get function key string"),
@@ -75,15 +87,15 @@ int lk_kernel_funcs(struct lk_ctx *ctx, int fd)
 int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 {
 #ifdef KDGKBDIACRUC
-	int request = KDGKBDIACRUC;
+	unsigned long request = KDGKBDIACRUC;
 	struct kbdiacrsuc kd;
 	struct kbdiacruc *ar = kd.kbdiacruc;
 #else
-	int request = KDGKBDIACR;
+	unsigned long request = KDGKBDIACR;
 	struct kbdiacrs kd;
 	struct kbdiacr *ar = kd.kbdiacr;
 #endif
-	unsigned int i;
+	int i;
 	struct lk_kbdiacr dcr;
 
 	if (ioctl(fd, request, (unsigned long)&kd)) {
@@ -92,7 +104,7 @@ int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 		return -1;
 	}
 
-	for (i = 0; i < kd.kb_cnt; i++) {
+	for (i = 0; (unsigned int) i < kd.kb_cnt; i++) {
 		dcr.diacr  = (ar + i)->diacr;
 		dcr.base   = (ar + i)->base;
 		dcr.result = (ar + i)->result;

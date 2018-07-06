@@ -10,12 +10,12 @@
 #include "ksyms.h"
 #include "modifiers.h"
 
-int lk_map_exists(struct lk_ctx *ctx, unsigned int k_table)
+int lk_map_exists(struct lk_ctx *ctx, int k_table)
 {
 	return (lk_array_get_ptr(ctx->keymap, k_table) != NULL);
 }
 
-int lk_get_keys_total(struct lk_ctx *ctx, unsigned int k_table)
+int lk_get_keys_total(struct lk_ctx *ctx, int k_table)
 {
 	struct lk_array *map;
 	map = lk_array_get_ptr(ctx->keymap, k_table);
@@ -30,7 +30,7 @@ int lk_get_keys_total(struct lk_ctx *ctx, unsigned int k_table)
 	return (int) map->total;
 }
 
-int lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
+int lk_key_exists(struct lk_ctx *ctx, int k_table, int k_index)
 {
 	struct lk_array *map;
 	unsigned int *key;
@@ -48,7 +48,7 @@ int lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index
 	return (*key > 0);
 }
 
-int lk_add_map(struct lk_ctx *ctx, unsigned int k_table)
+int lk_add_map(struct lk_ctx *ctx, int k_table)
 {
 	struct lk_array *keys;
 
@@ -73,10 +73,10 @@ int lk_add_map(struct lk_ctx *ctx, unsigned int k_table)
 	return 0;
 }
 
-int lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
+int lk_get_key(struct lk_ctx *ctx, int k_table, int k_index)
 {
 	struct lk_array *map;
-	unsigned int *key;
+	int *key;
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
@@ -92,7 +92,7 @@ int lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 	return (*key) - 1;
 }
 
-int lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
+int lk_del_key(struct lk_ctx *ctx, int k_table, int k_index)
 {
 	struct lk_array *map;
 
@@ -114,13 +114,13 @@ int lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 	return 0;
 }
 
-int lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int keycode)
+int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 {
 	struct lk_array *map;
-	unsigned int code = keycode + 1;
+	int code = keycode + 1;
 
 	if (keycode == CODE_FOR_UNKNOWN_KSYM) {
-		/* is safer not to be silent in this case, 
+		/* is safer not to be silent in this case,
 		 * it can be caused by coding errors as well. */
 		ERR(ctx, _("lk_add_key called with bad keycode %d"), keycode);
 		return -1;
@@ -151,9 +151,9 @@ int lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, i
 	}
 
 	if (ctx->keywords & LK_KEYWORD_ALTISMETA) {
-		unsigned int alttable = k_table | M_ALT;
-		int type              = KTYP(keycode);
-		int val               = KVAL(keycode);
+		int alttable = k_table | M_ALT;
+		int type     = KTYP(keycode);
+		int val      = KVAL(keycode);
 
 		if (alttable != k_table && lk_map_exists(ctx, alttable) &&
 		    !lk_key_exists(ctx, alttable, k_index) &&
@@ -168,26 +168,26 @@ int lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, i
 }
 
 static int
-do_constant_key(struct lk_ctx *ctx, int i, unsigned short key)
+do_constant_key(struct lk_ctx *ctx, int i, int key)
 {
-	int typ, val;
-	unsigned int j;
+	int j, typ, val;
 
 	typ = KTYP(key);
 	val = KVAL(key);
 
 	if ((typ == KT_LATIN || typ == KT_LETTER) &&
 	    ((val >= 'a' && val <= 'z') || (val >= 'A' && val <= 'Z'))) {
-		unsigned short defs[16];
+		int defs[16];
+
 		defs[0] = K(KT_LETTER, val);
 		defs[1] = K(KT_LETTER, val ^ 32);
 		defs[2] = defs[0];
 		defs[3] = defs[1];
 
-		for (j          = 4; j < 8; j++)
+		for (j = 4; j < 8; j++)
 			defs[j] = K(KT_LATIN, val & ~96);
 
-		for (j          = 8; j < 16; j++)
+		for (j = 8; j < 16; j++)
 			defs[j] = K(KT_META, KVAL(defs[j - 8]));
 
 		for (j = 0; j < ctx->keymap->total; j++) {
@@ -220,7 +220,7 @@ do_constant_key(struct lk_ctx *ctx, int i, unsigned short key)
 
 int lk_add_constants(struct lk_ctx *ctx)
 {
-	unsigned int i, r0 = 0;
+	int i, r0 = 0;
 
 	if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
 		while (r0 < ctx->keymap->total && !lk_map_exists(ctx, r0))
@@ -229,7 +229,7 @@ int lk_add_constants(struct lk_ctx *ctx)
 
 	for (i = 0; i < ctx->key_constant->total; i++) {
 		char *constant;
-		unsigned short key;
+		int key;
 
 		constant = lk_array_get(ctx->key_constant, i);
 		if (!constant || !(*constant))

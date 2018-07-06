@@ -23,16 +23,16 @@ typedef enum {
  * @brief General information about the keymap.
  */
 struct kmapinfo {
-	lk_flags flags;         /**< Parser flags that are set outside the library */
-	lk_keywords keywords;   /**< Keywords used in keymap files */
-	size_t keymaps;         /**< Number of keymaps in actual use */
-	size_t keymaps_alloced; /**< Number of keymaps dynamically allocated */
-	size_t functions;       /**< Number of function keys */
-	size_t composes;        /**< Number of compose definitions in actual use */
+	lk_flags flags;          /**< Parser flags that are set outside the library */
+	lk_keywords keywords;    /**< Keywords used in keymap files */
+	ssize_t keymaps;         /**< Number of keymaps in actual use */
+	ssize_t keymaps_alloced; /**< Number of keymaps dynamically allocated */
+	ssize_t functions;       /**< Number of function keys */
+	ssize_t composes;        /**< Number of compose definitions in actual use */
 
-	size_t keymaps_total;
-	size_t functions_total;
-	size_t composes_total;
+	ssize_t keymaps_total;
+	ssize_t functions_total;
+	ssize_t composes_total;
 };
 
 /**
@@ -102,7 +102,7 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd);
  */
 char *lk_code_to_ksym(struct lk_ctx *ctx, int code);
 
-char *lk_get_sym(struct lk_ctx *ctx, unsigned int ktype, unsigned int index);
+char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index);
 
 /**
  * Converts a string to a numeric representation of the character.

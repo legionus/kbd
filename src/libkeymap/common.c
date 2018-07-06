@@ -125,7 +125,7 @@ int lk_set_parser_flags(struct lk_ctx *ctx, lk_flags flags)
 }
 
 static int
-init_array(struct lk_ctx *ctx, struct lk_array **arr, size_t size)
+init_array(struct lk_ctx *ctx, struct lk_array **arr, ssize_t size)
 {
 	int rc;
 	void *ptr;

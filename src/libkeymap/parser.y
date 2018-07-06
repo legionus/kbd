@@ -58,7 +58,7 @@ struct strdata {
 %token UNUMBER ALT_IS_META STRINGS AS USUAL ON FOR
 
 %union {
-	long long int num;
+	int num;
 	struct strdata str;
 }
 
@@ -97,14 +97,13 @@ strings_as_usual(struct lk_ctx *ctx)
 		/* Next,    Macro,      Help,       Do,         Pause */
 		"\033[6~",  0,          0,          0,          0
 	};
-	int i;
+	unsigned char i;
 
 	for (i = 0; i < 30; i++) {
 		if (stringvalues[i]) {
 			struct kbsentry ke;
 			ke.kb_func = i;
-			strncpy((char *)ke.kb_string, stringvalues[i],
-				sizeof(ke.kb_string));
+			strncpy((char *)ke.kb_string, stringvalues[i], sizeof(ke.kb_string));
 			ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
 			if (lk_add_func(ctx, &ke) == -1)
@@ -264,10 +263,12 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 					YYERROR;
 				}
 
-				ke.kb_func = KVAL($2);
+				ke.kb_func = (unsigned char) KVAL($2);
+
 				strncpy((char *) ke.kb_string,
 				        (char *) $4.data,
 				        sizeof(ke.kb_string));
+
 				ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
 				if (lk_add_func(ctx, &ke) == -1)
@@ -277,9 +278,9 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 compline        : COMPOSE compsym compsym TO CCHAR EOL
                         {
 				struct lk_kbdiacr ptr;
-				ptr.diacr  = $2;
-				ptr.base   = $3;
-				ptr.result = $5;
+				ptr.diacr  = (unsigned int) $2;
+				ptr.base   = (unsigned int) $3;
+				ptr.result = (unsigned int) $5;
 
 				if (lk_append_compose(ctx, &ptr) == -1)
 					YYERROR;
@@ -287,9 +288,9 @@ compline        : COMPOSE compsym compsym TO CCHAR EOL
 		 | COMPOSE compsym compsym TO rvalue EOL
 			{
 				struct lk_kbdiacr ptr;
-				ptr.diacr  = $2;
-				ptr.base   = $3;
-				ptr.result = $5;
+				ptr.diacr  = (unsigned int) $2;
+				ptr.base   = (unsigned int) $3;
+				ptr.result = (unsigned int) $5;
 
 				if (lk_append_compose(ctx, &ptr) == -1)
 					YYERROR;
@@ -300,7 +301,7 @@ compsym		: CCHAR		{	$$ = $1;		}
 		;
 singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
-				unsigned int j, i, keycode;
+				int j, i, keycode;
 				int *val;
 
 				if (ctx->key_line->count == 1) {
