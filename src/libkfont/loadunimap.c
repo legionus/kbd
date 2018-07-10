@@ -27,11 +27,7 @@
 
 #include "libcommon.h"
 
-extern char *progname;
 extern int force;
-
-static const char *const unidirpath[]  = { "", DATADIR "/" UNIMAPDIR "/", 0 };
-static const char *const unisuffixes[] = { "", ".uni", ".sfm", 0 };
 
 /*
  * Skip spaces and read U+1234 or return -1 for error.
@@ -235,7 +231,7 @@ lookattail:
 }
 
 int
-loadunicodemap(int fd, const char *tblname)
+loadunicodemap(int fd, const char *tblname, const char *const *unidirpath, const char *const *unisuffixes)
 {
 	char buffer[65536];
 	char *p;

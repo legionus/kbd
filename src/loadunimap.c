@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 	if (argc == optind + 1)
 		infnam = argv[optind];
 
-	if (loadunicodemap(fd, infnam) < 0)
+	if (loadunicodemap(fd, infnam, unidirpath, unisuffixes) < 0)
 		exit(EXIT_FAILURE);
 
 	exit(0);

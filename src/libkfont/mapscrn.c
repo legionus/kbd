@@ -24,10 +24,6 @@
 
 static int ctoi(char *);
 
-/* search for the map file in these directories (with trailing /) */
-static const char *const mapdirpath[]  = { "", DATADIR "/" TRANSDIR "/", 0 };
-static const char *const mapsuffixes[] = { "", ".trans", "_to_uni.trans", ".acm", 0 };
-
 /*
  * Read two-column file (index, value) with index in 0-255
  * and value in 0-65535. Acceptable representations:
@@ -78,7 +74,7 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 }
 
 static int
-readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, int *res)
+readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, const char *const *mapdirpath, const char *const *mapsuffixes, int *res)
 {
 	struct stat stbuf;
 	int lineno = 0;
@@ -145,7 +141,7 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, int *res)
 }
 
 int
-loadnewmap(int fd, char *mfil)
+kfont_loadnewmap(int fd, char *mfil, const char *const *mapdirpath, const char *const *mapsuffixes)
 {
 	unsigned short ubuf[E_TABSZ];
 	char buf[E_TABSZ];
@@ -158,7 +154,7 @@ loadnewmap(int fd, char *mfil)
 	}
 
 	u = 0;
-	if (mfil && readnewmapfromfile(mfil, buf, ubuf, &u) < 0)
+	if (mfil && readnewmapfromfile(mfil, buf, ubuf, mapdirpath, mapsuffixes, &u) < 0)
 		return -1;
 
 	/* do we need to use loaduniscrnmap() ? */
@@ -217,7 +213,7 @@ int ctoi(char *s)
 }
 
 int
-saveoldmap(int fd, char *omfil)
+kfont_saveoldmap(int fd, char *omfil)
 {
 	FILE *fp;
 	char buf[E_TABSZ];

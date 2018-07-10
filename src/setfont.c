@@ -50,12 +50,18 @@ int verbose = 0;
 int force   = 0;
 int debug   = 0;
 
+/* search for the map file in these directories (with trailing /) */
+const char *const mapdirpath[]  = { "", DATADIR "/" TRANSDIR "/", 0 };
+const char *const mapsuffixes[] = { "", ".trans", "_to_uni.trans", ".acm", 0 };
 /* search for the font in these directories (with trailing /) */
 const char *const fontdirpath[]  = { "", DATADIR "/" FONTDIR "/", 0 };
 const char *const fontsuffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
 /* hide partial fonts a bit - loading a single one is a bad idea */
 const char *const partfontdirpath[]  = { "", DATADIR "/" FONTDIR "/" PARTIALDIR "/", 0 };
 const char *const partfontsuffixes[] = { "", 0 };
+
+static const char *const unidirpath[]  = { "", DATADIR "/" UNIMAPDIR "/", 0 };
+static const char *const unisuffixes[] = { "", ".uni", ".sfm", 0 };
 
 static inline int
 findfont(char *fnam, struct kbdfile *fp)
@@ -216,7 +222,7 @@ int main(int argc, char *argv[])
 		saveoldfont(fd, ofil);
 
 	if (omfil) {
-		if (saveoldmap(fd, omfil) < 0)
+		if (kfont_saveoldmap(fd, omfil) < 0)
 			exit(EXIT_FAILURE);
 	}
 
@@ -226,7 +232,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (mfil) {
-		if (loadnewmap(fd, mfil) < 0)
+		if (kfont_loadnewmap(fd, mfil, mapdirpath, mapsuffixes) < 0)
 			exit(EXIT_FAILURE);
 
 		activatemap(fd);
@@ -243,7 +249,7 @@ int main(int argc, char *argv[])
 		loadnewfonts(fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
 
 	if (ufil)
-		if (loadunicodemap(fd, ufil) < 0)
+		if (loadunicodemap(fd, ufil, unidirpath, unisuffixes) < 0)
 			exit(EXIT_FAILURE);
 
 	return 0;
@@ -562,7 +568,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 			do_loadtable(fd, uclistheads, fontsize);
 #if 1
 		if (!uclistheads && !no_u && def)
-			if (loadunicodemap(fd, "def.uni") < 0)
+			if (loadunicodemap(fd, "def.uni", unidirpath, unisuffixes) < 0)
 				exit(EXIT_FAILURE);
 #endif
 		return;

@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-		if (saveoldmap(fd, argv[2]) < 0)
+		if (kfont_saveoldmap(fd, argv[2]) < 0)
 			exit(EXIT_FAILURE);
 		argc -= 2;
 		argv += 2;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (loadnewmap(fd, argv[1]) < 0)
+	if (kfont_loadnewmap(fd, argv[1], mapdirpath, mapsuffixes) < 0)
 		exit(EXIT_FAILURE);
 
 	exit(EXIT_SUCCESS);
