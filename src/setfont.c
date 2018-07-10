@@ -220,8 +220,10 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 
-	if (oufil)
-		saveunicodemap(fd, oufil);
+	if (oufil) {
+		if (saveunicodemap(fd, oufil) < 0)
+			exit(EXIT_FAILURE);
+	}
 
 	if (mfil) {
 		if (loadnewmap(fd, mfil) < 0)
@@ -241,7 +243,8 @@ int main(int argc, char *argv[])
 		loadnewfonts(fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
 
 	if (ufil)
-		loadunicodemap(fd, ufil);
+		if (loadunicodemap(fd, ufil) < 0)
+			exit(EXIT_FAILURE);
 
 	return 0;
 }
@@ -559,7 +562,8 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 			do_loadtable(fd, uclistheads, fontsize);
 #if 1
 		if (!uclistheads && !no_u && def)
-			loadunicodemap(fd, "def.uni");
+			if (loadunicodemap(fd, "def.uni") < 0)
+				exit(EXIT_FAILURE);
 #endif
 		return;
 	}
@@ -707,7 +711,10 @@ do_saveoldfont(int fd, char *ofil, FILE *fpo, int unimap_follows,
 
 		if (unimap_follows)
 			flags |= WPSFH_HASTAB;
-		writepsffontheader(fpo, width, height, ct, &psftype, flags);
+
+		if (writepsffontheader(fpo, width, height, ct, &psftype, flags) < 0)
+			exit(EX_IOERR);
+
 		if (utf8)
 			*utf8 = (psftype == 2);
 	}
@@ -755,9 +762,13 @@ saveoldfontplusunicodemap(int fd, char *Ofil)
 		perror(Ofil);
 		exit(EX_CANTCREAT);
 	}
+
 	ct = 0;
 	do_saveoldfont(fd, Ofil, fpo, 1, &ct, &utf8);
-	appendunicodemap(fd, fpo, ct, utf8);
+
+	if (appendunicodemap(fd, fpo, ct, utf8) < 0)
+		exit(1);
+
 	fclose(fpo);
 }
 

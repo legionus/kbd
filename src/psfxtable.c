@@ -423,8 +423,9 @@ int main(int argc, char **argv)
 	}
 
 	if (ofil) {
-		writepsffont(ofil, fontbuf, width, height, fontlen, psftype,
-		             notable ? NULL : uclistheads);
+		if (writepsffont(ofil, fontbuf, width, height, fontlen, psftype, notable ? NULL : uclistheads) < 0)
+			exit(1);
+
 		fclose(ofil);
 	}
 

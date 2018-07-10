@@ -82,13 +82,18 @@ int main(int argc, char *argv[])
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (outfnam) {
-		saveunicodemap(fd, outfnam);
+		if (saveunicodemap(fd, outfnam) < 0)
+			exit(EXIT_FAILURE);
+
 		if (argc == optind)
 			exit(0);
 	}
 
 	if (argc == optind + 1)
 		infnam = argv[optind];
-	loadunicodemap(fd, infnam);
+
+	if (loadunicodemap(fd, infnam) < 0)
+		exit(EXIT_FAILURE);
+
 	exit(0);
 }

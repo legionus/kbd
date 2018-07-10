@@ -31,11 +31,11 @@ extern int writepsffont(FILE *ofil, char *fontbuf,
 
 #define WPSFH_HASTAB 1
 #define WPSFH_HASSEQ 2
-extern void writepsffontheader(FILE *ofil,
-                               int width, int height, int fontlen,
-                               int *psftype, int flags);
+extern int writepsffontheader(FILE *ofil,
+                              int width, int height, int fontlen,
+                              int *psftype, int flags);
 
-extern void appendunicode(FILE *fp, unsigned int uc, int utf8);
-extern void appendseparator(FILE *fp, int seq, int utf8);
+extern int appendunicode(FILE *fp, unsigned int uc, int utf8);
+extern int appendseparator(FILE *fp, int seq, int utf8);
 
 #endif /* _PSFFONTOP_H */
