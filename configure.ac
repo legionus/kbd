@@ -119,7 +119,7 @@ AM_CONDITIONAL(BUILD_LIBKEYMAP, test "$BUILD_LIBKEYMAP" = "yes")
 
 AC_ARG_ENABLE(vlock,
 	AS_HELP_STRING(--disable-vlock, [do not build vlock]),
-	[VLOCK_PROG=no],[VLOCK_PROG=yes])
+	[VLOCK_PROG=$enableval],[VLOCK_PROG=yes])
 AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
 
 if test "$VLOCK_PROG" = "yes"; then
