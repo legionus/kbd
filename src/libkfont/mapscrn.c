@@ -3,15 +3,17 @@
  */
 #include "config.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <linux/kd.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
 #include <string.h>
 #include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <linux/kd.h>
+#include <errno.h>
 
 #include <kbdfile.h>
 
@@ -21,6 +23,8 @@
 #include "kdmapop.h"
 #include "utf8.h"
 #include "mapscrn.h"
+
+#include "contextP.h"
 
 static int ctoi(char *);
 
@@ -74,7 +78,7 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 }
 
 static int
-readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, const char *const *mapdirpath, const char *const *mapsuffixes, int *res)
+readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short *ubuf, const char *const *mapdirpath, const char *const *mapsuffixes, int *res)
 {
 	struct stat stbuf;
 	int lineno = 0;
@@ -88,13 +92,13 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, const char *cons
 		return -1;
 
 	if (kbdfile_find(mfil, mapdirpath, mapsuffixes, fp)) {
-		fprintf(stderr, _("mapscrn: cannot open map file _%s_\n"),
-		        mfil);
+		ERR(ctx, _("mapscrn: cannot open map file _%s_\n"), mfil);
 		return -1;
 	}
 	if (stat(kbdfile_get_pathname(fp), &stbuf)) {
-		perror(kbdfile_get_pathname(fp));
-		fprintf(stderr, _("Cannot stat map file"));
+		char errbuf[STACKBUF_LEN];
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, _("%s: Cannot stat map file: %s"), kbdfile_get_pathname(fp), errbuf);
 		return -1;
 	}
 	if (stbuf.st_size == E_TABSZ) {
@@ -141,7 +145,7 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf, const char *cons
 }
 
 int
-kfont_loadnewmap(int fd, char *mfil, const char *const *mapdirpath, const char *const *mapsuffixes)
+kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *mapdirpath, const char *const *mapsuffixes)
 {
 	unsigned short ubuf[E_TABSZ];
 	char buf[E_TABSZ];
@@ -154,17 +158,17 @@ kfont_loadnewmap(int fd, char *mfil, const char *const *mapdirpath, const char *
 	}
 
 	u = 0;
-	if (mfil && readnewmapfromfile(mfil, buf, ubuf, mapdirpath, mapsuffixes, &u) < 0)
+	if (mfil && readnewmapfromfile(ctx, mfil, buf, ubuf, mapdirpath, mapsuffixes, &u) < 0)
 		return -1;
 
 	/* do we need to use loaduniscrnmap() ? */
 	if (u) {
 		/* yes */
-		if (loaduniscrnmap(fd, ubuf))
+		if (loaduniscrnmap(ctx, fd, ubuf))
 			return -1;
 	} else {
 		/* no */
-		if (loadscrnmap(fd, buf))
+		if (loadscrnmap(ctx, fd, buf))
 			return -1;
 	}
 
@@ -213,7 +217,7 @@ int ctoi(char *s)
 }
 
 int
-kfont_saveoldmap(int fd, char *omfil)
+kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil)
 {
 	FILE *fp;
 	char buf[E_TABSZ];
@@ -221,16 +225,18 @@ kfont_saveoldmap(int fd, char *omfil)
 	int i, havemap, haveumap;
 
 	if ((fp = fopen(omfil, "w")) == NULL) {
-		perror(omfil);
+		char errbuf[STACKBUF_LEN];
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, _("Unable to open file: %s: %s"), omfil, errbuf);
 		return -1;
 	}
 
 	havemap = haveumap = 1;
 
-	if (getscrnmap(fd, buf))
+	if (getscrnmap(ctx, fd, buf))
 		havemap = 0;
 
-	if (getuniscrnmap(fd, ubuf))
+	if (getuniscrnmap(ctx, fd, ubuf))
 		haveumap = 0;
 
 	if (havemap && haveumap) {
@@ -244,23 +250,22 @@ kfont_saveoldmap(int fd, char *omfil)
 
 	if (havemap) {
 		if (fwrite(buf, sizeof(buf), 1, fp) != 1) {
-			fprintf(stderr, _("Error writing map to file\n"));
+			ERR(ctx, _("Error writing map to file"));
 			return -1;
 		}
 	} else if (haveumap) {
 		if (fwrite(ubuf, sizeof(ubuf), 1, fp) != 1) {
-			fprintf(stderr, _("Error writing map to file\n"));
+			ERR(ctx,  _("Error writing map to file"));
 			return -1;
 		}
 	} else {
-		fprintf(stderr, _("Cannot read console map\n"));
+		ERR(ctx, _("Cannot read console map"));
 		return -1;
 	}
 
 	fclose(fp);
 
-	if (verbose)
-		printf(_("Saved screen map in `%s'\n"), omfil);
+	DBG(ctx, _("Saved screen map in `%s'"), omfil);
 
 	return 0;
 }

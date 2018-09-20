@@ -6,15 +6,18 @@
  */
 #include "config.h"
 
+#include <sys/ioctl.h>
+#include <linux/kd.h>
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <sys/ioctl.h>
-#include <linux/kd.h>
+#include <string.h>
 
 #include "libcommon.h"
 
 #include "kdmapop.h"
+#include "contextP.h"
 
 /*
  * Linux pre-0.96 defined GIO_SCRNMAP, PIO_SCRNMAP:
@@ -37,19 +40,27 @@
  * translation tables, and this ioctl would get/set the fourth
  * table, while the other three tables are built-in and constant.)
  */
-int getscrnmap(int fd, char *map)
+int
+getscrnmap(struct kfont_ctx *ctx, int fd, char *map)
 {
+	char buf[STACKBUF_LEN];
+
 	if (ioctl(fd, GIO_SCRNMAP, map)) {
-		perror("GIO_SCRNMAP");
+		strerror_r(errno, buf, sizeof(buf));
+		ERR(ctx, "ioctl(GIO_SCRNMAP): %s", buf);
 		return -1;
 	}
 	return 0;
 }
 
-int loadscrnmap(int fd, char *map)
+int
+loadscrnmap(struct kfont_ctx *ctx, int fd, char *map)
 {
+	char buf[STACKBUF_LEN];
+
 	if (ioctl(fd, PIO_SCRNMAP, map)) {
-		perror("PIO_SCRNMAP");
+		strerror_r(errno, buf, sizeof(buf));
+		ERR(ctx, "ioctl(PIO_SCRNMAP): %s", buf);
 		return -1;
 	}
 	return 0;
@@ -79,19 +90,27 @@ int loadscrnmap(int fd, char *map)
  * table with such direct-to-font values.
  */
 
-int getuniscrnmap(int fd, unsigned short *map)
+int
+getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
 {
+	char buf[STACKBUF_LEN];
+
 	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
-		perror("GIO_UNISCRNMAP");
+		strerror_r(errno, buf, sizeof(buf));
+		ERR(ctx, "ioctl(GIO_UNISCRNMAP): %s", buf);
 		return -1;
 	}
 	return 0;
 }
 
-int loaduniscrnmap(int fd, unsigned short *map)
+int
+loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
 {
+	char buf[STACKBUF_LEN];
+
 	if (ioctl(fd, PIO_UNISCRNMAP, map)) {
-		perror("PIO_UNISCRNMAP");
+		strerror_r(errno, buf, sizeof(buf));
+		ERR(ctx, "ioctl(PIO_UNISCRNMAP): %s", buf);
 		return -1;
 	}
 	return 0;
@@ -134,33 +153,39 @@ int loaduniscrnmap(int fd, unsigned short *map)
  * Linux 2.6.1 makes GIO_UNIMAP, PIO_UNIMAP, PIO_UNIMAPCLR per-vt
  * so that fd no longer is random.
  */
-int getunimap(int fd, struct unimapdesc *ud0)
+int
+getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
 {
+	char buf[STACKBUF_LEN];
 	struct unimapdesc ud;
-	int ct;
+	unsigned int ct;
 
 	ud.entry_ct = 0;
 	ud.entries  = 0;
 	if (ioctl(fd, GIO_UNIMAP, &ud)) {
 		if (errno != ENOMEM || ud.entry_ct == 0) {
-			perror("GIO_UNIMAP(0)");
+			strerror_r(errno, buf, sizeof(buf));
+			ERR(ctx, "ioctl(GIO_UNIMAP,0): %s", buf);
 			return -1;
 		}
-		ct         = ud.entry_ct;
-		ud.entries = (struct unipair *)
-		    malloc(ct * sizeof(struct unipair));
+
+		ct = ud.entry_ct;
+
+		ud.entries = (struct unipair *) malloc(ct * sizeof(struct unipair));
+
 		if (ud.entries == NULL) {
-			fprintf(stderr, _("%s: out of memory\n"), get_progname());
+			ERR(ctx, "out of memory");
 			return -1;
 		}
+
 		if (ioctl(fd, GIO_UNIMAP, &ud)) {
-			perror("GIO_UNIMAP");
+			strerror_r(errno, buf, sizeof(buf));
+			ERR(ctx, "ioctl(GIO_UNIMAP): %s", buf);
 			return -1;
 		}
+
 		if (ct != ud.entry_ct)
-			fprintf(stderr,
-			        _("strange... ct changed from %d to %d\n"),
-			        ct, ud.entry_ct);
+			WARN(ctx, _("strange... ct changed from %d to %d\n"), ct, ud.entry_ct);
 		/* someone could change the unimap between our
 		   first and second ioctl, so the above errors
 		   are not impossible */
@@ -169,13 +194,15 @@ int getunimap(int fd, struct unimapdesc *ud0)
 	return 0;
 }
 
-int loadunimap(int fd, struct unimapinit *ui, struct unimapdesc *ud)
+int
+loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
 {
+	char buf[STACKBUF_LEN];
 	struct unimapinit advice;
 
-	if (ui)
+	if (ui) {
 		advice = *ui;
-	else {
+	} else {
 		advice.advised_hashsize  = 0;
 		advice.advised_hashstep  = 0;
 		advice.advised_hashlevel = 0;
@@ -184,14 +211,18 @@ again:
 	if (ioctl(fd, PIO_UNIMAPCLR, &advice)) {
 #ifdef ENOIOCTLCMD
 		if (errno == ENOIOCTLCMD) {
-			fprintf(stderr,
-			        _("It seems this kernel is older than 1.1.92\n"
+			ERR(ctx, _("It seems this kernel is older than 1.1.92\n"
 			          "No Unicode mapping table loaded.\n"));
-		} else
+		} else {
 #endif
-			perror("PIO_UNIMAPCLR");
+			strerror_r(errno, buf, sizeof(buf));
+			ERR(ctx, "ioctl(PIO_UNIMAPCLR): %s", buf);
+#ifdef ENOIOCTLCMD
+		}
+#endif
 		return -1;
 	}
+
 	if (ud == NULL)
 		return 0;
 
@@ -200,7 +231,8 @@ again:
 			advice.advised_hashlevel++;
 			goto again;
 		}
-		perror("PIO_UNIMAP");
+		strerror_r(errno, buf, sizeof(buf));
+		ERR(ctx, "ioctl(PIO_UNIMAP): %s", buf);
 		return -1;
 	}
 

@@ -1,11 +1,13 @@
 #ifndef _KDMAPOP_H
 #define _KDMAPOP_H
 
-extern int getscrnmap(int fd, char *map);
-extern int loadscrnmap(int fd, char *map);
-extern int getuniscrnmap(int fd, unsigned short *map);
-extern int loaduniscrnmap(int fd, unsigned short *map);
-extern int getunimap(int fd, struct unimapdesc *ud);
-extern int loadunimap(int fd, struct unimapinit *ui, struct unimapdesc *ud);
+#include "kfont.h"
+
+int getscrnmap(struct kfont_ctx *ctx, int fd, char *map);
+int loadscrnmap(struct kfont_ctx *ctx, int fd, char *map);
+int getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map);
+int loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map);
+int getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud);
+int loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud);
 
 #endif /* _KDMAPOP_H */

@@ -13,8 +13,10 @@ LDADD = \
 	$(CODE_COVERAGE_LIBS)
 
 libkfont_la_SOURCES = \
-	psf.h psffontop.c psffontop.h \
-	kdfontop.c kdfontop.h \
+	psf.h \
+	init.c kfont.h contextP.h \
+	psffontop.c psffontop.h \
+	kdfontop.c \
 	kdmapop.c kdmapop.h \
 	loadunimap.c loadunimap.h \
 	mapscrn.c mapscrn.h \

@@ -12,15 +12,16 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "kdfontop.h"
 
 #include "libcommon.h"
+#include "contextP.h"
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-kd.h"
 #endif
 
-int restorefont(int fd)
+int
+kfont_restorefont(int fd)
 {
 	if (ioctl(fd, PIO_FONTRESET, 0)) {
 		perror("PIO_FONTRESET");
@@ -29,10 +30,11 @@ int restorefont(int fd)
 	return 0;
 }
 
-int font_charheight(unsigned char *buf, int count, int width)
+unsigned int
+kfont_font_charheight(unsigned char *buf, unsigned int count, unsigned int width)
 {
-	int h, i, x;
-	int bytewidth = (width + 7) / 8;
+	unsigned int h, i, x;
+	unsigned int bytewidth = (width + 7) / 8;
 
 	for (h = 32; h > 0; h--)
 		for (i = 0; i < count; i++)
@@ -48,20 +50,32 @@ nonzero:
  * May be called with width==NULL and height==NULL.
  * Must not exit - we may have cleanup to do.
  */
-int getfont(int fd, unsigned char *buf, int *count, int *width, int *height)
+int
+kfont_getfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int *count, unsigned int *width, unsigned int *height)
 {
-	struct consolefontdesc cfd;
-	struct console_font_op cfo;
-	int i;
+	char errbuf[STACKBUF_LEN];
+
+	if (count == NULL) {
+		ERR(ctx, "bug: getfont called with count == NULL");
+		return -1;
+	}
+
+	if (*count > USHRT_MAX) {
+		ERR(ctx, "bug: getfont called with count >= %d", USHRT_MAX);
+		return -1;
+	}
 
 	/* First attempt: KDFONTOP */
-	cfo.op    = KD_FONT_OP_GET;
-	cfo.flags = 0;
-	cfo.width = cfo.height = 32;
-	cfo.charcount          = *count;
-	cfo.data               = buf;
-	i                      = ioctl(fd, KDFONTOP, &cfo);
-	if (i == 0) {
+	struct console_font_op cfo;
+
+	cfo.op        = KD_FONT_OP_GET;
+	cfo.flags     = 0;
+	cfo.width     = 32;
+	cfo.height    = 32;
+	cfo.charcount = (unsigned short) *count;
+	cfo.data      = buf;
+
+	if (ioctl(fd, KDFONTOP, &cfo) == 0) {
 		*count = cfo.charcount;
 		if (height)
 			*height = cfo.height;
@@ -70,125 +84,148 @@ int getfont(int fd, unsigned char *buf, int *count, int *width, int *height)
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
-		perror("getfont: KDFONTOP");
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "getfont: ioctl(KDFONTOP): %s", errbuf);
 		return -1;
 	}
 
 	/* The other methods do not support width != 8 */
 	if (width)
 		*width = 8;
+
 	/* Second attempt: GIO_FONTX */
-	cfd.charcount  = *count;
+	struct consolefontdesc cfd;
+
+	cfd.charcount  = (unsigned short) *count;
 	cfd.charheight = 0;
 	cfd.chardata   = (char *)buf;
-	i              = ioctl(fd, GIO_FONTX, &cfd);
-	if (i == 0) {
+
+	if (ioctl(fd, GIO_FONTX, &cfd) == 0) {
 		*count = cfd.charcount;
 		if (height)
 			*height = cfd.charheight;
 		return 0;
 	}
 	if (errno != ENOSYS && errno != EINVAL) {
-		perror("getfont: GIO_FONTX");
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "getfont: ioctl(GIO_FONTX): %s", errbuf);
 		return -1;
 	}
 
 	/* Third attempt: GIO_FONT */
 	if (*count < 256) {
-		fprintf(stderr, _("bug: getfont called with count<256\n"));
+		ERR(ctx, _("bug: getfont called with count<256"));
 		return -1;
 	}
+
 	if (!buf) {
-		fprintf(stderr, _("bug: getfont using GIO_FONT needs buf.\n"));
+		ERR(ctx, _("bug: getfont using GIO_FONT needs buf"));
 		return -1;
 	}
-	i = ioctl(fd, GIO_FONT, buf);
-	if (i) {
-		perror("getfont: GIO_FONT");
+
+	if (ioctl(fd, GIO_FONT, buf)) {
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "getfont: ioctl(GIO_FONT): %s", errbuf);
 		return -1;
 	}
+
 	*count = 256;
+
 	if (height)
 		*height = 0; /* undefined, at most 32 */
+
 	return 0;
 }
 
-int getfontsize(int fd)
+unsigned int
+kfont_getfontsize(struct kfont_ctx *ctx, int fd)
 {
-	int count;
-	int i;
-
-	count = 0;
-	i     = getfont(fd, NULL, &count, NULL, NULL);
-	return (i == 0) ? count : 256;
+	unsigned int count = 0;
+	return (kfont_getfont(ctx, fd, NULL, &count, NULL, NULL) == 0) ? count : 256;
 }
 
-int putfont(int fd, unsigned char *buf, int count, int width, int height)
+int
+kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int count, unsigned int width, unsigned int height)
 {
-	struct consolefontdesc cfd;
-	struct console_font_op cfo;
-	int i;
+	char errbuf[STACKBUF_LEN];
+
+	if (count > USHRT_MAX) {
+		ERR(ctx, "bug: putfont called with count >= %d", USHRT_MAX);
+		return -1;
+	}
 
 	if (!width)
 		width = 8;
+
 	if (!height)
-		height = font_charheight(buf, count, width);
+		height = kfont_font_charheight(buf, count, width);
 
 	/* First attempt: KDFONTOP */
+	struct console_font_op cfo;
+
 	cfo.op        = KD_FONT_OP_SET;
 	cfo.flags     = 0;
 	cfo.width     = width;
 	cfo.height    = height;
-	cfo.charcount = count;
+	cfo.charcount = (unsigned short) count;
 	cfo.data      = buf;
-	i             = ioctl(fd, KDFONTOP, &cfo);
-	if (i == 0)
+
+	if (ioctl(fd, KDFONTOP, &cfo) == 0)
 		return 0;
+
 	if (width != 8 || (errno != ENOSYS && errno != EINVAL)) {
-		perror("putfont: KDFONTOP");
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "putfont: ioctl(KDFONTOP): %s", errbuf);
 		return -1;
 	}
 
 	/* Variation on first attempt: in case count is not 256 or 512
 	   round up and try again. */
 	if (errno == EINVAL && width == 8 && count != 256 && count < 512) {
-		int ct               = ((count > 256) ? 512 : 256);
-		unsigned char *mybuf = malloc(32U * ct);
+		unsigned int ct = ((count > 256) ? 512 : 256);
 
+		unsigned char *mybuf = malloc(32U * ct);
 		if (!mybuf) {
-			fprintf(stderr, _("%s: out of memory\n"), get_progname());
+			ERR(ctx, "putfont: out of memory");
 			return -1;
 		}
+
 		memset(mybuf, 0, 32U * ct);
 		memcpy(mybuf, buf, 32U * count);
+
 		cfo.data      = mybuf;
 		cfo.charcount = ct;
-		i             = ioctl(fd, KDFONTOP, &cfo);
+
+		int i = ioctl(fd, KDFONTOP, &cfo);
 		free(mybuf);
+
 		if (i == 0)
 			return 0;
 	}
 
 	/* Second attempt: PIO_FONTX */
-	cfd.charcount  = count;
-	cfd.charheight = height;
-	cfd.chardata   = (char *)buf;
-	i              = ioctl(fd, PIO_FONTX, &cfd);
-	if (i == 0)
+	struct consolefontdesc cfd;
+
+	cfd.charcount  = (unsigned short) count;
+	cfd.charheight = (unsigned short) height;
+	cfd.chardata   = (char *) buf;
+
+	if (ioctl(fd, PIO_FONTX, &cfd) == 0)
 		return 0;
+
 	if (errno != ENOSYS && errno != EINVAL) {
-		fprintf(stderr, "%s: putfont: %d,%dx%d:failed: %d\n", get_progname(), count, width, height, i);
-		perror("putfont: PIO_FONTX");
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "putfont: ioctl(PIO_FONTX): %d,%dx%d: %s", count, width, height, errbuf);
 		return -1;
 	}
 
 	/* Third attempt: PIO_FONT */
 	/* This will load precisely 256 chars, independent of count */
-	i = ioctl(fd, PIO_FONT, buf);
-	if (i) {
-		fprintf(stderr, "%s: putfont: %d,%dx%d:  failed: %d\n", get_progname(), count, width, height, i);
-		perror("putfont: PIO_FONT");
+	if (ioctl(fd, PIO_FONT, buf)) {
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "putfont: ioctl(PIO_FONT): %d,%dx%d: %s", count, width, height, errbuf);
 		return -1;
 	}
+
 	return 0;
 }

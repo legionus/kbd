@@ -162,7 +162,8 @@ int main(int argc, char **argv)
 
 	if (info) {
 		nr = rows = cols = 0;
-		n                = getfont(fd, NULL, &nr, &rows, &cols);
+
+		n = getfont(fd, NULL, &nr, &rows, &cols);
 		if (n != 0)
 			leave(EXIT_FAILURE);
 
