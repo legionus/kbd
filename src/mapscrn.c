@@ -14,13 +14,12 @@
 #include <linux/kd.h>
 
 #include <kbdfile.h>
+#include <kfont.h>
 
 #include "libcommon.h"
 
 #include "paths.h"
-#include "kdmapop.h"
 #include "utf8.h"
-#include "mapscrn.h"
 
 /* search for the map file in these directories (with trailing /) */
 static const char *const mapdirpath[]  = { "", DATADIR "/" TRANSDIR "/", 0 };
@@ -48,11 +47,16 @@ int main(int argc, char *argv[])
 		argv++;
 	}
 
+	struct kfont_ctx *ctx = kfont_context_new();
+	if (ctx == NULL) {
+		nomem();
+	}
+
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-		if (kfont_saveoldmap(fd, argv[2]) < 0)
+		if (kfont_saveoldmap(ctx, fd, argv[2]) < 0)
 			exit(EXIT_FAILURE);
 		argc -= 2;
 		argv += 2;
@@ -66,7 +70,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (kfont_loadnewmap(fd, argv[1], mapdirpath, mapsuffixes) < 0)
+	if (kfont_loadnewmap(ctx, fd, argv[1], mapdirpath, mapsuffixes) < 0)
 		exit(EXIT_FAILURE);
 
 	exit(EXIT_SUCCESS);

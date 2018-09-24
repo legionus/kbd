@@ -41,29 +41,48 @@ void kfont_log(struct kfont_ctx *ctx, int priority,
  * Return 0 on success -1 on failure.
  * Sets number of glyphs in COUNT, glyph size in WIDTH and HEIGHT.
  */
-int kfont_getfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int *count, unsigned int *width, unsigned int *height);
+int kfont_getfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, size_t *count, size_t *width, size_t *height);
 
 /*
  * Load kernel font of width WIDTH and pointsize HEIGHT from BUF
  * with length COUNT.
  * Return 0 on success, -1 on failure.
  */
-int kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int count, unsigned int width, unsigned int height);
+int kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, size_t count, size_t width, size_t height);
 
 /*
  * Find the maximum height of nonblank pixels
  * (in the ((WIDTH+7)/8)*32*COUNT bytes of BUF).
  */
-unsigned int kfont_font_charheight(unsigned char *buf, unsigned int count, unsigned int width);
+size_t kfont_font_charheight(unsigned char *buf, size_t count, size_t width);
 
 /*
  * Find the size of the kernel font.
  */
-unsigned int kfont_getfontsize(struct kfont_ctx *ctx, int fd);
+size_t kfont_getfontsize(struct kfont_ctx *ctx, int fd);
 
 /*
  * Restore font (doesn't work).
  */
-int kfont_restorefont(int fd);
+int kfont_restorefont(struct kfont_ctx *ctx, int fd);
+
+/* kdmapop.c */
+#include <linux/kd.h>
+
+int kfont_getscrnmap(struct kfont_ctx *ctx, int fd, char *map);
+int kfont_loadscrnmap(struct kfont_ctx *ctx, int fd, char *map);
+int kfont_getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map);
+int kfont_loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map);
+int kfont_getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud);
+int kfont_loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud);
+
+/* loadunimap.c */
+int kfont_saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil);
+int kfont_loadunicodemap(struct kfont_ctx *ctx, int fd, const char *ufil, const char *const *unidirpath, const char *const *unisuffixes);
+int kfont_appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, size_t fontsize, int utf8);
+
+/* mapscrn.c */
+int kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil);
+int kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *mapdirpath, const char *const *mapsuffixes);
 
 #endif /* _KFONT_H_ */

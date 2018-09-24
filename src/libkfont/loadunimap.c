@@ -22,9 +22,7 @@
 
 #include "contextP.h"
 #include "paths.h"
-#include "kdmapop.h"
 #include "psffontop.h"
-#include "loadunimap.h"
 #include "utf8.h"
 #include "psf.h"
 
@@ -226,7 +224,7 @@ lookattail:
 }
 
 int
-loadunicodemap(struct kfont_ctx *ctx, int fd, const char *tblname, const char *const *unidirpath, const char *const *unisuffixes)
+kfont_loadunicodemap(struct kfont_ctx *ctx, int fd, const char *tblname, const char *const *unidirpath, const char *const *unisuffixes)
 {
 	char buffer[65536];
 	char *p;
@@ -263,7 +261,7 @@ loadunicodemap(struct kfont_ctx *ctx, int fd, const char *tblname, const char *c
 		descr.entry_ct = listct;
 		descr.entries  = list;
 
-		if (loadunimap(ctx, fd, NULL, &descr))
+		if (kfont_loadunimap(ctx, fd, NULL, &descr))
 			return -1;
 
 		listct = 0;
@@ -275,7 +273,7 @@ loadunicodemap(struct kfont_ctx *ctx, int fd, const char *tblname, const char *c
 static int
 getunicodemap(struct kfont_ctx *ctx, int fd, struct unimapdesc *unimap_descr)
 {
-	if (getunimap(ctx, fd, unimap_descr))
+	if (kfont_getunimap(ctx, fd, unimap_descr))
 		return -1;
 
 	DBG(ctx, "# %d %s\n", unimap_descr->entry_ct, (unimap_descr->entry_ct == 1) ? _("entry") : _("entries"));
@@ -284,7 +282,7 @@ getunicodemap(struct kfont_ctx *ctx, int fd, struct unimapdesc *unimap_descr)
 }
 
 int
-saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil)
+kfont_saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil)
 {
 	FILE *fpo;
 	struct unimapdesc unimap_descr = { 0 };
@@ -314,11 +312,12 @@ saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil)
 }
 
 int
-appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, int fontsize, int utf8)
+kfont_appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, size_t fontsize, int utf8)
 {
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
-	int i, j;
+	unsigned int i;
+	int j;
 
 	if (getunicodemap(ctx, fd, &unimap_descr) < 0)
 		return -1;

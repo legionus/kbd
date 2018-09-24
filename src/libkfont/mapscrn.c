@@ -20,9 +20,7 @@
 #include "libcommon.h"
 
 #include "paths.h"
-#include "kdmapop.h"
 #include "utf8.h"
-#include "mapscrn.h"
 
 #include "contextP.h"
 
@@ -164,11 +162,11 @@ kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *m
 	/* do we need to use loaduniscrnmap() ? */
 	if (u) {
 		/* yes */
-		if (loaduniscrnmap(ctx, fd, ubuf))
+		if (kfont_loaduniscrnmap(ctx, fd, ubuf))
 			return -1;
 	} else {
 		/* no */
-		if (loadscrnmap(ctx, fd, buf))
+		if (kfont_loadscrnmap(ctx, fd, buf))
 			return -1;
 	}
 
@@ -233,10 +231,10 @@ kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil)
 
 	havemap = haveumap = 1;
 
-	if (getscrnmap(ctx, fd, buf))
+	if (kfont_getscrnmap(ctx, fd, buf))
 		havemap = 0;
 
-	if (getuniscrnmap(ctx, fd, ubuf))
+	if (kfont_getuniscrnmap(ctx, fd, ubuf))
 		haveumap = 0;
 
 	if (havemap && haveumap) {

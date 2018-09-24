@@ -102,7 +102,7 @@ getunicode(char **p0)
 }
 
 static void
-parse_itab_line(char *buf, int fontlen)
+parse_itab_line(char *buf, size_t fontlen)
 {
 	char *p, *p1;
 	long i;
@@ -212,14 +212,13 @@ parse_itab_line(char *buf, int fontlen)
 }
 
 static void
-read_itable(FILE *itab, int fontlen, struct unicode_list **uclistheadsp)
+read_itable(FILE *itab, size_t fontlen, struct unicode_list **uclistheadsp)
 {
 	char buf[65536];
-	int i;
+	size_t i;
 
 	if (uclistheadsp) {
-		*uclistheadsp = xrealloc(*uclistheadsp,
-		                         fontlen * sizeof(struct unicode_list));
+		*uclistheadsp = xrealloc(*uclistheadsp, fontlen * sizeof(struct unicode_list));
 		for (i = 0; i < fontlen; i++) {
 			struct unicode_list *up = &((*uclistheadsp)[i]);
 			up->next                = NULL;
@@ -237,11 +236,12 @@ int main(int argc, char **argv)
 {
 	const char *ifname, *ofname, *itname, *otname;
 	FILE *ifil, *ofil, *itab, *otab;
-	int psftype, charsize, fontlen, hastable, notable;
-	int i;
-	int width = 8, bytewidth, height;
+	int psftype, hastable, notable;
+	size_t charsize, fontlen;
+	size_t i;
+	size_t width = 8, bytewidth, height;
 	char *inbuf, *fontbuf;
-	int inbuflth, fontbuflth;
+	size_t inbuflth, fontbuflth;
 
 	set_progname(argv[0]);
 
@@ -286,21 +286,22 @@ int main(int argc, char **argv)
 		ofname  = argv[2];
 		notable = 1;
 	} else {
-		for (i = 1; i < argc; i++) {
-			if ((!strcmp(argv[i], "-i") || !strcmp(argv[i], "-if")) && i < argc - 1)
-				ifname = argv[++i];
-			else if ((!strcmp(argv[i], "-o") || !strcmp(argv[i], "-of")) && i < argc - 1)
-				ofname = argv[++i];
-			else if (!strcmp(argv[i], "-it") && i < argc - 1)
-				itname = argv[++i];
-			else if (!strcmp(argv[i], "-ot") && i < argc - 1)
-				otname = argv[++i];
-			else if (!strcmp(argv[i], "-nt"))
+		int j;
+		for (j = 1; j < argc; j++) {
+			if ((!strcmp(argv[j], "-i") || !strcmp(argv[j], "-if")) && j < argc - 1)
+				ifname = argv[++j];
+			else if ((!strcmp(argv[j], "-o") || !strcmp(argv[j], "-of")) && j < argc - 1)
+				ofname = argv[++j];
+			else if (!strcmp(argv[j], "-it") && j < argc - 1)
+				itname = argv[++j];
+			else if (!strcmp(argv[j], "-ot") && j < argc - 1)
+				otname = argv[++j];
+			else if (!strcmp(argv[j], "-nt"))
 				notable = 1;
 			else
 				break;
 		}
-		if (i < argc || argc <= 1) {
+		if (j < argc || argc <= 1) {
 			char *u = _("Usage:\n\t%s [-i infont] [-o outfont] "
 			            "[-it intable] [-ot outtable] [-nt]\n");
 			fprintf(stderr, u, get_progname());
@@ -404,7 +405,7 @@ int main(int argc, char **argv)
 		        "#\n# Character table extracted from font %s\n#\n",
 		        ifname);
 		for (i = 0; i < fontlen; i++) {
-			fprintf(otab, "0x%03x\t", i);
+			fprintf(otab, "0x%03lx\t", i);
 			sep = "";
 			ul  = uclistheads[i].next;
 			while (ul) {

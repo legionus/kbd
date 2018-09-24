@@ -17,11 +17,10 @@
 #include <linux/kd.h>
 
 #include <kbdfile.h>
+#include <kfont.h>
 
 #include "paths.h"
-#include "kdmapop.h"
 #include "psffontop.h"
-#include "loadunimap.h"
 #include "utf8.h"
 #include "psf.h"
 
@@ -78,11 +77,16 @@ int main(int argc, char *argv[])
 	if (argc > optind + 1 || (argc == optind && !outfnam))
 		usage();
 
+	struct kfont_ctx *ctx = kfont_context_new();
+	if (ctx == NULL) {
+		nomem();
+	}
+
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (outfnam) {
-		if (saveunicodemap(fd, outfnam) < 0)
+		if (kfont_saveunicodemap(ctx, fd, outfnam) < 0)
 			exit(EXIT_FAILURE);
 
 		if (argc == optind)
@@ -92,7 +96,7 @@ int main(int argc, char *argv[])
 	if (argc == optind + 1)
 		infnam = argv[optind];
 
-	if (loadunicodemap(fd, infnam, unidirpath, unisuffixes) < 0)
+	if (kfont_loadunicodemap(ctx, fd, infnam, unidirpath, unisuffixes) < 0)
 		exit(EXIT_FAILURE);
 
 	exit(0);

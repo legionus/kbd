@@ -17,7 +17,7 @@ libkfont_la_SOURCES = \
 	init.c kfont.h contextP.h \
 	psffontop.c psffontop.h \
 	kdfontop.c \
-	kdmapop.c kdmapop.h \
+	kdmapop.c \
 	loadunimap.c loadunimap.h \
 	mapscrn.c mapscrn.h \
 	utf8.c utf8.h

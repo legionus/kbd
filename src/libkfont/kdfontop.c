@@ -21,20 +21,23 @@
 #endif
 
 int
-kfont_restorefont(int fd)
+kfont_restorefont(struct kfont_ctx *ctx, int fd)
 {
+	char errbuf[STACKBUF_LEN];
+
 	if (ioctl(fd, PIO_FONTRESET, 0)) {
-		perror("PIO_FONTRESET");
+		strerror_r(errno, errbuf, sizeof(errbuf));
+		ERR(ctx, "kfont_restorefont: ioctl(PIO_FONTRESET): %s", errbuf);
 		return -1;
 	}
 	return 0;
 }
 
-unsigned int
-kfont_font_charheight(unsigned char *buf, unsigned int count, unsigned int width)
+size_t
+kfont_font_charheight(unsigned char *buf, size_t count, size_t width)
 {
-	unsigned int h, i, x;
-	unsigned int bytewidth = (width + 7) / 8;
+	size_t h, i, x;
+	size_t bytewidth = (width + 7) / 8;
 
 	for (h = 32; h > 0; h--)
 		for (i = 0; i < count; i++)
@@ -51,7 +54,7 @@ nonzero:
  * Must not exit - we may have cleanup to do.
  */
 int
-kfont_getfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int *count, unsigned int *width, unsigned int *height)
+kfont_getfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, size_t *count, size_t *width, size_t *height)
 {
 	char errbuf[STACKBUF_LEN];
 
@@ -137,20 +140,30 @@ kfont_getfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int *c
 	return 0;
 }
 
-unsigned int
+size_t
 kfont_getfontsize(struct kfont_ctx *ctx, int fd)
 {
-	unsigned int count = 0;
+	size_t count = 0;
 	return (kfont_getfont(ctx, fd, NULL, &count, NULL, NULL) == 0) ? count : 256;
 }
 
 int
-kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int count, unsigned int width, unsigned int height)
+kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, size_t count, size_t width, size_t height)
 {
 	char errbuf[STACKBUF_LEN];
 
 	if (count > USHRT_MAX) {
-		ERR(ctx, "bug: putfont called with count >= %d", USHRT_MAX);
+		ERR(ctx, "bug: putfont called with count > %d", USHRT_MAX);
+		return -1;
+	}
+
+	if (width > UINT_MAX) {
+		ERR(ctx, "bug: putfont called with width > %d", UINT_MAX);
+		return -1;
+	}
+
+	if (height > UINT_MAX) {
+		ERR(ctx, "bug: putfont called with height > %d", UINT_MAX);
 		return -1;
 	}
 
@@ -165,8 +178,8 @@ kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, unsigned int co
 
 	cfo.op        = KD_FONT_OP_SET;
 	cfo.flags     = 0;
-	cfo.width     = width;
-	cfo.height    = height;
+	cfo.width     = (unsigned int) width;
+	cfo.height    = (unsigned int) height;
 	cfo.charcount = (unsigned short) count;
 	cfo.data      = buf;
 

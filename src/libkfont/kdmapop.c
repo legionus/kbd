@@ -7,7 +7,6 @@
 #include "config.h"
 
 #include <sys/ioctl.h>
-#include <linux/kd.h>
 
 #include <stdio.h>
 #include <errno.h>
@@ -16,7 +15,6 @@
 
 #include "libcommon.h"
 
-#include "kdmapop.h"
 #include "contextP.h"
 
 /*
@@ -41,7 +39,7 @@
  * table, while the other three tables are built-in and constant.)
  */
 int
-getscrnmap(struct kfont_ctx *ctx, int fd, char *map)
+kfont_getscrnmap(struct kfont_ctx *ctx, int fd, char *map)
 {
 	char buf[STACKBUF_LEN];
 
@@ -54,7 +52,7 @@ getscrnmap(struct kfont_ctx *ctx, int fd, char *map)
 }
 
 int
-loadscrnmap(struct kfont_ctx *ctx, int fd, char *map)
+kfont_loadscrnmap(struct kfont_ctx *ctx, int fd, char *map)
 {
 	char buf[STACKBUF_LEN];
 
@@ -91,7 +89,7 @@ loadscrnmap(struct kfont_ctx *ctx, int fd, char *map)
  */
 
 int
-getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
+kfont_getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
 {
 	char buf[STACKBUF_LEN];
 
@@ -104,7 +102,7 @@ getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
 }
 
 int
-loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
+kfont_loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
 {
 	char buf[STACKBUF_LEN];
 
@@ -154,7 +152,7 @@ loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
  * so that fd no longer is random.
  */
 int
-getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
+kfont_getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
 {
 	char buf[STACKBUF_LEN];
 	struct unimapdesc ud;
@@ -195,7 +193,7 @@ getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
 }
 
 int
-loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
+kfont_loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
 {
 	char buf[STACKBUF_LEN];
 	struct unimapinit advice;
