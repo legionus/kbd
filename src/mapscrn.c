@@ -19,7 +19,6 @@
 #include "libcommon.h"
 
 #include "paths.h"
-#include "utf8.h"
 
 /* search for the map file in these directories (with trailing /) */
 static const char *const mapdirpath[]  = { "", DATADIR "/" TRANSDIR "/", 0 };

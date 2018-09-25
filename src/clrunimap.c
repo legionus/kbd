@@ -10,7 +10,8 @@
 #include <fcntl.h>
 #include <string.h>
 #include <linux/kd.h>
-#include "kdmapop.h"
+
+#include <kfont.h>
 
 #include "libcommon.h"
 
@@ -31,5 +32,10 @@ int main(int argc, char *argv[])
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
-	return loadunimap(fd, NULL, NULL);
+	struct kfont_ctx *ctx = kfont_context_new();
+	if (ctx == NULL) {
+		nomem();
+	}
+
+	return kfont_loadunimap(ctx, fd, NULL, NULL);
 }

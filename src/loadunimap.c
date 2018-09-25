@@ -21,7 +21,6 @@
 
 #include "paths.h"
 #include "psffontop.h"
-#include "utf8.h"
 #include "psf.h"
 
 #include "libcommon.h"
