@@ -67,6 +67,7 @@ size_t kfont_getfontsize(struct kfont_ctx *ctx, int fd);
 int kfont_restorefont(struct kfont_ctx *ctx, int fd);
 
 /* kdmapop.c */
+
 #include <linux/kd.h>
 
 int kfont_getscrnmap(struct kfont_ctx *ctx, int fd, char *map);
@@ -77,12 +78,52 @@ int kfont_getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud);
 int kfont_loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud);
 
 /* loadunimap.c */
+
 int kfont_saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil);
 int kfont_loadunicodemap(struct kfont_ctx *ctx, int fd, const char *ufil, const char *const *unidirpath, const char *const *unisuffixes);
 int kfont_appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, size_t fontsize, int utf8);
 
 /* mapscrn.c */
+
 int kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil);
 int kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *mapdirpath, const char *const *mapsuffixes);
+
+/* psffontop.c */
+
+/* Maximum font size that we try to handle */
+#define MAXFONTSIZE 65536
+
+typedef unsigned int unicode;
+
+struct unicode_seq {
+	struct unicode_seq *next;
+	struct unicode_seq *prev;
+	unicode uc;
+};
+
+struct unicode_list {
+	struct unicode_list *next;
+	struct unicode_list *prev;
+	struct unicode_seq *seq;
+};
+
+int kfont_readpsffont(struct kfont_ctx *ctx,
+                      FILE *fontf, char **allbufp, size_t *allszp,
+                      char **fontbufp, size_t *fontszp,
+                      size_t *fontwidthp, size_t *fontlenp, size_t fontpos0,
+                      struct unicode_list **uclistheadsp);
+
+int kfont_writepsffont(struct kfont_ctx *ctx,
+                       FILE *ofil, char *fontbuf,
+                       size_t width, size_t height, size_t fontlen, int psftype,
+                       struct unicode_list *uclistheads);
+
+#define WPSFH_HASTAB 1
+#define WPSFH_HASSEQ 2
+int kfont_writepsffontheader(struct kfont_ctx *ctx, FILE *ofil,
+                             size_t width, size_t height, size_t fontlen,
+                             int *psftype, int flags);
+
+#include <psf.h>
 
 #endif /* _KFONT_H_ */

@@ -24,7 +24,6 @@
 #include "paths.h"
 #include "psffontop.h"
 #include "utf8.h"
-#include "psf.h"
 
 extern int force;
 
@@ -328,7 +327,7 @@ kfont_appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, size_t fontsize,
 #if 0
 		/* More than one mapping is not a sequence! */
 		int no = 0;
-		for(j=0; j<unimap_descr.entry_ct; j++) 
+		for(j=0; j<unimap_descr.entry_ct; j++)
 			if (unilist[j].fontpos == i)
 				no++;
 		if (no > 1) {
@@ -341,10 +340,10 @@ kfont_appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, size_t fontsize,
 			if (unilist[j].fontpos == i) {
 				DBG(ctx, "%04x ", unilist[j].unicode);
 
-				if (appendunicode(fp, unilist[j].unicode, utf8) < 0)
+				if (appendunicode(ctx, fp, unilist[j].unicode, utf8) < 0)
 					return -1;
 			}
-		if (appendseparator(fp, 0, utf8) < 0)
+		if (appendseparator(ctx, fp, 0, utf8) < 0)
 			return -1;
 	}
 	if (ctx->verbose)

@@ -28,10 +28,7 @@
 #include <kfont.h>
 
 #include "libcommon.h"
-
 #include "paths.h"
-#include "psf.h"
-#include "psffontop.h"
 
 static ssize_t position_codepage(size_t iunit);
 static void saveoldfont(struct kfont_ctx *ctx, int fd, char *ofil);
@@ -450,7 +447,8 @@ loadnewfonts(struct kfont_ctx *ctx, int fd, char **ifiles, int ifilct,
 		inputlth = fontbuflth = 0;
 		fontsize              = 0;
 
-		if (readpsffont(kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
+		if (kfont_readpsffont(ctx,
+		                kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
 		                &width, &fontsize, bigfontsize,
 		                no_u ? NULL : &uclistheads)) {
 			fprintf(stderr, _("When loading several fonts, all "
@@ -557,7 +555,8 @@ loadnewfont(struct kfont_ctx *ctx, int fd, char *ifil, size_t iunit, size_t hwun
 	inputlth = fontbuflth = fontsize = 0;
 	width                            = 8;
 	uclistheads                      = NULL;
-	if (readpsffont(kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
+	if (kfont_readpsffont(ctx,
+	                kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
 	                &width, &fontsize, 0,
 	                no_u ? NULL : &uclistheads) == 0) {
 		kbdfile_free(fp);
@@ -732,7 +731,7 @@ do_saveoldfont(struct kfont_ctx *ctx, int fd, char *ofil, FILE *fpo, int unimap_
 		if (unimap_follows)
 			flags |= WPSFH_HASTAB;
 
-		if (writepsffontheader(fpo, width, height, ct, &psftype, flags) < 0)
+		if (kfont_writepsffontheader(ctx, fpo, width, height, ct, &psftype, flags) < 0)
 			exit(EX_IOERR);
 
 		if (utf8)

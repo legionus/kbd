@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h> /* exit */
 
-#include "libcommon.h"
+#include <kfont.h>
 
-#include "psf.h"
+#include "libcommon.h"
 
 static void __attribute__((noreturn))
 usage(void)

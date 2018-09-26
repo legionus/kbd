@@ -199,7 +199,7 @@ kfont_putfont(struct kfont_ctx *ctx, int fd, unsigned char *buf, size_t count, s
 
 		unsigned char *mybuf = malloc(32U * ct);
 		if (!mybuf) {
-			ERR(ctx, "putfont: out of memory");
+			ERR(ctx, "out of memory");
 			return -1;
 		}
 

@@ -19,11 +19,8 @@
 #include <kbdfile.h>
 #include <kfont.h>
 
-#include "paths.h"
-#include "psffontop.h"
-#include "psf.h"
-
 #include "libcommon.h"
+#include "paths.h"
 
 extern char *progname;
 extern int force;

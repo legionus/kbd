@@ -19,10 +19,9 @@
 #include <ctype.h>
 #include <sysexits.h>
 
-#include "libcommon.h"
+#include <kfont.h>
 
-#include "psf.h"
-#include "psffontop.h"
+#include "libcommon.h"
 
 /*
  * call: psfxtable -i infont -o outfont -it intable -ot outtable
@@ -309,6 +308,11 @@ int main(int argc, char **argv)
 		}
 	}
 
+	struct kfont_ctx *ctx = kfont_context_new();
+	if (ctx == NULL) {
+		nomem();
+	}
+
 	if (!ifname)
 		ifname = "-";
 	if (!strcmp(ifname, "-"))
@@ -359,7 +363,8 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (readpsffont(ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
+	if (kfont_readpsffont(ctx,
+	                ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
 	                &width, &fontlen, 0,
 	                itab ? NULL : &uclistheads) == -1) {
 		char *u = _("%s: Bad magic number on %s\n");
@@ -424,7 +429,7 @@ int main(int argc, char **argv)
 	}
 
 	if (ofil) {
-		if (writepsffont(ofil, fontbuf, width, height, fontlen, psftype, notable ? NULL : uclistheads) < 0)
+		if (kfont_writepsffont(ctx, ofil, fontbuf, width, height, fontlen, psftype, notable ? NULL : uclistheads) < 0)
 			exit(1);
 
 		fclose(ofil);
