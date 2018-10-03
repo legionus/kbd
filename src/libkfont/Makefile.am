@@ -18,8 +18,8 @@ libkfont_la_SOURCES = \
 	psffontop.c psffontop.h \
 	kdfontop.c \
 	kdmapop.c \
-	loadunimap.c loadunimap.h \
-	mapscrn.c mapscrn.h \
+	loadunimap.c \
+	mapscrn.c \
 	utf8.c utf8.h
 
 noinst_LTLIBRARIES = libkfont.la
