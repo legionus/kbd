@@ -12,8 +12,6 @@ src/getunimap.c
 src/kbdinfo.c
 src/kbd_mode.c
 src/kbdrate.c
-src/kdfontop.c
-src/kdmapop.c
 src/libcommon/getfd.c
 src/libcommon/version.c
 src/libcommon/xmalloc.c
@@ -26,12 +24,16 @@ src/libkeymap/ksyms.c
 src/libkeymap/loadkeys.c
 src/libkeymap/modifiers.c
 src/libkeymap/summary.c
+src/libkfont/init.c
+src/libkfont/kdfontop.c
+src/libkfont/kdmapop.c
+src/libkfont/loadunimap.c
+src/libkfont/mapscrn.c
+src/libkfont/psffontop.c
+src/libkfont/utf8.c
 src/loadkeys.c
-src/loadunimap.c
-src/mapscrn.c
 src/openvt.c
 src/outpsfheader.c
-src/psffontop.c
 src/psfxtable.c
 src/resizecons.c
 src/screendump.c
@@ -48,7 +50,6 @@ src/showkey.c
 src/spawn_console.c
 src/spawn_login.c
 src/totextmode.c
-src/utf8.c
 src/vlock/auth.c
 src/vlock/pam.c
 src/vlock/parse.c
