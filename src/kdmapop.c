@@ -155,6 +155,7 @@ int getunimap(int fd, struct unimapdesc *ud0)
 		}
 		if (ioctl(fd, GIO_UNIMAP, &ud)) {
 			perror("GIO_UNIMAP");
+			free(ud.entries);
 			return -1;
 		}
 		if (ct != ud.entry_ct)
