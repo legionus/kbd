@@ -326,8 +326,6 @@ do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 
 	if (putfont(fd, buf, fontsize, width, hwunit))
 		exit(EX_OSERR);
-
-	free(buf);
 }
 
 static void

@@ -270,10 +270,8 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 		ftoffset  = assemble_int((unsigned char *)&psfhdr.headersize);
 		fontwidth = assemble_int((unsigned char *)&psfhdr.width);
 		utf8      = 1;
-	} else {
-		free(inputbuf);
+	} else
 		return -1; /* not psf */
-	}
 
 	/* tests required - we divide by these */
 	if (fontlen == 0) {
@@ -302,10 +300,8 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 	if (fontwidthp)
 		*fontwidthp = fontwidth;
 
-	if (!uclistheadsp) {
-		free(inputbuf);
+	if (!uclistheadsp)
 		return 0; /* got font, don't need unicode_list */
-	}
 
 	*uclistheadsp = xrealloc(*uclistheadsp,
 	                         (fontpos0 + fontlen) * sizeof(struct unicode_list));
@@ -333,7 +329,6 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 		}
 	}
 
-	free(inputbuf);
 	return 0; /* got psf font */
 }
 
