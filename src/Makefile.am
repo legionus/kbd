@@ -73,9 +73,9 @@ mapscrn_CFLAGS = -DMAIN
 loadunimap_CFLAGS = -DMAIN
 
 LDADD = \
+	libkbdfile/libkbdfile.la \
 	libkfont/libkfont.la \
 	libkeymap/libkeymap.la \
-	libkbdfile/libkbdfile.la \
 	libcommon/libcommon.a \
 	@INTLLIBS@ \
 	$(CODE_COVERAGE_LIBS)

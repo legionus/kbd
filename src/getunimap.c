@@ -77,7 +77,9 @@ int main(int argc, char **argv)
 		nomem();
 	}
 
-	if (kfont_getunimap(ctx, fd, &ud))
+	kfont_set_console(ctx, fd);
+
+	if (kfont_get_unimap(ctx, &ud))
 		return EXIT_FAILURE;
 
 	if (sortflag) {

@@ -11,10 +11,30 @@
 #include "libcommon.h"
 #include "contextP.h"
 
+#define UNIMAPDIR "unimaps"
+#define TRANSDIR "consoletrans"
+#define FONTDIR "consolefonts"
+#define PARTIALDIR "partialfonts"
+
+/* search for the map file in these directories (with trailing /) */
+const char *const mapdirs[]     = { "", DATADIR "/" TRANSDIR "/", 0 };
+const char *const mapsuffixes[] = { "", ".trans", "_to_uni.trans", ".acm", 0 };
+
+/* search for the font in these directories (with trailing /) */
+const char *const fontdirs[]     = { "", DATADIR "/" FONTDIR "/", 0 };
+const char *const fontsuffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
+
+/* hide partial fonts a bit - loading a single one is a bad idea */
+const char *const partfontdirs[]     = { "", DATADIR "/" FONTDIR "/" PARTIALDIR "/", 0 };
+const char *const partfontsuffixes[] = { "", 0 };
+
+static const char *const unidirs[]     = { "", DATADIR "/" UNIMAPDIR "/", 0 };
+static const char *const unisuffixes[] = { "", ".uni", ".sfm", 0 };
+
 void __attribute__((format(printf, 6, 7)))
 kfont_log(struct kfont_ctx *ctx, int priority,
-       const char *file, int line, const char *fn,
-       const char *fmt, ...)
+          const char *file, int line, const char *fn,
+          const char *fmt, ...)
 {
 	va_list args;
 	if (ctx->log_fn == NULL)
@@ -95,8 +115,8 @@ kfont_set_log_fn(struct kfont_ctx *ctx, kfont_logger_t log_fn, const void *data)
 	if (!ctx)
 		return -1;
 
-	ctx->log_fn   = log_fn;
-	ctx->log_data = (void *)data;
+	ctx->log_fn = log_fn;
+	ctx->log_data = (void *) data;
 
 	return 0;
 }
@@ -116,11 +136,12 @@ kfont_set_log_data(struct kfont_ctx *ctx, const void *data)
 	if (!ctx)
 		return -1;
 
-	ctx->log_data = (void *)data;
+	ctx->log_data = (void *) data;
 	return 0;
 }
 
-int kfont_get_log_priority(struct kfont_ctx *ctx)
+int
+kfont_get_log_priority(struct kfont_ctx *ctx)
 {
 	if (!ctx)
 		return -1;
@@ -128,12 +149,91 @@ int kfont_get_log_priority(struct kfont_ctx *ctx)
 	return ctx->log_priority;
 }
 
-int kfont_set_log_priority(struct kfont_ctx *ctx, int priority)
+int
+kfont_set_log_priority(struct kfont_ctx *ctx, int priority)
 {
 	if (!ctx)
 		return -1;
 
 	ctx->log_priority = priority;
+	return 0;
+}
+
+kfont_flags
+kfont_get_flags(struct kfont_ctx *ctx)
+{
+	if (!ctx)
+		return 0;
+
+	return ctx->flags;
+}
+
+int
+kfont_set_flags(struct kfont_ctx *ctx, kfont_flags flags)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->flags = flags;
+	return 0;
+}
+
+int
+kfont_set_fontdirs(struct kfont_ctx *ctx, char **dirs, char **suffixes)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->fontdirs     = dirs;
+	ctx->fontsuffixes = suffixes;
+
+	return 0;
+}
+
+int
+kfont_set_partfontdirs(struct kfont_ctx *ctx, char **dirs, char **suffixes)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->partfontdirs     = dirs;
+	ctx->partfontsuffixes = suffixes;
+
+	return 0;
+}
+
+int
+kfont_set_mapdirs(struct kfont_ctx *ctx, char **dirs, char **suffixes)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->mapdirs     = dirs;
+	ctx->mapsuffixes = suffixes;
+
+	return 0;
+}
+
+int
+kfont_set_unidirs(struct kfont_ctx *ctx, char **dirs, char **suffixes)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->unidirs     = dirs;
+	ctx->unisuffixes = suffixes;
+
+	return 0;
+}
+
+int
+kfont_set_console(struct kfont_ctx *ctx, int fd)
+{
+	if (!ctx)
+		return -1;
+
+	ctx->consolefd = fd;
+
 	return 0;
 }
 
@@ -148,6 +248,20 @@ kfont_context_new(void)
 
 	if ((ctx->kbdfile_ctx = kbdfile_context_new()) == NULL)
 		return NULL;
+
+	ctx->consolefd = -1;
+
+	ctx->fontdirs     = (char **) fontdirs;
+	ctx->fontsuffixes = (char **) fontsuffixes;
+
+	ctx->partfontdirs     = (char **) partfontdirs;
+	ctx->partfontsuffixes = (char **) partfontsuffixes;
+
+	ctx->mapdirs     = (char **) mapdirs;
+	ctx->mapsuffixes = (char **) mapsuffixes;
+
+	ctx->unidirs     = (char **) unidirs;
+	ctx->unisuffixes = (char **) unisuffixes;
 
 	kfont_set_log_fn(ctx, log_file, stderr);
 	kfont_set_log_priority(ctx, LOG_ERR);

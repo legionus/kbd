@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	if (kfont_readpsffont(f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) == -1) {
+	if (kfont_read_psffont(f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0) {
 		fprintf(stderr, "%s: Bad magic number\n", argv[0]);
 		return 1;
 	}

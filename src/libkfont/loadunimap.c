@@ -22,10 +22,6 @@
 
 #include "contextP.h"
 #include "paths.h"
-#include "psffontop.h"
-#include "utf8.h"
-
-extern int force;
 
 /*
  * Skip spaces and read U+1234 or return -1 for error.
@@ -71,27 +67,27 @@ getunicode(char **p0)
 	return (int) val;
 }
 
-static struct unimapdesc descr;
-
-static struct unipair *list = 0;
-static int listsz           = 0;
-static int listct           = 0;
+struct unicodemap {
+	struct unipair *list;
+	size_t listsz;
+	unsigned short listct;
+};
 
 static int
-addpair(int fp, int un)
+addpair(long fp, long un, struct unicodemap *map)
 {
 	if (fp < 0 || un < 0)
 		return -1;
 
-	if (listct == listsz) {
-		listsz += 4096;
-		list = realloc((char *)list, (size_t) listsz);
-		if (!list)
+	if (map->listct == map->listsz) {
+		map->listsz += 4096;
+		map->list = realloc(map->list, map->listsz);
+		if (!map->list)
 			return -1;
 	}
-	list[listct].fontpos = (unsigned short) fp;
-	list[listct].unicode = (unsigned short) un;
-	listct++;
+	map->list[map->listct].fontpos = (unsigned short) fp;
+	map->list[map->listct].unicode = (unsigned short) un;
+	map->listct++;
 
 	return 0;
 }
@@ -109,12 +105,13 @@ addpair(int fp, int un)
  */
 
 static int
-parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
+parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname, struct unicodemap *map)
 {
 	int fontlen = 512;
-	int i;
-	int fp0, fp1, un0, un1;
+	long i;
+	int un0, un1;
 	char *p, *p1;
+	long fp0, fp1;
 
 	p = buffer;
 
@@ -127,7 +124,7 @@ parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
 	fp0 = strtol(p, &p1, 0);
 	if (p1 == p) {
 		ERR(ctx, _("Bad input line: %s\n"), buffer);
-		return -1; // EX_DATAERR
+		return -EX_DATAERR;
 	}
 	p = p1;
 
@@ -138,7 +135,7 @@ parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
 		fp1 = strtol(p, &p1, 0);
 		if (p1 == p) {
 			ERR(ctx, _("Bad input line: %s\n"), buffer);
-			return -1; // EX_DATAERR
+			return -EX_DATAERR;
 		}
 		p = p1;
 	} else
@@ -146,11 +143,11 @@ parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
 
 	if (fp0 < 0 || fp0 >= fontlen) {
 		ERR(ctx, _("%s: Glyph number (0x%x) larger than font length\n"), tblname, fp0);
-		return -1; // EX_DATAERR
+		return -EX_DATAERR;
 	}
 	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
 		ERR(ctx, _("%s: Bad end of range (0x%x)\n"), tblname, fp1);
-		return -1; // EX_DATAERR
+		return -EX_DATAERR;
 	}
 
 	if (fp1) {
@@ -162,8 +159,8 @@ parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
 		if (!strncmp(p, "idem", 4)) {
 			p += 4;
 			for (i = fp0; i <= fp1; i++) {
-				if (addpair(i, i) < 0)
-					return -1; // EX_SOFTWARE
+				if (addpair(i, i, map) < 0)
+					return -EX_SOFTWARE;
 			}
 			goto lookattail;
 		}
@@ -175,8 +172,8 @@ parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
 
 		if (*p != '-') {
 			for (i = fp0; i <= fp1; i++) {
-				if (addpair(i, un0) < 0)
-					return -1; // EX_SOFTWARE
+				if (addpair(i, un0, map) < 0)
+					return -EX_SOFTWARE;
 			}
 			goto lookattail;
 		}
@@ -188,27 +185,27 @@ parseline(struct kfont_ctx *ctx, char *buffer, const char *tblname)
 		if (un0 < 0 || un1 < 0) {
 			ERR(ctx, _("%s: Bad Unicode range corresponding to "
 			           "font position range 0x%x-0x%x\n"),
-			         tblname, fp0, fp1);
-			return -1; // EX_DATAERR
+			    tblname, fp0, fp1);
+			return -EX_DATAERR;
 		}
 
 		if (un1 - un0 != fp1 - fp0) {
 			ERR(ctx, _("%s: Unicode range U+%x-U+%x not of the same"
 			           " length as font position range 0x%x-0x%x\n"),
-			           tblname, un0, un1, fp0, fp1);
-			return -1; // EX_DATAERR
+			    tblname, un0, un1, fp0, fp1);
+			return -EX_DATAERR;
 		}
 
 		for (i = fp0; i <= fp1; i++) {
-			if (addpair(i, un0 - fp0 + i) < 0)
-				return -1; // EX_SOFTWARE
+			if (addpair(i, un0 - fp0 + i, map) < 0)
+				return -EX_SOFTWARE;
 		}
 	} else {
 		// no range; expect a list of unicode values
 		// for a single font position
 		while ((un0 = getunicode(&p)) >= 0) {
-			if (addpair(fp0, un0) < 0)
-				return -1; // EX_SOFTWARE
+			if (addpair(fp0, un0, map) < 0)
+				return -EX_SOFTWARE;
 		}
 	}
 lookattail:
@@ -223,18 +220,21 @@ lookattail:
 }
 
 int
-kfont_loadunicodemap(struct kfont_ctx *ctx, int fd, const char *tblname, const char *const *unidirpath, const char *const *unisuffixes)
+kfont_load_unicodemap(struct kfont_ctx *ctx, const char *tblname)
 {
 	char buffer[65536];
 	char *p;
 	struct kbdfile *fp;
+	int rc;
+	static struct unimapdesc descr;
+	struct unicodemap map = { 0 };
 
 	if ((fp = kbdfile_new(ctx->kbdfile_ctx)) == NULL)
-		return -1; // EX_SOFTWARE
+		return -EX_SOFTWARE;
 
-	if (kbdfile_find((char *) tblname, unidirpath, unisuffixes, fp)) {
+	if (kbdfile_find((char *) tblname, ctx->unidirs, ctx->unisuffixes, fp)) {
 		kbdfile_free(fp);
-		return -1; // EX_DATAERR
+		return -EX_DATAERR;
 	}
 
 	if (ctx->verbose)
@@ -246,33 +246,33 @@ kfont_loadunicodemap(struct kfont_ctx *ctx, int fd, const char *tblname, const c
 		else
 			WARN(ctx, _("%s: Warning: line too long"), tblname);
 
-		if (parseline(ctx, buffer, tblname) < 0) {
+		rc = parseline(ctx, buffer, tblname, &map);
+
+		if (rc < 0) {
 			kbdfile_free(fp);
-			return -1; // EX_DATAERR
+			return -rc;
 		}
 	}
 
 	kbdfile_free(fp);
 
-	if (listct == 0 && !force) {
-		WARN(ctx, _("not loading empty unimap"));
-	} else {
-		descr.entry_ct = listct;
-		descr.entries  = list;
+	if (map.listct == 0)
+		WARN(ctx, _("loading empty unimap"));
 
-		if (kfont_loadunimap(ctx, fd, NULL, &descr))
-			return -1;
 
-		listct = 0;
-	}
+	descr.entry_ct = map.listct;
+	descr.entries = map.list;
+
+	if (kfont_load_unimap(ctx, NULL, &descr))
+		return -1;
 
 	return 0;
 }
 
 static int
-getunicodemap(struct kfont_ctx *ctx, int fd, struct unimapdesc *unimap_descr)
+getunicodemap(struct kfont_ctx *ctx, struct unimapdesc *unimap_descr)
 {
-	if (kfont_getunimap(ctx, fd, unimap_descr))
+	if (kfont_get_unimap(ctx, unimap_descr))
 		return -1;
 
 	DBG(ctx, "# %d %s\n", unimap_descr->entry_ct, (unimap_descr->entry_ct == 1) ? _("entry") : _("entries"));
@@ -281,7 +281,7 @@ getunicodemap(struct kfont_ctx *ctx, int fd, struct unimapdesc *unimap_descr)
 }
 
 int
-kfont_saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil)
+kfont_dump_unicodemap(struct kfont_ctx *ctx, char *oufil)
 {
 	FILE *fpo;
 	struct unimapdesc unimap_descr = { 0 };
@@ -295,7 +295,7 @@ kfont_saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil)
 		return -1;
 	}
 
-	if (getunicodemap(ctx, fd, &unimap_descr) < 0)
+	if (getunicodemap(ctx, &unimap_descr) < 0)
 		return -1;
 
 	unilist = unimap_descr.entries;
@@ -311,14 +311,14 @@ kfont_saveunicodemap(struct kfont_ctx *ctx, int fd, char *oufil)
 }
 
 int
-kfont_appendunicodemap(struct kfont_ctx *ctx, int fd, FILE *fp, size_t fontsize, int utf8)
+append_unicodemap(struct kfont_ctx *ctx, FILE *fp, size_t fontsize, int utf8)
 {
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
 	unsigned int i;
 	int j;
 
-	if (getunicodemap(ctx, fd, &unimap_descr) < 0)
+	if (getunicodemap(ctx, &unimap_descr) < 0)
 		return -1;
 
 	unilist = unimap_descr.entries;

@@ -39,11 +39,16 @@
  * table, while the other three tables are built-in and constant.)
  */
 int
-kfont_getscrnmap(struct kfont_ctx *ctx, int fd, char *map)
+kfont_get_scrnmap(struct kfont_ctx *ctx, char *map)
 {
 	char buf[STACKBUF_LEN];
 
-	if (ioctl(fd, GIO_SCRNMAP, map)) {
+	if (ctx->consolefd < 0) {
+		ERR(ctx, "console descriptor must be specified");
+		return -1;
+	}
+
+	if (ioctl(ctx->consolefd, GIO_SCRNMAP, map)) {
 		strerror_r(errno, buf, sizeof(buf));
 		ERR(ctx, "ioctl(GIO_SCRNMAP): %s", buf);
 		return -1;
@@ -52,11 +57,16 @@ kfont_getscrnmap(struct kfont_ctx *ctx, int fd, char *map)
 }
 
 int
-kfont_loadscrnmap(struct kfont_ctx *ctx, int fd, char *map)
+kfont_load_scrnmap(struct kfont_ctx *ctx, char *map)
 {
 	char buf[STACKBUF_LEN];
 
-	if (ioctl(fd, PIO_SCRNMAP, map)) {
+	if (ctx->consolefd < 0) {
+		ERR(ctx, "console descriptor must be specified");
+		return -1;
+	}
+
+	if (ioctl(ctx->consolefd, PIO_SCRNMAP, map)) {
 		strerror_r(errno, buf, sizeof(buf));
 		ERR(ctx, "ioctl(PIO_SCRNMAP): %s", buf);
 		return -1;
@@ -89,11 +99,16 @@ kfont_loadscrnmap(struct kfont_ctx *ctx, int fd, char *map)
  */
 
 int
-kfont_getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
+kfont_get_uniscrnmap(struct kfont_ctx *ctx, unsigned short *map)
 {
 	char buf[STACKBUF_LEN];
 
-	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
+	if (ctx->consolefd < 0) {
+		ERR(ctx, "console descriptor must be specified");
+		return -1;
+	}
+
+	if (ioctl(ctx->consolefd, GIO_UNISCRNMAP, map)) {
 		strerror_r(errno, buf, sizeof(buf));
 		ERR(ctx, "ioctl(GIO_UNISCRNMAP): %s", buf);
 		return -1;
@@ -102,11 +117,16 @@ kfont_getuniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
 }
 
 int
-kfont_loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
+kfont_load_uniscrnmap(struct kfont_ctx *ctx, unsigned short *map)
 {
 	char buf[STACKBUF_LEN];
 
-	if (ioctl(fd, PIO_UNISCRNMAP, map)) {
+	if (ctx->consolefd < 0) {
+		ERR(ctx, "console descriptor must be specified");
+		return -1;
+	}
+
+	if (ioctl(ctx->consolefd, PIO_UNISCRNMAP, map)) {
 		strerror_r(errno, buf, sizeof(buf));
 		ERR(ctx, "ioctl(PIO_UNISCRNMAP): %s", buf);
 		return -1;
@@ -152,15 +172,21 @@ kfont_loaduniscrnmap(struct kfont_ctx *ctx, int fd, unsigned short *map)
  * so that fd no longer is random.
  */
 int
-kfont_getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
+kfont_get_unimap(struct kfont_ctx *ctx, struct unimapdesc *ud0)
 {
 	char buf[STACKBUF_LEN];
 	struct unimapdesc ud;
 	unsigned int ct;
 
+	if (ctx->consolefd < 0) {
+		ERR(ctx, "console descriptor must be specified");
+		return -1;
+	}
+
 	ud.entry_ct = 0;
-	ud.entries  = 0;
-	if (ioctl(fd, GIO_UNIMAP, &ud)) {
+	ud.entries = 0;
+
+	if (ioctl(ctx->consolefd, GIO_UNIMAP, &ud)) {
 		if (errno != ENOMEM || ud.entry_ct == 0) {
 			strerror_r(errno, buf, sizeof(buf));
 			ERR(ctx, "ioctl(GIO_UNIMAP,0): %s", buf);
@@ -176,7 +202,7 @@ kfont_getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
 			return -1;
 		}
 
-		if (ioctl(fd, GIO_UNIMAP, &ud)) {
+		if (ioctl(ctx->consolefd, GIO_UNIMAP, &ud)) {
 			strerror_r(errno, buf, sizeof(buf));
 			ERR(ctx, "ioctl(GIO_UNIMAP): %s", buf);
 			return -1;
@@ -193,24 +219,29 @@ kfont_getunimap(struct kfont_ctx *ctx, int fd, struct unimapdesc *ud0)
 }
 
 int
-kfont_loadunimap(struct kfont_ctx *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
+kfont_load_unimap(struct kfont_ctx *ctx, struct unimapinit *ui, struct unimapdesc *ud)
 {
 	char buf[STACKBUF_LEN];
 	struct unimapinit advice;
 
+	if (ctx->consolefd < 0) {
+		ERR(ctx, "console descriptor must be specified");
+		return -1;
+	}
+
 	if (ui) {
 		advice = *ui;
 	} else {
-		advice.advised_hashsize  = 0;
-		advice.advised_hashstep  = 0;
+		advice.advised_hashsize = 0;
+		advice.advised_hashstep = 0;
 		advice.advised_hashlevel = 0;
 	}
 again:
-	if (ioctl(fd, PIO_UNIMAPCLR, &advice)) {
+	if (ioctl(ctx->consolefd, PIO_UNIMAPCLR, &advice)) {
 #ifdef ENOIOCTLCMD
 		if (errno == ENOIOCTLCMD) {
 			ERR(ctx, _("It seems this kernel is older than 1.1.92\n"
-			          "No Unicode mapping table loaded.\n"));
+			           "No Unicode mapping table loaded.\n"));
 		} else {
 #endif
 			strerror_r(errno, buf, sizeof(buf));
@@ -224,7 +255,7 @@ again:
 	if (ud == NULL)
 		return 0;
 
-	if (ioctl(fd, PIO_UNIMAP, ud)) {
+	if (ioctl(ctx->consolefd, PIO_UNIMAP, ud)) {
 		if (errno == ENOMEM && advice.advised_hashlevel < 100) {
 			advice.advised_hashlevel++;
 			goto again;

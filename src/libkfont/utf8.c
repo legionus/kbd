@@ -1,6 +1,6 @@
 /* utf8.c - collect routines for conversion to/from utf8 */
 #include "config.h"
-#include "utf8.h"
+#include "contextP.h"
 
 /*
  * Convert utf8 to long.
@@ -16,13 +16,13 @@ unsigned long
 from_utf8(char **inptr, int cnt, int *err)
 {
 	unsigned char *in;
-	unsigned int uc, uc2;
-	int need, bit, bad = 0;
+	unsigned int uc, uc2, bit;
+	int need, bad = 0;
 
-	in   = (unsigned char *)(*inptr);
-	uc   = *in++;
+	in = (unsigned char *) (*inptr);
+	uc = *in++;
 	need = 0;
-	bit  = 0x80;
+	bit = 0x80;
 	while (uc & bit) {
 		need++;
 		bit >>= 1;
@@ -47,7 +47,7 @@ from_utf8(char **inptr, int cnt, int *err)
 		*err = UTF8_BAD;
 		return 0;
 	}
-	*inptr = (char *)in;
-	*err   = 0;
+	*inptr = (char *) in;
+	*err = 0;
 	return uc;
 }

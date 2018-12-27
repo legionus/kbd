@@ -31,11 +31,11 @@ int have_ounimap = 0;
 static void __attribute__((noreturn))
 leave(struct kfont_ctx *ctx, int n)
 {
-	if (have_obuf && kfont_loaduniscrnmap(ctx, fd, obuf)) {
+	if (have_obuf && kfont_load_uniscrnmap(ctx, obuf)) {
 		kbd_warning(0, _("failed to restore original translation table\n"));
 		n = EXIT_FAILURE;
 	}
-	if (have_ounimap && kfont_loadunimap(ctx, fd, NULL, &ounimap)) {
+	if (have_ounimap && kfont_load_unimap(ctx, NULL, &ounimap)) {
 		kbd_warning(0, _("failed to restore original unimap\n"));
 		n = EXIT_FAILURE;
 	}
@@ -47,14 +47,14 @@ settrivialscreenmap(struct kfont_ctx *ctx)
 {
 	unsigned short i;
 
-	if (kfont_getuniscrnmap(ctx, fd, obuf))
+	if (kfont_get_uniscrnmap(ctx, obuf))
 		exit(1);
 	have_obuf = 1;
 
 	for (i = 0; i < E_TABSZ; i++)
 		nbuf[i] = i;
 
-	if (kfont_loaduniscrnmap(ctx, fd, nbuf)) {
+	if (kfont_load_uniscrnmap(ctx, nbuf)) {
 		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table\n"));
 	}
 }
@@ -64,7 +64,7 @@ getoldunicodemap(struct kfont_ctx *ctx)
 {
 	struct unimapdesc descr;
 
-	if (kfont_getunimap(ctx, fd, &descr))
+	if (kfont_get_unimap(ctx, &descr))
 		leave(ctx, EXIT_FAILURE);
 
 	ounimap      = descr;
@@ -89,7 +89,7 @@ setnewunicodemap(struct kfont_ctx *ctx, size_t *list, int cnt)
 	for (i = 0; i < cnt; i++)
 		nunimap.entries[list[i]].unicode = (unsigned short) (BASE + i);
 
-	if (kfont_loadunimap(ctx, fd, NULL, &nunimap))
+	if (kfont_load_unimap(ctx, NULL, &nunimap))
 		leave(ctx, EXIT_FAILURE);
 }
 
@@ -157,6 +157,8 @@ int main(int argc, char **argv)
 		nomem();
 	}
 
+	kfont_set_console(ctx, fd);
+
 	if (ioctl(fd, KDGKBMODE, &mode)) {
 		kbd_warning(errno, "ioctl KDGKBMODE");
 		leave(ctx, EXIT_FAILURE);
@@ -170,7 +172,7 @@ int main(int argc, char **argv)
 	if (info) {
 		nr = rows = cols = 0;
 
-		if (kfont_getfont(ctx, fd, NULL, &nr, &rows, &cols) != 0)
+		if (kfont_get_font(ctx, NULL, &nr, &rows, &cols) != 0)
 			leave(ctx, EXIT_FAILURE);
 
 		if (verbose) {
@@ -185,7 +187,7 @@ int main(int argc, char **argv)
 	settrivialscreenmap(ctx);
 	getoldunicodemap(ctx);
 
-	n = kfont_getfontsize(ctx, fd);
+	n = kfont_get_fontsize(ctx);
 	if (verbose)
 		printf(_("Showing %ld-char font\n\n"), n);
 

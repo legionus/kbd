@@ -37,5 +37,7 @@ int main(int argc, char *argv[])
 		nomem();
 	}
 
-	return kfont_loadunimap(ctx, fd, NULL, NULL);
+	kfont_set_console(ctx, fd);
+
+	return kfont_load_unimap(ctx, NULL, NULL);
 }

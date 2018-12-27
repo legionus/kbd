@@ -78,11 +78,15 @@ int main(int argc, char *argv[])
 		nomem();
 	}
 
+	kfont_set_unidirs(ctx, (char **) unidirpath, (char **) unisuffixes);
+
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
+	kfont_set_console(ctx, fd);
+
 	if (outfnam) {
-		if (kfont_saveunicodemap(ctx, fd, outfnam) < 0)
+		if (kfont_dump_unicodemap(ctx, outfnam) < 0)
 			exit(EXIT_FAILURE);
 
 		if (argc == optind)
@@ -92,8 +96,9 @@ int main(int argc, char *argv[])
 	if (argc == optind + 1)
 		infnam = argv[optind];
 
-	if (kfont_loadunicodemap(ctx, fd, infnam, unidirpath, unisuffixes) < 0)
-		exit(EXIT_FAILURE);
+	int rc = kfont_load_unicodemap(ctx, infnam);
+	if (rc < 0)
+		exit(-rc);
 
 	exit(0);
 }

@@ -18,10 +18,7 @@
 #include <kbdfile.h>
 
 #include "libcommon.h"
-
 #include "paths.h"
-#include "utf8.h"
-
 #include "contextP.h"
 
 static int ctoi(char *);
@@ -49,34 +46,39 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 	ln = 0;
 	while (fgets(buffer, sizeof(buffer) - 1, fp)) {
 		ln++;
+
 		if (!*u && strstr(buffer, "U+"))
 			*u = 1;
-		p          = strtok(buffer, " \t\n");
-		if (p && *p != '#') {
-			q = strtok(NULL, " \t\n#");
-			if (q) {
-				in = ctoi(p);
-				on = ctoi(q);
-				if (in >= 0 && in < 256 &&
-				    on >= 0 && on < 65536) {
-					ubuf[in] = on;
-					if (on < 256)
-						buf[in] = on;
-					else
-						*u = 1;
-				} else {
-					if (!ret)
-						*lineno = ln;
-					ret = -1;
-				}
-			}
+
+		if ((p = strtok(buffer, " \t\n")) == NULL)
+			continue;
+
+		if (*p == '#')
+			continue;
+
+		if ((q = strtok(NULL, " \t\n#")) == NULL)
+			continue;
+
+		in = ctoi(p);
+		on = ctoi(q);
+
+		if (in >= 0 && in < 256 && on >= 0 && on < 65536) {
+			ubuf[in] = (unsigned short) on;
+			if (on < 256)
+				buf[in] = (char) on;
+			else
+				*u = 1;
+		} else {
+			if (!ret)
+				*lineno = ln;
+			ret = -1;
 		}
 	}
 	return ret;
 }
 
 static int
-readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short *ubuf, const char *const *mapdirpath, const char *const *mapsuffixes, int *res)
+readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short *ubuf, char **mapdirpath, char **mapsuffixes, int *res)
 {
 	struct stat stbuf;
 	int lineno = 0;
@@ -102,9 +104,9 @@ readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short 
 	if (stbuf.st_size == E_TABSZ) {
 		if (ctx->verbose) {
 			INFO(ctx,
-			    _("Loading binary direct-to-font screen map "
-			      "from file %s"),
-			    kbdfile_get_pathname(fp));
+			     _("Loading binary direct-to-font screen map "
+			       "from file %s"),
+			     kbdfile_get_pathname(fp));
 		}
 		if (fread(buf, E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
 			ERR(ctx, _("Error reading map from file `%s'"), kbdfile_get_pathname(fp));
@@ -113,9 +115,9 @@ readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short 
 	} else if (stbuf.st_size == 2 * E_TABSZ) {
 		if (ctx->verbose) {
 			INFO(ctx,
-			    _("Loading binary unicode screen map "
-			      "from file %s"),
-			    kbdfile_get_pathname(fp));
+			     _("Loading binary unicode screen map "
+			       "from file %s"),
+			     kbdfile_get_pathname(fp));
 		}
 		if (fread(ubuf, 2 * E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
 			ERR(ctx, _("Error reading map from file `%s'"), kbdfile_get_pathname(fp));
@@ -126,8 +128,8 @@ readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short 
 	} else {
 		if (ctx->verbose) {
 			INFO(ctx,
-			    _("Loading symbolic screen map from file %s"),
-			    kbdfile_get_pathname(fp));
+			     _("Loading symbolic screen map from file %s"),
+			     kbdfile_get_pathname(fp));
 		}
 		if (parsemap(kbdfile_get_file(fp), buf, ubuf, res, &lineno)) {
 			ERR(ctx,
@@ -145,7 +147,7 @@ readnewmapfromfile(struct kfont_ctx *ctx, char *mfil, char *buf, unsigned short 
 }
 
 int
-kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *mapdirpath, const char *const *mapsuffixes)
+kfont_load_map(struct kfont_ctx *ctx, char *mfil)
 {
 	unsigned short ubuf[E_TABSZ];
 	char buf[E_TABSZ];
@@ -153,22 +155,22 @@ kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *m
 
 	/* default: trivial straight-to-font */
 	for (i = 0; i < E_TABSZ; i++) {
-		buf[i]  = i;
-		ubuf[i] = (0xf000 + i);
+		buf[i] = (char) i;
+		ubuf[i] = (unsigned short) (0xf000 + i);
 	}
 
 	u = 0;
-	if (mfil && readnewmapfromfile(ctx, mfil, buf, ubuf, mapdirpath, mapsuffixes, &u) < 0)
+	if (mfil && readnewmapfromfile(ctx, mfil, buf, ubuf, ctx->mapdirs, ctx->mapsuffixes, &u) < 0)
 		return -1;
 
 	/* do we need to use loaduniscrnmap() ? */
 	if (u) {
 		/* yes */
-		if (kfont_loaduniscrnmap(ctx, fd, ubuf))
+		if (kfont_load_uniscrnmap(ctx, ubuf))
 			return -1;
 	} else {
 		/* no */
-		if (kfont_loadscrnmap(ctx, fd, buf))
+		if (kfont_load_scrnmap(ctx, buf))
 			return -1;
 	}
 
@@ -179,24 +181,25 @@ kfont_loadnewmap(struct kfont_ctx *ctx, int fd, char *mfil, const char *const *m
  * Read decimal, octal, hexadecimal, Unicode (U+xxxx) or character
  * ('x', x a single byte or a utf8 sequence).
  */
-int ctoi(char *s)
+int
+ctoi(char *s)
 {
 	int i;
 
 	if ((strncmp(s, "0x", 2) == 0) &&
 	    (strspn(s + 2, "0123456789abcdefABCDEF") == strlen(s + 2)))
-		(void)sscanf(s + 2, "%x", &i);
+		(void) sscanf(s + 2, "%x", &i);
 
 	else if ((*s == '0') &&
 	         (strspn(s, "01234567") == strlen(s)))
-		(void)sscanf(s, "%o", &i);
+		(void) sscanf(s, "%o", &i);
 
 	else if (strspn(s, "0123456789") == strlen(s))
-		(void)sscanf(s, "%d", &i);
+		(void) sscanf(s, "%d", &i);
 
 	else if ((strncmp(s, "U+", 2) == 0) && strlen(s) == 6 &&
 	         (strspn(s + 2, "0123456789abcdefABCDEF") == 4))
-		(void)sscanf(s + 2, "%x", &i);
+		(void) sscanf(s + 2, "%x", &i);
 
 	else if ((strlen(s) == 3) && (s[0] == '\'') && (s[2] == '\''))
 		i = s[1];
@@ -217,7 +220,7 @@ int ctoi(char *s)
 }
 
 int
-kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil)
+kfont_dump_map(struct kfont_ctx *ctx, char *omfil)
 {
 	FILE *fp;
 	char buf[E_TABSZ];
@@ -233,10 +236,10 @@ kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil)
 
 	havemap = haveumap = 1;
 
-	if (kfont_getscrnmap(ctx, fd, buf))
+	if (kfont_get_scrnmap(ctx, buf))
 		havemap = 0;
 
-	if (kfont_getuniscrnmap(ctx, fd, ubuf))
+	if (kfont_get_uniscrnmap(ctx, ubuf))
 		haveumap = 0;
 
 	if (havemap && haveumap) {
@@ -255,7 +258,7 @@ kfont_saveoldmap(struct kfont_ctx *ctx, int fd, char *omfil)
 		}
 	} else if (haveumap) {
 		if (fwrite(ubuf, sizeof(ubuf), 1, fp) != 1) {
-			ERR(ctx,  _("Error writing map to file"));
+			ERR(ctx, _("Error writing map to file"));
 			return -1;
 		}
 	} else {

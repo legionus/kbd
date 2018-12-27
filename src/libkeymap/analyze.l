@@ -111,7 +111,7 @@ static const char *const include_suffixes[] = { "", ".inc", 0 };
 static int
 find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, struct kbdfile *fp)
 {
-	const char *include_dirpath2[] = { 0, 0, 0, 0 };
+	char *include_dirpath2[] = { 0, 0, 0, 0 };
 	char *t, *te, *t1 = NULL, *t2 = NULL;
 	size_t len;
 	int rc = 1;
@@ -138,7 +138,7 @@ find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, struct kbdfile *fp
 		strcat(t1, "../include/");
 		strcpy(t2, t);
 		strcat(t2, "../../include/");
-		rc = kbdfile_find(s, include_dirpath2, include_suffixes, fp);
+		rc = kbdfile_find(s, include_dirpath2, (char **) include_suffixes, fp);
 		free(t1);
 		free(t2);
 	}
@@ -165,7 +165,7 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 	i--;
 	pathname = kbdfile_get_pathname(ctx->stack[i]);
 
-	if (kbdfile_find(s, include_dirpath1, include_suffixes, fp)) {
+	if (kbdfile_find(s, (char **) include_dirpath1, (char **) include_suffixes, fp)) {
 		if ((rc = find_incl_file_near_fn(ctx, s, pathname, fp)) == -1)
 			return rc;
 	}
@@ -194,7 +194,7 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 	}
 
 	if (rc)
-		rc = kbdfile_find(s, include_dirpath3, include_suffixes, fp);
+		rc = kbdfile_find(s, (char **) include_dirpath3, (char **) include_suffixes, fp);
 	return rc;
 }
 
@@ -207,7 +207,7 @@ find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 		return 1;
 
 	if (*s == '/')		/* no path required */
-		return (kbdfile_find(s, include_dirpath0, include_suffixes, fp));
+		return (kbdfile_find(s, (char **) include_dirpath0, (char **) include_suffixes, fp));
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
@@ -222,7 +222,7 @@ find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 			}
 			user_dir[0] = ev;
 			if (*ev)
-				rc = kbdfile_find(s, user_dir, include_suffixes, fp);
+				rc = kbdfile_find(s, (char **) user_dir, (char **) include_suffixes, fp);
 			else	/* empty string denotes system path */
 				rc = find_standard_incl_file(ctx, s, fp);
 

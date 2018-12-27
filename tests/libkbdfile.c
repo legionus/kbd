@@ -34,7 +34,7 @@ START_TEST(test_1)
 
 	int rc = 0;
 
-	rc = kbdfile_find((char *)"test0", dirpath, suffixes, fp);
+	rc = kbdfile_find((char *)"test0", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -57,7 +57,7 @@ START_TEST(test_2)
 
 	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwertz/test2";
 
-	int rc = kbdfile_find((char *)"test2", dirpath, suffixes, fp);
+	int rc = kbdfile_find((char *)"test2", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -80,7 +80,7 @@ START_TEST(test_3)
 
 	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwertz/test2.map";
 
-	int rc = kbdfile_find((char *)"test2", dirpath, suffixes, fp);
+	int rc = kbdfile_find((char *)"test2", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -103,7 +103,7 @@ START_TEST(test_4)
 
 	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwertz/test2.kmap";
 
-	int rc = kbdfile_find((char *)"test2", dirpath, suffixes, fp);
+	int rc = kbdfile_find((char *)"test2", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -126,7 +126,7 @@ START_TEST(test_5)
 
 	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwertz/test2.map";
 
-	int rc = kbdfile_find((char *)"test2", dirpath, suffixes, fp);
+	int rc = kbdfile_find((char *)"test2", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -149,7 +149,7 @@ START_TEST(test_6)
 
 	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwerty/test3.map";
 
-	int rc = kbdfile_find((char *)"test3", dirpath, suffixes, fp);
+	int rc = kbdfile_find((char *)"test3", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -174,7 +174,7 @@ START_TEST(test_7)
 
 	int rc = 0;
 
-	rc = kbdfile_find((char *)(ABS_DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0"), dirpath, suffixes, fp);
+	rc = kbdfile_find((char *)(ABS_DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0"), (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -228,7 +228,7 @@ START_TEST(test_10)
 
 	int rc = 0;
 
-	rc = kbdfile_find((char *)"i386/qwerty/test3", dirpath, suffixes, fp);
+	rc = kbdfile_find((char *)"i386/qwerty/test3", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
@@ -253,7 +253,7 @@ START_TEST(test_11)
 
 	int rc = 0;
 
-	rc = kbdfile_find((char *)"qwerty/test3", dirpath, suffixes, fp);
+	rc = kbdfile_find((char *)"qwerty/test3", (char **) dirpath, (char **) suffixes, fp);
 
 	fail_if(rc != 0, "unable to find file");
 	fail_if(strcmp(expect, kbdfile_get_pathname(fp)) != 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);

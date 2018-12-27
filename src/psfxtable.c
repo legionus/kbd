@@ -363,10 +363,10 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (kfont_readpsffont(ctx,
+	if (kfont_read_psffont(ctx,
 	                ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
 	                &width, &fontlen, 0,
-	                itab ? NULL : &uclistheads) == -1) {
+	                itab ? NULL : &uclistheads) < 0) {
 		char *u = _("%s: Bad magic number on %s\n");
 		fprintf(stderr, u, get_progname(), ifname);
 		exit(EX_DATAERR);
@@ -429,8 +429,10 @@ int main(int argc, char **argv)
 	}
 
 	if (ofil) {
-		if (kfont_writepsffont(ctx, ofil, fontbuf, width, height, fontlen, psftype, notable ? NULL : uclistheads) < 0)
-			exit(1);
+		int rc;
+		rc = kfont_write_psffont(ctx, ofil, fontbuf, width, height, fontlen, psftype, notable ? NULL : uclistheads);
+		if (rc < 0)
+			exit(-rc);
 
 		fclose(ofil);
 	}

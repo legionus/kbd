@@ -161,7 +161,7 @@ int main(int argc, char **argv)
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* prepare for: restoretextmode -r 80x25 */
 		sprintf(infile, "%dx%d", cc, rr);
-		if (kbdfile_find(infile, dirpath, suffixes, fp)) {
+		if (kbdfile_find(infile, (char **) dirpath, (char **) suffixes, fp)) {
 			kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s\n"), infile);
 		}
 		kbdfile_close(fp);

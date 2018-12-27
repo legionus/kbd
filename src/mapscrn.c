@@ -51,11 +51,15 @@ int main(int argc, char *argv[])
 		nomem();
 	}
 
+	kfont_set_mapdirs(ctx, (char **) mapdirpath, (char **) mapsuffixes);
+
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
+	kfont_set_console(ctx, fd);
+
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-		if (kfont_saveoldmap(ctx, fd, argv[2]) < 0)
+		if (kfont_dump_map(ctx, argv[2]) < 0)
 			exit(EXIT_FAILURE);
 		argc -= 2;
 		argv += 2;
@@ -69,7 +73,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (kfont_loadnewmap(ctx, fd, argv[1], mapdirpath, mapsuffixes) < 0)
+	if (kfont_load_map(ctx, argv[1]) < 0)
 		exit(EXIT_FAILURE);
 
 	exit(EXIT_SUCCESS);

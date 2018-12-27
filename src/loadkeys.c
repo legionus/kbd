@@ -213,7 +213,7 @@ int main(int argc, char *argv[])
 	if (options & OPT_D) {
 		/* first read default map - search starts in . */
 
-		if (kbdfile_find((char *) DEFMAP, dirpath, suffixes, fp)) {
+		if (kbdfile_find((char *) DEFMAP, (char **) dirpath, (char **) suffixes, fp)) {
 			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
 			exit(EXIT_FAILURE);
 		}
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 			kbdfile_set_file(fp, stdin);
 			kbdfile_set_pathname(fp, "<stdin>");
 
-		} else if (kbdfile_find(argv[i], dirpath, suffixes, fp)) {
+		} else if (kbdfile_find(argv[i], (char **) dirpath, (char **) suffixes, fp)) {
 			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
 			goto fail;
 		}
