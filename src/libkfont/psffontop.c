@@ -19,18 +19,12 @@
 static int
 addpair(struct kfont_ctx *ctx, struct unicode_list *up, unsigned int uc)
 {
-	struct unicode_list *ul;
-	struct unicode_seq *us;
+	struct unicode_list *ul = NULL;
+	struct unicode_seq *us = NULL;
 
-	if ((ul = malloc(sizeof(struct unicode_list))) == NULL) {
-		ERR(ctx, "out of memory");
-		return -1;
-	}
-
-	if ((us = malloc(sizeof(struct unicode_seq))) == NULL) {
-		ERR(ctx, "out of memory");
-		return -1;
-	}
+	if ((ul = malloc(sizeof(struct unicode_list))) == NULL ||
+	    (us = malloc(sizeof(struct unicode_seq ))) == NULL)
+		goto nomem;
 
 	us->uc = uc;
 	us->prev = us;
@@ -42,6 +36,14 @@ addpair(struct kfont_ctx *ctx, struct unicode_list *up, unsigned int uc)
 	up->prev = ul;
 
 	return 0;
+nomem:
+	if (ul)
+		free(ul);
+	if (us)
+		free(us);
+
+	ERR(ctx, "out of memory");
+	return -1;
 }
 
 static int
@@ -279,7 +281,7 @@ kfont_read_psffont(struct kfont_ctx *ctx,
 			return -EX_SOFTWARE;
 		}
 		inputbuf = *allbufp;
-		inputbuflth = inputlth = n = *allszp;
+		inputlth = n = *allszp;
 	}
 
 	if (inputlth >= sizeof(struct psf1_header) &&

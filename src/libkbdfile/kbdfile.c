@@ -264,6 +264,8 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, char **su
 
 	if (dirents < 0) {
 		strerror_r(errno, errbuf, sizeof(errbuf));
+		if (fdir)
+			free(fdir);
 		ERR(fp->ctx, "scandir: %s", errbuf);
 		return -1;
 	}

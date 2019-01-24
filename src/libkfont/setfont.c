@@ -8,16 +8,11 @@
 
 #define MAXIFILES 256
 
-/*
- * 0 - do not test, 1 - test and warn, 2 - test and wipe, 3 - refuse
- */
-static int erase_mode = 1;
-
 static int
 _kfont_loadfont(struct kfont_ctx *ctx, char *inbuf, size_t width, size_t height, size_t hwunit,
                size_t fontsize, char *filename)
 {
-	unsigned char *buf;
+	unsigned char *buf = NULL;
 	unsigned int i;
 	size_t buflen;
 	size_t bytewidth = (width + 7) / 8;
@@ -54,30 +49,13 @@ _kfont_loadfont(struct kfont_ctx *ctx, char *inbuf, size_t width, size_t height,
 	 * to erase the screen, regardless of maps loaded.
 	 * So, usually this font position should be blank.
 	 */
-	if (erase_mode) {
-		for (i = 0; i < kcharsize; i++) {
-			if (buf[32 * kcharsize + i])
-				bad_video_erase_char = 1;
-		}
-
-		if (bad_video_erase_char) {
-			ERR(ctx, _("font position 32 is nonblank"));
-
-			switch (erase_mode) {
-				case 3:
-					return -EX_DATAERR;
-				case 2:
-					for (i = 0; i < kcharsize; i++)
-						buf[32 * kcharsize + i] = 0;
-					ERR(ctx, _("wiped it"));
-					break;
-				case 1:
-					ERR(ctx, _("background will look funny"));
-			}
-
-			sleep(2);
-		}
+	for (i = 0; i < kcharsize; i++) {
+		if (buf[32 * kcharsize + i])
+			bad_video_erase_char = 1;
 	}
+
+	if (bad_video_erase_char)
+		ERR(ctx, _("font position 32 is nonblank"));
 
 	if (ctx->verbose) {
 		if (height == hwunit && filename)
@@ -385,14 +363,14 @@ loadnewfont(struct kfont_ctx *ctx, char *ifil, size_t iunit, size_t hwunit)
 int
 kfont_load_fonts(struct kfont_ctx *ctx, char **ifiles, int ifilct, size_t iunit, size_t hwunit)
 {
+	void *ptr;
 	char *ifil, *inbuf, *fontbuf, *bigfontbuf;
 	size_t inputlth, fontbuflth, fontsize, height, width, bytewidth;
 	size_t bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads, **uclist;
-	int i, rc;
+	int i, rc = 0;
 	struct kbdfile *fp;
 	struct kbdfile_ctx *kbdfile_ctx;
-
 
 	if (ifilct == 1)
 		return loadnewfont(ctx, ifiles[0], iunit, hwunit);
@@ -403,6 +381,7 @@ kfont_load_fonts(struct kfont_ctx *ctx, char **ifiles, int ifilct, size_t iunit,
 	}
 
 	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL) {
+		kbdfile_context_free(kbdfile_ctx);
 		ERR(ctx, "out of memory");
 		return -EX_OSERR;
 	}
@@ -422,7 +401,8 @@ kfont_load_fonts(struct kfont_ctx *ctx, char **ifiles, int ifilct, size_t iunit,
 		if (kbdfile_find(ifil, ctx->fontdirs, ctx->fontsuffixes, fp) &&
 		    kbdfile_find(ifil, ctx->partfontdirs, ctx->partfontsuffixes, fp)) {
 			ERR(ctx, _("Cannot open font file %s"), ifil);
-			return -EX_NOINPUT;
+			rc = -EX_NOINPUT;
+			break;
 		}
 
 		inbuf = fontbuf = NULL;
@@ -438,7 +418,8 @@ kfont_load_fonts(struct kfont_ctx *ctx, char **ifiles, int ifilct, size_t iunit,
 			ERR(ctx, _("When loading several fonts, all must be psf fonts - %s isn't"), kbdfile_get_pathname(fp));
 			kbdfile_free(fp);
 			kbdfile_context_free(kbdfile_ctx);
-			return -EX_DATAERR;
+			rc = -EX_DATAERR;
+			break;
 		}
 
 		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
@@ -454,29 +435,36 @@ kfont_load_fonts(struct kfont_ctx *ctx, char **ifiles, int ifilct, size_t iunit,
 			bigheight = height;
 		else if (bigheight != height) {
 			ERR(ctx, _("When loading several fonts, all must have the same height"));
-			return -EX_DATAERR;
+			rc = -EX_DATAERR;
+			break;
 		}
 
 		if (bigwidth == 0)
 			bigwidth = width;
 		else if (bigwidth != width) {
 			ERR(ctx, _("When loading several fonts, all must have the same width"));
-			return -EX_DATAERR;
+			rc = -EX_DATAERR;
+			break;
 		}
 
 		bigfontsize += fontsize;
 		bigfontbuflth += fontbuflth;
 
-		if ((bigfontbuf = realloc(bigfontbuf, bigfontbuflth)) == NULL) {
+		if ((ptr = realloc(bigfontbuf, bigfontbuflth)) == NULL) {
 			ERR(ctx, "out of memory");
-			return -EX_OSERR;
+			rc = -EX_OSERR;
+			break;
 		}
+		bigfontbuf = ptr;
 
 		memcpy(bigfontbuf + bigfontbuflth - fontbuflth, fontbuf, fontbuflth);
 	}
 
-	rc = _kfont_loadfont(ctx, bigfontbuf, bigwidth, bigheight, hwunit, bigfontsize, NULL);
-	free(bigfontbuf);
+	if (rc == 0)
+		rc = _kfont_loadfont(ctx, bigfontbuf, bigwidth, bigheight, hwunit, bigfontsize, NULL);
+
+	if (bigfontbuf)
+		free(bigfontbuf);
 
 	if (rc < 0)
 		return rc;

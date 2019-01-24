@@ -248,6 +248,7 @@ open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
 	fp = kbdfile_new(ctx->kbdfile_ctx);
 	if (!fp) {
 		ERR(ctx, _("out of memory"));
+		free(s);
 		return -1;
 	}
 
@@ -345,8 +346,9 @@ To                      to|To|TO
 					return(ERROR);
 				}
 
-				if (open_include(yyextra, s, yyscanner) == -1)
+				if (open_include(yyextra, s, yyscanner) == -1) {
 					return(ERROR);
+				}
 
 				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
 					yy_pop_state(yyscanner);

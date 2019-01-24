@@ -246,8 +246,10 @@ kfont_context_new(void)
 	if (!ctx)
 		return NULL;
 
-	if ((ctx->kbdfile_ctx = kbdfile_context_new()) == NULL)
+	if ((ctx->kbdfile_ctx = kbdfile_context_new()) == NULL) {
+		free(ctx);
 		return NULL;
+	}
 
 	ctx->consolefd = -1;
 
