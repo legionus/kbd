@@ -26,11 +26,11 @@ check_keymap() {
 	return $rc
 }
 
-check_keymap "$DATADIR"/dumpkeys.full.ruwin_cplk-UTF-8.map FULL_TABLE TRUE
-check_keymap "$DATADIR"/dumpkeys.qwerty-layout.map DEFAULT FALSE
+check_keymap "$DATADIR"/data/dumpkeys-fulltable/ruwin_cplk-UTF-8.map FULL_TABLE TRUE
+check_keymap "$DATADIR"/data/dumpkeys-fulltable/qwerty-layout.map DEFAULT FALSE
 
 # check keymaps line
-kmap="$DATADIR/dumpkeys.ua-ws.map"
+kmap="$DATADIR/data/dumpkeys-fulltable/ua-ws.map"
 line0="$(grep '^#keymaps ' "$kmap")" ||:
 line0="${line0#\#}"
 line1="$(./libkeymap-dumpkeys "$kmap" SEPARATE_LINES FALSE |grep '^keymaps ')" ||:

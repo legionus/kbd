@@ -147,16 +147,6 @@ AC_ARG_ENABLE(tests,
 	[build_tests=$enableval], [build_tests=auto])
 AM_CONDITIONAL(BUILD_TESTS, test "$build_tests" != "no")
 
-if test "$build_tests" != "no"; then
-	PKG_CHECK_MODULES([CHECK], [check >= 0.9.4],
-		[build_tests="yes"], [
-			if test "$build_tests" = "yes"; then
-				AC_MSG_ERROR([tests requested, but check package is missing])
-			fi
-			build_tests="no"
-		])
-fi
-
 AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
 AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
 
