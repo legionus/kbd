@@ -7,8 +7,10 @@ cd "$cwd"
 rc=0
 temp="$(mktemp "@BUILDDIR@/temp.XXXXXXXXX")"
 
-./libkeymap-showmaps "@DATADIR@"/alt-is-meta.map > "$temp" || rc=$?
-cmp -s "@DATADIR@//alt-is-meta.output" "$temp" || rc=$?
+datadir="@DATADIR@/data/alt-is-meta"
+
+./libkeymap-showmaps "$datadir"/alt-is-meta.map > "$temp" || rc=$?
+cmp -s "$datadir/alt-is-meta.output" "$temp" || rc=$?
 
 if [ "$rc" != 0 ]; then
 	printf 'failed\n'

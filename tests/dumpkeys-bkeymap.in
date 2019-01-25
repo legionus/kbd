@@ -1,4 +1,4 @@
-#!/bin/sh -efu
+#!/bin/sh -efux
 
 cwd="$(readlink -ev "${0%/*}")"
 
@@ -7,8 +7,10 @@ cd "$cwd"
 rc=0
 temp="$(mktemp "@BUILDDIR@/temp.XXXXXXXXX")"
 
-./libkeymap-bkeymap "@DATADIR@/"../data/keymaps/i386/qwerty/defkeymap.map > "$temp" || rc=$?
-cmp -s "@DATADIR@/dumpkeys.bkeymap.bin" "$temp" || rc=$?
+datadir="@DATADIR@"
+
+./libkeymap-bkeymap "$datadir/"../data/keymaps/i386/qwerty/defkeymap.map > "$temp" || rc=$?
+cmp -s "$datadir/data/dumpkeys-bkeymap/bkeymap.bin" "$temp" || rc=$?
 
 if [ "$rc" != 0 ]; then
 	printf 'failed\n'
