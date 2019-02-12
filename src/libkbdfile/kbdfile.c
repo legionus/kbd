@@ -358,6 +358,12 @@ StartScan:
 	}
 
 EndScan:
+	if (namelist != NULL) {
+		for (int n = 0; n < dirents; n++)
+			free(namelist[n]);
+		free(namelist);
+	}
+
 	if (fdir != NULL)
 		free(fdir);
 
