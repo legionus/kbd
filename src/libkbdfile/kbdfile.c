@@ -171,7 +171,7 @@ findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfi
 		if (fnam_len + sp_len + 1 > sizeof(fp->pathname))
 			continue;
 
-		sprintf(fp->pathname, "%s%s", fnam, suffixes[i]);
+		snprintf(fp->pathname, sizeof(fp->pathname), "%s%s", fnam, suffixes[i]);
 
 		if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && (fp->fd = fopen(fp->pathname, "r")) != NULL)
 			return 0;
@@ -180,7 +180,7 @@ findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfi
 			if (fnam_len + sp_len + strlen(dc->ext) + 1 > sizeof(fp->pathname))
 				continue;
 
-			sprintf(fp->pathname, "%s%s%s", fnam, suffixes[i], dc->ext);
+			snprintf(fp->pathname, sizeof(fp->pathname), "%s%s%s", fnam, suffixes[i], dc->ext);
 
 			if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && access(fp->pathname, R_OK) == 0)
 				return pipe_open(dc, fp);
@@ -265,7 +265,8 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 	if (dirents < 0) {
 		strerror_r(errno, errbuf, sizeof(errbuf));
 		ERR(fp->ctx, "scandir: %s", errbuf);
-		return -1;
+		rc = -1;
+		goto EndScan;
 	}
 
 	struct decompressor *dc = NULL;
@@ -320,7 +321,7 @@ StartScan:
 		if (secondpass || ff)
 			continue;
 
-		sprintf(fp->pathname, "%s/%s", dir, namelist[n]->d_name);
+		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s", dir, namelist[n]->d_name);
 
 		if (stat(fp->pathname, &st) || !S_ISREG(st.st_mode))
 			continue;
@@ -331,7 +332,7 @@ StartScan:
 	}
 
 	if (!secondpass && index != UINT_MAX) {
-		snprintf(fp->pathname, MAXPATHLEN, "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : ""));
+		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : ""));
 
 		if (!dc) {
 			fp->pipe = 0;
@@ -376,7 +377,7 @@ kbdfile_find(char *fnam, const char *const *dirpath, const char *const *suffixes
 	fp->pipe = 0;
 
 	/* Try explicitly given name first */
-	strncpy(fp->pathname, fnam, MAXPATHLEN);
+	strncpy(fp->pathname, fnam, sizeof(fp->pathname));
 
 	if (!maybe_pipe_open(fp))
 		return 0;
@@ -433,7 +434,7 @@ kbdfile_open(struct kbdfile_ctx *ctx, const char *filename)
 		return NULL;
 
 	fp->ctx = ctx;
-	strncpy(fp->pathname, filename, MAXPATHLEN);
+	strncpy(fp->pathname, filename, sizeof(fp->pathname));
 
 	if (maybe_pipe_open(fp) < 0) {
 		kbdfile_free(fp);
