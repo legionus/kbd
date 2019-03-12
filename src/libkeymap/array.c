@@ -67,7 +67,7 @@ lk_array_exists(struct lk_array *a, ssize_t i)
 		return 0;
 	}
 
-	s = (char *)(a->array + (a->memb * i));
+	s = a->array + (a->memb * i);
 
 	for (k = 0; k < a->memb; k++) {
 		if (s[k] != 0)
@@ -95,7 +95,7 @@ lk_array_get_ptr(struct lk_array *a, ssize_t i)
 		errno = EINVAL;
 		return NULL;
 	}
-	ptr = a->array;
+	ptr = (void **) a->array;
 	return *(ptr + i);
 }
 
@@ -108,7 +108,7 @@ array_resize(struct lk_array *a, ssize_t i)
 	}
 
 	if (i >= a->total) {
-		void *tmp = realloc(a->array, (size_t) (a->memb * (i + 1)));
+		char *tmp = realloc(a->array, (size_t) (a->memb * (i + 1)));
 		if (!tmp) {
 			errno = ENOMEM;
 			return -ENOMEM;

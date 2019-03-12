@@ -88,6 +88,7 @@ CC_CHECK_CFLAGS_APPEND([\
 	-Wmissing-format-attribute \
 	-Wmissing-noreturn \
 	-Wmissing-prototypes \
+	-Wpointer-arith \
 	-Wredundant-decls \
 	-Wshadow \
 	-Wstrict-prototypes \
