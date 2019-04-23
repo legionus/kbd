@@ -7,6 +7,8 @@ kbd_mode \- report or set the keyboard mode
 [
 .I -a | -u | -k | -s 
 ] [
+.I -f
+] [
 .I -C CONSOLE
 ]
 .SH DESCRIPTION
@@ -36,11 +38,13 @@ kbd_mode operates on the console specified by the "\-C" option; if there
 is none, the console associated with stdin is used.
 
 Warning: changing the keyboard mode, other than between ASCII and
-Unicode, will probably make your keyboard unusable.
+Unicode, will probably make your keyboard unusable. Set the "\-f" option
+to force such changes.
 This command is only meant for use (say via remote login)
 when some program left your keyboard in the wrong state.
 Note that in some obsolete versions of this program the "\-u"
-option was a synonym for "\-s".
+option was a synonym for "\-s" and older versions of this program may
+not recognize the "\-f" option.
 .SH "SEE ALSO"
 .BR loadkeys (1)
 

@@ -20,13 +20,34 @@
 static void __attribute__((noreturn))
 usage(void)
 {
-	fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"));
+	fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"));
 	exit(EXIT_FAILURE);
+}
+
+static void
+fprint_mode(FILE *stream, int  mode)
+{
+	switch (mode) {
+		case K_RAW:
+			fprintf(stream, _("The keyboard is in raw (scancode) mode\n"));
+			break;
+		case K_MEDIUMRAW:
+			fprintf(stream, _("The keyboard is in mediumraw (keycode) mode\n"));
+			break;
+		case K_XLATE:
+			fprintf(stream, _("The keyboard is in the default (ASCII) mode\n"));
+			break;
+		case K_UNICODE:
+			fprintf(stream, _("The keyboard is in Unicode (UTF-8) mode\n"));
+			break;
+		default:
+			fprintf(stream, _("The keyboard is in some unknown mode\n"));
+        }
 }
 
 int main(int argc, char *argv[])
 {
-	int fd, mode, c, n = 0;
+	int fd, mode, orig_mode, c, n = 0, force = 0;
 	char *console = NULL;
 
 	set_progname(argv[0]);
@@ -38,7 +59,7 @@ int main(int argc, char *argv[])
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 		print_version_and_exit();
 
-	while ((c = getopt(argc, argv, "auskC:")) != EOF) {
+	while ((c = getopt(argc, argv, "auskfC:")) != EOF) {
 		switch (c) {
 			case 'a':
 				if (n > 0)
@@ -64,6 +85,9 @@ int main(int argc, char *argv[])
 				mode = K_MEDIUMRAW;
 				n++;
 				break;
+			case 'f':
+				force = 1;
+				break;
 			case 'C':
 				if (!optarg || !optarg[0])
 					usage();
@@ -82,25 +106,28 @@ int main(int argc, char *argv[])
 		if (ioctl(fd, KDGKBMODE, &mode)) {
 			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
 		}
-		switch (mode) {
-			case K_RAW:
-				printf(_("The keyboard is in raw (scancode) mode\n"));
-				break;
-			case K_MEDIUMRAW:
-				printf(_("The keyboard is in mediumraw (keycode) mode\n"));
-				break;
-			case K_XLATE:
-				printf(_("The keyboard is in the default (ASCII) mode\n"));
-				break;
-			case K_UNICODE:
-				printf(_("The keyboard is in Unicode (UTF-8) mode\n"));
-				break;
-			default:
-				printf(_("The keyboard is in some unknown mode\n"));
-		}
+		fprint_mode(stdout, mode);
 		return EXIT_SUCCESS;
 	}
 
+	if (force == 0) {
+		/* only perform safe mode switches */
+		if (ioctl(fd, KDGKBMODE, &orig_mode)) {
+			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
+		}
+
+		if (mode == orig_mode) {
+			/* skip mode change */
+			return EXIT_SUCCESS;
+		}
+
+		if ((mode == K_XLATE && orig_mode != K_UNICODE) || (mode == K_UNICODE && orig_mode != K_XLATE)) {
+			fprint_mode(stderr, orig_mode);
+			fprintf(stderr, _("Changing to the requested mode may make "
+				"your keyboard unusable, please use -f to force the change.\n"));
+			return EXIT_FAILURE;
+		}
+	}
 	if (ioctl(fd, KDSKBMODE, mode)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}
