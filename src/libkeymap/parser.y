@@ -10,9 +10,6 @@
  * which should be included with kbd as the file COPYING.
  */
 %{
-#define YY_HEADER_EXPORT_START_CONDITIONS 1
-#define YY_YY_Y_TAB_H_INCLUDED 1
-
 #include "config.h"
 #include "libcommon.h"
 
