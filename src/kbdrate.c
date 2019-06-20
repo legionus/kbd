@@ -75,6 +75,7 @@ beats rebuilding the kernel!
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <getopt.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
@@ -120,6 +121,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 	/* don't change, just test */
 	kbdrep_s.period = -1;
 	kbdrep_s.delay  = -1;
+
 	if (ioctl(0, KDKBDREP, &kbdrep_s)) {
 		if (errno == EINVAL || errno == ENOTTY)
 			return 0;
@@ -127,8 +129,7 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 	}
 
 #if 0
-	printf("old delay %d, period %d\n",
-	       kbdrep_s.delay, kbdrep_s.period);
+	printf("old delay %d, period %d\n", kbdrep_s.delay, kbdrep_s.period);
 #endif
 
 	/* do the change */
@@ -136,15 +137,17 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 		kbdrep_s.period = 0;
 	else
 		kbdrep_s.period = (int) (1000.0 / rate); /* convert cps to msec */
+
 	if (kbdrep_s.period < 1)
 		kbdrep_s.period = 1;
-	kbdrep_s.delay          = delay;
+
+	kbdrep_s.delay = delay;
+
 	if (kbdrep_s.delay < 1)
 		kbdrep_s.delay = 1;
 
-	if (ioctl(0, KDKBDREP, &kbdrep_s)) {
+	if (ioctl(0, KDKBDREP, &kbdrep_s))
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
-	}
 
 	/* report */
 	if (kbdrep_s.period == 0)
@@ -158,13 +161,15 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 
 	kbdrep_s.period = -1;
 	kbdrep_s.delay  = -1;
+
 	if (ioctl(0, KDKBDREP, &kbdrep_s)) {
 		if (errno == EINVAL)
 			return 0;
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 	}
-	printf("old delay %d, period %d\n",
-	       kbdrep_s.delay, kbdrep_s.period);
+
+	printf("old delay %d, period %d\n", kbdrep_s.delay, kbdrep_s.period);
+
 	if (kbdrep_s.period == 0)
 		rate = 0;
 	else
@@ -191,18 +196,18 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 	int fd;
 
 	fd = open("/dev/kbd", O_RDONLY);
-	if (fd == -1) {
+	if (fd == -1)
 		kbd_error(EXIT_FAILURE, errno, "open /dev/kbd");
-	}
 
 	kbdrate_s.rate  = (int)(rate + 0.5); /* round up */
 	kbdrate_s.delay = delay * HZ / 1000; /* convert ms to Hz */
+
 	if (kbdrate_s.rate > 50)
 		kbdrate_s.rate = 50;
 
-	if (ioctl(fd, KIOCSRATE, &kbdrate_s)) {
+	if (ioctl(fd, KIOCSRATE, &kbdrate_s))
 		kbd_error(EXIT_FAILURE, errno, "ioctl KIOCSRATE");
-	}
+
 	close(fd);
 
 	if (!silent)
@@ -222,15 +227,36 @@ sigalrmhandler(int sig __attribute__((unused)))
 	raise(SIGINT);
 }
 
+#ifdef __sparc__
+double rate = 5.0; /* Default rate */
+int delay   = 200; /* Default delay */
+#else
+double rate = 10.9; /* Default rate */
+int delay   = 250; /* Default delay */
+#endif
+
+static void __attribute__((noreturn))
+usage(int rc)
+{
+	fprintf(stderr, _("Usage: kbdrate [options...]\n\
+\n\
+The prorgam sets the keyboard repeat rate and delay in user mode.\n\
+\n\
+Options:\n\
+\n\
+  -r, --rate=NUM    set the rate in characters per second (default %g);\n\
+  -d, --delay=NUM   set the amount of time the key must remain\n\
+                    depressed before it will start to repeat (default %d);\n\
+  -s, --silent      suppress all normal output;\n\
+  -h, --help        display this help text;\n\
+  -V, --version     print version number.\n\
+\n\
+"), rate, delay);
+	exit(rc);
+}
+
 int main(int argc, char **argv)
 {
-#ifdef __sparc__
-	double rate = 5.0; /* Default rate */
-	int delay   = 200; /* Default delay */
-#else
-	double rate = 10.9; /* Default rate */
-	int delay   = 250; /* Default delay */
-#endif
 	int value = 0x7f; /* Maximum delay with slowest rate */
 	                  /* DO NOT CHANGE this value */
 	int silent = 0;
@@ -239,17 +265,23 @@ int main(int argc, char **argv)
 	int c;
 	int i;
 
+	const char *short_opts = "r:d:shV";
+	const struct option long_opts[] = {
+		{ "rate", required_argument, NULL, 'r' },
+		{ "delay", required_argument, NULL, 'd' },
+		{ "silent", no_argument, NULL, 's' },
+		{ "help", no_argument, NULL, 'h' },
+		{ "version", no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
+
 	set_progname(argv[0]);
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
 
-	if (argc == 2 &&
-	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
-		print_version_and_exit();
-
-	while ((c = getopt(argc, argv, "r:d:s")) != EOF) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'r':
 				rate = atof(optarg);
@@ -260,10 +292,13 @@ int main(int argc, char **argv)
 			case 's':
 				silent = 1;
 				break;
-			default:
-				fprintf(stderr,
-				        _("Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"));
-				exit(EXIT_FAILURE);
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS);
+			case '?':
+				usage(EXIT_FAILURE);
 		}
 	}
 
@@ -289,40 +324,37 @@ int main(int argc, char **argv)
 			break;
 		}
 
-	if ((fd = open("/dev/port", O_RDWR)) < 0) {
+	if ((fd = open("/dev/port", O_RDWR)) < 0)
 		kbd_error(EXIT_FAILURE, errno, _("Cannot open /dev/port"));
-	}
 
 	signal(SIGALRM, sigalrmhandler);
 	alarm(3);
 
 	do {
 		lseek(fd, 0x64, 0);
-		if (read(fd, &data, 1) == -1) {
+		if (read(fd, &data, 1) == -1)
 			kbd_error(EXIT_FAILURE, errno, "read");
-		}
 	} while ((data & 2) == 2); /* wait */
 
 	lseek(fd, 0x60, 0);
 	data = (char) 0xf3; /* set typematic rate */
-	if (write(fd, &data, 1) == -1) {
+
+	if (write(fd, &data, 1) == -1)
 		kbd_error(EXIT_FAILURE, errno, "write");
-	}
 
 	do {
 		lseek(fd, 0x64, 0);
-		if (read(fd, &data, 1) == -1) {
+		if (read(fd, &data, 1) == -1)
 			kbd_error(EXIT_FAILURE, errno, "read");
-		}
 	} while ((data & 2) == 2); /* wait */
 
 	alarm(0);
 
 	lseek(fd, 0x60, 0);
 	sleep(1);
-	if (write(fd, &value, 1) == -1) {
+
+	if (write(fd, &value, 1) == -1)
 		kbd_error(EXIT_FAILURE, errno, "write");
-	}
 
 	close(fd);
 
