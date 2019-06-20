@@ -108,6 +108,8 @@ static int valid_rates[] = { 300, 267, 240, 218, 200, 185, 171, 160, 150,
 static int valid_delays[] = { 250, 500, 750, 1000 };
 #define DELAY_COUNT (sizeof(valid_delays) / sizeof(int))
 
+static int print_only = 0;
+
 static int
 KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 {
@@ -128,15 +130,24 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 	}
 
-#if 0
+	if (print_only) {
+		rate = (kbdrep_s.period > 0)
+			? 1000.0 / (double)kbdrep_s.period
+			: 0;
+
+		printf(_("Typematic Rate is %.1f cps\n"), rate);
+		printf(_("Current keyboard delay %d ms\n"), kbdrep_s.delay);
+		printf(_("Current keyboard period %d ms\n"), kbdrep_s.period);
+
+		return 1;
+	}
+
 	printf("old delay %d, period %d\n", kbdrep_s.delay, kbdrep_s.period);
-#endif
 
 	/* do the change */
-	if (rate == 0) /* switch repeat off */
-		kbdrep_s.period = 0;
-	else
-		kbdrep_s.period = (int) (1000.0 / rate); /* convert cps to msec */
+	kbdrep_s.period = (rate != 0)
+		? (int) (1000.0 / rate) /* convert cps to msec */
+		: 0;                    /* switch repeat off */
 
 	if (kbdrep_s.period < 1)
 		kbdrep_s.period = 1;
@@ -150,15 +161,6 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 
 	/* report */
-	if (kbdrep_s.period == 0)
-		rate = 0;
-	else
-		rate = 1000.0 / (double)kbdrep_s.period;
-
-	if (!silent)
-		printf(_("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
-		       rate, kbdrep_s.delay);
-
 	kbdrep_s.period = -1;
 	kbdrep_s.delay  = -1;
 
@@ -168,16 +170,14 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDKBDREP");
 	}
 
-	printf("old delay %d, period %d\n", kbdrep_s.delay, kbdrep_s.period);
+	if (!silent) {
+		rate = (kbdrep_s.period != 0)
+			? 1000.0 / (double)kbdrep_s.period
+			: 0;
 
-	if (kbdrep_s.period == 0)
-		rate = 0;
-	else
-		rate = 1000.0 / (double)kbdrep_s.period;
-
-	if (!silent)
 		printf(_("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
 		       rate, kbdrep_s.delay);
+	}
 
 	return 1; /* success! */
 }
@@ -198,6 +198,19 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 	fd = open("/dev/kbd", O_RDONLY);
 	if (fd == -1)
 		kbd_error(EXIT_FAILURE, errno, "open /dev/kbd");
+
+	if (print_only) {
+		kbdrate_s.rate  = 0;
+		kbdrate_s.delay = 0;
+
+		if (ioctl(fd, KIOCGRATE, &kbdrate_s))
+			kbd_error(EXIT_FAILURE, errno, "ioctl KIOCGRATE");
+
+		printf(_("Typematic Rate is %.1f cps\n"), kbdrep_s.rate);
+		printf(_("Current keyboard delay %d ms\n"), kbdrate_s.delay * 1000 / HZ);
+
+		return 1;
+	}
 
 	kbdrate_s.rate  = (int)(rate + 0.5); /* round up */
 	kbdrate_s.delay = delay * HZ / 1000; /* convert ms to Hz */
@@ -227,88 +240,21 @@ sigalrmhandler(int sig __attribute__((unused)))
 	raise(SIGINT);
 }
 
-#ifdef __sparc__
-double rate = 5.0; /* Default rate */
-int delay   = 200; /* Default delay */
-#else
-double rate = 10.9; /* Default rate */
-int delay   = 250; /* Default delay */
-#endif
-
-static void __attribute__((noreturn))
-usage(int rc)
-{
-	fprintf(stderr, _("Usage: kbdrate [options...]\n\
-\n\
-The prorgam sets the keyboard repeat rate and delay in user mode.\n\
-\n\
-Options:\n\
-\n\
-  -r, --rate=NUM    set the rate in characters per second (default %g);\n\
-  -d, --delay=NUM   set the amount of time the key must remain\n\
-                    depressed before it will start to repeat (default %d);\n\
-  -s, --silent      suppress all normal output;\n\
-  -h, --help        display this help text;\n\
-  -V, --version     print version number.\n\
-\n\
-"), rate, delay);
-	exit(rc);
-}
-
-int main(int argc, char **argv)
+static int
+ioport_set(double rate, int delay, int silent)
 {
 	int value = 0x7f; /* Maximum delay with slowest rate */
 	                  /* DO NOT CHANGE this value */
-	int silent = 0;
 	int fd;
 	char data;
-	int c;
 	int i;
 
-	const char *short_opts = "r:d:shV";
-	const struct option long_opts[] = {
-		{ "rate", required_argument, NULL, 'r' },
-		{ "delay", required_argument, NULL, 'd' },
-		{ "silent", no_argument, NULL, 's' },
-		{ "help", no_argument, NULL, 'h' },
-		{ "version", no_argument, NULL, 'V' },
-		{ NULL, 0, NULL, 0 }
-	};
-
-	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
-
-	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
-		switch (c) {
-			case 'r':
-				rate = atof(optarg);
-				break;
-			case 'd':
-				delay = atoi(optarg);
-				break;
-			case 's':
-				silent = 1;
-				break;
-			case 'V':
-				print_version_and_exit();
-				break;
-			case 'h':
-				usage(EXIT_SUCCESS);
-			case '?':
-				usage(EXIT_FAILURE);
-		}
+	if (print_only) {
+		printf(_("Not supported\n"));
+		return 0;
 	}
 
-	if (KDKBDREP_ioctl_ok(rate, delay, silent)) /* m68k? */
-		return 0;
-
-	if (KIOCSRATE_ioctl_ok(rate, delay, silent)) /* sparc? */
-		return 0;
-
-	/* The ioport way */
+	/* https://wiki.osdev.org/PS/2_Keyboard */
 
 	for (i = 0; i < (int) RATE_COUNT; i++)
 		if (rate * 10 >= valid_rates[i]) {
@@ -363,5 +309,91 @@ int main(int argc, char **argv)
 		       valid_rates[value & 0x1f] / 10.0,
 		       valid_delays[(value & 0x60) >> 5]);
 
-	return EXIT_SUCCESS;
+	return 1;
+}
+
+#ifdef __sparc__
+double rate = 5.0; /* Default rate */
+int delay   = 200; /* Default delay */
+#else
+double rate = 10.9; /* Default rate */
+int delay   = 250; /* Default delay */
+#endif
+
+static void __attribute__((noreturn))
+usage(int rc)
+{
+	fprintf(stderr, _("Usage: kbdrate [options...]\n\
+\n\
+The prorgam sets the keyboard repeat rate and delay in user mode.\n\
+\n\
+Options:\n\
+\n\
+  -r, --rate=NUM    set the rate in characters per second (default %.1f);\n\
+  -d, --delay=NUM   set the amount of time the key must remain\n\
+                    depressed before it will start to repeat (default %d);\n\
+  -s, --silent      suppress all normal output;\n\
+  -h, --help        display this help text;\n\
+  -V, --version     print version number.\n\
+\n\
+"), rate, delay);
+	exit(rc);
+}
+
+int main(int argc, char **argv)
+{
+	int silent = 0;
+	int c;
+
+	const char *short_opts = "r:d:pshV";
+	const struct option long_opts[] = {
+		{ "rate", required_argument, NULL, 'r' },
+		{ "delay", required_argument, NULL, 'd' },
+		{ "print", no_argument, NULL, 'p' },
+		{ "silent", no_argument, NULL, 's' },
+		{ "help", no_argument, NULL, 'h' },
+		{ "version", no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
+
+	set_progname(argv[0]);
+
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
+	textdomain(PACKAGE_NAME);
+
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
+		switch (c) {
+			case 'r':
+				rate = atof(optarg);
+				break;
+			case 'd':
+				delay = atoi(optarg);
+				break;
+			case 'p':
+				print_only = 1;
+				break;
+			case 's':
+				silent = 1;
+				break;
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS);
+			case '?':
+				usage(EXIT_FAILURE);
+		}
+	}
+
+	if (KDKBDREP_ioctl_ok(rate, delay, silent)) /* m68k/i386? */
+		return EXIT_SUCCESS;
+
+	if (KIOCSRATE_ioctl_ok(rate, delay, silent)) /* sparc? */
+		return EXIT_SUCCESS;
+
+	if (ioport_set(rate, delay, silent)) /* The ioport way */
+		return EXIT_SUCCESS;
+
+	return EXIT_FAILURE;
 }
