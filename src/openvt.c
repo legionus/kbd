@@ -163,8 +163,9 @@ open_vt(char *vtname, int force)
 
 int main(int argc, char *argv[])
 {
-	int opt, pid, i;
+	int opt, i;
 	struct vt_stat vtstat;
+	int pid          = 0;
 	int vtno         = -1;
 	int fd           = -1;
 	int consfd       = -1;
