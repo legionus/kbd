@@ -182,16 +182,10 @@ KDKBDREP_ioctl_ok(double rate, int delay, int silent)
 	return 1; /* success! */
 }
 
-#ifndef KIOCSRATE
-#define arg_state __attribute__((unused))
-#else
-#define arg_state
-#endif
-
-static int
-KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int silent)
-{
 #ifdef KIOCSRATE
+static int
+KIOCSRATE_ioctl_ok(double rate, int delay, int silent)
+{
 	struct kbd_rate kbdrate_s;
 	int fd;
 
@@ -228,10 +222,10 @@ KIOCSRATE_ioctl_ok(arg_state double rate, arg_state int delay, arg_state int sil
 		       kbdrate_s.rate, kbdrate_s.delay * 1000 / HZ);
 
 	return 1;
-#else  /* no KIOCSRATE */
-	return 0;
-#endif /* KIOCSRATE */
 }
+#else
+#	define KIOCSRATE_ioctl_ok(a,b,c) (0)
+#endif /* KIOCSRATE */
 
 static void
 sigalrmhandler(int sig __attribute__((unused)))
