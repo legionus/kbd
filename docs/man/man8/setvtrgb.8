@@ -4,7 +4,8 @@
 setvtrgb \- set the virtual terminal RGB colors
 .SH SYNOPSIS
 .B setvtrgb
-.I \-h|\-V|vga|FILE|\-
+[\fI\,options\/\fR]
+.I vga|FILE|\-
 .SH DESCRIPTION
 The
 .I setvtrgb
@@ -30,12 +31,15 @@ To seed a valid
 And then edit the values in
 .B FILE
 
-.SH OTHER OPTIONS
+.SH OPTIONS
 .TP
-\-h
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used;
+.TP
+\fB\-h\fR, \fB\-\-help\fR
 Prints usage message and exits.
 .TP
-\-V
+\fB\-V\fR, \fB\-\-version\fR
 Prints version number and exists.
 
 .SH AUTHOR
