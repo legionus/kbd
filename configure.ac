@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT(kbd, 2.0.4, gladkov.alexey@gmail.com,, http://kbd-project.org/)
+AC_INIT([kbd],[2.0.4],[gladkov.alexey@gmail.com],[],[http://kbd-project.org/])
 
-AC_PREREQ(2.60)
+AC_PREREQ([2.69])
 
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
@@ -53,12 +53,12 @@ AC_STRUCT_TM
 AC_TYPE_UID_T
 
 # Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
 AC_FUNC_CHOWN
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
-AC_PROG_GCC_TRADITIONAL
-AC_TYPE_SIGNAL
 AC_FUNC_STAT
+
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul setpgrp malloc realloc])
 
@@ -101,9 +101,9 @@ esac
 AM_CONDITIONAL(KEYCODES_PROGS, test "$KEYCODES_PROGS" = "yes")
 
 case $host_cpu in
-	i?86*) RESIZECONS_PROGS=yes ;;
+	i?86*)   RESIZECONS_PROGS=yes ;;
 	x86_64*) RESIZECONS_PROGS=yes ;;
-	*)     RESIZECONS_PROGS=no ;;
+	*)       RESIZECONS_PROGS=no  ;;
 esac
 AM_CONDITIONAL(RESIZECONS_PROGS, test "$RESIZECONS_PROGS" = "yes")
 
@@ -124,13 +124,13 @@ AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
 
 if test "$VLOCK_PROG" = "yes"; then
 	AC_CHECK_LIB(pam, pam_start, [
-                AC_CHECK_HEADER([security/pam_appl.h],
-				[have_pam=1],
-                                AC_MSG_ERROR([Can't find required header files.]))])
+	                AC_CHECK_HEADER([security/pam_appl.h],
+	                        [have_pam=1],
+	                        AC_MSG_ERROR([Can't find required header files.]))])
 	AC_CHECK_LIB(pam_misc, misc_conv, [
-                AC_CHECK_HEADER([security/pam_misc.h],
-				[have_pam_misc=1],
-                                AC_MSG_ERROR([Can't find required header files.]))])
+	        AC_CHECK_HEADER([security/pam_misc.h],
+	                        [have_pam_misc=1],
+	                        AC_MSG_ERROR([Can't find required header files.]))])
 	if test -z "$have_pam" -o -z "$have_pam_misc"; then
 		AC_MSG_ERROR([libpam-devel required.])
 	fi
@@ -184,18 +184,18 @@ AC_MSG_RESULT([
 	$PACKAGE $VERSION
 	======
 
-	prefix:			${prefix}
-	libdir:			${libdir}
-	bindir:			${bindir}
-	datadir:		${datadir}
+	prefix:                 ${prefix}
+	libdir:                 ${libdir}
+	bindir:                 ${bindir}
+	datadir:                ${datadir}
 
-	compiler:		${CC}
-	cflags:			${CFLAGS}
+	compiler:               ${CC}
+	cflags:                 ${CFLAGS}
 
-	{get,set}keycodes:	${KEYCODES_PROGS}
-	resizecons:		${RESIZECONS_PROGS}
-	optional progs:		${OPTIONAL_PROGS}
-	vlock:			${VLOCK_PROG}
-	libkbdfile:		${BUILD_LIBKEYMAP}
-	libkeymap:		${BUILD_LIBKEYMAP}
+	{get,set}keycodes:      ${KEYCODES_PROGS}
+	resizecons:             ${RESIZECONS_PROGS}
+	optional progs:         ${OPTIONAL_PROGS}
+	vlock:                  ${VLOCK_PROG}
+	libkbdfile:             ${BUILD_LIBKEYMAP}
+	libkeymap:              ${BUILD_LIBKEYMAP}
 ])
