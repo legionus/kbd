@@ -12,7 +12,6 @@
 extern char *progname;
 
 void
-__attribute__((noreturn))
 nomem(void)
 {
 	fprintf(stderr, _("%s: out of memory\n"), progname);

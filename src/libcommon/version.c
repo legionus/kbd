@@ -23,7 +23,7 @@ get_progname(void)
 	return progname;
 }
 
-void __attribute__((noreturn))
+void
 print_version_and_exit(void)
 {
 	printf(_("%s from %s\n"), progname, PACKAGE_STRING);

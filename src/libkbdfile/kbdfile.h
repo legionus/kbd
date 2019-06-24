@@ -47,7 +47,9 @@ int kbdfile_set_file(struct kbdfile *fp, FILE *x);
 
 #include <syslog.h>
 
-void kbdfile_log(struct kbdfile_ctx *ctx, int priority,
+void
+__attribute__((format(printf, 6, 7)))
+kbdfile_log(struct kbdfile_ctx *ctx, int priority,
             const char *file, int line, const char *fn,
             const char *fmt, ...);
 

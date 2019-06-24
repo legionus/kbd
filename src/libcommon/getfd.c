@@ -56,7 +56,8 @@ open_a_console(const char *fnam)
 	return fd;
 }
 
-int getfd(const char *fnam)
+int
+getfd(const char *fnam)
 {
 	int fd, i;
 

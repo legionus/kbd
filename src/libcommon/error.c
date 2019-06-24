@@ -11,7 +11,6 @@
 extern const char *progname;
 
 void
-__attribute__((format(printf, 2, 3)))
 kbd_warning(const int errnum, const char *fmt, ...)
 {
 	va_list ap;
@@ -29,8 +28,6 @@ kbd_warning(const int errnum, const char *fmt, ...)
 }
 
 void
-__attribute__((noreturn))
-__attribute__((format(printf, 3, 4)))
 kbd_error(const int exitnum, const int errnum, const char *fmt, ...)
 {
 	va_list ap;

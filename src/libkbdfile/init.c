@@ -9,7 +9,7 @@
 #include "libcommon.h"
 #include "contextP.h"
 
-void __attribute__((format(printf, 6, 7)))
+void
 kbdfile_log(struct kbdfile_ctx *ctx, int priority,
        const char *file, int line, const char *fn,
        const char *fmt, ...)

@@ -20,8 +20,10 @@ typedef void (*lk_logger_t)(void *, int, const char *, int, const char *, const 
  * @param ctx is a keymap library context.
  * @param priority indicates the priority.
  */
-void lk_log(struct lk_ctx *ctx, int priority,
-            const char *file, int line, const char *fn,
-            const char *fmt, ...);
+void
+__attribute__((format(printf, 6, 7)))
+lk_log(struct lk_ctx *ctx, int priority,
+       const char *file, int line, const char *fn,
+       const char *fmt, ...);
 
 #endif /* LK_LOGGING_H */
