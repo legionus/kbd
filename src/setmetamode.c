@@ -12,22 +12,36 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <getopt.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc)
 {
-	fprintf(stderr, _(
-	                    "Usage:\n"
-	                    "	setmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
-	                    "Each vt has his own copy of this bit. Use\n"
-	                    "	setmetamode [arg] < /dev/ttyn\n"
-	                    "to change the settings of another vt.\n"
-	                    "The setting before and after the change are reported.\n"));
-	exit(EXIT_FAILURE);
+	fprintf(stderr, _("Usage: %1$s [option...] [argument]\n"
+	                  "\n"
+	                  "Each vt has his own copy of this bit. Use\n"
+	                  "	%1$s [argument] < /dev/ttyn\n"
+	                  "to change the settings of another vt.\n"
+	                  "The setting before and after the change are reported.\n"
+	                  "\n"
+	                  "Arguments:\n"
+	                  "  metabit     the keysym marked with the high bit set.\n"
+	                  "  escprefix   specifies if pressing the meta (alt) key\n"
+	                  "              generates an ESC (\\033) prefix followed by\n"
+	                  "              the keysym.\n"
+	                  "\n"
+	                  "Options:\n"
+	                  "\n"
+	                  "  -C, --console=DEV   the console device to be used\n"
+	                  "  -V, --version       print version number\n"
+	                  "  -h, --help          display this help text\n"
+	                  "\n"
+	        ), get_progname());
+	exit(rc);
 }
 
 static void
@@ -66,6 +80,17 @@ int main(int argc, char **argv)
 {
 	unsigned int ometa, nmeta;
 	struct meta *mp;
+	int c;
+	int fd = 0;
+	char *console = NULL;
+
+	const char *short_opts = "C:hV";
+	const struct option long_opts[] = {
+		{ "console", required_argument, NULL, 'C' },
+		{ "help",    no_argument,       NULL, 'h' },
+		{ "version", no_argument,       NULL, 'V' },
+		{ NULL,      0,                 NULL,  0  }
+	};
 
 	set_progname(argv[0]);
 
@@ -73,15 +98,33 @@ int main(int argc, char **argv)
 	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
 	textdomain(PACKAGE_NAME);
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
-		print_version_and_exit();
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
+		switch (c) {
+			case 'C':
+				if (optarg == NULL || optarg[0] == '\0')
+					usage(EXIT_FAILURE);
+				console = optarg;
+				break;
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS);
+				break;
+			case '?':
+				usage(EXIT_FAILURE);
+		}
+	}
 
-	if (ioctl(0, KDGKBMETA, &ometa)) {
+	if (console && (fd = getfd(console)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+
+	if (ioctl(fd, KDGKBMETA, &ometa)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading current setting. Maybe stdin is not a VT?: "
 		                                 "ioctl KDGKBMETA"));
 	}
 
-	if (argc <= 1) {
+	if (optind == argc) {
 		report(ometa);
 		exit(EXIT_SUCCESS);
 	}
@@ -94,12 +137,12 @@ int main(int argc, char **argv)
 		}
 	}
 	fprintf(stderr, _("unrecognized argument: _%s_\n\n"), argv[1]);
-	usage();
+	usage(EXIT_FAILURE);
 
 fnd:
 	printf(_("old state:    "));
 	report(ometa);
-	if (ioctl(0, KDSKBMETA, nmeta)) {
+	if (ioctl(fd, KDSKBMETA, nmeta)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMETA");
 	}
 	printf(_("new state:    "));
