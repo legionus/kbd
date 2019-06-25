@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 	char direct_exec = FALSE;
 	char do_wait     = FALSE;
 	char as_user     = FALSE;
-	char vtname[sizeof(VTNAME) + 2]; /* allow 999 possible VTs */
+	char vtname[PATH_MAX+1];
 	char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
 	struct option long_options[] = {
@@ -313,7 +313,7 @@ int main(int argc, char *argv[])
 				kbd_error(5, errno, _("Unable to set new session"));
 		}
 
-		sprintf(vtname, VTNAME, vtno);
+		snprintf(vtname, PATH_MAX, VTNAME, vtno);
 
 		/* Can we open the vt we want? */
 		if ((fd = open_vt(vtname, force)) == -1) {
@@ -325,14 +325,14 @@ int main(int argc, char *argv[])
 				   before giving up. Note: the 16 is a kernel limitation. */
 				for (i = vtno + 1; i < 16; i++) {
 					if ((vtstat.v_state & (1 << i)) == 0) {
-						sprintf(vtname, VTNAME, i);
+						snprintf(vtname, PATH_MAX, VTNAME, i);
 						if ((fd = open_vt(vtname, force)) >= 0) {
 							vtno = i;
 							goto got_vtno;
 						}
 					}
 				}
-				sprintf(vtname, VTNAME, vtno);
+				snprintf(vtname, PATH_MAX, VTNAME, vtno);
 			}
 			kbd_error(5, errsv, _("Unable to open %s"), vtname);
 		}
