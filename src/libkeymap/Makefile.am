@@ -79,8 +79,13 @@ AM_LFLAGS = --header-file=$(CURDIR)/analyze.h
 BUILT_SOURCES = parser.c analyze.c parser.h analyze.h $(ksyms_gen_headers)
 CLEANFILES += $(BUILT_SOURCES)
 
-GEN_SYMS  = $(top_srcdir)/contrib/gen_charset_syms.pl
 TRANS_DIR = $(top_srcdir)/data/consoletrans
+
+GEN_SYMS     = $(top_srcdir)/contrib/gen_charset_syms.pl
+V_GEN_SYMS   = $(V_GEN_SYMS_$(V))
+V_GEN_SYMS_  = $(V_GEN_SYMS_$(AM_DEFAULT_VERBOSITY))
+V_GEN_SYMS_0 = @echo "  CHARSET " $@;
+V_GEN_SYMS_1 =
 
 charset_headers = $(foreach x,$(SYMS),$(word 1,$(subst /, ,$(x))))
 charset_trans   = $(TRANS_DIR)/$(word 2,$(subst /, ,$(filter syms.$(1).h/%,$(SYMS))))_to_uni.trans
@@ -90,7 +95,7 @@ parser.h: parser.c ; @true
 analyze.h: analyze.c ; @true
 
 syms.%.h:
-	$(GEN_SYMS) -n $*_syms -s $(call charset_start,$*) <$(call charset_trans,$*) >$(builddir)/$@
+	$(V_GEN_SYMS)$(GEN_SYMS) -n $*_syms -s $(call charset_start,$*) <$(call charset_trans,$*) >$(builddir)/$@
 
 %.pc: %.pc.in Makefile
 	sed \
