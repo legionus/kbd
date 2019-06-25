@@ -8,13 +8,14 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <getopt.h>
+#include <sysexits.h>
 #include <linux/vt.h>
 #include <linux/serial.h>
 
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc)
 {
 	const char *progname = get_progname();
 	fprintf(stderr, _("%s version %s\n"
@@ -27,7 +28,7 @@ usage(void)
 	                  "	-V --version         display program version\n"
 	                  "	-n --next-available  display number of next unallocated VT\n"),
 	        progname, PACKAGE_VERSION, progname);
-	exit(EXIT_FAILURE);
+	exit(rc);
 }
 
 int main(int argc, char **argv)
@@ -42,25 +43,23 @@ int main(int argc, char **argv)
 		{ NULL, 0, NULL, 0 }
 	};
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
-
 	set_progname(argv[0]);
+	setuplocale();
+
 	while ((c = getopt_long(argc, argv, "Vhn", long_opts, NULL)) != EOF) {
 		switch (c) {
-			case 'h':
-				usage();
-				exit(0);
 			case 'n':
 				show_vt = 1;
 				break;
 			case 'V':
 				print_version_and_exit();
 				break;
+			case 'h':
+				usage(EXIT_SUCCESS);
+				break;
 			case '?':
-				usage();
-				exit(1);
+				usage(EX_USAGE);
+				break;
 		}
 	}
 

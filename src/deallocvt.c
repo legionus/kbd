@@ -14,6 +14,7 @@
 #include <sys/ioctl.h>
 #include <linux/vt.h>
 #include <getopt.h>
+#include <sysexits.h>
 
 #include "libcommon.h"
 
@@ -44,10 +45,7 @@ int main(int argc, char *argv[])
 	if (argc < 1) /* unlikely */
 		return EXIT_FAILURE;
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	while ((i = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (i) {
@@ -57,14 +55,14 @@ int main(int argc, char *argv[])
 			case 'h':
 				usage(EXIT_SUCCESS);
 			case '?':
-				usage(EXIT_FAILURE);
+				usage(EX_USAGE);
 		}
 	}
 
 	for (i = optind; i < argc; i++) {
 		if (!isdigit(argv[i][0])) {
 			fprintf(stderr, _("%s: unknown option\n"), get_progname());
-			return EXIT_FAILURE;
+			return EX_USAGE;
 		}
 	}
 

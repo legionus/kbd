@@ -21,25 +21,27 @@ int main(int argc, char *argv[])
 	} arg;
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	if (argc != 2) {
 		fprintf(stderr, _("usage: %s\n"), "setvesablank ON|on|off");
 		return EXIT_FAILURE;
 	}
+
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+
 	arg.ten   = 10;
 	arg.onoff = 0;
+
 	if (!strcmp(argv[1], "on"))
 		arg.onoff = 1;
 	else if (!strcmp(argv[1], "ON"))
 		arg.onoff = 2;
+
 	if (ioctl(fd, TIOCLINUX, &arg)) {
 		kbd_error(EXIT_FAILURE, errno, "setvesablank: TIOCLINUX");
 	}
+
 	return EXIT_SUCCESS;
 }

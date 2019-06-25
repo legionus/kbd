@@ -35,6 +35,13 @@
   #define P_(singular, plural, number) (number == 1 ? singular : plural)
 #endif
 
+/* setup localization for a program */
+#define setuplocale() do { \
+    setlocale(LC_ALL, ""); \
+    bindtextdomain(PACKAGE, LOCALEDIR); \
+    textdomain(PACKAGE); \
+} while (0)
+
 // getfd.c
 int getfd(const char *fnam);
 

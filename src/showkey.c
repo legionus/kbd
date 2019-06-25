@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <termios.h>
+#include <sysexits.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
@@ -84,7 +85,7 @@ watch_dog(int x __attribute__((unused)))
 }
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc)
 {
 	fprintf(stderr, _(
 	                    "showkey version %s\n\n"
@@ -98,7 +99,7 @@ usage(void)
 	                    "	-k --keycodes	display only the interpreted keycodes (default)\n"
 	                    "	-V --version	print version number\n"),
 	        PACKAGE_VERSION);
-	exit(EXIT_FAILURE);
+	exit(rc);
 }
 
 int main(int argc, char *argv[])
@@ -122,13 +123,9 @@ int main(int argc, char *argv[])
 	ssize_t n;
 
 	set_progname(argv[0]);
+	setuplocale();
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
-
-	while ((c = getopt_long(argc, argv,
-	                        short_opts, long_opts, NULL)) != -1) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 's':
 				show_keycodes = 0;
@@ -143,13 +140,16 @@ int main(int argc, char *argv[])
 				print_version_and_exit();
 				break;
 			case 'h':
+				usage(EXIT_SUCCESS);
+				break;
 			case '?':
-				usage();
+				usage(EX_USAGE);
+				break;
 		}
 	}
 
 	if (optind < argc)
-		usage();
+		usage(EX_USAGE);
 
 	if (print_ascii) {
 		/* no mode and signal and timer stuff - just read stdin */

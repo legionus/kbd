@@ -12,6 +12,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <sysexits.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
@@ -21,7 +22,7 @@ static void __attribute__((noreturn))
 usage(void)
 {
 	fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"));
-	exit(EXIT_FAILURE);
+	exit(EX_USAGE);
 }
 
 static void
@@ -51,10 +52,7 @@ int main(int argc, char *argv[])
 	char *console = NULL;
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 		print_version_and_exit();

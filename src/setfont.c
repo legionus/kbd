@@ -111,10 +111,7 @@ int main(int argc, char *argv[])
 	int restore = 0;
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;

@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <getopt.h>
+#include <sysexits.h>
 
 #include "vlock.h"
 
@@ -50,7 +51,7 @@ show_usage(void)
 	fprintf(stderr,
 	        _("Try `%s --help' for more information.\n"),
 	        program_invocation_short_name);
-	exit(1);
+	exit(EX_USAGE);
 }
 
 static void __attribute__((__noreturn__))

@@ -11,9 +11,7 @@ const char *progname;
 void
 set_progname(const char *name)
 {
-	char *p;
-
-	p        = strrchr(name, '/');
+	char *p = strrchr(name, '/');
 	progname = (p ? p + 1 : name);
 }
 

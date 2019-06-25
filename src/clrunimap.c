@@ -20,10 +20,7 @@ int main(int argc, char *argv[])
 	char *console = NULL;
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	if (argc >= 3 && !strcmp(argv[1], "-C"))
 		console = argv[2];

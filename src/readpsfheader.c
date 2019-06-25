@@ -27,6 +27,7 @@ int main(int argc, char **argv)
 	struct unicode_list *uclistheads;
 
 	set_progname(argv[0]);
+	setuplocale();
 
 	if (argc != 2)
 		usage();

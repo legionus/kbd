@@ -16,6 +16,7 @@
 #include <sys/ioctl.h>
 #include <string.h>
 #include <errno.h>
+#include <sysexits.h>
 #include "ksyms.h"
 #include "modifiers.h"
 
@@ -24,7 +25,7 @@
 static int fd;
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc)
 {
 	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
 	fprintf(stderr, _("\
@@ -53,7 +54,7 @@ valid options are:\n\
 	-v --verbose\n\
 	-V --version	    print version number\n\
 "));
-	exit(1);
+	exit(rc);
 }
 
 int main(int argc, char *argv[])
@@ -89,10 +90,7 @@ int main(int argc, char *argv[])
 	struct lk_ctx *ctx;
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	ctx = lk_init();
 	if (!ctx) {
@@ -137,7 +135,7 @@ int main(int argc, char *argv[])
 				if ((lk_set_charset(ctx, optarg)) != 0) {
 					fprintf(stderr, _("unknown charset %s - ignoring charset request\n"),
 					        optarg);
-					usage();
+					usage(EX_USAGE);
 				}
 				printf("charset \"%s\"\n", optarg);
 				break;
@@ -145,13 +143,16 @@ int main(int argc, char *argv[])
 				print_version_and_exit();
 				break;
 			case 'h':
+				usage(EXIT_SUCCESS);
+				break;
 			case '?':
-				usage();
+				usage(EX_USAGE);
+				break;
 		}
 	}
 
 	if (optind < argc)
-		usage();
+		usage(EX_USAGE);
 
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));

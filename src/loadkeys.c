@@ -16,6 +16,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <unistd.h>
+#include <sysexits.h>
 #include <sys/ioctl.h>
 
 #include "libcommon.h"
@@ -27,7 +28,7 @@ static const char *const dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR
 static const char *const suffixes[] = { "", ".kmap", ".map", 0 };
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc)
 {
 	fprintf(stderr, _("loadkeys version %s\n"
 	                  "\n"
@@ -50,7 +51,7 @@ usage(void)
 	                  "  -v --verbose       report the changes\n"
 	                  "  -V --version       print version number\n"),
 	        PACKAGE_VERSION, get_progname(), DEFMAP);
-	exit(EXIT_FAILURE);
+	exit(rc);
 }
 
 int main(int argc, char *argv[])
@@ -98,11 +99,8 @@ int main(int argc, char *argv[])
 	struct kbdfile *fp;
 	struct kbdfile_ctx *kbdfile_ctx;
 
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
-
 	set_progname(argv[0]);
+	setuplocale();
 
 	ctx = lk_init();
 	if (!ctx) {
@@ -156,8 +154,11 @@ int main(int argc, char *argv[])
 				print_version_and_exit();
 				break;
 			case 'h':
+				usage(EXIT_SUCCESS);
+				break;
 			case '?':
-				usage();
+				usage(EX_USAGE);
+				break;
 		}
 	}
 

@@ -23,6 +23,7 @@ int main(int argc, char **argv)
 
 	if (argc != 5)
 		usage();
+
 	psftype  = atoi(argv[1]);
 	fontsize = (unsigned int) atoi(argv[2]);
 	charsize = (unsigned int) atoi(argv[3]);

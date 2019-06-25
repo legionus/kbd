@@ -8,6 +8,7 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <getopt.h>
+#include <sysexits.h>
 
 #include "libcommon.h"
 
@@ -61,16 +62,13 @@ int main(int argc, char **argv)
 	};
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'C':
 				if (optarg == NULL || optarg[0] == '\0')
-					usage(EXIT_FAILURE);
+					usage(EX_USAGE);
 				console = optarg;
 				break;
 			case 'V':
@@ -80,7 +78,8 @@ int main(int argc, char **argv)
 				usage(EXIT_SUCCESS);
 				break;
 			case '?':
-				usage(EXIT_FAILURE);
+				usage(EX_USAGE);
+				break;
 		}
 	}
 

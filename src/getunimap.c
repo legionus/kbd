@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <sysexits.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 #include "kdmapop.h"
@@ -27,10 +28,10 @@ ud_compar(const void *u1, const void *u2)
 }
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc)
 {
 	fprintf(stderr, _("Usage:\n\t%s [-s] [-C console]\n"), get_progname());
-	exit(EXIT_FAILURE);
+	exit(rc);
 }
 
 int main(int argc, char **argv)
@@ -43,10 +44,7 @@ int main(int argc, char **argv)
 	struct unimapdesc ud;
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	if (argc == 2 &&
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
@@ -61,12 +59,12 @@ int main(int argc, char **argv)
 				console = optarg;
 				break;
 			default:
-				usage();
+				usage(EX_USAGE);
 		}
 	}
 
 	if (optind < argc)
-		usage();
+		usage(EX_USAGE);
 
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
@@ -90,7 +88,7 @@ int main(int argc, char **argv)
 	} else {
 		printf("# kernel unimap - count=%d\n", ud.entry_ct);
 		for (i = 0; i < ud.entry_ct; i++) {
-			mb_length                           = wctomb(mb, ud.entries[i].unicode);
+			mb_length = wctomb(mb, ud.entries[i].unicode);
 			mb[(mb_length > 6) ? 0 : mb_length] = 0;
 			if (mb_length == 1 && !isprint(mb[0])) {
 				mb[2] = 0;

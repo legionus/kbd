@@ -12,6 +12,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
+#include <sysexits.h>
 
 #include "libcommon.h"
 
@@ -40,10 +41,7 @@ int main(int argc, char *argv[])
 	};
 
 	set_progname(argv[0]);
-
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_NAME, LOCALEDIR);
-	textdomain(PACKAGE_NAME);
+	setuplocale();
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -52,14 +50,16 @@ int main(int argc, char *argv[])
 				break;
 			case 'h':
 				usage(EXIT_SUCCESS);
+				break;
 			case '?':
-				usage(EXIT_FAILURE);
+				usage(EX_USAGE);
+				break;
 		}
 	}
 
 	if (argc == optind) {
 		fprintf(stderr, _("Argument required\n"));
-		usage(EXIT_FAILURE);
+		usage(EX_USAGE);
 	}
 
 	if ((fd = getfd(NULL)) < 0)
