@@ -266,12 +266,8 @@ void loadunicodemap(int fd, const char *tblname)
 	char buffer[65536];
 	char *p;
 	struct kbdfile *fp;
-	struct kbdfile_ctx *kbdfile_ctx;
 
-	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
-
-	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
 	if (kbdfile_find((char *) tblname, unidirpath, unisuffixes, fp)) {
@@ -293,7 +289,6 @@ void loadunicodemap(int fd, const char *tblname)
 	}
 
 	kbdfile_free(fp);
-	kbdfile_context_free(kbdfile_ctx);
 
 	if (listct == 0 && !force) {
 		fprintf(stderr,

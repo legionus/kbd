@@ -9,11 +9,7 @@
 int
 main(void)
 {
-	struct kbdfile_ctx *ctx = kbdfile_context_new();
-	if (!ctx)
-		error(EXIT_FAILURE, 0, "unable to create context");
-
-	struct kbdfile *fp = kbdfile_new(ctx);
+	struct kbdfile *fp = kbdfile_new(NULL);
 	if (!fp)
 		error(EXIT_FAILURE, 0, "unable to create kbdfile");
 
@@ -31,7 +27,6 @@ main(void)
 		error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
 
 	kbdfile_free(fp);
-	kbdfile_context_free(ctx);
 
 	return EXIT_SUCCESS;
 }

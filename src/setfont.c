@@ -397,18 +397,13 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	struct unicode_list *uclistheads;
 	int i;
 	struct kbdfile *fp;
-	struct kbdfile_ctx *kbdfile_ctx;
-
 
 	if (ifilct == 1) {
 		loadnewfont(fd, ifiles[0], iunit, hwunit, no_m, no_u);
 		return;
 	}
 
-	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
-
-	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
 	/* several fonts that must be merged */
@@ -438,12 +433,10 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 			                  "must be psf fonts - %s isn't\n"),
 			        kbdfile_get_pathname(fp));
 			kbdfile_free(fp);
-			kbdfile_context_free(kbdfile_ctx);
 			exit(EX_DATAERR);
 		}
 
 		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
-		kbdfile_context_free(kbdfile_ctx);
 
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
@@ -485,7 +478,6 @@ static void
 loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 {
 	struct kbdfile *fp;
-	struct kbdfile_ctx *kbdfile_ctx;
 
 	char defname[20];
 	int height, width, bytewidth, def = 0;
@@ -493,11 +485,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	int inputlth, fontbuflth, fontsize, offset;
 	struct unicode_list *uclistheads;
 
-
-	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
-
-	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
 	if (!*ifil) {
@@ -541,7 +529,6 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	                &width, &fontsize, 0,
 	                no_u ? NULL : &uclistheads) == 0) {
 		kbdfile_free(fp);
-		kbdfile_context_free(kbdfile_ctx);
 
 		/* we've got a psf font */
 		bytewidth = (width + 7) / 8;
@@ -558,7 +545,6 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		return;
 	}
 	kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
-	kbdfile_context_free(kbdfile_ctx);
 
 	/* instructions to combine fonts? */
 	{

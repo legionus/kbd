@@ -128,12 +128,8 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 	int u      = 0;
 	int lineno = 0;
 	struct kbdfile *fp;
-	struct kbdfile_ctx *kbdfile_ctx;
 
-	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
-
-	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
 	if (kbdfile_find(mfil, mapdirpath, mapsuffixes, fp)) {
@@ -182,7 +178,6 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 		}
 	}
 	kbdfile_free(fp);
-	kbdfile_context_free(kbdfile_ctx);
 	return u;
 }
 

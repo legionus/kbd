@@ -9,16 +9,9 @@
 int
 main(void)
 {
-	struct kbdfile_ctx *ctx = kbdfile_context_new();
-	if (!ctx)
-		error(EXIT_FAILURE, 0, "unable to create context");
-
-	struct kbdfile *fp = kbdfile_new(ctx);
+	struct kbdfile *fp = kbdfile_new(NULL);
 	if (!fp)
 		error(EXIT_FAILURE, 0, "unable to create kbdfile");
-
 	kbdfile_free(fp);
-	kbdfile_context_free(ctx);
-
 	return EXIT_SUCCESS;
 }

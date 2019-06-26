@@ -97,7 +97,6 @@ int main(int argc, char *argv[])
 	char *console = NULL;
 	char *ev;
 	struct kbdfile *fp;
-	struct kbdfile_ctx *kbdfile_ctx;
 
 	set_progname(argv[0]);
 	setuplocale();
@@ -107,10 +106,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
-
-	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
@@ -257,7 +253,6 @@ int main(int argc, char *argv[])
 fail:
 	lk_free(ctx);
 	kbdfile_free(fp);
-	kbdfile_context_free(kbdfile_ctx);
 
 	if (fd >= 0)
 		close(fd);

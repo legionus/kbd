@@ -115,7 +115,6 @@ int main(int argc, char **argv)
 	char tty[12], cmd[80], infile[1024];
 	const char *defaultfont;
 	struct kbdfile *fp;
-	struct kbdfile_ctx *kbdfile_ctx;
 
 	set_progname(argv[0]);
 	setuplocale();
@@ -149,10 +148,7 @@ int main(int argc, char **argv)
 		usage();
 	}
 
-	if ((kbdfile_ctx = kbdfile_context_new()) == NULL)
-		nomem();
-
-	if ((fp = kbdfile_new(kbdfile_ctx)) == NULL)
+	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
 	if (mode == MODE_RESTORETEXTMODE) {
@@ -278,7 +274,6 @@ int main(int argc, char **argv)
 	}
 
 	kbdfile_free(fp);
-	kbdfile_context_free(kbdfile_ctx);
 
 	/*
      * for i in /dev/tty[0-9] /dev/tty[0-9][0-9]

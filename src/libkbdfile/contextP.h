@@ -27,10 +27,13 @@ struct kbdfile_ctx {
 
 struct kbdfile {
 	struct kbdfile_ctx *ctx;
+	int flags;
 	FILE *fd;
-	int pipe;
 	char pathname[MAXPATHLEN];
 };
+
+#define KBDFILE_CTX_INITIALIZED 0x01
+#define KBDFILE_PIPE            0x02
 
 #define kbdfile_log_cond(ctx, level, arg...)                                          \
 	do {                                                                     \
