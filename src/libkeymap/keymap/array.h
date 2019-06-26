@@ -8,7 +8,7 @@
  * @details The array is designed to store an arbitrary number of similar items.
  */
 struct lk_array {
-	void *array;  /**< Data pointer. */
+	void *array;   /**< Data pointer. */
 	ssize_t memb;  /**< One element size. */
 	ssize_t count; /**< Number of elements. */
 	ssize_t total; /**< Total number of allocated elements. */
