@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2016-12-26 17:38+0100\n"
+"POT-Creation-Date: 2019-06-26 11:57+0200\n"
 "PO-Revision-Date: 2016-03-04 11:20-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -20,45 +20,85 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/chvt.c:32
-#, c-format
-msgid "usage: chvt N\n"
-msgstr "uzmaniero: chvt N\n"
+#: src/chvt.c:22
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [option...] N\n"
+"\n"
+"Valid options are:\n"
+"\n"
+"  -h --help          display this help text\n"
+"  -V --version       print version number\n"
+msgstr ""
+"%s versio %s\n"
+"\n"
+"Uzmaniero: %s [modifiloj]\n"
+"\n"
+"Validaj elektoj estas:\n"
+"\n"
+"\t-h --help            montri tiun ĉi helpo-tekston\n"
+"\t-V --version         montri la programo-version\n"
+"\t-n --next-available  montri kiom da venontaj nerezervitaj VT\n"
 
-#: src/chvt.c:37 src/clrunimap.c:30 src/deallocvt.c:43 src/dumpkeys.c:158
-#: src/fgconsole.c:69 src/getkeycodes.c:45 src/getunimap.c:73 src/kbdinfo.c:81
-#: src/kbd_mode.c:79 src/loadkeys.c:179 src/loadunimap.c:84 src/mapscrn.c:60
-#: src/openvt.c:258 src/resizecons.c:153 src/setfont.c:195 src/setkeycodes.c:51
-#: src/setlogcons.c:37 src/setpalette.c:36 src/setvesablank.c:33
-#: src/setvtrgb.c:140 src/showconsolefont.c:152 src/showkey.c:189
-#: src/totextmode.c:37
+#: src/chvt.c:61
+#, c-format
+msgid "Argument required\n"
+msgstr ""
+
+#: src/chvt.c:66 src/clrunimap.c:29 src/deallocvt.c:70 src/dumpkeys.c:158
+#: src/fgconsole.c:67 src/getkeycodes.c:42 src/getunimap.c:70 src/kbdinfo.c:96
+#: src/kbd_mode.c:100 src/loadkeys.c:171 src/loadunimap.c:80 src/mapscrn.c:55
+#: src/openvt.c:256 src/resizecons.c:164 src/setfont.c:191 src/setkeycodes.c:47
+#: src/setlogcons.c:35 src/setmetamode.c:119 src/setpalette.c:36
+#: src/setvesablank.c:32 src/setvtrgb.c:154 src/showconsolefont.c:149
+#: src/showkey.c:189 src/totextmode.c:32
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr "Ne eblis preni dosier-priskribilon rilatanta al la konzolo"
 
-#: src/deallocvt.c:37
+#: src/deallocvt.c:24
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [option...] [N ...]\n"
+"\n"
+"Valid options are:\n"
+"\n"
+"  -h --help          display this help text\n"
+"  -V --version       print version number\n"
+msgstr ""
+"%s versio %s\n"
+"\n"
+"Uzmaniero: %s [modifiloj]\n"
+"\n"
+"Validaj elektoj estas:\n"
+"\n"
+"\t-h --help            montri tiun ĉi helpo-tekston\n"
+"\t-V --version         montri la programo-version\n"
+"\t-n --next-available  montri kiom da venontaj nerezervitaj VT\n"
+
+#: src/deallocvt.c:64
 #, c-format
 msgid "%s: unknown option\n"
 msgstr "%s: nekonata modifilo\n"
 
-#: src/deallocvt.c:54
+#: src/deallocvt.c:81
 msgid "0: illegal VT number\n"
 msgstr "0: malpermesata VT-numero\n"
 
-#: src/deallocvt.c:56
+#: src/deallocvt.c:83
 msgid "VT 1 is the console and cannot be deallocated\n"
 msgstr "VT 1 estas la konzolo kaj ne povas esti liberigata\n"
 
-#: src/deallocvt.c:58
+#: src/deallocvt.c:85
 #, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "ne eblis liberigi la konzolon %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:31
+#: src/dumpkeys.c:30
 #, c-format
 msgid "dumpkeys version %s"
 msgstr "dumpkeys versio %s"
 
-#: src/dumpkeys.c:32
+#: src/dumpkeys.c:31
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -95,7 +135,7 @@ msgstr ""
 "\t   --compose-only   montri nur kunmetajn klav-kombinojn\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:50
+#: src/dumpkeys.c:49
 #, c-format
 msgid ""
 "\t\t\t    interpret character action codes to be from the\n"
@@ -104,19 +144,19 @@ msgstr ""
 "\t\t\t    interpreti signajn ago-kodojn kvazaŭ ili estu el la\n"
 "\t\t\t    specifita signaro\n"
 
-#: src/dumpkeys.c:54
+#: src/dumpkeys.c:53
 #, c-format
 msgid ""
 "\t-v --verbose\n"
 "\t-V --version\t    print version number\n"
 msgstr ""
 
-#: src/dumpkeys.c:140
+#: src/dumpkeys.c:136
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "nekonata signaro %s - ni preteratentas peton de signaro\n"
 
-#: src/dumpkeys.c:162 src/loadkeys.c:184
+#: src/dumpkeys.c:162 src/loadkeys.c:176
 #, c-format
 msgid "%s: error reading keyboard mode: %m\n"
 msgstr "%s: eraro dum legado de la klavar-reĝimo: %m\n"
@@ -155,41 +195,31 @@ msgstr ""
 "\t-V --version         montri la programo-version\n"
 "\t-n --next-available  montri kiom da venontaj nerezervitaj VT\n"
 
-#: src/fgconsole.c:73
+#: src/fgconsole.c:71
 msgid "Couldn't read VTNO: "
 msgstr "Ne eblis legi VTNO: "
-
-#: src/getfd.c:69
-#, c-format
-msgid "Couldn't open %s\n"
-msgstr "Ne eblis malfermi %s\n"
-
-#: src/getfd.c:86
-#, c-format
-msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Ne eblis preni dosier-priskriblon rilatanta al la konzolo\n"
 
 #: src/getkeycodes.c:22
 #, c-format
 msgid "usage: getkeycodes\n"
 msgstr "uzmaniero: getkeycodes\n"
 
-#: src/getkeycodes.c:60
+#: src/getkeycodes.c:57
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr "Simplaj skankodoj xx (16-ume) kontraŭ klavkodoj (10-ume)\n"
 
-#: src/getkeycodes.c:63
+#: src/getkeycodes.c:60
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr "0 estas eraro; inter 1-88 (0x01-0x58) skankodoj egalas al klavkodoj\n"
 
-#: src/getkeycodes.c:66
+#: src/getkeycodes.c:63
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr "inter 1-%d (0x01-0x%02x) skankodoj egalas al klavkodoj\n"
 
-#: src/getkeycodes.c:72
+#: src/getkeycodes.c:69
 #, c-format
 msgid ""
 "\n"
@@ -200,7 +230,7 @@ msgstr ""
 "\n"
 "Ni preterpasis skankodojn e0 xx (16-ume)\n"
 
-#: src/getkeycodes.c:95
+#: src/getkeycodes.c:92
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr "malsukcesis preni klavkodon por skankodo 0x%x: ioctl KDGETKEYCODE"
@@ -214,96 +244,141 @@ msgstr ""
 "Uzmaniero:\n"
 "\t%s [-s] [-C konzolo]\n"
 
-#: src/kbdinfo.c:21
+#: src/kbdinfo.c:22
 #, fuzzy, c-format
 msgid ""
-"Usage: %1$s [-C DEVICE] getmode [text|graphics]\n"
-"   or: %1$s [-C DEVICE] gkbmode [raw|xlate|mediumraw|unicode]\n"
-"   or: %1$s [-C DEVICE] gkbmeta [metabit|escprefix]\n"
-"   or: %1$s [-C DEVICE] gkbled  [scrolllock|numlock|capslock]\n"
-"Other options:\n"
-"   -h                   print this usage message\n"
-"   -V                   print version number\n"
+"Usage: %1$s [options] getmode [text|graphics]\n"
+"   or: %1$s [options] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"   or: %1$s [options] gkbmeta [metabit|escprefix]\n"
+"   or: %1$s [options] gkbled  [scrolllock|numlock|capslock]\n"
+"\n"
+"The utility allows to read and check various parameters\n"
+"of the keyboard and virtual console.\n"
+"\n"
+"Options:\n"
+"  -C, --console=DEV  the console device to be used;\n"
+"  -V, --version      print version number;\n"
+"  -h, --help         print this usage message.\n"
 msgstr ""
 "Uzmaniero: %1$s [-C APARATO] getmode [text|graphics]\n"
 "   aŭ: %1$s [-C APARATO] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "   aŭ: %1$s [-C APARATO] gkbmeta [metabit|escprefix]\n"
 "   aŭ: %1$s [-C APARATO] gkbled  [scrolllock|numlock|capslock]\n"
 
-#: src/kbdinfo.c:72
+#: src/kbdinfo.c:87
 msgid "Error: Not enough arguments.\n"
 msgstr "Eraro: Ne sufiĉe da argumentoj.\n"
 
-#: src/kbdinfo.c:147
+#: src/kbdinfo.c:162
 #, c-format
 msgid "Error: Unrecognized action: %s\n"
 msgstr "Eraro: Nerekonita ago: %s\n"
 
 #: src/kbd_mode.c:24
-#, c-format
-msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
+#, fuzzy, c-format
+msgid "usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"
 msgstr "uzmaniero: kbd_mode [-a|-u|-k|-s] [-C aparato]\n"
 
-#: src/kbd_mode.c:88
+#: src/kbd_mode.c:33
 #, c-format
 msgid "The keyboard is in raw (scancode) mode\n"
 msgstr "La klavaro estas en kruda (skankoda) reĝimo\n"
 
-#: src/kbd_mode.c:91
+#: src/kbd_mode.c:36
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode\n"
 msgstr "La klavaro estas en mezkruda (klavkoda) reĝimo\n"
 
-#: src/kbd_mode.c:94
+#: src/kbd_mode.c:39
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode\n"
 msgstr "La klavaro estas en la apriora (ASCII) reĝimo\n"
 
-#: src/kbd_mode.c:97
+#: src/kbd_mode.c:42
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode\n"
 msgstr "La klavaro estas en Unikoda (UTF-8) reĝimo\n"
 
-#: src/kbd_mode.c:100
+#: src/kbd_mode.c:45
 #, c-format
 msgid "The keyboard is in some unknown mode\n"
 msgstr "La klavaro estas en iu nekonata reĝimo\n"
 
-#: src/kbdrate.c:157 src/kbdrate.c:175 src/kbdrate.c:332
+#: src/kbd_mode.c:124
+#, c-format
+msgid ""
+"Changing to the requested mode may make your keyboard unusable, please use -"
+"f to force the change.\n"
+msgstr ""
+
+#: src/kbdrate.c:139 src/kbdrate.c:204
+#, fuzzy, c-format
+msgid "Typematic Rate is %.1f cps\n"
+msgstr "Ripet-Rapido fiksita po %.1f signoj sekunde (prokrasto = %d ms)\n"
+
+#: src/kbdrate.c:140 src/kbdrate.c:205
+#, fuzzy, c-format
+msgid "Current keyboard delay %d ms\n"
+msgstr "%s: eraro dum legado de la klavar-reĝimo: %m\n"
+
+#: src/kbdrate.c:141
+#, fuzzy, c-format
+msgid "Current keyboard period %d ms\n"
+msgstr "%s: eraro dum legado de la klavar-reĝimo: %m\n"
+
+#: src/kbdrate.c:179 src/kbdrate.c:303
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr "Ripet-Rapido fiksita po %.1f signoj sekunde (prokrasto = %d ms)\n"
 
-#: src/kbdrate.c:267
-#, fuzzy, c-format
-msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-msgstr "Uzmaniero: kbdrate [-V] [-s] [-r rapido] [-d prokrasto]\n"
+#: src/kbdrate.c:248
+#, c-format
+msgid "Not supported\n"
+msgstr ""
 
-#: src/kbdrate.c:295
+#: src/kbdrate.c:269
 msgid "Cannot open /dev/port"
 msgstr "Ni ne povas malfermi /dev/port"
 
-#: src/kdfontop.c:97
+#: src/kbdrate.c:321
+#, c-format
+msgid ""
+"Usage: kbdrate [options...]\n"
+"\n"
+"The prorgam sets the keyboard repeat rate and delay in user mode.\n"
+"\n"
+"Options:\n"
+"\n"
+"  -r, --rate=NUM    set the rate in characters per second (default %.1f);\n"
+"  -d, --delay=NUM   set the amount of time the key must remain\n"
+"                    depressed before it will start to repeat (default %d);\n"
+"  -s, --silent      suppress all normal output;\n"
+"  -h, --help        display this help text;\n"
+"  -V, --version     print version number.\n"
+"\n"
+msgstr ""
+
+#: src/kdfontop.c:98
 #, c-format
 msgid "bug: getfont called with count<256\n"
 msgstr "miso: getfont vokita kun count<256\n"
 
-#: src/kdfontop.c:101
+#: src/kdfontop.c:102
 #, c-format
 msgid "bug: getfont using GIO_FONT needs buf.\n"
 msgstr "miso: getfont uzanta GIO_FONT postulas bufron.\n"
 
-#: src/kdfontop.c:158 src/kdmapop.c:152 src/xmalloc.c:18
+#: src/kdfontop.c:159 src/kdmapop.c:153 src/libcommon/xmalloc.c:17
 #, c-format
 msgid "%s: out of memory\n"
 msgstr "%s: mankas memoro\n"
 
-#: src/kdmapop.c:161
+#: src/kdmapop.c:162
 #, c-format
 msgid "strange... ct changed from %d to %d\n"
 msgstr "strange... ct ŝanĝis el %d al %d\n"
 
-#: src/kdmapop.c:187
+#: src/kdmapop.c:188
 #, c-format
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
@@ -312,168 +387,203 @@ msgstr ""
 "Ŝajnas ke tiu ĉi kerno estas pli malnova ol 1.1.92\n"
 "Neniu Unikoda map-tabelo ŝargita.\n"
 
-#: src/libkeymap/common.c:140 src/libkeymap/kmap.c:58 src/libkeymap/kmap.c:66
-#: src/libkeymap/loadkeys.c:120
+#: src/libcommon/getfd.c:70
+#, c-format
+msgid "Couldn't open %s\n"
+msgstr "Ne eblis malfermi %s\n"
+
+#: src/libcommon/getfd.c:87
+#, c-format
+msgid "Couldn't get a file descriptor referring to the console\n"
+msgstr "Ne eblis preni dosier-priskriblon rilatanta al la konzolo\n"
+
+#: src/libcommon/version.c:27
+#, c-format
+msgid "%s from %s\n"
+msgstr "%s el %s\n"
+
+#: src/libkeymap/common.c:135 src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
+#: src/libkeymap/loadkeys.c:126
 msgid "out of memory"
 msgstr "mankas memoro"
 
-#: src/libkeymap/common.c:146
+#: src/libkeymap/common.c:141
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "ne eblas ekplenigi matricon: %s"
 
-#: src/libkeymap/dump.c:86
+#: src/libkeymap/dump.c:85
 msgid "Error writing map to file"
 msgstr "Eraro dum skribo de mapo al dosiero"
 
-#: src/libkeymap/dump.c:542
+#: src/libkeymap/dump.c:543
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "neeble: ne estas meta?\n"
 
+#: src/libkeymap/kernel.c:27
+#, c-format
+msgid "table %d must be less than %d"
+msgstr ""
+
 #: src/libkeymap/kernel.c:32
+#, c-format
+msgid "index %d must be less than %d"
+msgstr ""
+
+#: src/libkeymap/kernel.c:40
 #, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
 msgstr "KDGKBENT: %s: eraro ĉe indico %d en la tabelo %d"
 
-#: src/libkeymap/kernel.c:60
+#: src/libkeymap/kernel.c:66
+#, c-format
+msgid "function index %d must be less than %d"
+msgstr ""
+
+#: src/libkeymap/kernel.c:72
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
 msgstr "KDGKBSENT: %s: ne eblas preni ŝlosilan ĉenon de funkcio"
 
-#: src/libkeymap/kernel.c:90
+#: src/libkeymap/kernel.c:102
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
 msgstr "KDGKBDIACR(UC): %s: ne eblas preni kromsignan tabelon"
 
-#: src/libkeymap/kmap.c:80 src/libkeymap/kmap.c:98
+#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:101
 #, c-format
 msgid "unable to get keymap %d"
 msgstr "ne eblas preni klavmapon %d"
 
-#: src/libkeymap/kmap.c:106
+#: src/libkeymap/kmap.c:109
 #, c-format
 msgid "unable to unset key %d for table %d"
 msgstr "ne eblas malŝalti klavon %d por tabelo %d"
 
-#: src/libkeymap/kmap.c:122
+#: src/libkeymap/kmap.c:125
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
 msgstr "lk_add_key vokita kun malĝusta klavkodo %d"
 
-#: src/libkeymap/kmap.c:129
+#: src/libkeymap/kmap.c:132
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "aldonado de la mapo %d malrespektas linion de keymaps"
 
-#: src/libkeymap/kmap.c:145
+#: src/libkeymap/kmap.c:148
 #, c-format
 msgid "unable to set key %d for table %d"
 msgstr "ne eblas ŝalti klavon %d por tabelo %d"
 
-#: src/libkeymap/kmap.c:236
+#: src/libkeymap/kmap.c:239
 msgid "impossible error in lk_add_constants"
 msgstr "malebla eraro en lk_add_constants"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:151
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "ne eblas preni simbolon per malkorekta tipo: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:165
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "ne eblas preni simbolon de tipo %d per malkorekta indico: %d"
 
-#: src/libkeymap/ksyms.c:339
+#: src/libkeymap/ksyms.c:340
 #, c-format
 msgid "assuming iso-8859-1 %s"
 msgstr "ni konsideras kiel iso-8859-1 %s"
 
-#: src/libkeymap/ksyms.c:345
+#: src/libkeymap/ksyms.c:346
 #, c-format
 msgid "assuming iso-8859-15 %s"
 msgstr "ni konsideras kiel iso-8859-15 %s"
 
-#: src/libkeymap/ksyms.c:351
+#: src/libkeymap/ksyms.c:352
 #, c-format
 msgid "assuming iso-8859-2 %s"
 msgstr "ni konsideras kiel iso-8859-2 %s"
 
-#: src/libkeymap/ksyms.c:357
+#: src/libkeymap/ksyms.c:358
 #, c-format
 msgid "assuming iso-8859-3 %s"
 msgstr "ni konsideras kiel iso-8859-3 %s"
 
-#: src/libkeymap/ksyms.c:363
+#: src/libkeymap/ksyms.c:364
 #, c-format
 msgid "assuming iso-8859-4 %s"
 msgstr "ni konsideras kiel iso-8859-4 %s"
 
-#: src/libkeymap/ksyms.c:368
+#: src/libkeymap/ksyms.c:369
 #, c-format
 msgid "unknown keysym '%s'\n"
 msgstr "nekonata klavsimbolo '%s'\n"
 
-#: src/libkeymap/loadkeys.c:28
+#: src/libkeymap/loadkeys.c:27
 #, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
 msgstr "KDSKBMODE: %s: ne eblis ŝalti al Unikoda reĝimo"
 
-#: src/libkeymap/loadkeys.c:50
+#: src/libkeymap/loadkeys.c:44
+#, fuzzy, c-format
+msgid "can not bind key %d to value %d because it is too large"
+msgstr "fiasko ligi klavon %d al valoro %d"
+
+#: src/libkeymap/loadkeys.c:56
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "Klavmapo %d: Permeso neita"
 
-#: src/libkeymap/loadkeys.c:58
+#: src/libkeymap/loadkeys.c:64
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "klavkodo %d, tabelo %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:59
+#: src/libkeymap/loadkeys.c:65
 msgid "    FAILED"
 msgstr "    FIASKO"
 
-#: src/libkeymap/loadkeys.c:62
+#: src/libkeymap/loadkeys.c:68
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "fiasko ligi klavon %d al valoro %d"
 
-#: src/libkeymap/loadkeys.c:72
+#: src/libkeymap/loadkeys.c:78
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "liberigi klavmapon %d"
 
-#: src/libkeymap/loadkeys.c:76
+#: src/libkeymap/loadkeys.c:82
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: ne eblis liberigi klavmapon %d"
 
-#: src/libkeymap/loadkeys.c:91
+#: src/libkeymap/loadkeys.c:97
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: ne eblas liberigi aŭ forviŝi klavmapon"
 
-#: src/libkeymap/loadkeys.c:101
+#: src/libkeymap/loadkeys.c:107
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: ne eblis retroiri al la originala klavar-reĝimo"
 
-#: src/libkeymap/loadkeys.c:163
+#: src/libkeymap/loadkeys.c:170
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "fiasko ligi ĉenon '%s' al funkcio %s"
 
-#: src/libkeymap/loadkeys.c:173
+#: src/libkeymap/loadkeys.c:180
 #, c-format
 msgid "failed to clear string %s"
 msgstr "fiasko forviŝi ĉenon %s"
 
-#: src/libkeymap/loadkeys.c:192
+#: src/libkeymap/loadkeys.c:198
 msgid "too many compose definitions"
 msgstr "tro da kunmetaj difinoj"
 
-#: src/libkeymap/loadkeys.c:252
+#: src/libkeymap/loadkeys.c:267
 #, c-format
 msgid ""
 "\n"
@@ -488,21 +598,21 @@ msgstr[1] ""
 "\n"
 "Ni ŝanĝis %d ŝlosilojn"
 
-#: src/libkeymap/loadkeys.c:253
+#: src/libkeymap/loadkeys.c:268
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
 msgstr[0] "Ni ŝanĝis %d ĉenon"
 msgstr[1] "Ni ŝanĝis %d ĉenojn"
 
-#: src/libkeymap/loadkeys.c:261
+#: src/libkeymap/loadkeys.c:276
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "Ni ŝargis je %d kunmeta difino"
 msgstr[1] "Ni ŝargis je %d kunmetaj difinoj"
 
-#: src/libkeymap/loadkeys.c:266
+#: src/libkeymap/loadkeys.c:281
 msgid "(No change in compose definitions)"
 msgstr "(Neniu ŝanĝo en kunmetaj difinoj)"
 
@@ -571,7 +681,7 @@ msgstr ""
 "\n"
 "Rekoneblaj modif-nomoj kaj ties kolumno-numeroj:\n"
 
-#: src/loadkeys.c:36
+#: src/loadkeys.c:33
 #, fuzzy, c-format
 msgid ""
 "loadkeys version %s\n"
@@ -615,17 +725,12 @@ msgstr ""
 "  -u --unicode       devigi konvertadon al Unikodo\n"
 "  -v --verbose       listigi la ŝanĝojn\n"
 
-#: src/loadkeys.c:161 src/version.h:22
-#, c-format
-msgid "%s from %s\n"
-msgstr "%s el %s\n"
-
-#: src/loadkeys.c:171
+#: src/loadkeys.c:163
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr "%s: Elektoj --unicode kaj --ascii estas reciproke malkunigeblaj\n"
 
-#: src/loadkeys.c:192
+#: src/loadkeys.c:184
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -634,7 +739,7 @@ msgstr ""
 "%s: averto: ŝargado je ne-Unikoda klavmapo ĉe Unikoda konzolo\n"
 "    (eble vi volas fari `kbd_mode -a'?)\n"
 
-#: src/loadkeys.c:204
+#: src/loadkeys.c:196
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -643,17 +748,17 @@ msgstr ""
 "%s: averto: ŝargado je Unikoda klavmapo al ne-Unikoda konzolo\n"
 "    (eble vi volas fari `kbd_mode -u'?)\n"
 
-#: src/loadkeys.c:222
+#: src/loadkeys.c:214
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "Ni ne povas trovi %s\n"
 
-#: src/loadkeys.c:243
+#: src/loadkeys.c:235
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "ne malfermeblas la dosiero %s\n"
 
-#: src/loadunimap.c:46
+#: src/loadunimap.c:45
 #, c-format
 msgid ""
 "Usage:\n"
@@ -662,28 +767,28 @@ msgstr ""
 "Uzmaniero:\n"
 "\t%s [-C konzolo] [-o map.orig]\n"
 
-#: src/loadunimap.c:182 src/loadunimap.c:193
+#: src/loadunimap.c:178 src/loadunimap.c:189
 #, c-format
 msgid "Bad input line: %s\n"
 msgstr "Malĝusta enig-linio: %s\n"
 
-#: src/loadunimap.c:202
+#: src/loadunimap.c:198
 #, c-format
 msgid "%s: Glyph number (0x%x) larger than font length\n"
 msgstr "%s: Signobilda numero (0x%x) pli granda ol longo de tiparo\n"
 
-#: src/loadunimap.c:208
+#: src/loadunimap.c:204
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
 msgstr "%s: Malĝusta fino de rango (0x%x)\n"
 
-#: src/loadunimap.c:238 src/psfxtable.c:180
+#: src/loadunimap.c:234 src/psfxtable.c:180
 #, c-format
 msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 msgstr ""
 "%s: Malĝusta Unikoda rango koresponda al pozicia rango de tiparo 0x%x-0x%x\n"
 
-#: src/loadunimap.c:245 src/psfxtable.c:187
+#: src/loadunimap.c:241 src/psfxtable.c:187
 #, c-format
 msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
@@ -692,22 +797,22 @@ msgstr ""
 "%s: Unikoda rango U+%x-U+%x ne longas same ol pozicia rango de fonto 0x%x-0x"
 "%x\n"
 
-#: src/loadunimap.c:264 src/psfxtable.c:208
+#: src/loadunimap.c:260 src/psfxtable.c:208
 #, c-format
 msgid "%s: trailing junk (%s) ignored\n"
 msgstr "%s: vosta rubaĵo (%s) preteratentita\n"
 
-#: src/loadunimap.c:280
+#: src/loadunimap.c:279
 #, c-format
 msgid "Loading unicode map from file %s\n"
 msgstr "Ŝargado je unikoda map el dosiero %s\n"
 
-#: src/loadunimap.c:286
+#: src/loadunimap.c:285
 #, c-format
 msgid "%s: %s: Warning: line too long\n"
 msgstr "%s: %s: Averto: linio tro longa\n"
 
-#: src/loadunimap.c:296
+#: src/loadunimap.c:295
 #, c-format
 msgid ""
 "%s: not loading empty unimap\n"
@@ -716,15 +821,15 @@ msgstr ""
 "%s: ne ŝargadas malplenan unikodmapon\n"
 "(se vi insistas: uzu modifilon -f por preterpasi)\n"
 
-#: src/loadunimap.c:318
+#: src/loadunimap.c:315
 msgid "entry"
 msgstr "enigo"
 
-#: src/loadunimap.c:318
+#: src/loadunimap.c:315
 msgid "entries"
 msgstr "enigoj"
 
-#: src/loadunimap.c:344
+#: src/loadunimap.c:342
 #, c-format
 msgid "Saved unicode map on `%s'\n"
 msgstr "Unikoda mapo konservita en '%s'\n"
@@ -734,67 +839,67 @@ msgstr "Unikoda mapo konservita en '%s'\n"
 msgid "Appended Unicode map\n"
 msgstr "Postmetita Unikoda mapo\n"
 
-#: src/mapscrn.c:71
+#: src/mapscrn.c:66
 #, fuzzy, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
 msgstr "uzmaniero: %s [-v] [-o map.orig] map-dosiero\n"
 
-#: src/mapscrn.c:138
+#: src/mapscrn.c:136
 #, c-format
 msgid "mapscrn: cannot open map file _%s_\n"
 msgstr "mapscrn: ne povas malfermi map-dosieron _%s_\n"
 
-#: src/mapscrn.c:144
+#: src/mapscrn.c:142
 #, c-format
 msgid "Cannot stat map file"
 msgstr "Ne eblas statlegi map-dosieron"
 
-#: src/mapscrn.c:149
+#: src/mapscrn.c:147
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s\n"
 msgstr "Ŝargado je duuma rekte-al-tipara ekran-mapo el dosiero %s\n"
 
-#: src/mapscrn.c:154 src/mapscrn.c:165
+#: src/mapscrn.c:152 src/mapscrn.c:163
 #, c-format
 msgid "Error reading map from file `%s'\n"
 msgstr "Eraro dum legado de mapo el dosiero '%s'\n"
 
-#: src/mapscrn.c:160
+#: src/mapscrn.c:158
 #, c-format
 msgid "Loading binary unicode screen map from file %s\n"
 msgstr "Ŝargado je duuma unikoda ekran-mapo el dosiero %s\n"
 
-#: src/mapscrn.c:172
+#: src/mapscrn.c:170
 #, c-format
 msgid "Loading symbolic screen map from file %s\n"
 msgstr "Ŝargado je simbola ekran-mapo el dosiero %s\n"
 
-#: src/mapscrn.c:176
+#: src/mapscrn.c:174
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d\n"
 msgstr "Eraro dum analizado de simbola mapo el '%s', linio %d\n"
 
-#: src/mapscrn.c:281 src/mapscrn.c:286
+#: src/mapscrn.c:279 src/mapscrn.c:284
 #, c-format
 msgid "Error writing map to file\n"
 msgstr "Eraro dum skribo de mapo al dosiero\n"
 
-#: src/mapscrn.c:290
+#: src/mapscrn.c:288
 #, c-format
 msgid "Cannot read console map\n"
 msgstr "Ne eblas legi konzolan mapon\n"
 
-#: src/mapscrn.c:296
+#: src/mapscrn.c:294
 #, c-format
 msgid "Saved screen map in `%s'\n"
 msgstr "Ekran-mapo konservita en '%s'\n"
 
-#: src/openvt.c:49
-#, c-format
+#: src/openvt.c:48
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
 "\n"
-"This utility help you to start a program on a new virtual terminal (VT).\n"
+"This utility helps you to start a program on a new virtual terminal (VT).\n"
 "\n"
 "Options:\n"
 "  -c, --console=NUM   use the given VT number;\n"
@@ -826,146 +931,146 @@ msgstr ""
 "  -h, --help          eligi mallongan help-mesaĝon.\n"
 "\n"
 
-#: src/openvt.c:141
+#: src/openvt.c:140
 msgid "Couldn't find owner of current tty!"
 msgstr "Ne povis trovi la posedanton de la aktuala tty!"
 
-#: src/openvt.c:210
+#: src/openvt.c:207
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: Malpermesata numero de vt"
 
-#: src/openvt.c:236
+#: src/openvt.c:234
 msgid "Only root can use the -u flag."
 msgstr "Nur root povas uzi la flagon -u."
 
-#: src/openvt.c:265
+#: src/openvt.c:263
 msgid "Cannot find a free vt"
 msgstr "Ne eblas trovi liberan vt"
 
-#: src/openvt.c:269
+#: src/openvt.c:267
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "Ne eblas kontroli ĉu vt %d estas libera; uzu '%s - f' por perforti."
 
-#: src/openvt.c:273
+#: src/openvt.c:271
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "vt %d estas uzata; komando ĉesigita; uzu '%s -f' por perforti."
 
-#: src/openvt.c:283
+#: src/openvt.c:281
 msgid "Unable to find command."
 msgstr "Ne eblas trovi la komandon."
 
-#: src/openvt.c:315
+#: src/openvt.c:313
 msgid "Unable to set new session"
 msgstr "Ne eblas ekigi novan seancon"
 
-#: src/openvt.c:339
+#: src/openvt.c:337
 #, c-format
 msgid "Unable to open %s"
 msgstr "Ne eblas malfermi %s"
 
-#: src/openvt.c:343
+#: src/openvt.c:341
 #, c-format
 msgid "Using VT %s"
 msgstr "Ni uzadas VT %s"
 
-#: src/openvt.c:349
+#: src/openvt.c:347
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "Ne eblas malfermi %s lege/skribe"
 
-#: src/openvt.c:360
+#: src/openvt.c:359
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "Ne povis aktivigi vt %d"
 
-#: src/openvt.c:363
+#: src/openvt.c:362
 msgid "Activation interrupted?"
 msgstr "Ĉu aktivigo interrompita?"
 
-#: src/openvt.c:403
+#: src/openvt.c:402
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "Ne eblis liberigi la konzolon %d"
 
-#: src/psffontop.c:76
+#: src/psffontop.c:75
 #, c-format
 msgid "%s: short ucs2 unicode table\n"
 msgstr "%s: mallonga unikoda tabelo ucs2\n"
 
-#: src/psffontop.c:98
+#: src/psffontop.c:97
 #, c-format
 msgid "%s: short utf8 unicode table\n"
 msgstr "%s: mallonga unikoda tabelo utf8\n"
 
-#: src/psffontop.c:101
+#: src/psffontop.c:100
 #, c-format
 msgid "%s: bad utf8\n"
 msgstr "%s: malĝusta utf8\n"
 
-#: src/psffontop.c:104
+#: src/psffontop.c:103
 #, c-format
 msgid "%s: unknown utf8 error\n"
 msgstr "%s: nekonata eraro utf8\n"
 
-#: src/psffontop.c:136
+#: src/psffontop.c:135
 #, c-format
 msgid "%s: short unicode table\n"
 msgstr "%s: mallonga unikoda tabelo\n"
 
-#: src/psffontop.c:216
+#: src/psffontop.c:215
 #, c-format
 msgid "%s: Error reading input font"
 msgstr "%s: Eraro dum legado de eniga tiparo"
 
-#: src/psffontop.c:230
+#: src/psffontop.c:229
 #, c-format
 msgid "%s: Bad call of readpsffont\n"
 msgstr "%s: Malĝusta voko al readpsffont\n"
 
-#: src/psffontop.c:245
+#: src/psffontop.c:244
 #, c-format
 msgid "%s: Unsupported psf file mode (%d)\n"
 msgstr "%s: Nesubtenata dosiera reĝimo psf (%d)\n"
 
-#: src/psffontop.c:263
+#: src/psffontop.c:262
 #, c-format
 msgid "%s: Unsupported psf version (%d)\n"
 msgstr "%s: Nesubtenata versio psf (%d)\n"
 
-#: src/psffontop.c:279
+#: src/psffontop.c:278
 #, c-format
 msgid "%s: zero input font length?\n"
 msgstr "%s: ĉu nula eniga tipar-longo?\n"
 
-#: src/psffontop.c:284
+#: src/psffontop.c:283
 #, c-format
 msgid "%s: zero input character size?\n"
 msgstr "%s: ĉu nula eniga signo-grando?\n"
 
-#: src/psffontop.c:290
+#: src/psffontop.c:289
 #, c-format
 msgid "%s: Input file: bad input length (%d)\n"
 msgstr "%s: Enig-dosiero: malĝusta eniga longo (%d)\n"
 
-#: src/psffontop.c:322
+#: src/psffontop.c:321
 #, c-format
 msgid "%s: Input file: trailing garbage\n"
 msgstr "%s: Enig-dosiero: vosta rubaĵo\n"
 
-#: src/psffontop.c:361
+#: src/psffontop.c:360
 #, c-format
 msgid "appendunicode: illegal unicode %u\n"
 msgstr "appendunicode: malpermesata unikodo %u\n"
 
-#: src/psffontop.c:455
+#: src/psffontop.c:454
 #, c-format
 msgid "Cannot write font file header"
 msgstr "Ne eblas skribi tiparan dosier-kapon"
 
-#: src/psffontop.c:480 src/setfont.c:693
+#: src/psffontop.c:479 src/setfont.c:700
 #, c-format
 msgid "Cannot write font file"
 msgstr "Ne eblas skribi tipar-dosieron"
@@ -997,7 +1102,7 @@ msgid ""
 "range\n"
 msgstr "%s: Korespone al rango de tipar-pozicioj, devus esti Unikoda rango\n"
 
-#: src/psfxtable.c:263
+#: src/psfxtable.c:260
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1006,7 +1111,7 @@ msgstr ""
 "Uzmaniero:\n"
 "\t%s en_tiparo en_tabelo el_tiparo\n"
 
-#: src/psfxtable.c:272
+#: src/psfxtable.c:269
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1015,7 +1120,7 @@ msgstr ""
 "Uzmaniero:\n"
 "\t%s en_tiparo [el_tabelo]\n"
 
-#: src/psfxtable.c:281
+#: src/psfxtable.c:278
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1024,7 +1129,7 @@ msgstr ""
 "Uzmaniero:\n"
 "\t%s en_tiparo el_tiparo\n"
 
-#: src/psfxtable.c:304
+#: src/psfxtable.c:301
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1033,52 +1138,62 @@ msgstr ""
 "Uzmaniero:\n"
 "\t%s [-i en_tiparo] [-o el_tiparo] [-it en_tabelo] [-ot el_tabelo] [-nt]\n"
 
-#: src/psfxtable.c:364
+#: src/psfxtable.c:361
 #, c-format
 msgid "%s: Bad magic number on %s\n"
 msgstr "%s: Malĝusta magi-numero en %s\n"
 
-#: src/psfxtable.c:383
+#: src/psfxtable.c:380
 #, c-format
 msgid "%s: psf file with unknown magic\n"
 msgstr "%s: dosiero psf kun nekota magi-numero\n"
 
-#: src/psfxtable.c:399
+#: src/psfxtable.c:396
 #, c-format
 msgid "%s: input font does not have an index\n"
 msgstr "%s: eniga tiparo ne havas indicon\n"
 
+#: src/resizecons.c:142
+#, fuzzy, c-format
+msgid "resizecons: invalid columns number %d\n"
+msgstr "resizecons: ne eblas trovi dosieron videomode %s\n"
+
 #: src/resizecons.c:147
+#, c-format
+msgid "resizecons: invalid rows number %d\n"
+msgstr ""
+
+#: src/resizecons.c:158
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr "resizecons: ne eblas trovi dosieron videomode %s\n"
 
-#: src/resizecons.c:164
+#: src/resizecons.c:175
 msgid "Invalid number of lines\n"
 msgstr "Malvalida nombro da linioj\n"
 
-#: src/resizecons.c:247
+#: src/resizecons.c:258
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Malnova reĝimo: %dx%d  Nova reĝimo: %dx%d\n"
 
-#: src/resizecons.c:249
+#: src/resizecons.c:260
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "Malnovaj #skanlinioj: %d  Novaj #skanlinioj: %d  Signo-alto: %d\n"
 
-#: src/resizecons.c:260
+#: src/resizecons.c:271
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: la komando '%s' malsukcesis\n"
 
-#: src/resizecons.c:343
+#: src/resizecons.c:356
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr "resizecons: ne forgesu ŝanĝi TERM (eble al con%dx%d aŭ linux-%dx%d)\n"
 
-#: src/resizecons.c:357
+#: src/resizecons.c:370
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1091,41 +1206,41 @@ msgstr ""
 "aŭ: resizecons -lines LIN, kie LIN estu unu el 25, 28, 30, 34, 36, 40, 44, "
 "50, 60\n"
 
-#: src/resizecons.c:396
+#: src/resizecons.c:409
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: ne eblas havi permesojn EN/EL.\n"
 
-#: src/screendump.c:52
+#: src/screendump.c:48
 #, c-format
 msgid "usage: screendump [n]\n"
 msgstr "uzmaniero: screendump [n]\n"
 
-#: src/screendump.c:82
+#: src/screendump.c:78
 #, c-format
 msgid "Error reading %s"
 msgstr "Eraro dum legado de %s"
 
-#: src/screendump.c:127
+#: src/screendump.c:123
 #, c-format
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr "ne eblis legi %s, kaj ne eblas uzi ioctl dump\n"
 
-#: src/screendump.c:133
+#: src/screendump.c:129
 #, c-format
 msgid "couldn't read %s\n"
 msgstr "ne eblis legi %s\n"
 
-#: src/screendump.c:142
+#: src/screendump.c:138
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgstr "Strange ... ekrano estas kaj %dx%d kaj %dx%d ??\n"
 
-#: src/screendump.c:159
+#: src/screendump.c:155
 msgid "Error writing screendump\n"
 msgstr "Eraro dum skribado de ekrankopio\n"
 
-#: src/setfont.c:78
+#: src/setfont.c:77
 #, c-format
 msgid ""
 "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
@@ -1180,12 +1295,12 @@ msgstr ""
 "    -V         Printi version kaj eliri.\n"
 "Dosieroj estas ŝargataj el la aktuala dosierujo aŭ el %s/*/.\n"
 
-#: src/setfont.c:181
+#: src/setfont.c:177
 #, c-format
 msgid "setfont: too many input files\n"
 msgstr "setfont: tro da enig-dosieroj\n"
 
-#: src/setfont.c:189
+#: src/setfont.c:185
 #, c-format
 msgid ""
 "setfont: cannot both restore from character ROM and from file. Font "
@@ -1194,122 +1309,122 @@ msgstr ""
 "setfont: ne eblas restarigi kaj el signeca ROM kaj el dosiero. Tiparo "
 "neŝanĝita.\n"
 
-#: src/setfont.c:264
+#: src/setfont.c:260
 #, c-format
 msgid "Bad character height %d\n"
 msgstr "Malĝusta signo-alto %d\n"
 
-#: src/setfont.c:268
+#: src/setfont.c:264
 #, c-format
 msgid "Bad character width %d\n"
 msgstr "Malĝusta signo-larĝo %d\n"
 
-#: src/setfont.c:293
+#: src/setfont.c:289
 #, c-format
 msgid "%s: font position 32 is nonblank\n"
 msgstr "%s: tipar-pozicio 32 estas nespaca\n"
 
-#: src/setfont.c:301
+#: src/setfont.c:297
 #, c-format
 msgid "%s: wiped it\n"
 msgstr "%s: viŝis ĝin\n"
 
-#: src/setfont.c:305
+#: src/setfont.c:301
 #, c-format
 msgid "%s: background will look funny\n"
 msgstr "%s: fono ŝajnos ridinda\n"
 
-#: src/setfont.c:315
+#: src/setfont.c:311
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s\n"
 msgstr "Ŝargado je tiparo %d-char %dx%d el dosiero %s\n"
 
-#: src/setfont.c:318
+#: src/setfont.c:314
 #, c-format
 msgid "Loading %d-char %dx%d font\n"
 msgstr "Ŝargado je tiparo %d-char %dx%d\n"
 
-#: src/setfont.c:321
+#: src/setfont.c:317
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s\n"
 msgstr "Ŝargado je tiparo %d-char %dx%d (%d) el dosiero %s\n"
 
-#: src/setfont.c:324
+#: src/setfont.c:320
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font\n"
 msgstr "Ŝargado je tiparo %d-char %dx%d (%d)\n"
 
-#: src/setfont.c:380
+#: src/setfont.c:376
 #, c-format
 msgid "%s: bug in do_loadtable\n"
 msgstr "%s: miso en do_loadtable\n"
 
-#: src/setfont.c:386
+#: src/setfont.c:382
 #, c-format
 msgid "Loading Unicode mapping table...\n"
 msgstr "Ŝargado je Unikoda mapiga tabelo...\n"
 
-#: src/setfont.c:422 src/setfont.c:510
+#: src/setfont.c:421 src/setfont.c:516
 #, c-format
 msgid "Cannot open font file %s\n"
 msgstr "Ne eblas malfermi la tipar-dosieron %s\n"
 
-#: src/setfont.c:433
+#: src/setfont.c:432
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
 msgstr "Dum ŝargado je pluraj tiparoj, ĉiuj devas esti psf - %s ne estas\n"
 
-#: src/setfont.c:443
+#: src/setfont.c:445
 #, c-format
 msgid "Read %d-char %dx%d font from file %s\n"
 msgstr "Legi tiparon %d-char %dx%d el dosiero %s\n"
 
-#: src/setfont.c:449
+#: src/setfont.c:451
 #, c-format
 msgid "When loading several fonts, all must have the same height\n"
 msgstr "Dum ŝargado je pluraj tiparoj, ĉiuj devas havi la saman alton\n"
 
-#: src/setfont.c:456
+#: src/setfont.c:458
 #, c-format
 msgid "When loading several fonts, all must have the same width\n"
 msgstr "Dum ŝargado je pluraj tiparoj, ĉiuj devas havi la saman larĝon\n"
 
-#: src/setfont.c:497
+#: src/setfont.c:503
 #, c-format
 msgid "Cannot find default font\n"
 msgstr "Ne eblas trovi aprioran tiparon\n"
 
-#: src/setfont.c:504
+#: src/setfont.c:510
 #, c-format
 msgid "Cannot find %s font\n"
 msgstr "Ne eblas trovi la tiparon %s\n"
 
-#: src/setfont.c:516
+#: src/setfont.c:522
 #, c-format
 msgid "Reading font file %s\n"
 msgstr "Legado de tipar-dosiero %s\n"
 
-#: src/setfont.c:557
+#: src/setfont.c:564
 #, c-format
 msgid "No final newline in combine file\n"
 msgstr "Neniu fina novlinio en kunmeta dosiero\n"
 
-#: src/setfont.c:563
+#: src/setfont.c:570
 #, c-format
 msgid "Too many files to combine\n"
 msgstr "Tro da dosieroj por kunmeti\n"
 
-#: src/setfont.c:587
+#: src/setfont.c:594
 #, c-format
 msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgstr "Hmm - ĉu tiparo el restorefont? Ni uzas la unuan duonon.\n"
 
-#: src/setfont.c:604
+#: src/setfont.c:611
 #, c-format
 msgid "Bad input file size\n"
 msgstr "Malĝusta grando de enig-dosiero\n"
 
-#: src/setfont.c:626
+#: src/setfont.c:633
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1318,22 +1433,22 @@ msgstr ""
 "Tiu ĉi dosiero enhavas 3 tiparojn: 8x8, 8x14 kaj 8x16. Bonvolu indiki\n"
 "uzante modifilon -8 aŭ -14 aŭ -16 je kiu el ili vi volas ŝargi.\n"
 
-#: src/setfont.c:643
+#: src/setfont.c:650
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Vi petis tipar-grandon %d, sed nur 8, 14 kaj 16 eblas ĉi tie.\n"
 
-#: src/setfont.c:689
+#: src/setfont.c:696
 #, c-format
 msgid "Found nothing to save\n"
 msgstr "Nenio trovita por konservi\n"
 
-#: src/setfont.c:698
+#: src/setfont.c:705
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr "Konservita tipar-dosiero %d-char %dx%d en %s\n"
 
-#: src/setkeycodes.c:26
+#: src/setkeycodes.c:25
 #, c-format
 msgid ""
 "usage: setkeycode scancode keycode ...\n"
@@ -1344,19 +1459,19 @@ msgstr ""
 " (kie skankodo estas xx aŭ e0xx, indikata deksesume,\n"
 "  kaj klavkodo estas indikata dekume)\n"
 
-#: src/setkeycodes.c:48
+#: src/setkeycodes.c:44
 msgid "even number of arguments expected"
 msgstr "para nombro da argumentoj atendataj"
 
-#: src/setkeycodes.c:57
+#: src/setkeycodes.c:53
 msgid "error reading scancode"
 msgstr "eraro dum legado de skankodo"
 
-#: src/setkeycodes.c:65
+#: src/setkeycodes.c:61
 msgid "code outside bounds"
 msgstr "kodo for de limoj"
 
-#: src/setkeycodes.c:74
+#: src/setkeycodes.c:70
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "malsukcesis alĝustigi skankodon %x al klavkodo %d: ioctl KDSETKEYCODE"
@@ -1431,26 +1546,26 @@ msgstr ""
 msgid "KIOCSLED unavailable?\n"
 msgstr "Ĉu KIOCSLED ne disponeblas?\n"
 
-#: src/setleds.c:208
+#: src/setleds.c:205
 msgid "Error resetting ledmode\n"
 msgstr "Eraro dum rekomencigo de 'ledmode'\n"
 
-#: src/setleds.c:216
+#: src/setleds.c:213
 #, c-format
 msgid "Current default flags:  "
 msgstr "Aktualaj aprioraj flagoj:  "
 
-#: src/setleds.c:220
+#: src/setleds.c:217
 #, c-format
 msgid "Current flags:          "
 msgstr "Aktualaj flagoj:          "
 
-#: src/setleds.c:224
+#: src/setleds.c:221
 #, c-format
 msgid "Current leds:           "
 msgstr "Aktualaj lumdiodoj:       "
 
-#: src/setleds.c:260 src/setmetamode.c:96
+#: src/setleds.c:257 src/setmetamode.c:138
 #, c-format
 msgid ""
 "unrecognized argument: _%s_\n"
@@ -1459,82 +1574,89 @@ msgstr ""
 "nerekonita argumento: _%s_\n"
 "\n"
 
-#: src/setleds.c:269
+#: src/setleds.c:266
 #, c-format
 msgid "Old default flags:    "
 msgstr "Malnovaj aprioraj flagoj: "
 
-#: src/setleds.c:271
+#: src/setleds.c:268
 #, c-format
 msgid "New default flags:    "
 msgstr "Novaj aprioraj flagoj:    "
 
-#: src/setleds.c:278
+#: src/setleds.c:275
 #, c-format
 msgid "Old flags:            "
 msgstr "Malnovaj flagoj:          "
 
-#: src/setleds.c:280
+#: src/setleds.c:277
 #, c-format
 msgid "New flags:            "
 msgstr "Novaj flagoj:             "
 
-#: src/setleds.c:293 src/setleds.c:302
+#: src/setleds.c:290 src/setleds.c:299
 #, c-format
 msgid "Old leds:             "
 msgstr "Malnovaj lumdiodoj:       "
 
-#: src/setleds.c:295 src/setleds.c:304
+#: src/setleds.c:292 src/setleds.c:301
 #, c-format
 msgid "New leds:             "
 msgstr "Novaj lumdiodoj:          "
 
-#: src/setmetamode.c:24
+#: src/setmetamode.c:25
 #, c-format
 msgid ""
-"Usage:\n"
-"\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
+"Usage: %1$s [option...] [argument]\n"
+"\n"
 "Each vt has his own copy of this bit. Use\n"
-"\tsetmetamode [arg] < /dev/ttyn\n"
+"\t%1$s [argument] < /dev/ttyn\n"
 "to change the settings of another vt.\n"
 "The setting before and after the change are reported.\n"
+"\n"
+"Arguments:\n"
+"  metabit     the keysym marked with the high bit set.\n"
+"  escprefix   specifies if pressing the meta (alt) key\n"
+"              generates an ESC (\\033) prefix followed by\n"
+"              the keysym.\n"
+"\n"
+"Options:\n"
+"\n"
+"  -C, --console=DEV   the console device to be used\n"
+"  -V, --version       print version number\n"
+"  -h, --help          display this help text\n"
+"\n"
 msgstr ""
-"Uzmaniero:\n"
-"\tsetmetamode [ metabito | meta | bito | esc-prefikso | esc | prefikso ]\n"
-"Ĉiu vt havas sian propran kopion de tiu ĉi bito. Uzu\n"
-"\tsetmetamode [arg] < /dev/ttyn\n"
-"por ŝanĝi la staton de alia vt.\n"
-"La statoj antaŭ kaj post la ŝanĝo estos montrataj.\n"
 
-#: src/setmetamode.c:40
+#: src/setmetamode.c:55
 msgid "Meta key sets high order bit\n"
 msgstr "Klavo Meta difinas alt-ordan biton\n"
 
-#: src/setmetamode.c:43
+#: src/setmetamode.c:58
 msgid "Meta key gives Esc prefix\n"
 msgstr "Klavo Meta donas prefikson Esc\n"
 
-#: src/setmetamode.c:46
+#: src/setmetamode.c:61
 msgid "Strange mode for Meta key?\n"
 msgstr "Ĉu stranga reĝimo por klavo Meta?\n"
 
-#: src/setmetamode.c:80
+#: src/setmetamode.c:122
 msgid ""
 "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
 msgstr ""
 "Eraro dum legado de aktuala stato. Eble stdin ne estas VT?: ioctl KDGKBMETA"
 
-#: src/setmetamode.c:100
+#: src/setmetamode.c:142
 #, c-format
 msgid "old state:    "
 msgstr "malnova stato: "
 
-#: src/setmetamode.c:105
+#: src/setmetamode.c:147
 #, c-format
 msgid "new state:    "
 msgstr "nova stato: "
 
-#: src/setvesablank.c:29
+#: src/setvesablank.c:27
 #, c-format
 msgid "usage: %s\n"
 msgstr "uzmaniero: %s\n"
@@ -1542,8 +1664,7 @@ msgstr "uzmaniero: %s\n"
 #: src/setvtrgb.c:44
 #, fuzzy, c-format
 msgid ""
-"Usage: %s [-h] [-V]\n"
-"       %s vga|FILE|-\n"
+"Usage: %s [options] [vga|FILE|-]\n"
 "\n"
 "If you use the FILE parameter, FILE should be exactly 3 lines of\n"
 "comma-separated decimal values for RED, GREEN, and BLUE.\n"
@@ -1553,9 +1674,10 @@ msgid ""
 "\n"
 "and then edit the values in FILE.\n"
 "\n"
-"Other options:\n"
-"   -h     print this usage message\n"
-"   -V     print version number\n"
+"Options:\n"
+"  -C, --console=DEV  the console device to be used;\n"
+"  -V, --version      print version number\n"
+"  -h, --help         print this usage message\n"
 "\n"
 msgstr ""
 "Uzmaniero: %s vga|DOSIERO|-\n"
@@ -1589,19 +1711,19 @@ msgstr "Eraro: %s: Linio %u finiĝis ne atendite.\n"
 msgid "Error: %s: Line %u is too long.\n"
 msgstr "Eraro: %s: Linio %u tro longas.\n"
 
-#: src/showconsolefont.c:38
+#: src/showconsolefont.c:37
 msgid "failed to restore original translation table\n"
 msgstr "malsukcesis restarigi originalan traduk-tabelon\n"
 
-#: src/showconsolefont.c:42
+#: src/showconsolefont.c:41
 msgid "failed to restore original unimap\n"
 msgstr "malsukcesis restarigi originalan unimapon\n"
 
-#: src/showconsolefont.c:61
+#: src/showconsolefont.c:60
 msgid "cannot change translation table\n"
 msgstr "ne eblas ŝanĝi traduk-tabelon\n"
 
-#: src/showconsolefont.c:102
+#: src/showconsolefont.c:101
 #, fuzzy, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
@@ -1625,22 +1747,22 @@ msgstr ""
 " -i       Ne presi la tipar-tabelon, nur montri\n"
 "          LINxKOLxNOMBRO kaj eliri.\n"
 
-#: src/showconsolefont.c:170
+#: src/showconsolefont.c:167
 #, c-format
 msgid "Character count: %d\n"
 msgstr "Kiom signoj: %d\n"
 
-#: src/showconsolefont.c:171
+#: src/showconsolefont.c:168
 #, c-format
 msgid "Font width     : %d\n"
 msgstr "Tipar-larĝo: %d\n"
 
-#: src/showconsolefont.c:172
+#: src/showconsolefont.c:169
 #, c-format
 msgid "Font height    : %d\n"
 msgstr "Tipar-alto : %d\n"
 
-#: src/showconsolefont.c:183
+#: src/showconsolefont.c:180
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1649,16 +1771,16 @@ msgstr ""
 "Montrado de tiparo %d-char\n"
 "\n"
 
-#: src/showkey.c:51
+#: src/showkey.c:50
 msgid "?UNKNOWN?"
 msgstr "?NEKONATA?"
 
-#: src/showkey.c:54
+#: src/showkey.c:53
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "kb-reĝimo estis %s\n"
 
-#: src/showkey.c:56
+#: src/showkey.c:55
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1667,12 +1789,12 @@ msgstr ""
 "[ se vi provas tion ĉi sub X, ĝi eble ne funkcios\n"
 "ĉar la servilo X ankaŭ legas /dev/console, nune ]\n"
 
-#: src/showkey.c:76
+#: src/showkey.c:75
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "kaptinte la signalon %d, ni forviŝadas...\n"
 
-#: src/showkey.c:92
+#: src/showkey.c:91
 #, fuzzy, c-format
 msgid ""
 "showkey version %s\n"
@@ -1727,11 +1849,11 @@ msgstr "premite"
 msgid "keycode %3d %s\n"
 msgstr "klavkodo %3d %s\n"
 
-#: src/totextmode.c:33
+#: src/totextmode.c:28
 msgid "usage: totextmode\n"
 msgstr "uzmaniero: totextmode\n"
 
-#: src/vlock/auth.c:75
+#: src/vlock/auth.c:76
 msgid ""
 "Please try again later.\n"
 "\n"
@@ -1741,26 +1863,26 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/vlock/auth.c:83
+#: src/vlock/auth.c:84
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
 msgstr "La tuta konzola montrilo estas nun entute ŝlosita de %s.\n"
 
-#: src/vlock/auth.c:86
+#: src/vlock/auth.c:87
 #, c-format
 msgid "The %s is now locked by %s.\n"
 msgstr "La %s estas nun ŝlosita de %s.\n"
 
-#: src/vlock/auth.c:89
+#: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr "Uzi Alt-funkciajn klavojn por alterni al aliaj virtualaj konsoloj."
 
-#: src/vlock/parse.c:51
+#: src/vlock/parse.c:52
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Provu '%s --help' por pli da informoj.\n"
 
-#: src/vlock/parse.c:59
+#: src/vlock/parse.c:61
 #, c-format
 msgid ""
 "%s: locks virtual consoles, saving your current session.\n"
@@ -1788,19 +1910,41 @@ msgstr ""
 msgid "unrecognized user"
 msgstr "nerekonita uzanto"
 
-#: src/vlock/vlock.c:59
+#: src/vlock/vlock.c:55
 msgid "stdin is not a tty"
 msgstr "ĉef-enigo ne estas tty"
 
-#: src/vlock/vt.c:148
+#: src/vlock/vt.c:147
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
 msgstr "Tiu ĉi tty (%s) ne estas virtuala konzolo.\n"
 
-#: src/vlock/vt.c:155
+#: src/vlock/vt.c:154
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "La tuta konzola montrilo ne povas esti ŝlosita.\n"
+
+#~ msgid "usage: chvt N\n"
+#~ msgstr "uzmaniero: chvt N\n"
+
+#, fuzzy
+#~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
+#~ msgstr "Uzmaniero: kbdrate [-V] [-s] [-r rapido] [-d prokrasto]\n"
+
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
+#~ "Each vt has his own copy of this bit. Use\n"
+#~ "\tsetmetamode [arg] < /dev/ttyn\n"
+#~ "to change the settings of another vt.\n"
+#~ "The setting before and after the change are reported.\n"
+#~ msgstr ""
+#~ "Uzmaniero:\n"
+#~ "\tsetmetamode [ metabito | meta | bito | esc-prefikso | esc | prefikso ]\n"
+#~ "Ĉiu vt havas sian propran kopion de tiu ĉi bito. Uzu\n"
+#~ "\tsetmetamode [arg] < /dev/ttyn\n"
+#~ "por ŝanĝi la staton de alia vt.\n"
+#~ "La statoj antaŭ kaj post la ŝanĝo estos montrataj.\n"
 
 #~ msgid "%s: deallocating all unused consoles failed\n"
 #~ msgstr "%s: liberigo de ĉiuj neuzataj konzoloj malsukcesis\n"
