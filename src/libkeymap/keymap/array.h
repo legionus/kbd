@@ -2,6 +2,7 @@
 #define LK_ARRAY_H
 
 #include <sys/param.h>
+#include <sys/types.h>
 
 /**
  * @brief Basic structure for array implementation.
