@@ -88,16 +88,15 @@ static void __attribute__((noreturn))
 usage(int rc)
 {
 	fprintf(stderr, _(
-	                    "showkey version %s\n\n"
-	                    "usage: showkey [options...]\n"
-	                    "\n"
-	                    "valid options are:\n"
-	                    "\n"
-	                    "	-h --help	display this help text\n"
-	                    "	-a --ascii	display the decimal/octal/hex values of the keys\n"
-	                    "	-s --scancodes	display only the raw scan-codes\n"
-	                    "	-k --keycodes	display only the interpreted keycodes (default)\n"
-	                    "	-V --version	print version number\n"),
+		"showkey version %s\n\n"
+		"usage: showkey [options...]\n"
+		"\n"
+		"Options:\n"
+		"  -a, --ascii           display the decimal/octal/hex values of the keys;\n"
+		"  -s, --scancodes       display only the raw scan-codes;\n"
+		"  -k, --keycodes        display only the interpreted keycodes (default);\n"
+		"  -h, --help            print this usage message;\n"
+		"  -V, --version         print version number.\n"),
 	        PACKAGE_VERSION);
 	exit(rc);
 }

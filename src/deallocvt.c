@@ -23,10 +23,10 @@ usage(int rc)
 {
 	fprintf(stderr, _("Usage: %s [option...] [N ...]\n"
 	                  "\n"
-	                  "Valid options are:\n"
+	                  "Options:\n"
 	                  "\n"
-	                  "  -h --help          display this help text\n"
-	                  "  -V --version       print version number\n"),
+	                  "  -h, --help            print this usage message;\n"
+	                  "  -V, --version         print version number.\n"),
 		get_progname());
 	exit(rc);
 }

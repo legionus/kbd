@@ -25,7 +25,7 @@ usage(int rc)
 	fprintf(stderr, _("Usage: %1$s [option...] [argument]\n"
 	                  "\n"
 	                  "Each vt has his own copy of this bit. Use\n"
-	                  "	%1$s [argument] < /dev/ttyn\n"
+	                  "    %1$s [argument] < /dev/ttyn\n"
 	                  "to change the settings of another vt.\n"
 	                  "The setting before and after the change are reported.\n"
 	                  "\n"
@@ -36,12 +36,10 @@ usage(int rc)
 	                  "              the keysym.\n"
 	                  "\n"
 	                  "Options:\n"
-	                  "\n"
-	                  "  -C, --console=DEV   the console device to be used\n"
-	                  "  -V, --version       print version number\n"
-	                  "  -h, --help          display this help text\n"
-	                  "\n"
-	        ), get_progname());
+	                  "  -C, --console=DEV     the console device to be used;\n"
+	                  "  -h, --help            print this usage message;\n"
+	                  "  -V, --version         print version number\n"
+	                  "\n"), get_progname());
 	exit(rc);
 }
 

@@ -30,26 +30,25 @@ static const char *const suffixes[] = { "", ".kmap", ".map", 0 };
 static void __attribute__((noreturn))
 usage(int rc)
 {
-	fprintf(stderr, _("loadkeys version %s\n"
-	                  "\n"
-	                  "Usage: %s [option...] [mapfile...]\n"
-	                  "\n"
-	                  "Valid options are:\n"
-	                  "\n"
-	                  "  -a --ascii         force conversion to ASCII\n"
-	                  "  -b --bkeymap       output a binary keymap to stdout\n"
-	                  "  -c --clearcompose  clear kernel compose table\n"
-	                  "  -C --console=file\n"
-	                  "                     the console device to be used\n"
-	                  "  -d --default       load \"%s\"\n"
-	                  "  -h --help          display this help text\n"
-	                  "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
-	                  "  -p --parse         search and parse keymap without action\n"
-	                  "  -q --quiet         suppress all normal output\n"
-	                  "  -s --clearstrings  clear kernel string table\n"
-	                  "  -u --unicode       force conversion to Unicode\n"
-	                  "  -v --verbose       report the changes\n"
-	                  "  -V --version       print version number\n"),
+	fprintf(stderr, _(
+		"loadkeys version %s\n"
+		"\n"
+		"Usage: %s [option...] [mapfile...]\n"
+		"\n"
+		"Options:\n"
+		"  -a, --ascii           force conversion to ASCII;\n"
+		"  -b, --bkeymap         output a binary keymap to stdout;\n"
+		"  -c, --clearcompose    clear kernel compose table;\n"
+		"  -C, --console=file    the console device to be used;\n"
+		"  -d, --default         load \"%s\";\n"
+		"  -m, --mktable         output a \"defkeymap.c\" to stdout;\n"
+		"  -p, --parse           search and parse keymap without action;\n"
+		"  -s, --clearstrings    clear kernel string table;\n"
+		"  -u, --unicode         force conversion to Unicode;\n"
+		"  -q, --quiet           suppress all normal output;\n"
+		"  -v, --verbose         explain what is being done;\n"
+		"  -h, --help            print this usage message;\n"
+		"  -V, --version         print version number.\n"),
 	        PACKAGE_VERSION, get_progname(), DEFMAP);
 	exit(rc);
 }

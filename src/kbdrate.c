@@ -318,20 +318,19 @@ int delay   = 250; /* Default delay */
 static void __attribute__((noreturn))
 usage(int rc)
 {
-	fprintf(stderr, _("Usage: kbdrate [options...]\n\
-\n\
-The prorgam sets the keyboard repeat rate and delay in user mode.\n\
-\n\
-Options:\n\
-\n\
-  -r, --rate=NUM    set the rate in characters per second (default %.1f);\n\
-  -d, --delay=NUM   set the amount of time the key must remain\n\
-                    depressed before it will start to repeat (default %d);\n\
-  -s, --silent      suppress all normal output;\n\
-  -h, --help        display this help text;\n\
-  -V, --version     print version number.\n\
-\n\
-"), rate, delay);
+	fprintf(stderr, _(
+		"Usage: kbdrate [options...]\n"
+		"\n"
+		"The prorgam sets the keyboard repeat rate and delay in user mode.\n"
+		"\n"
+		"Options:\n"
+		"  -r, --rate=NUM        set the rate in characters per second (default %.1f);\n"
+		"  -d, --delay=NUM       set the amount of time the key must remain\n"
+		"                        depressed before it will start to repeat (default %d);\n"
+		"  -s, --silent          suppress all normal output;\n"
+		"  -h, --help            print this usage message;\n"
+		"  -V, --version         print version number.\n"
+		"\n"), rate, delay);
 	exit(rc);
 }
 

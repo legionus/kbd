@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2019-06-26 11:57+0200\n"
+"POT-Creation-Date: 2019-07-02 17:46+0200\n"
 "PO-Revision-Date: 2016-03-04 11:20-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -25,10 +25,9 @@ msgstr ""
 msgid ""
 "Usage: %s [option...] N\n"
 "\n"
-"Valid options are:\n"
-"\n"
-"  -h --help          display this help text\n"
-"  -V --version       print version number\n"
+"Options:\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "%s versio %s\n"
 "\n"
@@ -40,18 +39,18 @@ msgstr ""
 "\t-V --version         montri la programo-version\n"
 "\t-n --next-available  montri kiom da venontaj nerezervitaj VT\n"
 
-#: src/chvt.c:61
+#: src/chvt.c:60
 #, c-format
 msgid "Argument required\n"
 msgstr ""
 
-#: src/chvt.c:66 src/clrunimap.c:29 src/deallocvt.c:70 src/dumpkeys.c:158
-#: src/fgconsole.c:67 src/getkeycodes.c:42 src/getunimap.c:70 src/kbdinfo.c:96
-#: src/kbd_mode.c:100 src/loadkeys.c:171 src/loadunimap.c:80 src/mapscrn.c:55
+#: src/chvt.c:65 src/clrunimap.c:29 src/deallocvt.c:70 src/dumpkeys.c:154
+#: src/fgconsole.c:68 src/getkeycodes.c:42 src/getunimap.c:70 src/kbdinfo.c:96
+#: src/kbd_mode.c:100 src/loadkeys.c:170 src/loadunimap.c:80 src/mapscrn.c:55
 #: src/openvt.c:256 src/resizecons.c:164 src/setfont.c:191 src/setkeycodes.c:47
-#: src/setlogcons.c:35 src/setmetamode.c:119 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:154 src/showconsolefont.c:149
-#: src/showkey.c:189 src/totextmode.c:32
+#: src/setlogcons.c:35 src/setmetamode.c:117 src/setpalette.c:36
+#: src/setvesablank.c:32 src/setvtrgb.c:154 src/showconsolefont.c:150
+#: src/showkey.c:188 src/totextmode.c:32
 msgid "Couldn't get a file descriptor referring to the console"
 msgstr "Ne eblis preni dosier-priskribilon rilatanta al la konzolo"
 
@@ -60,10 +59,10 @@ msgstr "Ne eblis preni dosier-priskribilon rilatanta al la konzolo"
 msgid ""
 "Usage: %s [option...] [N ...]\n"
 "\n"
-"Valid options are:\n"
+"Options:\n"
 "\n"
-"  -h --help          display this help text\n"
-"  -V --version       print version number\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "%s versio %s\n"
 "\n"
@@ -104,19 +103,18 @@ msgid ""
 "\n"
 "usage: dumpkeys [options...]\n"
 "\n"
-"valid options are:\n"
-"\n"
-"\t-h --help\t    display this help text\n"
-"\t-i --short-info\t    display information about keyboard driver\n"
-"\t-l -s --long-info   display above and symbols known to loadkeys\n"
-"\t-n --numeric\t    display keytable in hexadecimal notation\n"
-"\t-f --full-table\t    don't use short-hand notations, one row per keycode\n"
-"\t-1 --separate-lines one line per (modifier,keycode) pair\n"
-"\t-S --shape=\n"
-"\t-t --funcs-only\t    display only the function key strings\n"
-"\t-k --keys-only\t    display only key bindings\n"
-"\t-d --compose-only   display only compose key combinations\n"
-"\t-c --charset="
+"Options:\n"
+"  -i, --short-info      display information about keyboard driver;\n"
+"  -l, -s, --long-info   display above and symbols known to loadkeys;\n"
+"  -n, --numeric         display keytable in hexadecimal notation;\n"
+"  -f, --full-table      don't use short-hand notations, one row per "
+"keycode;\n"
+"  -1, --separate-lines  one line per (modifier,keycode) pair;\n"
+"  -S, --shape=\n"
+"  -t, --funcs-only      display only the function key strings;\n"
+"  -k, --keys-only       display only key bindings;\n"
+"  -d, --compose-only    display only compose key combinations;\n"
+"  -c, --charset="
 msgstr ""
 "\n"
 "uzmaniero: dumpkeys [modifiloj...]\n"
@@ -135,55 +133,21 @@ msgstr ""
 "\t   --compose-only   montri nur kunmetajn klav-kombinojn\n"
 "\t-c --charset="
 
-#: src/dumpkeys.c:49
-#, c-format
+#: src/dumpkeys.c:47
+#, fuzzy, c-format
 msgid ""
-"\t\t\t    interpret character action codes to be from the\n"
-"\t\t\t    specified character set\n"
+"                        interpret character action codes to be from the\n"
+"                        specified character set;\n"
 msgstr ""
 "\t\t\t    interpreti signajn ago-kodojn kvazaŭ ili estu el la\n"
 "\t\t\t    specifita signaro\n"
 
-#: src/dumpkeys.c:53
-#, c-format
+#: src/dumpkeys.c:50
+#, fuzzy, c-format
 msgid ""
-"\t-v --verbose\n"
-"\t-V --version\t    print version number\n"
-msgstr ""
-
-#: src/dumpkeys.c:136
-#, c-format
-msgid "unknown charset %s - ignoring charset request\n"
-msgstr "nekonata signaro %s - ni preteratentas peton de signaro\n"
-
-#: src/dumpkeys.c:162 src/loadkeys.c:176
-#, c-format
-msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: eraro dum legado de la klavar-reĝimo: %m\n"
-
-#: src/dumpkeys.c:178
-#, c-format
-msgid ""
-"Symbols recognized by %s:\n"
-"(numeric value, symbol)\n"
-"\n"
-msgstr ""
-"Simboloj rekonitaj de %s:\n"
-"(cifera valoro, simbolo)\n"
-"\n"
-
-#: src/fgconsole.c:21
-#, c-format
-msgid ""
-"%s version %s\n"
-"\n"
-"Usage: %s [options]\n"
-"\n"
-"Valid options are:\n"
-"\n"
-"\t-h --help            display this help text\n"
-"\t-V --version         display program version\n"
-"\t-n --next-available  display number of next unallocated VT\n"
+"  -v, --verbose         explain what is being done;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "%s versio %s\n"
 "\n"
@@ -195,7 +159,51 @@ msgstr ""
 "\t-V --version         montri la programo-version\n"
 "\t-n --next-available  montri kiom da venontaj nerezervitaj VT\n"
 
-#: src/fgconsole.c:71
+#: src/dumpkeys.c:132
+#, c-format
+msgid "unknown charset %s - ignoring charset request\n"
+msgstr "nekonata signaro %s - ni preteratentas peton de signaro\n"
+
+#: src/dumpkeys.c:158 src/loadkeys.c:175
+#, c-format
+msgid "%s: error reading keyboard mode: %m\n"
+msgstr "%s: eraro dum legado de la klavar-reĝimo: %m\n"
+
+#: src/dumpkeys.c:174
+#, c-format
+msgid ""
+"Symbols recognized by %s:\n"
+"(numeric value, symbol)\n"
+"\n"
+msgstr ""
+"Simboloj rekonitaj de %s:\n"
+"(cifera valoro, simbolo)\n"
+"\n"
+
+#: src/fgconsole.c:22
+#, fuzzy, c-format
+msgid ""
+"%s version %s\n"
+"\n"
+"Usage: %s [options]\n"
+"\n"
+"Options:\n"
+"\n"
+"  -n, --next-available  print number of next unallocated VT\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
+msgstr ""
+"%s versio %s\n"
+"\n"
+"Uzmaniero: %s [modifiloj]\n"
+"\n"
+"Validaj elektoj estas:\n"
+"\n"
+"\t-h --help            montri tiun ĉi helpo-tekston\n"
+"\t-V --version         montri la programo-version\n"
+"\t-n --next-available  montri kiom da venontaj nerezervitaj VT\n"
+
+#: src/fgconsole.c:72
 msgid "Couldn't read VTNO: "
 msgstr "Ne eblis legi VTNO: "
 
@@ -256,9 +264,9 @@ msgid ""
 "of the keyboard and virtual console.\n"
 "\n"
 "Options:\n"
-"  -C, --console=DEV  the console device to be used;\n"
-"  -V, --version      print version number;\n"
-"  -h, --help         print this usage message.\n"
+"  -C, --console=DEV     the console device to be used;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "Uzmaniero: %1$s [-C APARATO] getmode [text|graphics]\n"
 "   aŭ: %1$s [-C APARATO] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -340,7 +348,7 @@ msgstr ""
 msgid "Cannot open /dev/port"
 msgstr "Ni ne povas malfermi /dev/port"
 
-#: src/kbdrate.c:321
+#: src/kbdrate.c:322
 #, c-format
 msgid ""
 "Usage: kbdrate [options...]\n"
@@ -348,13 +356,14 @@ msgid ""
 "The prorgam sets the keyboard repeat rate and delay in user mode.\n"
 "\n"
 "Options:\n"
-"\n"
-"  -r, --rate=NUM    set the rate in characters per second (default %.1f);\n"
-"  -d, --delay=NUM   set the amount of time the key must remain\n"
-"                    depressed before it will start to repeat (default %d);\n"
-"  -s, --silent      suppress all normal output;\n"
-"  -h, --help        display this help text;\n"
-"  -V, --version     print version number.\n"
+"  -r, --rate=NUM        set the rate in characters per second (default "
+"%.1f);\n"
+"  -d, --delay=NUM       set the amount of time the key must remain\n"
+"                        depressed before it will start to repeat (default "
+"%d);\n"
+"  -s, --silent          suppress all normal output;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 "\n"
 msgstr ""
 
@@ -681,29 +690,27 @@ msgstr ""
 "\n"
 "Rekoneblaj modif-nomoj kaj ties kolumno-numeroj:\n"
 
-#: src/loadkeys.c:33
+#: src/loadkeys.c:34
 #, fuzzy, c-format
 msgid ""
 "loadkeys version %s\n"
 "\n"
 "Usage: %s [option...] [mapfile...]\n"
 "\n"
-"Valid options are:\n"
-"\n"
-"  -a --ascii         force conversion to ASCII\n"
-"  -b --bkeymap       output a binary keymap to stdout\n"
-"  -c --clearcompose  clear kernel compose table\n"
-"  -C --console=file\n"
-"                     the console device to be used\n"
-"  -d --default       load \"%s\"\n"
-"  -h --help          display this help text\n"
-"  -m --mktable       output a \"defkeymap.c\" to stdout\n"
-"  -p --parse         search and parse keymap without action\n"
-"  -q --quiet         suppress all normal output\n"
-"  -s --clearstrings  clear kernel string table\n"
-"  -u --unicode       force conversion to Unicode\n"
-"  -v --verbose       report the changes\n"
-"  -V --version       print version number\n"
+"Options:\n"
+"  -a, --ascii           force conversion to ASCII;\n"
+"  -b, --bkeymap         output a binary keymap to stdout;\n"
+"  -c, --clearcompose    clear kernel compose table;\n"
+"  -C, --console=file    the console device to be used;\n"
+"  -d, --default         load \"%s\";\n"
+"  -m, --mktable         output a \"defkeymap.c\" to stdout;\n"
+"  -p, --parse           search and parse keymap without action;\n"
+"  -s, --clearstrings    clear kernel string table;\n"
+"  -u, --unicode         force conversion to Unicode;\n"
+"  -q, --quiet           suppress all normal output;\n"
+"  -v, --verbose         explain what is being done;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "loadkeys versio %s\n"
 "\n"
@@ -725,12 +732,12 @@ msgstr ""
 "  -u --unicode       devigi konvertadon al Unikodo\n"
 "  -v --verbose       listigi la ŝanĝojn\n"
 
-#: src/loadkeys.c:163
+#: src/loadkeys.c:162
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr "%s: Elektoj --unicode kaj --ascii estas reciproke malkunigeblaj\n"
 
-#: src/loadkeys.c:184
+#: src/loadkeys.c:183
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
@@ -739,7 +746,7 @@ msgstr ""
 "%s: averto: ŝargado je ne-Unikoda klavmapo ĉe Unikoda konzolo\n"
 "    (eble vi volas fari `kbd_mode -a'?)\n"
 
-#: src/loadkeys.c:196
+#: src/loadkeys.c:195
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
@@ -748,12 +755,12 @@ msgstr ""
 "%s: averto: ŝargado je Unikoda klavmapo al ne-Unikoda konzolo\n"
 "    (eble vi volas fari `kbd_mode -u'?)\n"
 
-#: src/loadkeys.c:214
+#: src/loadkeys.c:213
 #, c-format
 msgid "Cannot find %s\n"
 msgstr "Ni ne povas trovi %s\n"
 
-#: src/loadkeys.c:235
+#: src/loadkeys.c:234
 #, c-format
 msgid "cannot open file %s\n"
 msgstr "ne malfermeblas la dosiero %s\n"
@@ -902,16 +909,16 @@ msgid ""
 "This utility helps you to start a program on a new virtual terminal (VT).\n"
 "\n"
 "Options:\n"
-"  -c, --console=NUM   use the given VT number;\n"
-"  -e, --exec          execute the command, without forking;\n"
-"  -f, --force         force opening a VT without checking;\n"
-"  -l, --login         make the command a login shell;\n"
-"  -u, --user          figure out the owner of the current VT;\n"
-"  -s, --switch        switch to the new VT;\n"
-"  -w, --wait          wait for command to complete;\n"
-"  -v, --verbose       print a message for each action;\n"
-"  -V, --version       print program version and exit;\n"
-"  -h, --help          output a brief help message.\n"
+"  -c, --console=NUM     use the given VT number;\n"
+"  -e, --exec            execute the command, without forking;\n"
+"  -f, --force           force opening a VT without checking;\n"
+"  -l, --login           make the command a login shell;\n"
+"  -u, --user            figure out the owner of the current VT;\n"
+"  -s, --switch          switch to the new VT;\n"
+"  -w, --wait            wait for command to complete;\n"
+"  -v, --verbose         explain what is being done;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 "\n"
 msgstr ""
 "Uzmaniero: %s [MODIFILOJ] -- komando\n"
@@ -1565,7 +1572,7 @@ msgstr "Aktualaj flagoj:          "
 msgid "Current leds:           "
 msgstr "Aktualaj lumdiodoj:       "
 
-#: src/setleds.c:257 src/setmetamode.c:138
+#: src/setleds.c:257 src/setmetamode.c:136
 #, c-format
 msgid ""
 "unrecognized argument: _%s_\n"
@@ -1610,7 +1617,7 @@ msgid ""
 "Usage: %1$s [option...] [argument]\n"
 "\n"
 "Each vt has his own copy of this bit. Use\n"
-"\t%1$s [argument] < /dev/ttyn\n"
+"    %1$s [argument] < /dev/ttyn\n"
 "to change the settings of another vt.\n"
 "The setting before and after the change are reported.\n"
 "\n"
@@ -1621,37 +1628,36 @@ msgid ""
 "              the keysym.\n"
 "\n"
 "Options:\n"
-"\n"
-"  -C, --console=DEV   the console device to be used\n"
-"  -V, --version       print version number\n"
-"  -h, --help          display this help text\n"
+"  -C, --console=DEV     the console device to be used;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number\n"
 "\n"
 msgstr ""
 
-#: src/setmetamode.c:55
+#: src/setmetamode.c:53
 msgid "Meta key sets high order bit\n"
 msgstr "Klavo Meta difinas alt-ordan biton\n"
 
-#: src/setmetamode.c:58
+#: src/setmetamode.c:56
 msgid "Meta key gives Esc prefix\n"
 msgstr "Klavo Meta donas prefikson Esc\n"
 
-#: src/setmetamode.c:61
+#: src/setmetamode.c:59
 msgid "Strange mode for Meta key?\n"
 msgstr "Ĉu stranga reĝimo por klavo Meta?\n"
 
-#: src/setmetamode.c:122
+#: src/setmetamode.c:120
 msgid ""
 "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
 msgstr ""
 "Eraro dum legado de aktuala stato. Eble stdin ne estas VT?: ioctl KDGKBMETA"
 
-#: src/setmetamode.c:142
+#: src/setmetamode.c:140
 #, c-format
 msgid "old state:    "
 msgstr "malnova stato: "
 
-#: src/setmetamode.c:147
+#: src/setmetamode.c:145
 #, c-format
 msgid "new state:    "
 msgstr "nova stato: "
@@ -1675,9 +1681,9 @@ msgid ""
 "and then edit the values in FILE.\n"
 "\n"
 "Options:\n"
-"  -C, --console=DEV  the console device to be used;\n"
-"  -V, --version      print version number\n"
-"  -h, --help         print this usage message\n"
+"  -C, --console=DEV     the console device to be used;\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 "\n"
 msgstr ""
 "Uzmaniero: %s vga|DOSIERO|-\n"
@@ -1730,12 +1736,12 @@ msgid ""
 "       showconsolefont [-C tty] [-v] [-i]\n"
 "(probably after loading a font with `setfont font')\n"
 "\n"
-"Valid options are:\n"
-" -V --version    Print version number and exit.\n"
-" -C tty          Device to read the font from. Default: current tty.\n"
-" -v              Be more verbose.\n"
-" -i              Don't print out the font table, just show\n"
-"                 ROWSxCOLSxCOUNT and exit.\n"
+"Options:\n"
+"  -C tty                device to read the font from. Default: current tty;\n"
+"  -v                    be more verbose;\n"
+"  -i                    don't print out the font table, just show;\n"
+"                        ROWSxCOLSxCOUNT and exit;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "uzmaniero: showconsolefont -V|--version\n"
 "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -1747,22 +1753,22 @@ msgstr ""
 " -i       Ne presi la tipar-tabelon, nur montri\n"
 "          LINxKOLxNOMBRO kaj eliri.\n"
 
-#: src/showconsolefont.c:167
+#: src/showconsolefont.c:168
 #, c-format
 msgid "Character count: %d\n"
 msgstr "Kiom signoj: %d\n"
 
-#: src/showconsolefont.c:168
+#: src/showconsolefont.c:169
 #, c-format
 msgid "Font width     : %d\n"
 msgstr "Tipar-larĝo: %d\n"
 
-#: src/showconsolefont.c:169
+#: src/showconsolefont.c:170
 #, c-format
 msgid "Font height    : %d\n"
 msgstr "Tipar-alto : %d\n"
 
-#: src/showconsolefont.c:180
+#: src/showconsolefont.c:181
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1801,13 +1807,12 @@ msgid ""
 "\n"
 "usage: showkey [options...]\n"
 "\n"
-"valid options are:\n"
-"\n"
-"\t-h --help\tdisplay this help text\n"
-"\t-a --ascii\tdisplay the decimal/octal/hex values of the keys\n"
-"\t-s --scancodes\tdisplay only the raw scan-codes\n"
-"\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n"
-"\t-V --version\tprint version number\n"
+"Options:\n"
+"  -a, --ascii           display the decimal/octal/hex values of the keys;\n"
+"  -s, --scancodes       display only the raw scan-codes;\n"
+"  -k, --keycodes        display only the interpreted keycodes (default);\n"
+"  -h, --help            print this usage message;\n"
+"  -V, --version         print version number.\n"
 msgstr ""
 "showkey, versio %s\n"
 "\n"
@@ -1820,7 +1825,7 @@ msgstr ""
 "\t-s --scancodes\tmontrigi nur la krudajn skan-kodojn\n"
 "\t-k --keycodes\tmontrigi nur la interpretitajn klavkodojn (apriore)\n"
 
-#: src/showkey.c:171
+#: src/showkey.c:170
 #, c-format
 msgid ""
 "\n"
@@ -1831,20 +1836,20 @@ msgstr ""
 "Premu iujn ajn klavojn - Ctrl-D ĉesigos tiun ĉi programon\n"
 "\n"
 
-#: src/showkey.c:239
+#: src/showkey.c:238
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
 msgstr "premu iun ajn klavon (la programo ĉesos 10s post lasta klavpremo)...\n"
 
-#: src/showkey.c:263
+#: src/showkey.c:262
 msgid "release"
 msgstr "lasite"
 
-#: src/showkey.c:263
+#: src/showkey.c:262
 msgid "press"
 msgstr "premite"
 
-#: src/showkey.c:273
+#: src/showkey.c:272
 #, c-format
 msgid "keycode %3d %s\n"
 msgstr "klavkodo %3d %s\n"

@@ -18,15 +18,16 @@ static void __attribute__((noreturn))
 usage(int rc)
 {
 	const char *progname = get_progname();
-	fprintf(stderr, _("%s version %s\n"
-	                  "\n"
-	                  "Usage: %s [options]\n"
-	                  "\n"
-	                  "Valid options are:\n"
-	                  "\n"
-	                  "	-h --help            display this help text\n"
-	                  "	-V --version         display program version\n"
-	                  "	-n --next-available  display number of next unallocated VT\n"),
+	fprintf(stderr, _(
+		"%s version %s\n"
+		"\n"
+		"Usage: %s [options]\n"
+		"\n"
+		"Options:\n"
+		"\n"
+		"  -n, --next-available  print number of next unallocated VT\n"
+		"  -h, --help            print this usage message;\n"
+		"  -V, --version         print version number.\n"),
 	        progname, PACKAGE_VERSION, progname);
 	exit(rc);
 }

@@ -28,9 +28,9 @@ usage(int code)
 	          "of the keyboard and virtual console.\n"
 	          "\n"
 	          "Options:\n"
-	          "  -C, --console=DEV  the console device to be used;\n"
-	          "  -V, --version      print version number;\n"
-	          "  -h, --help         print this usage message.\n"
+	          "  -C, --console=DEV     the console device to be used;\n"
+	          "  -h, --help            print this usage message;\n"
+	          "  -V, --version         print version number.\n"
 	         ),
 	        get_progname());
 	exit(code);

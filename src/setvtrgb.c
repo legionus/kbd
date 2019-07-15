@@ -52,9 +52,9 @@ usage(int code)
 	          "and then edit the values in FILE.\n"
 	          "\n"
 	          "Options:\n"
-	          "  -C, --console=DEV  the console device to be used;\n"
-	          "  -V, --version      print version number\n"
-	          "  -h, --help         print this usage message\n"
+	          "  -C, --console=DEV     the console device to be used;\n"
+	          "  -h, --help            print this usage message;\n"
+	          "  -V, --version         print version number.\n"
 	          "\n"),
 	        progname);
 	exit(code);
