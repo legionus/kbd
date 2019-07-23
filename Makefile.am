@@ -7,7 +7,8 @@ include $(top_srcdir)/aminclude_static.am
 AM_DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-code-coverage \
 	--enable-libkeymap \
-	--enable-optional-progs
+	--enable-optional-progs \
+	${DISTCHECK_CONFIGURE_EXTRA_FLAGS}
 
 ACLOCAL_AMFLAGS = -I m4
 

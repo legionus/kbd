@@ -1,14 +1,31 @@
-dist: xenial
+dist: bionic
 sudo: required
 language: c
-before_install:
-  - sudo apt-get update -qq
 install:
-  - sudo apt-get install autoconf automake autopoint libtool libpam0g-dev bison flex gettext check
-before_script:
-  - ./autogen.sh
+  - sudo apt-get update -qq
+  - sudo apt-get install autoconf automake autopoint libtool libpam0g-dev bison flex gettext
+  - sudo apt-get install gcc
+  - sudo apt-get install clang
+  - sudo apt-get install musl musl-dev musl-tools
+matrix:
+  include:
+    - name: "Build with gcc (dynamic)"
+      os: linux
+      env:
+         - CC="gcc"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS=""
+    - name: "Build with clang (dynamic)"
+      os: linux
+      env:
+         - CC="clang"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS=""
+    - name: "Build with musl (static)"
+      os: linux
+      env:
+         # https://gcc.gnu.org/onlinedocs/gcc/Directory-Options.html
+         #  -idirafter /usr/include/                  # Needed for Travis/Ubuntu build to pass, for linux/kd.h, etc.
+         #  -idirafter /usr/include/x86_64-linux-gnu/ # Needed for Travis/Ubuntu build to pass, for asm/types.h
+         - CC="musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--disable-libkeymap --disable-vlock"
 script:
-  - ./configure && make
-  - make check || { ! test -f tests/test-suite.log || cat tests/test-suite.log; exit 1; }
-  - sudo ./src/loadkeys ./data/keymaps/i386/qwerty/us.map
-  - make distcheck
+  - ./tests/travis-ci-run

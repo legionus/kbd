@@ -1,0 +1,96 @@
+#!/bin/bash -e
+
+cat_log()
+{
+	[ ! -f "$1" ] || cat "$1"
+	exit 1
+}
+
+travis_fold()
+{
+	local rc=0
+
+	local ts=$(date +'%s%N')
+	echo -en "travis_fold:start:$1\r"
+	echo -en "travis_time:start:ts.$1\r"
+
+	echo "$1"
+	"$1" || rc=$?
+	echo
+
+	local te=$(date +'%s%N')
+	echo -en "travis_time:end:ts.$1:start=$ts,finish=$te,duration=$((${te:-0} - ${ts:-0}))\r"
+	echo -en "travis_fold:end:$1\r"
+	echo
+
+	return $rc
+}
+
+environ()
+{
+	printenv | sort
+}
+
+autogen()
+{
+	./autogen.sh
+}
+
+configure()
+{
+	rc=0
+	./configure \
+		--datadir="$PWD/data" \
+		--enable-optional-progs \
+		--enable-libkeymap \
+		$DISTCHECK_CONFIGURE_EXTRA_FLAGS ||
+		rc=$?
+	[ $rc = 0 ] ||
+		cat_log ./config.log
+	return $rc
+}
+
+make_build()
+{
+	make V=1
+}
+
+make_check()
+{
+	rc=0
+	make check ||
+		rc=$?
+	[ "$rc" = 0 ] ||
+		cat_log ./tests/test-suite.log
+	return $rc
+}
+
+make_distcheck()
+{
+	make distcheck
+}
+
+loadkeys_00()
+{
+	sudo ./src/loadkeys ./data/keymaps/i386/qwerty/us.map
+}
+
+loadkeys_01()
+{
+	sudo ./src/loadkeys -v us
+}
+
+loadkeys_02()
+{
+	sudo ./src/loadkeys -v de-latin1-nodeadkeys
+}
+
+travis_fold environ
+travis_fold autogen
+travis_fold configure
+travis_fold make_build
+travis_fold make_check
+travis_fold make_distcheck
+travis_fold loadkeys_00
+travis_fold loadkeys_01
+travis_fold loadkeys_02
