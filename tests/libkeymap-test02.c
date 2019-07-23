@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <error.h>
 #include <errno.h>
 
 #include <keymap.h>
+#include "libcommon.h"
 
 int
-main(void)
+main(int __attribute__((unused)) argc, char **argv)
 {
+	set_progname(argv[0]);
+
 	const char *s;
 	FILE *f = NULL;
 	struct kbdfile *fp = NULL;
@@ -17,17 +19,17 @@ main(void)
 
 	kbdfile_ctx = kbdfile_context_new();
 	if (!kbdfile_ctx)
-		error(EXIT_FAILURE, 0, "Unable to create kbdfile context");
+		kbd_error(EXIT_FAILURE, 0, "Unable to create kbdfile context");
 
 	fp = kbdfile_new(kbdfile_ctx);
 	if (!fp)
-		error(EXIT_FAILURE, 0, "Unable to create kbdfile");
+		kbd_error(EXIT_FAILURE, 0, "Unable to create kbdfile");
 
 	kbdfile_set_pathname(fp, "null");
 
 	f = fopen("/dev/null", "r");
 	if (!f)
-		error(EXIT_FAILURE, 0, "Unable to open: /dev/null: %s", strerror(errno));
+		kbd_error(EXIT_FAILURE, 0, "Unable to open: /dev/null: %s", strerror(errno));
 
 	kbdfile_set_file(fp, f);
 
@@ -35,15 +37,15 @@ main(void)
 	lk_set_log_fn(ctx, NULL, NULL);
 
 	if (lk_parse_keymap(ctx, fp) != 0)
-		error(EXIT_FAILURE, 0, "Unable to parse keymap");
+		kbd_error(EXIT_FAILURE, 0, "Unable to parse keymap");
 
 	s = lk_get_charset(ctx);
 
 	if (s == NULL)
-		error(EXIT_FAILURE, 0, "Charset not found");
+		kbd_error(EXIT_FAILURE, 0, "Charset not found");
 
 	if (strcmp(s, "iso-8859-1"))
-		error(EXIT_FAILURE, 0, "Unable to parse charset");
+		kbd_error(EXIT_FAILURE, 0, "Unable to parse charset");
 
 	kbdfile_free(fp);
 	kbdfile_context_free(kbdfile_ctx);

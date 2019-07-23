@@ -7,6 +7,8 @@
 
 int main(int __attribute__((unused)) argc, char **argv)
 {
+	set_progname(argv[0]);
+
 	struct lk_ctx *ctx;
 	struct kbdfile *fp;
 	struct kbdfile_ctx *kbdfile_ctx;

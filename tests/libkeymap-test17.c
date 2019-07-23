@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <error.h>
 #include <errno.h>
 
 #include <keymap.h>
+#include "libcommon.h"
 
 int
-main(void)
+main(int __attribute__((unused)) argc, char **argv)
 {
+	set_progname(argv[0]);
+
 	const char *stringvalues[30] = {
 		/* F1 .. F20 */
 		"\033[[A", "\033[[B", "\033[[C", "\033[[D", "\033[[E",
@@ -39,7 +41,7 @@ main(void)
 		ke.kb_func                             = (unsigned char) i;
 
 		if (lk_add_func(ctx, &ke) == -1)
-			error(EXIT_FAILURE, 0, "Unable to add function");
+			kbd_error(EXIT_FAILURE, 0, "Unable to add function");
 	}
 
 	lk_free(ctx);

@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <error.h>
 #include <errno.h>
 
 #include <kbdfile.h>
+#include "libcommon.h"
 
 int
-main(void)
+main(int __attribute__((unused)) argc, char **argv)
 {
+	set_progname(argv[0]);
+
 	struct kbdfile *fp = kbdfile_new(NULL);
 	if (!fp)
-		error(EXIT_FAILURE, 0, "unable to create kbdfile");
+		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
 
 	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/**", 0 };
 	const char *const suffixes[] = { ".map", 0 };
@@ -23,10 +25,10 @@ main(void)
 	rc = kbdfile_find((char *)"i386/qwerty/test3", (char **) dirpath, (char **) suffixes, fp);
 
 	if (rc != 0)
-		error(EXIT_FAILURE, 0, "unable to find file");
+		kbd_error(EXIT_FAILURE, 0, "unable to find file");
 
 	if (strcmp(expect, kbdfile_get_pathname(fp)) != 0)
-		error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
+		kbd_error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
 
 	kbdfile_free(fp);
 

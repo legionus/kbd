@@ -4,8 +4,12 @@
 #include <keymap.h>
 #include <kbdfile.h>
 
-int main(int argc, char **argv)
+#include "libcommon.h"
+
+int main(int __attribute__((unused)) argc, char **argv)
 {
+	set_progname(argv[0]);
+
 	lk_table_shape table;
 	char numeric;
 	struct lk_ctx *ctx;
