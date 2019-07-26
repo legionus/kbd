@@ -385,7 +385,7 @@ kbdfile_find(char *fnam, char **dirpath, char **suffixes, struct kbdfile *fp)
 	int rc, i;
 
 	if (fp->fd != NULL) {
-		ERR(fp->ctx, "kbdfile already opened: %s", fp->pathname);
+		ERR(fp->ctx, "can't open `%s', because kbdfile already opened: %s", fnam, fp->pathname);
 		return -1;
 	}
 
