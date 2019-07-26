@@ -396,15 +396,11 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
 	int i;
-	struct kbdfile *fp;
 
 	if (ifilct == 1) {
 		loadnewfont(fd, ifiles[0], iunit, hwunit, no_m, no_u);
 		return;
 	}
-
-	if ((fp = kbdfile_new(NULL)) == NULL)
-		nomem();
 
 	/* several fonts that must be merged */
 	/* We just concatenate the bitmaps - only allow psf fonts */
@@ -416,6 +412,11 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 	bigwidth      = 0;
 
 	for (i = 0; i < ifilct; i++) {
+		struct kbdfile *fp;
+
+		if ((fp = kbdfile_new(NULL)) == NULL)
+			nomem();
+
 		ifil = ifiles[i];
 		if (findfont(ifil, fp) && findpartialfont(ifil, fp)) {
 			fprintf(stderr, _("Cannot open font file %s\n"), ifil);
@@ -436,14 +437,14 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 			exit(EX_DATAERR);
 		}
 
-		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
-
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
 
 		if (verbose)
 			printf(_("Read %d-char %dx%d font from file %s\n"),
 			       fontsize, width, height, kbdfile_get_pathname(fp));
+
+		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
 
 		if (bigheight == 0)
 			bigheight = height;
@@ -528,7 +529,6 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	if (readpsffont(kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf, &fontbuflth,
 	                &width, &fontsize, 0,
 	                no_u ? NULL : &uclistheads) == 0) {
-		kbdfile_free(fp);
 
 		/* we've got a psf font */
 		bytewidth = (width + 7) / 8;
@@ -536,15 +536,15 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 
 		do_loadfont(fd, fontbuf, width, height, hwunit,
 		            fontsize, kbdfile_get_pathname(fp));
+
 		if (uclistheads && !no_u)
 			do_loadtable(fd, uclistheads, fontsize);
 #if 1
 		if (!uclistheads && !no_u && def)
 			loadunicodemap(fd, "def.uni");
 #endif
-		return;
+		goto exit;
 	}
-	kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
 
 	/* instructions to combine fonts? */
 	{
@@ -574,7 +574,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 			}
 			/* recursive call */
 			loadnewfonts(fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
-			return;
+			goto exit;
 		}
 	}
 
@@ -617,6 +617,9 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	}
 	do_loadfont(fd, inbuf + offset, width, height, hwunit, fontsize,
 	            kbdfile_get_pathname(fp));
+exit:
+	kbdfile_free(fp);
+	return;
 }
 
 static int
