@@ -120,7 +120,7 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 	if (!(fp->fd)) {
 		char buf[200];
 		strerror_r(errno, buf, sizeof(buf));
-		ERR(fp->ctx, "popen: %s", buf);
+		ERR(fp->ctx, "popen: %s: %s", pipe_cmd, buf);
 		return -1;
 	}
 
@@ -153,7 +153,7 @@ maybe_pipe_open(struct kbdfile *fp)
 		char buf[200];
 		strerror_r(errno, buf, sizeof(buf));
 
-		ERR(fp->ctx, "fopen: %s", buf);
+		ERR(fp->ctx, "fopen: %s: %s", fp->pathname, buf);
 		return -1;
 	}
 
@@ -273,7 +273,7 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, char **su
 
 	if (dirents < 0) {
 		strerror_r(errno, errbuf, sizeof(errbuf));
-		ERR(fp->ctx, "scandir: %s", errbuf);
+		DBG(fp->ctx, "scandir: %s: %s", dir, errbuf);
 		rc = -1;
 		goto EndScan;
 	}
@@ -349,7 +349,7 @@ StartScan:
 
 			if (!(fp->fd)) {
 				strerror_r(errno, errbuf, sizeof(errbuf));
-				ERR(fp->ctx, "fopen: %s", errbuf);
+				ERR(fp->ctx, "fopen: %s: %s", fp->pathname, errbuf);
 				rc = -1;
 				goto EndScan;
 			}
