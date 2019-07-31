@@ -72,9 +72,9 @@ if test "$enable_code_coverage" = yes; then
 fi
 
 case "$GCC,$ac_cv_prog_cc_g" in
-	yes,yes) CFLAGS="-g $CC_O_LEVEL $FORTIFY_SOURCE" ;;
-	yes,)    CFLAGS="$CC_O_LEVEL $FORTIFY_SOURCE" ;;
-	   ,yes) CFLAGS="-g" ;;
+	yes,yes) CFLAGS="$CC_O_LEVEL $FORTIFY_SOURCE $CFLAGS" ;;
+	yes,)    CFLAGS="$CC_O_LEVEL $FORTIFY_SOURCE $CFLAGS" ;;
+	   ,yes) CFLAGS="$CFLAGS" ;;
 esac
 
 CC_CHECK_CFLAGS_APPEND([\
