@@ -433,8 +433,8 @@ kbdfile_find(char *fnam, char **dirpath, char **suffixes, struct kbdfile *fp)
 		rc = findfile_in_dir(fnam, dir, recdepth, suffixes, fp);
 		free(dir);
 
-		if (rc <= 0)
-			return rc;
+		if (!rc)
+			return 0;
 	}
 
 	return 1;
