@@ -344,20 +344,13 @@ StartScan:
 		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : ""));
 
 		if (!dc) {
-			fp->flags &= ~KBDFILE_PIPE;
-			fp->fd = fopen(fp->pathname, "r");
+			rc = maybe_pipe_open(fp);
+			goto EndScan;
+		}
 
-			if (!(fp->fd)) {
-				strerror_r(errno, errbuf, sizeof(errbuf));
-				ERR(fp->ctx, "fopen: %s: %s", fp->pathname, errbuf);
-				rc = -1;
-				goto EndScan;
-			}
-		} else {
-			if (pipe_open(dc, fp) < 0) {
-				rc = -1;
-				goto EndScan;
-			}
+		if (pipe_open(dc, fp) < 0) {
+			rc = -1;
+			goto EndScan;
 		}
 	}
 
@@ -456,4 +449,10 @@ kbdfile_open(struct kbdfile_ctx *ctx, const char *filename)
 	}
 
 	return fp;
+}
+
+int
+kbdfile_is_compressed(struct kbdfile *fp)
+{
+	return (fp->flags & KBDFILE_PIPE);
 }

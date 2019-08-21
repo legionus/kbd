@@ -45,6 +45,8 @@ int kbdfile_set_pathname(struct kbdfile *fp, const char *pathname);
 FILE *kbdfile_get_file(struct kbdfile *fp);
 int kbdfile_set_file(struct kbdfile *fp, FILE *x);
 
+int kbdfile_is_compressed(struct kbdfile *fp);
+
 #include <syslog.h>
 
 void

@@ -66,6 +66,7 @@ check_PROGRAMS = \
 	libkbdfile-test10 \
 	libkbdfile-test11 \
 	libkbdfile-test12 \
+	libkbdfile-test13 \
 	libkeymap-test01  \
 	libkeymap-test02  \
 	libkeymap-test03  \
@@ -110,6 +111,7 @@ libkbdfile_test09_SOURCES = libkbdfile-test09.c
 libkbdfile_test10_SOURCES = libkbdfile-test10.c
 libkbdfile_test11_SOURCES = libkbdfile-test11.c
 libkbdfile_test12_SOURCES = libkbdfile-test12.c
+libkbdfile_test13_SOURCES = libkbdfile-test13.c
 
 libkeymap_test01_SOURCES = libkeymap-test01.c
 libkeymap_test02_SOURCES = libkeymap-test02.c
