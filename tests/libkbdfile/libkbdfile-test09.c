@@ -11,20 +11,11 @@ main(int __attribute__((unused)) argc, char **argv)
 {
 	set_progname(argv[0]);
 
-	struct kbdfile *fp = kbdfile_new(NULL);
+	struct kbdfile *fp = kbdfile_open(NULL, DATADIR "/data/findfile/test_0/keymaps/i386/qwerty/test0.map");
 	if (!fp)
 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
 
-	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/**", 0 };
-	const char *const suffixes[] = { ".map", "", ".kmap", 0 };
-
-	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwerty/test3.map";
-
-	int rc = kbdfile_find((char *)"test3", (char **) dirpath, (char **) suffixes, fp);
-
-	if (rc != 0)
-		kbd_error(EXIT_FAILURE, 0, "unable to find file");
-
+	const char *expect = DATADIR "/data/findfile/test_0/keymaps/i386/qwerty/test0.map";
 	if (strcmp(expect, kbdfile_get_pathname(fp)) != 0)
 		kbd_error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
 

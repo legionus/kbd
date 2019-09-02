@@ -9,6 +9,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.9 -Wall -Wno-portability color-tests dist-xz])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
+AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_HEADERS(config.h)
 PKG_PROG_PKG_CONFIG
 AX_CODE_COVERAGE
@@ -168,7 +169,11 @@ AC_CONFIG_FILES([Makefile
 		src/libkbdfile/Makefile
 		src/libkeymap/Makefile
 		src/vlock/Makefile
-		tests/Makefile])
+		tests/helpers/Makefile
+		tests/libkbdfile/Makefile
+		tests/libkeymap/Makefile
+		tests/Makefile
+])
 AC_OUTPUT
 
 AC_MSG_RESULT([

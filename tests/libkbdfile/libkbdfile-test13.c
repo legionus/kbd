@@ -10,22 +10,28 @@ int
 main(int __attribute__((unused)) argc, char **argv)
 {
 	set_progname(argv[0]);
+
 	struct kbdfile *fp = kbdfile_new(NULL);
 	if (!fp)
 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
 
-	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/**", 0 };
-	const char *const suffixes[] = { ".kmap", ".map", "", 0 };
+	const char *const dirpath[]  = { "", DATADIR "/data/findfile/test_1/consolefonts/", 0 };
+	const char *const suffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
 
-	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwertz/test2.kmap";
+	const char *expect = DATADIR "/data/findfile/test_1/consolefonts/simple-1.psf.gz";
 
-	int rc = kbdfile_find((char *)"test2", (char **) dirpath, (char **) suffixes, fp);
+	int rc = 0;
+
+	rc = kbdfile_find((char *)"simple-1.psf.gz", (char **) dirpath, (char **) suffixes, fp);
 
 	if (rc != 0)
 		kbd_error(EXIT_FAILURE, 0, "unable to find file");
 
 	if (strcmp(expect, kbdfile_get_pathname(fp)) != 0)
 		kbd_error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
+
+	if (!kbdfile_is_compressed(fp))
+		kbd_error(EXIT_FAILURE, 0, "not compressed: %s\n", kbdfile_get_pathname(fp));
 
 	kbdfile_free(fp);
 
