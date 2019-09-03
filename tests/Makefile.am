@@ -1,25 +1,36 @@
 NULL =
 
 SUBDIRS = \
-	helpers \
+	helpers    \
 	libkbdfile \
-	libkeymap \
+	libkeymap  \
+	libtswrap  \
 	$(NULL)
 
 AUTOM4TE = $(SHELL) $(top_srcdir)/config/missing --run autom4te
 AUTOTEST = $(AUTOM4TE) --language=autotest
 
-KEYWORDS ?=
+CHECK_KEYWORDS ?= unittest
 
 ATCONFIG  = $(abs_builddir)/atconfig
 ATPACKAGE = $(abs_builddir)/atpackage
 TESTSUITE = $(abs_builddir)/testsuite
 
 EXTRA_DIST = \
-	data          \
-	libkbdfile.at \
-	libkeymap.at  \
-	testsuite.at  \
+	data                   \
+	e2e-clrunimap.at       \
+	e2e-getunimap.at       \
+	e2e-kbdinfo.at         \
+	e2e-kbd_mode.at        \
+	e2e-loadkeys.at        \
+	e2e-loadunimap.at      \
+	e2e-psfxtable.at       \
+	e2e-setfont.at         \
+	e2e-setvtrgb.at        \
+	e2e.at                 \
+	libkbdfile.at          \
+	libkeymap.at           \
+	testsuite.at           \
 	$(NULL)
 
 CLEANFILES = \
@@ -48,10 +59,10 @@ $(ATCONFIG): $(top_builddir)/config.status
 	$(SHELL) ./config.status tests/atconfig
 
 check-local: $(ATCONFIG) $(TESTSUITE)
-	$(SHELL) '$(TESTSUITE)' -k '$(KEYWORDS)' $(TESTSUITEFLAGS)
+	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) $(TESTSUITEFLAGS)
 
 installcheck-local: $(ATCONFIG) $(TESTSUITE)
-	$(SHELL) '$(TESTSUITE)' -k '$(KEYWORDS)' AUTOTEST_PATH='$(bindir)' $(TESTSUITEFLAGS)
+	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) AUTOTEST_PATH='$(bindir)' $(TESTSUITEFLAGS)
 
 $(TESTSUITE): $(ATPACKAGE) $(ATCONFIG)
 	$(AUTOTEST) -I '$(srcdir)' -o - testsuite.at > $@

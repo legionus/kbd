@@ -172,6 +172,7 @@ AC_CONFIG_FILES([Makefile
 		tests/helpers/Makefile
 		tests/libkbdfile/Makefile
 		tests/libkeymap/Makefile
+		tests/libtswrap/Makefile
 		tests/Makefile
 ])
 AC_OUTPUT

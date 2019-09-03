@@ -1,0 +1,42 @@
+AT_SETUP([kbd_mode (UTF-8 -> ASCII)])
+AT_KEYWORDS([e2e kbd_mode])
+${SUDO-} kbd_mode -u;
+E2E_CHECK(["$abs_top_builddir/src/kbd_mode" -a -C /dev/tty0], [${SUDO-} kbd_mode -a])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbd_mode-test01.calls])
+AT_CLEANUP
+
+AT_SETUP([kbd_mode (UTF-8 -> scancode)])
+AT_KEYWORDS([e2e kbd_mode])
+${SUDO-} kbd_mode -u;
+E2E_CHECK(["$abs_top_builddir/src/kbd_mode" -s -C /dev/tty0], [${SUDO-} kbd_mode -a])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbd_mode-test02.calls])
+AT_CLEANUP
+
+AT_SETUP([kbd_mode (scancode -> ASCII) without force])
+AT_KEYWORDS([e2e kbd_mode])
+${SUDO-} kbd_mode -s;
+E2E_CHECK_FAIL(["$abs_top_builddir/src/kbd_mode" -a -C /dev/tty0], [1], [${SUDO-} kbd_mode -a])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbd_mode-test03.calls])
+E2E_COMPARE_STDERR([cat $abs_srcdir/data/e2e/kbd_mode-test03.stderr])
+AT_CLEANUP
+
+AT_SETUP([kbd_mode (scancode -> ASCII) with force])
+AT_KEYWORDS([e2e kbd_mode])
+${SUDO-} kbd_mode -s;
+E2E_CHECK(["$abs_top_builddir/src/kbd_mode" -a -f -C /dev/tty0], [${SUDO-} kbd_mode -a])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbd_mode-test04.calls])
+AT_CLEANUP
+
+AT_SETUP([kbd_mode (scancode -> keycode)])
+AT_KEYWORDS([e2e kbd_mode])
+${SUDO-} kbd_mode -s;
+E2E_CHECK(["$abs_top_builddir/src/kbd_mode" -k -C /dev/tty0], [${SUDO-} kbd_mode -a])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbd_mode-test05.calls])
+AT_CLEANUP
+
+AT_SETUP([kbd_mode (ASCII -> UTF-8)])
+AT_KEYWORDS([e2e kbd_mode])
+${SUDO-} kbd_mode -a;
+E2E_CHECK(["$abs_top_builddir/src/kbd_mode" -u -C /dev/tty0], [${SUDO-} kbd_mode -a])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbd_mode-test06.calls])
+AT_CLEANUP

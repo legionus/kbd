@@ -1,0 +1,14 @@
+AT_SETUP([getunimap (empty unimap)])
+AT_KEYWORDS([e2e getunimap])
+${SUDO-} clrunimap
+E2E_CHECK(["$abs_top_builddir/src/getunimap" -C /dev/tty0])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/getunimap-test01.calls])
+AT_CLEANUP
+
+AT_SETUP([getunimap (cp866)])
+AT_KEYWORDS([e2e getunimap])
+${SUDO-} clrunimap
+${SUDO-} loadunimap -C /dev/tty0 "$abs_top_srcdir/data/unimaps/cp866.uni"
+E2E_CHECK(["$abs_top_builddir/src/getunimap" -C /dev/tty0])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/getunimap-test02.calls], [${SUDO-} clrunimap], [${SUDO-} clrunimap])
+AT_CLEANUP

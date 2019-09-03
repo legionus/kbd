@@ -1,0 +1,11 @@
+AT_SETUP([setvtrgbt (vga)])
+AT_KEYWORDS([e2e setvtrgb])
+E2E_CHECK(["$abs_top_builddir/src/setvtrgb" -C /dev/tty0 vga])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/setvtrgb-test01.calls])
+AT_CLEANUP
+
+AT_SETUP([setvtrgbt (vtrgb.ubuntu)])
+AT_KEYWORDS([e2e setvtrgb])
+E2E_CHECK(["$abs_top_builddir/src/setvtrgb" -C /dev/tty0 "$abs_top_srcdir/contrib/vtrgb.ubuntu"])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/setvtrgb-test02.calls])
+AT_CLEANUP

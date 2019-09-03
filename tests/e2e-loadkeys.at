@@ -1,0 +1,70 @@
+AT_SETUP([loadkeys (path/ruwin_cplk-UTF-8.map)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 "$abs_top_srcdir/data/keymaps/i386/qwerty/ruwin_cplk-UTF-8.map"], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test01.calls])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (path/pt-latin9.map)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 "$abs_top_srcdir/data/keymaps/i386/qwerty/pt-latin9.map"], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test02.calls])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (us)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v us], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test03.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test03.stderr"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (qwerty/ru2)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v qwerty/ru2], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test04.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test04.stderr"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (qwerty/ru3.map)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v qwerty/ru3.map], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test05.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test05.stderr"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (i386/qwerty/ru4)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v i386/qwerty/ru4], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test06.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test06.stderr"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (cz)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v cz], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test07.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test07.stderr"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (qwerty/cz)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v qwerty/cz], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test07.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test07.stderr"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (qwertz/cz)])
+AT_KEYWORDS([e2e loadkeys])
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v qwertz/cz], [${SUDO-} loadkeys us])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/loadkeys-test08.calls])
+E2E_COMPARE_STDERR([sed -e "s@ /lib/kbd/@ $abs_top_srcdir/data/@" "$abs_srcdir/data/e2e/loadkeys-test08.stderr"])
+AT_CLEANUP
+

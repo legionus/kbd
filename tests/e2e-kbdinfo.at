@@ -1,0 +1,27 @@
+AT_SETUP([kbdinfo (getmode)])
+AT_KEYWORDS([e2e kbdinfo])
+E2E_CHECK(["$abs_top_builddir/src/kbdinfo" getmode -C /dev/tty0])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbdinfo-test01.calls])
+E2E_COMPARE_STDOUT([cat $abs_srcdir/data/e2e/kbdinfo-test01.stdout])
+AT_CLEANUP
+
+AT_SETUP([kbdinfo (gkbmode)])
+AT_KEYWORDS([e2e kbdinfo])
+E2E_CHECK(["$abs_top_builddir/src/kbdinfo" gkbmode -C /dev/tty0])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbdinfo-test02.calls])
+E2E_COMPARE_STDOUT([cat $abs_srcdir/data/e2e/kbdinfo-test02.stdout])
+AT_CLEANUP
+
+AT_SETUP([kbdinfo (gkbmeta)])
+AT_KEYWORDS([e2e kbdinfo])
+E2E_CHECK(["$abs_top_builddir/src/kbdinfo" gkbmeta -C /dev/tty0])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbdinfo-test03.calls])
+E2E_COMPARE_STDOUT([cat $abs_srcdir/data/e2e/kbdinfo-test03.stdout])
+AT_CLEANUP
+
+AT_SETUP([kbdinfo (gkbled)])
+AT_KEYWORDS([e2e kbdinfo])
+E2E_CHECK(["$abs_top_builddir/src/kbdinfo" gkbled -C /dev/tty0])
+E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/kbdinfo-test04.calls])
+E2E_COMPARE_STDOUT([cat $abs_srcdir/data/e2e/kbdinfo-test04.stdout])
+AT_CLEANUP

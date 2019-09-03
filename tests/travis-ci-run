@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+export SUDO='sudo'
+
 cat_log()
 {
 	[ ! -f "$1" ] || cat "$1"
@@ -58,31 +60,19 @@ make_build()
 make_check()
 {
 	rc=0
-	make check ||
+	make check \
+		CHECK_KEYWORDS="$TRAVIS_CHECK_KEYWORDS" \
+		TESTSUITEFLAGS='--color=never' ||
 		rc=$?
 	[ "$rc" = 0 ] ||
-		cat_log ./tests/test-suite.log
+		cat_log ./tests/testsuite.log
 	return $rc
 }
 
 make_distcheck()
 {
-	make distcheck
-}
-
-loadkeys_00()
-{
-	sudo ./src/loadkeys ./data/keymaps/i386/qwerty/us.map
-}
-
-loadkeys_01()
-{
-	sudo ./src/loadkeys -v us
-}
-
-loadkeys_02()
-{
-	sudo ./src/loadkeys -v de-latin1-nodeadkeys
+	make distcheck \
+		TESTSUITEFLAGS='--color=never'
 }
 
 travis_fold environ
@@ -91,6 +81,3 @@ travis_fold configure
 travis_fold make_build
 travis_fold make_check
 travis_fold make_distcheck
-travis_fold loadkeys_00
-travis_fold loadkeys_01
-travis_fold loadkeys_02
