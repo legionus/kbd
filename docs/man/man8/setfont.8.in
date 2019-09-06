@@ -183,6 +183,13 @@ One may add a Unicode mapping table to a psf font using
 .BI "\-h " H
 Override font height.
 .TP
+.B \-d
+Doubles the size of the font, by replicating all of its pixels
+vertically and horizontally.  This is suitable for high pixel density
+(e.g. "4k") displays on which the standard fonts are too small to be
+easily legible.  Due to kernel limitations, this is suitable only for
+16x16 or smaller fonts.
+.TP
 .BI "\-m " file
 Load console map or Unicode console map from
 .IR file .

@@ -47,9 +47,10 @@ extern void loadnewmap(int fd, char *mfil);
 extern void activatemap(int fd);
 extern void disactivatemap(int fd);
 
-int verbose = 0;
-int force   = 0;
-int debug   = 0;
+int verbose     = 0;
+int force       = 0;
+int debug       = 0;
+int double_size = 0;
 
 /* search for the font in these directories (with trailing /) */
 const char *const fontdirpath[]  = { "", DATADIR "/" FONTDIR "/", 0 };
@@ -89,6 +90,7 @@ usage(void)
 	                    "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
 	                    "will be loaded and, in the case of consolemaps, activated.\n"
 	                    "    -h<N>      (no space) Override font height.\n"
+	                    "    -d         Double size of font horizontally and vertically.\n"
 	                    "    -m <fn>    Load console screen map.\n"
 	                    "    -u <fn>    Load font unicode map.\n"
 	                    "    -m none    Suppress loading and activation of a screen map.\n"
@@ -168,6 +170,8 @@ int main(int argc, char *argv[])
 			hwunit = atoi(argv[i] + 2);
 			if (hwunit <= 0 || hwunit > 32)
 				usage();
+		} else if (!strcmp(argv[i], "-d")) {
+			double_size = 1;
 		} else if (argv[i][0] == '-') {
 			iunit = atoi(argv[i] + 1);
 			if (iunit <= 0 || iunit > 32)
@@ -251,9 +255,7 @@ do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 {
 	unsigned char *buf;
 	int i, buflen;
-	int bytewidth            = (width + 7) / 8;
-	int charsize             = height * bytewidth;
-	int kcharsize            = 32 * bytewidth;
+	int kcharsize;
 	int bad_video_erase_char = 0;
 
 	if (height < 1 || height > 32) {
@@ -268,12 +270,53 @@ do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
 	if (!hwunit)
 		hwunit = height;
 
-	buflen = kcharsize * ((fontsize < 128) ? 128 : fontsize);
-	buf    = xmalloc(buflen);
-	memset(buf, 0, buflen);
+	if (double_size && (height > 16 || width > 16)) {
+		fprintf(stderr, _("Cannot double %dx%d font (limit is 16x16)"),
+		        width, height);
+		double_size = 0;
+	}
 
-	for (i = 0; i < fontsize; i++)
-		memcpy(buf + (i * kcharsize), inbuf + (i * charsize), charsize);
+	if (double_size) {
+		int bytewidth  = (width + 7) / 8;
+		int kbytewidth = (2 * width + 7) / 8;
+		int charsize   = height * bytewidth;
+		kcharsize      = 32 * kbytewidth;
+		buflen         = kcharsize * ((fontsize < 128) ? 128 : fontsize);
+		buf            = xmalloc(buflen);
+		memset(buf, 0, buflen);
+
+		const unsigned char *src = (unsigned char *)inbuf;
+		for (i = 0; i < fontsize; i++) {
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < kbytewidth; x++) {
+					unsigned char b = src[i * charsize + y * bytewidth + x / 2];
+					if (!(x & 1))
+						b >>= 4;
+
+					unsigned char b2 = 0;
+					for (int j = 0; j < 4; j++)
+						if (b & (1 << j))
+							b2 |= 3 << (j * 2);
+					buf[i * kcharsize + (y * 2) * kbytewidth + x]       = b2;
+					buf[i * kcharsize + ((y * 2) + 1) * kbytewidth + x] = b2;
+				}
+			}
+		}
+
+		width *= 2;
+		height *= 2;
+		hwunit *= 2;
+	} else {
+		int bytewidth = (width + 7) / 8;
+		int charsize  = height * bytewidth;
+		kcharsize     = 32 * bytewidth;
+		buflen        = kcharsize * ((fontsize < 128) ? 128 : fontsize);
+		buf           = xmalloc(buflen);
+		memset(buf, 0, buflen);
+
+		for (i = 0; i < fontsize; i++)
+			memcpy(buf + (i * kcharsize), inbuf + (i * charsize), charsize);
+	}
 
 	/*
 	 * Due to a kernel bug, font position 32 is used
