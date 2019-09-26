@@ -72,9 +72,14 @@ int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd)
 			continue;
 
 		for (j = 0; j < NR_KEYS / 2; j++) {
-			int v = lk_get_key(ctx, i, j);
+			int value = lk_get_key(ctx, i, j);
 
-			if (fwrite(&v, sizeof(v), 1, fd) != 1)
+			if (value < 0 || value > USHRT_MAX) {
+				ERR(ctx, _("can not bind key %d to value %d because it is too large"), j, value);
+				goto fail;
+			}
+
+			if (fwrite(&value, sizeof(unsigned short), 1, fd) != 1)
 				goto fail;
 		}
 	}

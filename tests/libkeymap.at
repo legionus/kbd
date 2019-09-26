@@ -102,7 +102,7 @@ AT_CLEANUP
 AT_SETUP([test 20 (bkeymap)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
-	"$abs_srcdir/data/dumpkeys-bkeymap/bkeymap.bin" \
+	"$abs_srcdir/data/bkeymap-2.0.4/defkeymap.map.bin" \
 	expout
 AT_CHECK([$abs_builddir/helpers/libkeymap-bkeymap $abs_srcdir/../data/keymaps/i386/qwerty/defkeymap.map],
 	[0], [expout])
@@ -143,5 +143,32 @@ sed -n \
 AT_CHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dumpkeys-fulltable/ua-ws.map SEPARATE_LINES FALSE |
 	grep '^keymaps '
 ],
+	[0], [expout])
+AT_CLEANUP
+
+AT_SETUP([binary keymap (us.map)])
+AT_KEYWORDS([libkeymap unittest])
+cp -f -- \
+	"$abs_srcdir/data/bkeymap-2.0.4/us.map.bin" \
+	expout
+AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_top_srcdir/data/keymaps/i386/qwerty/us.map"],
+	[0], [expout])
+AT_CLEANUP
+
+AT_SETUP([binary keymap (pt-latin9.map)])
+AT_KEYWORDS([libkeymap unittest])
+cp -f -- \
+	"$abs_srcdir/data/bkeymap-2.0.4/pt-latin9.map.bin" \
+	expout
+AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_top_srcdir/data/keymaps/i386/qwerty/pt-latin9.map"],
+	[0], [expout])
+AT_CLEANUP
+
+AT_SETUP([binary keymap (cz.map)])
+AT_KEYWORDS([libkeymap unittest])
+cp -f -- \
+	"$abs_srcdir/data/bkeymap-2.0.4/cz.map.bin" \
+	expout
+AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_top_srcdir/data/keymaps/i386/qwerty/cz.map"],
 	[0], [expout])
 AT_CLEANUP
