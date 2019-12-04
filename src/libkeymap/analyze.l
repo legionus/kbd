@@ -463,7 +463,7 @@ To                      to|To|TO
 
 					strerror_r(errno, buf, sizeof(buf));
 
-					ERR(yyextra, buf);
+					ERR(yyextra, "%s", buf);
 					return(ERROR);
 				}
 
