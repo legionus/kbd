@@ -58,9 +58,6 @@ int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
 {
 	int i;
 
-	if (!ctx)
-		return -1;
-
 	res->flags     = ctx->flags;
 	res->keywords  = ctx->keywords;
 	res->keymaps   = ctx->keymap->count;
