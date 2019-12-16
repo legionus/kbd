@@ -53,11 +53,29 @@ int debug       = 0;
 int double_size = 0;
 
 /* search for the font in these directories (with trailing /) */
-const char *const fontdirpath[]  = { "", DATADIR "/" FONTDIR "/", 0 };
-const char *const fontsuffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
+char *fontdirpath[]  = {
+	(char *) "",
+	(char *) DATADIR "/" FONTDIR "/",
+	NULL
+};
+char *fontsuffixes[] = {
+	(char *) "",
+	(char *) ".psfu",
+	(char *) ".psf",
+	(char *) ".cp",
+	(char *) ".fnt",
+	NULL
+};
 /* hide partial fonts a bit - loading a single one is a bad idea */
-const char *const partfontdirpath[]  = { "", DATADIR "/" FONTDIR "/" PARTIALDIR "/", 0 };
-const char *const partfontsuffixes[] = { "", 0 };
+char *partfontdirpath[]  = {
+	(char *) "",
+	(char *) DATADIR "/" FONTDIR "/" PARTIALDIR "/",
+	NULL
+};
+char *partfontsuffixes[] = {
+	(char *) "",
+	NULL
+};
 
 static inline int
 findfont(char *fnam, struct kbdfile *fp)
@@ -209,7 +227,7 @@ int main(int argc, char *argv[])
 	if (!ifilct && !mfil && !ufil &&
 	    !Ofil && !ofil && !omfil && !oufil && !restore)
 		/* reset to some default */
-		ifiles[ifilct++] = "";
+		ifiles[ifilct++] = (char *) "";
 
 	if (Ofil)
 		saveoldfontplusunicodemap(fd, Ofil);
@@ -540,17 +558,17 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		if (iunit < 0 || iunit > 32)
 			iunit = 0;
 		if (iunit == 0) {
-			if (findfont(ifil = "default", fp) &&
-			    findfont(ifil = "default8x16", fp) &&
-			    findfont(ifil = "default8x14", fp) &&
-			    findfont(ifil = "default8x8", fp)) {
+			if (findfont(ifil = (char *) "default", fp) &&
+			    findfont(ifil = (char *) "default8x16", fp) &&
+			    findfont(ifil = (char *) "default8x14", fp) &&
+			    findfont(ifil = (char *) "default8x8", fp)) {
 				fprintf(stderr, _("Cannot find default font\n"));
 				exit(EX_NOINPUT);
 			}
 		} else {
 			sprintf(defname, "default8x%d", iunit);
 			if (findfont(ifil = defname, fp) &&
-			    findfont(ifil = "default", fp)) {
+			    findfont(ifil = (char *) "default", fp)) {
 				fprintf(stderr, _("Cannot find %s font\n"), ifil);
 				exit(EX_NOINPUT);
 			}
@@ -591,8 +609,8 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 
 	/* instructions to combine fonts? */
 	{
-		char *combineheader = "# combine partial fonts\n";
-		int chlth           = strlen(combineheader);
+		char *combineheader = (char *) "# combine partial fonts\n";
+		size_t chlth = strlen(combineheader);
 		char *p, *q;
 		if (inputlth >= chlth && !strncmp(inbuf, combineheader, chlth)) {
 			char *ifiles[MAXIFILES];

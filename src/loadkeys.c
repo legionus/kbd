@@ -24,8 +24,18 @@
 #include "paths.h"
 #include "keymap.h"
 
-static const char *const dirpath1[] = { "", DATADIR "/" KEYMAPDIR "/**", KERNDIR "/", 0 };
-static const char *const suffixes[] = { "", ".kmap", ".map", 0 };
+static char *dirpath1[] = {
+	(char *) "",
+	(char *) DATADIR "/" KEYMAPDIR "/**",
+	(char *) KERNDIR "/",
+	NULL
+};
+static char *suffixes[] = {
+	(char *) "",
+	(char *) ".kmap",
+	(char *) ".map",
+	NULL
+};
 
 static void __attribute__((noreturn))
 usage(int rc)
@@ -83,8 +93,8 @@ int main(int argc, char *argv[])
 	};
 	int options = 0;
 
-	const char *const *dirpath;
-	const char *dirpath2[] = { 0, 0 };
+	char **dirpath;
+	char *dirpath2[] = { NULL, NULL };
 
 	struct lk_ctx *ctx;
 	lk_flags flags = 0;

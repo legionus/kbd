@@ -28,8 +28,18 @@ void loadnewmap(int fd, char *mfil);
 static int ctoi(char *);
 
 /* search for the map file in these directories (with trailing /) */
-static const char *const mapdirpath[]  = { "", DATADIR "/" TRANSDIR "/", 0 };
-static const char *const mapsuffixes[] = { "", ".trans", "_to_uni.trans", ".acm", 0 };
+static char *mapdirpath[]  = {
+	(char *) "",
+	(char *) DATADIR "/" TRANSDIR "/",
+	NULL
+};
+static char *mapsuffixes[] = {
+	(char *) "",
+	(char *) ".trans",
+	(char *) "_to_uni.trans",
+	(char *) ".acm",
+	NULL
+};
 
 #ifdef MAIN
 int verbose = 0;

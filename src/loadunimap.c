@@ -30,8 +30,17 @@
 extern char *progname;
 extern int force;
 
-static const char *const unidirpath[]  = { "", DATADIR "/" UNIMAPDIR "/", 0 };
-static const char *const unisuffixes[] = { "", ".uni", ".sfm", 0 };
+static char *unidirpath[]  = {
+	(char *) "",
+	(char *) DATADIR "/" UNIMAPDIR "/",
+	NULL
+};
+static char *unisuffixes[] = {
+	(char *) "",
+	(char *) ".uni",
+	(char *) ".sfm",
+	NULL
+};
 
 #ifdef MAIN
 int verbose = 0;
