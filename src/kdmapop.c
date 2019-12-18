@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
@@ -88,9 +89,17 @@ int getuniscrnmap(int fd, unsigned short *map)
 	return 0;
 }
 
-int loaduniscrnmap(int fd, unsigned short *map)
+int
+loaduniscrnmap(int fd, unsigned short *map)
 {
-	if (ioctl(fd, PIO_UNISCRNMAP, map)) {
+	unsigned short inbuf[E_TABSZ];
+
+	/*
+	 * PIO_UNISCRNMAP uses an array of size E_TABSZ as an argument.
+	 */
+	memcpy(inbuf, map, sizeof(inbuf));
+
+	if (ioctl(fd, PIO_UNISCRNMAP, inbuf)) {
 		perror("PIO_UNISCRNMAP");
 		return -1;
 	}
