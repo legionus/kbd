@@ -90,5 +90,5 @@ LDADD = \
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \
 		rm -f $(DESTDIR)$(bindir)/$$i; \
-		ln -s psfxtable $(DESTDIR)$(bindir)/$$i || exit $$?; \
+		$(LN_S) psfxtable $(DESTDIR)$(bindir)/$$i || exit $$?; \
 	done

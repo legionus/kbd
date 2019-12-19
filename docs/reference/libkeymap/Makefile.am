@@ -7,7 +7,7 @@ htmldir = $(docdir)/html
 html_DATA = html/*
 
 $(abs_builddir)/Doxyfile: $(abs_srcdir)/Doxyfile.in
-	sed \
+	$(SED) \
 		-e 's,[@]VERSION[@],$(VERSION),g' \
 		-e 's,[@]MODULE[@],$(DOC_MODULE),g' \
 		-e 's,[@]TOPDIR[@],$(abs_top_srcdir),g' \

@@ -98,7 +98,7 @@ syms.%.h:
 	$(V_GEN_SYMS)$(GEN_SYMS) -n $*_syms -s $(call charset_start,$*) <$(call charset_trans,$*) >$(builddir)/$@
 
 %.pc: %.pc.in Makefile
-	sed \
+	$(SED) \
 	    -e 's,[@]VERSION[@],$(VERSION),g' \
 	    -e 's,[@]prefix[@],$(prefix),g' \
 	    -e 's,[@]exec_prefix[@],$(exec_prefix),g' \

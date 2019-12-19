@@ -34,7 +34,7 @@ install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 		install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
 		install -m 644 $(KEYMAPDIR)_Z/$$i/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
 	done
-	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc; ln -s mac $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
+	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc; $(LN_S) mac $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
 	@if [ -f $(DESTDIR)$(datadir)/$(OLDKEYMAPDIR) ]; then \
 	  echo "Done. You may want to remove old keymaps with" ; \
 	  echo "  rm -rf $(DESTDIR)$(datadir)/$(OLDKEYMAPDIR)" ; \
