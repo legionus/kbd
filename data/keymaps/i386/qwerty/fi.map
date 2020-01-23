@@ -1,6 +1,6 @@
 # fi.map: Classic Finnish keymap with ISO-8859-1/ISO-8859-15 symbols
 # Changes by Johan Myréen <jem@iki.fi> 1997
-# Changes by Marko Myllynen <myllynen@redhat.com> 2001, 2002, 2014
+# Changes by Marko Myllynen <myllynen@redhat.com> 2001, 2002, 2014, 2020
 
 keymaps 0-6,8-10,12-14
 alt_is_meta
@@ -33,7 +33,7 @@ include "qwerty-layout"
 	altgr keycode  46 = copyright
 	altgr shift keycode  46 = cent
 	altgr keycode  48 = ssharp
-	altgr shift keycode  48 = VoidSymbol
+	altgr shift keycode  48 = U+1E9E
 	altgr keycode  49 = +ntilde
 	altgr shift keycode  49 = +Ntilde
 	altgr keycode  50 = mu
@@ -127,7 +127,7 @@ keycode  54 = Shift
 keycode  56 = Alt
 keycode  57 = space            space            space
 	control keycode  57 = nul
-	altgr shift keycode  57 = nobreakspace
+	altgr shift keycode  57 = U+202F
 keycode  58 = Caps_Lock
 keycode  86 = less             greater          bar
 	alt altgr keycode  86 = Meta_bar
