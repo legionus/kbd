@@ -38,9 +38,9 @@
 static int position_codepage(int iunit);
 static void saveoldfont(int fd, char *ofil);
 static void saveoldfontplusunicodemap(int fd, char *Ofil);
-static void loadnewfont(int fd, char *ifil,
+static void loadnewfont(int fd, const char *ifil,
                         int iunit, int hwunit, int no_m, int no_u);
-static void loadnewfonts(int fd, char **ifiles, int ifilct,
+static void loadnewfonts(int fd, const char *const *ifiles, int ifilct,
                          int iunit, int hwunit, int no_m, int no_u);
 extern void saveoldmap(int fd, char *omfil);
 extern void loadnewmap(int fd, char *mfil);
@@ -78,13 +78,13 @@ char const *const partfontsuffixes[] = {
 };
 
 static inline int
-findfont(char *fnam, struct kbdfile *fp)
+findfont(const char *fnam, struct kbdfile *fp)
 {
 	return kbdfile_find(fnam, fontdirpath, fontsuffixes, fp);
 }
 
 static inline int
-findpartialfont(char *fnam, struct kbdfile *fp)
+findpartialfont(const char *fnam, struct kbdfile *fp)
 {
 	return kbdfile_find(fnam, partfontdirpath, partfontsuffixes, fp);
 }
@@ -125,7 +125,7 @@ usage(void)
 
 int main(int argc, char *argv[])
 {
-	char *ifiles[MAXIFILES];
+	const char *ifiles[MAXIFILES];
 	char *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil, *console;
 	int ifilct  = 0, fd, i, iunit, hwunit, no_m, no_u;
 	int restore = 0;
@@ -449,10 +449,11 @@ do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize)
 }
 
 static void
-loadnewfonts(int fd, char **ifiles, int ifilct,
+loadnewfonts(int fd, const char *const *ifiles, int ifilct,
              int iunit, int hwunit, int no_m, int no_u)
 {
-	char *ifil, *inbuf, *fontbuf, *bigfontbuf;
+	const char *ifil;
+	char *inbuf, *fontbuf, *bigfontbuf;
 	int inputlth, fontbuflth, fontsize, height, width, bytewidth;
 	int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
@@ -537,7 +538,7 @@ loadnewfonts(int fd, char **ifiles, int ifilct,
 }
 
 static void
-loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
+loadnewfont(int fd, const char *ifil, int iunit, int hwunit, int no_m, int no_u)
 {
 	struct kbdfile *fp;
 
@@ -558,17 +559,17 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		if (iunit < 0 || iunit > 32)
 			iunit = 0;
 		if (iunit == 0) {
-			if (findfont(ifil = (char *) "default", fp) &&
-			    findfont(ifil = (char *) "default8x16", fp) &&
-			    findfont(ifil = (char *) "default8x14", fp) &&
-			    findfont(ifil = (char *) "default8x8", fp)) {
+			if (findfont(ifil = "default", fp) &&
+			    findfont(ifil = "default8x16", fp) &&
+			    findfont(ifil = "default8x14", fp) &&
+			    findfont(ifil = "default8x8", fp)) {
 				fprintf(stderr, _("Cannot find default font\n"));
 				exit(EX_NOINPUT);
 			}
 		} else {
 			sprintf(defname, "default8x%d", iunit);
 			if (findfont(ifil = defname, fp) &&
-			    findfont(ifil = (char *) "default", fp)) {
+			    findfont(ifil = "default", fp)) {
 				fprintf(stderr, _("Cannot find %s font\n"), ifil);
 				exit(EX_NOINPUT);
 			}
@@ -613,7 +614,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		size_t chlth = strlen(combineheader);
 		char *p, *q;
 		if (inputlth >= chlth && !strncmp(inbuf, combineheader, chlth)) {
-			char *ifiles[MAXIFILES];
+			const char *ifiles[MAXIFILES];
 			int ifilct = 0;
 			q          = inbuf + chlth;
 			while (q < inbuf + inputlth) {

@@ -203,7 +203,7 @@ static int
 filecmp(const char *fname, const char *name, const char *const *suf, unsigned int *index, struct decompressor **d)
 {
 	/* Does d_name start right? */
-	char *p = name;
+	const char *p = name;
 	const char *q = fname;
 
 	while (*p && *p == *q)
