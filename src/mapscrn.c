@@ -25,7 +25,7 @@
 void saveoldmap(int fd, char *omfil);
 void loadnewmap(int fd, char *mfil);
 
-static int ctoi(char *);
+static int ctoi(const char *);
 
 /* search for the map file in these directories (with trailing /) */
 static const char *const mapdirpath[]  = {
@@ -223,7 +223,7 @@ void loadnewmap(int fd, char *mfil)
  * Read decimal, octal, hexadecimal, Unicode (U+xxxx) or character
  * ('x', x a single byte or a utf8 sequence).
  */
-int ctoi(char *s)
+int ctoi(const char *s)
 {
 	int i;
 
@@ -247,9 +247,9 @@ int ctoi(char *s)
 
 	else if (s[0] == '\'') {
 		int err;
-		char *s1 = s + 1;
+		const char *s1 = s + 1;
 
-		i = from_utf8(&s1, 0, &err);
+		i = from_utf8((const unsigned char **)&s1, 0, &err);
 		if (err || s1[0] != '\'' || s1[1] != 0)
 			return -1;
 	}

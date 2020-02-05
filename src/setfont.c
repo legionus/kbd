@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
 static int erase_mode = 1;
 
 static void
-do_loadfont(int fd, char *inbuf, int width, int height, int hwunit,
+do_loadfont(int fd, const unsigned char *inbuf, int width, int height, int hwunit,
             int fontsize, char *filename)
 {
 	unsigned char *buf;
@@ -453,9 +453,9 @@ loadnewfonts(int fd, const char *const *ifiles, int ifilct,
              int iunit, int hwunit, int no_m, int no_u)
 {
 	const char *ifil;
-	char *inbuf, *fontbuf, *bigfontbuf;
-	int inputlth, fontbuflth, fontsize, height, width, bytewidth;
-	int bigfontbuflth, bigfontsize, bigheight, bigwidth;
+	unsigned char *inbuf, *fontbuf, *bigfontbuf;
+	unsigned int inputlth, fontbuflth, fontsize, height, width, bytewidth;
+	unsigned int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
 	int i;
 
@@ -543,9 +543,10 @@ loadnewfont(int fd, const char *ifil, int iunit, int hwunit, int no_m, int no_u)
 	struct kbdfile *fp;
 
 	char defname[20];
-	int height, width, bytewidth, def = 0;
-	char *inbuf, *fontbuf;
-	int inputlth, fontbuflth, fontsize, offset;
+	unsigned int height, width, bytewidth;
+	int def = 0;
+	unsigned char *inbuf, *fontbuf;
+	unsigned int inputlth, fontbuflth, fontsize, offset;
 	struct unicode_list *uclistheads;
 
 	if ((fp = kbdfile_new(NULL)) == NULL)
@@ -613,10 +614,10 @@ loadnewfont(int fd, const char *ifil, int iunit, int hwunit, int no_m, int no_u)
 		const char *combineheader = "# combine partial fonts\n";
 		size_t chlth = strlen(combineheader);
 		char *p, *q;
-		if (inputlth >= chlth && !strncmp(inbuf, combineheader, chlth)) {
+		if (inputlth >= chlth && !memcmp(inbuf, combineheader, chlth)) {
 			const char *ifiles[MAXIFILES];
 			int ifilct = 0;
-			q          = inbuf + chlth;
+			q          = (char *)inbuf + chlth;
 			while (q < inbuf + inputlth) {
 				p = q;
 				while (q < inbuf + inputlth && *q != '\n')

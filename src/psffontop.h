@@ -20,12 +20,36 @@ struct unicode_list {
 	struct unicode_seq *seq;
 };
 
-extern int readpsffont(FILE *fontf, char **allbufp, int *allszp,
-                       char **fontbufp, int *fontszp,
-                       int *fontwidthp, int *fontlenp, int fontpos0,
+/**
+ * readpsffont reads a PSF font.
+ *
+ * The font is read either from a file (when fontf is non-NULL) or from memory
+ * (namely from @p *allbufp of size @p *allszp). In the former case, if
+ * @p allbufp is non-NULL, a pointer to the entire fontfile contents (possibly
+ * read from pipe) is returned in @p *allbufp, and the size in @p allszp, where
+ * this buffer was allocated using malloc().
+ *
+ * In @p fontbufp, @p fontszp the subinterval of @p allbufp containing the font
+ * data is given.
+ *
+ * The font width is stored in @p fontwidthp.
+ *
+ * The number of glyphs is stored in @p fontlenp.
+ *
+ * The unicode table is stored in @p uclistheadsp (when non-NULL), with
+ * fontpositions counted from @p fontpos0 (so that calling this several times
+ * can achieve font merging).
+ *
+ * @returns >= 0 on success and -1 on failure. Failure means that the font was
+ * not psf (but has been read). > 0 means that the Unicode table contains
+ * sequences.
+ */
+extern int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
+                       unsigned char **fontbufp, unsigned int *fontszp,
+                       unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
                        struct unicode_list **uclistheadsp);
 
-extern int writepsffont(FILE *ofil, char *fontbuf,
+extern int writepsffont(FILE *ofil, unsigned char *fontbuf,
                         int width, int height, size_t fontlen, int psftype,
                         struct unicode_list *uclistheads);
 

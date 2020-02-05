@@ -237,11 +237,11 @@ int main(int argc, char **argv)
 {
 	const char *ifname, *ofname, *itname, *otname;
 	FILE *ifil, *ofil, *itab, *otab;
-	int psftype, charsize, fontlen, hastable, notable;
+	int psftype, hastable, notable;
 	int i;
-	int width = 8, bytewidth, height;
-	char *inbuf, *fontbuf;
-	int inbuflth, fontbuflth;
+	unsigned int width = 8, bytewidth, height, charsize, fontlen;
+	unsigned char *inbuf, *fontbuf;
+	unsigned int inbuflth, fontbuflth;
 
 	set_progname(argv[0]);
 	setuplocale();

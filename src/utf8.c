@@ -13,13 +13,13 @@
  * cnt is either 0 or gives the number of available bytes
  */
 unsigned long
-from_utf8(char **inptr, int cnt, int *err)
+from_utf8(const unsigned char **inptr, int cnt, int *err)
 {
-	unsigned char *in;
+	const unsigned char *in;
 	unsigned int uc, uc2;
 	int need, bit, bad = 0;
 
-	in   = (unsigned char *)(*inptr);
+	in   = *inptr;
 	uc   = *in++;
 	need = 0;
 	bit  = 0x80;
@@ -47,7 +47,7 @@ from_utf8(char **inptr, int cnt, int *err)
 		*err = UTF8_BAD;
 		return 0;
 	}
-	*inptr = (char *)in;
+	*inptr = in;
 	*err   = 0;
 	return uc;
 }

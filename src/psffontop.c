@@ -73,7 +73,7 @@ store_int_le(unsigned char *ip, int num)
 }
 
 static unsigned int
-assemble_ucs2(char **inptr, int cnt)
+assemble_ucs2(const unsigned char **inptr, int cnt)
 {
 	unsigned int u1, u2;
 
@@ -83,14 +83,14 @@ assemble_ucs2(char **inptr, int cnt)
 		exit(EX_DATAERR);
 	}
 
-	u1 = (unsigned char)*(*inptr)++;
-	u2 = (unsigned char)*(*inptr)++;
+	u1 = *(*inptr)++;
+	u2 = *(*inptr)++;
 	return (u1 | (u2 << 8));
 }
 
 /* called with cnt > 0 and **inptr not 0xff or 0xfe */
 static unsigned int
-assemble_utf8(char **inptr, int cnt)
+assemble_utf8(const unsigned char **inptr, int cnt)
 {
 	int err;
 	unsigned long uc;
@@ -126,7 +126,7 @@ clear_uni_entry(struct unicode_list *up)
  * Read description of a single font position.
  */
 static void
-get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8)
+get_uni_entry(const unsigned char **inptr, const unsigned char **endptr, struct unicode_list *up, int utf8)
 {
 	unsigned char uc;
 	unicode unichar;
@@ -170,33 +170,14 @@ get_uni_entry(char **inptr, char **endptr, struct unicode_list *up, int utf8)
 	}
 }
 
-/*
- * Read a psf font and return >= 0 on success and -1 on failure.
- * Failure means that the font was not psf (but has been read).
- * > 0 means that the Unicode table contains sequences.
- *
- * The font is read either from file (when FONT is non-NULL)
- * or from memory (namely from *ALLBUFP of size *ALLSZP).
- * In the former case, if ALLBUFP is non-NULL, a pointer to
- * the entire fontfile contents (possibly read from pipe)
- * is returned in *ALLBUFP, and the size in ALLSZP, where this
- * buffer was allocated using malloc().
- * In FONTBUFP, FONTSZP the subinterval of ALLBUFP containing
- * the font data is given.
- * The font width is stored in FONTWIDTHP.
- * The number of glyphs is stored in FONTLENP.
- * The unicodetable is stored in UCLISTHEADSP (when non-NULL), with
- * fontpositions counted from FONTPOS0 (so that calling this several
- * times can achieve font merging).
- */
 extern char *progname;
 
-int readpsffont(FILE *fontf, char **allbufp, int *allszp,
-                char **fontbufp, int *fontszp,
-                int *fontwidthp, int *fontlenp, int fontpos0,
+int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
+                unsigned char **fontbufp, unsigned int *fontszp,
+                unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
                 struct unicode_list **uclistheadsp)
 {
-	char *inputbuf     = NULL;
+	unsigned char *inputbuf = NULL;
 	size_t inputbuflth = 0;
 	size_t inputlth, fontlen, fontwidth, charsize, hastable, ftoffset, utf8;
 	size_t i, k, n;
@@ -313,7 +294,7 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 	                         (fontpos0 + fontlen) * sizeof(struct unicode_list));
 
 	if (hastable) {
-		char *inptr, *endptr;
+		const unsigned char *inptr, *endptr;
 
 		inptr  = inputbuf + ftoffset + fontlen * charsize;
 		endptr = inputbuf + inputlth;
@@ -462,7 +443,7 @@ void writepsffontheader(FILE *ofil, int width, int height, int fontlen,
 	}
 }
 
-int writepsffont(FILE *ofil, char *fontbuf, int width, int height, size_t fontlen,
+int writepsffont(FILE *ofil, unsigned char *fontbuf, int width, int height, size_t fontlen,
                  int psftype, struct unicode_list *uclistheads)
 {
 	int bytewidth, charsize, flags, utf8;
