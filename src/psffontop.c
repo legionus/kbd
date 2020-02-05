@@ -3,6 +3,7 @@
  */
 #include "config.h"
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,10 +52,15 @@ addseq(struct unicode_list *up, unsigned int uc)
 	//ul->seq->prev = us;
 }
 
-static unsigned int
-assemble_int(unsigned char *ip)
+static uint32_t
+assemble_uint32(unsigned char *ip)
 {
-	return (ip[0] + (ip[1] << 8) + (ip[2] << 16) + (ip[3] << 24));
+	return (
+		(uint32_t)ip[0] +
+		((uint32_t)ip[1] << 8) +
+		((uint32_t)ip[2] << 16) +
+		((uint32_t)ip[3] << 24)
+	);
 }
 
 static void
@@ -263,12 +269,12 @@ int readpsffont(FILE *fontf, char **allbufp, int *allszp,
 			fprintf(stderr, u, progname, psfhdr.version);
 			exit(EX_DATAERR);
 		}
-		fontlen   = assemble_int((unsigned char *)&psfhdr.length);
-		charsize  = assemble_int((unsigned char *)&psfhdr.charsize);
-		flags     = assemble_int((unsigned char *)&psfhdr.flags);
+		fontlen   = assemble_uint32((unsigned char *)&psfhdr.length);
+		charsize  = assemble_uint32((unsigned char *)&psfhdr.charsize);
+		flags     = assemble_uint32((unsigned char *)&psfhdr.flags);
 		hastable  = (flags & PSF2_HAS_UNICODE_TABLE);
-		ftoffset  = assemble_int((unsigned char *)&psfhdr.headersize);
-		fontwidth = assemble_int((unsigned char *)&psfhdr.width);
+		ftoffset  = assemble_uint32((unsigned char *)&psfhdr.headersize);
+		fontwidth = assemble_uint32((unsigned char *)&psfhdr.width);
 		utf8      = 1;
 	} else
 		return -1; /* not psf */
