@@ -161,7 +161,7 @@ maybe_pipe_open(struct kbdfile *fp)
 }
 
 static int
-findfile_by_fullname(const char *fnam, char **suffixes, struct kbdfile *fp)
+findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfile *fp)
 {
 	int i;
 	struct stat st;
@@ -200,7 +200,7 @@ findfile_by_fullname(const char *fnam, char **suffixes, struct kbdfile *fp)
 }
 
 static int
-filecmp(const char *fname, char *name, char **suf, unsigned int *index, struct decompressor **d)
+filecmp(const char *fname, const char *name, const char *const *suf, unsigned int *index, struct decompressor **d)
 {
 	/* Does d_name start right? */
 	char *p = name;
@@ -242,7 +242,7 @@ filecmp(const char *fname, char *name, char **suf, unsigned int *index, struct d
 }
 
 static int
-findfile_in_dir(const char *fnam, const char *dir, const int recdepth, char **suf, struct kbdfile *fp)
+findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const char *const *suf, struct kbdfile *fp)
 {
 	char errbuf[200];
 	char *ff, *fdir, *path;
@@ -373,7 +373,7 @@ EndScan:
 }
 
 int
-kbdfile_find(char *fnam, char **dirpath, char **suffixes, struct kbdfile *fp)
+kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *suffixes, struct kbdfile *fp)
 {
 	int rc, i;
 

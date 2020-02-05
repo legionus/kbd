@@ -37,7 +37,7 @@ void kbdfile_free(struct kbdfile *fp);
 struct kbdfile *kbdfile_open(struct kbdfile_ctx *ctx, const char *filename);
 void kbdfile_close(struct kbdfile *fp);
 
-int kbdfile_find(char *fnam, char **dirpath, char **suffixes, struct kbdfile *fp);
+int kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *suffixes, struct kbdfile *fp);
 
 char *kbdfile_get_pathname(struct kbdfile *fp);
 int kbdfile_set_pathname(struct kbdfile *fp, const char *pathname);

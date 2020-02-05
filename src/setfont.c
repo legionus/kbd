@@ -53,27 +53,27 @@ int debug       = 0;
 int double_size = 0;
 
 /* search for the font in these directories (with trailing /) */
-char *fontdirpath[]  = {
-	(char *) "",
-	(char *) DATADIR "/" FONTDIR "/",
+const char *const fontdirpath[]  = {
+	"",
+	DATADIR "/" FONTDIR "/",
 	NULL
 };
-char *fontsuffixes[] = {
-	(char *) "",
-	(char *) ".psfu",
-	(char *) ".psf",
-	(char *) ".cp",
-	(char *) ".fnt",
+char const *const fontsuffixes[] = {
+	"",
+	".psfu",
+	".psf",
+	".cp",
+	".fnt",
 	NULL
 };
 /* hide partial fonts a bit - loading a single one is a bad idea */
-char *partfontdirpath[]  = {
-	(char *) "",
-	(char *) DATADIR "/" FONTDIR "/" PARTIALDIR "/",
+const char *const partfontdirpath[]  = {
+	"",
+	DATADIR "/" FONTDIR "/" PARTIALDIR "/",
 	NULL
 };
-char *partfontsuffixes[] = {
-	(char *) "",
+char const *const partfontsuffixes[] = {
+	"",
 	NULL
 };
 
@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
 	if (!ifilct && !mfil && !ufil &&
 	    !Ofil && !ofil && !omfil && !oufil && !restore)
 		/* reset to some default */
-		ifiles[ifilct++] = (char *) "";
+		ifiles[ifilct++] = "";
 
 	if (Ofil)
 		saveoldfontplusunicodemap(fd, Ofil);
@@ -609,7 +609,7 @@ loadnewfont(int fd, char *ifil, int iunit, int hwunit, int no_m, int no_u)
 
 	/* instructions to combine fonts? */
 	{
-		char *combineheader = (char *) "# combine partial fonts\n";
+		const char *combineheader = "# combine partial fonts\n";
 		size_t chlth = strlen(combineheader);
 		char *p, *q;
 		if (inputlth >= chlth && !strncmp(inbuf, combineheader, chlth)) {

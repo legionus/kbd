@@ -24,16 +24,16 @@
 #include "paths.h"
 #include "keymap.h"
 
-static char *dirpath1[] = {
-	(char *) "",
-	(char *) DATADIR "/" KEYMAPDIR "/**",
-	(char *) KERNDIR "/",
+static const char *const dirpath1[] = {
+	"",
+	DATADIR "/" KEYMAPDIR "/**",
+	KERNDIR "/",
 	NULL
 };
-static char *suffixes[] = {
-	(char *) "",
-	(char *) ".kmap",
-	(char *) ".map",
+static const char *const suffixes[] = {
+	"",
+	".kmap",
+	".map",
 	NULL
 };
 
@@ -93,8 +93,8 @@ int main(int argc, char *argv[])
 	};
 	int options = 0;
 
-	char **dirpath;
-	char *dirpath2[] = { NULL, NULL };
+	const char *const *dirpath;
+	const char *dirpath2[] = { NULL, NULL };
 
 	struct lk_ctx *ctx;
 	lk_flags flags = 0;
@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
 			nomem();
 
 		/* first read default map - search starts in . */
-		if (kbdfile_find((char *) DEFMAP, dirpath, suffixes, fp)) {
+		if (kbdfile_find(DEFMAP, dirpath, suffixes, fp)) {
 			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
 			exit(EXIT_FAILURE);
 		}

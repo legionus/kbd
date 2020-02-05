@@ -98,33 +98,33 @@ stack_pop(struct lk_ctx *ctx, void *scanner)
  * and afterwards use only "loadkeys /fullpath/mykeymap", where no
  * lookups are required.
  */
-static char *include_dirpath0[] = {
-	(char *) "",
+static const char *const include_dirpath0[] = {
+	"",
 	NULL
 };
-static char *include_dirpath1[] = {
-	(char *) "",
-	(char *) "../include/",
-	(char *) "../../include/",
+static const char *const include_dirpath1[] = {
+	"",
+	"../include/",
+	"../../include/",
 	NULL
 };
-static char *include_dirpath3[] = {
-	(char *) DATADIR "/" KEYMAPDIR "/include/",
-	(char *) DATADIR "/" KEYMAPDIR "/i386/include/",
-	(char *) DATADIR "/" KEYMAPDIR "/mac/include/",
+static const char *const include_dirpath3[] = {
+	DATADIR "/" KEYMAPDIR "/include/",
+	DATADIR "/" KEYMAPDIR "/i386/include/",
+	DATADIR "/" KEYMAPDIR "/mac/include/",
 	NULL
 };
 
-static char *include_suffixes[] = {
-	(char *) "",
-	(char *) ".inc",
+static const char *const include_suffixes[] = {
+	"",
+	".inc",
 	NULL
 };
 
 static int
 find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, struct kbdfile *fp)
 {
-	char *include_dirpath2[] = { NULL, NULL, NULL, NULL };
+	const char *include_dirpath2[] = { NULL, NULL, NULL, NULL };
 	char *t, *te, *t1 = NULL, *t2 = NULL;
 	size_t len;
 	int rc = 1;
@@ -224,7 +224,7 @@ find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
-		char *user_dir[2] = { NULL, NULL };
+		const char *user_dir[2] = { NULL, NULL };
 		while (ev) {
 			int rc;
 			char *t = strchr(ev, ':');

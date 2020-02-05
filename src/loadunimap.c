@@ -30,15 +30,15 @@
 extern char *progname;
 extern int force;
 
-static char *unidirpath[]  = {
-	(char *) "",
-	(char *) DATADIR "/" UNIMAPDIR "/",
+static const char *const unidirpath[]  = {
+	"",
+	DATADIR "/" UNIMAPDIR "/",
 	NULL
 };
-static char *unisuffixes[] = {
-	(char *) "",
-	(char *) ".uni",
-	(char *) ".sfm",
+static const char *const unisuffixes[] = {
+	"",
+	".uni",
+	".sfm",
 	NULL
 };
 
@@ -279,7 +279,7 @@ void loadunicodemap(int fd, const char *tblname)
 	if ((fp = kbdfile_new(NULL)) == NULL)
 		nomem();
 
-	if (kbdfile_find((char *) tblname, unidirpath, unisuffixes, fp)) {
+	if (kbdfile_find(tblname, unidirpath, unisuffixes, fp)) {
 		perror(tblname);
 		exit(EX_NOINPUT);
 	}

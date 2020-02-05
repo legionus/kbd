@@ -21,7 +21,7 @@ main(int __attribute__((unused)) argc, char **argv)
 
 	int rc = 0;
 
-	rc = kbdfile_find((char *)(DATADIR "/data/findfile/test_0/keymaps/i386/qwerty/test0"), (char **) dirpath, (char **) suffixes, fp);
+	rc = kbdfile_find(DATADIR "/data/findfile/test_0/keymaps/i386/qwerty/test0", dirpath, suffixes, fp);
 
 	if (rc != 0)
 		kbd_error(EXIT_FAILURE, 0, "unable to find file");

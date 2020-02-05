@@ -19,7 +19,7 @@ main(int __attribute__((unused)) argc, char **argv)
 
 	const char *expect = DATADIR "/data/findfile/test_0/keymaps/i386/qwertz/test2";
 
-	int rc = kbdfile_find((char *)"test2", (char **) dirpath, (char **) suffixes, fp);
+	int rc = kbdfile_find("test2", dirpath, suffixes, fp);
 
 	if (rc != 0)
 		kbd_error(EXIT_FAILURE, 0, "unable to find file");
