@@ -1,5 +1,6 @@
 AT_SETUP([clrunimap])
 AT_KEYWORDS([e2e clrunimap])
+AT_SKIP_IF([ test "$TRAVIS_SANDBOX" != "priviliged" ])
 E2E_CHECK(["$abs_top_builddir/src/clrunimap" -C /dev/tty0])
 E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/clrunimap-test01.calls])
 AT_CLEANUP

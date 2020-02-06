@@ -9,19 +9,24 @@ install:
   - sudo apt-get install musl musl-dev musl-tools
 matrix:
   include:
-    - name: "Build with gcc (dynamic)"
+    - name: "amd64 / gcc / glibc / dynamic"
+      arch: amd64
       os: linux
       env:
          - CC="gcc"
          - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
          - TRAVIS_CHECK_KEYWORDS='unittest e2e'
-    - name: "Build with clang (dynamic)"
+         - TRAVIS_SANDBOX='priviliged'
+    - name: "amd64 / clang / libclang / dynamic"
+      arch: amd64
       os: linux
       env:
          - CC="clang"
          - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
          - TRAVIS_CHECK_KEYWORDS='unittest e2e'
-    - name: "Build with musl (static)"
+         - TRAVIS_SANDBOX='priviliged'
+    - name: "amd64 / musl-gcc / musl / static"
+      arch: amd64
       os: linux
       env:
          # https://gcc.gnu.org/onlinedocs/gcc/Directory-Options.html
@@ -30,5 +35,30 @@ matrix:
          - CC="musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/"
          - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror --disable-libkeymap --disable-vlock"
          - TRAVIS_CHECK_KEYWORDS='unittest'
+         - TRAVIS_SANDBOX='priviliged'
+    - name: "arm64 / gcc / glibc / dynamic"
+      arch: arm64
+      os: linux
+      env:
+         - CC="gcc"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
+         - TRAVIS_CHECK_KEYWORDS='unittest e2e'
+         - TRAVIS_SANDBOX='container'
+    - name: "ppc64le / gcc / glibc / dynamic"
+      arch: ppc64le
+      os: linux
+      env:
+         - CC="gcc"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
+         - TRAVIS_CHECK_KEYWORDS='unittest e2e'
+         - TRAVIS_SANDBOX='container'
+    - name: "s390x / gcc / glibc / dynamic"
+      arch: s390x
+      os: linux
+      env:
+         - CC="gcc"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
+         - TRAVIS_CHECK_KEYWORDS='unittest e2e'
+         - TRAVIS_SANDBOX='container'
 script:
   - ./tests/travis-ci-run
