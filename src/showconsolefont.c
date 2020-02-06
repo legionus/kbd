@@ -114,7 +114,8 @@ usage(void)
 
 int main(int argc, char **argv)
 {
-	int c, n, cols, rows, nr, i, j, k;
+	int c;
+	unsigned int cols, rows, nr, n, i, j, k;
 	int mode;
 	const char *space, *sep;
 	char *console = NULL;
@@ -165,9 +166,9 @@ int main(int argc, char **argv)
 			leave(EXIT_FAILURE);
 
 		if (verbose) {
-			printf(_("Character count: %d\n"), nr);
-			printf(_("Font width     : %d\n"), rows);
-			printf(_("Font height    : %d\n"), cols);
+			printf(_("Character count: %u\n"), nr);
+			printf(_("Font width     : %u\n"), rows);
+			printf(_("Font height    : %u\n"), cols);
 		} else
 			printf("%dx%dx%d\n", rows, cols, nr);
 		leave(EXIT_SUCCESS);

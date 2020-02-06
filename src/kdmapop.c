@@ -38,7 +38,7 @@
  * translation tables, and this ioctl would get/set the fourth
  * table, while the other three tables are built-in and constant.)
  */
-int getscrnmap(int fd, char *map)
+int getscrnmap(int fd, unsigned char *map)
 {
 	if (ioctl(fd, GIO_SCRNMAP, map)) {
 		perror("GIO_SCRNMAP");
@@ -47,7 +47,7 @@ int getscrnmap(int fd, char *map)
 	return 0;
 }
 
-int loadscrnmap(int fd, char *map)
+int loadscrnmap(int fd, unsigned char *map)
 {
 	if (ioctl(fd, PIO_SCRNMAP, map)) {
 		perror("PIO_SCRNMAP");

@@ -22,8 +22,8 @@
 #include "utf8.h"
 
 /* the two exported functions */
-void saveoldmap(int fd, char *omfil);
-void loadnewmap(int fd, char *mfil);
+void saveoldmap(int fd, const char *omfil);
+void loadnewmap(int fd, const char *mfil);
 
 static int ctoi(const char *);
 
@@ -96,10 +96,11 @@ int main(int argc, char *argv[])
  * Set lineno to line number of first error.
  */
 static int
-parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
+parsemap(FILE *fp, unsigned char *buf, unsigned short *ubuf, int *u, unsigned int *lineno)
 {
 	char buffer[256];
-	int in, on, ln, ret = 0;
+	unsigned int ln;
+	int in, on, ret = 0;
 	char *p, *q;
 
 	ln = 0;
@@ -115,9 +116,9 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 				on = ctoi(q);
 				if (in >= 0 && in < 256 &&
 				    on >= 0 && on < 65536) {
-					ubuf[in] = on;
+					ubuf[in] = (unsigned short)on;
 					if (on < 256)
-						buf[in] = on;
+						buf[in] = (unsigned char)on;
 					else
 						*u = 1;
 				} else {
@@ -132,11 +133,11 @@ parsemap(FILE *fp, char *buf, unsigned short *ubuf, int *u, int *lineno)
 }
 
 static int
-readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
+readnewmapfromfile(const char *mfil, unsigned char *buf, unsigned short *ubuf)
 {
 	struct stat stbuf;
-	int u      = 0;
-	int lineno = 0;
+	int u = 0;
+	unsigned int lineno = 0;
 	struct kbdfile *fp;
 
 	if ((fp = kbdfile_new(NULL)) == NULL)
@@ -191,11 +192,12 @@ readnewmapfromfile(char *mfil, char *buf, unsigned short *ubuf)
 	return u;
 }
 
-void loadnewmap(int fd, char *mfil)
+void loadnewmap(int fd, const char *mfil)
 {
 	unsigned short ubuf[E_TABSZ];
-	char buf[E_TABSZ];
-	int i, u;
+	unsigned char buf[E_TABSZ];
+	unsigned int i;
+	int u;
 
 	/* default: trivial straight-to-font */
 	for (i = 0; i < E_TABSZ; i++) {
@@ -260,10 +262,10 @@ int ctoi(const char *s)
 	return i;
 }
 
-void saveoldmap(int fd, char *omfil)
+void saveoldmap(int fd, const char *omfil)
 {
 	FILE *fp;
-	char buf[E_TABSZ];
+	unsigned char buf[E_TABSZ];
 	unsigned short ubuf[E_TABSZ];
 	int i, havemap, haveumap;
 

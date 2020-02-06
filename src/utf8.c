@@ -12,12 +12,12 @@
  *
  * cnt is either 0 or gives the number of available bytes
  */
-unsigned long
+int32_t
 from_utf8(const unsigned char **inptr, int cnt, int *err)
 {
 	const unsigned char *in;
-	unsigned int uc, uc2;
-	int need, bit, bad = 0;
+	uint32_t uc, uc2, bit;
+	int need, bad = 0;
 
 	in   = *inptr;
 	uc   = *in++;
@@ -49,5 +49,5 @@ from_utf8(const unsigned char **inptr, int cnt, int *err)
 	}
 	*inptr = in;
 	*err   = 0;
-	return uc;
+	return (int32_t)uc;
 }

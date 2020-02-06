@@ -140,8 +140,8 @@ getunicode(char **p0)
 static struct unimapdesc descr;
 
 static struct unipair *list = 0;
-static int listsz           = 0;
-static int listct           = 0;
+static unsigned int listsz  = 0;
+static unsigned int listct  = 0;
 
 static void
 addpair(int fp, int un)
@@ -351,11 +351,12 @@ void saveunicodemap(int fd, char *oufil)
 		printf(_("Saved unicode map on `%s'\n"), oufil);
 }
 
-void appendunicodemap(int fd, FILE *fp, int fontsize, int utf8)
+void appendunicodemap(int fd, FILE *fp, unsigned int fontsize, int utf8)
 {
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
-	int i, j;
+	unsigned int i;
+	int j;
 
 	if (getunicodemap(fd, &unimap_descr) < 0)
 		exit(1);

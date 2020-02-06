@@ -102,7 +102,7 @@ getunicode(char **p0)
 }
 
 static void
-parse_itab_line(char *buf, int fontlen)
+parse_itab_line(char *buf, unsigned int fontlen)
 {
 	char *p, *p1;
 	long i;
@@ -212,10 +212,10 @@ parse_itab_line(char *buf, int fontlen)
 }
 
 static void
-read_itable(FILE *itab, int fontlen, struct unicode_list **uclistheadsp)
+read_itable(FILE *itab, unsigned int fontlen, struct unicode_list **uclistheadsp)
 {
 	char buf[65536];
-	int i;
+	unsigned int i;
 
 	if (uclistheadsp) {
 		*uclistheadsp = xrealloc(*uclistheadsp,

@@ -29,10 +29,10 @@ int restorefont(int fd)
 	return 0;
 }
 
-int font_charheight(unsigned char *buf, int count, int width)
+unsigned int font_charheight(unsigned char *buf, unsigned int count, unsigned int width)
 {
-	int h, i, x;
-	int bytewidth = (width + 7) / 8;
+	unsigned int h, i, x;
+	unsigned int bytewidth = (width + 7) / 8;
 
 	for (h = 32; h > 0; h--)
 		for (i = 0; i < count; i++)
@@ -48,7 +48,7 @@ nonzero:
  * May be called with width==NULL and height==NULL.
  * Must not exit - we may have cleanup to do.
  */
-int getfont(int fd, unsigned char *buf, int *count, int *width, int *height)
+int getfont(int fd, unsigned char *buf, unsigned int *count, unsigned int *width, unsigned int *height)
 {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
@@ -113,9 +113,9 @@ int getfont(int fd, unsigned char *buf, int *count, int *width, int *height)
 	return 0;
 }
 
-int getfontsize(int fd)
+int unsigned getfontsize(int fd)
 {
-	int count;
+	unsigned int count;
 	int i;
 
 	count = 0;
@@ -123,7 +123,7 @@ int getfontsize(int fd)
 	return (i == 0) ? count : 256;
 }
 
-int putfont(int fd, unsigned char *buf, int count, int width, int height)
+int putfont(int fd, unsigned char *buf, unsigned int count, unsigned int width, unsigned int height)
 {
 	struct consolefontdesc cfd;
 	struct console_font_op cfo;
@@ -152,7 +152,7 @@ int putfont(int fd, unsigned char *buf, int count, int width, int height)
 	/* Variation on first attempt: in case count is not 256 or 512
 	   round up and try again. */
 	if (errno == EINVAL && width == 8 && count != 256 && count < 512) {
-		int ct               = ((count > 256) ? 512 : 256);
+		unsigned int ct      = ((count > 256) ? 512 : 256);
 		unsigned char *mybuf = malloc(32U * ct);
 
 		if (!mybuf) {

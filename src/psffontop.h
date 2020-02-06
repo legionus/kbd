@@ -3,10 +3,12 @@
 #ifndef _PSFFONTOP_H
 #define _PSFFONTOP_H
 
+#include <stdint.h>
+
 /* Maximum font size that we try to handle */
 #define MAXFONTSIZE 65536
 
-typedef unsigned int unicode;
+typedef int32_t unicode;
 
 struct unicode_seq {
 	struct unicode_seq *next;
@@ -50,16 +52,16 @@ extern int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allsz
                        struct unicode_list **uclistheadsp);
 
 extern int writepsffont(FILE *ofil, unsigned char *fontbuf,
-                        int width, int height, size_t fontlen, int psftype,
+                        unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
                         struct unicode_list *uclistheads);
 
 #define WPSFH_HASTAB 1
 #define WPSFH_HASSEQ 2
 extern void writepsffontheader(FILE *ofil,
-                               int width, int height, int fontlen,
+                               unsigned int width, unsigned int height, unsigned int fontlen,
                                int *psftype, int flags);
 
-extern void appendunicode(FILE *fp, unsigned int uc, int utf8);
+extern void appendunicode(FILE *fp, unicode uc, int utf8);
 extern void appendseparator(FILE *fp, int seq, int utf8);
 
 #endif /* _PSFFONTOP_H */
