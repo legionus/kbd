@@ -18,6 +18,17 @@
 
 #include "libcommon.h"
 
+/**
+ * BITWISE_NOT is the bitwise complement of x with cancelled out integer
+ * promotions.
+ */
+#define BITWISE_NOT(x) (_Generic((x), \
+	unsigned char: (unsigned char)(~(x)) \
+))
+
+#define BITMASK_UNSET(x, mask) ((x) & BITWISE_NOT(mask))
+#define BITMASK_SET(x, mask) ((x) | (mask))
+
 static void __attribute__((noreturn))
 usage(void)
 {
@@ -72,8 +83,8 @@ report(int leds)
 
 struct led {
 	const char *name;
-	int bit;
-	int sunbit;
+	unsigned char bit;
+	unsigned char sunbit;
 } leds[] = {
 	{ "scroll", LED_SCR, LED_SCRLCK },
 	{ "num", LED_NUM, LED_NLOCK },
@@ -84,7 +95,7 @@ struct led {
 };
 
 static void
-getleds(char *cur_leds)
+getleds(unsigned char *cur_leds)
 {
 	if (ioctl(0, KDGETLED, cur_leds)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting. "
@@ -94,7 +105,7 @@ getleds(char *cur_leds)
 }
 
 static int
-setleds(char cur_leds)
+setleds(unsigned char cur_leds)
 {
 	if (ioctl(0, KDSETLED, cur_leds)) {
 		kbd_warning(errno, "ioctl KDSETLED");
@@ -104,7 +115,7 @@ setleds(char cur_leds)
 }
 
 static void
-getflags(char *flags)
+getflags(unsigned char *flags)
 {
 	if (ioctl(0, KDGKBLED, flags)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading current flags setting. "
@@ -122,7 +133,7 @@ static int sunkbdfd = -1;
 #endif
 
 static void
-sungetleds(arg_state char *cur_leds)
+sungetleds(arg_state unsigned char *cur_leds)
 {
 #ifdef KIOCGLED
 	if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
@@ -141,7 +152,7 @@ sungetleds(arg_state char *cur_leds)
 #endif
 
 static void
-sunsetleds(arg_state char *cur_leds)
+sunsetleds(arg_state unsigned char *cur_leds)
 {
 #ifdef KIOCSLED
 	if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {
@@ -156,9 +167,9 @@ sunsetleds(arg_state char *cur_leds)
 int main(int argc, char **argv)
 {
 	int optL = 0, optD = 0, optF = 0, verbose = 0;
-	char oleds, nleds, oflags, nflags, odefflags, ndefflags;
-	char nval, ndef, sign;
-	char osunleds = 0, nsunleds, nsunval, nsundef;
+	unsigned char oleds, nleds, oflags, nflags, odefflags, ndefflags;
+	unsigned char nval, ndef, sign;
+	unsigned char osunleds = 0, nsunleds, nsunval, nsundef;
 	char *ap;
 	struct led *lp;
 
@@ -200,7 +211,7 @@ int main(int argc, char **argv)
 
 	if (argc <= 1) {
 		if (optL) {
-			nleds = (char) 0xff;
+			nleds = 0xff;
 			if (setleds(nleds)) {
 				kbd_error(EXIT_FAILURE, 0, _("Error resetting ledmode\n"));
 			}
@@ -261,7 +272,7 @@ int main(int argc, char **argv)
 	}
 
 	if (optD) {
-		ndefflags = (odefflags & ~ndef) | nval;
+		ndefflags = BITMASK_SET(BITMASK_UNSET(odefflags, ndef), nval);
 		if (verbose) {
 			printf(_("Old default flags:    "));
 			report(odefflags);
@@ -270,7 +281,7 @@ int main(int argc, char **argv)
 		}
 	}
 	if (optF) {
-		nflags = ((oflags & ~ndef) | nval);
+		nflags = BITMASK_SET(BITMASK_UNSET(oflags, ndef), nval);
 		if (verbose) {
 			printf(_("Old flags:            "));
 			report(oflags & 07);
@@ -285,7 +296,7 @@ int main(int argc, char **argv)
 	}
 	if (optL) {
 		if (sunkbdfd >= 0) {
-			nsunleds = (osunleds & ~nsundef) | nsunval;
+			nsunleds = BITMASK_SET(BITMASK_UNSET(osunleds, nsundef), nsunval);
 			if (verbose) {
 				printf(_("Old leds:             "));
 				sunreport(osunleds);
@@ -294,7 +305,7 @@ int main(int argc, char **argv)
 			}
 			sunsetleds(&nsunleds);
 		} else {
-			nleds = (oleds & ~ndef) | nval;
+			nleds = BITMASK_SET(BITMASK_UNSET(oleds, ndef), nval);
 			if (verbose) {
 				printf(_("Old leds:             "));
 				report(oleds);
