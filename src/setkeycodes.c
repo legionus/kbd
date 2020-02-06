@@ -18,7 +18,7 @@
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(char *s)
+usage(const char *s)
 {
 	fprintf(stderr, "setkeycode: %s\n", s);
 	fprintf(stderr, _(

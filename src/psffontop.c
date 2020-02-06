@@ -78,7 +78,7 @@ assemble_ucs2(const unsigned char **inptr, int cnt)
 	unsigned int u1, u2;
 
 	if (cnt < 2) {
-		char *u = _("%s: short ucs2 unicode table\n");
+		const char *u = _("%s: short ucs2 unicode table\n");
 		fprintf(stderr, u, get_progname());
 		exit(EX_DATAERR);
 	}
@@ -94,7 +94,7 @@ assemble_utf8(const unsigned char **inptr, int cnt)
 {
 	int err;
 	unsigned long uc;
-	char *u;
+	const char *u;
 
 	uc = from_utf8(inptr, cnt, &err);
 	if (err) {
@@ -138,7 +138,7 @@ get_uni_entry(const unsigned char **inptr, const unsigned char **endptr, struct 
 
 	while (1) {
 		if (*endptr == *inptr) {
-			char *u = _("%s: short unicode table\n");
+			const char *u = _("%s: short unicode table\n");
 			fprintf(stderr, u, get_progname());
 			exit(EX_DATAERR);
 		}
@@ -199,7 +199,7 @@ int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 			}
 			n += fread(inputbuf + n, 1, inputbuflth - n, fontf);
 			if (ferror(fontf)) {
-				char *u = _("%s: Error reading input font");
+				const char *u = _("%s: Error reading input font");
 				fprintf(stderr, u, progname);
 				exit(EX_DATAERR);
 			}
@@ -213,7 +213,7 @@ int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		inputlth        = n;
 	} else {
 		if (!allbufp || !allszp) {
-			char *u = _("%s: Bad call of readpsffont\n");
+			const char *u = _("%s: Bad call of readpsffont\n");
 			fprintf(stderr, u, progname);
 			exit(EX_SOFTWARE);
 		}
@@ -228,7 +228,7 @@ int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		psfhdr = (struct psf1_header *)&inputbuf[0];
 
 		if (psfhdr->mode > PSF1_MAXMODE) {
-			char *u = _("%s: Unsupported psf file mode (%d)\n");
+			const char *u = _("%s: Unsupported psf file mode (%d)\n");
 			fprintf(stderr, u, progname, psfhdr->mode);
 			exit(EX_DATAERR);
 		}
@@ -246,7 +246,7 @@ int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		memcpy(&psfhdr, inputbuf, sizeof(struct psf2_header));
 
 		if (psfhdr.version > PSF2_MAXVERSION) {
-			char *u = _("%s: Unsupported psf version (%d)\n");
+			const char *u = _("%s: Unsupported psf version (%d)\n");
 			fprintf(stderr, u, progname, psfhdr.version);
 			exit(EX_DATAERR);
 		}
@@ -262,18 +262,18 @@ int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 
 	/* tests required - we divide by these */
 	if (fontlen == 0) {
-		char *u = _("%s: zero input font length?\n");
+		const char *u = _("%s: zero input font length?\n");
 		fprintf(stderr, u, progname);
 		exit(EX_DATAERR);
 	}
 	if (charsize == 0) {
-		char *u = _("%s: zero input character size?\n");
+		const char *u = _("%s: zero input character size?\n");
 		fprintf(stderr, u, progname);
 		exit(EX_DATAERR);
 	}
 	i = ftoffset + fontlen * charsize;
 	if (i > inputlth || (!hastable && i != inputlth)) {
-		char *u = _("%s: Input file: bad input length (%d)\n");
+		const char *u = _("%s: Input file: bad input length (%d)\n");
 		fprintf(stderr, u, progname, inputlth);
 		exit(EX_DATAERR);
 	}
@@ -305,7 +305,7 @@ int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 			              &(*uclistheadsp)[k], utf8);
 		}
 		if (inptr != endptr) {
-			char *u = _("%s: Input file: trailing garbage\n");
+			const char *u = _("%s: Input file: trailing garbage\n");
 			fprintf(stderr, u, progname);
 			exit(EX_DATAERR);
 		}

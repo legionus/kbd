@@ -434,7 +434,7 @@ do_loadtable(int fd, struct unicode_list *uclistheads, int fontsize)
 			printf("\n");
 	}
 	if (ct != maxct) {
-		char *u = _("%s: bug in do_loadtable\n");
+		const char *u = _("%s: bug in do_loadtable\n");
 		fprintf(stderr, u, get_progname());
 		exit(EX_SOFTWARE);
 	}

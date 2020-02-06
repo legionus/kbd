@@ -257,7 +257,7 @@ int main(int argc, char *argv[])
 		i = 0;
 		while (i < n) {
 			int kc;
-			char *s;
+			const char *s;
 
 			s = (buf[i] & 0x80) ? _("release") : _("press");
 

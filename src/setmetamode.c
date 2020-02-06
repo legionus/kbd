@@ -46,7 +46,7 @@ usage(int rc)
 static void
 report(unsigned int meta)
 {
-	char *s;
+	const char *s;
 
 	switch (meta) {
 		case K_METABIT:
