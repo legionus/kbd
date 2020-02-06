@@ -302,7 +302,7 @@ int ioctl(int fd, ioctl_request_t request, ...)
 	char buf0[4096];
 	char buf1[4096];
 	int rc = 0;
-	int arg_i = 0;
+	unsigned int arg_i = 0;
 	char arg_char = 0;
 	ioctl_request_t arg = 0;
 	va_list ap;
@@ -385,7 +385,7 @@ int ioctl(int fd, ioctl_request_t request, ...)
 			break;
 		case KDGETMODE:
 		case KDSETMODE:
-			arg_i = *((int *) arg);
+			arg_i = *((unsigned int *) arg);
 			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kd_mode, arg_i, buf1, sizeof(buf1)),
@@ -413,15 +413,15 @@ int ioctl(int fd, ioctl_request_t request, ...)
 		case KDGKBMODE:
 		case KDSKBMODE:
 			arg_i = (request != KDSKBMODE)
-				? *((int *) arg)
-				: (int) arg;
+				? *((unsigned int *) arg)
+				: (unsigned int) arg;
 			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kb_mode, arg_i, buf1, sizeof(buf1)),
 				rc);
 			break;
 		case KDGKBMETA:
-			arg_i = *((int *) arg);
+			arg_i = *((unsigned int *) arg);
 			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kb_meta, arg_i, buf1, sizeof(buf1)),
