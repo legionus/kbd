@@ -13,13 +13,13 @@ matrix:
       os: linux
       env:
          - CC="gcc"
-         - DISTCHECK_CONFIGURE_EXTRA_FLAGS=""
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
          - TRAVIS_CHECK_KEYWORDS='unittest e2e'
     - name: "Build with clang (dynamic)"
       os: linux
       env:
          - CC="clang"
-         - DISTCHECK_CONFIGURE_EXTRA_FLAGS=""
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror"
          - TRAVIS_CHECK_KEYWORDS='unittest e2e'
     - name: "Build with musl (static)"
       os: linux
@@ -28,7 +28,7 @@ matrix:
          #  -idirafter /usr/include/                  # Needed for Travis/Ubuntu build to pass, for linux/kd.h, etc.
          #  -idirafter /usr/include/x86_64-linux-gnu/ # Needed for Travis/Ubuntu build to pass, for asm/types.h
          - CC="musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/"
-         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--disable-libkeymap --disable-vlock"
+         - DISTCHECK_CONFIGURE_EXTRA_FLAGS="--enable-werror --disable-libkeymap --disable-vlock"
          - TRAVIS_CHECK_KEYWORDS='unittest'
 script:
   - ./tests/travis-ci-run

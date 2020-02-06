@@ -96,6 +96,17 @@ CC_CHECK_CFLAGS_APPEND([\
 	-Wwrite-strings \
 ])
 
+AC_ARG_ENABLE(werror,
+	[AS_HELP_STRING([--enable-werror], [turn on -Werror for some kind of warnings])],
+	[use_werror=$enableval], [use_werror=no])
+
+if test "$use_werror" = yes; then
+	CC_CHECK_CFLAGS_APPEND([ \
+		-Werror=incompatible-pointer-types \
+		-Werror=discarded-qualifiers \
+	])
+fi
+
 case $host_cpu in
 	m68*) KEYCODES_PROGS=no ;;
 	*)    KEYCODES_PROGS=yes ;;
