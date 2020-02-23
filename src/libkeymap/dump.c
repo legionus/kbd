@@ -101,7 +101,7 @@ mk_mapname(char modifier)
 	int i;
 
 	if (!modifier) {
-		strcat(buf, "plain");
+		strcpy(buf, "plain");
 		return buf;
 	}
 	buf[0] = 0;

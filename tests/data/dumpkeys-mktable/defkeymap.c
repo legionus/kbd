@@ -565,7 +565,7 @@ static unsigned short shift_altgr_ctrl_alt_map[NR_KEYS] = {
 };
 
 ushort *key_maps[MAX_NR_KEYMAPS] = {
-	shift_altgr_ctrl_altplain_map, shift_map, altgr_map, shift_altgr_map,
+	plain_map, shift_map, altgr_map, shift_altgr_map,
 	ctrl_map, shift_ctrl_map, altgr_ctrl_map, shift_altgr_ctrl_map,
 	alt_map, shift_alt_map, altgr_alt_map, shift_altgr_alt_map,
 	ctrl_alt_map, shift_ctrl_alt_map, altgr_ctrl_alt_map, shift_altgr_ctrl_alt_map,	0
