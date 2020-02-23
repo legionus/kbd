@@ -8,6 +8,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <signal.h>
+#include <time.h>
 #include <dirent.h>
 #include <pwd.h>
 #include <errno.h>
@@ -159,6 +161,75 @@ open_vt(char *vtname, int force)
 	}
 
 	return fd;
+}
+
+static void
+sighandler(int sig __attribute__((unused)),
+           siginfo_t *si __attribute__((unused)),
+           void *uc __attribute__((unused)))
+{
+	return;
+}
+
+static int
+change_vt(int fd, int vtno)
+{
+	int rc = -1;
+	timer_t timerid = NULL;
+	struct sigaction sa;
+	struct sigevent sev;
+	struct itimerspec its;
+
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = sighandler;
+	sigemptyset(&sa.sa_mask);
+
+	if (sigaction(SIGALRM, &sa, NULL) < 0) {
+		kbd_warning(errno, _("Unable to set signal handler"));
+		return rc;
+	}
+
+	sev.sigev_notify = SIGEV_SIGNAL;
+	sev.sigev_signo = SIGALRM;
+	sev.sigev_value.sival_ptr = &timerid;
+
+	if (timer_create(CLOCK_REALTIME, &sev, &timerid) < 0) {
+		kbd_warning(errno, _("Unable to create timer"));
+		goto fail;
+	}
+
+	its.it_value.tv_sec     = 1;
+	its.it_value.tv_nsec    = 0;
+	its.it_interval.tv_sec  = its.it_value.tv_sec;
+	its.it_interval.tv_nsec = its.it_value.tv_nsec;
+
+	if (timer_settime(timerid, 0, &its, NULL) < 0) {
+		kbd_warning(errno, _("Unable to set timer"));
+		goto fail;
+	}
+
+	do {
+		errno = 0;
+
+		if (ioctl(fd, VT_ACTIVATE, vtno) < 0 && errno != EINTR) {
+			kbd_warning(errno, _("Couldn't activate vt %d"), vtno);
+			goto fail;
+		}
+
+		if (ioctl(fd, VT_WAITACTIVE, vtno) < 0 && errno != EINTR) {
+			kbd_warning(errno, "ioctl(VT_WAITACTIVE)");
+			goto fail;
+		}
+	} while (errno == EINTR);
+
+	rc = 0;
+fail:
+	if (timerid)
+		timer_delete(timerid);
+
+	signal(SIGALRM, SIG_DFL);
+
+	return rc;
 }
 
 int main(int argc, char *argv[])
@@ -354,13 +425,9 @@ int main(int argc, char *argv[])
 				kbd_error(5, errno, "setuid");
 		}
 
-		if (show) {
-			if (ioctl(fd, VT_ACTIVATE, vtno))
-				kbd_error(1, errno, _("Couldn't activate vt %d"), vtno);
+		if (show && change_vt(fd, vtno) < 0)
+			exit(1);
 
-			if (ioctl(fd, VT_WAITACTIVE, vtno))
-				kbd_error(1, errno, _("Activation interrupted?"));
-		}
 		close(0);
 		close(1);
 		close(2);
@@ -391,12 +458,8 @@ int main(int argc, char *argv[])
 		waitpid(pid, &retval, 0);
 
 		if (show) { /* Switch back... */
-			if (ioctl(consfd, VT_ACTIVATE, vtstat.v_active))
-				kbd_error(8, errno, "ioctl(VT_ACTIVATE)");
-
-			/* wait to be really sure we have switched */
-			if (ioctl(consfd, VT_WAITACTIVE, vtstat.v_active))
-				kbd_error(8, errno, "ioctl(VT_WAITACTIVE)");
+			if (change_vt(consfd, vtstat.v_active) < 0)
+				exit(8);
 
 			if (ioctl(consfd, VT_DISALLOCATE, vtno))
 				kbd_error(8, 0, _("Couldn't deallocate console %d"), vtno);

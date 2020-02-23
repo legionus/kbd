@@ -63,6 +63,8 @@ AC_FUNC_STAT
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul setpgrp malloc realloc])
 
+AC_SEARCH_LIBS([timer_create], [rt])
+
 # Optimization level
 CC_O_LEVEL="-O2"
 FORTIFY_SOURCE="-D_FORTIFY_SOURCE=2"
