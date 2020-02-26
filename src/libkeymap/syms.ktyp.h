@@ -385,7 +385,8 @@ static const char *const dead_syms[] = {
 	"dead_circumflex",
 	"dead_tilde",
 	"dead_diaeresis",
-	"dead_cedilla"
+	"dead_cedilla",
+	"dead_macron"
 };
 
 /*
