@@ -5,12 +5,12 @@ fgconsole \- print the number of the active VT.
 
 .SH SYNOPSIS
 .B fgconsole
-.BI [
-\-h \-\-help
+[
+.B \-h \-\-help
 |
-\-V \-\-version
+.B \-V \-\-version
 |
-\-n \-\-next-available
+.B \-n \-\-next-available
 ]
 .SH DESCRIPTION
 If the active Virtual Terminal is
@@ -19,8 +19,8 @@ then prints
 .I N
 on standard output.
 
-If the console is a serial console, then 
-"serial" 
+If the console is a serial console, then
+"serial"
 is printed instead.
 .TP
 .I \-h \-\-help
@@ -35,11 +35,11 @@ terminals are allocated, with number 7 used for X; this will return
 "8" in this case.
 
 .SH NOTES
-Under 
+Under
 .IR devfs ,
-the consoles are in 
+the consoles are in
 .IR /dev/vc/N .
-.IR devfsd
+.I devfsd
 may maintain symlinks for compatibility.
 .SH "SEE ALSO"
 .BR chvt (1).

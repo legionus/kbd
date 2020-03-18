@@ -37,7 +37,7 @@ loadkeys \- load keyboard translation tables
 ]
 .LP
 .SH DESCRIPTION
-.IX "loadkeys command" "" "\fLloadkeys\fR command"  
+.IX "loadkeys command" "" "\fLloadkeys\fR command"
 .LP
 The program
 .B loadkeys
@@ -45,7 +45,7 @@ reads the file or files specified by
 .IR filename... .
 Its main purpose is to load the kernel keymap for the console.
 You can specify console device by the
-.I -C 
+.I -C
 (or
 .I --console
 ) option.
@@ -131,7 +131,7 @@ in the keymap.
 The default bindings for the function keys are certain
 escape sequences mostly inspired by the VT100 terminal.
 .SH "CREATE KERNEL SOURCE TABLE"
-If the 
+If the
 .I -m
 (or
 .I --mktable
@@ -217,11 +217,11 @@ outlive your session. This means that even at the login prompt the key
 bindings may not be what the user expects.
 .SH FILES
 .TP
-.BI @DATADIR@/keymaps
+.I @DATADIR@/keymaps
 default directory for keymaps
 .LP
 .TP
-.BI /usr/src/linux/drivers/char/defkeymap.map
+.I /usr/src/linux/drivers/char/defkeymap.map
 default kernel keymap
 .SH "SEE ALSO"
 .BR dumpkeys (1),

@@ -4,14 +4,14 @@
 .SH NAME
 openvt \- start a program on a new virtual terminal (VT).
 .SH SYNOPSIS
-.B openvt 
+.B openvt
 [\-c vtnumber] [OPTIONS] [\-\-] command
 .SH DESCRIPTION
 .B openvt
-will find the first available VT, and run on it the given 
-.BR command
-with the given 
-.BR "command options",
+will find the first available VT, and run on it the given
+.B command
+with the given
+.B "command options",
 standard input, output and error are directed to that terminal. The current
 search path ($PATH) is used to find the requested command. If no command is
 specified then the environment variable $SHELL is used.
@@ -55,7 +55,7 @@ print program version and exit;
 .I "\-h, \-\-help"
 show this text and exit.
 .TP
-.I "\-\-" 
+.I "\-\-"
 end of options to
 .BR openvt .
 .SH NOTE
@@ -64,7 +64,6 @@ If
 is compiled with a getopt_long() and you wish to set
 options to the command to be run, then you must supply
 the end of options \-\- flag before the command.
-.BR
 .SH EXAMPLES
 .B openvt
 can be used to start a shell on the next free VT, by using the command:
@@ -80,8 +79,6 @@ To start the shell as a login shell, use:
 To get a long listing you must supply the \-\- separator:
 .TP
 .I "openvt -- ls -l"
-.BR
-
 .SH HISTORY
 Earlier,
 .B openvt
