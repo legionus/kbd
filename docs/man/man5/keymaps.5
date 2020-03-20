@@ -78,7 +78,7 @@ represent keyboard actions, of which up to 256 can be bound to a single
 key. The actions available include outputting character codes or
 character sequences, switching consoles or keymaps, booting the machine
 etc. (The complete list can be obtained from dumpkeys(1) by saying
-.BI " dumpkeys -l"
+.B " dumpkeys -l"
 \&.)
 .LP
 Each
@@ -91,7 +91,7 @@ If Shift+CapsLock should not produce a lower case symbol, put lines like
 .LP
 .RS
 .nf
-.BI "keycode 30 = +a  A"
+.B "keycode 30 = +a  A"
 .fi
 .RE
 .LP
@@ -333,8 +333,7 @@ key action code sends. The syntax of string definitions is:
 .B string
 .I keysym
 .B =
-.BI
-"text"
+.BI """" text """"
 .RE
 .LP
 .I text
@@ -429,6 +428,7 @@ the "spare" action code F100 not normally bound to any key.
 .nf
 altgr keycode 32 = F100
 string F100 = "du\\ndf\\n"
+.RE
 .LP
 .SH "SEE ALSO"
 .BR loadkeys (1),
