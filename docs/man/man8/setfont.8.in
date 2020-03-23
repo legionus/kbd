@@ -3,15 +3,27 @@
 setfont \- load EGA/VGA console screen font
 .SH SYNOPSIS
 .B setfont
-.RI "[-O " "font+umap.orig" "] [-o " "font.orig" ]
-.RI "[-om " "cmap.orig" ]
-.RI "[-ou " "umap.orig" ]
-.RI "[-" "N" "] [" "font.new ..." ]
-.RI "[-m " "cmap" ]
-.RI "[-u " "umap" ]
-.RI "[-C " "console" ]
-.RI "[-h" "H" ]
-.RI "[-v] [-V]"
+.RB [ -O
+.IR font+umap.orig ]
+.RB [ -o
+.IR font.orig ]
+.RB [ -om
+.IR cmap.orig ]
+.RB [ -ou
+.IR umap.orig ]
+.RB [ -\c
+.IR N ]
+.RI [ "font.new ...\&" ]
+.RB [ -m
+.IR cmap ]
+.RB [ -u
+.IR umap ]
+.RB [ -C
+.IR console ]
+.RB [ -h\c
+.IR H ]
+.RB [ -v ]
+.RB [ -V ]
 .IX "setfont command" "" "\fLsetfont\fR command"
 .SH DESCRIPTION
 The
@@ -69,7 +81,7 @@ Raw font files are binary files of size
 bytes, containing bit images for each of 256 characters,
 one byte per scan line, and
 .I N
-bytes per character (0 < 
+bytes per character (0 <
 .I N
 <= 32).
 Most fonts have a width of 8 bits, but with the framebuffer device (fb)

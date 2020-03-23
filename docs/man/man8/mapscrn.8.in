@@ -22,7 +22,7 @@ mode by outputting a special escape sequence to the console device.
 This sequence is
 .I <esc>(K
 for the
-.B G0 
+.B G0
 character set and
 .I <esc>)K
 for the
@@ -59,10 +59,10 @@ command can read the map in either of two formats:
 .br
 2. two-column text file
 .br
-Format (1) is a direct image of the translation 
+Format (1) is a direct image of the translation
 .I table. The 256-bytes tables are direct-to-font,
 the 512-bytes tables are user-to-unicode tables.
-Format (2) is used to fill the 
+Format (2) is used to fill the
 .I table
 as follows: cell with offset mentioned in the first column is filled
 with the value mentioned in the second column.
@@ -73,19 +73,19 @@ table, otherwise it is a direct-to-font table.
 Values in the file may be specified in one of several
 .B formats:
 .br
-.B 1. Decimal: 
+.B 1. Decimal:
 String of decimal digits not starting with '0'
 .br
-.B 2. Octal: 
+.B 2. Octal:
 String of octal digits beginning with '0'.
 .br
-.B 3. Hexadecimal: 
+.B 3. Hexadecimal:
 String of hexadecimal digits preceded by "0x".
 .br
 .B 4. Unicode:
 String of four hexadecimal digits preceded by "U+".
 .br
-.B 5. Character: 
+.B 5. Character:
 Single character enclosed in single quotes. (And the binary value is used.)
 Note that blank, comma, tab character and '#' cannot be specified
 with this format.
