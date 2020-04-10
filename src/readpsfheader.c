@@ -3,10 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h> /* exit */
 
-#include "kdmapop.h"
-#include "kdfontop.h"
-
 #include "libcommon.h"
+#include "kfont.h"
 
 int verbose = 0;
 int debug   = 0;
@@ -38,7 +36,12 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	if (readpsffont(f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) == -1) {
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.log_fn = log_stderr,
+	};
+
+	if (readpsffont(&ctx, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) == -1) {
 		fprintf(stderr, "%s: Bad magic number\n", argv[0]);
 		return 1;
 	}

@@ -4,6 +4,7 @@
 #define _PSFFONTOP_H
 
 #include <stdint.h>
+#include "context.h"
 #include "unicode.h"
 
 /* Maximum font size that we try to handle */
@@ -33,22 +34,24 @@
  * not psf (but has been read). > 0 means that the Unicode table contains
  * sequences.
  */
-extern int readpsffont(FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
-                       unsigned char **fontbufp, unsigned int *fontszp,
-                       unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
-                       struct unicode_list **uclistheadsp);
+int readpsffont(struct kfont_context *ctx,
+                FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
+                unsigned char **fontbufp, unsigned int *fontszp,
+                unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
+                struct unicode_list **uclistheadsp);
 
-extern int writepsffont(FILE *ofil, unsigned char *fontbuf,
-                        unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
-                        struct unicode_list *uclistheads);
+int writepsffont(struct kfont_context *ctx,
+                 FILE *ofil, unsigned char *fontbuf,
+                 unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
+                 struct unicode_list *uclistheads);
 
 #define WPSFH_HASTAB 1
 #define WPSFH_HASSEQ 2
-extern void writepsffontheader(FILE *ofil,
-                               unsigned int width, unsigned int height, unsigned int fontlen,
-                               int *psftype, int flags);
+void writepsffontheader(struct kfont_context *ctx, FILE *ofil,
+                        unsigned int width, unsigned int height, unsigned int fontlen,
+                        int *psftype, int flags);
 
-extern void appendunicode(FILE *fp, unicode uc, int utf8);
-extern void appendseparator(FILE *fp, int seq, int utf8);
+void appendunicode(struct kfont_context *ctx, FILE *fp, unicode uc, int utf8);
+void appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8);
 
 #endif /* _PSFFONTOP_H */

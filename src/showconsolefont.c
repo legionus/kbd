@@ -8,14 +8,13 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <sysexits.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
 #include "libcommon.h"
-
-#include "kdmapop.h"
-#include "kdfontop.h"
+#include "kfont.h"
 
 /*
  * Showing the font is nontrivial mostly because testing whether
@@ -31,13 +30,13 @@ int have_obuf    = 0;
 int have_ounimap = 0;
 
 static void __attribute__((noreturn))
-leave(int n)
+leave(struct kfont_context *ctx, int n)
 {
-	if (have_obuf && loaduniscrnmap(fd, obuf)) {
+	if (have_obuf && loaduniscrnmap(ctx, fd, obuf)) {
 		kbd_warning(0, _("failed to restore original translation table\n"));
 		n = EXIT_FAILURE;
 	}
-	if (have_ounimap && loadunimap(fd, NULL, &ounimap)) {
+	if (have_ounimap && loadunimap(ctx, fd, NULL, &ounimap)) {
 		kbd_warning(0, _("failed to restore original unimap\n"));
 		n = EXIT_FAILURE;
 	}
@@ -45,43 +44,48 @@ leave(int n)
 }
 
 static void
-settrivialscreenmap(void)
+settrivialscreenmap(struct kfont_context *ctx)
 {
 	unsigned short i;
 
-	if (getuniscrnmap(fd, obuf))
+	if (getuniscrnmap(ctx, fd, obuf))
 		exit(1);
 	have_obuf = 1;
 
 	for (i = 0; i < E_TABSZ; i++)
 		nbuf[i] = i;
 
-	if (loaduniscrnmap(fd, nbuf)) {
+	if (loaduniscrnmap(ctx, fd, nbuf)) {
 		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table\n"));
 	}
 }
 
 static void
-getoldunicodemap(void)
+getoldunicodemap(struct kfont_context *ctx)
 {
 	struct unimapdesc descr;
 
-	if (getunimap(fd, &descr))
-		leave(EXIT_FAILURE);
-	ounimap      = descr;
+	if (getunimap(ctx, fd, &descr))
+		leave(ctx, EXIT_FAILURE);
+	ounimap = descr;
 	have_ounimap = 1;
 }
 
 #define BASE 041 /* ' '+1 */
 
 static void
-setnewunicodemap(int *list, int cnt)
+setnewunicodemap(struct kfont_context *ctx, int *list, int cnt)
 {
 	unsigned short i;
 
 	if (!nunimap.entry_ct) {
 		nunimap.entry_ct = 512;
-		nunimap.entries  = (struct unipair *)xmalloc(nunimap.entry_ct * sizeof(struct unipair));
+
+		nunimap.entries  = malloc(nunimap.entry_ct * sizeof(struct unipair));
+		if (!nunimap.entries) {
+			ERR(ctx, "malloc: %m");
+			exit(EX_OSERR);
+		}
 	}
 	for (i = 0; i < 512; i++) {
 		nunimap.entries[i].fontpos = i;
@@ -90,8 +94,8 @@ setnewunicodemap(int *list, int cnt)
 	for (i = 0; i < cnt; i++)
 		nunimap.entries[list[i]].unicode = (unsigned short) (BASE + i);
 
-	if (loadunimap(fd, NULL, &nunimap))
-		leave(EXIT_FAILURE);
+	if (loadunimap(ctx, fd, NULL, &nunimap))
+		leave(ctx, EXIT_FAILURE);
 }
 
 static void __attribute__((noreturn))
@@ -147,12 +151,17 @@ int main(int argc, char **argv)
 	if (optind != argc)
 		usage();
 
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.log_fn = log_stderr,
+	};
+
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (ioctl(fd, KDGKBMODE, &mode)) {
 		kbd_warning(errno, "ioctl KDGKBMODE");
-		leave(EXIT_FAILURE);
+		leave(&ctx, EXIT_FAILURE);
 	}
 	if (mode == K_UNICODE)
 		space = "\xef\x80\xa0"; /* U+F020 (direct-to-font space) */
@@ -161,9 +170,10 @@ int main(int argc, char **argv)
 
 	if (info) {
 		nr = rows = cols = 0;
-		n                = getfont(fd, NULL, &nr, &rows, &cols);
+
+		n = getfont(&ctx, fd, NULL, &nr, &rows, &cols);
 		if (n != 0)
-			leave(EXIT_FAILURE);
+			leave(&ctx, EXIT_FAILURE);
 
 		if (verbose) {
 			printf(_("Character count: %u\n"), nr);
@@ -171,13 +181,13 @@ int main(int argc, char **argv)
 			printf(_("Font height    : %u\n"), cols);
 		} else
 			printf("%dx%dx%d\n", rows, cols, nr);
-		leave(EXIT_SUCCESS);
+		leave(&ctx, EXIT_SUCCESS);
 	}
 
-	settrivialscreenmap();
-	getoldunicodemap();
+	settrivialscreenmap(&ctx);
+	getoldunicodemap(&ctx);
 
-	n = getfontsize(fd);
+	n = getfontsize(&ctx, fd);
 	if (verbose)
 		printf(_("Showing %d-char font\n\n"), n);
 	cols = ((n > 256) ? 32 : 16);
@@ -191,7 +201,7 @@ int main(int argc, char **argv)
 			for (k = i; k < i + nr; k++)
 				for (j              = 0; j < cols; j++)
 					list[lth++] = k + j * rows;
-			setnewunicodemap(list, lth);
+			setnewunicodemap(&ctx, list, lth);
 		}
 		printf("%1$s%1$s%1$s%1$s", space);
 		for (j = 0; j < cols && i + j * rows < n; j++) {
@@ -206,6 +216,6 @@ int main(int argc, char **argv)
 		fflush(stdout);
 	}
 
-	leave(EXIT_SUCCESS);
+	leave(&ctx, EXIT_SUCCESS);
 	return EXIT_SUCCESS;
 }

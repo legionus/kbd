@@ -18,12 +18,8 @@
 #include "libcommon.h"
 
 #include "paths.h"
-#include "kdmapop.h"
+#include "kfont.h"
 #include "utf8.h"
-
-/* the two exported functions */
-void saveoldmap(int fd, const char *omfil);
-void loadnewmap(int fd, const char *mfil);
 
 static int ctoi(const char *);
 
@@ -64,8 +60,13 @@ int main(int argc, char *argv[])
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.log_fn = log_stderr,
+	};
+
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-		saveoldmap(fd, argv[2]);
+		saveoldmap(&ctx, fd, argv[2]);
 		argc -= 2;
 		argv += 2;
 		if (argc == 1)
@@ -77,7 +78,7 @@ int main(int argc, char *argv[])
 		        get_progname());
 		exit(EXIT_FAILURE);
 	}
-	loadnewmap(fd, argv[1]);
+	loadnewmap(&ctx, fd, argv[1]);
 	exit(EXIT_SUCCESS);
 }
 #endif
@@ -192,7 +193,7 @@ readnewmapfromfile(const char *mfil, unsigned char *buf, unsigned short *ubuf)
 	return u;
 }
 
-void loadnewmap(int fd, const char *mfil)
+void loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)
 {
 	unsigned short ubuf[E_TABSZ];
 	unsigned char buf[E_TABSZ];
@@ -212,11 +213,11 @@ void loadnewmap(int fd, const char *mfil)
 	/* do we need to use loaduniscrnmap() ? */
 	if (u) {
 		/* yes */
-		if (loaduniscrnmap(fd, ubuf))
+		if (loaduniscrnmap(ctx, fd, ubuf))
 			exit(1);
 	} else {
 		/* no */
-		if (loadscrnmap(fd, buf))
+		if (loadscrnmap(ctx, fd, buf))
 			exit(1);
 	}
 }
@@ -262,7 +263,7 @@ int ctoi(const char *s)
 	return i;
 }
 
-void saveoldmap(int fd, const char *omfil)
+void saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 {
 	FILE *fp;
 	unsigned char buf[E_TABSZ];
@@ -274,9 +275,9 @@ void saveoldmap(int fd, const char *omfil)
 		exit(1);
 	}
 	havemap = haveumap = 1;
-	if (getscrnmap(fd, buf))
+	if (getscrnmap(ctx, fd, buf))
 		havemap = 0;
-	if (getuniscrnmap(fd, ubuf))
+	if (getuniscrnmap(ctx, fd, ubuf))
 		haveumap = 0;
 	if (havemap && haveumap) {
 		for (i = 0; i < E_TABSZ; i++) {

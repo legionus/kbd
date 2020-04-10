@@ -23,6 +23,7 @@
 
 #include "psf.h"
 #include "psffontop.h"
+#include "context.h"
 
 /*
  * call: psfxtable -i infont -o outfont -it intable -ot outtable
@@ -69,7 +70,7 @@ getunicode(char **p0)
 }
 
 static void
-parse_itab_line(char *buf, unsigned int fontlen)
+parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 {
 	char *p, *p1;
 	long i;
@@ -78,8 +79,7 @@ parse_itab_line(char *buf, unsigned int fontlen)
 	if ((p = strchr(buf, '\n')) != NULL)
 		*p = 0;
 	else {
-		const char *u = _("%s: Warning: line too long\n");
-		fprintf(stderr, u, get_progname());
+		ERR(ctx, _("Warning: line too long"));
 		exit(EX_DATAERR);
 	}
 
@@ -92,8 +92,7 @@ parse_itab_line(char *buf, unsigned int fontlen)
 
 	fp0 = strtol(p, &p1, 0);
 	if (p1 == p) {
-		const char *u = _("%s: Bad input line: %s\n");
-		fprintf(stderr, u, get_progname(), buf);
+		ERR(ctx, _("Bad input line: %s"), buf);
 		exit(EX_DATAERR);
 	}
 	p = p1;
@@ -102,8 +101,7 @@ parse_itab_line(char *buf, unsigned int fontlen)
 		p++;
 		fp1 = strtol(p, &p1, 0);
 		if (p1 == p) {
-			const char *u = _("%s: Bad input line: %s\n");
-			fprintf(stderr, u, get_progname(), buf);
+			ERR(ctx, _("Bad input line: %s"), buf);
 			exit(EX_DATAERR);
 		}
 		p = p1;
@@ -111,13 +109,11 @@ parse_itab_line(char *buf, unsigned int fontlen)
 		fp1 = 0;
 
 	if (fp0 < 0 || fp0 >= fontlen) {
-		const char *u = _("%s: Glyph number (0x%lx) past end of font\n");
-		fprintf(stderr, u, get_progname(), fp0);
+		ERR(ctx, _("Glyph number (0x%lx) past end of font"), fp0);
 		exit(EX_DATAERR);
 	}
 	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
-		const char *u = _("%s: Bad end of range (0x%lx)\n");
-		fprintf(stderr, u, get_progname(), fp1);
+		ERR(ctx, _("Bad end of range (0x%lx)"), fp1);
 		exit(EX_DATAERR);
 	}
 
@@ -132,7 +128,7 @@ parse_itab_line(char *buf, unsigned int fontlen)
 			for (i = fp0; i <= fp1; i++) {
 				ret = addpair(uclistheads + i, i);
 				if (ret < 0) {
-					fprintf(stderr, "%s\n", strerror(-ret));
+					ERR(ctx, "unable to add pair: %s", strerror(-ret));
 					exit(EX_OSERR);
 				}
 			}
@@ -142,33 +138,34 @@ parse_itab_line(char *buf, unsigned int fontlen)
 			while (*p == ' ' || *p == '\t')
 				p++;
 			if (*p != '-') {
-				const char *u = _("%s: Corresponding to a range of "
-				                  "font positions, there should be "
-				                  "a Unicode range\n");
-				fprintf(stderr, u, get_progname());
+				ERR(ctx,
+				        _("Corresponding to a range of "
+				          "font positions, there should be "
+				          "a Unicode range"));
 				exit(EX_DATAERR);
 			}
 			p++;
 			un1 = getunicode(&p);
 			if (un0 < 0 || un1 < 0) {
-				const char *u = _("%s: Bad Unicode range "
-				                  "corresponding to font position "
-				                  "range 0x%x-0x%x\n");
-				fprintf(stderr, u, get_progname(), fp0, fp1);
+				ERR(ctx,
+				        _("Bad Unicode range "
+				          "corresponding to font position "
+				          "range 0x%lx-0x%lx"),
+					fp0, fp1);
 				exit(EX_DATAERR);
 			}
 			if (un1 - un0 != fp1 - fp0) {
-				const char *u = _("%s: Unicode range U+%x-U+%x not "
-				                  "of the same length as font "
-				                  "position range 0x%x-0x%x\n");
-				fprintf(stderr, u, get_progname(),
+				ERR(ctx,
+				        _("Unicode range U+%lx-U+%lx not "
+				          "of the same length as font "
+				          "position range 0x%lx-0x%lx"),
 				        un0, un1, fp0, fp1);
 				exit(EX_DATAERR);
 			}
 			for (i = fp0; i <= fp1; i++) {
 				ret = addpair(uclistheads + i, un0 - fp0 + i);
 				if (ret < 0) {
-					fprintf(stderr, "%s\n", strerror(-ret));
+					ERR(ctx, "unable to add pair: %s", strerror(-ret));
 					exit(EX_OSERR);
 				}
 			}
@@ -177,13 +174,13 @@ parse_itab_line(char *buf, unsigned int fontlen)
 		while ((un0 = getunicode(&p)) >= 0) {
 			ret = addpair(uclistheads + fp0, un0);
 			if (ret < 0) {
-				fprintf(stderr, "%s\n", strerror(-ret));
+				ERR(ctx, "unable to add pair: %s", strerror(-ret));
 				exit(EX_OSERR);
 			}
 			while (*p++ == ',' && (un1 = getunicode(&p)) >= 0) {
 				ret = addseq(uclistheads + fp0, un1);
 				if (ret < 0) {
-					fprintf(stderr, "%s\n", strerror(-ret));
+					ERR(ctx, "unable to add sequence: %s", strerror(-ret));
 					exit(EX_OSERR);
 				}
 			}
@@ -192,29 +189,35 @@ parse_itab_line(char *buf, unsigned int fontlen)
 		while (*p == ' ' || *p == '\t')
 			p++;
 		if (*p && *p != '#') {
-			const char *u = _("%s: trailing junk (%s) ignored\n");
-			fprintf(stderr, u, get_progname(), p);
+			ERR(ctx, _("trailing junk (%s) ignored"), p);
 		}
 	}
 }
 
 static void
-read_itable(FILE *itab, unsigned int fontlen, struct unicode_list **uclistheadsp)
+read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
+		struct unicode_list **uclistheadsp)
 {
 	char buf[65536];
 	unsigned int i;
 
 	if (uclistheadsp) {
-		*uclistheadsp = xrealloc(*uclistheadsp,
+		*uclistheadsp = realloc(*uclistheadsp,
 		                         fontlen * sizeof(struct unicode_list));
+		if (!*uclistheadsp) {
+			ERR(ctx, "realloc: %m");
+			exit(EX_OSERR);
+		}
+
 		for (i = 0; i < fontlen; i++) {
 			struct unicode_list *up = &((*uclistheadsp)[i]);
 			up->next                = NULL;
 			up->seq                 = NULL;
 			up->prev                = up;
 		}
+
 		while (fgets(buf, sizeof(buf), itab) != NULL)
-			parse_itab_line(buf, fontlen);
+			parse_itab_line(ctx, buf, fontlen);
 	}
 }
 
@@ -240,6 +243,11 @@ int main(int argc, char **argv)
 	ifname = ofname = itname = otname = NULL;
 	fontbuf                           = NULL;
 	notable                           = 0;
+
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.log_fn = log_stderr,
+	};
 
 	if (!strcmp(get_progname(), "psfaddtable")) {
 		/* Do not send binary data to stdout without explicit "-" */
@@ -299,7 +307,7 @@ int main(int argc, char **argv)
 	else {
 		ifil = fopen(ifname, "r");
 		if (!ifil) {
-			perror(ifname);
+			ERR(&ctx, "Unable to open: %s: %m", ifname);
 			exit(EX_NOINPUT);
 		}
 	}
@@ -311,7 +319,7 @@ int main(int argc, char **argv)
 	else {
 		itab = fopen(itname, "r");
 		if (!itab) {
-			perror(itname);
+			ERR(&ctx, "Unable to open: %s: %m", itname);
 			exit(EX_NOINPUT);
 		}
 	}
@@ -325,7 +333,7 @@ int main(int argc, char **argv)
 	else {
 		ofil = fopen(ofname, "w");
 		if (!ofil) {
-			perror(ofname);
+			ERR(&ctx, "Unable to open: %s: %m", ofname);
 			exit(EX_CANTCREAT);
 		}
 	}
@@ -337,16 +345,15 @@ int main(int argc, char **argv)
 	else {
 		otab = fopen(otname, "w");
 		if (!otab) {
-			perror(otname);
+			ERR(&ctx, "Unable to open: %s: %m", otname);
 			exit(EX_CANTCREAT);
 		}
 	}
 
-	if (readpsffont(ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
+	if (readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
 	                &width, &fontlen, 0,
 	                itab ? NULL : &uclistheads) == -1) {
-		const char *u = _("%s: Bad magic number on %s\n");
-		fprintf(stderr, u, get_progname(), ifname);
+		ERR(&ctx, _("Bad magic number on %s"), ifname);
 		exit(EX_DATAERR);
 	}
 	fclose(ifil);
@@ -364,13 +371,12 @@ int main(int argc, char **argv)
 	} else if (PSF2_MAGIC_OK((unsigned char *)inbuf)) {
 		psftype = 2;
 	} else {
-		const char *u = _("%s: psf file with unknown magic\n");
-		fprintf(stderr, u, get_progname());
+		ERR(&ctx, _("psf file with unknown magic"));
 		exit(EX_DATAERR);
 	}
 
 	if (itab) {
-		read_itable(itab, fontlen, &uclistheads);
+		read_itable(&ctx, itab, fontlen, &uclistheads);
 		fclose(itab);
 	}
 
@@ -380,8 +386,7 @@ int main(int argc, char **argv)
 		const char *sep;
 
 		if (!hastable) {
-			const char *u = _("%s: input font does not have an index\n");
-			fprintf(stderr, u, get_progname());
+			ERR(&ctx, _("input font does not have an index"));
 			exit(EX_DATAERR);
 		}
 		fprintf(otab,
@@ -407,7 +412,7 @@ int main(int argc, char **argv)
 	}
 
 	if (ofil) {
-		writepsffont(ofil, fontbuf, width, height, fontlen, psftype,
+		writepsffont(&ctx, ofil, fontbuf, width, height, fontlen, psftype,
 		             notable ? NULL : uclistheads);
 		fclose(ofil);
 	}

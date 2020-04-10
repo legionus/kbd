@@ -14,8 +14,7 @@
 #include <linux/kd.h>
 
 #include "libcommon.h"
-
-#include "kdmapop.h"
+#include "kfont.h"
 
 /*
  * Linux pre-0.96 defined GIO_SCRNMAP, PIO_SCRNMAP:
@@ -38,19 +37,19 @@
  * translation tables, and this ioctl would get/set the fourth
  * table, while the other three tables are built-in and constant.)
  */
-int getscrnmap(int fd, unsigned char *map)
+int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 {
 	if (ioctl(fd, GIO_SCRNMAP, map)) {
-		perror("GIO_SCRNMAP");
+		ERR(ctx, "ioctl(GIO_SCRNMAP): %m");
 		return -1;
 	}
 	return 0;
 }
 
-int loadscrnmap(int fd, unsigned char *map)
+int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 {
 	if (ioctl(fd, PIO_SCRNMAP, map)) {
-		perror("PIO_SCRNMAP");
+		ERR(ctx, "ioctl(PIO_SCRNMAP): %m");
 		return -1;
 	}
 	return 0;
@@ -80,17 +79,17 @@ int loadscrnmap(int fd, unsigned char *map)
  * table with such direct-to-font values.
  */
 
-int getuniscrnmap(int fd, unsigned short *map)
+int getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
-		perror("GIO_UNISCRNMAP");
+		ERR(ctx, "ioctl(GIO_UNISCRNMAP): %m");
 		return -1;
 	}
 	return 0;
 }
 
 int
-loaduniscrnmap(int fd, unsigned short *map)
+loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	unsigned short inbuf[E_TABSZ];
 
@@ -100,7 +99,7 @@ loaduniscrnmap(int fd, unsigned short *map)
 	memcpy(inbuf, map, sizeof(inbuf));
 
 	if (ioctl(fd, PIO_UNISCRNMAP, inbuf)) {
-		perror("PIO_UNISCRNMAP");
+		ERR(ctx, "ioctl(PIO_UNISCRNMAP): %m");
 		return -1;
 	}
 	return 0;
@@ -143,7 +142,7 @@ loaduniscrnmap(int fd, unsigned short *map)
  * Linux 2.6.1 makes GIO_UNIMAP, PIO_UNIMAP, PIO_UNIMAPCLR per-vt
  * so that fd no longer is random.
  */
-int getunimap(int fd, struct unimapdesc *ud0)
+int getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 {
 	struct unimapdesc ud;
 	int ct;
@@ -152,24 +151,23 @@ int getunimap(int fd, struct unimapdesc *ud0)
 	ud.entries  = 0;
 	if (ioctl(fd, GIO_UNIMAP, &ud)) {
 		if (errno != ENOMEM || ud.entry_ct == 0) {
-			perror("GIO_UNIMAP(0)");
+			ERR(ctx, "ioctl(GIO_UNIMAP): %m");
 			return -1;
 		}
-		ct         = ud.entry_ct;
-		ud.entries = (struct unipair *)
-		    malloc(ct * sizeof(struct unipair));
+		ct = ud.entry_ct;
+
+		ud.entries = malloc(ct * sizeof(struct unipair));
 		if (ud.entries == NULL) {
-			fprintf(stderr, _("%s: out of memory\n"), get_progname());
+			ERR(ctx, "malloc: %m");
 			return -1;
 		}
+
 		if (ioctl(fd, GIO_UNIMAP, &ud)) {
-			perror("GIO_UNIMAP");
+			ERR(ctx, "ioctl(GIO_UNIMAP): %m");
 			return -1;
 		}
 		if (ct != ud.entry_ct)
-			fprintf(stderr,
-			        _("strange... ct changed from %d to %d\n"),
-			        ct, ud.entry_ct);
+			ERR(ctx, _("strange... ct changed from %d to %d"), ct, ud.entry_ct);
 		/* someone could change the unimap between our
 		   first and second ioctl, so the above errors
 		   are not impossible */
@@ -178,7 +176,7 @@ int getunimap(int fd, struct unimapdesc *ud0)
 	return 0;
 }
 
-int loadunimap(int fd, struct unimapinit *ui, struct unimapdesc *ud)
+int loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
 {
 	struct unimapinit advice;
 
@@ -193,12 +191,12 @@ again:
 	if (ioctl(fd, PIO_UNIMAPCLR, &advice)) {
 #ifdef ENOIOCTLCMD
 		if (errno == ENOIOCTLCMD) {
-			fprintf(stderr,
+			ERR(ctx,
 			        _("It seems this kernel is older than 1.1.92\n"
-			          "No Unicode mapping table loaded.\n"));
+			          "No Unicode mapping table loaded."));
 		} else
 #endif
-			perror("PIO_UNIMAPCLR");
+			ERR(ctx, "ioctl(PIO_UNIMAPCLR): %m");
 		return -1;
 	}
 	if (ud == NULL)
@@ -209,7 +207,7 @@ again:
 			advice.advised_hashlevel++;
 			goto again;
 		}
-		perror("PIO_UNIMAP");
+		ERR(ctx, "ioctl(PIO_UNIMAP): %m");
 		return -1;
 	}
 

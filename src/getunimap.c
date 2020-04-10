@@ -9,9 +9,9 @@
 #include <sysexits.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
-#include "kdmapop.h"
 
 #include "libcommon.h"
+#include "kfont.h"
 
 #ifndef USE_LIBC
 /* There is such function in libc5 but it doesn't work for me [libc 5.4.13] */
@@ -69,7 +69,12 @@ int main(int argc, char **argv)
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
-	if (getunimap(fd, &ud))
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.log_fn = log_stderr,
+	};
+
+	if (getunimap(&ctx, fd, &ud))
 		return EXIT_FAILURE;
 
 	if (sortflag) {
