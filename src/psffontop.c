@@ -12,45 +12,10 @@
 #include "libcommon.h"
 
 #include "psf.h"
+#include "unicode.h"
 #include "psffontop.h"
 #include "utf8.h"
 #include "paths.h"
-
-static void
-addpair(struct unicode_list *up, int32_t uc)
-{
-	struct unicode_list *ul;
-	struct unicode_seq *us;
-
-	ul             = xmalloc(sizeof(struct unicode_list));
-	us             = xmalloc(sizeof(struct unicode_seq));
-	us->uc         = uc;
-	us->prev       = us;
-	us->next       = NULL;
-	ul->seq        = us;
-	ul->prev       = up->prev;
-	ul->prev->next = ul;
-	ul->next       = NULL;
-	up->prev       = ul;
-}
-
-static void
-addseq(struct unicode_list *up, int32_t uc)
-{
-	struct unicode_seq *us;
-	struct unicode_seq *usl;
-	struct unicode_list *ul = up->prev;
-
-	usl = ul->seq;
-	while (usl->next)
-		usl = usl->next;
-	us          = xmalloc(sizeof(struct unicode_seq));
-	us->uc      = uc;
-	us->prev    = usl;
-	us->next    = NULL;
-	usl->next   = us;
-	//ul->seq->prev = us;
-}
 
 static uint32_t
 assemble_uint32(unsigned char *ip)
@@ -114,14 +79,6 @@ assemble_utf8(const unsigned char **inptr, int cnt)
 	return uc;
 }
 
-static void
-clear_uni_entry(struct unicode_list *up)
-{
-	up->next = NULL;
-	up->seq  = NULL;
-	up->prev = up;
-}
-
 /*
  * Read description of a single font position.
  */
@@ -161,10 +118,19 @@ get_uni_entry(const unsigned char **inptr, const unsigned char **endptr, struct 
 				continue;
 			}
 		}
+
+		int ret;
+
 		if (inseq < 2)
-			addpair(up, unichar);
+			ret = addpair(up, unichar);
 		else
-			addseq(up, unichar);
+			ret = addseq(up, unichar);
+
+		if (ret < 0) {
+			fprintf(stderr, "%s\n", strerror(-ret));
+			exit(EX_OSERR);
+		}
+
 		if (inseq)
 			inseq++;
 	}

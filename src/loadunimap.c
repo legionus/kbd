@@ -144,7 +144,7 @@ static unsigned int listsz  = 0;
 static unsigned int listct  = 0;
 
 static void
-addpair(int fp, int un)
+add_unipair(int fp, int un)
 {
 	if (listct == listsz) {
 		listsz += 4096;
@@ -223,7 +223,7 @@ parseline(char *buffer, const char *tblname)
 		if (!strncmp(p, "idem", 4)) {
 			p += 4;
 			for (i = fp0; i <= fp1; i++)
-				addpair(i, i);
+				add_unipair(i, i);
 			goto lookattail;
 		}
 
@@ -232,7 +232,7 @@ parseline(char *buffer, const char *tblname)
 			p++;
 		if (*p != '-') {
 			for (i = fp0; i <= fp1; i++)
-				addpair(i, un0);
+				add_unipair(i, un0);
 			goto lookattail;
 		}
 
@@ -253,14 +253,14 @@ parseline(char *buffer, const char *tblname)
 			exit(EX_DATAERR);
 		}
 		for (i = fp0; i <= fp1; i++)
-			addpair(i, un0 - fp0 + i);
+			add_unipair(i, un0 - fp0 + i);
 
 	} else {
 		/* no range; expect a list of unicode values
 		   for a single font position */
 
 		while ((un0 = getunicode(&p)) >= 0)
-			addpair(fp0, un0);
+			add_unipair(fp0, un0);
 	}
 lookattail:
 	while (*p == ' ' || *p == '\t')

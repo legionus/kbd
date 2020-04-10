@@ -42,6 +42,7 @@ EXTRA_DIST = \
 
 libfont_a_SOURCES   = \
 	psf.h psffontop.c psffontop.h \
+	unicode.c unicode.h \
 	utf8.c utf8.h \
 	kdmapop.c kdmapop.h \
 	loadunimap.c loadunimap.h \

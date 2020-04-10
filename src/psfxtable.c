@@ -53,39 +53,6 @@
  */
 struct unicode_list *uclistheads;
 
-static void
-addpair(long fontpos, unicode uc)
-{
-	struct unicode_list *ul;
-	struct unicode_seq *us;
-
-	ul                        = xmalloc(sizeof(struct unicode_list));
-	us                        = xmalloc(sizeof(struct unicode_seq));
-	us->uc                    = uc;
-	us->prev                  = us;
-	us->next                  = NULL;
-	ul->seq                   = us;
-	ul->prev                  = uclistheads[fontpos].prev;
-	ul->prev->next            = ul;
-	ul->next                  = NULL;
-	uclistheads[fontpos].prev = ul;
-}
-
-static void
-addseq(long fontpos, unicode uc)
-{
-	struct unicode_list *ul;
-	struct unicode_seq *us;
-
-	ul             = uclistheads[fontpos].prev;
-	us             = xmalloc(sizeof(struct unicode_seq));
-	us->uc         = uc;
-	us->prev       = ul->seq->prev;
-	us->prev->next = us;
-	us->next       = NULL;
-	ul->seq->prev  = us;
-}
-
 static long
 getunicode(char **p0)
 {
@@ -154,14 +121,21 @@ parse_itab_line(char *buf, unsigned int fontlen)
 		exit(EX_DATAERR);
 	}
 
+	int ret = 0;
+
 	if (fp1) {
 		/* we have a range; expect the word "idem"
 		   or a Unicode range of the same length */
 		while (*p == ' ' || *p == '\t')
 			p++;
 		if (!strncmp(p, "idem", 4)) {
-			for (i = fp0; i <= fp1; i++)
-				addpair(i, i);
+			for (i = fp0; i <= fp1; i++) {
+				ret = addpair(uclistheads + i, i);
+				if (ret < 0) {
+					fprintf(stderr, "%s\n", strerror(-ret));
+					exit(EX_OSERR);
+				}
+			}
 			p += 4;
 		} else {
 			un0 = getunicode(&p);
@@ -191,14 +165,27 @@ parse_itab_line(char *buf, unsigned int fontlen)
 				        un0, un1, fp0, fp1);
 				exit(EX_DATAERR);
 			}
-			for (i = fp0; i <= fp1; i++)
-				addpair(i, un0 - fp0 + i);
+			for (i = fp0; i <= fp1; i++) {
+				ret = addpair(uclistheads + i, un0 - fp0 + i);
+				if (ret < 0) {
+					fprintf(stderr, "%s\n", strerror(-ret));
+					exit(EX_OSERR);
+				}
+			}
 		} /* not idem */
 	} else {  /* no range */
 		while ((un0 = getunicode(&p)) >= 0) {
-			addpair(fp0, un0);
+			ret = addpair(uclistheads + fp0, un0);
+			if (ret < 0) {
+				fprintf(stderr, "%s\n", strerror(-ret));
+				exit(EX_OSERR);
+			}
 			while (*p++ == ',' && (un1 = getunicode(&p)) >= 0) {
-				addseq(fp0, un1);
+				ret = addseq(uclistheads + fp0, un1);
+				if (ret < 0) {
+					fprintf(stderr, "%s\n", strerror(-ret));
+					exit(EX_OSERR);
+				}
 			}
 			p--;
 		}

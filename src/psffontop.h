@@ -4,23 +4,10 @@
 #define _PSFFONTOP_H
 
 #include <stdint.h>
+#include "unicode.h"
 
 /* Maximum font size that we try to handle */
 #define MAXFONTSIZE 65536
-
-typedef int32_t unicode;
-
-struct unicode_seq {
-	struct unicode_seq *next;
-	struct unicode_seq *prev;
-	unicode uc;
-};
-
-struct unicode_list {
-	struct unicode_list *next;
-	struct unicode_list *prev;
-	struct unicode_seq *seq;
-};
 
 /**
  * readpsffont reads a PSF font.
