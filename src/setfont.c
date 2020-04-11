@@ -764,6 +764,7 @@ do_saveoldfont(struct kfont_context *ctx,
 	unsigned char buf[MAXFONTSIZE];
 
 	unsigned int i, ct, width, height, bytewidth, charsize, kcharsize;
+	int ret;
 
 	ct = sizeof(buf) / (32 * 32 / 8); /* max size 32x32, 8 bits/byte */
 	if (getfont(ctx, fd, buf, &ct, &width, &height))
@@ -787,7 +788,9 @@ do_saveoldfont(struct kfont_context *ctx,
 		if (unimap_follows)
 			flags |= WPSFH_HASTAB;
 
-		writepsffontheader(ctx, fpo, width, height, ct, &psftype, flags);
+		ret = writepsffontheader(ctx, fpo, width, height, ct, &psftype, flags);
+		if (ret < 0)
+			exit(-ret);
 
 		if (utf8)
 			*utf8 = (psftype == 2);

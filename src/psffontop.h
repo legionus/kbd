@@ -35,23 +35,23 @@
  * sequences.
  */
 int readpsffont(struct kfont_context *ctx,
-                FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
-                unsigned char **fontbufp, unsigned int *fontszp,
-                unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
-                struct unicode_list **uclistheadsp);
+		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
+		unsigned char **fontbufp, unsigned int *fontszp,
+		unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
+		struct unicode_list **uclistheadsp);
 
 int writepsffont(struct kfont_context *ctx,
-                 FILE *ofil, unsigned char *fontbuf,
-                 unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
-                 struct unicode_list *uclistheads);
+		FILE *ofil, unsigned char *fontbuf,
+		unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
+		struct unicode_list *uclistheads);
 
 #define WPSFH_HASTAB 1
 #define WPSFH_HASSEQ 2
-void writepsffontheader(struct kfont_context *ctx, FILE *ofil,
-                        unsigned int width, unsigned int height, unsigned int fontlen,
-                        int *psftype, int flags);
+int writepsffontheader(struct kfont_context *ctx, FILE *ofil,
+		unsigned int width, unsigned int height, unsigned int fontlen,
+		int *psftype, int flags);
 
-void appendunicode(struct kfont_context *ctx, FILE *fp, unicode uc, int utf8);
-void appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8);
+int appendunicode(struct kfont_context *ctx, FILE *fp, unicode uc, int utf8);
+int appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8);
 
 #endif /* _PSFFONTOP_H */

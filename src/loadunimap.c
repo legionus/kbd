@@ -360,7 +360,7 @@ void appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
 	unsigned int i;
-	int j;
+	int j, ret;
 
 	if (getunicodemap(ctx, fd, &unimap_descr) < 0)
 		exit(1);
@@ -383,9 +383,13 @@ void appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 			if (unilist[j].fontpos == i) {
 				if (debug)
 					printf("%04x ", unilist[j].unicode);
-				appendunicode(ctx,fp, unilist[j].unicode, utf8);
+				ret = appendunicode(ctx,fp, unilist[j].unicode, utf8);
+				if (ret < 0)
+					exit(-ret);
 			}
-		appendseparator(ctx, fp, 0, utf8);
+		ret = appendseparator(ctx, fp, 0, utf8);
+		if (ret < 0)
+			exit(-ret);
 	}
 
 	if (debug)

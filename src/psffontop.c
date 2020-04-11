@@ -325,14 +325,15 @@ has_sequences(struct unicode_list *uclistheads, unsigned int fontlen)
 	return 0;
 }
 
-void appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
+int
+appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
 {
 	unsigned int n = 6;
 	unsigned char out[6];
 
 	if (u < 0) {
-		ERR(ctx, _("appendunicode: illegal unicode %d"), u);
-		exit(1);
+		ERR(ctx, _("illegal unicode %d"), u);
+		return -EX_DATAERR;
 	}
 
 	unsigned int uc = (unsigned int)u;
@@ -353,7 +354,7 @@ void appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
 	}
 	if (fwrite(out + n, 6 - n, 1, fp) != 1) {
 		ERR(ctx, "appendunimap: %m");
-		exit(1);
+		return -EX_IOERR;
 	}
 	if (debug) {
 		printf("(");
@@ -363,9 +364,12 @@ void appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
 			printf("%02x ", out[n++]);
 		printf(")");
 	}
+
+	return 0;
 }
 
-void appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8)
+int
+appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8)
 {
 	size_t n;
 
@@ -378,13 +382,15 @@ void appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8)
 	}
 	if (n != 1) {
 		ERR(ctx, "fwrite: %m");
-		exit(1);
+		return -EX_IOERR;
 	}
+	return 0;
 }
 
-void writepsffontheader(struct kfont_context *ctx,
-                        FILE *ofil, unsigned int width, unsigned int height,
-			unsigned int fontlen, int *psftype, int flags)
+int
+writepsffontheader(struct kfont_context *ctx,
+		FILE *ofil, unsigned int width, unsigned int height,
+		unsigned int fontlen, int *psftype, int flags)
 {
 	unsigned int bytewidth, charsize;
 	size_t ret;
@@ -431,16 +437,20 @@ void writepsffontheader(struct kfont_context *ctx,
 
 	if (ret != 1) {
 		ERR(ctx, _("Cannot write font file header"));
-		exit(EX_IOERR);
+		return -EX_IOERR;
 	}
+
+	return 0;
 }
 
-int writepsffont(struct kfont_context *ctx,
-                 FILE *ofil, unsigned char *fontbuf, unsigned int width, unsigned int height, unsigned int fontlen,
-                 int psftype, struct unicode_list *uclistheads)
+int
+writepsffont(struct kfont_context *ctx,
+		FILE *ofil, unsigned char *fontbuf, unsigned int width,
+		unsigned int height, unsigned int fontlen,
+		int psftype, struct unicode_list *uclistheads)
 {
 	unsigned int bytewidth, charsize, i;
-	int flags, utf8;
+	int flags, utf8, ret;
 
 	bytewidth = (width + 7) / 8;
 	charsize  = bytewidth * height;
@@ -452,12 +462,15 @@ int writepsffont(struct kfont_context *ctx,
 			flags |= WPSFH_HASSEQ;
 	}
 
-	writepsffontheader(ctx, ofil, width, height, fontlen, &psftype, flags);
+	ret = writepsffontheader(ctx, ofil, width, height, fontlen, &psftype, flags);
+	if (ret < 0)
+		return ret;
+
 	utf8 = (psftype == 2);
 
 	if ((fwrite(fontbuf, charsize, fontlen, ofil)) != fontlen) {
 		ERR(ctx, _("Cannot write font file"));
-		exit(EX_IOERR);
+		return -EX_IOERR;
 	}
 
 	/* unimaps: -1 => do nothing: caller will append map */
@@ -469,15 +482,22 @@ int writepsffont(struct kfont_context *ctx,
 			ul = uclistheads[i].next;
 			while (ul) {
 				us = ul->seq;
-				if (us && us->next)
-					appendseparator(ctx, ofil, 1, utf8);
+				if (us && us->next) {
+					ret = appendseparator(ctx, ofil, 1, utf8);
+					if (ret < 0)
+						return ret;
+				}
 				while (us) {
-					appendunicode(ctx, ofil, us->uc, utf8);
+					ret = appendunicode(ctx, ofil, us->uc, utf8);
+					if (ret < 0)
+						return ret;
 					us = us->next;
 				}
 				ul = ul->next;
 			}
-			appendseparator(ctx, ofil, 0, utf8);
+			ret = appendseparator(ctx, ofil, 0, utf8);
+			if (ret < 0)
+				return ret;
 		}
 	}
 	return utf8;
