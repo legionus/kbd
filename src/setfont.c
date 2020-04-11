@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
 	int ifilct = 0, fd, i, no_m, no_u;
 	unsigned int iunit, hwunit;
 	int restore = 0;
+	int ret;
 
 	set_progname(argv[0]);
 	setuplocale();
@@ -248,7 +249,9 @@ int main(int argc, char *argv[])
 		saveunicodemap(&ctx, fd, oufil);
 
 	if (mfil) {
-		loadnewmap(&ctx, fd, mfil);
+		ret = loadnewmap(&ctx, fd, mfil);
+		if (ret < 0)
+			exit(-ret);
 		activatemap(fd);
 		no_m = 1;
 	}
