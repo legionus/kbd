@@ -45,7 +45,7 @@ assemble_ucs2(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
 
 	if (cnt < 2) {
 		ERR(ctx, _("short ucs2 unicode table"));
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
 
 	u1 = *(*inptr)++;
@@ -73,7 +73,7 @@ assemble_utf8(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
 			default:
 				ERR(ctx, _("unknown utf8 error"));
 		}
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
 	return uc;
 }
@@ -81,7 +81,7 @@ assemble_utf8(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
 /*
  * Read description of a single font position.
  */
-static void
+static int
 get_uni_entry(struct kfont_context *ctx,
               const unsigned char **inptr, const unsigned char **endptr,
               struct unicode_list *up, int utf8)
@@ -97,7 +97,7 @@ get_uni_entry(struct kfont_context *ctx,
 	while (1) {
 		if (*endptr == *inptr) {
 			ERR(ctx, _("short unicode table"));
-			exit(EX_DATAERR);
+			return -EX_DATAERR;
 		}
 		if (utf8) {
 			uc = *(*inptr)++;
@@ -109,8 +109,12 @@ get_uni_entry(struct kfont_context *ctx,
 			}
 			--(*inptr);
 			unichar = assemble_utf8(ctx, inptr, *endptr - *inptr);
+			if (unichar < 0)
+				return unichar;
 		} else {
 			unichar = assemble_ucs2(ctx, inptr, *endptr - *inptr);
+			if (unichar < 0)
+				return unichar;
 			if (unichar == PSF1_SEPARATOR)
 				break;
 			if (unichar == PSF1_STARTSEQ) {
@@ -128,21 +132,23 @@ get_uni_entry(struct kfont_context *ctx,
 
 		if (ret < 0) {
 			ERR(ctx, "unable to unichar: %s", strerror(-ret));
-			exit(EX_OSERR);
+			return -EX_OSERR;
 		}
 
 		if (inseq)
 			inseq++;
 	}
+
+	return 0;
 }
 
-extern char *progname;
-
-int readpsffont(struct kfont_context *ctx,
-                FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
-                unsigned char **fontbufp, unsigned int *fontszp,
-                unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
-                struct unicode_list **uclistheadsp)
+int
+readpsffont(struct kfont_context *ctx,
+		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
+		unsigned char **fontbufp, unsigned int *fontszp,
+		unsigned int *fontwidthp, unsigned int *fontlenp,
+		unsigned int fontpos0,
+		struct unicode_list **uclistheadsp)
 {
 	unsigned char *inputbuf = NULL;
 	unsigned int inputbuflth = 0;
@@ -161,7 +167,7 @@ int readpsffont(struct kfont_context *ctx,
 		inputbuf = malloc(inputbuflth);
 		if (!inputbuf) {
 			ERR(ctx, "malloc: %m");
-			exit(EX_OSERR);
+			return -EX_OSERR;
 		}
 
 		n = 0;
@@ -173,13 +179,13 @@ int readpsffont(struct kfont_context *ctx,
 				inputbuf = realloc(inputbuf, inputbuflth);
 				if (!inputbuf) {
 					ERR(ctx, "realloc: %m");
-					exit(EX_OSERR);
+					return -EX_OSERR;
 				}
 			}
 			n += fread(inputbuf + n, 1, inputbuflth - n, fontf);
 			if (ferror(fontf)) {
 				ERR(ctx, _("Error reading input font"));
-				exit(EX_DATAERR);
+				return -EX_DATAERR;
 			}
 			if (feof(fontf))
 				break;
@@ -192,7 +198,7 @@ int readpsffont(struct kfont_context *ctx,
 	} else {
 		if (!allbufp || !allszp) {
 			ERR(ctx, _("Bad call of readpsffont"));
-			exit(EX_SOFTWARE);
+			return -EX_SOFTWARE;
 		}
 		inputbuf    = *allbufp;
 		inputbuflth = inputlth = n = *allszp;
@@ -206,7 +212,7 @@ int readpsffont(struct kfont_context *ctx,
 
 		if (psfhdr->mode > PSF1_MAXMODE) {
 			ERR(ctx, _("Unsupported psf file mode (%d)"), psfhdr->mode);
-			exit(EX_DATAERR);
+			return -EX_DATAERR;
 		}
 		fontlen   = ((psfhdr->mode & PSF1_MODE512) ? 512 : 256);
 		charsize  = psfhdr->charsize;
@@ -223,7 +229,7 @@ int readpsffont(struct kfont_context *ctx,
 
 		if (psfhdr.version > PSF2_MAXVERSION) {
 			ERR(ctx, _("Unsupported psf version (%d)"), psfhdr.version);
-			exit(EX_DATAERR);
+			return -EX_DATAERR;
 		}
 		fontlen   = assemble_uint32((unsigned char *)&psfhdr.length);
 		charsize  = assemble_uint32((unsigned char *)&psfhdr.charsize);
@@ -238,16 +244,16 @@ int readpsffont(struct kfont_context *ctx,
 	/* tests required - we divide by these */
 	if (fontlen == 0) {
 		ERR(ctx, _("zero input font length?"));
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
 	if (charsize == 0) {
 		ERR(ctx, _("zero input character size?"));
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
 	i = ftoffset + fontlen * charsize;
 	if (i > inputlth || (!hastable && i != inputlth)) {
 		ERR(ctx, _("Input file: bad input length (%d)"), inputlth);
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
 
 	if (fontbufp && allbufp)
@@ -268,11 +274,12 @@ int readpsffont(struct kfont_context *ctx,
 	              (fontpos0 + fontlen) * sizeof(struct unicode_list));
 	if (!ptr) {
 		ERR(ctx, "realloc: %m");
-		exit(EX_OSERR);
+		return -EX_OSERR;
 	}
 	*uclistheadsp = ptr;
 
 	if (hastable) {
+		int ret;
 		const unsigned char *inptr, *endptr;
 
 		inptr  = inputbuf + ftoffset + fontlen * charsize;
@@ -280,12 +287,14 @@ int readpsffont(struct kfont_context *ctx,
 
 		for (i = 0; i < fontlen; i++) {
 			k = fontpos0 + i;
-			get_uni_entry(ctx, &inptr, &endptr,
-			              &(*uclistheadsp)[k], utf8);
+			ret = get_uni_entry(ctx, &inptr, &endptr,
+					&(*uclistheadsp)[k], utf8);
+			if (ret < 0)
+				return ret;
 		}
 		if (inptr != endptr) {
 			ERR(ctx, _("Input file: trailing garbage"));
-			exit(EX_DATAERR);
+			return -EX_DATAERR;
 		}
 	} else {
 		for (i = 0; i < fontlen; i++) {

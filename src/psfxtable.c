@@ -352,7 +352,7 @@ int main(int argc, char **argv)
 
 	if (readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
 	                &width, &fontlen, 0,
-	                itab ? NULL : &uclistheads) == -1) {
+	                itab ? NULL : &uclistheads) < 0) {
 		ERR(&ctx, _("Bad magic number on %s"), ifname);
 		exit(EX_DATAERR);
 	}

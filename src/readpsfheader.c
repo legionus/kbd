@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 		.log_fn = log_stderr,
 	};
 
-	if (readpsffont(&ctx, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) == -1) {
+	if (readpsffont(&ctx, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0) {
 		fprintf(stderr, "%s: Bad magic number\n", argv[0]);
 		return 1;
 	}
