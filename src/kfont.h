@@ -6,7 +6,7 @@
 /* mapscrn.c */
 
 int loadnewmap(struct kfont_context *ctx, int fd, const char *mfil);
-void saveoldmap(struct kfont_context *ctx, int fd, const char *omfil);
+int saveoldmap(struct kfont_context *ctx, int fd, const char *omfil);
 
 /* loadunimap.c */
 

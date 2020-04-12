@@ -67,7 +67,9 @@ int main(int argc, char *argv[])
 	};
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-		saveoldmap(&ctx, fd, argv[2]);
+		ret = saveoldmap(&ctx, fd, argv[2]);
+		if (ret < 0)
+			exit(-ret);
 		argc -= 2;
 		argv += 2;
 		if (argc == 1)
@@ -274,7 +276,8 @@ int ctoi(const char *s)
 	return i;
 }
 
-void saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
+int
+saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 {
 	FILE *fp;
 	unsigned char buf[E_TABSZ];
@@ -282,14 +285,18 @@ void saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 	int i, havemap, haveumap;
 
 	if ((fp = fopen(omfil, "w")) == NULL) {
-		perror(omfil);
-		exit(1);
+		ERR(ctx, "Unable to open file: %s: %m", omfil);
+		return -EX_DATAERR;
 	}
+
 	havemap = haveumap = 1;
+
 	if (getscrnmap(ctx, fd, buf))
 		havemap = 0;
+
 	if (getuniscrnmap(ctx, fd, ubuf))
 		haveumap = 0;
+
 	if (havemap && haveumap) {
 		for (i = 0; i < E_TABSZ; i++) {
 			if ((ubuf[i] & ~0xff) != 0xf000) {
@@ -298,22 +305,26 @@ void saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 			}
 		}
 	}
+
 	if (havemap) {
 		if (fwrite(buf, sizeof(buf), 1, fp) != 1) {
-			fprintf(stderr, _("Error writing map to file\n"));
-			exit(1);
+			ERR(ctx, _("Error writing map to file"));
+			return -EX_IOERR;
 		}
 	} else if (haveumap) {
 		if (fwrite(ubuf, sizeof(ubuf), 1, fp) != 1) {
-			fprintf(stderr, _("Error writing map to file\n"));
-			exit(1);
+			ERR(ctx, _("Error writing map to file"));
+			return -EX_IOERR;
 		}
 	} else {
-		fprintf(stderr, _("Cannot read console map\n"));
-		exit(1);
+		ERR(ctx, _("Cannot read console map"));
+		return -1;
 	}
+
 	fclose(fp);
 
 	if (verbose)
-		printf(_("Saved screen map in `%s'\n"), omfil);
+		INFO(ctx, _("Saved screen map in `%s'"), omfil);
+
+	return 0;
 }

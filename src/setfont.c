@@ -242,8 +242,11 @@ int main(int argc, char *argv[])
 	if (ofil)
 		saveoldfont(&ctx, fd, ofil);
 
-	if (omfil)
-		saveoldmap(&ctx, fd, omfil);
+	if (omfil) {
+		ret = saveoldmap(&ctx, fd, omfil);
+		if (ret < 0)
+			exit(-ret);
+	}
 
 	if (oufil)
 		saveunicodemap(&ctx, fd, oufil);
