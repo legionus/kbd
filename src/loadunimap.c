@@ -383,16 +383,17 @@ saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 	return 0;
 }
 
-void appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
-                      unsigned int fontsize, int utf8)
+int
+appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
+		unsigned int fontsize, int utf8)
 {
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
 	unsigned int i;
 	int j, ret;
 
-	if (getunicodemap(ctx, fd, &unimap_descr) < 0)
-		exit(1);
+	if ((ret = getunicodemap(ctx, fd, &unimap_descr)) < 0)
+		return ret;
 
 	unilist = unimap_descr.entries;
 
@@ -408,21 +409,25 @@ void appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 #endif
 		if (debug)
 			printf("\nchar %03x: ", i);
-		for (j = 0; j < unimap_descr.entry_ct; j++)
+
+		for (j = 0; j < unimap_descr.entry_ct; j++) {
 			if (unilist[j].fontpos == i) {
 				if (debug)
 					printf("%04x ", unilist[j].unicode);
-				ret = appendunicode(ctx,fp, unilist[j].unicode, utf8);
-				if (ret < 0)
-					exit(-ret);
+				if ((ret = appendunicode(ctx,fp, unilist[j].unicode, utf8)) < 0)
+					return ret;
 			}
-		ret = appendseparator(ctx, fp, 0, utf8);
-		if (ret < 0)
-			exit(-ret);
+		}
+
+		if ((ret = appendseparator(ctx, fp, 0, utf8)) < 0)
+			return ret;
 	}
 
 	if (debug)
 		printf("\n");
+
 	if (verbose)
-		printf(_("Appended Unicode map\n"));
+		INFO(ctx, _("Appended Unicode map"));
+
+	return 0;
 }

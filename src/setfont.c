@@ -841,6 +841,7 @@ saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
 static void
 saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
 {
+	int ret;
 	FILE *fpo = fopen(Ofil, "w");
 
 	if (!fpo) {
@@ -852,7 +853,9 @@ saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
 	unsigned int ct = 0;
 
 	do_saveoldfont(ctx, fd, Ofil, fpo, 1, &ct, &utf8);
-	appendunicodemap(ctx, fd, fpo, ct, utf8);
+
+	if ((ret = appendunicodemap(ctx, fd, fpo, ct, utf8)) < 0)
+		exit(-ret);
 
 	fclose(fpo);
 }
