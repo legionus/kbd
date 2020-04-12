@@ -34,8 +34,8 @@
 #include "kfont.h"
 
 static unsigned int position_codepage(unsigned int iunit);
-static void saveoldfont(struct kfont_context *ctx, int fd, const char *ofil);
-static void saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil);
+static int saveoldfont(struct kfont_context *ctx, int fd, const char *ofil);
+static int saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil);
 static void loadnewfont(struct kfont_context *ctx,
                         int fd, const char *ifil,
                         unsigned int iunit, unsigned int hwunit, int no_m, int no_u);
@@ -236,11 +236,11 @@ int main(int argc, char *argv[])
 		/* reset to some default */
 		ifiles[ifilct++] = "";
 
-	if (Ofil)
-		saveoldfontplusunicodemap(&ctx, fd, Ofil);
+	if (Ofil && (ret = saveoldfontplusunicodemap(&ctx, fd, Ofil)) < 0)
+		exit(-ret);
 
-	if (ofil)
-		saveoldfont(&ctx, fd, ofil);
+	if (ofil && (ret = saveoldfont(&ctx, fd, ofil)) < 0)
+		exit(-ret);
 
 	if (omfil && (ret = saveoldmap(&ctx, fd, omfil)) < 0)
 		exit(-ret);
@@ -760,12 +760,11 @@ position_codepage(unsigned int iunit)
 	return offset;
 }
 
-static void
+static int
 do_saveoldfont(struct kfont_context *ctx,
-               int fd, const char *ofil, FILE *fpo, int unimap_follows,
-               unsigned int *count, int *utf8)
+		int fd, const char *ofil, FILE *fpo, int unimap_follows,
+		unsigned int *count, int *utf8)
 {
-
 /* this is the max font size the kernel is willing to handle */
 	unsigned char buf[MAXFONTSIZE];
 
@@ -773,8 +772,9 @@ do_saveoldfont(struct kfont_context *ctx,
 	int ret;
 
 	ct = sizeof(buf) / (32 * 32 / 8); /* max size 32x32, 8 bits/byte */
-	if (getfont(ctx, fd, buf, &ct, &width, &height))
-		exit(EX_OSERR);
+
+	if (getfont(ctx, fd, buf, &ct, &width, &height) < 0)
+		return -EX_OSERR;
 
 	/* save as efficiently as possible */
 	bytewidth = (width + 7) / 8;
@@ -796,7 +796,7 @@ do_saveoldfont(struct kfont_context *ctx,
 
 		ret = writepsffontheader(ctx, fpo, width, height, ct, &psftype, flags);
 		if (ret < 0)
-			exit(-ret);
+			return ret;
 
 		if (utf8)
 			*utf8 = (psftype == 2);
@@ -808,7 +808,7 @@ do_saveoldfont(struct kfont_context *ctx,
 		for (i = 0; i < ct; i++) {
 			if (fwrite(buf + (i * kcharsize), charsize, 1, fpo) != 1) {
 				ERR(ctx, _("Cannot write font file: %m"));
-				exit(EX_IOERR);
+				return -EX_IOERR;
 			}
 		}
 		if (verbose) {
@@ -820,43 +820,46 @@ do_saveoldfont(struct kfont_context *ctx,
 
 	if (count)
 		*count = ct;
+
+	return 0;
 }
 
-static void
+static int
 saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
 {
+	int ret;
 	FILE *fpo = fopen(ofil, "w");
 
 	if (!fpo) {
 		ERR(ctx, "Unable to open: %s: %m", ofil);
-		exit(EX_CANTCREAT);
+		return -EX_CANTCREAT;
 	}
 
-	do_saveoldfont(ctx, fd, ofil, fpo, 0, NULL, NULL);
+	ret = do_saveoldfont(ctx, fd, ofil, fpo, 0, NULL, NULL);
 
 	fclose(fpo);
+	return ret;
 }
 
-static void
+static int
 saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
 {
-	int ret;
+	int ret = 0;
 	FILE *fpo = fopen(Ofil, "w");
 
 	if (!fpo) {
 		ERR(ctx, "unable to open: %s: %m", Ofil);
-		exit(EX_CANTCREAT);
+		return -EX_CANTCREAT;
 	}
 
 	int utf8 = 0;
 	unsigned int ct = 0;
 
-	do_saveoldfont(ctx, fd, Ofil, fpo, 1, &ct, &utf8);
-
-	if ((ret = appendunicodemap(ctx, fd, fpo, ct, utf8)) < 0)
-		exit(-ret);
+	if (!(ret = do_saveoldfont(ctx, fd, Ofil, fpo, 1, &ct, &utf8)))
+		ret = appendunicodemap(ctx, fd, fpo, ct, utf8);
 
 	fclose(fpo);
+	return ret;
 }
 
 /* Only on the current console? On all allocated consoles? */
