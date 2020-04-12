@@ -15,6 +15,7 @@ typedef void (*kfont_logger_t)(struct kfont_context *, int, const char *, int,
 
 struct kfont_context {
 	const char *progname;
+	int verbose;
 	kfont_logger_t log_fn;
 };
 

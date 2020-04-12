@@ -42,9 +42,7 @@ static const char *const unisuffixes[] = {
 };
 
 #ifdef MAIN
-int verbose = 0;
 int force   = 0;
-int debug   = 0;
 
 static void __attribute__((noreturn))
 usage(void)
@@ -89,6 +87,7 @@ int main(int argc, char *argv[])
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
+		.verbose = 0,
 		.log_fn = kfont_log_stderr,
 	};
 
@@ -312,7 +311,7 @@ loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 		goto err;
 	}
 
-	if (verbose)
+	if (ctx->verbose)
 		KFONT_INFO(ctx, _("Loading unicode map from file %s"), kbdfile_get_pathname(fp));
 
 	while (fgets(buffer, sizeof(buffer), kbdfile_get_file(fp)) != NULL) {
@@ -377,7 +376,7 @@ saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 		fprintf(fpo, "0x%02x\tU+%04x\n", unilist[i].fontpos, unilist[i].unicode);
 	fclose(fpo);
 
-	if (verbose)
+	if (ctx->verbose)
 		KFONT_INFO(ctx, _("Saved unicode map on `%s'"), oufil);
 
 	return 0;
@@ -407,12 +406,12 @@ appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 		if (no > 1)
 			appendseparator(fp, 1, utf8);
 #endif
-		if (debug)
+		if (ctx->verbose > 1)
 			printf("\nchar %03x: ", i);
 
 		for (j = 0; j < unimap_descr.entry_ct; j++) {
 			if (unilist[j].fontpos == i) {
-				if (debug)
+				if (ctx->verbose > 1)
 					printf("%04x ", unilist[j].unicode);
 				if ((ret = appendunicode(ctx,fp, unilist[j].unicode, utf8)) < 0)
 					return ret;
@@ -423,10 +422,10 @@ appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 			return ret;
 	}
 
-	if (debug)
+	if (ctx->verbose > 1)
 		printf("\n");
 
-	if (verbose)
+	if (ctx->verbose)
 		KFONT_INFO(ctx, _("Appended Unicode map"));
 
 	return 0;

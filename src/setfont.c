@@ -45,9 +45,7 @@ static int loadnewfonts(struct kfont_context *ctx,
 static void activatemap(int fd);
 static void disactivatemap(int fd);
 
-int verbose     = 0;
 int force       = 0;
-int debug       = 0;
 int double_size = 0;
 
 /* search for the font in these directories (with trailing /) */
@@ -133,6 +131,12 @@ int main(int argc, char *argv[])
 	set_progname(argv[0]);
 	setuplocale();
 
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.verbose = 0,
+		.log_fn = kfont_log_stderr,
+	};
+
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;
 	no_m = no_u = 0;
@@ -145,7 +149,7 @@ int main(int argc, char *argv[])
 		if (!strcmp(argv[i], "-V")) {
 			print_version_and_exit();
 		} else if (!strcmp(argv[i], "-v")) {
-			verbose++;
+			ctx.verbose++;
 		} else if (!strcmp(argv[i], "-R")) {
 			restore = 1;
 		} else if (!strcmp(argv[i], "-C")) {
@@ -220,16 +224,11 @@ int main(int argc, char *argv[])
 		 * PIO_FONT will fail on a console which is in foreground and in KD_GRAPHICS mode.
 		 * 2005-03-03, jw@suse.de.
 		 */
-		if (verbose)
+		if (ctx.verbose)
 			printf("setfont: graphics console %s skipped\n", console ? console : "");
 		close(fd);
 		return 0;
 	}
-
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.log_fn = kfont_log_stderr,
-	};
 
 	if (!ifilct && !mfil && !ufil &&
 	    !Ofil && !ofil && !omfil && !oufil && !restore)
@@ -386,7 +385,7 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		}
 	}
 
-	if (verbose) {
+	if (ctx->verbose) {
 		if (height == hwunit && filename)
 			KFONT_INFO(ctx, _("Loading %d-char %dx%d font from file %s"),
 			       fontsize, width, height, filename);
@@ -442,7 +441,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 
 	for (i = 0; i < fontsize; i++) {
 		ul = uclistheads[i].next;
-		if (debug)
+		if (ctx->verbose > 1)
 			printf("char %03x:", i);
 		while (ul) {
 			us = ul->seq;
@@ -450,9 +449,9 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 				up[ct].unicode = us->uc;
 				up[ct].fontpos = i;
 				ct++;
-				if (debug)
+				if (ctx->verbose > 1)
 					printf(" %04x", us->uc);
-			} else if (debug) {
+			} else if (ctx->verbose > 1) {
 				printf(" seq: <");
 				while (us) {
 					printf(" %04x", us->uc);
@@ -461,10 +460,10 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 				printf(" >");
 			}
 			ul = ul->next;
-			if (debug)
+			if (ctx->verbose > 1)
 				printf(",");
 		}
-		if (debug)
+		if (ctx->verbose > 1)
 			printf("\n");
 	}
 
@@ -474,7 +473,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 		goto err;
 	}
 
-	if (verbose)
+	if (ctx->verbose)
 		KFONT_INFO(ctx, _("Loading Unicode mapping table..."));
 
 	ud.entry_ct = ct;
@@ -549,7 +548,7 @@ loadnewfonts(struct kfont_context *ctx,
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
 
-		if (verbose)
+		if (ctx->verbose)
 			KFONT_INFO(ctx, _("Read %d-char %dx%d font from file %s"),
 			     fontsize, width, height, kbdfile_get_pathname(fp));
 
@@ -654,7 +653,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		}
 	}
 
-	if (verbose > 1)
+	if (ctx->verbose > 1)
 		KFONT_INFO(ctx, _("Reading font file %s"), ifil);
 
 	inbuf = fontbuf = NULL;
@@ -863,7 +862,7 @@ do_saveoldfont(struct kfont_context *ctx,
 				return -EX_IOERR;
 			}
 		}
-		if (verbose) {
+		if (ctx->verbose) {
 			KFONT_INFO(ctx,
 			     _("Saved %d-char %dx%d font file on %s"),
 			     ct, width, height, ofil);

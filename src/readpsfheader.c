@@ -6,9 +6,6 @@
 #include "libcommon.h"
 #include "kfont.h"
 
-int verbose = 0;
-int debug   = 0;
-
 static void __attribute__((noreturn))
 usage(void)
 {
@@ -38,6 +35,7 @@ int main(int argc, char **argv)
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
+		.verbose = 0,
 		.log_fn = kfont_log_stderr,
 	};
 

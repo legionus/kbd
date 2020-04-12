@@ -356,7 +356,7 @@ appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
 		KFONT_ERR(ctx, "appendunimap: %m");
 		return -EX_IOERR;
 	}
-	if (debug) {
+	if (ctx->verbose > 0) {
 		printf("(");
 		if (!utf8)
 			printf("U+");

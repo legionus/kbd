@@ -123,10 +123,16 @@ int main(int argc, char **argv)
 	int mode;
 	const char *space, *sep;
 	char *console = NULL;
-	int list[64], lth, info = 0, verbose = 0;
+	int list[64], lth, info = 0;
 
 	set_progname(argv[0]);
 	setuplocale();
+
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.verbose = 0,
+		.log_fn = kfont_log_stderr,
+	};
 
 	if (argc == 2 &&
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
@@ -138,7 +144,7 @@ int main(int argc, char **argv)
 				info = 1;
 				break;
 			case 'v':
-				verbose = 1;
+				ctx.verbose++;
 				break;
 			case 'C':
 				console = optarg;
@@ -150,11 +156,6 @@ int main(int argc, char **argv)
 
 	if (optind != argc)
 		usage();
-
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.log_fn = kfont_log_stderr,
-	};
 
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
@@ -175,7 +176,7 @@ int main(int argc, char **argv)
 		if (n != 0)
 			leave(&ctx, EXIT_FAILURE);
 
-		if (verbose) {
+		if (ctx.verbose) {
 			printf(_("Character count: %u\n"), nr);
 			printf(_("Font width     : %u\n"), rows);
 			printf(_("Font height    : %u\n"), cols);
@@ -188,7 +189,7 @@ int main(int argc, char **argv)
 	getoldunicodemap(&ctx);
 
 	n = getfontsize(&ctx, fd);
-	if (verbose)
+	if (ctx.verbose)
 		printf(_("Showing %d-char font\n\n"), n);
 	cols = ((n > 256) ? 32 : 16);
 	nr   = 64 / cols;

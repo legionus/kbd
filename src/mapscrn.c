@@ -39,12 +39,15 @@ static const char *const mapsuffixes[] = {
 };
 
 #ifdef MAIN
-int verbose = 0;
-int debug   = 0;
-
 int main(int argc, char *argv[])
 {
 	int fd, ret;
+
+	struct kfont_context ctx = {
+		.progname = get_progname(),
+		.verbose = 0,
+		.log_fn = kfont_log_stderr,
+	};
 
 	set_progname(argv[0]);
 	setuplocale();
@@ -53,18 +56,13 @@ int main(int argc, char *argv[])
 		print_version_and_exit();
 
 	if (argc > 1 && !strcmp(argv[1], "-v")) {
-		verbose = 1;
+		ctx.verbose++;
 		argc--;
 		argv++;
 	}
 
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
-
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.log_fn = kfont_log_stderr,
-	};
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
 		ret = saveoldmap(&ctx, fd, argv[2]);
@@ -164,7 +162,7 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 	}
 
 	if (stbuf.st_size == E_TABSZ) {
-		if (verbose)
+		if (ctx->verbose)
 			KFONT_INFO(ctx,
 				_("Loading binary direct-to-font screen map from file %s"),
 				kbdfile_get_pathname(fp));
@@ -175,7 +173,7 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 			return -EX_IOERR;
 		}
 	} else if (stbuf.st_size == 2 * E_TABSZ) {
-		if (verbose)
+		if (ctx->verbose)
 			KFONT_INFO(ctx,
 				_("Loading binary unicode screen map from file %s"),
 				kbdfile_get_pathname(fp));
@@ -188,7 +186,7 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 		}
 		u = 1;
 	} else {
-		if (verbose)
+		if (ctx->verbose)
 			KFONT_INFO(ctx, _("Loading symbolic screen map from file %s"),
 				kbdfile_get_pathname(fp));
 
@@ -323,7 +321,7 @@ saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 
 	fclose(fp);
 
-	if (verbose)
+	if (ctx->verbose)
 		KFONT_INFO(ctx, _("Saved screen map in `%s'"), omfil);
 
 	return 0;

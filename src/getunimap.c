@@ -71,6 +71,7 @@ int main(int argc, char **argv)
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
+		.verbose = 0,
 		.log_fn = kfont_log_stderr,
 	};
 

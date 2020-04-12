@@ -25,7 +25,4 @@
 #define KERNDIR "/usr/src/linux/drivers/tty/vt"
 #endif
 
-extern int verbose;
-extern int debug;
-
 #endif /* _PATHS_H */
