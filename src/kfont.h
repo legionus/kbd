@@ -11,7 +11,7 @@ int saveoldmap(struct kfont_context *ctx, int fd, const char *omfil);
 /* loadunimap.c */
 
 int saveunicodemap(struct kfont_context *ctx, int fd, char *oufil); /* save humanly readable */
-void loadunicodemap(struct kfont_context *ctx, int fd, const char *ufil);
+int loadunicodemap(struct kfont_context *ctx, int fd, const char *ufil);
 void appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 		unsigned int ct, int utf8);
 

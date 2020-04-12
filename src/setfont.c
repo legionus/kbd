@@ -264,8 +264,8 @@ int main(int argc, char *argv[])
 	if (ifilct)
 		loadnewfonts(&ctx, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
 
-	if (ufil)
-		loadunicodemap(&ctx, fd, ufil);
+	if (ufil && (ret = loadunicodemap(&ctx, fd, ufil)) < 0)
+		return -ret;
 
 	return 0;
 }
@@ -579,6 +579,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 	unsigned char *inbuf, *fontbuf;
 	unsigned int inputlth, fontbuflth, fontsize, offset;
 	struct unicode_list *uclistheads;
+	int ret;
 
 	if (!(fp = kbdfile_new(NULL))) {
 		ERR(ctx, "Unable to create kbdfile instance: %m");
@@ -635,10 +636,14 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 
 		if (uclistheads && !no_u)
 			do_loadtable(ctx, fd, uclistheads, fontsize);
-#if 1
-		if (!uclistheads && !no_u && def)
-			loadunicodemap(ctx, fd, "def.uni");
-#endif
+
+		if (!uclistheads && !no_u && def) {
+			if ((ret = loadunicodemap(ctx, fd, "def.uni")) < 0) {
+				ERR(ctx, "Unable to load unicode map");
+				exit(-ret);
+			}
+		}
+
 		goto exit;
 	}
 
