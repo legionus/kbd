@@ -242,18 +242,14 @@ int main(int argc, char *argv[])
 	if (ofil)
 		saveoldfont(&ctx, fd, ofil);
 
-	if (omfil) {
-		ret = saveoldmap(&ctx, fd, omfil);
-		if (ret < 0)
-			exit(-ret);
-	}
+	if (omfil && (ret = saveoldmap(&ctx, fd, omfil)) < 0)
+		exit(-ret);
 
-	if (oufil)
-		saveunicodemap(&ctx, fd, oufil);
+	if (oufil && (ret = saveunicodemap(&ctx, fd, oufil)) < 0)
+		exit(-ret);
 
 	if (mfil) {
-		ret = loadnewmap(&ctx, fd, mfil);
-		if (ret < 0)
+		if ((ret = loadnewmap(&ctx, fd, mfil)) < 0)
 			exit(-ret);
 		activatemap(fd);
 		no_m = 1;

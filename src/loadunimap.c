@@ -56,7 +56,7 @@ usage(void)
 
 int main(int argc, char *argv[])
 {
-	int fd, c;
+	int fd, c, ret;
 	char *console = NULL;
 	char *outfnam = NULL;
 	const char *infnam  = "def.uni";
@@ -93,7 +93,9 @@ int main(int argc, char *argv[])
 	};
 
 	if (outfnam) {
-		saveunicodemap(&ctx, fd, outfnam);
+		ret = saveunicodemap(&ctx, fd, outfnam);
+		if (ret < 0)
+			exit(-ret);
 		if (argc == optind)
 			exit(0);
 	}
@@ -329,20 +331,21 @@ getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr
 	return 0;
 }
 
-void saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
+int
+saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 {
 	FILE *fpo;
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
-	int i;
+	int i, ret;
 
 	if ((fpo = fopen(oufil, "w")) == NULL) {
-		ERR(ctx, "unable to open file: %s", oufil);
-		exit(1);
+		ERR(ctx, "Unable to open file: %s", oufil);
+		return -EX_DATAERR;
 	}
 
-	if (getunicodemap(ctx, fd, &unimap_descr) < 0)
-		exit(1);
+	if ((ret = getunicodemap(ctx, fd, &unimap_descr)) < 0)
+		return ret;
 
 	unilist = unimap_descr.entries;
 
@@ -351,7 +354,9 @@ void saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 	fclose(fpo);
 
 	if (verbose)
-		printf(_("Saved unicode map on `%s'\n"), oufil);
+		INFO(ctx, _("Saved unicode map on `%s'"), oufil);
+
+	return 0;
 }
 
 void appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
