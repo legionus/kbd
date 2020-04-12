@@ -79,7 +79,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 	if ((p = strchr(buf, '\n')) != NULL)
 		*p = 0;
 	else {
-		ERR(ctx, _("Warning: line too long"));
+		KFONT_ERR(ctx, _("Warning: line too long"));
 		exit(EX_DATAERR);
 	}
 
@@ -92,7 +92,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 
 	fp0 = strtol(p, &p1, 0);
 	if (p1 == p) {
-		ERR(ctx, _("Bad input line: %s"), buf);
+		KFONT_ERR(ctx, _("Bad input line: %s"), buf);
 		exit(EX_DATAERR);
 	}
 	p = p1;
@@ -101,7 +101,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 		p++;
 		fp1 = strtol(p, &p1, 0);
 		if (p1 == p) {
-			ERR(ctx, _("Bad input line: %s"), buf);
+			KFONT_ERR(ctx, _("Bad input line: %s"), buf);
 			exit(EX_DATAERR);
 		}
 		p = p1;
@@ -109,11 +109,11 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 		fp1 = 0;
 
 	if (fp0 < 0 || fp0 >= fontlen) {
-		ERR(ctx, _("Glyph number (0x%lx) past end of font"), fp0);
+		KFONT_ERR(ctx, _("Glyph number (0x%lx) past end of font"), fp0);
 		exit(EX_DATAERR);
 	}
 	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
-		ERR(ctx, _("Bad end of range (0x%lx)"), fp1);
+		KFONT_ERR(ctx, _("Bad end of range (0x%lx)"), fp1);
 		exit(EX_DATAERR);
 	}
 
@@ -128,7 +128,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 			for (i = fp0; i <= fp1; i++) {
 				ret = addpair(uclistheads + i, i);
 				if (ret < 0) {
-					ERR(ctx, "unable to add pair: %s", strerror(-ret));
+					KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 					exit(EX_OSERR);
 				}
 			}
@@ -138,7 +138,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 			while (*p == ' ' || *p == '\t')
 				p++;
 			if (*p != '-') {
-				ERR(ctx,
+				KFONT_ERR(ctx,
 				        _("Corresponding to a range of "
 				          "font positions, there should be "
 				          "a Unicode range"));
@@ -147,7 +147,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 			p++;
 			un1 = getunicode(&p);
 			if (un0 < 0 || un1 < 0) {
-				ERR(ctx,
+				KFONT_ERR(ctx,
 				        _("Bad Unicode range "
 				          "corresponding to font position "
 				          "range 0x%lx-0x%lx"),
@@ -155,7 +155,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 				exit(EX_DATAERR);
 			}
 			if (un1 - un0 != fp1 - fp0) {
-				ERR(ctx,
+				KFONT_ERR(ctx,
 				        _("Unicode range U+%lx-U+%lx not "
 				          "of the same length as font "
 				          "position range 0x%lx-0x%lx"),
@@ -165,7 +165,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 			for (i = fp0; i <= fp1; i++) {
 				ret = addpair(uclistheads + i, un0 - fp0 + i);
 				if (ret < 0) {
-					ERR(ctx, "unable to add pair: %s", strerror(-ret));
+					KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 					exit(EX_OSERR);
 				}
 			}
@@ -174,13 +174,13 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 		while ((un0 = getunicode(&p)) >= 0) {
 			ret = addpair(uclistheads + fp0, un0);
 			if (ret < 0) {
-				ERR(ctx, "unable to add pair: %s", strerror(-ret));
+				KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 				exit(EX_OSERR);
 			}
 			while (*p++ == ',' && (un1 = getunicode(&p)) >= 0) {
 				ret = addseq(uclistheads + fp0, un1);
 				if (ret < 0) {
-					ERR(ctx, "unable to add sequence: %s", strerror(-ret));
+					KFONT_ERR(ctx, "unable to add sequence: %s", strerror(-ret));
 					exit(EX_OSERR);
 				}
 			}
@@ -189,7 +189,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 		while (*p == ' ' || *p == '\t')
 			p++;
 		if (*p && *p != '#') {
-			ERR(ctx, _("trailing junk (%s) ignored"), p);
+			KFONT_ERR(ctx, _("trailing junk (%s) ignored"), p);
 		}
 	}
 }
@@ -205,7 +205,7 @@ read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
 		*uclistheadsp = realloc(*uclistheadsp,
 		                         fontlen * sizeof(struct unicode_list));
 		if (!*uclistheadsp) {
-			ERR(ctx, "realloc: %m");
+			KFONT_ERR(ctx, "realloc: %m");
 			exit(EX_OSERR);
 		}
 
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
-		.log_fn = log_stderr,
+		.log_fn = kfont_log_stderr,
 	};
 
 	if (!strcmp(get_progname(), "psfaddtable")) {
@@ -307,7 +307,7 @@ int main(int argc, char **argv)
 	else {
 		ifil = fopen(ifname, "r");
 		if (!ifil) {
-			ERR(&ctx, "Unable to open: %s: %m", ifname);
+			KFONT_ERR(&ctx, "Unable to open: %s: %m", ifname);
 			exit(EX_NOINPUT);
 		}
 	}
@@ -319,7 +319,7 @@ int main(int argc, char **argv)
 	else {
 		itab = fopen(itname, "r");
 		if (!itab) {
-			ERR(&ctx, "Unable to open: %s: %m", itname);
+			KFONT_ERR(&ctx, "Unable to open: %s: %m", itname);
 			exit(EX_NOINPUT);
 		}
 	}
@@ -333,7 +333,7 @@ int main(int argc, char **argv)
 	else {
 		ofil = fopen(ofname, "w");
 		if (!ofil) {
-			ERR(&ctx, "Unable to open: %s: %m", ofname);
+			KFONT_ERR(&ctx, "Unable to open: %s: %m", ofname);
 			exit(EX_CANTCREAT);
 		}
 	}
@@ -345,7 +345,7 @@ int main(int argc, char **argv)
 	else {
 		otab = fopen(otname, "w");
 		if (!otab) {
-			ERR(&ctx, "Unable to open: %s: %m", otname);
+			KFONT_ERR(&ctx, "Unable to open: %s: %m", otname);
 			exit(EX_CANTCREAT);
 		}
 	}
@@ -353,7 +353,7 @@ int main(int argc, char **argv)
 	if (readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
 	                &width, &fontlen, 0,
 	                itab ? NULL : &uclistheads) < 0) {
-		ERR(&ctx, _("Bad magic number on %s"), ifname);
+		KFONT_ERR(&ctx, _("Bad magic number on %s"), ifname);
 		exit(EX_DATAERR);
 	}
 	fclose(ifil);
@@ -371,7 +371,7 @@ int main(int argc, char **argv)
 	} else if (PSF2_MAGIC_OK((unsigned char *)inbuf)) {
 		psftype = 2;
 	} else {
-		ERR(&ctx, _("psf file with unknown magic"));
+		KFONT_ERR(&ctx, _("psf file with unknown magic"));
 		exit(EX_DATAERR);
 	}
 
@@ -386,7 +386,7 @@ int main(int argc, char **argv)
 		const char *sep;
 
 		if (!hastable) {
-			ERR(&ctx, _("input font does not have an index"));
+			KFONT_ERR(&ctx, _("input font does not have an index"));
 			exit(EX_DATAERR);
 		}
 		fprintf(otab,

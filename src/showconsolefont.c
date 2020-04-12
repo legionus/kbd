@@ -83,7 +83,7 @@ setnewunicodemap(struct kfont_context *ctx, int *list, int cnt)
 
 		nunimap.entries  = malloc(nunimap.entry_ct * sizeof(struct unipair));
 		if (!nunimap.entries) {
-			ERR(ctx, "malloc: %m");
+			KFONT_ERR(ctx, "malloc: %m");
 			exit(EX_OSERR);
 		}
 	}
@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
-		.log_fn = log_stderr,
+		.log_fn = kfont_log_stderr,
 	};
 
 	if ((fd = getfd(console)) < 0)

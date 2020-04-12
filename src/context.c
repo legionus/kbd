@@ -4,8 +4,9 @@
 #include "context.h"
 
 void
-logger(struct kfont_context *ctx, int priority, const char *file, int line, const char *fn,
-       const char *fmt, ...)
+kfont_logger(struct kfont_context *ctx, int priority, const char *file,
+		int line, const char *fn,
+		const char *fmt, ...)
 {
 	va_list args;
 	if (ctx->log_fn == NULL)
@@ -17,8 +18,9 @@ logger(struct kfont_context *ctx, int priority, const char *file, int line, cons
 
 
 void
-log_stderr(struct kfont_context *ctx, int priority, const char *file, const int line,
-           const char *fn, const char *format, va_list args)
+kfont_log_stderr(struct kfont_context *ctx, int priority, const char *file,
+		const int line, const char *fn,
+		const char *format, va_list args)
 {
 	char buf[16];
 	const char *priname;

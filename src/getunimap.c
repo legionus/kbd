@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
-		.log_fn = log_stderr,
+		.log_fn = kfont_log_stderr,
 	};
 
 	if (getunimap(&ctx, fd, &ud))

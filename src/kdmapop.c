@@ -40,7 +40,7 @@
 int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 {
 	if (ioctl(fd, GIO_SCRNMAP, map)) {
-		ERR(ctx, "ioctl(GIO_SCRNMAP): %m");
+		KFONT_ERR(ctx, "ioctl(GIO_SCRNMAP): %m");
 		return -1;
 	}
 	return 0;
@@ -49,7 +49,7 @@ int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 {
 	if (ioctl(fd, PIO_SCRNMAP, map)) {
-		ERR(ctx, "ioctl(PIO_SCRNMAP): %m");
+		KFONT_ERR(ctx, "ioctl(PIO_SCRNMAP): %m");
 		return -1;
 	}
 	return 0;
@@ -82,7 +82,7 @@ int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 int getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
-		ERR(ctx, "ioctl(GIO_UNISCRNMAP): %m");
+		KFONT_ERR(ctx, "ioctl(GIO_UNISCRNMAP): %m");
 		return -1;
 	}
 	return 0;
@@ -99,7 +99,7 @@ loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 	memcpy(inbuf, map, sizeof(inbuf));
 
 	if (ioctl(fd, PIO_UNISCRNMAP, inbuf)) {
-		ERR(ctx, "ioctl(PIO_UNISCRNMAP): %m");
+		KFONT_ERR(ctx, "ioctl(PIO_UNISCRNMAP): %m");
 		return -1;
 	}
 	return 0;
@@ -151,23 +151,23 @@ int getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 	ud.entries  = 0;
 	if (ioctl(fd, GIO_UNIMAP, &ud)) {
 		if (errno != ENOMEM || ud.entry_ct == 0) {
-			ERR(ctx, "ioctl(GIO_UNIMAP): %m");
+			KFONT_ERR(ctx, "ioctl(GIO_UNIMAP): %m");
 			return -1;
 		}
 		ct = ud.entry_ct;
 
 		ud.entries = malloc(ct * sizeof(struct unipair));
 		if (ud.entries == NULL) {
-			ERR(ctx, "malloc: %m");
+			KFONT_ERR(ctx, "malloc: %m");
 			return -1;
 		}
 
 		if (ioctl(fd, GIO_UNIMAP, &ud)) {
-			ERR(ctx, "ioctl(GIO_UNIMAP): %m");
+			KFONT_ERR(ctx, "ioctl(GIO_UNIMAP): %m");
 			return -1;
 		}
 		if (ct != ud.entry_ct)
-			ERR(ctx, _("strange... ct changed from %d to %d"), ct, ud.entry_ct);
+			KFONT_ERR(ctx, _("strange... ct changed from %d to %d"), ct, ud.entry_ct);
 		/* someone could change the unimap between our
 		   first and second ioctl, so the above errors
 		   are not impossible */
@@ -191,12 +191,12 @@ again:
 	if (ioctl(fd, PIO_UNIMAPCLR, &advice)) {
 #ifdef ENOIOCTLCMD
 		if (errno == ENOIOCTLCMD) {
-			ERR(ctx,
+			KFONT_ERR(ctx,
 			        _("It seems this kernel is older than 1.1.92\n"
 			          "No Unicode mapping table loaded."));
 		} else
 #endif
-			ERR(ctx, "ioctl(PIO_UNIMAPCLR): %m");
+			KFONT_ERR(ctx, "ioctl(PIO_UNIMAPCLR): %m");
 		return -1;
 	}
 	if (ud == NULL)
@@ -207,7 +207,7 @@ again:
 			advice.advised_hashlevel++;
 			goto again;
 		}
-		ERR(ctx, "ioctl(PIO_UNIMAP): %m");
+		KFONT_ERR(ctx, "ioctl(PIO_UNIMAP): %m");
 		return -1;
 	}
 

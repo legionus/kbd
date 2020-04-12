@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
-		.log_fn = log_stderr,
+		.log_fn = kfont_log_stderr,
 	};
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
@@ -149,39 +149,39 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 	struct kbdfile *fp;
 
 	if (!(fp = kbdfile_new(NULL))) {
-		ERR(ctx, "Unable to create kbdfile instance: %m");
+		KFONT_ERR(ctx, "Unable to create kbdfile instance: %m");
 		return -EX_OSERR;
 	}
 
 	if (kbdfile_find(mfil, mapdirpath, mapsuffixes, fp)) {
-		ERR(ctx, _("Cannot open map file: %s"), mfil);
+		KFONT_ERR(ctx, _("Cannot open map file: %s"), mfil);
 		return -EX_DATAERR;
 	}
 
 	if (stat(kbdfile_get_pathname(fp), &stbuf)) {
-		ERR(ctx, _("Cannot open map file: %s"), kbdfile_get_pathname(fp));
+		KFONT_ERR(ctx, _("Cannot open map file: %s"), kbdfile_get_pathname(fp));
 		return -EX_DATAERR;
 	}
 
 	if (stbuf.st_size == E_TABSZ) {
 		if (verbose)
-			INFO(ctx,
+			KFONT_INFO(ctx,
 				_("Loading binary direct-to-font screen map from file %s"),
 				kbdfile_get_pathname(fp));
 
 		if (fread(buf, E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
-			ERR(ctx, _("Error reading map from file `%s'"),
+			KFONT_ERR(ctx, _("Error reading map from file `%s'"),
 				kbdfile_get_pathname(fp));
 			return -EX_IOERR;
 		}
 	} else if (stbuf.st_size == 2 * E_TABSZ) {
 		if (verbose)
-			INFO(ctx,
+			KFONT_INFO(ctx,
 				_("Loading binary unicode screen map from file %s"),
 				kbdfile_get_pathname(fp));
 
 		if (fread(ubuf, 2 * E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
-			ERR(ctx,
+			KFONT_ERR(ctx,
 				_("Error reading map from file `%s'"),
 				kbdfile_get_pathname(fp));
 			return -EX_IOERR;
@@ -189,11 +189,11 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 		u = 1;
 	} else {
 		if (verbose)
-			INFO(ctx, _("Loading symbolic screen map from file %s"),
+			KFONT_INFO(ctx, _("Loading symbolic screen map from file %s"),
 				kbdfile_get_pathname(fp));
 
 		if (parsemap(kbdfile_get_file(fp), buf, ubuf, &u, &lineno)) {
-			ERR(ctx,
+			KFONT_ERR(ctx,
 				_("Error parsing symbolic map from `%s', line %d"),
 				kbdfile_get_pathname(fp), lineno);
 			return -1;
@@ -285,7 +285,7 @@ saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 	int i, havemap, haveumap;
 
 	if ((fp = fopen(omfil, "w")) == NULL) {
-		ERR(ctx, "Unable to open file: %s: %m", omfil);
+		KFONT_ERR(ctx, "Unable to open file: %s: %m", omfil);
 		return -EX_DATAERR;
 	}
 
@@ -308,23 +308,23 @@ saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 
 	if (havemap) {
 		if (fwrite(buf, sizeof(buf), 1, fp) != 1) {
-			ERR(ctx, _("Error writing map to file"));
+			KFONT_ERR(ctx, _("Error writing map to file"));
 			return -EX_IOERR;
 		}
 	} else if (haveumap) {
 		if (fwrite(ubuf, sizeof(ubuf), 1, fp) != 1) {
-			ERR(ctx, _("Error writing map to file"));
+			KFONT_ERR(ctx, _("Error writing map to file"));
 			return -EX_IOERR;
 		}
 	} else {
-		ERR(ctx, _("Cannot read console map"));
+		KFONT_ERR(ctx, _("Cannot read console map"));
 		return -1;
 	}
 
 	fclose(fp);
 
 	if (verbose)
-		INFO(ctx, _("Saved screen map in `%s'"), omfil);
+		KFONT_INFO(ctx, _("Saved screen map in `%s'"), omfil);
 
 	return 0;
 }

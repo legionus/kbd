@@ -44,7 +44,7 @@ assemble_ucs2(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
 	int u1, u2;
 
 	if (cnt < 2) {
-		ERR(ctx, _("short ucs2 unicode table"));
+		KFONT_ERR(ctx, _("short ucs2 unicode table"));
 		return -EX_DATAERR;
 	}
 
@@ -65,13 +65,13 @@ assemble_utf8(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
 	if (err) {
 		switch (err) {
 			case UTF8_SHORT:
-				ERR(ctx, _("short utf8 unicode table"));
+				KFONT_ERR(ctx, _("short utf8 unicode table"));
 				break;
 			case UTF8_BAD:
-				ERR(ctx, _("bad utf8"));
+				KFONT_ERR(ctx, _("bad utf8"));
 				break;
 			default:
-				ERR(ctx, _("unknown utf8 error"));
+				KFONT_ERR(ctx, _("unknown utf8 error"));
 		}
 		return -EX_DATAERR;
 	}
@@ -96,7 +96,7 @@ get_uni_entry(struct kfont_context *ctx,
 
 	while (1) {
 		if (*endptr == *inptr) {
-			ERR(ctx, _("short unicode table"));
+			KFONT_ERR(ctx, _("short unicode table"));
 			return -EX_DATAERR;
 		}
 		if (utf8) {
@@ -131,7 +131,7 @@ get_uni_entry(struct kfont_context *ctx,
 			ret = addseq(up, unichar);
 
 		if (ret < 0) {
-			ERR(ctx, "unable to unichar: %s", strerror(-ret));
+			KFONT_ERR(ctx, "unable to unichar: %s", strerror(-ret));
 			return -EX_OSERR;
 		}
 
@@ -166,7 +166,7 @@ readpsffont(struct kfont_context *ctx,
 
 		inputbuf = malloc(inputbuflth);
 		if (!inputbuf) {
-			ERR(ctx, "malloc: %m");
+			KFONT_ERR(ctx, "malloc: %m");
 			return -EX_OSERR;
 		}
 
@@ -178,13 +178,13 @@ readpsffont(struct kfont_context *ctx,
 
 				inputbuf = realloc(inputbuf, inputbuflth);
 				if (!inputbuf) {
-					ERR(ctx, "realloc: %m");
+					KFONT_ERR(ctx, "realloc: %m");
 					return -EX_OSERR;
 				}
 			}
 			n += fread(inputbuf + n, 1, inputbuflth - n, fontf);
 			if (ferror(fontf)) {
-				ERR(ctx, _("Error reading input font"));
+				KFONT_ERR(ctx, _("Error reading input font"));
 				return -EX_DATAERR;
 			}
 			if (feof(fontf))
@@ -197,7 +197,7 @@ readpsffont(struct kfont_context *ctx,
 		inputlth        = n;
 	} else {
 		if (!allbufp || !allszp) {
-			ERR(ctx, _("Bad call of readpsffont"));
+			KFONT_ERR(ctx, _("Bad call of readpsffont"));
 			return -EX_SOFTWARE;
 		}
 		inputbuf    = *allbufp;
@@ -211,7 +211,7 @@ readpsffont(struct kfont_context *ctx,
 		psfhdr = (struct psf1_header *)&inputbuf[0];
 
 		if (psfhdr->mode > PSF1_MAXMODE) {
-			ERR(ctx, _("Unsupported psf file mode (%d)"), psfhdr->mode);
+			KFONT_ERR(ctx, _("Unsupported psf file mode (%d)"), psfhdr->mode);
 			return -EX_DATAERR;
 		}
 		fontlen   = ((psfhdr->mode & PSF1_MODE512) ? 512 : 256);
@@ -228,7 +228,7 @@ readpsffont(struct kfont_context *ctx,
 		memcpy(&psfhdr, inputbuf, sizeof(struct psf2_header));
 
 		if (psfhdr.version > PSF2_MAXVERSION) {
-			ERR(ctx, _("Unsupported psf version (%d)"), psfhdr.version);
+			KFONT_ERR(ctx, _("Unsupported psf version (%d)"), psfhdr.version);
 			return -EX_DATAERR;
 		}
 		fontlen   = assemble_uint32((unsigned char *)&psfhdr.length);
@@ -243,16 +243,16 @@ readpsffont(struct kfont_context *ctx,
 
 	/* tests required - we divide by these */
 	if (fontlen == 0) {
-		ERR(ctx, _("zero input font length?"));
+		KFONT_ERR(ctx, _("zero input font length?"));
 		return -EX_DATAERR;
 	}
 	if (charsize == 0) {
-		ERR(ctx, _("zero input character size?"));
+		KFONT_ERR(ctx, _("zero input character size?"));
 		return -EX_DATAERR;
 	}
 	i = ftoffset + fontlen * charsize;
 	if (i > inputlth || (!hastable && i != inputlth)) {
-		ERR(ctx, _("Input file: bad input length (%d)"), inputlth);
+		KFONT_ERR(ctx, _("Input file: bad input length (%d)"), inputlth);
 		return -EX_DATAERR;
 	}
 
@@ -273,7 +273,7 @@ readpsffont(struct kfont_context *ctx,
 	ptr = realloc(*uclistheadsp,
 	              (fontpos0 + fontlen) * sizeof(struct unicode_list));
 	if (!ptr) {
-		ERR(ctx, "realloc: %m");
+		KFONT_ERR(ctx, "realloc: %m");
 		return -EX_OSERR;
 	}
 	*uclistheadsp = ptr;
@@ -293,7 +293,7 @@ readpsffont(struct kfont_context *ctx,
 				return ret;
 		}
 		if (inptr != endptr) {
-			ERR(ctx, _("Input file: trailing garbage"));
+			KFONT_ERR(ctx, _("Input file: trailing garbage"));
 			return -EX_DATAERR;
 		}
 	} else {
@@ -332,7 +332,7 @@ appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
 	unsigned char out[6];
 
 	if (u < 0) {
-		ERR(ctx, _("illegal unicode %d"), u);
+		KFONT_ERR(ctx, _("illegal unicode %d"), u);
 		return -EX_DATAERR;
 	}
 
@@ -353,7 +353,7 @@ appendunicode(struct kfont_context *ctx, FILE *fp, int u, int utf8)
 		out[--n] = ((uc + ~mask + ~mask) & 0xff);
 	}
 	if (fwrite(out + n, 6 - n, 1, fp) != 1) {
-		ERR(ctx, "appendunimap: %m");
+		KFONT_ERR(ctx, "appendunimap: %m");
 		return -EX_IOERR;
 	}
 	if (debug) {
@@ -381,7 +381,7 @@ appendseparator(struct kfont_context *ctx, FILE *fp, int seq, int utf8)
 		n = fwrite(&u, sizeof(u), 1, fp);
 	}
 	if (n != 1) {
-		ERR(ctx, "fwrite: %m");
+		KFONT_ERR(ctx, "fwrite: %m");
 		return -EX_IOERR;
 	}
 	return 0;
@@ -436,7 +436,7 @@ writepsffontheader(struct kfont_context *ctx,
 	}
 
 	if (ret != 1) {
-		ERR(ctx, _("Cannot write font file header"));
+		KFONT_ERR(ctx, _("Cannot write font file header"));
 		return -EX_IOERR;
 	}
 
@@ -469,7 +469,7 @@ writepsffont(struct kfont_context *ctx,
 	utf8 = (psftype == 2);
 
 	if ((fwrite(fontbuf, charsize, fontlen, ofil)) != fontlen) {
-		ERR(ctx, _("Cannot write font file"));
+		KFONT_ERR(ctx, _("Cannot write font file"));
 		return -EX_IOERR;
 	}
 

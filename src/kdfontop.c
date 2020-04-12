@@ -24,7 +24,7 @@ int
 restorefont(struct kfont_context *ctx, int fd)
 {
 	if (ioctl(fd, PIO_FONTRESET, 0)) {
-		ERR(ctx, "ioctl(PIO_FONTRESET): %m");
+		KFONT_ERR(ctx, "ioctl(PIO_FONTRESET): %m");
 		return -1;
 	}
 	return 0;
@@ -76,7 +76,7 @@ getfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int *cou
 	}
 
 	if (errno != ENOSYS && errno != EINVAL) {
-		ERR(ctx, "ioctl(KDFONTOP): %m");
+		KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
 		return -1;
 	}
 
@@ -97,24 +97,24 @@ getfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int *cou
 	}
 
 	if (errno != ENOSYS && errno != EINVAL) {
-		ERR(ctx, "ioctl(GIO_FONTX): %m");
+		KFONT_ERR(ctx, "ioctl(GIO_FONTX): %m");
 		return -1;
 	}
 
 	/* Third attempt: GIO_FONT */
 	if (*count < 256) {
-		ERR(ctx, _("bug: getfont called with count<256"));
+		KFONT_ERR(ctx, _("bug: getfont called with count<256"));
 		return -1;
 	}
 
 	if (!buf) {
-		ERR(ctx, _("bug: getfont using GIO_FONT needs buf."));
+		KFONT_ERR(ctx, _("bug: getfont using GIO_FONT needs buf."));
 		return -1;
 	}
 
 	i = ioctl(fd, GIO_FONT, buf);
 	if (i) {
-		ERR(ctx, "ioctl(GIO_FONT): %m");
+		KFONT_ERR(ctx, "ioctl(GIO_FONT): %m");
 		return -1;
 	}
 
@@ -161,7 +161,7 @@ putfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int coun
 		return 0;
 
 	if (width != 8 || (errno != ENOSYS && errno != EINVAL)) {
-		ERR(ctx, "ioctl(KDFONTOP): %m");
+		KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
 		return -1;
 	}
 
@@ -172,7 +172,7 @@ putfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int coun
 		unsigned char *mybuf = malloc(32U * ct);
 
 		if (!mybuf) {
-			ERR(ctx, "malloc: %m");
+			KFONT_ERR(ctx, "malloc: %m");
 			return -1;
 		}
 
@@ -199,7 +199,7 @@ putfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int coun
 		return 0;
 
 	if (errno != ENOSYS && errno != EINVAL) {
-		ERR(ctx, "ioctl(PIO_FONTX): %d,%dx%d: failed: %m", count, width, height);
+		KFONT_ERR(ctx, "ioctl(PIO_FONTX): %d,%dx%d: failed: %m", count, width, height);
 		return -1;
 	}
 
@@ -207,7 +207,7 @@ putfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int coun
 	/* This will load precisely 256 chars, independent of count */
 	i = ioctl(fd, PIO_FONT, buf);
 	if (i) {
-		ERR(ctx, "ioctl(PIO_FONT): %d,%dx%d: failed: %m", count, width, height);
+		KFONT_ERR(ctx, "ioctl(PIO_FONT): %d,%dx%d: failed: %m", count, width, height);
 		return -1;
 	}
 

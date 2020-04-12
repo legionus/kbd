@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 
 	struct kfont_context ctx = {
 		.progname = get_progname(),
-		.log_fn = log_stderr,
+		.log_fn = kfont_log_stderr,
 	};
 
 	if (outfnam) {
@@ -156,7 +156,7 @@ add_unipair(struct kfont_context *ctx, int fp, int un)
 		listsz += 4096;
 		list = realloc(list, listsz);
 		if (!list) {
-			ERR(ctx, "realloc: %m");
+			KFONT_ERR(ctx, "realloc: %m");
 			return -EX_OSERR;
 		}
 	}
@@ -197,7 +197,7 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname)
 
 	fp0 = strtol(p, &p1, 0);
 	if (p1 == p) {
-		ERR(ctx, _("Bad input line: %s"), buffer);
+		KFONT_ERR(ctx, _("Bad input line: %s"), buffer);
 		return -EX_DATAERR;
 	}
 	p = p1;
@@ -208,7 +208,7 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname)
 		p++;
 		fp1 = strtol(p, &p1, 0);
 		if (p1 == p) {
-			ERR(ctx, _("Bad input line: %s"), buffer);
+			KFONT_ERR(ctx, _("Bad input line: %s"), buffer);
 			return -EX_DATAERR;
 		}
 		p = p1;
@@ -216,12 +216,12 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname)
 		fp1 = 0;
 
 	if (fp0 < 0 || fp0 >= fontlen) {
-		ERR(ctx, _("%s: Glyph number (0x%x) larger than font length"),
+		KFONT_ERR(ctx, _("%s: Glyph number (0x%x) larger than font length"),
 		    tblname, fp0);
 		return -EX_DATAERR;
 	}
 	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
-		ERR(ctx, _("%s: Bad end of range (0x%x)\n"),
+		KFONT_ERR(ctx, _("%s: Bad end of range (0x%x)\n"),
 		    tblname, fp1);
 		return -EX_DATAERR;
 	}
@@ -255,7 +255,7 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname)
 		un1 = getunicode(&p);
 
 		if (un0 < 0 || un1 < 0) {
-			ERR(ctx,
+			KFONT_ERR(ctx,
 			        _("%s: Bad Unicode range corresponding to "
 			          "font position range 0x%x-0x%x"),
 			        tblname, fp0, fp1);
@@ -263,7 +263,7 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname)
 		}
 
 		if (un1 - un0 != fp1 - fp0) {
-			ERR(ctx,
+			KFONT_ERR(ctx,
 			        _("%s: Unicode range U+%x-U+%x not of the same"
 			          " length as font position range 0x%x-0x%x"),
 			        tblname, un0, un1, fp0, fp1);
@@ -288,7 +288,7 @@ lookattail:
 	while (*p == ' ' || *p == '\t')
 		p++;
 	if (*p && *p != '#')
-		ERR(ctx, _("%s: trailing junk (%s) ignored"), tblname, p);
+		KFONT_ERR(ctx, _("%s: trailing junk (%s) ignored"), tblname, p);
 
 	return 0;
 }
@@ -302,31 +302,31 @@ loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 	int ret = 0;
 
 	if (!(fp = kbdfile_new(NULL))) {
-		ERR(ctx, "Unable to create kbdfile instance: %m");
+		KFONT_ERR(ctx, "Unable to create kbdfile instance: %m");
 		return -EX_OSERR;
 	}
 
 	if (kbdfile_find(tblname, unidirpath, unisuffixes, fp)) {
-		ERR(ctx, "unable to find unimap: %s: %m", tblname);
+		KFONT_ERR(ctx, "unable to find unimap: %s: %m", tblname);
 		ret = -EX_NOINPUT;
 		goto err;
 	}
 
 	if (verbose)
-		INFO(ctx, _("Loading unicode map from file %s"), kbdfile_get_pathname(fp));
+		KFONT_INFO(ctx, _("Loading unicode map from file %s"), kbdfile_get_pathname(fp));
 
 	while (fgets(buffer, sizeof(buffer), kbdfile_get_file(fp)) != NULL) {
 		if ((p = strchr(buffer, '\n')) != NULL)
 			*p = '\0';
 		else
-			WARN(ctx, _("%s: Warning: line too long"), tblname);
+			KFONT_WARN(ctx, _("%s: Warning: line too long"), tblname);
 
 		if ((ret = parseline(ctx, buffer, tblname)) < 0)
 			goto err;
 	}
 
 	if (listct == 0 && !force) {
-		ERR(ctx,
+		KFONT_ERR(ctx,
 		        _("not loading empty unimap\n"
 		          "(if you insist: use option -f to override)"));
 	} else {
@@ -364,7 +364,7 @@ saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 	int i, ret;
 
 	if ((fpo = fopen(oufil, "w")) == NULL) {
-		ERR(ctx, "Unable to open file: %s", oufil);
+		KFONT_ERR(ctx, "Unable to open file: %s", oufil);
 		return -EX_DATAERR;
 	}
 
@@ -378,7 +378,7 @@ saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 	fclose(fpo);
 
 	if (verbose)
-		INFO(ctx, _("Saved unicode map on `%s'"), oufil);
+		KFONT_INFO(ctx, _("Saved unicode map on `%s'"), oufil);
 
 	return 0;
 }
@@ -427,7 +427,7 @@ appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 		printf("\n");
 
 	if (verbose)
-		INFO(ctx, _("Appended Unicode map"));
+		KFONT_INFO(ctx, _("Appended Unicode map"));
 
 	return 0;
 }
