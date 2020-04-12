@@ -275,22 +275,24 @@ int main(int argc, char *argv[])
  */
 static int erase_mode = 1;
 
-static void
+static int
 do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
-            unsigned int width, unsigned int height, unsigned int hwunit,
-            unsigned int fontsize, const char *filename)
+		unsigned int width, unsigned int height, unsigned int hwunit,
+		unsigned int fontsize, const char *filename)
 {
-	unsigned char *buf;
+	unsigned char *buf = NULL;
 	unsigned int i, buflen, kcharsize;
 	int bad_video_erase_char = 0;
+	int ret;
 
 	if (height < 1 || height > 32) {
 		ERR(ctx, _("Bad character height %d"), height);
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
+
 	if (width < 1 || width > 32) {
 		ERR(ctx, _("Bad character width %d"), width);
-		exit(EX_DATAERR);
+		return -EX_DATAERR;
 	}
 
 	if (!hwunit)
@@ -309,13 +311,11 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		kcharsize = 32 * kbytewidth;
 		buflen    = kcharsize * ((fontsize < 128) ? 128 : fontsize);
 
-		buf = malloc(buflen);
+		buf = calloc(1, buflen);
 		if (!buf) {
-			ERR(ctx, "malloc: %m");
-			exit(EX_OSERR);
+			ERR(ctx, "calloc: %m");
+			return -EX_OSERR;
 		}
-
-		memset(buf, 0, buflen);
 
 		const unsigned char *src = inbuf;
 		for (i = 0; i < fontsize; i++) {
@@ -345,13 +345,11 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		kcharsize = 32 * bytewidth;
 		buflen    = kcharsize * ((fontsize < 128) ? 128 : fontsize);
 
-		buf = malloc(buflen);
+		buf = calloc(1, buflen);
 		if (!buf) {
-			ERR(ctx, "malloc: %m");
-			exit(EX_OSERR);
+			ERR(ctx, "calloc: %m");
+			return -EX_OSERR;
 		}
-
-		memset(buf, 0, buflen);
 
 		for (i = 0; i < fontsize; i++)
 			memcpy(buf + (i * kcharsize), inbuf + (i * charsize), charsize);
@@ -373,7 +371,8 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 
 			switch (erase_mode) {
 				case 3:
-					exit(EX_DATAERR);
+					ret = -EX_DATAERR;
+					goto err;
 				case 2:
 					for (i = 0; i < kcharsize; i++)
 						buf[32 * kcharsize + i] = 0;
@@ -402,8 +401,15 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 			       fontsize, width, height, hwunit);
 	}
 
-	if (putfont(ctx, fd, buf, fontsize, width, hwunit))
-		exit(EX_OSERR);
+	if (putfont(ctx, fd, buf, fontsize, width, hwunit) < 0) {
+		ret = -EX_OSERR;
+		goto err;
+	}
+
+	ret = 0;
+err:
+	free(buf);
+	return ret;
 }
 
 static void
@@ -485,6 +491,7 @@ loadnewfonts(struct kfont_context *ctx,
 	unsigned int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	struct unicode_list *uclistheads;
 	int i;
+	int ret;
 
 	if (ifilct == 1) {
 		loadnewfont(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
@@ -559,8 +566,10 @@ loadnewfonts(struct kfont_context *ctx,
 		memcpy(bigfontbuf + bigfontbuflth - fontbuflth,
 		       fontbuf, fontbuflth);
 	}
-	do_loadfont(ctx, fd, bigfontbuf, bigwidth, bigheight, hwunit,
-	            bigfontsize, NULL);
+	ret = do_loadfont(ctx, fd, bigfontbuf, bigwidth, bigheight, hwunit,
+		bigfontsize, NULL);
+	if (ret < 0)
+		exit(-ret);
 	free(bigfontbuf);
 
 	if (uclistheads && !no_u)
@@ -631,8 +640,10 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
 
-		do_loadfont(ctx, fd, fontbuf, width, height, hwunit,
-		            fontsize, kbdfile_get_pathname(fp));
+		ret = do_loadfont(ctx, fd, fontbuf, width, height, hwunit,
+			fontsize, kbdfile_get_pathname(fp));
+		if (ret < 0)
+			exit(-ret);
 
 		if (uclistheads && !no_u)
 			do_loadtable(ctx, fd, uclistheads, fontsize);
@@ -717,8 +728,11 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		width    = 8;
 		height   = inputlth / 256;
 	}
-	do_loadfont(ctx, fd, inbuf + offset, width, height, hwunit, fontsize,
-	            kbdfile_get_pathname(fp));
+
+	ret = do_loadfont(ctx, fd, inbuf + offset, width, height, hwunit,
+		fontsize, kbdfile_get_pathname(fp));
+	if (ret < 0)
+		exit(-ret);
 exit:
 	kbdfile_free(fp);
 	return;
