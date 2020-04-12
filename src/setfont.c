@@ -767,7 +767,6 @@ do_saveoldfont(struct kfont_context *ctx,
 {
 
 /* this is the max font size the kernel is willing to handle */
-#define MAXFONTSIZE 65536
 	unsigned char buf[MAXFONTSIZE];
 
 	unsigned int i, ct, width, height, bytewidth, charsize, kcharsize;
