@@ -36,10 +36,10 @@
 static unsigned int position_codepage(unsigned int iunit);
 static int saveoldfont(struct kfont_context *ctx, int fd, const char *ofil);
 static int saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil);
-static void loadnewfont(struct kfont_context *ctx,
+static int loadnewfont(struct kfont_context *ctx,
                         int fd, const char *ifil,
                         unsigned int iunit, unsigned int hwunit, int no_m, int no_u);
-static void loadnewfonts(struct kfont_context *ctx,
+static int loadnewfonts(struct kfont_context *ctx,
                          int fd, const char *const *ifiles, int ifilct,
                          unsigned int iunit, unsigned int hwunit, int no_m, int no_u);
 static void activatemap(int fd);
@@ -412,15 +412,16 @@ err:
 	return ret;
 }
 
-static void
+static int
 do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads,
-             unsigned int fontsize)
+		unsigned int fontsize)
 {
 	struct unimapdesc ud;
-	struct unipair *up;
+	struct unipair *up = NULL;
 	unsigned int i, ct = 0, maxct;
 	struct unicode_list *ul;
 	struct unicode_seq *us;
+	int ret;
 
 	maxct = 0;
 	for (i = 0; i < fontsize; i++) {
@@ -436,7 +437,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 	up = malloc(maxct * sizeof(*up));
 	if (!up) {
 		ERR(ctx, "malloc: %m");
-		exit(EX_OSERR);
+		return -EX_OSERR;
 	}
 
 	for (i = 0; i < fontsize; i++) {
@@ -466,9 +467,11 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 		if (debug)
 			printf("\n");
 	}
+
 	if (ct != maxct) {
 		ERR(ctx, _("bug in do_loadtable"));
-		exit(EX_SOFTWARE);
+		ret = -EX_SOFTWARE;
+		goto err;
 	}
 
 	if (verbose)
@@ -476,27 +479,35 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 
 	ud.entry_ct = ct;
 	ud.entries  = up;
-	if (loadunimap(ctx, fd, NULL, &ud))
-		exit(EX_OSERR);
+
+	if (loadunimap(ctx, fd, NULL, &ud) < 0) {
+		ret = -EX_OSERR;
+		goto err;
+	}
+
+	ret = 0;
+err:
+	free(up);
+	return ret;
 }
 
-static void
+static int
 loadnewfonts(struct kfont_context *ctx,
-             int fd, const char *const *ifiles, int ifilct,
-             unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
+		int fd, const char *const *ifiles, int ifilct,
+		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 {
 	const char *ifil;
 	unsigned char *inbuf, *fontbuf, *bigfontbuf;
 	unsigned int inputlth, fontbuflth, fontsize, height, width, bytewidth;
 	unsigned int bigfontbuflth, bigfontsize, bigheight, bigwidth;
+	unsigned char *ptr;
 	struct unicode_list *uclistheads;
+	struct kbdfile *fp = NULL;
 	int i;
-	int ret;
+	int ret = 0;
 
-	if (ifilct == 1) {
-		loadnewfont(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
-		return;
-	}
+	if (ifilct == 1)
+		return loadnewfont(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
 
 	/* several fonts that must be merged */
 	/* We just concatenate the bitmaps - only allow psf fonts */
@@ -508,28 +519,31 @@ loadnewfonts(struct kfont_context *ctx,
 	bigwidth      = 0;
 
 	for (i = 0; i < ifilct; i++) {
-		struct kbdfile *fp;
-
-		if ((fp = kbdfile_new(NULL)) == NULL)
-			nomem();
+		if (!(fp = kbdfile_new(NULL))) {
+			ERR(ctx, "Unable to create kbdfile instance: %m");
+			ret = -EX_OSERR;
+			goto end;
+		}
 
 		ifil = ifiles[i];
+
 		if (findfont(ifil, fp) && findpartialfont(ifil, fp)) {
 			ERR(ctx, _("Cannot open font file %s"), ifil);
-			exit(EX_NOINPUT);
+			ret = -EX_NOINPUT;
+			goto end;
 		}
 
 		inbuf = fontbuf = NULL;
 		inputlth = fontbuflth = 0;
-		fontsize              = 0;
+		fontsize = 0;
 
 		if (readpsffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth,
 		                &fontbuf, &fontbuflth, &width, &fontsize, bigfontsize,
 		                no_u ? NULL : &uclistheads)) {
 			ERR(ctx, _("When loading several fonts, all must be psf fonts - %s isn't"),
 			    kbdfile_get_pathname(fp));
-			kbdfile_free(fp);
-			exit(EX_DATAERR);
+			ret = -EX_DATAERR;
+			goto end;
 		}
 
 		bytewidth = (width + 7) / 8;
@@ -540,45 +554,57 @@ loadnewfonts(struct kfont_context *ctx,
 			     fontsize, width, height, kbdfile_get_pathname(fp));
 
 		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
+		fp = NULL;
 
 		if (bigheight == 0)
 			bigheight = height;
 		else if (bigheight != height) {
 			ERR(ctx, _("When loading several fonts, all must have the same height"));
-			exit(EX_DATAERR);
+			ret = -EX_DATAERR;
+			goto end;
 		}
+
 		if (bigwidth == 0)
 			bigwidth = width;
 		else if (bigwidth != width) {
 			ERR(ctx, _("When loading several fonts, all must have the same width"));
-			exit(EX_DATAERR);
+			ret = -EX_DATAERR;
+			goto end;
 		}
 
 		bigfontsize += fontsize;
 		bigfontbuflth += fontbuflth;
 
-		bigfontbuf = realloc(bigfontbuf, bigfontbuflth);
-		if (!bigfontbuf) {
+		ptr = realloc(bigfontbuf, bigfontbuflth);
+		if (!ptr) {
 			ERR(ctx, "realloc: %m");
-			exit(EX_OSERR);
+			ret = -EX_OSERR;
+			goto end;
 		}
+		bigfontbuf = ptr;
+		ptr = NULL;
 
-		memcpy(bigfontbuf + bigfontbuflth - fontbuflth,
-		       fontbuf, fontbuflth);
+		memcpy(bigfontbuf + bigfontbuflth - fontbuflth, fontbuf, fontbuflth);
 	}
+
 	ret = do_loadfont(ctx, fd, bigfontbuf, bigwidth, bigheight, hwunit,
 		bigfontsize, NULL);
-	if (ret < 0)
-		exit(-ret);
-	free(bigfontbuf);
 
-	if (uclistheads && !no_u)
-		do_loadtable(ctx, fd, uclistheads, bigfontsize);
+	if (!ret && uclistheads && !no_u)
+		ret = do_loadtable(ctx, fd, uclistheads, bigfontsize);
+
+end:
+	free(bigfontbuf);
+	free(ptr);
+
+	if (fp)
+		kbdfile_free(fp);
+	return ret;
 }
 
-static void
+static int
 loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
-            unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
+		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 {
 	struct kbdfile *fp;
 
@@ -592,7 +618,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 
 	if (!(fp = kbdfile_new(NULL))) {
 		ERR(ctx, "Unable to create kbdfile instance: %m");
-		exit(EX_OSERR);
+		return -EX_OSERR;
 	}
 
 	if (!*ifil) {
@@ -608,20 +634,23 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 			    findfont(ifil = "default8x14", fp) &&
 			    findfont(ifil = "default8x8", fp)) {
 				ERR(ctx, _("Cannot find default font"));
-				exit(EX_NOINPUT);
+				ret = -EX_NOINPUT;
+				goto end;
 			}
 		} else {
 			sprintf(defname, "default8x%u", iunit);
 			if (findfont(ifil = defname, fp) &&
 			    findfont(ifil = "default", fp)) {
 				ERR(ctx, _("Cannot find %s font"), ifil);
-				exit(EX_NOINPUT);
+				ret = -EX_NOINPUT;
+				goto end;
 			}
 		}
 	} else {
 		if (findfont(ifil, fp)) {
 			ERR(ctx, _("Cannot open font file %s"), ifil);
-			exit(EX_NOINPUT);
+			ret = -EX_NOINPUT;
+			goto end;
 		}
 	}
 
@@ -632,6 +661,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 	inputlth = fontbuflth = fontsize = 0;
 	width = 8;
 	uclistheads = NULL;
+
 	if (!readpsffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf,
 	                 &fontbuflth, &width, &fontsize, 0,
 	                 no_u ? NULL : &uclistheads)) {
@@ -643,25 +673,27 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		ret = do_loadfont(ctx, fd, fontbuf, width, height, hwunit,
 			fontsize, kbdfile_get_pathname(fp));
 		if (ret < 0)
-			exit(-ret);
+			goto end;
 
-		if (uclistheads && !no_u)
-			do_loadtable(ctx, fd, uclistheads, fontsize);
-
-		if (!uclistheads && !no_u && def) {
-			if ((ret = loadunicodemap(ctx, fd, "def.uni")) < 0) {
-				ERR(ctx, "Unable to load unicode map");
-				exit(-ret);
-			}
+		if (uclistheads && !no_u) {
+			ret = do_loadtable(ctx, fd, uclistheads, fontsize);
+			if (ret < 0)
+				goto end;
 		}
 
-		goto exit;
+		if (!uclistheads && !no_u && def) {
+			if ((ret = loadunicodemap(ctx, fd, "def.uni")) < 0)
+				ERR(ctx, "Unable to load unicode map");
+		}
+
+		goto end;
 	}
 
 	/* instructions to combine fonts? */
 	{
 		const char *combineheader = "# combine partial fonts\n";
 		size_t chlth = strlen(combineheader);
+
 		if (inputlth >= chlth && !memcmp(inbuf, combineheader, chlth)) {
 			const char *ifiles[MAXIFILES];
 			int ifilct = 0;
@@ -675,19 +707,23 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 					q++;
 				if (q == end) {
 					ERR(ctx, _("No final newline in combine file"));
-					exit(EX_DATAERR);
+					ret = -EX_DATAERR;
+					goto end;
 				}
 				*q++ = 0;
 				if (ifilct == MAXIFILES) {
 					ERR(ctx, _("Too many files to combine"));
-					exit(EX_DATAERR);
+					ret = -EX_DATAERR;
+					goto end;
 				}
 				ifiles[ifilct++] = p;
 			}
 
 			/* recursive call */
-			loadnewfonts(ctx, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
-			goto exit;
+			ret = loadnewfonts(ctx, fd, ifiles, ifilct, iunit,
+				hwunit, no_m, no_u);
+
+			goto end;
 		}
 	}
 
@@ -706,6 +742,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		   so probably the second half is always garbage. */
 		INFO(ctx, _("Hmm - a font from restorefont? "
 		            "Using the first half."));
+
 		inputlth = 16384; /* ignore rest */
 		fontsize = 512;
 		offset   = 0;
@@ -715,6 +752,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 			hwunit = 16;
 	} else {
 		unsigned int rem = (inputlth % 256);
+
 		if (rem == 0 || rem == 40) {
 			/* 0: bare code page bitmap */
 			/* 40: preceded by .cp header */
@@ -722,8 +760,10 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 			offset = rem;
 		} else {
 			ERR(ctx, _("Bad input file size"));
-			exit(EX_DATAERR);
+			ret = -EX_DATAERR;
+			goto end;
 		}
+
 		fontsize = 256;
 		width    = 8;
 		height   = inputlth / 256;
@@ -731,11 +771,9 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 
 	ret = do_loadfont(ctx, fd, inbuf + offset, width, height, hwunit,
 		fontsize, kbdfile_get_pathname(fp));
-	if (ret < 0)
-		exit(-ret);
-exit:
+end:
 	kbdfile_free(fp);
-	return;
+	return ret;
 }
 
 static unsigned int
