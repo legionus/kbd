@@ -244,11 +244,8 @@ int main(int argc, char **argv)
 	fontbuf                           = NULL;
 	notable                           = 0;
 
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.verbose = 0,
-		.log_fn = kfont_log_stderr,
-	};
+	struct kfont_context ctx;
+	kfont_init(&ctx);
 
 	if (!strcmp(get_progname(), "psfaddtable")) {
 		/* Do not send binary data to stdout without explicit "-" */

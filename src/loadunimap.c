@@ -29,18 +29,6 @@
 extern char *progname;
 extern int force;
 
-static const char *const unidirpath[]  = {
-	"",
-	DATADIR "/" UNIMAPDIR "/",
-	NULL
-};
-static const char *const unisuffixes[] = {
-	"",
-	".uni",
-	".sfm",
-	NULL
-};
-
 #ifdef MAIN
 int force   = 0;
 
@@ -85,11 +73,8 @@ int main(int argc, char *argv[])
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.verbose = 0,
-		.log_fn = kfont_log_stderr,
-	};
+	struct kfont_context ctx;
+	kfont_init(&ctx);
 
 	if (outfnam) {
 		if ((ret = saveunicodemap(&ctx, fd, outfnam)) < 0)
@@ -305,7 +290,7 @@ loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 		return -EX_OSERR;
 	}
 
-	if (kbdfile_find(tblname, unidirpath, unisuffixes, fp)) {
+	if (kbdfile_find(tblname, ctx->unidirpath, ctx->unisuffixes, fp)) {
 		KFONT_ERR(ctx, "unable to find unimap: %s: %m", tblname);
 		ret = -EX_NOINPUT;
 		goto err;

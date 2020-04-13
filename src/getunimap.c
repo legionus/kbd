@@ -69,11 +69,8 @@ int main(int argc, char **argv)
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.verbose = 0,
-		.log_fn = kfont_log_stderr,
-	};
+	struct kfont_context ctx;
+	kfont_init(&ctx);
 
 	if (getunimap(&ctx, fd, &ud))
 		return EXIT_FAILURE;

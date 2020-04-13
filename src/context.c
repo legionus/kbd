@@ -1,7 +1,62 @@
 #include <stdio.h>
 #include <syslog.h>
 
+#include "libcommon.h"
 #include "context.h"
+#include "paths.h"
+
+/* search for the map file in these directories (with trailing /) */
+static const char *const mapdirpath[]  = {
+	"",
+	DATADIR "/" TRANSDIR "/",
+	NULL
+};
+
+static const char *const mapsuffixes[] = {
+	"",
+	".trans",
+	"_to_uni.trans",
+	".acm",
+	NULL
+};
+
+/* search for the font in these directories (with trailing /) */
+static const char *const fontdirpath[]  = {
+	"",
+	DATADIR "/" FONTDIR "/",
+	NULL
+};
+static char const *const fontsuffixes[] = {
+	"",
+	".psfu",
+	".psf",
+	".cp",
+	".fnt",
+	NULL
+};
+
+static const char *const unidirpath[]  = {
+	"",
+	DATADIR "/" UNIMAPDIR "/",
+	NULL
+};
+static const char *const unisuffixes[] = {
+	"",
+	".uni",
+	".sfm",
+	NULL
+};
+
+/* hide partial fonts a bit - loading a single one is a bad idea */
+const char *const partfontdirpath[]  = {
+	"",
+	DATADIR "/" FONTDIR "/" PARTIALDIR "/",
+	NULL
+};
+char const *const partfontsuffixes[] = {
+	"",
+	NULL
+};
 
 void
 kfont_logger(struct kfont_context *ctx, int priority, const char *file,
@@ -44,4 +99,20 @@ kfont_log_stderr(struct kfont_context *ctx, int priority, const char *file,
 	fprintf(stderr, "\n");
 
 	fflush(stderr);
+}
+
+void
+kfont_init(struct kfont_context *ctx)
+{
+	ctx->progname = get_progname();
+	ctx->verbose = 0;
+	ctx->log_fn = kfont_log_stderr;
+	ctx->mapdirpath = mapdirpath;
+	ctx->mapsuffixes = mapsuffixes;
+	ctx->fontdirpath = fontdirpath;
+	ctx->fontsuffixes = fontsuffixes;
+	ctx->partfontdirpath = partfontdirpath;
+	ctx->partfontsuffixes = partfontsuffixes;
+	ctx->unidirpath = unidirpath;
+	ctx->unisuffixes = unisuffixes;
 }

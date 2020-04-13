@@ -128,11 +128,8 @@ int main(int argc, char **argv)
 	set_progname(argv[0]);
 	setuplocale();
 
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.verbose = 0,
-		.log_fn = kfont_log_stderr,
-	};
+	struct kfont_context ctx;
+	kfont_init(&ctx);
 
 	if (argc == 2 &&
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))

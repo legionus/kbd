@@ -48,41 +48,16 @@ static void disactivatemap(int fd);
 int force       = 0;
 int double_size = 0;
 
-/* search for the font in these directories (with trailing /) */
-const char *const fontdirpath[]  = {
-	"",
-	DATADIR "/" FONTDIR "/",
-	NULL
-};
-char const *const fontsuffixes[] = {
-	"",
-	".psfu",
-	".psf",
-	".cp",
-	".fnt",
-	NULL
-};
-/* hide partial fonts a bit - loading a single one is a bad idea */
-const char *const partfontdirpath[]  = {
-	"",
-	DATADIR "/" FONTDIR "/" PARTIALDIR "/",
-	NULL
-};
-char const *const partfontsuffixes[] = {
-	"",
-	NULL
-};
-
 static inline int
-findfont(const char *fnam, struct kbdfile *fp)
+findfont(struct kfont_context *ctx, const char *fnam, struct kbdfile *fp)
 {
-	return kbdfile_find(fnam, fontdirpath, fontsuffixes, fp);
+	return kbdfile_find(fnam, ctx->fontdirpath, ctx->fontsuffixes, fp);
 }
 
 static inline int
-findpartialfont(const char *fnam, struct kbdfile *fp)
+findpartialfont(struct kfont_context *ctx, const char *fnam, struct kbdfile *fp)
 {
-	return kbdfile_find(fnam, partfontdirpath, partfontsuffixes, fp);
+	return kbdfile_find(fnam, ctx->partfontdirpath, ctx->partfontsuffixes, fp);
 }
 
 static void __attribute__((noreturn))
@@ -131,11 +106,8 @@ int main(int argc, char *argv[])
 	set_progname(argv[0]);
 	setuplocale();
 
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.verbose = 0,
-		.log_fn = kfont_log_stderr,
-	};
+	struct kfont_context ctx;
+	kfont_init(&ctx);
 
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;
@@ -526,7 +498,7 @@ loadnewfonts(struct kfont_context *ctx,
 
 		ifil = ifiles[i];
 
-		if (findfont(ifil, fp) && findpartialfont(ifil, fp)) {
+		if (findfont(ctx, ifil, fp) && findpartialfont(ctx,ifil, fp)) {
 			KFONT_ERR(ctx, _("Cannot open font file %s"), ifil);
 			ret = -EX_NOINPUT;
 			goto end;
@@ -628,25 +600,25 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		if (iunit > 32)
 			iunit = 0;
 		if (iunit == 0) {
-			if (findfont(ifil = "default", fp) &&
-			    findfont(ifil = "default8x16", fp) &&
-			    findfont(ifil = "default8x14", fp) &&
-			    findfont(ifil = "default8x8", fp)) {
+			if (findfont(ctx, ifil = "default", fp) &&
+			    findfont(ctx, ifil = "default8x16", fp) &&
+			    findfont(ctx, ifil = "default8x14", fp) &&
+			    findfont(ctx, ifil = "default8x8", fp)) {
 				KFONT_ERR(ctx, _("Cannot find default font"));
 				ret = -EX_NOINPUT;
 				goto end;
 			}
 		} else {
 			sprintf(defname, "default8x%u", iunit);
-			if (findfont(ifil = defname, fp) &&
-			    findfont(ifil = "default", fp)) {
+			if (findfont(ctx, ifil = defname, fp) &&
+			    findfont(ctx, ifil = "default", fp)) {
 				KFONT_ERR(ctx, _("Cannot find %s font"), ifil);
 				ret = -EX_NOINPUT;
 				goto end;
 			}
 		}
 	} else {
-		if (findfont(ifil, fp)) {
+		if (findfont(ctx, ifil, fp)) {
 			KFONT_ERR(ctx, _("Cannot open font file %s"), ifil);
 			ret = -EX_NOINPUT;
 			goto end;

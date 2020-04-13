@@ -24,33 +24,16 @@
 
 static int ctoi(const char *);
 
-/* search for the map file in these directories (with trailing /) */
-static const char *const mapdirpath[]  = {
-	"",
-	DATADIR "/" TRANSDIR "/",
-	NULL
-};
-static const char *const mapsuffixes[] = {
-	"",
-	".trans",
-	"_to_uni.trans",
-	".acm",
-	NULL
-};
-
 #ifdef MAIN
 int main(int argc, char *argv[])
 {
 	int fd, ret;
-
-	struct kfont_context ctx = {
-		.progname = get_progname(),
-		.verbose = 0,
-		.log_fn = kfont_log_stderr,
-	};
+	struct kfont_context ctx;
 
 	set_progname(argv[0]);
 	setuplocale();
+
+	kfont_init(&ctx);
 
 	if (argc == 2 && !strcmp(argv[1], "-V"))
 		print_version_and_exit();
@@ -151,7 +134,7 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 		return -EX_OSERR;
 	}
 
-	if (kbdfile_find(mfil, mapdirpath, mapsuffixes, fp)) {
+	if (kbdfile_find(mfil, ctx->mapdirpath, ctx->mapsuffixes, fp)) {
 		KFONT_ERR(ctx, _("Cannot open map file: %s"), mfil);
 		ret = -EX_DATAERR;
 		goto end;

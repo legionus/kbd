@@ -8,6 +8,8 @@
 
 struct kfont_context;
 
+void kfont_init(struct kfont_context *ctx);
+
 typedef void (*kfont_logger_t)(struct kfont_context *, int, const char *, int,
 		const char *, const char *, va_list)
 	__attribute__((nonnull(1)))
@@ -17,6 +19,18 @@ struct kfont_context {
 	const char *progname;
 	int verbose;
 	kfont_logger_t log_fn;
+
+	const char *const *mapdirpath;
+	const char *const *mapsuffixes;
+
+	const char *const *fontdirpath;
+	const char *const *fontsuffixes;
+
+	const char *const *partfontdirpath;
+	const char *const *partfontsuffixes;
+
+	const char *const *unidirpath;
+	const char *const *unisuffixes;
 };
 
 void kfont_logger(struct kfont_context *ctx, int priority, const char *file,
