@@ -91,12 +91,46 @@ int main(int argc, char *argv[])
 }
 #endif
 
+static int
+str_to_ushort(struct kfont_context *ctx,
+		const char *p, char **e, int base,
+		unsigned short *res)
+{
+	long int v;
+
+	errno = 0;
+	v = strtol(p, e, base);
+
+	if (e && p == *e) {
+		KFONT_ERR(ctx, "Unable to parse number: %s", p);
+		return -EX_DATAERR;
+	}
+
+	if (errno == ERANGE) {
+		KFONT_ERR(ctx, "Numerical result out of range: %s", p);
+		return -EX_DATAERR;
+	}
+
+	if (v < 0) {
+		KFONT_ERR(ctx, "Number must not be negative: %ld", v);
+		return -EX_DATAERR;
+	}
+
+	if (v > USHRT_MAX) {
+		KFONT_ERR(ctx, "Number too big: %ld", v);
+		return -EX_DATAERR;
+	}
+
+	*res = (unsigned short) v;
+	return 0;
+}
+
 /*
  * Skip spaces and read U+1234 or return -1 for error.
  * Return first non-read position in *p0 (unchanged on error).
  */
 static int
-getunicode(char **p0)
+getunicode(struct kfont_context *ctx, char **p0, unsigned short *res)
 {
 	char *p = *p0;
 
@@ -124,11 +158,13 @@ getunicode(char **p0)
 	    !isxdigit(p[4]) || !isxdigit(p[5]) || isxdigit(p[6]))
 		return -1;
 	*p0 = p + 6;
-	return strtol(p + 2, 0, 16);
+
+	return str_to_ushort(ctx, p + 2, 0, 16, res);
 }
 
 static int
-add_unipair(struct kfont_context *ctx, int fp, int un,
+add_unipair(struct kfont_context *ctx,
+		unsigned short fp, unsigned short un,
 		struct unipair **list, unsigned int *listsz,
 		unsigned short *listct)
 {
@@ -166,8 +202,8 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname,
 		unsigned short *listct)
 {
 	int fontlen = 512;
-	int i, ret;
-	int fp0, fp1, un0, un1;
+	int ret;
+	unsigned short i, fp0, fp1, un0, un1;
 	char *p, *p1;
 
 	p = buffer;
@@ -177,31 +213,29 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname,
 	if (!*p || *p == '#')
 		return 0; /* skip comment or blank line */
 
-	fp0 = strtol(p, &p1, 0);
-	if (p1 == p) {
-		KFONT_ERR(ctx, _("Bad input line: %s"), buffer);
-		return -EX_DATAERR;
-	}
+	ret = str_to_ushort(ctx, p, &p1, 0, &fp0);
+	if (ret < 0)
+		return ret;
 	p = p1;
 
 	while (*p == ' ' || *p == '\t')
 		p++;
 	if (*p == '-') {
 		p++;
-		fp1 = strtol(p, &p1, 0);
-		if (p1 == p) {
-			KFONT_ERR(ctx, _("Bad input line: %s"), buffer);
-			return -EX_DATAERR;
-		}
+
+		ret = str_to_ushort(ctx, p, &p1, 0, &fp1);
+		if (ret < 0)
+			return ret;
 		p = p1;
 	} else
 		fp1 = 0;
 
-	if (fp0 < 0 || fp0 >= fontlen) {
+	if (fp0 >= fontlen) {
 		KFONT_ERR(ctx, _("%s: Glyph number (0x%x) larger than font length"),
 		    tblname, fp0);
 		return -EX_DATAERR;
 	}
+
 	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
 		KFONT_ERR(ctx, _("%s: Bad end of range (0x%x)\n"),
 		    tblname, fp1);
@@ -222,7 +256,9 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname,
 			goto lookattail;
 		}
 
-		un0 = getunicode(&p);
+		if ((ret = getunicode(ctx, &p, &un0)) < 0)
+			return ret;
+
 		while (*p == ' ' || *p == '\t')
 			p++;
 		if (*p != '-') {
@@ -234,15 +270,9 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname,
 		}
 
 		p++;
-		un1 = getunicode(&p);
 
-		if (un0 < 0 || un1 < 0) {
-			KFONT_ERR(ctx,
-			        _("%s: Bad Unicode range corresponding to "
-			          "font position range 0x%x-0x%x"),
-			        tblname, fp0, fp1);
-			return -EX_DATAERR;
-		}
+		if ((ret = getunicode(ctx, &p, &un1)) < 0)
+			return ret;
 
 		if (un1 - un0 != fp1 - fp0) {
 			KFONT_ERR(ctx,
@@ -261,7 +291,7 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname,
 		/* no range; expect a list of unicode values
 		   for a single font position */
 
-		while ((un0 = getunicode(&p)) >= 0) {
+		while (!getunicode(ctx, &p, &un0)) {
 			if ((ret = add_unipair(ctx, fp0, un0, list, listsz, listct)) < 0)
 				return ret;
 		}
