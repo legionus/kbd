@@ -71,8 +71,12 @@ int main(int argc, char **argv)
 	cols = header[1];
 	if (rows * cols == 0)
 		goto try_ioctl;
-	inbuf  = xmalloc(rows * cols * 2);
-	outbuf = xmalloc(rows * (cols + 1));
+
+	if (!(inbuf = malloc(rows * cols * 2)))
+		kbd_error(EXIT_FAILURE, errno, "malloc");
+
+	if (!(outbuf = malloc(rows * (cols + 1))))
+		kbd_error(EXIT_FAILURE, errno, "malloc");
 
 	if (read(fd, inbuf, rows * cols * 2) != (ssize_t)(rows * cols * 2)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading %s"), infile);
@@ -112,7 +116,10 @@ try_ioctl : {
 		kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
 	}
 
-	screenbuf    = xmalloc(2 + (size_t)(win.ws_row * win.ws_col));
+	screenbuf = malloc(2 + (size_t)(win.ws_row * win.ws_col));
+	if (!screenbuf)
+		kbd_error(EXIT_FAILURE, errno, "malloc");
+
 	screenbuf[0] = 0;
 	screenbuf[1] = (unsigned char)cons;
 
@@ -139,9 +146,13 @@ try_ioctl : {
 		          win.ws_col, win.ws_row, cols, rows);
 	}
 
-	outbuf = xmalloc(rows * (cols + 1));
-	p      = ((char *)screenbuf) + 2;
-	q      = outbuf;
+	outbuf = malloc(rows * (cols + 1));
+	if (!outbuf)
+		kbd_error(EXIT_FAILURE, errno, "malloc");
+
+	p = ((char *)screenbuf) + 2;
+	q = outbuf;
+
 	for (i = 0; i < rows; i++) {
 		for (j = 0; j < cols; j++)
 			*q++ = *p++;

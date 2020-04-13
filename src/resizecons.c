@@ -155,8 +155,8 @@ int main(int argc, char **argv)
 		usage();
 	}
 
-	if ((fp = kbdfile_new(NULL)) == NULL)
-		nomem();
+	if (!(fp = kbdfile_new(NULL)))
+		kbd_error(EXIT_FAILURE, 0, "Unable to create kbdfile instance: %m\n");
 
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* prepare for: restoretextmode -r 80x25 */

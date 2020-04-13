@@ -116,8 +116,11 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if ((fctx = kbdfile_context_new()) == NULL)
-		nomem();
+	if (!(fctx = kbdfile_context_new())) {
+		fprintf(stderr, "%s: Unable to create kbdfile context: %m\n",
+			get_progname());
+		exit(EXIT_FAILURE);
+	}
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -218,8 +221,11 @@ int main(int argc, char *argv[])
 	}
 
 	if (options & OPT_D) {
-		if ((fp = kbdfile_new(fctx)) == NULL)
-			nomem();
+		if (!(fp = kbdfile_new(fctx))) {
+			fprintf(stderr, "%s: Unable to create kbdfile instance: %m\n",
+				get_progname());
+			exit(EXIT_FAILURE);
+		}
 
 		/* first read default map - search starts in . */
 		if (kbdfile_find(DEFMAP, dirpath, suffixes, fp)) {
@@ -234,8 +240,11 @@ int main(int argc, char *argv[])
 			goto fail;
 
 	} else if (optind == argc) {
-		if ((fp = kbdfile_new(fctx)) == NULL)
-			nomem();
+		if (!(fp = kbdfile_new(fctx))) {
+			fprintf(stderr, "%s: Unable to create kbdfile instance: %m\n",
+				get_progname());
+			exit(EXIT_FAILURE);
+		}
 
 		kbdfile_set_file(fp, stdin);
 		kbdfile_set_pathname(fp, "<stdin>");
@@ -248,8 +257,11 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = optind; argv[i]; i++) {
-		if ((fp = kbdfile_new(fctx)) == NULL)
-			nomem();
+		if (!(fp = kbdfile_new(fctx))) {
+			fprintf(stderr, "%s: Unable to create kbdfile instance: %m\n",
+				get_progname());
+			exit(EXIT_FAILURE);
+		}
 
 		if (!strcmp(argv[i], "-")) {
 			kbdfile_set_file(fp, stdin);

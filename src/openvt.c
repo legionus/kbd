@@ -13,6 +13,7 @@
 #include <dirent.h>
 #include <pwd.h>
 #include <errno.h>
+#include <sysexits.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/vt.h>
@@ -350,10 +351,13 @@ int main(int argc, char *argv[])
 			def_cmd = getenv("SHELL");
 			if (def_cmd == NULL)
 				kbd_error(7, 0, _("Unable to find command."));
-			cmd = xmalloc(strlen(def_cmd) + 2);
+			cmd = malloc(strlen(def_cmd) + 2);
 		} else {
-			cmd = xmalloc(strlen(argv[optind]) + 2);
+			cmd = malloc(strlen(argv[optind]) + 2);
 		}
+
+		if (!cmd)
+			kbd_error(EX_OSERR, errno, "malloc");
 
 		if (login)
 			strcpy(cmd, "-");
