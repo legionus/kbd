@@ -287,6 +287,7 @@ saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 	unsigned char buf[E_TABSZ];
 	unsigned short ubuf[E_TABSZ];
 	int i, havemap, haveumap;
+	int ret = 0;
 
 	if ((fp = fopen(omfil, "w")) == NULL) {
 		KFONT_ERR(ctx, "Unable to open file: %s: %m", omfil);
@@ -313,22 +314,21 @@ saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 	if (havemap) {
 		if (fwrite(buf, sizeof(buf), 1, fp) != 1) {
 			KFONT_ERR(ctx, _("Error writing map to file"));
-			return -EX_IOERR;
+			ret = -EX_IOERR;
 		}
 	} else if (haveumap) {
 		if (fwrite(ubuf, sizeof(ubuf), 1, fp) != 1) {
 			KFONT_ERR(ctx, _("Error writing map to file"));
-			return -EX_IOERR;
+			ret = -EX_IOERR;
 		}
 	} else {
 		KFONT_ERR(ctx, _("Cannot read console map"));
-		return -1;
+		ret = -1;
 	}
 
-	fclose(fp);
-
-	if (ctx->verbose)
+	if (!ret && ctx->verbose)
 		KFONT_INFO(ctx, _("Saved screen map in `%s'"), omfil);
 
-	return 0;
+	fclose(fp);
+	return ret;
 }
