@@ -45,9 +45,6 @@ static int loadnewfonts(struct kfont_context *ctx,
 static void activatemap(int fd);
 static void disactivatemap(int fd);
 
-int force       = 0;
-int double_size = 0;
-
 static inline int
 findfont(struct kfont_context *ctx, const char *fnam, struct kbdfile *fp)
 {
@@ -159,14 +156,14 @@ int main(int argc, char *argv[])
 			else
 				ufil = argv[i];
 		} else if (!strcmp(argv[i], "-f")) {
-			force = 1;
+			kfont_set_option(&ctx, kfont_force);
 		} else if (!strncmp(argv[i], "-h", 2)) {
 			int tmp = atoi(argv[i] + 2);
 			if (tmp <= 0 || tmp > 32)
 				usage();
 			hwunit = (unsigned int)tmp;
 		} else if (!strcmp(argv[i], "-d")) {
-			double_size = 1;
+			kfont_set_option(&ctx, kfont_double_size);
 		} else if (argv[i][0] == '-') {
 			int tmp = atoi(argv[i] + 1);
 			if (tmp <= 0 || tmp > 32)
@@ -269,12 +266,13 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 	if (!hwunit)
 		hwunit = height;
 
-	if (double_size && (height > 16 || width > 16)) {
+	if ((ctx->options & (1 << kfont_double_size)) &&
+	    (height > 16 || width > 16)) {
 		KFONT_ERR(ctx, _("Cannot double %dx%d font (limit is 16x16)"), width, height);
-		double_size = 0;
+		kfont_unset_option(ctx, kfont_double_size);
 	}
 
-	if (double_size) {
+	if (ctx->options & (1 << kfont_double_size)) {
 		unsigned int bytewidth  = (width + 7) / 8;
 		unsigned int kbytewidth = (2 * width + 7) / 8;
 		unsigned int charsize   = height * bytewidth;

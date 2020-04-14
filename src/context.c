@@ -59,6 +59,18 @@ char const *const partfontsuffixes[] = {
 };
 
 void
+kfont_set_option(struct kfont_context *ctx, enum kfont_option opt)
+{
+	ctx->options |= 1U << opt;
+}
+
+void
+kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
+{
+	ctx->options &= ~(1U << opt);
+}
+
+void
 kfont_logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn,
 		const char *fmt, ...)

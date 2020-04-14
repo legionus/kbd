@@ -27,11 +27,8 @@
 #include "kfont.h"
 
 extern char *progname;
-extern int force;
 
 #ifdef MAIN
-int force   = 0;
-
 static void __attribute__((noreturn))
 usage(void)
 {
@@ -342,7 +339,7 @@ loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 			goto err;
 	}
 
-	if (listct == 0 && !force) {
+	if (listct == 0 && !(ctx->options & (1 << kfont_force))) {
 		KFONT_ERR(ctx,
 		        _("not loading empty unimap\n"
 		          "(if you insist: use option -f to override)"));

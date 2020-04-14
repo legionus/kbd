@@ -15,10 +15,17 @@ typedef void (*kfont_logger_t)(struct kfont_context *, int, const char *, int,
 	__attribute__((nonnull(1)))
 	__attribute__((format(printf, 6, 0)));
 
+enum kfont_option {
+	kfont_force,
+	kfont_double_size,
+};
+
 struct kfont_context {
 	const char *progname;
 	int verbose;
 	kfont_logger_t log_fn;
+
+	unsigned int options;
 
 	const char *const *mapdirpath;
 	const char *const *mapsuffixes;
@@ -32,6 +39,12 @@ struct kfont_context {
 	const char *const *unidirpath;
 	const char *const *unisuffixes;
 };
+
+void kfont_set_option(struct kfont_context *ctx, enum kfont_option opt)
+	__attribute__((nonnull(1)));
+
+void kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
+	__attribute__((nonnull(1)));
 
 void kfont_logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn, const char *fmt, ...)
@@ -49,6 +62,7 @@ void kfont_logger(struct kfont_context *ctx, int priority, const char *file,
 
 void kfont_log_stderr(struct kfont_context *ctx, int priority, const char *file,
 		const int line, const char *fn, const char *format, va_list args)
-	__attribute__((format(printf, 6, 0)));
+	__attribute__((format(printf, 6, 0)))
+	__attribute__((nonnull(1)));
 
 #endif /* _KFONT_CONTEXT_H_ */
