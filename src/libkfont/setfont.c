@@ -179,7 +179,7 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 			       fontsize, width, height, hwunit);
 	}
 
-	if (putfont(ctx, fd, buf, fontsize, width, hwunit) < 0) {
+	if (kfont_putfont(ctx, fd, buf, fontsize, width, hwunit) < 0) {
 		ret = -EX_OSERR;
 		goto err;
 	}
@@ -258,7 +258,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 	ud.entry_ct = ct;
 	ud.entries  = up;
 
-	if (loadunimap(ctx, fd, NULL, &ud) < 0) {
+	if (kfont_loadunimap(ctx, fd, NULL, &ud) < 0) {
 		ret = -EX_OSERR;
 		goto err;
 	}
@@ -270,7 +270,7 @@ err:
 }
 
 int
-loadnewfonts(struct kfont_context *ctx,
+kfont_loadnewfonts(struct kfont_context *ctx,
 		int fd, const char *const *ifiles, int ifilct,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 {
@@ -285,7 +285,7 @@ loadnewfonts(struct kfont_context *ctx,
 	int ret = 0;
 
 	if (ifilct == 1)
-		return loadnewfont(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
+		return kfont_loadnewfont(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
 
 	/* several fonts that must be merged */
 	/* We just concatenate the bitmaps - only allow psf fonts */
@@ -315,9 +315,9 @@ loadnewfonts(struct kfont_context *ctx,
 		inputlth = fontbuflth = 0;
 		fontsize = 0;
 
-		if (readpsffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth,
-		                &fontbuf, &fontbuflth, &width, &fontsize, bigfontsize,
-		                no_u ? NULL : &uclistheads)) {
+		if (kfont_readpsffont(ctx, kbdfile_get_file(fp), &inbuf,
+			&inputlth, &fontbuf, &fontbuflth, &width, &fontsize,
+			bigfontsize, no_u ? NULL : &uclistheads)) {
 			KFONT_ERR(ctx, _("When loading several fonts, all must be psf fonts - %s isn't"),
 			    kbdfile_get_pathname(fp));
 			ret = -EX_DATAERR;
@@ -381,7 +381,7 @@ end:
 }
 
 int
-loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
+kfont_loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 {
 	struct kbdfile *fp;
@@ -440,9 +440,8 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 	width = 8;
 	uclistheads = NULL;
 
-	if (!readpsffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth, &fontbuf,
-	                 &fontbuflth, &width, &fontsize, 0,
-	                 no_u ? NULL : &uclistheads)) {
+	if (!kfont_readpsffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth,
+		&fontbuf, &fontbuflth, &width, &fontsize, 0, no_u ? NULL : &uclistheads)) {
 
 		/* we've got a psf font */
 		bytewidth = (width + 7) / 8;
@@ -460,7 +459,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		}
 
 		if (!uclistheads && !no_u && def) {
-			if ((ret = loadunicodemap(ctx, fd, "def.uni")) < 0)
+			if ((ret = kfont_loadunicodemap(ctx, fd, "def.uni")) < 0)
 				KFONT_ERR(ctx, "Unable to load unicode map");
 		}
 
@@ -498,7 +497,7 @@ loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 			}
 
 			/* recursive call */
-			ret = loadnewfonts(ctx, fd, ifiles, ifilct, iunit,
+			ret = kfont_loadnewfonts(ctx, fd, ifiles, ifilct, iunit,
 				hwunit, no_m, no_u);
 
 			goto end;
@@ -603,7 +602,7 @@ do_saveoldfont(struct kfont_context *ctx,
 
 	ct = sizeof(buf) / (32 * 32 / 8); /* max size 32x32, 8 bits/byte */
 
-	if (getfont(ctx, fd, buf, &ct, &width, &height) < 0)
+	if (kfont_getfont(ctx, fd, buf, &ct, &width, &height) < 0)
 		return -EX_OSERR;
 
 	/* save as efficiently as possible */
@@ -655,7 +654,7 @@ do_saveoldfont(struct kfont_context *ctx,
 }
 
 int
-saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
+kfont_saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
 {
 	int ret;
 	FILE *fpo = fopen(ofil, "w");
@@ -672,7 +671,7 @@ saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
 }
 
 int
-saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
+kfont_saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
 {
 	int ret = 0;
 	FILE *fpo = fopen(Ofil, "w");
@@ -705,12 +704,14 @@ send_escseq(int fd, const char *seq, unsigned char n)
 		printf("%s", seq);
 }
 
-void activatemap(int fd)
+void
+kfont_activatemap(int fd)
 {
 	send_escseq(fd, "\033(K", 3);
 }
 
-void disactivatemap(int fd)
+void
+kfont_disactivatemap(int fd)
 {
 	send_escseq(fd, "\033(B", 3);
 }

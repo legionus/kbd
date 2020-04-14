@@ -4,7 +4,7 @@
 #include "unicode.h"
 
 int
-addpair(struct unicode_list *up, unicode uc)
+kfont_addpair(struct unicode_list *up, unicode uc)
 {
 	struct unicode_list *ul = NULL;
 	struct unicode_seq *us = NULL;
@@ -35,7 +35,7 @@ err:
 }
 
 int
-addseq(struct unicode_list *up, unicode uc)
+kfont_addseq(struct unicode_list *up, unicode uc)
 {
 	struct unicode_list *ul = up->prev;
 	struct unicode_seq *usl = ul->seq;
@@ -58,7 +58,7 @@ addseq(struct unicode_list *up, unicode uc)
 }
 
 void
-clear_uni_entry(struct unicode_list *up)
+kfont_clear_uni_entry(struct unicode_list *up)
 {
 	up->next = NULL;
 	up->seq  = NULL;

@@ -36,7 +36,8 @@ int main(int argc, char **argv)
 	struct kfont_context ctx;
 	kfont_init(&ctx);
 
-	if (readpsffont(&ctx, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0) {
+	if (kfont_readpsffont(&ctx, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
+				&width, &fontlen, 0, &uclistheads) < 0) {
 		fprintf(stderr, "%s: Bad magic number\n", argv[0]);
 		return 1;
 	}

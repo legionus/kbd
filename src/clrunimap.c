@@ -31,5 +31,5 @@ int main(int argc, char *argv[])
 	struct kfont_context ctx;
 	kfont_init(&ctx);
 
-	return loadunimap(&ctx, fd, NULL, NULL);
+	return kfont_loadunimap(&ctx, fd, NULL, NULL);
 }

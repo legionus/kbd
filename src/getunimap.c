@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 	struct kfont_context ctx;
 	kfont_init(&ctx);
 
-	if (getunimap(&ctx, fd, &ud))
+	if (kfont_getunimap(&ctx, fd, &ud))
 		return EXIT_FAILURE;
 
 	if (sortflag) {

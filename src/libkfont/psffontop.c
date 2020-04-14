@@ -126,9 +126,9 @@ get_uni_entry(struct kfont_context *ctx,
 		int ret;
 
 		if (inseq < 2)
-			ret = addpair(up, unichar);
+			ret = kfont_addpair(up, unichar);
 		else
-			ret = addseq(up, unichar);
+			ret = kfont_addseq(up, unichar);
 
 		if (ret < 0) {
 			KFONT_ERR(ctx, "unable to unichar: %s", strerror(-ret));
@@ -143,7 +143,7 @@ get_uni_entry(struct kfont_context *ctx,
 }
 
 int
-readpsffont(struct kfont_context *ctx,
+kfont_readpsffont(struct kfont_context *ctx,
 		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		unsigned char **fontbufp, unsigned int *fontszp,
 		unsigned int *fontwidthp, unsigned int *fontlenp,
@@ -299,7 +299,7 @@ readpsffont(struct kfont_context *ctx,
 	} else {
 		for (i = 0; i < fontlen; i++) {
 			k = fontpos0 + i;
-			clear_uni_entry(&(*uclistheadsp)[k]);
+			kfont_clear_uni_entry(&(*uclistheadsp)[k]);
 		}
 	}
 
@@ -444,7 +444,7 @@ writepsffontheader(struct kfont_context *ctx,
 }
 
 int
-writepsffont(struct kfont_context *ctx,
+kfont_writepsffont(struct kfont_context *ctx,
 		FILE *ofil, unsigned char *fontbuf, unsigned int width,
 		unsigned int height, unsigned int fontlen,
 		int psftype, struct unicode_list *uclistheads)

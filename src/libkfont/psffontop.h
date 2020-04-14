@@ -34,13 +34,13 @@
  * not psf (but has been read). > 0 means that the Unicode table contains
  * sequences.
  */
-int readpsffont(struct kfont_context *ctx,
+int kfont_readpsffont(struct kfont_context *ctx,
 		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		unsigned char **fontbufp, unsigned int *fontszp,
 		unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
 		struct unicode_list **uclistheadsp);
 
-int writepsffont(struct kfont_context *ctx,
+int kfont_writepsffont(struct kfont_context *ctx,
 		FILE *ofil, unsigned char *fontbuf,
 		unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
 		struct unicode_list *uclistheads);

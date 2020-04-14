@@ -241,7 +241,7 @@ lookattail:
 }
 
 int
-loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
+kfont_loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 {
 	char buffer[65536];
 	char *p;
@@ -284,7 +284,7 @@ loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 	} else {
 		descr.entry_ct = listct;
 		descr.entries  = list;
-		if ((ret = loadunimap(ctx, fd, NULL, &descr)) < 0)
+		if ((ret = kfont_loadunimap(ctx, fd, NULL, &descr)) < 0)
 			goto err;
 		listct = 0;
 	}
@@ -298,7 +298,7 @@ err:
 static int
 getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr)
 {
-	if (getunimap(ctx, fd, unimap_descr))
+	if (kfont_getunimap(ctx, fd, unimap_descr))
 		return -1;
 
 #ifdef MAIN
@@ -309,7 +309,7 @@ getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr
 }
 
 int
-saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
+kfont_saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 {
 	FILE *fpo;
 	struct unimapdesc unimap_descr = { 0 };

@@ -79,7 +79,8 @@ int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
  * table with such direct-to-font values.
  */
 
-int getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
+int
+kfont_getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
 		KFONT_ERR(ctx, "ioctl(GIO_UNISCRNMAP): %m");
@@ -89,7 +90,7 @@ int getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 }
 
 int
-loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
+kfont_loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	unsigned short inbuf[E_TABSZ];
 
@@ -142,7 +143,8 @@ loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
  * Linux 2.6.1 makes GIO_UNIMAP, PIO_UNIMAP, PIO_UNIMAPCLR per-vt
  * so that fd no longer is random.
  */
-int getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
+int
+kfont_getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 {
 	struct unimapdesc ud;
 	int ct;
@@ -176,7 +178,8 @@ int getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 	return 0;
 }
 
-int loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
+int
+kfont_loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
 {
 	struct unimapinit advice;
 

@@ -21,7 +21,7 @@
 #endif
 
 int
-restorefont(struct kfont_context *ctx, int fd)
+kfont_restorefont(struct kfont_context *ctx, int fd)
 {
 	if (ioctl(fd, PIO_FONTRESET, 0)) {
 		KFONT_ERR(ctx, "ioctl(PIO_FONTRESET): %m");
@@ -51,7 +51,7 @@ nonzero:
  * Must not exit - we may have cleanup to do.
  */
 int
-getfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int *count,
+kfont_getfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int *count,
         unsigned int *width, unsigned int *height)
 {
 	struct consolefontdesc cfd;
@@ -126,16 +126,16 @@ getfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int *cou
 }
 
 int unsigned
-getfontsize(struct kfont_context *ctx, int fd)
+kfont_getfontsize(struct kfont_context *ctx, int fd)
 {
 	unsigned int count = 0;
-	if (!getfont(ctx, fd, NULL, &count, NULL, NULL))
+	if (!kfont_getfont(ctx, fd, NULL, &count, NULL, NULL))
 		return count;
 	return 256;
 }
 
 int
-putfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int count,
+kfont_putfont(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int count,
         unsigned int width, unsigned int height)
 {
 	struct consolefontdesc cfd;

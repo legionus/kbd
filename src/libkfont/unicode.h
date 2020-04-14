@@ -17,8 +17,8 @@ struct unicode_list {
 	struct unicode_seq *seq;
 };
 
-int addpair(struct unicode_list *up, unicode uc);
-int addseq(struct unicode_list *up, unicode uc);
-void clear_uni_entry(struct unicode_list *up);
+int kfont_addpair(struct unicode_list *up, unicode uc);
+int kfont_addseq(struct unicode_list *up, unicode uc);
+void kfont_clear_uni_entry(struct unicode_list *up);
 
 #endif /* _UNICODE_H_ */

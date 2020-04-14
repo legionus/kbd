@@ -127,7 +127,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 			p++;
 		if (!strncmp(p, "idem", 4)) {
 			for (i = fp0; i <= fp1; i++) {
-				ret = addpair(uclistheads + i, i);
+				ret = kfont_addpair(uclistheads + i, i);
 				if (ret < 0) {
 					KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 					exit(EX_OSERR);
@@ -164,7 +164,7 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 				exit(EX_DATAERR);
 			}
 			for (i = fp0; i <= fp1; i++) {
-				ret = addpair(uclistheads + i, un0 - fp0 + i);
+				ret = kfont_addpair(uclistheads + i, un0 - fp0 + i);
 				if (ret < 0) {
 					KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 					exit(EX_OSERR);
@@ -173,13 +173,13 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen)
 		} /* not idem */
 	} else {  /* no range */
 		while ((un0 = getunicode(&p)) >= 0) {
-			ret = addpair(uclistheads + fp0, un0);
+			ret = kfont_addpair(uclistheads + fp0, un0);
 			if (ret < 0) {
 				KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 				exit(EX_OSERR);
 			}
 			while (*p++ == ',' && (un1 = getunicode(&p)) >= 0) {
-				ret = addseq(uclistheads + fp0, un1);
+				ret = kfont_addseq(uclistheads + fp0, un1);
 				if (ret < 0) {
 					KFONT_ERR(ctx, "unable to add sequence: %s", strerror(-ret));
 					exit(EX_OSERR);
@@ -349,9 +349,9 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
-	                &width, &fontlen, 0,
-	                itab ? NULL : &uclistheads) < 0) {
+	if (kfont_readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf,
+				&fontbuflth, &width, &fontlen, 0,
+				itab ? NULL : &uclistheads) < 0) {
 		KFONT_ERR(&ctx, _("Bad magic number on %s"), ifname);
 		exit(EX_DATAERR);
 	}
@@ -412,8 +412,8 @@ int main(int argc, char **argv)
 
 	if (ofil) {
 		int ret;
-		ret = writepsffont(&ctx, ofil, fontbuf, width, height, fontlen,
-				psftype, notable ? NULL : uclistheads);
+		ret = kfont_writepsffont(&ctx, ofil, fontbuf, width, height,
+				fontlen, psftype, notable ? NULL : uclistheads);
 		fclose(ofil);
 		if (ret < 0)
 			return -ret;

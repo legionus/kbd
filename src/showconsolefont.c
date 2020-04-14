@@ -30,11 +30,11 @@ int have_ounimap = 0;
 static void __attribute__((noreturn))
 leave(struct kfont_context *ctx, int n)
 {
-	if (have_obuf && loaduniscrnmap(ctx, fd, obuf)) {
+	if (have_obuf && kfont_loaduniscrnmap(ctx, fd, obuf)) {
 		kbd_warning(0, _("failed to restore original translation table\n"));
 		n = EXIT_FAILURE;
 	}
-	if (have_ounimap && loadunimap(ctx, fd, NULL, &ounimap)) {
+	if (have_ounimap && kfont_loadunimap(ctx, fd, NULL, &ounimap)) {
 		kbd_warning(0, _("failed to restore original unimap\n"));
 		n = EXIT_FAILURE;
 	}
@@ -46,14 +46,14 @@ settrivialscreenmap(struct kfont_context *ctx)
 {
 	unsigned short i;
 
-	if (getuniscrnmap(ctx, fd, obuf))
+	if (kfont_getuniscrnmap(ctx, fd, obuf))
 		exit(1);
 	have_obuf = 1;
 
 	for (i = 0; i < E_TABSZ; i++)
 		nbuf[i] = i;
 
-	if (loaduniscrnmap(ctx, fd, nbuf)) {
+	if (kfont_loaduniscrnmap(ctx, fd, nbuf)) {
 		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table\n"));
 	}
 }
@@ -63,7 +63,7 @@ getoldunicodemap(struct kfont_context *ctx)
 {
 	struct unimapdesc descr;
 
-	if (getunimap(ctx, fd, &descr))
+	if (kfont_getunimap(ctx, fd, &descr))
 		leave(ctx, EXIT_FAILURE);
 	ounimap = descr;
 	have_ounimap = 1;
@@ -92,7 +92,7 @@ setnewunicodemap(struct kfont_context *ctx, int *list, int cnt)
 	for (i = 0; i < cnt; i++)
 		nunimap.entries[list[i]].unicode = (unsigned short) (BASE + i);
 
-	if (loadunimap(ctx, fd, NULL, &nunimap))
+	if (kfont_loadunimap(ctx, fd, NULL, &nunimap))
 		leave(ctx, EXIT_FAILURE);
 }
 
@@ -167,7 +167,7 @@ int main(int argc, char **argv)
 	if (info) {
 		nr = rows = cols = 0;
 
-		n = getfont(&ctx, fd, NULL, &nr, &rows, &cols);
+		n = kfont_getfont(&ctx, fd, NULL, &nr, &rows, &cols);
 		if (n != 0)
 			leave(&ctx, EXIT_FAILURE);
 
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 	settrivialscreenmap(&ctx);
 	getoldunicodemap(&ctx);
 
-	n = getfontsize(&ctx, fd);
+	n = kfont_getfontsize(&ctx, fd);
 	if (ctx.verbose)
 		printf(_("Showing %d-char font\n\n"), n);
 	cols = ((n > 256) ? 32 : 16);

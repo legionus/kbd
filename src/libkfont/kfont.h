@@ -5,19 +5,19 @@
 
 /* mapscrn.c */
 
-int loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)
+int kfont_loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)
 	__attribute__((nonnull(1)));
 
-int saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
+int kfont_saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 	__attribute__((nonnull(1)));
 
 /* loadunimap.c */
 
 /* save humanly readable */
-int saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
+int kfont_saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
 	__attribute__((nonnull(1)));
 
-int loadunicodemap(struct kfont_context *ctx, int fd, const char *ufil)
+int kfont_loadunicodemap(struct kfont_context *ctx, int fd, const char *ufil)
 	__attribute__((nonnull(1)));
 
 int appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
@@ -31,7 +31,7 @@ int appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
  * Return 0 on success -1 on failure.
  * Sets number of glyphs in COUNT, glyph size in WIDTH and HEIGHT.
  */
-int getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
+int kfont_getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
 		unsigned int *count, unsigned int *width, unsigned int *height)
 	__attribute__((nonnull(1)));
 
@@ -40,7 +40,7 @@ int getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
  * with length COUNT.
  * Return 0 on success, -1 on failure.
  */
-int putfont(struct kfont_context *ctx, int fd, unsigned char *buf,
+int kfont_putfont(struct kfont_context *ctx, int fd, unsigned char *buf,
 		unsigned int count, unsigned int width, unsigned int height)
 	__attribute__((nonnull(1)));
 
@@ -55,13 +55,13 @@ unsigned int font_charheight(unsigned char *buf, unsigned int count,
 /*
  * Find the size of the kernel font.
  */
-unsigned int getfontsize(struct kfont_context *ctx, int fd)
+unsigned int kfont_getfontsize(struct kfont_context *ctx, int fd)
 	__attribute__((nonnull(1)));
 
 /*
  * Restore font (doesn't work).
  */
-int restorefont(struct kfont_context *ctx, int fd)
+int kfont_restorefont(struct kfont_context *ctx, int fd)
 	__attribute__((nonnull(1)));
 
 /* kdmapop.c */
@@ -72,39 +72,39 @@ int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 	__attribute__((nonnull(1)));
 
-int getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
+int kfont_getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 	__attribute__((nonnull(1)));
 
-int loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
+int kfont_loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 	__attribute__((nonnull(1)));
 
 #include <linux/kd.h>
 
-int getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud)
+int kfont_getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud)
 	__attribute__((nonnull(1)));
 
-int loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui,
+int kfont_loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui,
 		struct unimapdesc *ud)
 	__attribute__((nonnull(1)));
 
 /* setfont.c */
-int saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
+int kfont_saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
 	__attribute__((nonnull(1)));
 
-int saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
+int kfont_saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
 	__attribute__((nonnull(1)));
 
-int loadnewfont(struct kfont_context *ctx,
+int kfont_loadnewfont(struct kfont_context *ctx,
 		int fd, const char *ifil,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 	__attribute__((nonnull(1)));
 
-int loadnewfonts(struct kfont_context *ctx,
+int kfont_loadnewfonts(struct kfont_context *ctx,
 		int fd, const char *const *ifiles, int ifilct,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 	__attribute__((nonnull(1)));
 
-void activatemap(int fd);
-void disactivatemap(int fd);
+void kfont_activatemap(int fd);
+void kfont_disactivatemap(int fd);
 
 #endif /* _FONT_H_ */

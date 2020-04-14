@@ -12,6 +12,14 @@ LDADD = \
 	$(top_builddir)/src/libcommon/libcommon.a \
 	$(CODE_COVERAGE_LIBS)
 
+KFONT_CURRENT  = 1
+KFONT_REVISION = 0
+KFONT_AGE      = 0
+
+KFONT_SHAREDLIB = libkfont.so
+KFONT_SONAME    = $(KFONT_SHAREDLIB).$(KFONT_CURRENT)
+KFONT_MAPFILE   = $(top_srcdir)/src/libkfont/libkfont.map
+
 libkfont_la_SOURCES = \
 	kfont.h \
 	psf.h psffontop.c psffontop.h \
@@ -23,5 +31,7 @@ libkfont_la_SOURCES = \
 	mapscrn.c \
 	setfont.c \
 	kdfontop.c
+
+libkfont_la_LDFLAGS = -Wl,-soname,$(KFONT_SONAME),--version-script=$(KFONT_MAPFILE),-z,defs,-stats
 
 noinst_LTLIBRARIES = libkfont.la
