@@ -10,13 +10,8 @@
 #include <sysexits.h>
 
 #include "libcommon.h"
-
-#include "psf.h"
-#include "context.h"
-#include "unicode.h"
-#include "psffontop.h"
+#include "kfontP.h"
 #include "utf8.h"
-#include "paths.h"
 
 static uint32_t
 assemble_uint32(unsigned char *ip)

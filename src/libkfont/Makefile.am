@@ -21,10 +21,10 @@ KFONT_SONAME    = $(KFONT_SHAREDLIB).$(KFONT_CURRENT)
 KFONT_MAPFILE   = $(top_srcdir)/src/libkfont/libkfont.map
 
 libkfont_la_SOURCES = \
-	kfont.h \
-	psf.h psffontop.c psffontop.h \
-	context.c context.h \
-	unicode.c unicode.h \
+	kfont.h kfontP.h \
+	psf.h psffontop.c \
+	context.c \
+	unicode.c \
 	utf8.c utf8.h \
 	kdmapop.c \
 	loadunimap.c \

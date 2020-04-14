@@ -16,10 +16,9 @@
 
 #include <kbdfile.h>
 
-#include "libcommon.h"
-
 #include "paths.h"
-#include "kfont.h"
+#include "libcommon.h"
+#include "kfontP.h"
 #include "utf8.h"
 
 static int ctoi(const char *);

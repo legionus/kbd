@@ -7,7 +7,7 @@
 #include <limits.h>
 
 #include "libcommon.h"
-#include "psf.h"
+#include "kfont.h"
 
 static void __attribute__((noreturn))
 usage(void)

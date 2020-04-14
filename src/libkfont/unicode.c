@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include "unicode.h"
+#include "kfontP.h"
 
 int
 kfont_addpair(struct unicode_list *up, unicode uc)

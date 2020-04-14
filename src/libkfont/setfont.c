@@ -26,12 +26,9 @@
 
 #include <kbdfile.h>
 
-#include "libcommon.h"
-
 #include "paths.h"
-#include "psf.h"
-#include "psffontop.h"
-#include "kfont.h"
+#include "libcommon.h"
+#include "kfontP.h"
 
 static unsigned int position_codepage(unsigned int iunit);
 

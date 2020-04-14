@@ -14,7 +14,7 @@
 #include <linux/kd.h>
 
 #include "libcommon.h"
-#include "kfont.h"
+#include "kfontP.h"
 
 /*
  * Linux pre-0.96 defined GIO_SCRNMAP, PIO_SCRNMAP:

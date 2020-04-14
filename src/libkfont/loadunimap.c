@@ -19,12 +19,9 @@
 #include <kbdfile.h>
 
 #include "paths.h"
-#include "psffontop.h"
-#include "utf8.h"
-#include "psf.h"
-
 #include "libcommon.h"
-#include "kfont.h"
+#include "kfontP.h"
+#include "utf8.h"
 
 static int
 str_to_ushort(struct kfont_context *ctx,

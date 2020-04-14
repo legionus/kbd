@@ -14,7 +14,7 @@
 #include <linux/kd.h>
 
 #include "libcommon.h"
-#include "kfont.h"
+#include "kfontP.h"
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-kd.h"

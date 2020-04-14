@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <syslog.h>
 
-#include "libcommon.h"
-#include "context.h"
 #include "paths.h"
+#include "libcommon.h"
+#include "kfontP.h"
 
 /* search for the map file in these directories (with trailing /) */
 static const char *const mapdirpath[]  = {
