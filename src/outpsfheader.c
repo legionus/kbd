@@ -4,9 +4,9 @@
 
 #include <stdio.h>
 #include <stdlib.h> /* exit */
+#include <limits.h>
 
 #include "libcommon.h"
-
 #include "psf.h"
 
 static void __attribute__((noreturn))

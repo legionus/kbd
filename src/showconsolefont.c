@@ -9,9 +9,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <sysexits.h>
-#include <sys/types.h>
 #include <sys/ioctl.h>
-#include <linux/kd.h>
 
 #include "libcommon.h"
 #include "kfont.h"

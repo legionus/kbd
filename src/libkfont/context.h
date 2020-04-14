@@ -6,6 +6,8 @@
 #define __attribute__(x) /*NOTHING*/
 #endif
 
+#define MAXIFILES 256
+
 struct kfont_context;
 
 void kfont_init(struct kfont_context *ctx);

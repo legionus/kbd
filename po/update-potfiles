@@ -4,13 +4,13 @@
 
 > .null
 
-for x in ../*/*.c ../*/*/*.c ../src/version.h; do
+for x in ../*/*.c ../*/*/*.c; do
 echo "$x \\"
 done > POTFILES
 echo .null   >> POTFILES
 
 cd ..
-for x in */*.c */*/*.c src/version.h; do
+for x in */*.c */*/*.c; do
 echo "$x"
 done > po/POTFILES.in
 cd po

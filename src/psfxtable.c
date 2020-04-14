@@ -21,9 +21,10 @@
 
 #include "libcommon.h"
 
+#include "kfont.h"
+#include "unicode.h"
 #include "psf.h"
 #include "psffontop.h"
-#include "context.h"
 
 /*
  * call: psfxtable -i infont -o outfont -it intable -ot outtable

@@ -180,6 +180,7 @@ AC_CONFIG_FILES([Makefile
 		src/Makefile
 		src/libcommon/Makefile
 		src/libkbdfile/Makefile
+		src/libkfont/Makefile
 		src/libkeymap/Makefile
 		src/vlock/Makefile
 		tests/helpers/Makefile

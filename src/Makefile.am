@@ -1,16 +1,16 @@
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
-	-I$(srcdir)/libcommon -I$(builddir)/libcommon \
-	-I$(srcdir)/libkeymap -I$(builddir)/libkeymap \
-	-I$(srcdir)/libkeymap/keymap -I$(builddir)/libkeymap/keymap \
-	-I$(srcdir)/libkbdfile -I$(builddir)/libkbdfile \
-	-I$(srcdir)/libkbdfile/keymap -I$(builddir)/libkbdfile/keymap \
+	-I$(top_srcdir)/src/libcommon \
+	-I$(top_srcdir)/src/libkeymap \
+	-I$(top_srcdir)/src/libkeymap/keymap \
+	-I$(top_srcdir)/src/libkbdfile \
+	-I$(top_srcdir)/src/libkfont \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-funit-at-a-time
 
 AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 
-SUBDIRS = libcommon libkbdfile libkeymap vlock
+SUBDIRS = libcommon libkbdfile libkfont libkeymap vlock
 
 OLDPROGS = mapscrn loadunimap
 PROGS = \
@@ -40,15 +40,6 @@ EXTRA_DIST = \
 	totextmode.c README.cad README.init README.openvt \
 	cad
 
-libfont_a_SOURCES   = \
-	psf.h psffontop.c psffontop.h \
-	context.c context.h \
-	unicode.c unicode.h \
-	utf8.c utf8.h \
-	kdmapop.c \
-	loadunimap.c \
-	kdfontop.c
-
 ALL_S   = paths.h
 
 chvt_SOURCES            = $(ALL_S) chvt.c
@@ -64,7 +55,7 @@ openvt_SOURCES          = $(ALL_S) openvt.c
 psfxtable_SOURCES       = $(ALL_S) psfxtable.c
 resizecons_SOURCES      = $(ALL_S) resizecons.c
 screendump_SOURCES      = $(ALL_S) screendump.c
-setfont_SOURCES         = $(ALL_S) setfont.c mapscrn.c
+setfont_SOURCES         = $(ALL_S) setfont.c
 setkeycodes_SOURCES     = $(ALL_S) setkeycodes.c
 setvtrgb_SOURCES        = $(ALL_S) setvtrgb.c
 setlogcons_SOURCES      = $(ALL_S) setlogcons.c
@@ -77,12 +68,8 @@ kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
 dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c
 loadkeys_SOURCES        = $(ALL_S) loadkeys.c
 
-mapscrn_CFLAGS = -DMAIN
-loadunimap_CFLAGS = -DMAIN
-
-noinst_LIBRARIES = libfont.a
 LDADD = \
-	libfont.a \
+	libkfont/libkfont.la \
 	libkeymap/libkeymap.la \
 	libkbdfile/libkbdfile.la \
 	libcommon/libcommon.a \

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2019-07-02 17:46+0200\n"
+"POT-Creation-Date: 2020-04-14 13:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/chvt.c:22
+#: src/chvt.c:24
 #, c-format
 msgid ""
 "Usage: %s [option...] N\n"
@@ -28,19 +28,24 @@ msgid ""
 "  -V, --version         print version number.\n"
 msgstr ""
 
-#: src/chvt.c:60
+#: src/chvt.c:74
 #, c-format
 msgid "Argument required\n"
 msgstr ""
 
-#: src/chvt.c:65 src/clrunimap.c:29 src/deallocvt.c:70 src/dumpkeys.c:154
+#: src/chvt.c:79 src/clrunimap.c:29 src/deallocvt.c:70 src/dumpkeys.c:154
 #: src/fgconsole.c:68 src/getkeycodes.c:42 src/getunimap.c:70 src/kbdinfo.c:96
-#: src/kbd_mode.c:100 src/loadkeys.c:170 src/loadunimap.c:80 src/mapscrn.c:55
-#: src/openvt.c:256 src/resizecons.c:164 src/setfont.c:191 src/setkeycodes.c:47
+#: src/kbd_mode.c:100 src/loadkeys.c:184 src/loadunimap.c:63 src/mapscrn.c:40
+#: src/openvt.c:328 src/resizecons.c:171 src/setfont.c:150 src/setkeycodes.c:47
 #: src/setlogcons.c:35 src/setmetamode.c:117 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:154 src/showconsolefont.c:150
+#: src/setvesablank.c:32 src/setvtrgb.c:154 src/showconsolefont.c:156
 #: src/showkey.c:188 src/totextmode.c:32
 msgid "Couldn't get a file descriptor referring to the console"
+msgstr ""
+
+#: src/chvt.c:109 src/openvt.c:216
+#, c-format
+msgid "Couldn't activate vt %d"
 msgstr ""
 
 #: src/deallocvt.c:24
@@ -112,12 +117,12 @@ msgid ""
 "  -V, --version         print version number.\n"
 msgstr ""
 
-#: src/dumpkeys.c:132
+#: src/dumpkeys.c:132 parser.y:195
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr ""
 
-#: src/dumpkeys.c:158 src/loadkeys.c:175
+#: src/dumpkeys.c:158 src/loadkeys.c:189
 #, c-format
 msgid "%s: error reading keyboard mode: %m\n"
 msgstr ""
@@ -299,33 +304,6 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/kdfontop.c:98
-#, c-format
-msgid "bug: getfont called with count<256\n"
-msgstr ""
-
-#: src/kdfontop.c:102
-#, c-format
-msgid "bug: getfont using GIO_FONT needs buf.\n"
-msgstr ""
-
-#: src/kdfontop.c:159 src/kdmapop.c:153 src/libcommon/xmalloc.c:17
-#, c-format
-msgid "%s: out of memory\n"
-msgstr ""
-
-#: src/kdmapop.c:162
-#, c-format
-msgid "strange... ct changed from %d to %d\n"
-msgstr ""
-
-#: src/kdmapop.c:188
-#, c-format
-msgid ""
-"It seems this kernel is older than 1.1.92\n"
-"No Unicode mapping table loaded.\n"
-msgstr ""
-
 #: src/libcommon/getfd.c:70
 #, c-format
 msgid "Couldn't open %s\n"
@@ -341,9 +319,56 @@ msgstr ""
 msgid "%s from %s\n"
 msgstr ""
 
-#: src/libkeymap/common.c:135 src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
-#: src/libkeymap/loadkeys.c:126
+#: analyze.l:43
+msgid "includes are nested too deeply"
+msgstr ""
+
+#: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
+#: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
 msgid "out of memory"
+msgstr ""
+
+#: analyze.l:259
+#, c-format
+msgid "switching to %s"
+msgstr ""
+
+#: analyze.l:269
+#, c-format
+msgid "cannot open include file %s"
+msgstr ""
+
+#: analyze.l:291
+#, c-format
+msgid "unable to parse number: %s"
+msgstr ""
+
+#: analyze.l:296
+#, c-format
+msgid "value must be a positive number: %s"
+msgstr ""
+
+#: analyze.l:301
+#, c-format
+msgid "value must be less than %d: %s"
+msgstr ""
+
+#: analyze.l:369
+msgid "expected filename between quotes"
+msgstr ""
+
+#: analyze.l:408
+#, c-format
+msgid "unicode keysym out of range: %s"
+msgstr ""
+
+#: analyze.l:468 analyze.l:492 analyze.l:499 analyze.l:506 analyze.l:515
+msgid "string too long"
+msgstr ""
+
+#: analyze.l:484
+msgid "octal number too big"
 msgstr ""
 
 #: src/libkeymap/common.c:141
@@ -351,13 +376,37 @@ msgstr ""
 msgid "unable to initialize array: %s"
 msgstr ""
 
-#: src/libkeymap/dump.c:85
+#: src/libkeymap/diacr.c:31
+#, c-format
+msgid "Index %d in the accent table does not exist"
+msgstr ""
+
+#: src/libkeymap/diacr.c:85
+msgid "Unable to remove item from the diacritical table"
+msgstr ""
+
+#: src/libkeymap/dump.c:78 src/libkeymap/loadkeys.c:44
+#, c-format
+msgid "can not bind key %d to value %d because it is too large"
+msgstr ""
+
+#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:254
+#: src/libkfont/mapscrn.c:259
 msgid "Error writing map to file"
 msgstr ""
 
-#: src/libkeymap/dump.c:543
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
+msgstr ""
+
+#: src/libkeymap/func.c:30
+#, c-format
+msgid "func %d not allocated"
+msgstr ""
+
+#: src/libkeymap/func.c:62
+msgid "Unable to remove item from the list of functions"
 msgstr ""
 
 #: src/libkeymap/kernel.c:27
@@ -464,11 +513,6 @@ msgstr ""
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
 msgstr ""
 
-#: src/libkeymap/loadkeys.c:44
-#, c-format
-msgid "can not bind key %d to value %d because it is too large"
-msgstr ""
-
 #: src/libkeymap/loadkeys.c:56
 #, c-format
 msgid "Keymap %d: Permission denied"
@@ -551,47 +595,67 @@ msgstr[1] ""
 msgid "(No change in compose definitions)"
 msgstr ""
 
-#: src/libkeymap/summary.c:95
+#: parser.y:117
+#, c-format
+msgid "loadkeys: don't know how to compose for %s"
+msgstr ""
+
+#: parser.y:258
+#, c-format
+msgid "'%s' is not a function key symbol"
+msgstr ""
+
+#: parser.y:345
+#, c-format
+msgid "too many (%ld) entries on one line"
+msgstr ""
+
+#: parser.y:415
+#, c-format
+msgid "Loading %s"
+msgstr ""
+
+#: src/libkeymap/summary.c:92
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:97
+#: src/libkeymap/summary.c:94
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:99
+#: src/libkeymap/summary.c:96
 #, c-format
 msgid "number of keymaps in actual use:                 %u\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:102
+#: src/libkeymap/summary.c:99
 #, c-format
 msgid "of which %u dynamically allocated\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:105
+#: src/libkeymap/summary.c:102
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:108
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:113
+#: src/libkeymap/summary.c:110
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:115
+#: src/libkeymap/summary.c:112
 #, c-format
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:136
 #, c-format
 msgid ""
 "\n"
@@ -599,19 +663,334 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:139
 #, c-format
 msgid "%-15s for %s\n"
 msgstr ""
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:143
 #, c-format
 msgid ""
 "\n"
 "Recognized modifier names and their column numbers:\n"
 msgstr ""
 
-#: src/loadkeys.c:34
+#: src/libkfont/kdfontop.c:106
+msgid "bug: getfont called with count<256"
+msgstr ""
+
+#: src/libkfont/kdfontop.c:111
+msgid "bug: getfont using GIO_FONT needs buf."
+msgstr ""
+
+#: src/libkfont/kdmapop.c:170
+#, c-format
+msgid "strange... ct changed from %d to %d"
+msgstr ""
+
+#: src/libkfont/kdmapop.c:195
+msgid ""
+"It seems this kernel is older than 1.1.92\n"
+"No Unicode mapping table loaded."
+msgstr ""
+
+#: src/libkfont/loadunimap.c:169
+#, c-format
+msgid "%s: Glyph number (0x%x) larger than font length"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:175
+#, c-format
+msgid "%s: Bad end of range (0x%x)\n"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:214
+#, c-format
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:238
+#, c-format
+msgid "%s: trailing junk (%s) ignored"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:268
+#, c-format
+msgid "Loading unicode map from file %s"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:274
+#, c-format
+msgid "%s: Warning: line too long"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:282
+msgid ""
+"not loading empty unimap\n"
+"(if you insist: use option -f to override)"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:306
+msgid "entry"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:306
+msgid "entries"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:334
+#, c-format
+msgid "Saved unicode map on `%s'"
+msgstr ""
+
+#: src/libkfont/loadunimap.c:383
+msgid "Appended Unicode map"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:93 src/libkfont/mapscrn.c:99
+#, c-format
+msgid "Cannot open map file: %s"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:107
+#, c-format
+msgid "Loading binary direct-to-font screen map from file %s"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:111 src/libkfont/mapscrn.c:124
+#, c-format
+msgid "Error reading map from file `%s'"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:119
+#, c-format
+msgid "Loading binary unicode screen map from file %s"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:132
+#, c-format
+msgid "Loading symbolic screen map from file %s"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:137
+#, c-format
+msgid "Error parsing symbolic map from `%s', line %d"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:263
+msgid "Cannot read console map"
+msgstr ""
+
+#: src/libkfont/mapscrn.c:268
+#, c-format
+msgid "Saved screen map in `%s'"
+msgstr ""
+
+#: src/libkfont/psffontop.c:47
+msgid "short ucs2 unicode table"
+msgstr ""
+
+#: src/libkfont/psffontop.c:68
+msgid "short utf8 unicode table"
+msgstr ""
+
+#: src/libkfont/psffontop.c:71
+msgid "bad utf8"
+msgstr ""
+
+#: src/libkfont/psffontop.c:74
+msgid "unknown utf8 error"
+msgstr ""
+
+#: src/libkfont/psffontop.c:99
+msgid "short unicode table"
+msgstr ""
+
+#: src/libkfont/psffontop.c:187
+msgid "Error reading input font"
+msgstr ""
+
+#: src/libkfont/psffontop.c:200
+msgid "Bad call of readpsffont"
+msgstr ""
+
+#: src/libkfont/psffontop.c:214
+#, c-format
+msgid "Unsupported psf file mode (%d)"
+msgstr ""
+
+#: src/libkfont/psffontop.c:231
+#, c-format
+msgid "Unsupported psf version (%d)"
+msgstr ""
+
+#: src/libkfont/psffontop.c:246
+msgid "zero input font length?"
+msgstr ""
+
+#: src/libkfont/psffontop.c:250
+msgid "zero input character size?"
+msgstr ""
+
+#: src/libkfont/psffontop.c:255
+#, c-format
+msgid "Input file: bad input length (%d)"
+msgstr ""
+
+#: src/libkfont/psffontop.c:296
+msgid "Input file: trailing garbage"
+msgstr ""
+
+#: src/libkfont/psffontop.c:335
+#, c-format
+msgid "illegal unicode %d"
+msgstr ""
+
+#: src/libkfont/psffontop.c:439
+msgid "Cannot write font file header"
+msgstr ""
+
+#: src/libkfont/psffontop.c:472
+msgid "Cannot write font file"
+msgstr ""
+
+#: src/libkfont/setfont.c:66
+#, c-format
+msgid "Bad character height %d"
+msgstr ""
+
+#: src/libkfont/setfont.c:71
+#, c-format
+msgid "Bad character width %d"
+msgstr ""
+
+#: src/libkfont/setfont.c:80
+#, c-format
+msgid "Cannot double %dx%d font (limit is 16x16)"
+msgstr ""
+
+#: src/libkfont/setfont.c:148
+msgid "font position 32 is nonblank"
+msgstr ""
+
+#: src/libkfont/setfont.c:157
+msgid "wiped it"
+msgstr ""
+
+#: src/libkfont/setfont.c:160
+msgid "background will look funny"
+msgstr ""
+
+#: src/libkfont/setfont.c:169
+#, c-format
+msgid "Loading %d-char %dx%d font from file %s"
+msgstr ""
+
+#: src/libkfont/setfont.c:172
+#, c-format
+msgid "Loading %d-char %dx%d font"
+msgstr ""
+
+#: src/libkfont/setfont.c:175
+#, c-format
+msgid "Loading %d-char %dx%d (%d) font from file %s"
+msgstr ""
+
+#: src/libkfont/setfont.c:178
+#, c-format
+msgid "Loading %d-char %dx%d (%d) font"
+msgstr ""
+
+#: src/libkfont/setfont.c:250
+msgid "bug in do_loadtable"
+msgstr ""
+
+#: src/libkfont/setfont.c:256
+msgid "Loading Unicode mapping table..."
+msgstr ""
+
+#: src/libkfont/setfont.c:309 src/libkfont/setfont.c:429
+#, c-format
+msgid "Cannot open font file %s"
+msgstr ""
+
+#: src/libkfont/setfont.c:321
+#, c-format
+msgid "When loading several fonts, all must be psf fonts - %s isn't"
+msgstr ""
+
+#: src/libkfont/setfont.c:331
+#, c-format
+msgid "Read %d-char %dx%d font from file %s"
+msgstr ""
+
+#: src/libkfont/setfont.c:340
+msgid "When loading several fonts, all must have the same height"
+msgstr ""
+
+#: src/libkfont/setfont.c:348
+msgid "When loading several fonts, all must have the same width"
+msgstr ""
+
+#: src/libkfont/setfont.c:414
+msgid "Cannot find default font"
+msgstr ""
+
+#: src/libkfont/setfont.c:422
+#, c-format
+msgid "Cannot find %s font"
+msgstr ""
+
+#: src/libkfont/setfont.c:436
+#, c-format
+msgid "Reading font file %s"
+msgstr ""
+
+#: src/libkfont/setfont.c:487
+msgid "No final newline in combine file"
+msgstr ""
+
+#: src/libkfont/setfont.c:493
+msgid "Too many files to combine"
+msgstr ""
+
+#: src/libkfont/setfont.c:521
+msgid "Hmm - a font from restorefont? Using the first half."
+msgstr ""
+
+#: src/libkfont/setfont.c:540
+msgid "Bad input file size"
+msgstr ""
+
+#: src/libkfont/setfont.c:568
+#, c-format
+msgid ""
+"This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
+"using an option -8 or -14 or -16 which one you want loaded.\n"
+msgstr ""
+
+#: src/libkfont/setfont.c:585
+#, c-format
+msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
+msgstr ""
+
+#: src/libkfont/setfont.c:636
+msgid "Found nothing to save"
+msgstr ""
+
+#: src/libkfont/setfont.c:640
+#, c-format
+msgid "Cannot write font file: %m"
+msgstr ""
+
+#: src/libkfont/setfont.c:646
+#, c-format
+msgid "Saved %d-char %dx%d font file on %s"
+msgstr ""
+
+#: src/loadkeys.c:44
 #, c-format
 msgid ""
 "loadkeys version %s\n"
@@ -634,165 +1013,48 @@ msgid ""
 "  -V, --version         print version number.\n"
 msgstr ""
 
-#: src/loadkeys.c:162
+#: src/loadkeys.c:176
 #, c-format
 msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
 msgstr ""
 
-#: src/loadkeys.c:183
+#: src/loadkeys.c:197
 #, c-format
 msgid ""
 "%s: warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)\n"
 msgstr ""
 
-#: src/loadkeys.c:195
+#: src/loadkeys.c:209
 #, c-format
 msgid ""
 "%s: warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)\n"
 msgstr ""
 
-#: src/loadkeys.c:213
+#: src/loadkeys.c:232
 #, c-format
 msgid "Cannot find %s\n"
 msgstr ""
 
-#: src/loadkeys.c:234
+#: src/loadkeys.c:271
 #, c-format
 msgid "cannot open file %s\n"
 msgstr ""
 
-#: src/loadunimap.c:45
+#: src/loadunimap.c:28
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s [-C console] [-o map.orig]\n"
 msgstr ""
 
-#: src/loadunimap.c:178 src/loadunimap.c:189
-#, c-format
-msgid "Bad input line: %s\n"
-msgstr ""
-
-#: src/loadunimap.c:198
-#, c-format
-msgid "%s: Glyph number (0x%x) larger than font length\n"
-msgstr ""
-
-#: src/loadunimap.c:204
-#, c-format
-msgid "%s: Bad end of range (0x%x)\n"
-msgstr ""
-
-#: src/loadunimap.c:234 src/psfxtable.c:180
-#, c-format
-msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr ""
-
-#: src/loadunimap.c:241 src/psfxtable.c:187
-#, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x\n"
-msgstr ""
-
-#: src/loadunimap.c:260 src/psfxtable.c:208
-#, c-format
-msgid "%s: trailing junk (%s) ignored\n"
-msgstr ""
-
-#: src/loadunimap.c:279
-#, c-format
-msgid "Loading unicode map from file %s\n"
-msgstr ""
-
-#: src/loadunimap.c:285
-#, c-format
-msgid "%s: %s: Warning: line too long\n"
-msgstr ""
-
-#: src/loadunimap.c:295
-#, c-format
-msgid ""
-"%s: not loading empty unimap\n"
-"(if you insist: use option -f to override)\n"
-msgstr ""
-
-#: src/loadunimap.c:315
-msgid "entry"
-msgstr ""
-
-#: src/loadunimap.c:315
-msgid "entries"
-msgstr ""
-
-#: src/loadunimap.c:342
-#, c-format
-msgid "Saved unicode map on `%s'\n"
-msgstr ""
-
-#: src/loadunimap.c:380
-#, c-format
-msgid "Appended Unicode map\n"
-msgstr ""
-
-#: src/mapscrn.c:66
+#: src/mapscrn.c:53
 #, c-format
 msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
 msgstr ""
 
-#: src/mapscrn.c:136
-#, c-format
-msgid "mapscrn: cannot open map file _%s_\n"
-msgstr ""
-
-#: src/mapscrn.c:142
-#, c-format
-msgid "Cannot stat map file"
-msgstr ""
-
-#: src/mapscrn.c:147
-#, c-format
-msgid "Loading binary direct-to-font screen map from file %s\n"
-msgstr ""
-
-#: src/mapscrn.c:152 src/mapscrn.c:163
-#, c-format
-msgid "Error reading map from file `%s'\n"
-msgstr ""
-
-#: src/mapscrn.c:158
-#, c-format
-msgid "Loading binary unicode screen map from file %s\n"
-msgstr ""
-
-#: src/mapscrn.c:170
-#, c-format
-msgid "Loading symbolic screen map from file %s\n"
-msgstr ""
-
-#: src/mapscrn.c:174
-#, c-format
-msgid "Error parsing symbolic map from `%s', line %d\n"
-msgstr ""
-
-#: src/mapscrn.c:279 src/mapscrn.c:284
-#, c-format
-msgid "Error writing map to file\n"
-msgstr ""
-
-#: src/mapscrn.c:288
-#, c-format
-msgid "Cannot read console map\n"
-msgstr ""
-
-#: src/mapscrn.c:294
-#, c-format
-msgid "Saved screen map in `%s'\n"
-msgstr ""
-
-#: src/openvt.c:48
+#: src/openvt.c:51
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] -- command\n"
@@ -813,261 +1075,196 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/openvt.c:140
+#: src/openvt.c:143
 msgid "Couldn't find owner of current tty!"
 msgstr ""
 
-#: src/openvt.c:207
+#: src/openvt.c:189
+msgid "Unable to set signal handler"
+msgstr ""
+
+#: src/openvt.c:198
+msgid "Unable to create timer"
+msgstr ""
+
+#: src/openvt.c:208
+msgid "Unable to set timer"
+msgstr ""
+
+#: src/openvt.c:279
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr ""
 
-#: src/openvt.c:234
+#: src/openvt.c:306
 msgid "Only root can use the -u flag."
 msgstr ""
 
-#: src/openvt.c:263
+#: src/openvt.c:335
 msgid "Cannot find a free vt"
 msgstr ""
 
-#: src/openvt.c:267
+#: src/openvt.c:339
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
 
-#: src/openvt.c:271
+#: src/openvt.c:343
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
 
-#: src/openvt.c:281
+#: src/openvt.c:353
 msgid "Unable to find command."
 msgstr ""
 
-#: src/openvt.c:313
+#: src/openvt.c:388
 msgid "Unable to set new session"
 msgstr ""
 
-#: src/openvt.c:337
+#: src/openvt.c:412
 #, c-format
 msgid "Unable to open %s"
 msgstr ""
 
-#: src/openvt.c:341
+#: src/openvt.c:416
 #, c-format
 msgid "Using VT %s"
 msgstr ""
 
-#: src/openvt.c:347
+#: src/openvt.c:422
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr ""
 
-#: src/openvt.c:359
-#, c-format
-msgid "Couldn't activate vt %d"
-msgstr ""
-
-#: src/openvt.c:362
-msgid "Activation interrupted?"
-msgstr ""
-
-#: src/openvt.c:402
+#: src/openvt.c:469
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr ""
 
-#: src/psffontop.c:75
-#, c-format
-msgid "%s: short ucs2 unicode table\n"
+#: src/psfxtable.c:83
+msgid "Warning: line too long"
 msgstr ""
 
-#: src/psffontop.c:97
+#: src/psfxtable.c:96 src/psfxtable.c:105
 #, c-format
-msgid "%s: short utf8 unicode table\n"
+msgid "Bad input line: %s"
 msgstr ""
 
-#: src/psffontop.c:100
+#: src/psfxtable.c:113
 #, c-format
-msgid "%s: bad utf8\n"
+msgid "Glyph number (0x%lx) past end of font"
 msgstr ""
 
-#: src/psffontop.c:103
+#: src/psfxtable.c:117
 #, c-format
-msgid "%s: unknown utf8 error\n"
+msgid "Bad end of range (0x%lx)"
 msgstr ""
 
-#: src/psffontop.c:135
-#, c-format
-msgid "%s: short unicode table\n"
-msgstr ""
-
-#: src/psffontop.c:215
-#, c-format
-msgid "%s: Error reading input font"
-msgstr ""
-
-#: src/psffontop.c:229
-#, c-format
-msgid "%s: Bad call of readpsffont\n"
-msgstr ""
-
-#: src/psffontop.c:244
-#, c-format
-msgid "%s: Unsupported psf file mode (%d)\n"
-msgstr ""
-
-#: src/psffontop.c:262
-#, c-format
-msgid "%s: Unsupported psf version (%d)\n"
-msgstr ""
-
-#: src/psffontop.c:278
-#, c-format
-msgid "%s: zero input font length?\n"
-msgstr ""
-
-#: src/psffontop.c:283
-#, c-format
-msgid "%s: zero input character size?\n"
-msgstr ""
-
-#: src/psffontop.c:289
-#, c-format
-msgid "%s: Input file: bad input length (%d)\n"
-msgstr ""
-
-#: src/psffontop.c:321
-#, c-format
-msgid "%s: Input file: trailing garbage\n"
-msgstr ""
-
-#: src/psffontop.c:360
-#, c-format
-msgid "appendunicode: illegal unicode %u\n"
-msgstr ""
-
-#: src/psffontop.c:454
-#, c-format
-msgid "Cannot write font file header"
-msgstr ""
-
-#: src/psffontop.c:479 src/setfont.c:700
-#, c-format
-msgid "Cannot write font file"
-msgstr ""
-
-#: src/psfxtable.c:114
-#, c-format
-msgid "%s: Warning: line too long\n"
-msgstr ""
-
-#: src/psfxtable.c:128 src/psfxtable.c:138
-#, c-format
-msgid "%s: Bad input line: %s\n"
-msgstr ""
-
-#: src/psfxtable.c:147
-#, c-format
-msgid "%s: Glyph number (0x%lx) past end of font\n"
+#: src/psfxtable.c:143
+msgid ""
+"Corresponding to a range of font positions, there should be a Unicode range"
 msgstr ""
 
 #: src/psfxtable.c:152
 #, c-format
-msgid "%s: Bad end of range (0x%lx)\n"
+msgid "Bad Unicode range corresponding to font position range 0x%lx-0x%lx"
 msgstr ""
 
-#: src/psfxtable.c:171
+#: src/psfxtable.c:160
 #, c-format
 msgid ""
-"%s: Corresponding to a range of font positions, there should be a Unicode "
-"range\n"
+"Unicode range U+%lx-U+%lx not of the same length as font position range 0x"
+"%lx-0x%lx"
 msgstr ""
 
-#: src/psfxtable.c:260
+#: src/psfxtable.c:193
+#, c-format
+msgid "trailing junk (%s) ignored"
+msgstr ""
+
+#: src/psfxtable.c:254
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s infont intable outfont\n"
 msgstr ""
 
-#: src/psfxtable.c:269
+#: src/psfxtable.c:263
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s infont [outtable]\n"
 msgstr ""
 
-#: src/psfxtable.c:278
+#: src/psfxtable.c:272
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s infont outfont\n"
 msgstr ""
 
-#: src/psfxtable.c:301
+#: src/psfxtable.c:295
 #, c-format
 msgid ""
 "Usage:\n"
 "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 
-#: src/psfxtable.c:361
+#: src/psfxtable.c:355
 #, c-format
-msgid "%s: Bad magic number on %s\n"
+msgid "Bad magic number on %s"
 msgstr ""
 
-#: src/psfxtable.c:380
-#, c-format
-msgid "%s: psf file with unknown magic\n"
+#: src/psfxtable.c:373
+msgid "psf file with unknown magic"
 msgstr ""
 
-#: src/psfxtable.c:396
-#, c-format
-msgid "%s: input font does not have an index\n"
+#: src/psfxtable.c:388
+msgid "input font does not have an index"
 msgstr ""
 
-#: src/resizecons.c:142
+#: src/resizecons.c:149
 #, c-format
 msgid "resizecons: invalid columns number %d\n"
 msgstr ""
 
-#: src/resizecons.c:147
+#: src/resizecons.c:154
 #, c-format
 msgid "resizecons: invalid rows number %d\n"
 msgstr ""
 
-#: src/resizecons.c:158
+#: src/resizecons.c:165
 #, c-format
 msgid "resizecons: cannot find videomode file %s\n"
 msgstr ""
 
-#: src/resizecons.c:175
+#: src/resizecons.c:182
 msgid "Invalid number of lines\n"
 msgstr ""
 
-#: src/resizecons.c:258
+#: src/resizecons.c:265
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr ""
 
-#: src/resizecons.c:260
+#: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr ""
 
-#: src/resizecons.c:271
+#: src/resizecons.c:278
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr ""
 
-#: src/resizecons.c:356
+#: src/resizecons.c:363
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 
-#: src/resizecons.c:370
+#: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1076,7 +1273,7 @@ msgid ""
 "60\n"
 msgstr ""
 
-#: src/resizecons.c:409
+#: src/resizecons.c:416
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr ""
@@ -1086,31 +1283,31 @@ msgstr ""
 msgid "usage: screendump [n]\n"
 msgstr ""
 
-#: src/screendump.c:78
+#: src/screendump.c:82
 #, c-format
 msgid "Error reading %s"
 msgstr ""
 
-#: src/screendump.c:123
+#: src/screendump.c:130
 #, c-format
 msgid "couldn't read %s, and cannot ioctl dump\n"
 msgstr ""
 
-#: src/screendump.c:129
+#: src/screendump.c:136
 #, c-format
 msgid "couldn't read %s\n"
 msgstr ""
 
-#: src/screendump.c:138
+#: src/screendump.c:145
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgstr ""
 
-#: src/screendump.c:155
+#: src/screendump.c:166
 msgid "Error writing screendump\n"
 msgstr ""
 
-#: src/setfont.c:77
+#: src/setfont.c:28
 #, c-format
 msgid ""
 "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
@@ -1129,6 +1326,7 @@ msgid ""
 "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
 "will be loaded and, in the case of consolemaps, activated.\n"
 "    -h<N>      (no space) Override font height.\n"
+"    -d         Double size of font horizontally and vertically.\n"
 "    -m <fn>    Load console screen map.\n"
 "    -u <fn>    Load font unicode map.\n"
 "    -m none    Suppress loading and activation of a screen map.\n"
@@ -1139,153 +1337,16 @@ msgid ""
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
 
-#: src/setfont.c:177
+#: src/setfont.c:136
 #, c-format
 msgid "setfont: too many input files\n"
 msgstr ""
 
-#: src/setfont.c:185
+#: src/setfont.c:144
 #, c-format
 msgid ""
 "setfont: cannot both restore from character ROM and from file. Font "
 "unchanged.\n"
-msgstr ""
-
-#: src/setfont.c:260
-#, c-format
-msgid "Bad character height %d\n"
-msgstr ""
-
-#: src/setfont.c:264
-#, c-format
-msgid "Bad character width %d\n"
-msgstr ""
-
-#: src/setfont.c:289
-#, c-format
-msgid "%s: font position 32 is nonblank\n"
-msgstr ""
-
-#: src/setfont.c:297
-#, c-format
-msgid "%s: wiped it\n"
-msgstr ""
-
-#: src/setfont.c:301
-#, c-format
-msgid "%s: background will look funny\n"
-msgstr ""
-
-#: src/setfont.c:311
-#, c-format
-msgid "Loading %d-char %dx%d font from file %s\n"
-msgstr ""
-
-#: src/setfont.c:314
-#, c-format
-msgid "Loading %d-char %dx%d font\n"
-msgstr ""
-
-#: src/setfont.c:317
-#, c-format
-msgid "Loading %d-char %dx%d (%d) font from file %s\n"
-msgstr ""
-
-#: src/setfont.c:320
-#, c-format
-msgid "Loading %d-char %dx%d (%d) font\n"
-msgstr ""
-
-#: src/setfont.c:376
-#, c-format
-msgid "%s: bug in do_loadtable\n"
-msgstr ""
-
-#: src/setfont.c:382
-#, c-format
-msgid "Loading Unicode mapping table...\n"
-msgstr ""
-
-#: src/setfont.c:421 src/setfont.c:516
-#, c-format
-msgid "Cannot open font file %s\n"
-msgstr ""
-
-#: src/setfont.c:432
-#, c-format
-msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
-msgstr ""
-
-#: src/setfont.c:445
-#, c-format
-msgid "Read %d-char %dx%d font from file %s\n"
-msgstr ""
-
-#: src/setfont.c:451
-#, c-format
-msgid "When loading several fonts, all must have the same height\n"
-msgstr ""
-
-#: src/setfont.c:458
-#, c-format
-msgid "When loading several fonts, all must have the same width\n"
-msgstr ""
-
-#: src/setfont.c:503
-#, c-format
-msgid "Cannot find default font\n"
-msgstr ""
-
-#: src/setfont.c:510
-#, c-format
-msgid "Cannot find %s font\n"
-msgstr ""
-
-#: src/setfont.c:522
-#, c-format
-msgid "Reading font file %s\n"
-msgstr ""
-
-#: src/setfont.c:564
-#, c-format
-msgid "No final newline in combine file\n"
-msgstr ""
-
-#: src/setfont.c:570
-#, c-format
-msgid "Too many files to combine\n"
-msgstr ""
-
-#: src/setfont.c:594
-#, c-format
-msgid "Hmm - a font from restorefont? Using the first half.\n"
-msgstr ""
-
-#: src/setfont.c:611
-#, c-format
-msgid "Bad input file size\n"
-msgstr ""
-
-#: src/setfont.c:633
-#, c-format
-msgid ""
-"This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
-"using an option -8 or -14 or -16 which one you want loaded.\n"
-msgstr ""
-
-#: src/setfont.c:650
-#, c-format
-msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-
-#: src/setfont.c:696
-#, c-format
-msgid "Found nothing to save\n"
-msgstr ""
-
-#: src/setfont.c:705
-#, c-format
-msgid "Saved %d-char %dx%d font file on %s\n"
 msgstr ""
 
 #: src/setkeycodes.c:25
@@ -1313,7 +1374,7 @@ msgstr ""
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
 
-#: src/setleds.c:25
+#: src/setleds.c:36
 #, c-format
 msgid ""
 "Usage:\n"
@@ -1330,93 +1391,93 @@ msgid ""
 "that a subsequent reset will not change the flags.\n"
 msgstr ""
 
-#: src/setleds.c:46
+#: src/setleds.c:57
 msgid "on "
 msgstr ""
 
-#: src/setleds.c:46
+#: src/setleds.c:57
 msgid "off"
 msgstr ""
 
-#: src/setleds.c:90
+#: src/setleds.c:101
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 
-#: src/setleds.c:110
+#: src/setleds.c:121
 msgid ""
 "Error reading current flags setting. Maybe you are not on the console?: "
 "ioctl KDGKBLED"
 msgstr ""
 
-#: src/setleds.c:129
+#: src/setleds.c:140
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
 msgstr ""
 
-#: src/setleds.c:133
+#: src/setleds.c:144
 msgid "KIOCGLED unavailable?\n"
 msgstr ""
 
-#: src/setleds.c:148
+#: src/setleds.c:159
 msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
 msgstr ""
 
-#: src/setleds.c:152
+#: src/setleds.c:163
 msgid "KIOCSLED unavailable?\n"
 msgstr ""
 
-#: src/setleds.c:205
+#: src/setleds.c:216
 msgid "Error resetting ledmode\n"
 msgstr ""
 
-#: src/setleds.c:213
+#: src/setleds.c:224
 #, c-format
 msgid "Current default flags:  "
 msgstr ""
 
-#: src/setleds.c:217
+#: src/setleds.c:228
 #, c-format
 msgid "Current flags:          "
 msgstr ""
 
-#: src/setleds.c:221
+#: src/setleds.c:232
 #, c-format
 msgid "Current leds:           "
 msgstr ""
 
-#: src/setleds.c:257 src/setmetamode.c:136
+#: src/setleds.c:268 src/setmetamode.c:136
 #, c-format
 msgid ""
 "unrecognized argument: _%s_\n"
 "\n"
 msgstr ""
 
-#: src/setleds.c:266
+#: src/setleds.c:277
 #, c-format
 msgid "Old default flags:    "
 msgstr ""
 
-#: src/setleds.c:268
+#: src/setleds.c:279
 #, c-format
 msgid "New default flags:    "
 msgstr ""
 
-#: src/setleds.c:275
+#: src/setleds.c:286
 #, c-format
 msgid "Old flags:            "
 msgstr ""
 
-#: src/setleds.c:277
+#: src/setleds.c:288
 #, c-format
 msgid "New flags:            "
 msgstr ""
 
-#: src/setleds.c:290 src/setleds.c:299
+#: src/setleds.c:301 src/setleds.c:310
 #, c-format
 msgid "Old leds:             "
 msgstr ""
 
-#: src/setleds.c:292 src/setleds.c:301
+#: src/setleds.c:303 src/setleds.c:312
 #, c-format
 msgid "New leds:             "
 msgstr ""
@@ -1516,19 +1577,19 @@ msgstr ""
 msgid "Error: %s: Line %u is too long.\n"
 msgstr ""
 
-#: src/showconsolefont.c:37
+#: src/showconsolefont.c:34
 msgid "failed to restore original translation table\n"
 msgstr ""
 
-#: src/showconsolefont.c:41
+#: src/showconsolefont.c:38
 msgid "failed to restore original unimap\n"
 msgstr ""
 
-#: src/showconsolefont.c:60
+#: src/showconsolefont.c:57
 msgid "cannot change translation table\n"
 msgstr ""
 
-#: src/showconsolefont.c:101
+#: src/showconsolefont.c:103
 #, c-format
 msgid ""
 "usage: showconsolefont -V|--version\n"
@@ -1543,22 +1604,22 @@ msgid ""
 "  -V, --version         print version number.\n"
 msgstr ""
 
-#: src/showconsolefont.c:168
+#: src/showconsolefont.c:175
 #, c-format
-msgid "Character count: %d\n"
+msgid "Character count: %u\n"
 msgstr ""
 
-#: src/showconsolefont.c:169
+#: src/showconsolefont.c:176
 #, c-format
-msgid "Font width     : %d\n"
+msgid "Font width     : %u\n"
 msgstr ""
 
-#: src/showconsolefont.c:170
+#: src/showconsolefont.c:177
 #, c-format
-msgid "Font height    : %d\n"
+msgid "Font height    : %u\n"
 msgstr ""
 
-#: src/showconsolefont.c:181
+#: src/showconsolefont.c:188
 #, c-format
 msgid ""
 "Showing %d-char font\n"
