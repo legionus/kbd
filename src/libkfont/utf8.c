@@ -13,7 +13,7 @@
  * cnt is either 0 or gives the number of available bytes
  */
 int32_t
-from_utf8(const unsigned char **inptr, int cnt, int *err)
+from_utf8(const unsigned char **inptr, long int cnt, int *err)
 {
 	const unsigned char *in;
 	uint32_t uc, uc2, bit;

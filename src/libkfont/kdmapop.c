@@ -147,7 +147,7 @@ int
 kfont_getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 {
 	struct unimapdesc ud;
-	int ct;
+	unsigned int ct;
 
 	ud.entry_ct = 0;
 	ud.entries  = 0;

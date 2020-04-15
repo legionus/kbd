@@ -34,7 +34,7 @@ store_int_le(unsigned char *ip, unsigned int num)
 }
 
 static unicode
-assemble_ucs2(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
+assemble_ucs2(struct kfont_context *ctx, const unsigned char **inptr, long int cnt)
 {
 	int u1, u2;
 
@@ -51,10 +51,10 @@ assemble_ucs2(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
 
 /* called with cnt > 0 and **inptr not 0xff or 0xfe */
 static unicode
-assemble_utf8(struct kfont_context *ctx, const unsigned char **inptr, int cnt)
+assemble_utf8(struct kfont_context *ctx, const unsigned char **inptr, long int cnt)
 {
 	int err;
-	int32_t uc;
+	unicode uc;
 
 	uc = from_utf8(inptr, cnt, &err);
 	if (err) {
