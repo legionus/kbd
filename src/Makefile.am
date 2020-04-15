@@ -68,6 +68,8 @@ kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
 dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c
 loadkeys_SOURCES        = $(ALL_S) loadkeys.c
 
+getunimap_CFLAGS = -DUSE_LIBC
+
 LDADD = \
 	libkfont/libkfont.la \
 	libkeymap/libkeymap.la \
