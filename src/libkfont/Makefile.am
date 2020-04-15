@@ -22,7 +22,7 @@ KFONT_MAPFILE   = $(top_srcdir)/src/libkfont/libkfont.map
 
 libkfont_la_SOURCES = \
 	kfont.h kfontP.h \
-	psf.h psffontop.c \
+	psffontop.c \
 	psfxtable.c \
 	context.c \
 	unicode.c \
