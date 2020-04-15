@@ -80,10 +80,8 @@ setnewunicodemap(struct kfont_context *ctx, int *list, int cnt)
 		nunimap.entry_ct = 512;
 
 		nunimap.entries  = malloc(nunimap.entry_ct * sizeof(struct unipair));
-		if (!nunimap.entries) {
-			KFONT_ERR(ctx, "malloc: %m");
-			exit(EX_OSERR);
-		}
+		if (!nunimap.entries)
+			kbd_error(EX_OSERR, errno, "malloc");
 	}
 	for (i = 0; i < 512; i++) {
 		nunimap.entries[i].fontpos = i;

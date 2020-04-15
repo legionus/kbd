@@ -71,7 +71,7 @@ kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
 }
 
 void
-kfont_logger(struct kfont_context *ctx, int priority, const char *file,
+logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn,
 		const char *fmt, ...)
 {
@@ -85,7 +85,7 @@ kfont_logger(struct kfont_context *ctx, int priority, const char *file,
 
 
 void
-kfont_log_stderr(struct kfont_context *ctx, int priority, const char *file,
+log_stderr(struct kfont_context *ctx, int priority, const char *file,
 		const int line, const char *fn,
 		const char *format, va_list args)
 {
@@ -118,7 +118,7 @@ kfont_init(struct kfont_context *ctx)
 {
 	ctx->progname = get_progname();
 	ctx->verbose = 0;
-	ctx->log_fn = kfont_log_stderr;
+	ctx->log_fn = log_stderr;
 	ctx->mapdirpath = mapdirpath;
 	ctx->mapsuffixes = mapsuffixes;
 	ctx->fontdirpath = fontdirpath;

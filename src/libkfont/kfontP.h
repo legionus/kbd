@@ -3,6 +3,23 @@
 
 #include "kfont.h"
 
+void logger(struct kfont_context *ctx, int priority, const char *file,
+		int line, const char *fn, const char *fmt, ...)
+	__attribute__((format(printf, 6, 7)))
+	__attribute__((nonnull(1)));
+
+#include <syslog.h>
+
+#define KFONT_DBG(ctx,  arg...) logger(ctx, LOG_DEBUG,   __FILE__, __LINE__, __func__, ##arg)
+#define KFONT_INFO(ctx, arg...) logger(ctx, LOG_INFO,    __FILE__, __LINE__, __func__, ##arg)
+#define KFONT_WARN(ctx, arg...) logger(ctx, LOG_WARNING, __FILE__, __LINE__, __func__, ##arg)
+#define KFONT_ERR(ctx,  arg...) logger(ctx, LOG_ERR,     __FILE__, __LINE__, __func__, ##arg)
+
+void log_stderr(struct kfont_context *ctx, int priority, const char *file,
+		const int line, const char *fn, const char *format, va_list args)
+	__attribute__((format(printf, 6, 0)))
+	__attribute__((nonnull(1)));
+
 /* unicode.c */
 
 struct unicode_seq {

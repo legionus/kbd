@@ -146,23 +146,6 @@ void kfont_set_option(struct kfont_context *ctx, enum kfont_option opt)
 void kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
 	__attribute__((nonnull(1)));
 
-void kfont_logger(struct kfont_context *ctx, int priority, const char *file,
-		int line, const char *fn, const char *fmt, ...)
-	__attribute__((format(printf, 6, 7)))
-	__attribute__((nonnull(1)));
-
-#include <syslog.h>
-
-#define KFONT_DBG(ctx,  arg...) kfont_logger(ctx, LOG_DEBUG,   __FILE__, __LINE__, __func__, ##arg)
-#define KFONT_INFO(ctx, arg...) kfont_logger(ctx, LOG_INFO,    __FILE__, __LINE__, __func__, ##arg)
-#define KFONT_WARN(ctx, arg...) kfont_logger(ctx, LOG_WARNING, __FILE__, __LINE__, __func__, ##arg)
-#define KFONT_ERR(ctx,  arg...) kfont_logger(ctx, LOG_ERR,     __FILE__, __LINE__, __func__, ##arg)
-
-void kfont_log_stderr(struct kfont_context *ctx, int priority, const char *file,
-		const int line, const char *fn, const char *format, va_list args)
-	__attribute__((format(printf, 6, 0)))
-	__attribute__((nonnull(1)));
-
 /* mapscrn.c */
 
 int kfont_loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)

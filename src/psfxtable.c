@@ -18,6 +18,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <sysexits.h>
+#include <errno.h>
 
 #include "libcommon.h"
 #include "kfont.h"
@@ -111,27 +112,18 @@ int main(int argc, char **argv)
 
 	if (!ifname)
 		ifname = "-";
+
 	if (!strcmp(ifname, "-"))
 		ifil = stdin;
-	else {
-		ifil = fopen(ifname, "r");
-		if (!ifil) {
-			KFONT_ERR(&ctx, "Unable to open: %s: %m", ifname);
-			exit(EX_NOINPUT);
-		}
-	}
+	else if (!(ifil = fopen(ifname, "r")))
+		kbd_error(EX_NOINPUT, errno, "Unable to open: %s", ifname);
 
 	if (!itname)
 		/* nothing */;
 	else if (!strcmp(itname, "-"))
 		itab = stdin;
-	else {
-		itab = fopen(itname, "r");
-		if (!itab) {
-			KFONT_ERR(&ctx, "Unable to open: %s: %m", itname);
-			exit(EX_NOINPUT);
-		}
-	}
+	else if (!(itab = fopen(itname, "r")))
+		kbd_error(EX_NOINPUT, errno, "Unable to open: %s", itname);
 
 	/* Refuse ifil == itab == stdin ? Perhaps not. */
 
@@ -139,32 +131,21 @@ int main(int argc, char **argv)
 		/* nothing */;
 	else if (!strcmp(ofname, "-"))
 		ofil = stdout;
-	else {
-		ofil = fopen(ofname, "w");
-		if (!ofil) {
-			KFONT_ERR(&ctx, "Unable to open: %s: %m", ofname);
-			exit(EX_CANTCREAT);
-		}
-	}
+	else if (!(ofil = fopen(ofname, "w")))
+		kbd_error(EX_CANTCREAT, errno, "Unable to open: %s", ofname);
 
 	if (!otname)
 		/* nothing */;
 	else if (!strcmp(otname, "-"))
 		otab = stdout;
-	else {
-		otab = fopen(otname, "w");
-		if (!otab) {
-			KFONT_ERR(&ctx, "Unable to open: %s: %m", otname);
-			exit(EX_CANTCREAT);
-		}
-	}
+	else if (!(otab = fopen(otname, "w")))
+		kbd_error(EX_CANTCREAT, errno, "Unable to open: %s", otname);
 
 	if (kfont_readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf,
 				&fontbuflth, &width, &fontlen, 0,
-				itab ? NULL : &uclistheads) < 0) {
-		KFONT_ERR(&ctx, _("Bad magic number on %s"), ifname);
-		exit(EX_DATAERR);
-	}
+				itab ? NULL : &uclistheads) < 0)
+		kbd_error(EX_DATAERR, 0, _("Bad magic number on %s"), ifname);
+
 	fclose(ifil);
 
 	charsize  = fontbuflth / fontlen;
@@ -175,14 +156,12 @@ int main(int argc, char **argv)
 
 	hastable = (uclistheads != NULL);
 
-	if (PSF1_MAGIC_OK((unsigned char *)inbuf)) {
+	if (PSF1_MAGIC_OK((unsigned char *)inbuf))
 		psftype = 1;
-	} else if (PSF2_MAGIC_OK((unsigned char *)inbuf)) {
+	else if (PSF2_MAGIC_OK((unsigned char *)inbuf))
 		psftype = 2;
-	} else {
-		KFONT_ERR(&ctx, _("psf file with unknown magic"));
-		exit(EX_DATAERR);
-	}
+	else
+		kbd_error(EX_DATAERR, 0, _("psf file with unknown magic"));
 
 	if (itab) {
 		ret = kfont_read_itable(&ctx, itab, fontlen, &uclistheads);
@@ -192,10 +171,8 @@ int main(int argc, char **argv)
 	}
 
 	if (otab) {
-		if (!hastable) {
-			KFONT_ERR(&ctx, _("input font does not have an index"));
-			exit(EX_DATAERR);
-		}
+		if (!hastable)
+			kbd_error(EX_DATAERR, 0, _("input font does not have an index"));
 
 		kfont_write_itable(&ctx, otab, fontlen, uclistheads);
 		fclose(otab);
