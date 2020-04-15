@@ -56,15 +56,16 @@ int main(int argc, char **argv)
 	fontbuf                           = NULL;
 	notable                           = 0;
 
-	struct kfont_context ctx;
-	kfont_init(&ctx);
+	struct kfont_context *kfont;
+	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+		return -ret;
 
 	if (!strcmp(get_progname(), "psfaddtable")) {
 		/* Do not send binary data to stdout without explicit "-" */
 		if (argc != 4) {
 			const char *u = _("Usage:\n\t%s infont intable outfont\n");
 			fprintf(stderr, u, get_progname());
-			exit(EX_USAGE);
+			return EX_USAGE;
 		}
 		ifname = argv[1];
 		itname = argv[2];
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
 		if (argc < 2 || argc > 3) {
 			const char *u = _("Usage:\n\t%s infont [outtable]\n");
 			fprintf(stderr, u, get_progname());
-			exit(EX_USAGE);
+			return EX_USAGE;
 		}
 		ifname = argv[1];
 		otname = (argc == 3) ? argv[2] : "-";
@@ -82,7 +83,7 @@ int main(int argc, char **argv)
 		if (argc != 3) {
 			const char *u = _("Usage:\n\t%s infont outfont\n");
 			fprintf(stderr, u, get_progname());
-			exit(EX_USAGE);
+			return EX_USAGE;
 		}
 		ifname  = argv[1];
 		ofname  = argv[2];
@@ -106,7 +107,7 @@ int main(int argc, char **argv)
 			const char *u = _("Usage:\n\t%s [-i infont] [-o outfont] "
 			                  "[-it intable] [-ot outtable] [-nt]\n");
 			fprintf(stderr, u, get_progname());
-			exit(EX_USAGE);
+			return EX_USAGE;
 		}
 	}
 
@@ -141,7 +142,7 @@ int main(int argc, char **argv)
 	else if (!(otab = fopen(otname, "w")))
 		kbd_error(EX_CANTCREAT, errno, "Unable to open: %s", otname);
 
-	if (kfont_readpsffont(&ctx, ifil, &inbuf, &inbuflth, &fontbuf,
+	if (kfont_readpsffont(kfont, ifil, &inbuf, &inbuflth, &fontbuf,
 				&fontbuflth, &width, &fontlen, 0,
 				itab ? NULL : &uclistheads) < 0)
 		kbd_error(EX_DATAERR, 0, _("Bad magic number on %s"), ifname);
@@ -150,9 +151,11 @@ int main(int argc, char **argv)
 
 	charsize  = fontbuflth / fontlen;
 	bytewidth = (width + 7) / 8;
+
 	if (!bytewidth)
 		bytewidth = 1;
-	height            = charsize / bytewidth;
+
+	height = charsize / bytewidth;
 
 	hastable = (uclistheads != NULL);
 
@@ -164,9 +167,9 @@ int main(int argc, char **argv)
 		kbd_error(EX_DATAERR, 0, _("psf file with unknown magic"));
 
 	if (itab) {
-		ret = kfont_read_itable(&ctx, itab, fontlen, &uclistheads);
+		ret = kfont_read_itable(kfont, itab, fontlen, &uclistheads);
 		if (ret < 0)
-			exit(-ret);
+			return -ret;
 		fclose(itab);
 	}
 
@@ -174,12 +177,12 @@ int main(int argc, char **argv)
 		if (!hastable)
 			kbd_error(EX_DATAERR, 0, _("input font does not have an index"));
 
-		kfont_write_itable(&ctx, otab, fontlen, uclistheads);
+		kfont_write_itable(kfont, otab, fontlen, uclistheads);
 		fclose(otab);
 	}
 
 	if (ofil) {
-		ret = kfont_writepsffont(&ctx, ofil, fontbuf, width, height,
+		ret = kfont_writepsffont(kfont, ofil, fontbuf, width, height,
 				fontlen, psftype, notable ? NULL : uclistheads);
 		fclose(ofil);
 		if (ret < 0)

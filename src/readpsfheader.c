@@ -1,5 +1,6 @@
 #include "config.h"
 
+#include <sysexits.h>
 #include <stdio.h>
 #include <stdlib.h> /* exit */
 
@@ -10,7 +11,7 @@ static void __attribute__((noreturn))
 usage(void)
 {
 	fprintf(stderr, "usage: readpsfheader font.psf\n");
-	exit(1);
+	exit(EX_USAGE);
 }
 
 int main(int argc, char **argv)
@@ -19,7 +20,7 @@ int main(int argc, char **argv)
 	int width = 8, bytewidth, height;
 	char *inbuf, *fontbuf;
 	int inbuflth, fontbuflth;
-	struct unicode_list *uclistheads;
+	struct unicode_list *uclistheads = NULL;
 
 	set_progname(argv[0]);
 	setuplocale();
@@ -30,18 +31,19 @@ int main(int argc, char **argv)
 	FILE *f = fopen(argv[1], "rb");
 	if (!f) {
 		perror("fopen");
-		exit(1);
+		return EX_NOINPUT;
 	}
 
-	struct kfont_context ctx;
-	kfont_init(&ctx);
+	int ret;
+	struct kfont_context *kfont;
 
-	if (kfont_readpsffont(&ctx, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth,
-				&width, &fontlen, 0, &uclistheads) < 0) {
-		fprintf(stderr, "%s: Bad magic number\n", argv[0]);
-		return 1;
-	}
+	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+		return -ret;
+
+	if (kfont_readpsffont(kfont, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0)
+		kbd_error(EX_DATAERR, 0, "Bad magic number");
+
 	close(f);
 
-	return 0;
+	return EX_OK;
 }

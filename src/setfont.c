@@ -65,13 +65,15 @@ int main(int argc, char *argv[])
 	set_progname(argv[0]);
 	setuplocale();
 
-	struct kfont_context ctx;
-	kfont_init(&ctx);
+	struct kfont_context *kfont;
+
+	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+		return -ret;
 
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;
 	no_m = no_u = 0;
-	console     = NULL;
+	console = NULL;
 
 	/*
 	 * No getopt() here because of the -om etc options.
@@ -80,7 +82,7 @@ int main(int argc, char *argv[])
 		if (!strcmp(argv[i], "-V")) {
 			print_version_and_exit();
 		} else if (!strcmp(argv[i], "-v")) {
-			ctx.verbose++;
+			kfont_inc_verbosity(kfont);
 		} else if (!strcmp(argv[i], "-R")) {
 			restore = 1;
 		} else if (!strcmp(argv[i], "-C")) {
@@ -118,14 +120,14 @@ int main(int argc, char *argv[])
 			else
 				ufil = argv[i];
 		} else if (!strcmp(argv[i], "-f")) {
-			kfont_set_option(&ctx, kfont_force);
+			kfont_set_option(kfont, kfont_force);
 		} else if (!strncmp(argv[i], "-h", 2)) {
 			int tmp = atoi(argv[i] + 2);
 			if (tmp <= 0 || tmp > 32)
 				usage();
 			hwunit = (unsigned int)tmp;
 		} else if (!strcmp(argv[i], "-d")) {
-			kfont_set_option(&ctx, kfont_double_size);
+			kfont_set_option(kfont, kfont_double_size);
 		} else if (argv[i][0] == '-') {
 			int tmp = atoi(argv[i] + 1);
 			if (tmp <= 0 || tmp > 32)
@@ -134,7 +136,7 @@ int main(int argc, char *argv[])
 		} else {
 			if (ifilct == MAXIFILES) {
 				fprintf(stderr, _("setfont: too many input files\n"));
-				exit(EX_USAGE);
+				return EX_USAGE;
 			}
 			ifiles[ifilct++] = argv[i];
 		}
@@ -147,7 +149,7 @@ int main(int argc, char *argv[])
 	}
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	int kd_mode = -1;
 	if (!ioctl(fd, KDGETMODE, &kd_mode) && (kd_mode == KD_GRAPHICS)) {
@@ -155,10 +157,10 @@ int main(int argc, char *argv[])
 		 * PIO_FONT will fail on a console which is in foreground and in KD_GRAPHICS mode.
 		 * 2005-03-03, jw@suse.de.
 		 */
-		if (ctx.verbose)
-			printf("setfont: graphics console %s skipped\n", console ? console : "");
+		if (kfont_get_verbosity(kfont))
+			kbd_warning(0, "graphics console %s skipped", console ? console : "");
 		close(fd);
-		return 0;
+		return EX_OK;
 	}
 
 	if (!ifilct && !mfil && !ufil &&
@@ -166,21 +168,21 @@ int main(int argc, char *argv[])
 		/* reset to some default */
 		ifiles[ifilct++] = "";
 
-	if (Ofil && (ret = kfont_saveoldfontplusunicodemap(&ctx, fd, Ofil)) < 0)
-		exit(-ret);
+	if (Ofil && (ret = kfont_saveoldfontplusunicodemap(kfont, fd, Ofil)) < 0)
+		return -ret;
 
-	if (ofil && (ret = kfont_saveoldfont(&ctx, fd, ofil)) < 0)
-		exit(-ret);
+	if (ofil && (ret = kfont_saveoldfont(kfont, fd, ofil)) < 0)
+		return -ret;
 
-	if (omfil && (ret = kfont_saveoldmap(&ctx, fd, omfil)) < 0)
-		exit(-ret);
+	if (omfil && (ret = kfont_saveoldmap(kfont, fd, omfil)) < 0)
+		return -ret;
 
-	if (oufil && (ret = kfont_saveunicodemap(&ctx, fd, oufil)) < 0)
-		exit(-ret);
+	if (oufil && (ret = kfont_saveunicodemap(kfont, fd, oufil)) < 0)
+		return -ret;
 
 	if (mfil) {
-		if ((ret = kfont_loadnewmap(&ctx, fd, mfil)) < 0)
-			exit(-ret);
+		if ((ret = kfont_loadnewmap(kfont, fd, mfil)) < 0)
+			return -ret;
 		kfont_activatemap(fd);
 		no_m = 1;
 	}
@@ -189,13 +191,13 @@ int main(int argc, char *argv[])
 		no_u = 1;
 
 	if (restore)
-		kfont_restorefont(&ctx, fd);
+		kfont_restorefont(kfont, fd);
 
 	if (ifilct)
-		kfont_loadnewfonts(&ctx, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
+		kfont_loadnewfonts(kfont, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
 
-	if (ufil && (ret = kfont_loadunicodemap(&ctx, fd, ufil)) < 0)
+	if (ufil && (ret = kfont_loadunicodemap(kfont, fd, ufil)) < 0)
 		return -ret;
 
-	return 0;
+	return EX_OK;
 }

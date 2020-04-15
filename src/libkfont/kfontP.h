@@ -3,6 +3,26 @@
 
 #include "kfont.h"
 
+struct kfont_context {
+	const char *progname;
+	int verbose;
+	kfont_logger_t log_fn;
+
+	unsigned int options;
+
+	const char *const *mapdirpath;
+	const char *const *mapsuffixes;
+
+	const char *const *fontdirpath;
+	const char *const *fontsuffixes;
+
+	const char *const *partfontdirpath;
+	const char *const *partfontsuffixes;
+
+	const char *const *unidirpath;
+	const char *const *unisuffixes;
+};
+
 void logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn, const char *fmt, ...)
 	__attribute__((format(printf, 6, 7)))

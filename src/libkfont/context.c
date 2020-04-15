@@ -1,8 +1,9 @@
+#include <sysexits.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <syslog.h>
 
 #include "paths.h"
-#include "libcommon.h"
 #include "kfontP.h"
 
 /* search for the map file in these directories (with trailing /) */
@@ -70,6 +71,24 @@ kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
 	ctx->options &= ~(1U << opt);
 }
 
+int
+kfont_get_verbosity(struct kfont_context *ctx)
+{
+	return ctx->verbose;
+}
+
+void
+kfont_inc_verbosity(struct kfont_context *ctx)
+{
+	ctx->verbose++;
+}
+
+void
+kfont_set_logger(struct kfont_context *ctx, kfont_logger_t fn)
+{
+	ctx->log_fn = fn;
+}
+
 void
 logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn,
@@ -106,25 +125,36 @@ log_stderr(struct kfont_context *ctx, int priority, const char *file,
 			priname = buf;
 	}
 
-	fprintf(stderr, "%s: %s %s:%d %s: ", ctx->progname, priname, file, line, fn);
+	if (ctx->progname)
+		fprintf(stderr, "%s: ", ctx->progname);
+	fprintf(stderr, "%s %s:%d %s: ", priname, file, line, fn);
 	vfprintf(stderr, format, args);
 	fprintf(stderr, "\n");
 
 	fflush(stderr);
 }
 
-void
-kfont_init(struct kfont_context *ctx)
+int
+kfont_init(const char *prefix, struct kfont_context **ctx)
 {
-	ctx->progname = get_progname();
-	ctx->verbose = 0;
-	ctx->log_fn = log_stderr;
-	ctx->mapdirpath = mapdirpath;
-	ctx->mapsuffixes = mapsuffixes;
-	ctx->fontdirpath = fontdirpath;
-	ctx->fontsuffixes = fontsuffixes;
-	ctx->partfontdirpath = partfontdirpath;
-	ctx->partfontsuffixes = partfontsuffixes;
-	ctx->unidirpath = unidirpath;
-	ctx->unisuffixes = unisuffixes;
+	struct kfont_context *p;
+
+	if (!(p = malloc(sizeof(*p))))
+		return -EX_OSERR;
+
+	p->progname = prefix;
+	p->verbose = 0;
+	p->log_fn = log_stderr;
+	p->mapdirpath = mapdirpath;
+	p->mapsuffixes = mapsuffixes;
+	p->fontdirpath = fontdirpath;
+	p->fontsuffixes = fontsuffixes;
+	p->partfontdirpath = partfontdirpath;
+	p->partfontsuffixes = partfontsuffixes;
+	p->unidirpath = unidirpath;
+	p->unisuffixes = unisuffixes;
+
+	*ctx = p;
+
+	return 0;
 }

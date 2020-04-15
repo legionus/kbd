@@ -62,19 +62,22 @@ int main(int argc, char *argv[])
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
-	struct kfont_context ctx;
-	kfont_init(&ctx);
+	struct kfont_context *kfont;
+
+	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+		return -ret;
 
 	if (outfnam) {
-		if ((ret = kfont_saveunicodemap(&ctx, fd, outfnam)) < 0)
-			exit(-ret);
+		if ((ret = kfont_saveunicodemap(kfont, fd, outfnam)) < 0)
+			return -ret;
 		if (argc == optind)
-			exit(0);
+			return EX_OK;
 	}
 
 	if (argc == optind + 1)
 		infnam = argv[optind];
-	if ((ret = kfont_loadunicodemap(&ctx, fd, infnam)) < 0)
-		exit(-ret);
-	exit(0);
+	if ((ret = kfont_loadunicodemap(kfont, fd, infnam)) < 0)
+		return -ret;
+
+	return EX_OK;
 }

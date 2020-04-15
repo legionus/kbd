@@ -95,6 +95,8 @@ struct psf2_header {
 #define PSF1_MAGIC_OK(x) ((x)[0] == PSF1_MAGIC0 && (x)[1] == PSF1_MAGIC1)
 #define PSF2_MAGIC_OK(x) ((x)[0] == PSF2_MAGIC0 && (x)[1] == PSF2_MAGIC1 && (x)[2] == PSF2_MAGIC2 && (x)[3] == PSF2_MAGIC3)
 
+struct kfont_context;
+
 /* unicode.c */
 
 #include <stdint.h>
@@ -106,9 +108,7 @@ struct unicode_list;
 
 #define MAXIFILES 256
 
-struct kfont_context;
-
-void kfont_init(struct kfont_context *ctx);
+int kfont_init(const char *prefix, struct kfont_context **ctx);
 
 typedef void (*kfont_logger_t)(struct kfont_context *, int, const char *, int,
 		const char *, const char *, va_list)
@@ -120,25 +120,14 @@ enum kfont_option {
 	kfont_double_size,
 };
 
-struct kfont_context {
-	const char *progname;
-	int verbose;
-	kfont_logger_t log_fn;
+int kfont_get_verbosity(struct kfont_context *ctx)
+	__attribute__((nonnull(1)));
 
-	unsigned int options;
+void kfont_inc_verbosity(struct kfont_context *ctx)
+	__attribute__((nonnull(1)));
 
-	const char *const *mapdirpath;
-	const char *const *mapsuffixes;
-
-	const char *const *fontdirpath;
-	const char *const *fontsuffixes;
-
-	const char *const *partfontdirpath;
-	const char *const *partfontsuffixes;
-
-	const char *const *unidirpath;
-	const char *const *unisuffixes;
-};
+void kfont_set_logger(struct kfont_context *ctx, kfont_logger_t fn)
+	__attribute__((nonnull(1)));
 
 void kfont_set_option(struct kfont_context *ctx, enum kfont_option opt)
 	__attribute__((nonnull(1)));

@@ -109,12 +109,12 @@ usage(void)
 	          "                        ROWSxCOLSxCOUNT and exit;\n"
 	          "  -V, --version         print version number.\n"
 	));
-	exit(EXIT_FAILURE);
+	exit(EX_USAGE);
 }
 
 int main(int argc, char **argv)
 {
-	int c;
+	int c, ret;
 	unsigned int cols, rows, nr, n, i, j, k;
 	int mode;
 	const char *space, *sep;
@@ -124,8 +124,10 @@ int main(int argc, char **argv)
 	set_progname(argv[0]);
 	setuplocale();
 
-	struct kfont_context ctx;
-	kfont_init(&ctx);
+	struct kfont_context *kfont;
+
+	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+		return -ret;
 
 	if (argc == 2 &&
 	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
@@ -137,7 +139,7 @@ int main(int argc, char **argv)
 				info = 1;
 				break;
 			case 'v':
-				ctx.verbose++;
+				kfont_inc_verbosity(kfont);
 				break;
 			case 'C':
 				console = optarg;
@@ -151,11 +153,11 @@ int main(int argc, char **argv)
 		usage();
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (ioctl(fd, KDGKBMODE, &mode)) {
 		kbd_warning(errno, "ioctl KDGKBMODE");
-		leave(&ctx, EXIT_FAILURE);
+		leave(kfont, EX_OSERR);
 	}
 	if (mode == K_UNICODE)
 		space = "\xef\x80\xa0"; /* U+F020 (direct-to-font space) */
@@ -165,24 +167,24 @@ int main(int argc, char **argv)
 	if (info) {
 		nr = rows = cols = 0;
 
-		n = kfont_getfont(&ctx, fd, NULL, &nr, &rows, &cols);
-		if (n != 0)
-			leave(&ctx, EXIT_FAILURE);
+		ret = kfont_getfont(kfont, fd, NULL, &nr, &rows, &cols);
+		if (ret != 0)
+			leave(kfont, EXIT_FAILURE);
 
-		if (ctx.verbose) {
+		if (kfont_get_verbosity(kfont)) {
 			printf(_("Character count: %u\n"), nr);
 			printf(_("Font width     : %u\n"), rows);
 			printf(_("Font height    : %u\n"), cols);
 		} else
 			printf("%dx%dx%d\n", rows, cols, nr);
-		leave(&ctx, EXIT_SUCCESS);
+		leave(kfont, EXIT_SUCCESS);
 	}
 
-	settrivialscreenmap(&ctx);
-	getoldunicodemap(&ctx);
+	settrivialscreenmap(kfont);
+	getoldunicodemap(kfont);
 
-	n = kfont_getfontsize(&ctx, fd);
-	if (ctx.verbose)
+	n = kfont_getfontsize(kfont, fd);
+	if (kfont_get_verbosity(kfont))
 		printf(_("Showing %d-char font\n\n"), n);
 	cols = ((n > 256) ? 32 : 16);
 	nr   = 64 / cols;
@@ -195,7 +197,7 @@ int main(int argc, char **argv)
 			for (k = i; k < i + nr; k++)
 				for (j              = 0; j < cols; j++)
 					list[lth++] = k + j * rows;
-			setnewunicodemap(&ctx, list, lth);
+			setnewunicodemap(kfont, list, lth);
 		}
 		printf("%1$s%1$s%1$s%1$s", space);
 		for (j = 0; j < cols && i + j * rows < n; j++) {
@@ -210,6 +212,6 @@ int main(int argc, char **argv)
 		fflush(stdout);
 	}
 
-	leave(&ctx, EXIT_SUCCESS);
+	leave(kfont, EXIT_SUCCESS);
 	return EXIT_SUCCESS;
 }
