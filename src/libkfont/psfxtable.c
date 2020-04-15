@@ -18,9 +18,45 @@
 #include <string.h>
 #include <ctype.h>
 #include <sysexits.h>
+#include <limits.h>
+#include <errno.h>
 
 #include "libcommon.h"
 #include "kfontP.h"
+
+static int
+str_to_unicode(struct kfont_context *ctx,
+		const char *p, char **e, int base,
+		unicode *res)
+{
+	long int v;
+
+	errno = 0;
+	v = strtol(p, e, base);
+
+	if (e && p == *e) {
+		KFONT_ERR(ctx, "Unable to parse number: %s", p);
+		return -EX_DATAERR;
+	}
+
+	if (errno == ERANGE) {
+		KFONT_ERR(ctx, "Numerical result out of range: %s", p);
+		return -EX_DATAERR;
+	}
+
+	if (v < 0) {
+		KFONT_ERR(ctx, "Number must not be negative: %ld", v);
+		return -EX_DATAERR;
+	}
+
+	if (v > INT_MAX) {
+		KFONT_ERR(ctx, "Number too big: %ld", v);
+		return -EX_DATAERR;
+	}
+
+	*res = (unicode) v;
+	return 0;
+}
 
 /*
  * Parse humanly readable unicode table.
@@ -38,19 +74,21 @@
  *   <range> :: <value>-<value>
  *  Blank lines and lines starting with # are ignored.
  */
-static long
-getunicode(char **p0)
+
+static unicode
+getunicode(struct kfont_context *ctx, char **p0, unicode *res)
 {
 	char *p = *p0;
 
 	while (*p == ' ' || *p == '\t')
 		p++;
 	if (*p != 'U' || p[1] != '+' ||
-	    !isxdigit(p[2]) || !isxdigit(p[3]) || !isxdigit(p[4]) ||
-	    !isxdigit(p[5]) || isxdigit(p[6]))
+			!isxdigit(p[2]) || !isxdigit(p[3]) || !isxdigit(p[4]) ||
+			!isxdigit(p[5]) || isxdigit(p[6]))
 		return -1;
 	*p0 = p + 6;
-	return strtol(p + 2, 0, 16);
+
+	return str_to_unicode(ctx, p + 2, 0, 16, res);
 }
 
 static int
@@ -58,8 +96,8 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
 		struct unicode_list *uclistheads)
 {
 	char *p, *p1;
-	long i;
-	long fp0, fp1, un0, un1;
+	int ret;
+	unicode i, fp0, fp1, un0, un1;
 
 	if ((p = strchr(buf, '\n')) != NULL)
 		*p = 0;
@@ -75,34 +113,29 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
 	if (!*p || *p == '#')
 		return 0;
 
-	fp0 = strtol(p, &p1, 0);
-	if (p1 == p) {
-		KFONT_ERR(ctx, _("Bad input line: %s"), buf);
-		return -EX_DATAERR;
-	}
+	ret = str_to_unicode(ctx, p, &p1, 0, &fp0);
+	if (ret < 0)
+		return ret;
 	p = p1;
 
 	if (*p == '-') {
 		p++;
-		fp1 = strtol(p, &p1, 0);
-		if (p1 == p) {
-			KFONT_ERR(ctx, _("Bad input line: %s"), buf);
-			return -EX_DATAERR;
-		}
+
+		ret = str_to_unicode(ctx, p, &p1, 0, &fp1);
+		if (ret < 0)
+			return ret;
 		p = p1;
 	} else
 		fp1 = 0;
 
-	if (fp0 < 0 || fp0 >= fontlen) {
-		KFONT_ERR(ctx, _("Glyph number (0x%lx) past end of font"), fp0);
+	if ((unsigned int) fp0 >= fontlen) {
+		KFONT_ERR(ctx, _("Glyph number (0x%x) past end of font"), fp0);
 		return -EX_DATAERR;
 	}
-	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
-		KFONT_ERR(ctx, _("Bad end of range (0x%lx)"), fp1);
+	if (fp1 && (fp1 < fp0 || (unsigned int) fp1 >= fontlen)) {
+		KFONT_ERR(ctx, _("Bad end of range (0x%x)"), fp1);
 		return -EX_DATAERR;
 	}
-
-	int ret = 0;
 
 	if (fp1) {
 		/* we have a range; expect the word "idem"
@@ -119,7 +152,9 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
 			}
 			p += 4;
 		} else {
-			un0 = getunicode(&p);
+			if ((ret = getunicode(ctx, &p, &un0)) < 0)
+				return ret;
+
 			while (*p == ' ' || *p == '\t')
 				p++;
 			if (*p != '-') {
@@ -130,20 +165,15 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
 				return -EX_DATAERR;
 			}
 			p++;
-			un1 = getunicode(&p);
-			if (un0 < 0 || un1 < 0) {
-				KFONT_ERR(ctx,
-				        _("Bad Unicode range "
-				          "corresponding to font position "
-				          "range 0x%lx-0x%lx"),
-					fp0, fp1);
-				return -EX_DATAERR;
-			}
+
+			if ((ret = getunicode(ctx, &p, &un1)) < 0)
+				return ret;
+
 			if (un1 - un0 != fp1 - fp0) {
 				KFONT_ERR(ctx,
-				        _("Unicode range U+%lx-U+%lx not "
+				        _("Unicode range U+%x-U+%x not "
 				          "of the same length as font "
-				          "position range 0x%lx-0x%lx"),
+				          "position range 0x%x-0x%x"),
 				        un0, un1, fp0, fp1);
 				return -EX_DATAERR;
 			}
@@ -156,23 +186,24 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
 			}
 		} /* not idem */
 	} else {  /* no range */
-		while ((un0 = getunicode(&p)) >= 0) {
-			ret = addpair(uclistheads + fp0, un0);
-			if (ret < 0) {
+		while (!getunicode(ctx, &p, &un0)) {
+			if ((ret = addpair(uclistheads + fp0, un0)) < 0) {
 				KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
 				return -EX_OSERR;
 			}
-			while (*p++ == ',' && (un1 = getunicode(&p)) >= 0) {
-				ret = addseq(uclistheads + fp0, un1);
-				if (ret < 0) {
+
+			while (*p++ == ',' && !getunicode(ctx, &p, &un1)) {
+				if ((ret = addseq(uclistheads + fp0, un1)) < 0) {
 					KFONT_ERR(ctx, "unable to add sequence: %s", strerror(-ret));
 					return -EX_OSERR;
 				}
 			}
 			p--;
 		}
+
 		while (*p == ' ' || *p == '\t')
 			p++;
+
 		if (*p && *p != '#') {
 			KFONT_ERR(ctx, _("trailing junk (%s) ignored"), p);
 		}
