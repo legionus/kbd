@@ -72,7 +72,7 @@ getoldunicodemap(struct kfont_context *ctx)
 #define BASE 041 /* ' '+1 */
 
 static void
-setnewunicodemap(struct kfont_context *ctx, int *list, int cnt)
+setnewunicodemap(struct kfont_context *ctx, unsigned int *list, int cnt)
 {
 	unsigned short i;
 
@@ -119,7 +119,8 @@ int main(int argc, char **argv)
 	int mode;
 	const char *space, *sep;
 	char *console = NULL;
-	int list[64], lth, info = 0;
+	unsigned int list[64];
+	int lth, info = 0;
 
 	set_progname(argv[0]);
 	setuplocale();
@@ -201,7 +202,7 @@ int main(int argc, char **argv)
 		}
 		printf("%1$s%1$s%1$s%1$s", space);
 		for (j = 0; j < cols && i + j * rows < n; j++) {
-			putchar(BASE + (i % nr) * cols + j);
+			printf("%c", BASE + (i % nr) * cols + j);
 			printf(sep, space);
 			if (j % 8 == 7)
 				printf(sep, space);
