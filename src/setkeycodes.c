@@ -12,6 +12,8 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
+#include <sysexits.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
@@ -25,12 +27,35 @@ usage(const char *s)
 	                    "usage: setkeycode scancode keycode ...\n"
 	                    " (where scancode is either xx or e0xx, given in hexadecimal,\n"
 	                    "  and keycode is given in decimal)\n"));
-	exit(EXIT_FAILURE);
+	exit(EX_USAGE);
+}
+
+static void
+str_to_uint(const char *str, int base, unsigned int *res)
+{
+	char *ep;
+	long int v;
+
+	errno = 0;
+	v = strtol(str, &ep, base);
+
+	if (*ep)
+		usage(_("error reading scancode"));
+
+	if (errno == ERANGE)
+		kbd_error(EX_DATAERR, 0, "Argument out of range: %s", str);
+
+	if (v < 0)
+		kbd_error(EX_DATAERR, 0, "Argument must be positive: %s", str);
+
+	if (v > UINT_MAX)
+		kbd_error(EX_DATAERR, 0, "Argument is too big: %s", str);
+
+	*res = (unsigned int) v;
 }
 
 int main(int argc, char **argv)
 {
-	char *ep;
 	int fd;
 	struct kbkeycode a;
 
@@ -44,13 +69,12 @@ int main(int argc, char **argv)
 		usage(_("even number of arguments expected"));
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	while (argc > 2) {
-		a.keycode  = atoi(argv[2]);
-		a.scancode = strtol(argv[1], &ep, 16);
-		if (*ep)
-			usage(_("error reading scancode"));
+		str_to_uint(argv[1], 16, &a.scancode);
+		str_to_uint(argv[2], 0, &a.keycode);
+
 		if (a.scancode >= 0xe000) {
 			a.scancode -= 0xe000;
 			a.scancode += 128; /* some kernels needed +256 */
@@ -73,5 +97,5 @@ int main(int argc, char **argv)
 		argc -= 2;
 		argv += 2;
 	}
-	return EXIT_SUCCESS;
+	return EX_OK;
 }
