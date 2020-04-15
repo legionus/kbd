@@ -1,0 +1,242 @@
+/*
+ * psfxtable.c
+ *
+ * Manipulate headers and Unicode tables for psf fonts
+ *
+ * Copyright (C) 1999 Andries E. Brouwer
+ *  derived from sources that were
+ * Copyright (C) 1994 H. Peter Anvin
+ *
+ * This program may be freely copied under the terms of the GNU
+ * General Public License (GPL), version 2, or at your option
+ * any later version.
+ */
+#include "config.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <sysexits.h>
+
+#include "libcommon.h"
+#include "kfontP.h"
+
+/*
+ * Parse humanly readable unicode table.
+ * Format: lines
+ *   <fontposition><tab><uc_defs>
+ * or
+ *   <fontrange><tab><uc_defs>
+ * or
+ *   <fontrange><tab><uc_range>
+ *  where
+ *   <uc_defs> :: <empty> | <uc_def><space><uc_defs>
+ *   <uc_def> :: <uc> | <uc>,<uc_def>
+ *   <uc> :: U+<h><h><h><h>
+ *   <h> :: <hexadecimal digit>
+ *   <range> :: <value>-<value>
+ *  Blank lines and lines starting with # are ignored.
+ */
+static long
+getunicode(char **p0)
+{
+	char *p = *p0;
+
+	while (*p == ' ' || *p == '\t')
+		p++;
+	if (*p != 'U' || p[1] != '+' ||
+	    !isxdigit(p[2]) || !isxdigit(p[3]) || !isxdigit(p[4]) ||
+	    !isxdigit(p[5]) || isxdigit(p[6]))
+		return -1;
+	*p0 = p + 6;
+	return strtol(p + 2, 0, 16);
+}
+
+static int
+parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
+		struct unicode_list *uclistheads)
+{
+	char *p, *p1;
+	long i;
+	long fp0, fp1, un0, un1;
+
+	if ((p = strchr(buf, '\n')) != NULL)
+		*p = 0;
+	else {
+		KFONT_ERR(ctx, _("Warning: line too long"));
+		return -EX_DATAERR;
+	}
+
+	p = buf;
+
+	while (*p == ' ' || *p == '\t')
+		p++;
+	if (!*p || *p == '#')
+		return 0;
+
+	fp0 = strtol(p, &p1, 0);
+	if (p1 == p) {
+		KFONT_ERR(ctx, _("Bad input line: %s"), buf);
+		return -EX_DATAERR;
+	}
+	p = p1;
+
+	if (*p == '-') {
+		p++;
+		fp1 = strtol(p, &p1, 0);
+		if (p1 == p) {
+			KFONT_ERR(ctx, _("Bad input line: %s"), buf);
+			return -EX_DATAERR;
+		}
+		p = p1;
+	} else
+		fp1 = 0;
+
+	if (fp0 < 0 || fp0 >= fontlen) {
+		KFONT_ERR(ctx, _("Glyph number (0x%lx) past end of font"), fp0);
+		return -EX_DATAERR;
+	}
+	if (fp1 && (fp1 < fp0 || fp1 >= fontlen)) {
+		KFONT_ERR(ctx, _("Bad end of range (0x%lx)"), fp1);
+		return -EX_DATAERR;
+	}
+
+	int ret = 0;
+
+	if (fp1) {
+		/* we have a range; expect the word "idem"
+		   or a Unicode range of the same length */
+		while (*p == ' ' || *p == '\t')
+			p++;
+		if (!strncmp(p, "idem", 4)) {
+			for (i = fp0; i <= fp1; i++) {
+				ret = addpair(uclistheads + i, i);
+				if (ret < 0) {
+					KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
+					return -EX_OSERR;
+				}
+			}
+			p += 4;
+		} else {
+			un0 = getunicode(&p);
+			while (*p == ' ' || *p == '\t')
+				p++;
+			if (*p != '-') {
+				KFONT_ERR(ctx,
+				        _("Corresponding to a range of "
+				          "font positions, there should be "
+				          "a Unicode range"));
+				return -EX_DATAERR;
+			}
+			p++;
+			un1 = getunicode(&p);
+			if (un0 < 0 || un1 < 0) {
+				KFONT_ERR(ctx,
+				        _("Bad Unicode range "
+				          "corresponding to font position "
+				          "range 0x%lx-0x%lx"),
+					fp0, fp1);
+				return -EX_DATAERR;
+			}
+			if (un1 - un0 != fp1 - fp0) {
+				KFONT_ERR(ctx,
+				        _("Unicode range U+%lx-U+%lx not "
+				          "of the same length as font "
+				          "position range 0x%lx-0x%lx"),
+				        un0, un1, fp0, fp1);
+				return -EX_DATAERR;
+			}
+			for (i = fp0; i <= fp1; i++) {
+				ret = addpair(uclistheads + i, un0 - fp0 + i);
+				if (ret < 0) {
+					KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
+					return -EX_OSERR;
+				}
+			}
+		} /* not idem */
+	} else {  /* no range */
+		while ((un0 = getunicode(&p)) >= 0) {
+			ret = addpair(uclistheads + fp0, un0);
+			if (ret < 0) {
+				KFONT_ERR(ctx, "unable to add pair: %s", strerror(-ret));
+				return -EX_OSERR;
+			}
+			while (*p++ == ',' && (un1 = getunicode(&p)) >= 0) {
+				ret = addseq(uclistheads + fp0, un1);
+				if (ret < 0) {
+					KFONT_ERR(ctx, "unable to add sequence: %s", strerror(-ret));
+					return -EX_OSERR;
+				}
+			}
+			p--;
+		}
+		while (*p == ' ' || *p == '\t')
+			p++;
+		if (*p && *p != '#') {
+			KFONT_ERR(ctx, _("trailing junk (%s) ignored"), p);
+		}
+	}
+
+	return 0;
+}
+
+int
+kfont_read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
+		struct unicode_list **uclistheadsp)
+{
+	char buf[65536];
+	unsigned int i;
+
+	*uclistheadsp = realloc(*uclistheadsp, fontlen * sizeof(struct unicode_list));
+	if (!*uclistheadsp) {
+		KFONT_ERR(ctx, "realloc: %m");
+		return -EX_OSERR;
+	}
+
+	for (i = 0; i < fontlen; i++) {
+		struct unicode_list *up = &((*uclistheadsp)[i]);
+		up->next = NULL;
+		up->seq  = NULL;
+		up->prev = up;
+	}
+
+	while (fgets(buf, sizeof(buf), itab) != NULL) {
+		int ret = parse_itab_line(ctx, buf, fontlen, *uclistheadsp);
+		if (ret < 0)
+			return ret;
+	}
+
+	return 0;
+}
+
+int
+kfont_write_itable(struct kfont_context *ctx, FILE *otab, unsigned int fontlen,
+		struct unicode_list *uclistheads)
+{
+	struct unicode_list *ul;
+	struct unicode_seq *us;
+	const char *sep;
+	unsigned int i;
+
+	fprintf(otab, "#\n# Character table extracted from font\n#\n");
+
+	for (i = 0; i < fontlen; i++) {
+		fprintf(otab, "0x%03x\t", i);
+		sep = "";
+		ul  = uclistheads[i].next;
+		while (ul) {
+			us = ul->seq;
+			while (us) {
+				fprintf(otab, "%sU+%04x", sep, us->uc);
+				us  = us->next;
+				sep = ", ";
+			}
+			ul  = ul->next;
+			sep = " ";
+		}
+		fprintf(otab, "\n");
+	}
+
+	return 0;
+}

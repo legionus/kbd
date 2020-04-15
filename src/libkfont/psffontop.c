@@ -121,9 +121,9 @@ get_uni_entry(struct kfont_context *ctx,
 		int ret;
 
 		if (inseq < 2)
-			ret = kfont_addpair(up, unichar);
+			ret = addpair(up, unichar);
 		else
-			ret = kfont_addseq(up, unichar);
+			ret = addseq(up, unichar);
 
 		if (ret < 0) {
 			KFONT_ERR(ctx, "unable to unichar: %s", strerror(-ret));
@@ -294,7 +294,7 @@ kfont_readpsffont(struct kfont_context *ctx,
 	} else {
 		for (i = 0; i < fontlen; i++) {
 			k = fontpos0 + i;
-			kfont_clear_uni_entry(&(*uclistheadsp)[k]);
+			clear_uni_entry(&(*uclistheadsp)[k]);
 		}
 	}
 

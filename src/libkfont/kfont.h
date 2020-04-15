@@ -100,22 +100,7 @@ struct psf2_header {
 #include <stdint.h>
 
 typedef int32_t unicode;
-
-struct unicode_seq {
-	struct unicode_seq *next;
-	struct unicode_seq *prev;
-	unicode uc;
-};
-
-struct unicode_list {
-	struct unicode_list *next;
-	struct unicode_list *prev;
-	struct unicode_seq *seq;
-};
-
-int kfont_addpair(struct unicode_list *up, unicode uc);
-int kfont_addseq(struct unicode_list *up, unicode uc);
-void kfont_clear_uni_entry(struct unicode_list *up);
+struct unicode_list;
 
 #include <stdarg.h>
 
@@ -305,5 +290,15 @@ int kfont_writepsffont(struct kfont_context *ctx,
 		FILE *ofil, unsigned char *fontbuf,
 		unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
 		struct unicode_list *uclistheads);
+
+/* psfxtable.c */
+
+int kfont_read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
+		struct unicode_list **uclistheadsp)
+	__attribute__((nonnull(1,2,4)));
+
+int kfont_write_itable(struct kfont_context *ctx, FILE *otab, unsigned int fontlen,
+		struct unicode_list *uclistheads)
+	__attribute__((nonnull(1,2,4)));
 
 #endif /* _KFONT_H_ */

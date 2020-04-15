@@ -6,9 +6,6 @@
 KFONT_1.0 {
   global:
     kfont_activatemap;
-    kfont_addpair;
-    kfont_addseq;
-    kfont_clear_uni_entry;
     kfont_disactivatemap;
     kfont_getfontsize;
     kfont_getunimap;
@@ -31,6 +28,8 @@ KFONT_1.0 {
     kfont_set_option;
     kfont_unset_option;
     kfont_writepsffont;
+    kfont_read_itable;
+    kfont_write_itable;
 
   local:
     *;
