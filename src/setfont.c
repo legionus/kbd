@@ -168,10 +168,10 @@ int main(int argc, char *argv[])
 		/* reset to some default */
 		ifiles[ifilct++] = "";
 
-	if (Ofil && (ret = kfont_saveoldfontplusunicodemap(kfont, fd, Ofil)) < 0)
+	if (Ofil && (ret = kfont_save_font(kfont, fd, Ofil, 1)) < 0)
 		return -ret;
 
-	if (ofil && (ret = kfont_saveoldfont(kfont, fd, ofil)) < 0)
+	if (ofil && (ret = kfont_save_font(kfont, fd, ofil, 0)) < 0)
 		return -ret;
 
 	if (omfil && (ret = kfont_saveoldmap(kfont, fd, omfil)) < 0)

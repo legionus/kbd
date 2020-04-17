@@ -208,11 +208,10 @@ int kfont_loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui,
 	__attribute__((nonnull(1)));
 
 /* setfont.c */
-int kfont_saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
-	__attribute__((nonnull(1)));
 
-int kfont_saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
-	__attribute__((nonnull(1)));
+int kfont_save_font(struct kfont_context *ctx, int consolefd,
+		const char *filename, int with_unicodemap)
+	__attribute__((nonnull(1,3)));
 
 int kfont_loadnewfont(struct kfont_context *ctx,
 		int fd, const char *ifil,

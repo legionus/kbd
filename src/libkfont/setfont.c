@@ -582,8 +582,8 @@ position_codepage(unsigned int iunit)
 }
 
 static int
-do_saveoldfont(struct kfont_context *ctx,
-		int fd, const char *ofil, FILE *fpo, int unimap_follows,
+save_font(struct kfont_context *ctx, int consolefd, const char *filename,
+		FILE *fpo, int unimap_follows,
 		unsigned int *count, int *utf8)
 {
 /* this is the max font size the kernel is willing to handle */
@@ -594,7 +594,7 @@ do_saveoldfont(struct kfont_context *ctx,
 
 	ct = sizeof(buf) / (32 * 32 / 8); /* max size 32x32, 8 bits/byte */
 
-	if (kfont_getfont(ctx, fd, buf, &ct, &width, &height) < 0)
+	if (kfont_getfont(ctx, consolefd, buf, &ct, &width, &height) < 0)
 		return -EX_OSERR;
 
 	/* save as efficiently as possible */
@@ -635,7 +635,7 @@ do_saveoldfont(struct kfont_context *ctx,
 		if (ctx->verbose) {
 			KFONT_INFO(ctx,
 			     _("Saved %d-char %dx%d font file on %s"),
-			     ct, width, height, ofil);
+			     ct, width, height, filename);
 		}
 	}
 
@@ -646,38 +646,25 @@ do_saveoldfont(struct kfont_context *ctx,
 }
 
 int
-kfont_saveoldfont(struct kfont_context *ctx, int fd, const char *ofil)
-{
-	int ret;
-	FILE *fpo = fopen(ofil, "w");
-
-	if (!fpo) {
-		KFONT_ERR(ctx, "Unable to open: %s: %m", ofil);
-		return -EX_CANTCREAT;
-	}
-
-	ret = do_saveoldfont(ctx, fd, ofil, fpo, 0, NULL, NULL);
-
-	fclose(fpo);
-	return ret;
-}
-
-int
-kfont_saveoldfontplusunicodemap(struct kfont_context *ctx, int fd, const char *Ofil)
+kfont_save_font(struct kfont_context *ctx, int consolefd, const char *filename,
+		int with_unicodemap)
 {
 	int ret = 0;
-	FILE *fpo = fopen(Ofil, "w");
+	FILE *fpo = fopen(filename, "w");
 
 	if (!fpo) {
-		KFONT_ERR(ctx, "unable to open: %s: %m", Ofil);
+		KFONT_ERR(ctx, "unable to open: %s: %m", filename);
 		return -EX_CANTCREAT;
 	}
 
 	int utf8 = 0;
 	unsigned int ct = 0;
 
-	if (!(ret = do_saveoldfont(ctx, fd, Ofil, fpo, 1, &ct, &utf8)))
-		ret = appendunicodemap(ctx, fd, fpo, ct, utf8);
+	ret = save_font(ctx, consolefd, filename, fpo, with_unicodemap,
+			&ct, &utf8);
+
+	if (!ret && with_unicodemap)
+		ret = appendunicodemap(ctx, consolefd, fpo, ct, utf8);
 
 	fclose(fpo);
 	return ret;
