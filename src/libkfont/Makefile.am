@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: LGPL-2.0-or-later
+#
+# Copyright (C) 2020  Alexey Gladkov <gladkov.alexey@gmail.com>
+#
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(top_srcdir)/src \

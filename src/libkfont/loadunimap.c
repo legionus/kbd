@@ -1,7 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /*
- * loadunimap.c - aeb
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
+ * Copyright (C) 2020 Oleg Bulatov <oleg@bulatov.me>
  *
- * Version 1.09
+ * Originally written by Andries Brouwer
  */
 #include "config.h"
 

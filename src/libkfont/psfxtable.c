@@ -1,15 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /*
- * psfxtable.c
- *
- * Manipulate headers and Unicode tables for psf fonts
- *
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
  * Copyright (C) 1999 Andries E. Brouwer
  *  derived from sources that were
  * Copyright (C) 1994 H. Peter Anvin
- *
- * This program may be freely copied under the terms of the GNU
- * General Public License (GPL), version 2, or at your option
- * any later version.
  */
 #include "config.h"
 

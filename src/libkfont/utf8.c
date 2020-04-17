@@ -1,4 +1,9 @@
-/* utf8.c - collect routines for conversion to/from utf8 */
+// SPDX-License-Identifier: LGPL-2.0-or-later
+/*
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
+ *
+ * Originally written by Andries Brouwer
+ */
 #include "config.h"
 #include "utf8.h"
 

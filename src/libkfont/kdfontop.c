@@ -1,8 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /*
- * kdfontop.c - export getfont(), getfontsize() and putfont()
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
  *
- * Font handling differs between various kernel versions.
- * Hide the differences in this file.
+ * Originally written by Andries Brouwer
  */
 #include "config.h"
 

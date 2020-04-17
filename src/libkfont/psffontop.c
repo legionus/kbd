@@ -1,5 +1,9 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /*
- * psffontop.c - aeb@cwi.nl, 990921
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
+ * Copyright (C) 2020 Oleg Bulatov <oleg@bulatov.me>
+ *
+ * Originally written by Andries Brouwer
  */
 #include "config.h"
 

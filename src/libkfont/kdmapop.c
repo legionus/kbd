@@ -1,8 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /*
- * kdmapop.c - export getscrnmap(), loadscrnmap(),
- *                    loaduniscrnmap(), loadunimap()
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
  *
- * Hide the ioctl use in this file.
+ * Originally written by Andries Brouwer
  */
 #include "config.h"
 

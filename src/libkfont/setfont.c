@@ -1,13 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /*
- * setfont.c - Eugene Crosser & Andries Brouwer
+ * Copyright (C) 2007-2020 Alexey Gladkov <gladkov.alexey@gmail.com>
  *
- * Version 1.05
- *
- * Loads the console font, and possibly the corresponding screen map(s).
- * We accept two kind of screen maps, one [-m] giving the correspondence
- * between some arbitrary 8-bit character set currently in use and the
- * font positions, and the second [-u] giving the correspondence between
- * font positions and Unicode values.
+ * Originally written by Eugene Crosser & Andries Brouwer
  */
 #include "config.h"
 
