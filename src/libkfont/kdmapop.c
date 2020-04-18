@@ -80,7 +80,7 @@ int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
  */
 
 int
-kfont_getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
+kfont_get_uniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
 		KFONT_ERR(ctx, "ioctl(GIO_UNISCRNMAP): %m");
@@ -90,7 +90,7 @@ kfont_getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 }
 
 int
-kfont_loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
+kfont_put_uniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
 	unsigned short inbuf[E_TABSZ];
 
@@ -144,7 +144,7 @@ kfont_loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
  * so that fd no longer is random.
  */
 int
-kfont_getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
+kfont_get_unicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 {
 	struct unimapdesc ud;
 	unsigned int ct;
@@ -179,7 +179,7 @@ kfont_getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 }
 
 int
-kfont_loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
+kfont_put_unicodemap(struct kfont_context *ctx, int fd, struct unimapinit *ui, struct unimapdesc *ud)
 {
 	struct unimapinit advice;
 

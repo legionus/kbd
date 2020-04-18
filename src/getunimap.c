@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
 		return -ret;
 
-	if (kfont_getunimap(kfont, fd, &ud))
+	if (kfont_get_unicodemap(kfont, fd, &ud))
 		return EXIT_FAILURE;
 
 	if (sortflag) {

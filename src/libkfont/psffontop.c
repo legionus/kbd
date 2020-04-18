@@ -192,7 +192,7 @@ end:
 }
 
 int
-kfont_readpsffont(struct kfont_context *ctx,
+kfont_read_psffont(struct kfont_context *ctx,
 		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		unsigned char **fontbufp, unsigned int *fontszp,
 		unsigned int *fontwidthp, unsigned int *fontlenp,
@@ -463,7 +463,7 @@ writepsffontheader(struct kfont_context *ctx,
 }
 
 int
-kfont_writepsffont(struct kfont_context *ctx,
+kfont_write_psffont(struct kfont_context *ctx,
 		FILE *ofil, unsigned char *fontbuf, unsigned int width,
 		unsigned int height, unsigned int fontlen,
 		int psftype, struct unicode_list *uclistheads)

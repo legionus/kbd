@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
 		return -ret;
 
-	if (kfont_readpsffont(kfont, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0)
+	if (kfont_read_psffont(kfont, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0)
 		kbd_error(EX_DATAERR, 0, "Bad magic number");
 
 	close(f);

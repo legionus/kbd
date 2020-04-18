@@ -30,11 +30,11 @@ int have_ounimap = 0;
 static void __attribute__((noreturn))
 leave(struct kfont_context *ctx, int n)
 {
-	if (have_obuf && kfont_loaduniscrnmap(ctx, fd, obuf)) {
+	if (have_obuf && kfont_put_uniscrnmap(ctx, fd, obuf)) {
 		kbd_warning(0, _("failed to restore original translation table\n"));
 		n = EXIT_FAILURE;
 	}
-	if (have_ounimap && kfont_loadunimap(ctx, fd, NULL, &ounimap)) {
+	if (have_ounimap && kfont_put_unicodemap(ctx, fd, NULL, &ounimap)) {
 		kbd_warning(0, _("failed to restore original unimap\n"));
 		n = EXIT_FAILURE;
 	}
@@ -46,14 +46,14 @@ settrivialscreenmap(struct kfont_context *ctx)
 {
 	unsigned short i;
 
-	if (kfont_getuniscrnmap(ctx, fd, obuf))
+	if (kfont_get_uniscrnmap(ctx, fd, obuf))
 		exit(1);
 	have_obuf = 1;
 
 	for (i = 0; i < E_TABSZ; i++)
 		nbuf[i] = i;
 
-	if (kfont_loaduniscrnmap(ctx, fd, nbuf)) {
+	if (kfont_put_uniscrnmap(ctx, fd, nbuf)) {
 		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table\n"));
 	}
 }
@@ -63,7 +63,7 @@ getoldunicodemap(struct kfont_context *ctx)
 {
 	struct unimapdesc descr;
 
-	if (kfont_getunimap(ctx, fd, &descr))
+	if (kfont_get_unicodemap(ctx, fd, &descr))
 		leave(ctx, EXIT_FAILURE);
 	ounimap = descr;
 	have_ounimap = 1;
@@ -90,7 +90,7 @@ setnewunicodemap(struct kfont_context *ctx, unsigned int *list, int cnt)
 	for (i = 0; i < cnt; i++)
 		nunimap.entries[list[i]].unicode = (unsigned short) (BASE + i);
 
-	if (kfont_loadunimap(ctx, fd, NULL, &nunimap))
+	if (kfont_put_unicodemap(ctx, fd, NULL, &nunimap))
 		leave(ctx, EXIT_FAILURE);
 }
 
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
 	if (info) {
 		nr = rows = cols = 0;
 
-		ret = kfont_getfont(kfont, fd, NULL, &nr, &rows, &cols);
+		ret = kfont_get_font(kfont, fd, NULL, &nr, &rows, &cols);
 		if (ret != 0)
 			leave(kfont, EXIT_FAILURE);
 
@@ -184,7 +184,7 @@ int main(int argc, char **argv)
 	settrivialscreenmap(kfont);
 	getoldunicodemap(kfont);
 
-	n = kfont_getfontsize(kfont, fd);
+	n = kfont_get_fontsize(kfont, fd);
 	if (kfont_get_verbosity(kfont))
 		printf(_("Showing %d-char font\n\n"), n);
 	cols = ((n > 256) ? 32 : 16);

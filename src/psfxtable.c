@@ -142,7 +142,7 @@ int main(int argc, char **argv)
 	else if (!(otab = fopen(otname, "w")))
 		kbd_error(EX_CANTCREAT, errno, "Unable to open: %s", otname);
 
-	if (kfont_readpsffont(kfont, ifil, &inbuf, &inbuflth, &fontbuf,
+	if (kfont_read_psffont(kfont, ifil, &inbuf, &inbuflth, &fontbuf,
 				&fontbuflth, &width, &fontlen, 0,
 				itab ? NULL : &uclistheads) < 0)
 		kbd_error(EX_DATAERR, 0, _("Bad magic number on %s"), ifname);
@@ -167,7 +167,7 @@ int main(int argc, char **argv)
 		kbd_error(EX_DATAERR, 0, _("psf file with unknown magic"));
 
 	if (itab) {
-		ret = kfont_read_itable(kfont, itab, fontlen, &uclistheads);
+		ret = kfont_read_unicodetable(kfont, itab, fontlen, &uclistheads);
 		if (ret < 0)
 			return -ret;
 		fclose(itab);
@@ -177,12 +177,12 @@ int main(int argc, char **argv)
 		if (!hastable)
 			kbd_error(EX_DATAERR, 0, _("input font does not have an index"));
 
-		kfont_write_itable(kfont, otab, fontlen, uclistheads);
+		kfont_write_unicodetable(kfont, otab, fontlen, uclistheads);
 		fclose(otab);
 	}
 
 	if (ofil) {
-		ret = kfont_writepsffont(kfont, ofil, fontbuf, width, height,
+		ret = kfont_write_psffont(kfont, ofil, fontbuf, width, height,
 				fontlen, psftype, notable ? NULL : uclistheads);
 		fclose(ofil);
 		if (ret < 0)

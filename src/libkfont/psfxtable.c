@@ -207,7 +207,8 @@ parse_itab_line(struct kfont_context *ctx, char *buf, unsigned int fontlen,
 }
 
 int
-kfont_read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
+kfont_read_unicodetable(struct kfont_context *ctx, FILE *file,
+		unsigned int fontlen,
 		struct unicode_list **uclistheadsp)
 {
 	char buf[65536];
@@ -226,7 +227,7 @@ kfont_read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
 		up->prev = up;
 	}
 
-	while (fgets(buf, sizeof(buf), itab) != NULL) {
+	while (fgets(buf, sizeof(buf), file) != NULL) {
 		int ret = parse_itab_line(ctx, buf, fontlen, *uclistheadsp);
 		if (ret < 0)
 			return ret;
@@ -236,7 +237,8 @@ kfont_read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
 }
 
 int
-kfont_write_itable(struct kfont_context *ctx, FILE *otab, unsigned int fontlen,
+kfont_write_unicodetable(struct kfont_context *ctx, FILE *file,
+		unsigned int fontlen,
 		struct unicode_list *uclistheads)
 {
 	struct unicode_list *ul;
@@ -244,23 +246,38 @@ kfont_write_itable(struct kfont_context *ctx, FILE *otab, unsigned int fontlen,
 	const char *sep;
 	unsigned int i;
 
-	fprintf(otab, "#\n# Character table extracted from font\n#\n");
+	if (fprintf(file, "#\n# Character table extracted from font\n#\n") < 0) {
+		KFONT_ERR(ctx, "Unable to write unicode table");
+		return -EX_IOERR;
+	}
 
 	for (i = 0; i < fontlen; i++) {
-		fprintf(otab, "0x%03x\t", i);
+		if (fprintf(file, "0x%03x\t", i) < 0) {
+			KFONT_ERR(ctx, "Unable to write unicode table");
+			return -EX_IOERR;
+		}
+
 		sep = "";
 		ul  = uclistheads[i].next;
 		while (ul) {
 			us = ul->seq;
 			while (us) {
-				fprintf(otab, "%sU+%04x", sep, us->uc);
+				if (fprintf(file, "%sU+%04x", sep, us->uc) < 0) {
+					KFONT_ERR(ctx, "Unable to write unicode table");
+					return -EX_IOERR;
+				}
+
 				us  = us->next;
 				sep = ", ";
 			}
 			ul  = ul->next;
 			sep = " ";
 		}
-		fprintf(otab, "\n");
+
+		if (fprintf(file, "\n") < 0) {
+			KFONT_ERR(ctx, "Unable to write unicode table");
+			return -EX_IOERR;
+		}
 	}
 
 	return 0;

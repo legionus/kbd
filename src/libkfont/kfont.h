@@ -143,20 +143,24 @@ void kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
 
 /* mapscrn.c */
 
-int kfont_loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)
+int kfont_load_consolemap(struct kfont_context *ctx, int consolefd,
+		const char *filename)
 	__attribute__((nonnull(1)));
 
-int kfont_saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
-	__attribute__((nonnull(1)));
+int kfont_save_consolemap(struct kfont_context *ctx, int consolefd,
+		const char *filename)
+	__attribute__((nonnull(1,3)));
 
 /* loadunimap.c */
 
 /* save humanly readable */
-int kfont_saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
-	__attribute__((nonnull(1)));
+int kfont_save_unicodemap(struct kfont_context *ctx, int consolefd,
+		const char *filename)
+	__attribute__((nonnull(1,3)));
 
-int kfont_loadunicodemap(struct kfont_context *ctx, int fd, const char *ufil)
-	__attribute__((nonnull(1)));
+int kfont_load_unicodemap(struct kfont_context *ctx, int consolefd,
+		const char *filename)
+	__attribute__((nonnull(1,3)));
 
 /* kdfontop.c */
 
@@ -165,7 +169,7 @@ int kfont_loadunicodemap(struct kfont_context *ctx, int fd, const char *ufil)
  * Return 0 on success -1 on failure.
  * Sets number of glyphs in COUNT, glyph size in WIDTH and HEIGHT.
  */
-int kfont_getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
+int kfont_get_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int *count, unsigned int *width, unsigned int *height)
 	__attribute__((nonnull(1)));
 
@@ -174,37 +178,40 @@ int kfont_getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
  * with length COUNT.
  * Return 0 on success, -1 on failure.
  */
-int kfont_putfont(struct kfont_context *ctx, int fd, unsigned char *buf,
+int kfont_put_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int count, unsigned int width, unsigned int height)
 	__attribute__((nonnull(1)));
 
 /*
  * Find the size of the kernel font.
  */
-unsigned int kfont_getfontsize(struct kfont_context *ctx, int fd)
+unsigned int kfont_get_fontsize(struct kfont_context *ctx, int consolefd)
 	__attribute__((nonnull(1)));
 
 /*
  * Restore font (doesn't work).
  */
-int kfont_restorefont(struct kfont_context *ctx, int fd)
+int kfont_restore_font(struct kfont_context *ctx, int fd)
 	__attribute__((nonnull(1)));
 
 /* kdmapop.c */
 
-int kfont_getuniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
-	__attribute__((nonnull(1)));
+int kfont_get_uniscrnmap(struct kfont_context *ctx, int consolefd,
+		unsigned short *map)
+	__attribute__((nonnull(1,3)));
 
-int kfont_loaduniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
-	__attribute__((nonnull(1)));
+int kfont_put_uniscrnmap(struct kfont_context *ctx, int consolefd,
+		unsigned short *map)
+	__attribute__((nonnull(1,3)));
 
 #include <linux/kd.h>
 
-int kfont_getunimap(struct kfont_context *ctx, int fd, struct unimapdesc *ud)
-	__attribute__((nonnull(1)));
-
-int kfont_loadunimap(struct kfont_context *ctx, int fd, struct unimapinit *ui,
+int kfont_get_unicodemap(struct kfont_context *ctx, int consolefd,
 		struct unimapdesc *ud)
+	__attribute__((nonnull(1,3)));
+
+int kfont_put_unicodemap(struct kfont_context *ctx, int consolefd,
+		struct unimapinit *ui, struct unimapdesc *ud)
 	__attribute__((nonnull(1)));
 
 /* setfont.c */
@@ -213,13 +220,13 @@ int kfont_save_font(struct kfont_context *ctx, int consolefd,
 		const char *filename, int with_unicodemap)
 	__attribute__((nonnull(1,3)));
 
-int kfont_loadnewfont(struct kfont_context *ctx,
-		int fd, const char *ifil,
+int kfont_load_font(struct kfont_context *ctx,
+		int consolefd, const char *filename,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 	__attribute__((nonnull(1)));
 
-int kfont_loadnewfonts(struct kfont_context *ctx,
-		int fd, const char *const *ifiles, int ifilct,
+int kfont_load_fonts(struct kfont_context *ctx,
+		int consolefd, const char *const *files, int filect,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 	__attribute__((nonnull(1)));
 
@@ -257,24 +264,28 @@ void kfont_disactivatemap(int fd);
  * not psf (but has been read). > 0 means that the Unicode table contains
  * sequences.
  */
-int kfont_readpsffont(struct kfont_context *ctx,
+int kfont_read_psffont(struct kfont_context *ctx,
 		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		unsigned char **fontbufp, unsigned int *fontszp,
 		unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
-		struct unicode_list **uclistheadsp);
+		struct unicode_list **uclistheadsp)
+	__attribute__((nonnull(1)));
 
-int kfont_writepsffont(struct kfont_context *ctx,
+int kfont_write_psffont(struct kfont_context *ctx,
 		FILE *ofil, unsigned char *fontbuf,
-		unsigned int width, unsigned int height, unsigned int fontlen, int psftype,
-		struct unicode_list *uclistheads);
+		unsigned int width, unsigned int height, unsigned int fontlen,
+		int psftype, struct unicode_list *uclistheads)
+	__attribute__((nonnull(1,2,3)));
 
 /* psfxtable.c */
 
-int kfont_read_itable(struct kfont_context *ctx, FILE *itab, unsigned int fontlen,
-		struct unicode_list **uclistheadsp)
+int kfont_read_unicodetable(struct kfont_context *ctx, FILE *file,
+		unsigned int fontlen,
+		struct unicode_list **uclistheads)
 	__attribute__((nonnull(1,2,4)));
 
-int kfont_write_itable(struct kfont_context *ctx, FILE *otab, unsigned int fontlen,
+int kfont_write_unicodetable(struct kfont_context *ctx, FILE *file,
+		unsigned int fontlen,
 		struct unicode_list *uclistheads)
 	__attribute__((nonnull(1,2,4)));
 

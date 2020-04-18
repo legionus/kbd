@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 		return -ret;
 
 	if (outfnam) {
-		if ((ret = kfont_saveunicodemap(kfont, fd, outfnam)) < 0)
+		if ((ret = kfont_save_unicodemap(kfont, fd, outfnam)) < 0)
 			return -ret;
 		if (argc == optind)
 			return EX_OK;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
 	if (argc == optind + 1)
 		infnam = argv[optind];
-	if ((ret = kfont_loadunicodemap(kfont, fd, infnam)) < 0)
+	if ((ret = kfont_load_unicodemap(kfont, fd, infnam)) < 0)
 		return -ret;
 
 	return EX_OK;

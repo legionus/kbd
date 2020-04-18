@@ -171,7 +171,7 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 			       fontsize, width, height, hwunit);
 	}
 
-	if (kfont_putfont(ctx, fd, buf, fontsize, width, hwunit) < 0) {
+	if (kfont_put_font(ctx, fd, buf, fontsize, width, hwunit) < 0) {
 		ret = -EX_OSERR;
 		goto err;
 	}
@@ -250,7 +250,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 	ud.entry_ct = ct;
 	ud.entries  = up;
 
-	if (kfont_loadunimap(ctx, fd, NULL, &ud) < 0) {
+	if (kfont_put_unicodemap(ctx, fd, NULL, &ud) < 0) {
 		ret = -EX_OSERR;
 		goto err;
 	}
@@ -262,7 +262,7 @@ err:
 }
 
 int
-kfont_loadnewfonts(struct kfont_context *ctx,
+kfont_load_fonts(struct kfont_context *ctx,
 		int fd, const char *const *ifiles, int ifilct,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 {
@@ -277,7 +277,7 @@ kfont_loadnewfonts(struct kfont_context *ctx,
 	int ret = 0;
 
 	if (ifilct == 1)
-		return kfont_loadnewfont(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
+		return kfont_load_font(ctx, fd, ifiles[0], iunit, hwunit, no_m, no_u);
 
 	/* several fonts that must be merged */
 	/* We just concatenate the bitmaps - only allow psf fonts */
@@ -307,7 +307,7 @@ kfont_loadnewfonts(struct kfont_context *ctx,
 		inputlth = fontbuflth = 0;
 		fontsize = 0;
 
-		if (kfont_readpsffont(ctx, kbdfile_get_file(fp), &inbuf,
+		if (kfont_read_psffont(ctx, kbdfile_get_file(fp), &inbuf,
 			&inputlth, &fontbuf, &fontbuflth, &width, &fontsize,
 			bigfontsize, no_u ? NULL : &uclistheads)) {
 			KFONT_ERR(ctx, _("When loading several fonts, all must be psf fonts - %s isn't"),
@@ -373,7 +373,7 @@ end:
 }
 
 int
-kfont_loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
+kfont_load_font(struct kfont_context *ctx, int fd, const char *ifil,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
 {
 	struct kbdfile *fp;
@@ -432,7 +432,7 @@ kfont_loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 	width = 8;
 	uclistheads = NULL;
 
-	if (!kfont_readpsffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth,
+	if (!kfont_read_psffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth,
 		&fontbuf, &fontbuflth, &width, &fontsize, 0, no_u ? NULL : &uclistheads)) {
 
 		/* we've got a psf font */
@@ -451,7 +451,7 @@ kfont_loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 		}
 
 		if (!uclistheads && !no_u && def) {
-			if ((ret = kfont_loadunicodemap(ctx, fd, "def.uni")) < 0)
+			if ((ret = kfont_load_unicodemap(ctx, fd, "def.uni")) < 0)
 				KFONT_ERR(ctx, "Unable to load unicode map");
 		}
 
@@ -489,7 +489,7 @@ kfont_loadnewfont(struct kfont_context *ctx, int fd, const char *ifil,
 			}
 
 			/* recursive call */
-			ret = kfont_loadnewfonts(ctx, fd, ifiles, ifilct, iunit,
+			ret = kfont_load_fonts(ctx, fd, ifiles, ifilct, iunit,
 				hwunit, no_m, no_u);
 
 			goto end;
@@ -594,7 +594,7 @@ save_font(struct kfont_context *ctx, int consolefd, const char *filename,
 
 	ct = sizeof(buf) / (32 * 32 / 8); /* max size 32x32, 8 bits/byte */
 
-	if (kfont_getfont(ctx, consolefd, buf, &ct, &width, &height) < 0)
+	if (kfont_get_font(ctx, consolefd, buf, &ct, &width, &height) < 0)
 		return -EX_OSERR;
 
 	/* save as efficiently as possible */

@@ -34,5 +34,5 @@ int main(int argc, char *argv[])
 	if ((ret = kfont_init(get_progname(), &ctx)) < 0)
 		return -ret;
 
-	return kfont_loadunimap(ctx, fd, NULL, NULL);
+	return kfont_put_unicodemap(ctx, fd, NULL, NULL);
 }

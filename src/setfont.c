@@ -174,14 +174,14 @@ int main(int argc, char *argv[])
 	if (ofil && (ret = kfont_save_font(kfont, fd, ofil, 0)) < 0)
 		return -ret;
 
-	if (omfil && (ret = kfont_saveoldmap(kfont, fd, omfil)) < 0)
+	if (omfil && (ret = kfont_save_consolemap(kfont, fd, omfil)) < 0)
 		return -ret;
 
-	if (oufil && (ret = kfont_saveunicodemap(kfont, fd, oufil)) < 0)
+	if (oufil && (ret = kfont_save_unicodemap(kfont, fd, oufil)) < 0)
 		return -ret;
 
 	if (mfil) {
-		if ((ret = kfont_loadnewmap(kfont, fd, mfil)) < 0)
+		if ((ret = kfont_load_consolemap(kfont, fd, mfil)) < 0)
 			return -ret;
 		kfont_activatemap(fd);
 		no_m = 1;
@@ -191,12 +191,12 @@ int main(int argc, char *argv[])
 		no_u = 1;
 
 	if (restore)
-		kfont_restorefont(kfont, fd);
+		kfont_restore_font(kfont, fd);
 
 	if (ifilct)
-		kfont_loadnewfonts(kfont, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
+		kfont_load_fonts(kfont, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
 
-	if (ufil && (ret = kfont_loadunicodemap(kfont, fd, ufil)) < 0)
+	if (ufil && (ret = kfont_load_unicodemap(kfont, fd, ufil)) < 0)
 		return -ret;
 
 	return EX_OK;

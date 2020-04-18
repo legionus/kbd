@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (argc >= 3 && !strcmp(argv[1], "-o")) {
-		if ((ret = kfont_saveoldmap(kfont, fd, argv[2])) < 0)
+		if ((ret = kfont_save_consolemap(kfont, fd, argv[2])) < 0)
 			return -ret;
 
 		argc -= 2;
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 		        get_progname());
 		return EX_USAGE;
 	}
-	if ((ret = kfont_loadnewmap(kfont, fd, argv[1])) < 0)
+	if ((ret = kfont_load_consolemap(kfont, fd, argv[1])) < 0)
 		return -ret;
 
 	return EX_OK;

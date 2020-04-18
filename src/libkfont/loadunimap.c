@@ -240,7 +240,7 @@ lookattail:
 }
 
 int
-kfont_loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
+kfont_load_unicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 {
 	char buffer[65536];
 	char *p;
@@ -283,7 +283,7 @@ kfont_loadunicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 	} else {
 		descr.entry_ct = listct;
 		descr.entries  = list;
-		if ((ret = kfont_loadunimap(ctx, fd, NULL, &descr)) < 0)
+		if ((ret = kfont_put_unicodemap(ctx, fd, NULL, &descr)) < 0)
 			goto err;
 		listct = 0;
 	}
@@ -297,7 +297,7 @@ err:
 static int
 getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr)
 {
-	if (kfont_getunimap(ctx, fd, unimap_descr))
+	if (kfont_get_unicodemap(ctx, fd, unimap_descr))
 		return -1;
 
 #ifdef MAIN
@@ -308,31 +308,32 @@ getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr
 }
 
 int
-kfont_saveunicodemap(struct kfont_context *ctx, int fd, char *oufil)
+kfont_save_unicodemap(struct kfont_context *ctx, int consolefd,
+		const char *filename)
 {
 	FILE *fpo;
 	struct unimapdesc unimap_descr = { 0 };
 	struct unipair *unilist;
 	int i, ret;
 
-	if ((fpo = fopen(oufil, "w")) == NULL) {
-		KFONT_ERR(ctx, "Unable to open file: %s", oufil);
+	if ((fpo = fopen(filename, "w")) == NULL) {
+		KFONT_ERR(ctx, "Unable to open file: %s", filename);
 		return -EX_DATAERR;
 	}
 
-	if ((ret = getunicodemap(ctx, fd, &unimap_descr)) < 0)
-		return ret;
+	if ((ret = getunicodemap(ctx, consolefd, &unimap_descr)) < 0)
+		goto end;
 
 	unilist = unimap_descr.entries;
 
 	for (i = 0; i < unimap_descr.entry_ct; i++)
 		fprintf(fpo, "0x%02x\tU+%04x\n", unilist[i].fontpos, unilist[i].unicode);
-	fclose(fpo);
 
 	if (ctx->verbose)
-		KFONT_INFO(ctx, _("Saved unicode map on `%s'"), oufil);
-
-	return 0;
+		KFONT_INFO(ctx, _("Saved unicode map on `%s'"), filename);
+end:
+	fclose(fpo);
+	return ret;
 }
 
 int

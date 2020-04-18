@@ -151,7 +151,7 @@ end:
 }
 
 int
-kfont_loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)
+kfont_load_consolemap(struct kfont_context *ctx, int fd, const char *mfil)
 {
 	unsigned short ubuf[E_TABSZ];
 	unsigned char buf[E_TABSZ];
@@ -170,7 +170,7 @@ kfont_loadnewmap(struct kfont_context *ctx, int fd, const char *mfil)
 	switch (u) {
 		case 1: /* yes */
 			/* do we need to use loaduniscrnmap() ? */
-			u = kfont_loaduniscrnmap(ctx, fd, ubuf);
+			u = kfont_put_uniscrnmap(ctx, fd, ubuf);
 			break;
 		case 0: /* no */
 			u = loadscrnmap(ctx, fd, buf);
@@ -222,7 +222,7 @@ int ctoi(const char *s)
 }
 
 int
-kfont_saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
+kfont_save_consolemap(struct kfont_context *ctx, int fd, const char *omfil)
 {
 	FILE *fp;
 	unsigned char buf[E_TABSZ];
@@ -240,7 +240,7 @@ kfont_saveoldmap(struct kfont_context *ctx, int fd, const char *omfil)
 	if (getscrnmap(ctx, fd, buf))
 		havemap = 0;
 
-	if (kfont_getuniscrnmap(ctx, fd, ubuf))
+	if (kfont_get_uniscrnmap(ctx, fd, ubuf))
 		haveumap = 0;
 
 	if (havemap && haveumap) {
