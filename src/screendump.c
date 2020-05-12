@@ -133,7 +133,7 @@ try_ioctl : {
 		/* we tried this just to be sure, but TIOCLINUX
 	       function 0 has been disabled since 1.1.92
 	       Do not mention `ioctl dump' in error msg */
-		kbd_warning(0, _("couldn't read %s\n"), infile);
+		kbd_warning(0, _("couldn't read %s"), infile);
 #endif
 		return EXIT_FAILURE;
 	}
@@ -142,7 +142,7 @@ try_ioctl : {
 	cols = screenbuf[1];
 	if (rows != win.ws_row || cols != win.ws_col) {
 		kbd_error(EXIT_FAILURE, 0,
-		          _("Strange ... screen is both %dx%d and %dx%d ??\n"),
+		          _("Strange ... screen is both %dx%d and %dx%d ?"),
 		          win.ws_col, win.ws_row, cols, rows);
 	}
 

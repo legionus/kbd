@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 		print_version_and_exit();
 
 	if (argc != 2) {
-		kbd_error(EXIT_FAILURE, 0, _("usage: totextmode\n"));
+		kbd_error(EXIT_FAILURE, 0, _("Usage: %s [option...]\n"), get_progname());
 	}
 
 	if ((fd = getfd(NULL)) < 0)

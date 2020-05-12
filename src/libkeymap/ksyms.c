@@ -337,36 +337,36 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin1_syms[i].name)) {
-				INFO(ctx, _("assuming iso-8859-1 %s"), s);
+				INFO(ctx, _("assuming %s %s"), "iso-8859-1", s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, iso8859_15_syms[i].name)) {
-				INFO(ctx, _("assuming iso-8859-15 %s"), s);
+				INFO(ctx, _("assuming %s %s"), "iso-8859-15", s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin2_syms[i].name)) {
-				INFO(ctx, _("assuming iso-8859-2 %s"), s);
+				INFO(ctx, _("assuming %s %s"), "iso-8859-2", s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin3_syms[i].name)) {
-				INFO(ctx, _("assuming iso-8859-3 %s"), s);
+				INFO(ctx, _("assuming %s %s"), "iso-8859-3", s);
 				return K(KT_LATIN, 160 + i);
 			}
 
 		for (i = 0; i < 256 - 160; i++)
 			if (!strcmp(s, latin4_syms[i].name)) {
-				INFO(ctx, _("assuming iso-8859-4 %s"), s);
+				INFO(ctx, _("assuming %s %s"), "iso-8859-4", s);
 				return K(KT_LATIN, 160 + i);
 			}
 	}
 
-	ERR(ctx, _("unknown keysym '%s'\n"), s);
+	ERR(ctx, _("unknown keysym '%s'"), s);
 
 	return CODE_FOR_UNKNOWN_KSYM;
 }

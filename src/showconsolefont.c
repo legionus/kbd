@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sysexits.h>
@@ -95,21 +96,36 @@ setnewunicodemap(struct kfont_context *ctx, unsigned int *list, int cnt)
 }
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr,
-	        _("usage: showconsolefont -V|--version\n"
-	          "       showconsolefont [-C tty] [-v] [-i]\n"
-	          "(probably after loading a font with `setfont font')\n"
-	          "\n"
-	          "Options:\n"
-	          "  -C tty                device to read the font from. Default: current tty;\n"
-	          "  -v                    be more verbose;\n"
-	          "  -i                    don't print out the font table, just show;\n"
-	          "                        ROWSxCOLSxCOUNT and exit;\n"
-	          "  -V, --version         print version number.\n"
-	));
-	exit(EX_USAGE);
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("(probably after loading a font with `setfont font')\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 int main(int argc, char **argv)
@@ -125,33 +141,54 @@ int main(int argc, char **argv)
 	set_progname(argv[0]);
 	setuplocale();
 
+	const char *const short_opts = "C:ivVh";
+	const struct option long_opts[] = {
+		{ "console", required_argument, NULL, 'C' },
+		{ "info",    no_argument, NULL, 'i' },
+		{ "verbose", no_argument, NULL, 'v' },
+		{ "help",    no_argument, NULL, 'h' },
+		{ "version", no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-i, --info",        _("don't print out the font table, just show: ROWSxCOLSxCOUNT and exit.") },
+		{ "-v, --verbose",     _("be more verbose.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
+
 	struct kfont_context *kfont;
 
 	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
 		return -ret;
 
-	if (argc == 2 &&
-	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
-		print_version_and_exit();
-
-	while ((c = getopt(argc, argv, "ivC:")) != EOF) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+			case 'C':
+				console = optarg;
+				break;
 			case 'i':
 				info = 1;
 				break;
 			case 'v':
 				kfont_inc_verbosity(kfont);
 				break;
-			case 'C':
-				console = optarg;
+			case 'V':
+				print_version_and_exit();
 				break;
-			default:
-				usage();
+			case 'h':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				usage(EX_USAGE, opthelp);
+				break;
 		}
 	}
 
 	if (optind != argc)
-		usage();
+		usage(EX_USAGE, opthelp);
 
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));

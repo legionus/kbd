@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <getopt.h>
 #include <sysexits.h>
 #include <string.h>
 #include <ctype.h>
@@ -19,14 +20,37 @@
 #include "libcommon.h"
 #include "kfont.h"
 
-extern char *progname;
-
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr,
-	        _("Usage:\n\t%s [-C console] [-o map.orig]\n"), progname);
-	exit(1);
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("This utility reports or sets the keyboard mode.\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 int main(int argc, char *argv[])
@@ -39,25 +63,46 @@ int main(int argc, char *argv[])
 	set_progname(argv[0]);
 	setuplocale();
 
-	if (argc == 2 &&
-	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
-		print_version_and_exit();
+	const char *short_opts = "o:C:hV";
+	const struct option long_opts[] = {
+		{ "output",   required_argument, NULL, 'o' },
+		{ "console",  required_argument, NULL, 'C' },
+		{ "help",     no_argument,       NULL, 'h' },
+		{ "version",  no_argument,       NULL, 'V' },
+		{ NULL,       0,                 NULL,  0  }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-o, --output=FILE", _("save the old map to the FILE.") },
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
-	while ((c = getopt(argc, argv, "C:o:")) != EOF) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
-			case 'C':
-				console = optarg;
-				break;
 			case 'o':
 				outfnam = optarg;
 				break;
-			default:
-				usage();
+			case 'C':
+				if (optarg == NULL || optarg[0] == '\0')
+					usage(EX_USAGE, opthelp);
+				console = optarg;
+				break;
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				usage(EX_USAGE, opthelp);
+				break;
 		}
 	}
 
 	if (argc > optind + 1 || (argc == optind && !outfnam))
-		usage();
+		usage(EX_USAGE, opthelp);
 
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));

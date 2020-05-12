@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sysexits.h>
@@ -19,10 +20,36 @@
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"));
-	exit(EX_USAGE);
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("This utility reports or sets the keyboard mode.\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 static void
@@ -54,32 +81,53 @@ int main(int argc, char *argv[])
 	set_progname(argv[0]);
 	setuplocale();
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
-		print_version_and_exit();
+	const char *short_opts = "auskfC:hV";
+	const struct option long_opts[] = {
+		{ "ascii",    no_argument,       NULL, 'a' },
+		{ "keycode",  no_argument,       NULL, 'k' },
+		{ "scancode", no_argument,       NULL, 's' },
+		{ "unicode",  no_argument,       NULL, 'u' },
+		{ "force",    no_argument,       NULL, 'f' },
+		{ "console",  required_argument, NULL, 'C' },
+		{ "help",     no_argument,       NULL, 'h' },
+		{ "version",  no_argument,       NULL, 'V' },
+		{ NULL,       0,                 NULL,  0  }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-a, --ascii",       _("set ASCII mode.") },
+		{ "-k, --keycode",     _("set keycode mode.") },
+		{ "-s, --scancode",    _("set scancode mode.") },
+		{ "-u, --unicode",     _("set UTF-8 mode.") },
+		{ "-f, --force",       _("switch the mode even if it makes the keyboard unusable.") },
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
-	while ((c = getopt(argc, argv, "auskfC:")) != EOF) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'a':
 				if (n > 0)
-					usage();
+					usage(EX_USAGE, opthelp);
 				mode = K_XLATE;
 				n++;
 				break;
 			case 'u':
 				if (n > 0)
-					usage();
+					usage(EX_USAGE, opthelp);
 				mode = K_UNICODE;
 				n++;
 				break;
 			case 's':
 				if (n > 0)
-					usage();
+					usage(EX_USAGE, opthelp);
 				mode = K_RAW;
 				n++;
 				break;
 			case 'k':
 				if (n > 0)
-					usage();
+					usage(EX_USAGE, opthelp);
 				mode = K_MEDIUMRAW;
 				n++;
 				break;
@@ -87,12 +135,19 @@ int main(int argc, char *argv[])
 				force = 1;
 				break;
 			case 'C':
-				if (!optarg || !optarg[0])
-					usage();
+				if (optarg == NULL || optarg[0] == '\0')
+					usage(EX_USAGE, opthelp);
 				console = optarg;
 				break;
-			default:
-				usage();
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				usage(EX_USAGE, opthelp);
+				break;
 		}
 	}
 

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
 #include <fcntl.h>
 #include <sysexits.h>
 #include <sys/ioctl.h>
@@ -17,26 +18,70 @@
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("usage: getkeycodes\n"));
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
 int main(int argc, char **argv)
 {
-	int fd;
+	int fd, c;
 	unsigned int sc, sc0;
 	struct kbkeycode a;
 
 	set_progname(argv[0]);
 	setuplocale();
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
-		print_version_and_exit();
+	const char *const short_opts = "hV";
+	const struct option long_opts[] = {
+		{ "help",    no_argument, NULL, 'h' },
+		{ "version", no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
 
-	if (argc != 1)
-		usage(EX_USAGE);
+	const struct kbd_help opthelp[] = {
+		{ "-h, --help",    _("print this usage message.") },
+		{ "-V, --version", _("print version number.")     },
+		{ NULL, NULL }
+	};
+
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
+		switch (c) {
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				usage(EX_USAGE, opthelp);
+				break;
+		}
+	}
 
 	if ((fd = getfd(NULL)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
@@ -65,8 +110,10 @@ int main(int argc, char **argv)
 	}
 
 	for (sc = (sc0 & ~7U); sc < 256; sc++) {
-		if (sc == 128)
-			printf(_("\n\nEscaped scancodes e0 xx (hex)\n"));
+		if (sc == 128) {
+			printf("\n\n");
+			printf(_("Escaped scancodes e0 xx (hex)\n"));
+		}
 		if (sc % 8 == 0) {
 			if (sc < 128)
 				printf("\n 0x%02x: ", sc);

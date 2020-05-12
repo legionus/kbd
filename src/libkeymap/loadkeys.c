@@ -235,7 +235,7 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			if (ptr->diacr > UCHAR_MAX ||
 			    ptr->base > UCHAR_MAX ||
 			    ptr->result > UCHAR_MAX) {
-				ERR(ctx, "unable to load compose definitions because some of them are too large");
+				ERR(ctx, _("unable to load compose definitions because some of them are too large"));
 				return -1;
 			}
 

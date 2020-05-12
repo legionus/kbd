@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
 #include <errno.h>
 #include <ctype.h>
 #include <unistd.h>
@@ -28,9 +29,32 @@ ud_compar(const void *u1, const void *u2)
 }
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage:\n\t%s [-s] [-C console]\n"), get_progname());
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
@@ -46,11 +70,23 @@ int main(int argc, char **argv)
 	set_progname(argv[0]);
 	setuplocale();
 
-	if (argc == 2 &&
-	    (!strcmp(argv[1], "-V") || !strcmp(argv[1], "--version")))
-		print_version_and_exit();
+	const char *const short_opts = "hVsC:";
+	const struct option long_opts[] = {
+		{ "sort",    no_argument,       NULL, 's' },
+		{ "console", required_argument, NULL, 'C' },
+		{ "help",    no_argument,       NULL, 'h' },
+		{ "version", no_argument,       NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-s, --sort",        _("sort and merge elements.") },
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
-	while ((c = getopt(argc, argv, "sC:")) != EOF) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 's':
 				sortflag = 1;
@@ -58,13 +94,20 @@ int main(int argc, char **argv)
 			case 'C':
 				console = optarg;
 				break;
-			default:
-				usage(EX_USAGE);
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				usage(EX_USAGE, opthelp);
+				break;
 		}
 	}
 
 	if (optind < argc)
-		usage(EX_USAGE);
+		usage(EX_USAGE, opthelp);
 
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));

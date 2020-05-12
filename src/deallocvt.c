@@ -19,21 +19,44 @@
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] [N ...]\n"
-	                  "\n"
-	                  "Options:\n"
-	                  "\n"
-	                  "  -h, --help            print this usage message;\n"
-	                  "  -V, --version         print version number.\n"),
-		get_progname());
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...] [N ...]\n"), get_progname());
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
 int main(int argc, char *argv[])
 {
 	int fd, num, i;
+
+	if (argc < 1) /* unlikely */
+		return EXIT_FAILURE;
+
+	set_progname(argv[0]);
+	setuplocale();
 
 	const char *const short_opts = "hV";
 	const struct option long_opts[] = {
@@ -42,10 +65,11 @@ int main(int argc, char *argv[])
 		{ NULL, 0, NULL, 0 }
 	};
 
-	if (argc < 1) /* unlikely */
-		return EXIT_FAILURE;
-	set_progname(argv[0]);
-	setuplocale();
+	const struct kbd_help opthelp[] = {
+		{ "-h, --help",    _("print this usage message.") },
+		{ "-V, --version", _("print version number.")     },
+		{ NULL, NULL }
+	};
 
 	while ((i = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (i) {
@@ -53,9 +77,9 @@ int main(int argc, char *argv[])
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 		}
 	}
 
@@ -78,9 +102,9 @@ int main(int argc, char *argv[])
 		for (i = 1; i < argc; i++) {
 			num = atoi(argv[i]);
 			if (num == 0) {
-				kbd_error(EXIT_FAILURE, 0, _("0: illegal VT number\n"));
+				kbd_error(EXIT_FAILURE, 0, _("0: illegal VT number"));
 			} else if (num == 1) {
-				kbd_error(EXIT_FAILURE, 0, _("VT 1 is the console and cannot be deallocated\n"));
+				kbd_error(EXIT_FAILURE, 0, _("VT 1 is the console and cannot be deallocated"));
 			} else if (ioctl(fd, VT_DISALLOCATE, num)) {
 				kbd_error(EXIT_FAILURE, errno, _("could not deallocate console %d: "
 				                                 "ioctl VT_DISALLOCATE"),

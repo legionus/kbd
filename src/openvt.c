@@ -44,28 +44,38 @@
 #error vt device name must be defined
 #endif
 
-static void
-    __attribute__((noreturn))
-    print_help(int ret)
+static void __attribute__((noreturn))
+usage(int rc, const struct kbd_help *options)
 {
-	printf(_("Usage: %s [OPTIONS] -- command\n"
-	         "\n"
-	         "This utility helps you to start a program on a new virtual terminal (VT).\n"
-	         "\n"
-	         "Options:\n"
-	         "  -c, --console=NUM     use the given VT number;\n"
-	         "  -e, --exec            execute the command, without forking;\n"
-	         "  -f, --force           force opening a VT without checking;\n"
-	         "  -l, --login           make the command a login shell;\n"
-	         "  -u, --user            figure out the owner of the current VT;\n"
-	         "  -s, --switch          switch to the new VT;\n"
-	         "  -w, --wait            wait for command to complete;\n"
-	         "  -v, --verbose         explain what is being done;\n"
-	         "  -h, --help            print this usage message;\n"
-	         "  -V, --version         print version number.\n"
-	         "\n"),
-	       get_progname());
-	exit(ret);
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...] -- command\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("This utility helps you to start a program on a new virtual terminal (VT).\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 /*
@@ -252,6 +262,9 @@ int main(int argc, char *argv[])
 	char vtname[PATH_MAX+1];
 	char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
+	set_progname(argv[0]);
+	setuplocale();
+
 	struct option long_options[] = {
 		{ "help", no_argument, 0, 'h' },
 		{ "version", no_argument, 0, 'V' },
@@ -266,8 +279,19 @@ int main(int argc, char *argv[])
 		{ 0, 0, 0, 0 }
 	};
 
-	set_progname(argv[0]);
-	setuplocale();
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-e, --exec",        _("execute the command, without forking.") },
+		{ "-f, --force",       _("force opening a VT without checking.") },
+		{ "-l, --login",       _("make the command a login shell.") },
+		{ "-u, --user",        _("figure out the owner of the current VT.") },
+		{ "-s, --switch",      _("switch to the new VT.") },
+		{ "-w, --wait",        _("wait for command to complete") },
+		{ "-v, --verbose",     _("be more verbose.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
 	while ((opt = getopt_long(argc, argv, "c:lsfuewhvV", long_options, NULL)) != -1) {
 		switch (opt) {
@@ -312,7 +336,7 @@ int main(int argc, char *argv[])
 				break;
 			default:
 			case 'h':
-				print_help(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 		}
 	}
