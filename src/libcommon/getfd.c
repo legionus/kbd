@@ -67,7 +67,8 @@ getfd(const char *fnam)
 				return fd;
 			close(fd);
 		}
-		fprintf(stderr, _("Couldn't open %s\n"), fnam);
+		fprintf(stderr, _("Couldn't open %s"), fnam);
+		fprintf(stderr, "\n");
 		exit(1);
 	}
 
@@ -84,7 +85,8 @@ getfd(const char *fnam)
 			return fd;
 
 	fprintf(stderr,
-	        _("Couldn't get a file descriptor referring to the console\n"));
+	        _("Couldn't get a file descriptor referring to the console"));
+	fprintf(stderr, "\n");
 
 	/* total failure */
 	exit(1);

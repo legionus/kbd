@@ -37,27 +37,45 @@ unsigned char vga_colors[] = {
 };
 
 static void __attribute__((noreturn))
-usage(int code)
+usage(int rc, const struct kbd_help *options)
 {
-	const char *progname = get_progname();
-	fprintf(stderr,
-	        _("Usage: %s [options] [vga|FILE|-]\n"
-	          "\n"
-	          "If you use the FILE parameter, FILE should be exactly 3 lines of\n"
-	          "comma-separated decimal values for RED, GREEN, and BLUE.\n"
-	          "\n"
-	          "To seed a valid FILE:\n"
-	          "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
-	          "\n"
-	          "and then edit the values in FILE.\n"
-	          "\n"
-	          "Options:\n"
-	          "  -C, --console=DEV     the console device to be used;\n"
-	          "  -h, --help            print this usage message;\n"
-	          "  -V, --version         print version number.\n"
-	          "\n"),
-	        progname);
-	exit(code);
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...] [vga|FILE|-]\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _(
+				"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
+				"comma-separated decimal values for RED, GREEN, and BLUE.\n"
+				"\n"
+				"To seed a valid FILE:\n"
+				"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
+				"\n"
+				"and then edit the values in FILE.\n"
+			 ));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 static void
@@ -101,6 +119,9 @@ int main(int argc, char **argv)
 	FILE *f;
 	const char *console = NULL;
 
+	set_progname(argv[0]);
+	setuplocale();
+
 	const char *short_opts = "C:hV";
 	const struct option long_opts[] = {
 		{ "console", required_argument, NULL, 'C' },
@@ -108,31 +129,34 @@ int main(int argc, char **argv)
 		{ "version", no_argument,       NULL, 'V' },
 		{ NULL,      0,                 NULL,  0  }
 	};
-
-	set_progname(argv[0]);
-	setuplocale();
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'C':
 				if (optarg == NULL || optarg[0] == '\0')
-					usage(EX_USAGE);
+					usage(EX_USAGE, opthelp);
 				console = optarg;
 				break;
 			case 'V':
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
 
 	if (optind == argc)
-		usage(EX_USAGE);
+		usage(EX_USAGE, opthelp);
 
 	file = argv[optind];
 

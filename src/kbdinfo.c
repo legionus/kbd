@@ -16,24 +16,44 @@ static const char *action = NULL;
 static const char *value  = NULL;
 
 static void __attribute__((noreturn))
-usage(int code)
+usage(int rc, const struct kbd_help *options)
 {
+	const struct kbd_help *h;
+
 	fprintf(stderr,
-	        _("Usage: %1$s [options] getmode [text|graphics]\n"
-	          "   or: %1$s [options] gkbmode [raw|xlate|mediumraw|unicode]\n"
-	          "   or: %1$s [options] gkbmeta [metabit|escprefix]\n"
-	          "   or: %1$s [options] gkbled  [scrolllock|numlock|capslock]\n"
-	          "\n"
-	          "The utility allows to read and check various parameters\n"
-	          "of the keyboard and virtual console.\n"
-	          "\n"
-	          "Options:\n"
-	          "  -C, --console=DEV     the console device to be used;\n"
-	          "  -h, --help            print this usage message;\n"
-	          "  -V, --version         print version number.\n"
-	         ),
-	        get_progname());
-	exit(code);
+			_("Usage: %1$s [option...] getmode [text|graphics]\n"
+			  "   or: %1$s [option...] gkbmode [raw|xlate|mediumraw|unicode]\n"
+			  "   or: %1$s [option...] gkbmeta [metabit|escprefix]\n"
+			  "   or: %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"),
+			get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _(
+				"The utility allows to read and check various parameters\n"
+				"of the keyboard and virtual console.\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 static int
@@ -53,6 +73,9 @@ int main(int argc, char **argv)
 	char flags;
 	const char *console = NULL;
 
+	set_progname(argv[0]);
+	setuplocale();
+
 	const char *short_opts = "C:hV";
 	const struct option long_opts[] = {
 		{ "console", required_argument, NULL, 'C' },
@@ -60,31 +83,34 @@ int main(int argc, char **argv)
 		{ "version", no_argument,       NULL, 'V' },
 		{ NULL,      0,                 NULL,  0  }
 	};
-
-	set_progname(argv[0]);
-	setuplocale();
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'C':
 				if (optarg == NULL || optarg[0] == '\0')
-					usage(EX_USAGE);
+					usage(EX_USAGE, opthelp);
 				console = optarg;
 				break;
 			case 'V':
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
 
 	if (optind == argc) {
-		kbd_error(EXIT_FAILURE, 0, _("Error: Not enough arguments.\n"));
+		kbd_error(EXIT_FAILURE, 0, _("Not enough arguments."));
 	}
 
 	action = argv[optind++];
@@ -159,7 +185,7 @@ int main(int argc, char **argv)
 		}
 
 	} else {
-		kbd_warning(0, _("Error: Unrecognized action: %s\n"), action);
+		kbd_warning(0, _("Unrecognized action: %s"), action);
 	}
 
 	close(fd);

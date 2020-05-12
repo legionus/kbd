@@ -16,6 +16,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <unistd.h>
+#include <errno.h>
 #include <sysexits.h>
 #include <sys/ioctl.h>
 
@@ -38,59 +39,41 @@ static const char *const suffixes[] = {
 };
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _(
-		"loadkeys version %s\n"
-		"\n"
-		"Usage: %s [option...] [mapfile...]\n"
-		"\n"
-		"Options:\n"
-		"  -a, --ascii           force conversion to ASCII;\n"
-		"  -b, --bkeymap         output a binary keymap to stdout;\n"
-		"  -c, --clearcompose    clear kernel compose table;\n"
-		"  -C, --console=file    the console device to be used;\n"
-		"  -d, --default         load \"%s\";\n"
-		"  -m, --mktable         output a \"defkeymap.c\" to stdout;\n"
-		"  -p, --parse           search and parse keymap without action;\n"
-		"  -s, --clearstrings    clear kernel string table;\n"
-		"  -u, --unicode         force conversion to Unicode;\n"
-		"  -q, --quiet           suppress all normal output;\n"
-		"  -v, --verbose         explain what is being done;\n"
-		"  -h, --help            print this usage message;\n"
-		"  -V, --version         print version number.\n"),
-	        PACKAGE_VERSION, get_progname(), DEFMAP);
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...] [mapfile...]\n"), get_progname());
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Default keymap: %s\n"), DEFMAP);
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
 int main(int argc, char *argv[])
 {
-	const char *const short_opts          = "abcC:dhmpsuqvV";
-	const struct option long_opts[] = {
-		{ "console", required_argument, NULL, 'C' },
-		{ "ascii", no_argument, NULL, 'a' },
-		{ "bkeymap", no_argument, NULL, 'b' },
-		{ "clearcompose", no_argument, NULL, 'c' },
-		{ "default", no_argument, NULL, 'd' },
-		{ "help", no_argument, NULL, 'h' },
-		{ "mktable", no_argument, NULL, 'm' },
-		{ "parse", no_argument, NULL, 'p' },
-		{ "clearstrings", no_argument, NULL, 's' },
-		{ "unicode", no_argument, NULL, 'u' },
-		{ "quiet", no_argument, NULL, 'q' },
-		{ "verbose", no_argument, NULL, 'v' },
-		{ "version", no_argument, NULL, 'V' },
-		{ NULL, 0, NULL, 0 }
-	};
-
-	enum options {
-		OPT_A = (1 << 1),
-		OPT_B = (1 << 2),
-		OPT_D = (1 << 3),
-		OPT_M = (1 << 4),
-		OPT_U = (1 << 5),
-		OPT_P = (1 << 6)
-	};
 	int options = 0;
 
 	const char *const *dirpath;
@@ -110,6 +93,49 @@ int main(int argc, char *argv[])
 
 	set_progname(argv[0]);
 	setuplocale();
+
+	const char *const short_opts = "abcC:dhmpsuqvV";
+	const struct option long_opts[] = {
+		{ "console", required_argument, NULL, 'C' },
+		{ "ascii", no_argument, NULL, 'a' },
+		{ "bkeymap", no_argument, NULL, 'b' },
+		{ "clearcompose", no_argument, NULL, 'c' },
+		{ "default", no_argument, NULL, 'd' },
+		{ "help", no_argument, NULL, 'h' },
+		{ "mktable", no_argument, NULL, 'm' },
+		{ "parse", no_argument, NULL, 'p' },
+		{ "clearstrings", no_argument, NULL, 's' },
+		{ "unicode", no_argument, NULL, 'u' },
+		{ "quiet", no_argument, NULL, 'q' },
+		{ "verbose", no_argument, NULL, 'v' },
+		{ "version", no_argument, NULL, 'V' },
+		{ NULL, 0, NULL, 0 }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV",  _("the console device to be used.") },
+		{ "-a, --ascii",        _("force conversion to ASCII.") },
+		{ "-b, --bkeymap",      _("output a binary keymap to stdout.") },
+		{ "-c, --clearcompose", _("clear kernel compose table.") },
+		{ "-d, --default",      _("load default.") },
+		{ "-m, --mktable",      _("output a 'defkeymap.c' to stdout.") },
+		{ "-p, --parse",        _("search and parse keymap without action.") },
+		{ "-s, --clearstrings", _("clear kernel string table.") },
+		{ "-u, --unicode",      _("force conversion to Unicode.") },
+		{ "-q, --quiet",        _("suppress all normal output.") },
+		{ "-v, --verbose",      _("be more verbose.") },
+		{ "-V, --version",      _("print version number.")     },
+		{ "-h, --help",         _("print this usage message.") },
+		{ NULL, NULL }
+	};
+
+	enum options {
+		OPT_A = (1 << 1),
+		OPT_B = (1 << 2),
+		OPT_D = (1 << 3),
+		OPT_M = (1 << 4),
+		OPT_U = (1 << 5),
+		OPT_P = (1 << 6)
+	};
 
 	ctx = lk_init();
 	if (!ctx) {
@@ -163,10 +189,10 @@ int main(int argc, char *argv[])
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
@@ -185,11 +211,8 @@ int main(int argc, char *argv[])
 
 		/* check whether the keyboard is in Unicode mode */
 		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
-		    ioctl(fd, KDGETMODE, &kd_mode)) {
-			fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
-			        get_progname());
-			exit(EXIT_FAILURE);
-		}
+		    ioctl(fd, KDGETMODE, &kd_mode))
+			kbd_error(EXIT_FAILURE, errno, _("error reading keyboard mode"));
 
 		if (kbd_mode == K_UNICODE) {
 			if (options & OPT_A) {

@@ -25,37 +25,68 @@
 static int fd;
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("dumpkeys version %s"), PACKAGE_VERSION);
-	fprintf(stderr, _("\n"
-	"usage: dumpkeys [options...]\n"
-	"\n"
-	"Options:\n"
-	"  -i, --short-info      display information about keyboard driver;\n"
-	"  -l, -s, --long-info   display above and symbols known to loadkeys;\n"
-	"  -n, --numeric         display keytable in hexadecimal notation;\n"
-	"  -f, --full-table      don't use short-hand notations, one row per keycode;\n"
-	"  -1, --separate-lines  one line per (modifier,keycode) pair;\n"
-	"  -S, --shape=\n"
-	"  -t, --funcs-only      display only the function key strings;\n"
-	"  -k, --keys-only       display only key bindings;\n"
-	"  -d, --compose-only    display only compose key combinations;\n"
-	"  -c, --charset="));
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Available charsets: "));
 	lk_list_charsets(stderr);
-	fprintf(stderr, _(
-	"                        interpret character action codes to be from the\n"
-	"                        specified character set;\n"));
-	fprintf(stderr, _(
-	"  -v, --verbose         explain what is being done;\n"
-	"  -h, --help            print this usage message;\n"
-	"  -V, --version         print version number.\n"));
+	fprintf(stderr, "\n");
+
+	fprintf(stderr, _("Available shapes:\n"
+	                  "  2  - default output;\n"
+	                  "  4  - one line for each keycode;\n"
+	                  "  8  - one line for each (modifier,keycode) pair;\n"
+	                  "  16 - one line for each keycode until 1st hole.\n"
+	                 ));
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
 int main(int argc, char *argv[])
 {
-	const char *short_opts          = "hilvsnf1tkdS:c:V";
+	int c, rc;
+	int kbd_mode;
+
+	char long_info       = 0;
+	char short_info      = 0;
+	char numeric         = 0;
+	lk_table_shape table = LK_SHAPE_DEFAULT;
+	char funcs_only      = 0;
+	char keys_only       = 0;
+	char diac_only       = 0;
+	char *console        = NULL;
+
+	struct lk_ctx *ctx;
+
+	set_progname(argv[0]);
+	setuplocale();
+
+	const char *short_opts = "hilvsnf1tkdS:c:C:V";
 	const struct option long_opts[] = {
 		{ "help", no_argument, NULL, 'h' },
 		{ "short-info", no_argument, NULL, 'i' },
@@ -68,33 +99,35 @@ int main(int argc, char *argv[])
 		{ "keys-only", no_argument, NULL, 'k' },
 		{ "compose-only", no_argument, NULL, 'd' },
 		{ "charset", required_argument, NULL, 'c' },
+		{ "console", required_argument, NULL, 'C' },
 		{ "verbose", no_argument, NULL, 'v' },
 		{ "version", no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
-	int c, rc;
-	int kbd_mode;
-
-	char long_info       = 0;
-	char short_info      = 0;
-	char numeric         = 0;
-	lk_table_shape table = LK_SHAPE_DEFAULT;
-	char funcs_only      = 0;
-	char keys_only       = 0;
-	char diac_only       = 0;
-
-	struct lk_ctx *ctx;
-
-	set_progname(argv[0]);
-	setuplocale();
+	const struct kbd_help opthelp[] = {
+		{ "-i, --short-info",       _("display information about keyboard driver.") },
+		{ "-l, -s, --long-info",    _("display above and symbols known to loadkeys.") },
+		{ "-n, --numeric",          _("display keytable in hexadecimal notation.") },
+		{ "-f, --full-table",       _("don't use short-hand notations, one row per keycode.") },
+		{ "-1, --separate-lines",   _("one line per (modifier,keycode) pair.") },
+		{ "-S, --shape={2|4|8|16}", _("") },
+		{ "-t, --funcs-only",       _("display only the function key strings.") },
+		{ "-k, --keys-only",        _("display only key bindings.") },
+		{ "-d, --compose-only",     _("display only compose key combinations.") },
+		{ "-c, --charset=CHARSET",  _("interpret character action codes to be from the specified character set.") },
+		{ "-C, --console=DEV",      _("the console device to be used.") },
+		{ "-v, --verbose",          _("be more verbose.") },
+		{ "-V, --version",          _("print version number.")     },
+		{ "-h, --help",             _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
 	ctx = lk_init();
 	if (!ctx) {
 		exit(EXIT_FAILURE);
 	}
 
-	while ((c = getopt_long(argc, argv,
-	                        short_opts, long_opts, NULL)) != -1) {
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'i':
 				short_info = 1;
@@ -131,34 +164,34 @@ int main(int argc, char *argv[])
 				if ((lk_set_charset(ctx, optarg)) != 0) {
 					fprintf(stderr, _("unknown charset %s - ignoring charset request\n"),
 					        optarg);
-					usage(EX_USAGE);
+					usage(EX_USAGE, opthelp);
 				}
 				printf("charset \"%s\"\n", optarg);
+				break;
+			case 'C':
+				console = optarg;
 				break;
 			case 'V':
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
 
 	if (optind < argc)
-		usage(EX_USAGE);
+		usage(EX_USAGE, opthelp);
 
-	if ((fd = getfd(NULL)) < 0)
+	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	/* check whether the keyboard is in Unicode mode */
-	if (ioctl(fd, KDGKBMODE, &kbd_mode)) {
-		fprintf(stderr, _("%s: error reading keyboard mode: %m\n"),
-		        get_progname());
-		exit(EXIT_FAILURE);
-	}
+	if (ioctl(fd, KDGKBMODE, &kbd_mode))
+		kbd_error(EXIT_FAILURE, errno, _("error reading keyboard mode"));
 
 	if (kbd_mode == K_UNICODE) {
 		lk_set_parser_flags(ctx, LK_FLAG_PREFER_UNICODE);

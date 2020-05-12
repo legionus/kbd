@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <getopt.h>
@@ -15,20 +16,34 @@
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	const char *progname = get_progname();
-	fprintf(stderr, _(
-		"%s version %s\n"
-		"\n"
-		"Usage: %s [options]\n"
-		"\n"
-		"Options:\n"
-		"\n"
-		"  -n, --next-available  print number of next unallocated VT\n"
-		"  -h, --help            print this usage message;\n"
-		"  -V, --version         print version number.\n"),
-	        progname, PACKAGE_VERSION, progname);
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
@@ -37,18 +52,31 @@ int main(int argc, char **argv)
 	struct vt_stat vtstat;
 	int fd, vtno = -1, c, show_vt = 0;
 	struct serial_struct sr;
+	char *console = NULL;
+
+	set_progname(argv[0]);
+	setuplocale();
+
 	const struct option long_opts[] = {
+		{ "console", required_argument, NULL, 'C' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "version", no_argument, NULL, 'V' },
 		{ "next-available", no_argument, NULL, 'n' },
 		{ NULL, 0, NULL, 0 }
 	};
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV",    _("the console device to be used.") },
+		{ "-n, --next-available", _("print number of next unallocated VT.") },
+		{ "-V, --version",        _("print version number.")     },
+		{ "-h, --help",           _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
-	set_progname(argv[0]);
-	setuplocale();
-
-	while ((c = getopt_long(argc, argv, "Vhn", long_opts, NULL)) != EOF) {
+	while ((c = getopt_long(argc, argv, "C:Vhn", long_opts, NULL)) != EOF) {
 		switch (c) {
+			case 'C':
+				console = optarg;
+				break;
 			case 'n':
 				show_vt = 1;
 				break;
@@ -56,15 +84,15 @@ int main(int argc, char **argv)
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
 
-	if ((fd = getfd(NULL)) < 0)
+	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
 
 	if (show_vt) {

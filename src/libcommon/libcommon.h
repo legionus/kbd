@@ -34,6 +34,11 @@
     textdomain(PACKAGE); \
 } while (0)
 
+struct kbd_help {
+	const char *opts;
+	const char *desc;
+};
+
 // getfd.c
 int getfd(const char *fnam);
 

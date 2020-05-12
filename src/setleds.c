@@ -138,10 +138,10 @@ sungetleds(arg_state unsigned char *cur_leds)
 #ifdef KIOCGLED
 	if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting from /dev/kbd: "
-		                                 "ioctl KIOCGLED"));
+		                                 "ioctl %s"), "KIOCGLED");
 	}
 #else
-	kbd_error(EXIT_FAILURE, 0, _("KIOCGLED unavailable?\n"));
+	kbd_error(EXIT_FAILURE, 0, _("ioctl %s unavailable?\n"), "KIOCGLED");
 #endif
 }
 
@@ -157,10 +157,10 @@ sunsetleds(arg_state unsigned char *cur_leds)
 #ifdef KIOCSLED
 	if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting from /dev/kbd: "
-		                                 "ioctl KIOCSLED"));
+		                                 "ioctl %s"), "KIOCSLED");
 	}
 #else
-	kbd_error(EXIT_FAILURE, 0, _("KIOCSLED unavailable?\n"));
+	kbd_error(EXIT_FAILURE, 0, _("ioctl %s unavailable?\n"), "KIOCSLED");
 #endif
 }
 

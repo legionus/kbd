@@ -19,14 +19,32 @@
 #include "libcommon.h"
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] N\n"
-	                  "\n"
-	                  "Options:\n"
-	                  "  -h, --help            print this usage message;\n"
-	                  "  -V, --version         print version number.\n"),
-		get_progname());
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...] N\n"), get_progname());
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
@@ -56,23 +74,29 @@ int main(int argc, char *argv[])
 	set_progname(argv[0]);
 	setuplocale();
 
+	const struct kbd_help opthelp[] = {
+		{ "-h, --help",    _("print this usage message.") },
+		{ "-V, --version", _("print version number.")     },
+		{ NULL, NULL }
+	};
+
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
 			case 'V':
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
 
 	if (argc == optind) {
 		fprintf(stderr, _("Argument required\n"));
-		usage(EX_USAGE);
+		usage(EX_USAGE, opthelp);
 	}
 
 	if ((fd = getfd(NULL)) < 0)

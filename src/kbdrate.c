@@ -316,21 +316,36 @@ int delay   = 250; /* Default delay */
 #endif
 
 static void __attribute__((noreturn))
-usage(int rc)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _(
-		"Usage: kbdrate [options...]\n"
-		"\n"
-		"The prorgam sets the keyboard repeat rate and delay in user mode.\n"
-		"\n"
-		"Options:\n"
-		"  -r, --rate=NUM        set the rate in characters per second (default %.1f);\n"
-		"  -d, --delay=NUM       set the amount of time the key must remain\n"
-		"                        depressed before it will start to repeat (default %d);\n"
-		"  -s, --silent          suppress all normal output;\n"
-		"  -h, --help            print this usage message;\n"
-		"  -V, --version         print version number.\n"
-		"\n"), rate, delay);
+	const struct kbd_help *h;
+
+	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("The prorgam sets the keyboard repeat rate and delay in user mode.\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
 	exit(rc);
 }
 
@@ -338,6 +353,9 @@ int main(int argc, char **argv)
 {
 	int silent = 0;
 	int c;
+
+	set_progname(argv[0]);
+	setuplocale();
 
 	const char *short_opts = "r:d:pshV";
 	const struct option long_opts[] = {
@@ -349,9 +367,15 @@ int main(int argc, char **argv)
 		{ "version", no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
-
-	set_progname(argv[0]);
-	setuplocale();
+	const struct kbd_help opthelp[] = {
+		{ "-r, --rate=NUM",    _("set the rate in characters per second.") },
+		{ "-d, --delay=NUM",   _("set the amount of time the key must remain depressed before it will start to repeat.") },
+		{ "-p, --print",       _("do not set new values, but only display the current ones.") },
+		{ "-s, --silent",      _("suppress all normal output.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -371,9 +395,9 @@ int main(int argc, char **argv)
 				print_version_and_exit();
 				break;
 			case 'h':
-				usage(EXIT_SUCCESS);
+				usage(EXIT_SUCCESS, opthelp);
 			case '?':
-				usage(EX_USAGE);
+				usage(EX_USAGE, opthelp);
 		}
 	}
 
