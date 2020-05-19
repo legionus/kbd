@@ -1,10 +1,5 @@
 /*
  * setleds.c - aeb, 940130, 940909, 991008
- *
- * Call: setleds [-L] [-D] [-F] [{+|-}{num|caps|scroll}]*
- * will set or clear the indicated flags on the stdin tty,
- * and report the settings before and after.
- * In particular, setleds without arguments will only report.
  */
 #include "config.h"
 
@@ -13,6 +8,7 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sysexits.h>
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 
@@ -30,28 +26,52 @@
 #define BITMASK_SET(x, mask) ((x) | (mask))
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _(
-	                    "Usage:\n"
-	                    "	setleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
-	                    "Thus,\n"
-	                    "	setleds +caps -num\n"
-	                    "will set CapsLock, clear NumLock and leave ScrollLock unchanged.\n"
-	                    "The settings before and after the change (if any) are reported\n"
-	                    "when the -v option is given or when no change is requested.\n"
-	                    "Normally, setleds influences the vt flag settings\n"
-	                    "(and these are usually reflected in the leds).\n"
-	                    "With -L, setleds only sets the leds, and leaves the flags alone.\n"
-	                    "With -D, setleds sets both the flags and the default flags, so\n"
-	                    "that a subsequent reset will not change the flags.\n"),
+	const struct kbd_help *h;
+	fprintf(stderr, _("Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"),
+			get_progname(),
 #ifdef __sparc__
 	        "| compose "
 #else
 	        ""
 #endif
-	        );
-	exit(EXIT_FAILURE);
+		);
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Thus,\n"
+	                  "	setleds +caps -num\n"
+	                  "will set CapsLock, clear NumLock and leave ScrollLock unchanged.\n"
+	                  "The settings before and after the change (if any) are reported\n"
+	                  "when the -v option is given or when no change is requested.\n"
+	                  "Normally, setleds influences the vt flag settings\n"
+	                  "(and these are usually reflected in the leds).\n"
+	                  "With -L, setleds only sets the leds, and leaves the flags alone.\n"
+	                  "With -D, setleds sets both the flags and the default flags, so\n"
+	                  "that a subsequent reset will not change the flags.\n"));
+
+	if (options) {
+		int max = 0;
+
+		fprintf(stderr, "\n");
+		fprintf(stderr, _("Options:"));
+		fprintf(stderr, "\n");
+
+		for (h = options; h && h->opts; h++) {
+			int len = (int) strlen(h->opts);
+			if (max < len)
+				max = len;
+		}
+		max += 2;
+
+		for (h = options; h && h->opts; h++)
+			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
+	}
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Report bugs to authors.\n"));
+	fprintf(stderr, "\n");
+
+	exit(rc);
 }
 
 #define onoff(a) ((a) ? _("on ") : _("off"))
@@ -98,9 +118,9 @@ static void
 getleds(unsigned char *cur_leds)
 {
 	if (ioctl(0, KDGETLED, cur_leds)) {
-		kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting. "
-		                                 "Maybe stdin is not a VT?: "
-		                                 "ioctl KDGETLED"));
+		kbd_error(EX_OSERR, errno, _("Error reading current led setting. "
+		                             "Maybe stdin is not a VT?: "
+		                             "ioctl KDGETLED"));
 	}
 }
 
@@ -118,9 +138,9 @@ static void
 getflags(unsigned char *flags)
 {
 	if (ioctl(0, KDGKBLED, flags)) {
-		kbd_error(EXIT_FAILURE, errno, _("Error reading current flags setting. "
-		                                 "Maybe you are not on the console?: "
-		                                 "ioctl KDGKBLED"));
+		kbd_error(EX_OSERR, errno, _("Error reading current flags setting. "
+		                             "Maybe you are not on the console?: "
+		                             "ioctl KDGKBLED"));
 	}
 }
 
@@ -137,11 +157,11 @@ sungetleds(arg_state unsigned char *cur_leds)
 {
 #ifdef KIOCGLED
 	if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
-		kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting from /dev/kbd: "
-		                                 "ioctl %s"), "KIOCGLED");
+		kbd_error(EX_OSERR, errno, _("Error reading current led setting from /dev/kbd: "
+		                             "ioctl %s"), "KIOCGLED");
 	}
 #else
-	kbd_error(EXIT_FAILURE, 0, _("ioctl %s unavailable?\n"), "KIOCGLED");
+	kbd_error(EX_OSERR, 0, _("ioctl %s unavailable?"), "KIOCGLED");
 #endif
 }
 
@@ -156,64 +176,154 @@ sunsetleds(arg_state unsigned char *cur_leds)
 {
 #ifdef KIOCSLED
 	if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {
-		kbd_error(EXIT_FAILURE, errno, _("Error reading current led setting from /dev/kbd: "
-		                                 "ioctl %s"), "KIOCSLED");
+		kbd_error(EX_OSERR, errno, _("Error reading current led setting from /dev/kbd: "
+		                             "ioctl %s"), "KIOCSLED");
 	}
 #else
-	kbd_error(EXIT_FAILURE, 0, _("ioctl %s unavailable?\n"), "KIOCSLED");
+	kbd_error(EX_OSERR, 0, _("ioctl %s unavailable?"), "KIOCSLED");
 #endif
 }
 
+static int
+parse_let_option(char *ap, unsigned char *nval, unsigned char *ndef,
+		unsigned char *nsunval, unsigned char *nsundef)
+{
+	struct led *lp;
+	unsigned char sign = 1;
+
+	switch (ap[0]) {
+		case '+':
+			/* by default: set */
+			ap++;
+			break;
+		case '-':
+			sign = 0;
+			ap++;
+			break;
+	}
+
+	for (lp = leds; (unsigned)(lp - leds) < sizeof(leds) / sizeof(leds[0]); lp++) {
+		if (!strcmp(ap, lp->name)) {
+			if (sign) {
+				*nval |= lp->bit;
+				*nsunval |= lp->sunbit;
+			}
+			*ndef |= lp->bit;
+			*nsundef |= lp->sunbit;
+			return 0;
+		}
+	}
+
+	return -1;
+}
+
+struct kbd_option {
+	const char *shrtopt;
+	const char *longopt;
+	int  val;
+};
+
 int main(int argc, char **argv)
 {
+	int has_changes = 0;
 	int optL = 0, optD = 0, optF = 0, verbose = 0;
 	unsigned char oleds, nleds, oflags, nflags, odefflags, ndefflags;
-	unsigned char nval, ndef, sign;
+	unsigned char nval, ndef;
 	unsigned char osunleds = 0, nsunleds, nsunval, nsundef;
-	char *ap;
-	struct led *lp;
 
 	set_progname(argv[0]);
 	setuplocale();
 
-	if (argc == 2 && (!strcmp("-V", argv[1]) || !strcmp("--version", argv[1])))
-		print_version_and_exit();
+	const struct kbd_option opts[] = {
+		{ "-D", "--default", 'D' },
+		{ "-F", "--flags",   'F' },
+		{ "-L", "--leds",    'L' },
+		{ "-h", "--help",    'h' },
+		{ "-v", "--verbose", 'v' },
+		{ "-V", "--version", 'V' },
+		{ NULL, NULL, 0 }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-D, --default",     _("change both the VT flags and their default settings.") },
+		{ "-F, --flags",       _("change the VT flags.") },
+		{ "-L, --leds",        _("change only the leds.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ "-v, --verbose",     _("be more verbose.")          },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
+
+	nval    = 0;
+	ndef    = 0;
+	nsunval = 0;
+	nsundef = 0;
+
+	while (argc > 1) {
+		const struct kbd_option *opt;
+
+		for (opt = opts; opt->longopt; opt++) {
+			if (strcmp(argv[1], opt->shrtopt) && strcmp(argv[1], opt->longopt))
+				continue;
+
+			switch (opt->val) {
+				case 'D':
+					optD = 1;
+					break;
+				case 'F':
+					optF = 1;
+					break;
+				case 'L':
+					optL = 1;
+					break;
+				case 'v':
+					verbose = 1;
+					break;
+				case 'V':
+					print_version_and_exit();
+					break;
+				case 'h':
+					usage(EX_OK, opthelp);
+					break;
+				default:
+					kbd_warning(0, _("unrecognized argument: %s"), argv[1]);
+					usage(EX_USAGE, opthelp);
+			}
+
+			goto next_arg;
+		}
+
+		if (parse_let_option(argv[1], &nval, &ndef, &nsunval, &nsundef) < 0) {
+			kbd_warning(0, _("unrecognized argument: %s"), argv[1]);
+			usage(EX_USAGE, opthelp);
+		}
+
+		has_changes = 1;
+next_arg:
+		argc--;
+		argv++;
+	}
 
 #ifdef __sparc__
 	if ((sunkbdfd = open("/dev/kbd", O_RDONLY)) < 0) {
-		kbd_error(EXIT_FAILURE, errno, "open /dev/kbd");
+		kbd_error(EX_OSFILE, errno, "open /dev/kbd");
 		/* exit(1); */
 	}
 #endif
 
 	getflags(&oflags);
 	getleds(&oleds);
+
 	if (sunkbdfd >= 0)
 		sungetleds(&osunleds);
-
-	while (argc > 1) {
-		if (!strcmp("-L", argv[1]))
-			optL = 1;
-		else if (!strcmp("-D", argv[1]))
-			optD = 1;
-		else if (!strcmp("-F", argv[1]))
-			optF = 1;
-		else if (!strcmp("-v", argv[1]))
-			verbose = 1;
-		else
-			break;
-		argc--;
-		argv++;
-	}
 
 	odefflags = ndefflags = ((oflags >> 4) & 7);
 	oflags = nflags = (oflags & 7);
 
-	if (argc <= 1) {
+	if (!has_changes) {
 		if (optL) {
 			nleds = 0xff;
 			if (setleds(nleds)) {
-				kbd_error(EXIT_FAILURE, 0, _("Error resetting ledmode\n"));
+				kbd_error(EX_OSERR, 0, _("Error resetting ledmode"));
 			}
 		}
 
@@ -235,41 +345,11 @@ int main(int argc, char **argv)
 			else
 				report(oleds);
 		}
-		exit(EXIT_SUCCESS);
+		return EX_OK;
 	}
 
 	if (!optL)
 		optF = 1;
-	nval         = 0;
-	ndef         = 0;
-	nsunval      = 0;
-	nsundef      = 0;
-
-	while (--argc) {
-		ap   = *++argv;
-		sign = 1; /* by default: set */
-		if (*ap == '+')
-			ap++;
-		else if (*ap == '-') {
-			sign = 0;
-			ap++;
-		}
-		for (lp = leds; (unsigned)(lp - leds) < sizeof(leds) / sizeof(leds[0]); lp++) {
-			if (!strcmp(ap, lp->name)) {
-				if (sign) {
-					nval |= lp->bit;
-					nsunval |= lp->sunbit;
-				}
-				ndef |= lp->bit;
-				nsundef |= lp->sunbit;
-				goto nxtarg;
-			}
-		}
-		fprintf(stderr, _("unrecognized argument: _%s_\n\n"), ap);
-		usage();
-
-	nxtarg:;
-	}
 
 	if (optD) {
 		ndefflags = BITMASK_SET(BITMASK_UNSET(odefflags, ndef), nval);
@@ -291,7 +371,7 @@ int main(int argc, char **argv)
 	}
 	if (optD || optF) {
 		if (ioctl(0, KDSKBLED, (ndefflags << 4) | nflags)) {
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBLED");
+			kbd_error(EX_OSERR, errno, "ioctl KDSKBLED");
 		}
 	}
 	if (optL) {
@@ -313,8 +393,9 @@ int main(int argc, char **argv)
 				report(nleds);
 			}
 			if (setleds(nleds))
-				exit(EXIT_FAILURE);
+				return EX_OSERR;
 		}
 	}
-	exit(EXIT_SUCCESS);
+
+	return EX_OK;
 }
