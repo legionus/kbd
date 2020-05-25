@@ -19,38 +19,38 @@ specified then the environment variable $SHELL is used.
 .TP
 .I "\-c, \-\-console=VTNUMBER"
 Use the given VT number and not the first available. Note you
-must have write access to the supplied VT for this to work;
+must have write access to the supplied VT for this to work.
 .TP
 .I "\-f, \-\-force"
-Force opening a VT without checking whether it is already in use;
+Force opening a VT without checking whether it is already in use.
 .TP
 .I "\-e, \-\-exec"
 Directly execute the given command, without forking.
 This option is meant for use in
-.IR /etc/inittab ;
+.IR /etc/inittab .
 .TP
 .I "\-s, \-\-switch"
 Switch to the new VT when starting the command. The VT of the new command
-will be made the new current VT;
+will be made the new current VT.
 .TP
 .I "\-u, \-\-user"
 Figure out the owner of the current VT, and run login as that user.
-Suitable to be called by init. Shouldn't be used with \-c or \-l;
+Suitable to be called by init. Shouldn't be used with \fI\-c\fR or \fI\-l\fR.
 .TP
 .I "\-l, \-\-login"
 Make the command a login shell. A \- is prepended to the name of the command
-to be executed;
+to be executed.
 .TP
 .I "\-v, \-\-verbose"
-Be a bit more verbose;
+Be a bit more verbose.
 .TP
 .I "\-w, \-\-wait"
 wait for command to complete. If \-w and \-s are used together then
 .B openvt
-will switch back to the controlling terminal when the command completes;
+will switch back to the controlling terminal when the command completes.
 .TP
 .I "\-V, \-\-version"
-print program version and exit;
+print program version and exit.
 .TP
 .I "\-h, \-\-help"
 show this text and exit.
@@ -85,7 +85,7 @@ Earlier,
 was called
 .BR open .
 It was written by Jon Tombs <jon@gtex02.us.es or jon@robots.ox.ac.uk>.
-The \-w idea is from "sam".
+The \fI\-w\fR idea is from "sam".
 
 .SH "SEE ALSO"
 .BR chvt (1),
