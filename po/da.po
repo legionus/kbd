@@ -3,11 +3,12 @@
 #
 # This file is distributed under the same license as the kbd package.
 # Keld Simonsen <keld@keldix.com>, 2002, 2008.
+#: src/dumpkeys.c:113
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2019-07-02 17:46+0200\n"
+"POT-Creation-Date: 2020-06-02 13:17+0200\n"
 "PO-Revision-Date: 2011-06-03 22:01+0200\n"
 "Last-Translator: Keld Simonsen <keld@keldix.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -19,157 +20,199 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/chvt.c:22
-#, fuzzy, c-format
-msgid ""
-"Usage: %s [option...] N\n"
-"\n"
-"Options:\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
-msgstr ""
-"%s version %s\n"
-"\n"
-"Brug: %s [tilvalg]\n"
-"\n"
-"Gyldige tilvalg er:\n"
-"\n"
-"\t-h --help            vis denne hjælpetekst\n"
-"\t-V --version         vis versionsnummer\n"
-"\t-n --next-available  vis nummer på næste utildelte VT\n"
-
-#: src/chvt.c:60
+#: src/chvt.c:25
 #, c-format
-msgid "Argument required\n"
+msgid "Usage: %s [option...] N\n"
 msgstr ""
 
-#: src/chvt.c:65 src/clrunimap.c:29 src/deallocvt.c:70 src/dumpkeys.c:154
-#: src/fgconsole.c:68 src/getkeycodes.c:42 src/getunimap.c:70 src/kbdinfo.c:96
-#: src/kbd_mode.c:100 src/loadkeys.c:170 src/loadunimap.c:80 src/mapscrn.c:55
-#: src/openvt.c:256 src/resizecons.c:164 src/setfont.c:191 src/setkeycodes.c:47
-#: src/setlogcons.c:35 src/setmetamode.c:117 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:154 src/showconsolefont.c:150
-#: src/showkey.c:188 src/totextmode.c:32
-msgid "Couldn't get a file descriptor referring to the console"
+#: src/chvt.c:30 src/deallocvt.c:30 src/dumpkeys.c:38 src/fgconsole.c:29
+#: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
+#: src/kbdrate.c:331 src/loadkeys.c:52 src/loadunimap.c:35 src/mapscrn.c:31
+#: src/openvt.c:60 src/setkeycodes.c:37 src/setleds.c:56 src/setmetamode.c:41
+#: src/setvtrgb.c:60 src/showconsolefont.c:110 src/showkey.c:97
+#, c-format
+msgid "Options:"
+msgstr ""
+
+#: src/chvt.c:45 src/deallocvt.c:45 src/dumpkeys.c:64 src/fgconsole.c:44
+#: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
+#: src/kbdrate.c:346 src/loadkeys.c:69 src/loadunimap.c:50 src/mapscrn.c:46
+#: src/openvt.c:75 src/setkeycodes.c:52 src/setleds.c:71 src/setmetamode.c:56
+#: src/setvtrgb.c:75 src/showconsolefont.c:125 src/showkey.c:112
+#, c-format
+msgid "Report bugs to authors.\n"
+msgstr ""
+
+#: src/chvt.c:78 src/deallocvt.c:69 src/dumpkeys.c:121 src/fgconsole.c:71
+#: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
+#: src/kbdrate.c:376 src/loadkeys.c:127 src/loadunimap.c:78 src/mapscrn.c:76
+#: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
+#: src/setmetamode.c:115 src/setvtrgb.c:135 src/showconsolefont.c:158
+#: src/showkey.c:145
+msgid "print this usage message."
+msgstr ""
+
+#: src/chvt.c:79 src/deallocvt.c:70 src/dumpkeys.c:120 src/fgconsole.c:70
+#: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
+#: src/kbdrate.c:375 src/loadkeys.c:126 src/loadunimap.c:77 src/mapscrn.c:75
+#: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
+#: src/setmetamode.c:114 src/setvtrgb.c:134 src/showconsolefont.c:157
+#: src/showkey.c:146
+msgid "print version number."
+msgstr ""
+
+#: src/chvt.c:98 src/kbdinfo.c:113 src/setkeycodes.c:134
+#, fuzzy
+msgid "Not enough arguments."
+msgstr "Fejl: Ikke nok argumenter.\n"
+
+#: src/chvt.c:103 src/clrunimap.c:29 src/deallocvt.c:94 src/dumpkeys.c:190
+#: src/fgconsole.c:96 src/getkeycodes.c:87 src/getunimap.c:113
+#: src/kbdinfo.c:122 src/kbd_mode.c:156 src/libcommon/getfd.c:88
+#: src/loadkeys.c:204 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
+#: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
+#: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
+#: src/setvesablank.c:32 src/setvtrgb.c:178 src/showconsolefont.c:194
+#: src/showkey.c:211 src/totextmode.c:32
+#, fuzzy, c-format
+msgid "Couldn't get a file descriptor referring to the console."
 msgstr "Kunne ikke få en filidentifikator der refererer til konsollen"
 
-#: src/deallocvt.c:24
-#, fuzzy, c-format
-msgid ""
-"Usage: %s [option...] [N ...]\n"
-"\n"
-"Options:\n"
-"\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
-msgstr ""
-"%s version %s\n"
-"\n"
-"Brug: %s [tilvalg]\n"
-"\n"
-"Gyldige tilvalg er:\n"
-"\n"
-"\t-h --help            vis denne hjælpetekst\n"
-"\t-V --version         vis versionsnummer\n"
-"\t-n --next-available  vis nummer på næste utildelte VT\n"
-
-#: src/deallocvt.c:64
-#, c-format
-msgid "%s: unknown option\n"
-msgstr "%s: ukendt flag\n"
-
-#: src/deallocvt.c:81
+#: src/chvt.c:112 src/openvt.c:199
 #, fuzzy
-msgid "0: illegal VT number\n"
+msgid "Unable to set signal handler"
+msgstr "Kan ikke sætte ny session"
+
+#: src/chvt.c:119 src/openvt.c:208
+#, fuzzy
+msgid "Unable to create timer"
+msgstr "Kan ikke sætte ny session"
+
+#: src/chvt.c:127 src/openvt.c:218
+#, fuzzy
+msgid "Unable to set timer"
+msgstr "Kan ikke sætte ny session"
+
+#: src/chvt.c:133 src/openvt.c:226
+#, c-format
+msgid "Couldn't activate vt %d"
+msgstr "Kunne ikke aktivere vt %d"
+
+#: src/deallocvt.c:25
+#, c-format
+msgid "Usage: %s [option...] [N ...]\n"
+msgstr ""
+
+#: src/deallocvt.c:88 src/kbdinfo.c:188 src/setleds.c:285 src/setleds.c:293
+#: src/setmetamode.c:156
+#, fuzzy, c-format
+msgid "Unrecognized argument: %s"
+msgstr ""
+"ukendt argument: _%s_\n"
+"\n"
+
+#: src/deallocvt.c:105
+#, fuzzy
+msgid "0: illegal VT number"
 msgstr "%s: 0: ugyldigt VT-nummer\n"
 
-#: src/deallocvt.c:83
+#: src/deallocvt.c:107
 #, fuzzy
-msgid "VT 1 is the console and cannot be deallocated\n"
+msgid "VT 1 is the console and cannot be deallocated"
 msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 
-#: src/deallocvt.c:85
+#: src/deallocvt.c:109
 #, fuzzy, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "%s: kunne ikke deallokere konsol %d\n"
 
-#: src/dumpkeys.c:30
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
+#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
-msgid "dumpkeys version %s"
-msgstr "dumpkeys version %s"
-
-#: src/dumpkeys.c:31
-#, fuzzy, c-format
-msgid ""
-"\n"
-"usage: dumpkeys [options...]\n"
-"\n"
-"Options:\n"
-"  -i, --short-info      display information about keyboard driver;\n"
-"  -l, -s, --long-info   display above and symbols known to loadkeys;\n"
-"  -n, --numeric         display keytable in hexadecimal notation;\n"
-"  -f, --full-table      don't use short-hand notations, one row per "
-"keycode;\n"
-"  -1, --separate-lines  one line per (modifier,keycode) pair;\n"
-"  -S, --shape=\n"
-"  -t, --funcs-only      display only the function key strings;\n"
-"  -k, --keys-only       display only key bindings;\n"
-"  -d, --compose-only    display only compose key combinations;\n"
-"  -c, --charset="
+msgid "Usage: %s [option...]\n"
 msgstr ""
-"\n"
-"brug: dumpkeys [flag...]\n"
-"\n"
-"gyldige flag er:\n"
-"\n"
-"\t-h --help\t    vis denne hjælpetekst\n"
-"\t-i --short-info\t    vis information om tastaturdrivrutine\n"
-"\t-l --long-info\t    vis ovenstående og symboler kendte for loadkeys\n"
-"\t-n --numeric\t    vis tastetabel i heksadecimal notation\n"
-"\t-f --full-table\t    brug ikke kort notation, en linje per tastekode\n"
-"\t-1 --separate-lines en linje per (ændrer,tastekode)-par\n"
-"\t   --funcs-only\t    vis kun strenge for funktionstaster\n"
-"\t   --keys-only\t    vis kun tastebindinger\n"
-"\t   --compose­only   vis kun \"compose\"-tastekombinationer\n"
-"\t-c --charset="
 
-#: src/dumpkeys.c:47
-#, fuzzy, c-format
+#: src/dumpkeys.c:53
+#, c-format
+msgid "Available charsets: "
+msgstr ""
+
+#: src/dumpkeys.c:57
+#, c-format
 msgid ""
-"                        interpret character action codes to be from the\n"
-"                        specified character set;\n"
+"Available shapes:\n"
+"  2  - default output;\n"
+"  4  - one line for each keycode;\n"
+"  8  - one line for each (modifier,keycode) pair;\n"
+"  16 - one line for each keycode until 1st hole.\n"
+msgstr ""
+
+#: src/dumpkeys.c:108
+msgid "display information about keyboard driver."
+msgstr ""
+
+#: src/dumpkeys.c:109
+msgid "display above and symbols known to loadkeys."
+msgstr ""
+
+#: src/dumpkeys.c:110
+msgid "display keytable in hexadecimal notation."
+msgstr ""
+
+#: src/dumpkeys.c:111
+msgid "don't use short-hand notations, one row per keycode."
+msgstr ""
+
+#: src/dumpkeys.c:112
+msgid "one line per (modifier,keycode) pair."
+msgstr ""
+
+#: src/dumpkeys.c:114
+msgid "display only the function key strings."
+msgstr ""
+
+#: src/dumpkeys.c:115
+msgid "display only key bindings."
+msgstr ""
+
+#: src/dumpkeys.c:116
+#, fuzzy
+msgid "display only compose key combinations."
+msgstr "for mange kompositionsdefinitioner\n"
+
+#: src/dumpkeys.c:117
+#, fuzzy
+msgid ""
+"interpret character action codes to be from the specified character set."
 msgstr ""
 "\t\t\t    tolk tegnhandlingskoder som om de er fra det\n"
 "\t\t\t    angivne tegnsæt\n"
 
-#: src/dumpkeys.c:50
-#, fuzzy, c-format
-msgid ""
-"  -v, --verbose         explain what is being done;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
+#: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
+#: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
+#: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
+#: src/setvtrgb.c:133 src/showconsolefont.c:154
+msgid "the console device to be used."
 msgstr ""
-"%s version %s\n"
-"\n"
-"Brug: %s [tilvalg]\n"
-"\n"
-"Gyldige tilvalg er:\n"
-"\n"
-"\t-h --help            vis denne hjælpetekst\n"
-"\t-V --version         vis versionsnummer\n"
-"\t-n --next-available  vis nummer på næste utildelte VT\n"
 
-#: src/dumpkeys.c:132
+#: src/dumpkeys.c:119 src/loadkeys.c:125 src/mapscrn.c:74 src/openvt.c:290
+#: src/setleds.c:248 src/showconsolefont.c:156
+msgid "be more verbose."
+msgstr ""
+
+#: src/dumpkeys.c:165 parser.y:195
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "ukendt tegnsæt %s - ignorerer anmodning om tegnsæt\n"
 
-#: src/dumpkeys.c:158 src/loadkeys.c:175
-#, fuzzy, c-format
-msgid "%s: error reading keyboard mode: %m\n"
-msgstr "%s: fejl ved læsning af tastaturstilstand\n"
+#: src/dumpkeys.c:194 src/kbdinfo.c:139 src/kbd_mode.c:161 src/kbd_mode.c:170
+#: src/loadkeys.c:208 src/showconsolefont.c:197 src/showkey.c:35
+#, fuzzy
+msgid "Unable to read keyboard mode"
+msgstr "kbd_mode: fejl ved læsning af tastaturstilstand\n"
 
-#: src/dumpkeys.c:174
+#: src/dumpkeys.c:207
 #, c-format
 msgid ""
 "Symbols recognized by %s:\n"
@@ -180,140 +223,133 @@ msgstr ""
 "(numerisk værdi, symbol)\n"
 "\n"
 
-#: src/fgconsole.c:22
-#, fuzzy, c-format
-msgid ""
-"%s version %s\n"
-"\n"
-"Usage: %s [options]\n"
-"\n"
-"Options:\n"
-"\n"
-"  -n, --next-available  print number of next unallocated VT\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
+#: src/fgconsole.c:69
+msgid "print number of next unallocated VT."
 msgstr ""
-"%s version %s\n"
-"\n"
-"Brug: %s [tilvalg]\n"
-"\n"
-"Gyldige tilvalg er:\n"
-"\n"
-"\t-h --help            vis denne hjælpetekst\n"
-"\t-V --version         vis versionsnummer\n"
-"\t-n --next-available  vis nummer på næste utildelte VT\n"
 
-#: src/fgconsole.c:72
+#: src/fgconsole.c:100
 msgid "Couldn't read VTNO: "
 msgstr "Kunne ikke læse VTNO: "
 
-#: src/getkeycodes.c:22
-#, c-format
-msgid "usage: getkeycodes\n"
-msgstr "brug: getkeycodes\n"
-
-#: src/getkeycodes.c:57
+#: src/getkeycodes.c:102
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr "Enkle aflæsningskoder xx (hex) mod tastekoder (dec)\n"
 
-#: src/getkeycodes.c:60
+#: src/getkeycodes.c:105
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
 "0 er en fejl, for 1-88 (0x01-0x58) er aflæsningskoden lig med tastekoden\n"
 
-#: src/getkeycodes.c:63
+#: src/getkeycodes.c:108
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr "for 1-%d (0x01-0x%02x) er aflæsningskoden lig med tastekoden\n"
 
-#: src/getkeycodes.c:69
-#, c-format
-msgid ""
-"\n"
-"\n"
-"Escaped scancodes e0 xx (hex)\n"
+#: src/getkeycodes.c:115
+#, fuzzy, c-format
+msgid "Escaped scancodes e0 xx (hex)\n"
 msgstr ""
 "\n"
 "\n"
 "Udvidede aflæsningskoder e0 xx (hex)\n"
 
-#: src/getkeycodes.c:92
+#: src/getkeycodes.c:139
 #, fuzzy, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr "mislykkedes med at hente tastekoden for aflæsningskode 0x%x\n"
 
-#: src/getunimap.c:33
-#, c-format
-msgid ""
-"Usage:\n"
-"\t%s [-s] [-C console]\n"
+#: src/getunimap.c:82
+msgid "sort and merge elements."
 msgstr ""
-"Brug:\n"
-"\t%s [-s] [-C console]\n"
 
-#: src/kbdinfo.c:22
+#: src/kbdinfo.c:24
 #, fuzzy, c-format
 msgid ""
-"Usage: %1$s [options] getmode [text|graphics]\n"
-"   or: %1$s [options] gkbmode [raw|xlate|mediumraw|unicode]\n"
-"   or: %1$s [options] gkbmeta [metabit|escprefix]\n"
-"   or: %1$s [options] gkbled  [scrolllock|numlock|capslock]\n"
-"\n"
-"The utility allows to read and check various parameters\n"
-"of the keyboard and virtual console.\n"
-"\n"
-"Options:\n"
-"  -C, --console=DEV     the console device to be used;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
+"Usage: %1$s [option...] getmode [text|graphics]\n"
+"   or: %1$s [option...] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"   or: %1$s [option...] gkbmeta [metabit|escprefix]\n"
+"   or: %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
 "Brug:   %1$s [-C ENHED] getmode [text|graphics]\n"
 " eller: %1$s [-C ENHED] gkbmode [raw|xlate|mediumraw|unicode]\n"
 " eller: %1$s [-C ENHED] gkbmeta [metabit|escprefix]\n"
 " eller: %1$s [-C ENHED] gkbled  [scrolllock|numlock|capslock]\n"
 
-#: src/kbdinfo.c:87
-msgid "Error: Not enough arguments.\n"
-msgstr "Fejl: Ikke nok argumenter.\n"
-
-#: src/kbdinfo.c:162
+#: src/kbdinfo.c:31
 #, c-format
-msgid "Error: Unrecognized action: %s\n"
-msgstr "Fejl: Ukendt handling: %s\n"
+msgid ""
+"The utility allows to read and check various parameters\n"
+"of the keyboard and virtual console.\n"
+msgstr ""
 
-#: src/kbd_mode.c:24
+#: src/kbdinfo.c:126 src/loadkeys.c:210
+#, fuzzy
+msgid "Unable to read console mode"
+msgstr "Kan ikke læse konsoltabel\n"
+
+#: src/kbdinfo.c:158 src/setmetamode.c:142
+#, fuzzy
+msgid "Unable to read meta key handling mode"
+msgstr "deallokér keymap %d\n"
+
+#: src/kbdinfo.c:171 src/setleds.c:141
+#, fuzzy
+msgid "Unable to read keyboard flags"
+msgstr "deallokér keymap %d\n"
+
+#: src/kbd_mode.c:28 src/loadunimap.c:29
 #, fuzzy, c-format
-msgid "usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"
-msgstr "brug: kbd_mode [-a|-u|-k|-s] [-C enhed]\n"
+msgid "This utility reports or sets the keyboard mode.\n"
+msgstr "%s: fejl da tastaturstilstand sattes\n"
 
-#: src/kbd_mode.c:33
-#, c-format
-msgid "The keyboard is in raw (scancode) mode\n"
+#: src/kbd_mode.c:60
+#, fuzzy, c-format
+msgid "The keyboard is in raw (scancode) mode"
 msgstr "Tastaturet er i rå (aflæsningskode-)tilstand\n"
 
-#: src/kbd_mode.c:36
-#, c-format
-msgid "The keyboard is in mediumraw (keycode) mode\n"
+#: src/kbd_mode.c:63
+#, fuzzy, c-format
+msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "Tastaturet er i halvrå (tastekode-)tilstand\n"
 
-#: src/kbd_mode.c:39
-#, c-format
-msgid "The keyboard is in the default (ASCII) mode\n"
+#: src/kbd_mode.c:66
+#, fuzzy, c-format
+msgid "The keyboard is in the default (ASCII) mode"
 msgstr "Tastaturet er i standardtilstand (ASCII)\n"
 
-#: src/kbd_mode.c:42
-#, c-format
-msgid "The keyboard is in Unicode (UTF-8) mode\n"
+#: src/kbd_mode.c:69
+#, fuzzy, c-format
+msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "Tastaturet er i UCS-tilstand (UTF-8)\n"
 
-#: src/kbd_mode.c:45
-#, c-format
-msgid "The keyboard is in some unknown mode\n"
+#: src/kbd_mode.c:72
+#, fuzzy, c-format
+msgid "The keyboard is in some unknown mode"
 msgstr "Tastaturet er i en ukendt tilstand\n"
 
-#: src/kbd_mode.c:124
+#: src/kbd_mode.c:98
+msgid "set ASCII mode."
+msgstr ""
+
+#: src/kbd_mode.c:99
+msgid "set keycode mode."
+msgstr ""
+
+#: src/kbd_mode.c:100
+msgid "set scancode mode."
+msgstr ""
+
+#: src/kbd_mode.c:101
+msgid "set UTF-8 mode."
+msgstr ""
+
+#: src/kbd_mode.c:102
+msgid "switch the mode even if it makes the keyboard unusable."
+msgstr ""
+
+#: src/kbd_mode.c:179
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use -"
@@ -349,89 +385,132 @@ msgstr ""
 msgid "Cannot open /dev/port"
 msgstr "Kan ikke åbne /dev/port"
 
-#: src/kbdrate.c:322
+#: src/kbdrate.c:325
 #, c-format
-msgid ""
-"Usage: kbdrate [options...]\n"
-"\n"
-"The prorgam sets the keyboard repeat rate and delay in user mode.\n"
-"\n"
-"Options:\n"
-"  -r, --rate=NUM        set the rate in characters per second (default "
-"%.1f);\n"
-"  -d, --delay=NUM       set the amount of time the key must remain\n"
-"                        depressed before it will start to repeat (default "
-"%d);\n"
-"  -s, --silent          suppress all normal output;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
-"\n"
+msgid "The prorgam sets the keyboard repeat rate and delay in user mode.\n"
 msgstr ""
 
-#: src/kdfontop.c:98
-#, c-format
-msgid "bug: getfont called with count<256\n"
-msgstr "fejl: getfont kaldt med count<256\n"
-
-#: src/kdfontop.c:102
-#, c-format
-msgid "bug: getfont using GIO_FONT needs buf.\n"
-msgstr "fejl: getfont med GIO_FONT behøver buf.\n"
-
-#: src/kdfontop.c:159 src/kdmapop.c:153 src/libcommon/xmalloc.c:17
-#, c-format
-msgid "%s: out of memory\n"
-msgstr "%s: hukommelsen slut\n"
-
-#: src/kdmapop.c:162
-#, c-format
-msgid "strange... ct changed from %d to %d\n"
-msgstr "mærkeligt... ct ændredes fra %d til %d\n"
-
-#: src/kdmapop.c:188
-#, c-format
-msgid ""
-"It seems this kernel is older than 1.1.92\n"
-"No Unicode mapping table loaded.\n"
+#: src/kbdrate.c:371
+msgid "set the rate in characters per second."
 msgstr ""
-"Det ser ud til at denne kerne er ældre end 1.1.92\n"
-"Ingen UCS-tabel indlæst.\n"
+
+#: src/kbdrate.c:372
+msgid ""
+"set the amount of time the key must remain depressed before it will start to "
+"repeat."
+msgstr ""
+
+#: src/kbdrate.c:373
+msgid "do not set new values, but only display the current ones."
+msgstr ""
+
+#: src/kbdrate.c:374 src/loadkeys.c:124
+msgid "suppress all normal output."
+msgstr ""
 
 #: src/libcommon/getfd.c:70
-#, c-format
-msgid "Couldn't open %s\n"
+#, fuzzy, c-format
+msgid "Couldn't open %s"
 msgstr "Kunne ikke åbne %s\n"
-
-#: src/libcommon/getfd.c:87
-#, c-format
-msgid "Couldn't get a file descriptor referring to the console\n"
-msgstr "Kunne ikke få en filidentifikator der referere til konsollen\n"
 
 #: src/libcommon/version.c:27
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s fra %s\n"
 
-#: src/libkeymap/common.c:135 src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
-#: src/libkeymap/loadkeys.c:126
+#: analyze.l:43
+msgid "includes are nested too deeply"
+msgstr "includes er i for dybe nveauer"
+
+#: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
+#: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
+#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
+#: src/screendump.c:151
 #, fuzzy
 msgid "out of memory"
 msgstr "%s: hukommelsen slut\n"
+
+#: analyze.l:259
+#, fuzzy, c-format
+msgid "switching to %s"
+msgstr "skifter til %s\n"
+
+#: analyze.l:269
+#, c-format
+msgid "cannot open include file %s"
+msgstr "Kan ikke åbne inkluderingsfilen %s"
+
+#: analyze.l:291
+#, fuzzy, c-format
+msgid "unable to parse number: %s"
+msgstr "Kan ikke åbne %s"
+
+#: analyze.l:296
+#, c-format
+msgid "value must be a positive number: %s"
+msgstr ""
+
+#: analyze.l:301
+#, c-format
+msgid "value must be less than %d: %s"
+msgstr ""
+
+#: analyze.l:369
+msgid "expected filename between quotes"
+msgstr "forventede filnavn i anførselstegn"
+
+#: analyze.l:408
+#, c-format
+msgid "unicode keysym out of range: %s"
+msgstr "UCS keysym uden for område: %s"
+
+#: analyze.l:468 analyze.l:492 analyze.l:499 analyze.l:506 analyze.l:515
+msgid "string too long"
+msgstr "strengen er for lang"
+
+#: analyze.l:484
+msgid "octal number too big"
+msgstr ""
 
 #: src/libkeymap/common.c:141
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr ""
 
-#: src/libkeymap/dump.c:85
+#: src/libkeymap/diacr.c:31
+#, c-format
+msgid "Index %d in the accent table does not exist"
+msgstr ""
+
+#: src/libkeymap/diacr.c:85
+msgid "Unable to remove item from the diacritical table"
+msgstr ""
+
+#: src/libkeymap/dump.c:78 src/libkeymap/loadkeys.c:44
+#, fuzzy, c-format
+msgid "can not bind key %d to value %d because it is too large"
+msgstr "kunne ikke binde tast %d til værdien %d\n"
+
+#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:257
+#: src/libkfont/mapscrn.c:262
 #, fuzzy
 msgid "Error writing map to file"
 msgstr "Fejl ved skrivning af tabel til fil\n"
 
-#: src/libkeymap/dump.c:543
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "umuligt: ikke meta?\n"
+
+#: src/libkeymap/func.c:30
+#, c-format
+msgid "func %d not allocated"
+msgstr ""
+
+#: src/libkeymap/func.c:62
+msgid "Unable to remove item from the list of functions"
+msgstr ""
 
 #: src/libkeymap/kernel.c:27
 #, c-format
@@ -503,45 +582,22 @@ msgstr ""
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr ""
 
-#: src/libkeymap/ksyms.c:340
-#, fuzzy, c-format
-msgid "assuming iso-8859-1 %s"
-msgstr "antager iso-8859-1 %s\n"
-
-#: src/libkeymap/ksyms.c:346
-#, fuzzy, c-format
-msgid "assuming iso-8859-15 %s"
-msgstr "antager iso-8859-15 %s\n"
-
-#: src/libkeymap/ksyms.c:352
-#, fuzzy, c-format
-msgid "assuming iso-8859-2 %s"
-msgstr "antager iso-8859-2 %s\n"
-
-#: src/libkeymap/ksyms.c:358
-#, fuzzy, c-format
-msgid "assuming iso-8859-3 %s"
-msgstr "antager iso-8859-3 %s\n"
-
+#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
+#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
 #: src/libkeymap/ksyms.c:364
 #, fuzzy, c-format
-msgid "assuming iso-8859-4 %s"
-msgstr "antager iso-8859-4 %s\n"
+msgid "assuming %s %s"
+msgstr "antager iso-8859-1 %s\n"
 
 #: src/libkeymap/ksyms.c:369
-#, c-format
-msgid "unknown keysym '%s'\n"
+#, fuzzy, c-format
+msgid "unknown keysym '%s'"
 msgstr "ukendt tegnsymbol \"%s\"\n"
 
 #: src/libkeymap/loadkeys.c:27
 #, fuzzy, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
 msgstr "%s: kunne ikke skifte til UCS-tilstand\n"
-
-#: src/libkeymap/loadkeys.c:44
-#, fuzzy, c-format
-msgid "can not bind key %d to value %d because it is too large"
-msgstr "kunne ikke binde tast %d til værdien %d\n"
 
 #: src/libkeymap/loadkeys.c:56
 #, fuzzy, c-format
@@ -597,6 +653,10 @@ msgstr "mislykkedes med at nulstille streng %s\n"
 msgid "too many compose definitions"
 msgstr "for mange kompositionsdefinitioner\n"
 
+#: src/libkeymap/loadkeys.c:238
+msgid "unable to load compose definitions because some of them are too large"
+msgstr ""
+
 #: src/libkeymap/loadkeys.c:267
 #, c-format
 msgid ""
@@ -631,47 +691,67 @@ msgstr[1] "for mange kompositionsdefinitioner\n"
 msgid "(No change in compose definitions)"
 msgstr "(Ingen ændringer i kompositionsdefinitioner)\n"
 
-#: src/libkeymap/summary.c:95
+#: parser.y:117
+#, fuzzy, c-format
+msgid "loadkeys: don't know how to compose for %s"
+msgstr "loadkeys: véd ikke hvordan at kompositionere for %s\n"
+
+#: parser.y:258
+#, c-format
+msgid "'%s' is not a function key symbol"
+msgstr "'%s' er ikke et symbol for en funktionstast"
+
+#: parser.y:345
+#, fuzzy, c-format
+msgid "too many (%ld) entries on one line"
+msgstr "For mange (%d) indgange på én linje"
+
+#: parser.y:415
+#, fuzzy, c-format
+msgid "Loading %s"
+msgstr "Indlæser %s\n"
+
+#: src/libkeymap/summary.c:92
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr "tastekodeinterval som understøttes af kernen:        1 - %d\n"
 
-#: src/libkeymap/summary.c:97
+#: src/libkeymap/summary.c:94
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr "største antal handlinger bindelige til en tast:   %d\n"
 
-#: src/libkeymap/summary.c:99
+#: src/libkeymap/summary.c:96
 #, fuzzy, c-format
 msgid "number of keymaps in actual use:                 %u\n"
 msgstr "antal tastetabeller som faktisk bruges:          %d\n"
 
-#: src/libkeymap/summary.c:102
+#: src/libkeymap/summary.c:99
 #, fuzzy, c-format
 msgid "of which %u dynamically allocated\n"
 msgstr "hvoraf %d er dynamisk allokerede\n"
 
-#: src/libkeymap/summary.c:105
+#: src/libkeymap/summary.c:102
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "interval af handlingskoder som understøttes af kernen:\n"
 
-#: src/libkeymap/summary.c:111
+#: src/libkeymap/summary.c:108
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "antal funktionstaster som understøttes af kernen: %d\n"
 
-#: src/libkeymap/summary.c:113
+#: src/libkeymap/summary.c:110
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "største antal kompositionsdefinitioner: %d\n"
 
-#: src/libkeymap/summary.c:115
+#: src/libkeymap/summary.c:112
 #, fuzzy, c-format
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr "antal kompositionsdefinitioner som faktisk bruges: %d\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:136
 #, c-format
 msgid ""
 "\n"
@@ -682,12 +762,12 @@ msgstr ""
 "Følgende synonymer genkendes:\n"
 "\n"
 
-#: src/libkeymap/summary.c:142
+#: src/libkeymap/summary.c:139
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%-15s for %s\n"
 
-#: src/libkeymap/summary.c:146
+#: src/libkeymap/summary.c:143
 #, c-format
 msgid ""
 "\n"
@@ -696,522 +776,624 @@ msgstr ""
 "\n"
 "Genkendte ændrernavn og deres kolonnenummer:\n"
 
-#: src/loadkeys.c:34
+#: src/libkfont/kdfontop.c:92
+#, c-format
+msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
+msgstr ""
+
+#: src/libkfont/kdfontop.c:126
+#, fuzzy
+msgid "getfont called with count<256"
+msgstr "fejl: getfont kaldt med count<256\n"
+
+#: src/libkfont/kdfontop.c:131
+#, fuzzy
+msgid "getfont using GIO_FONT needs buf"
+msgstr "fejl: getfont med GIO_FONT behøver buf.\n"
+
+#: src/libkfont/kdmapop.c:172
 #, fuzzy, c-format
+msgid "strange... ct changed from %d to %d"
+msgstr "mærkeligt... ct ændredes fra %d til %d\n"
+
+#: src/libkfont/kdmapop.c:198
+#, fuzzy
 msgid ""
-"loadkeys version %s\n"
-"\n"
-"Usage: %s [option...] [mapfile...]\n"
-"\n"
-"Options:\n"
-"  -a, --ascii           force conversion to ASCII;\n"
-"  -b, --bkeymap         output a binary keymap to stdout;\n"
-"  -c, --clearcompose    clear kernel compose table;\n"
-"  -C, --console=file    the console device to be used;\n"
-"  -d, --default         load \"%s\";\n"
-"  -m, --mktable         output a \"defkeymap.c\" to stdout;\n"
-"  -p, --parse           search and parse keymap without action;\n"
-"  -s, --clearstrings    clear kernel string table;\n"
-"  -u, --unicode         force conversion to Unicode;\n"
-"  -q, --quiet           suppress all normal output;\n"
-"  -v, --verbose         explain what is being done;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
+"It seems this kernel is older than 1.1.92\n"
+"No Unicode mapping table loaded."
 msgstr ""
-"loadkeys version %s\n"
-"\n"
-"brug: loadkeys [tilvalg...] [tabelfil...]\n"
-"\n"
-"Gyldige tilvalg er:\n"
-"\n"
-"  -a --ascii         gennemtving konvertering til ASCII\n"
-"  -b --bkeymap       udskriv en binær keymap til standardud\n"
-"  -c --clearcompose  nulstil kernens kompositionstabel\n"
-"  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
-"                     konsolenhederne der skal bruges\n"
-"  -d --default       indlæs \"%s\"\n"
-"  -h --help          vis denne hjælpetekst\n"
-"  -m --mktable       udskriv en \"defkeymap.c\" til standardud\n"
-"  -q --quiet         undertryk alt normal udskrift\n"
-"  -s --clearstrings  nulstíl kernens strengtabel\n"
-"  -u --unicode       gennemtving konvertering til UCS\n"
-"  -v --verbose       udskriv ændringerne\n"
+"Det ser ud til at denne kerne er ældre end 1.1.92\n"
+"Ingen UCS-tabel indlæst.\n"
 
-#: src/loadkeys.c:162
-#, c-format
-msgid "%s: Options --unicode and --ascii are mutually exclusive\n"
-msgstr "%s: Tilvalg --unicode og --ascii er gensidigt udelukkende\n"
-
-#: src/loadkeys.c:183
-#, c-format
-msgid ""
-"%s: warning: loading non-Unicode keymap on Unicode console\n"
-"    (perhaps you want to do `kbd_mode -a'?)\n"
-msgstr ""
-"%s: advarsel: indlæser ikke-UCS keymap på UCS konsol\n"
-"    (måske vil du gerne lave 'kbd_mode -a'?)\n"
-
-#: src/loadkeys.c:195
-#, c-format
-msgid ""
-"%s: warning: loading Unicode keymap on non-Unicode console\n"
-"    (perhaps you want to do `kbd_mode -u'?)\n"
-msgstr ""
-"%s: advarsel: indlæser UCS keymap på ikke-UCS konsol\n"
-"    (måske vil du gerne lave 'kbd_mode -u'?)\n"
-
-#: src/loadkeys.c:213
-#, c-format
-msgid "Cannot find %s\n"
-msgstr "Kan ikke finde %s\n"
-
-#: src/loadkeys.c:234
-#, c-format
-msgid "cannot open file %s\n"
-msgstr "Kan ikke åbne fil %s\n"
-
-#: src/loadunimap.c:45
-#, c-format
-msgid ""
-"Usage:\n"
-"\t%s [-C console] [-o map.orig]\n"
-msgstr ""
-"Brug:\n"
-"\t%s [-C konsol] [-o map.orig]\n"
-
-#: src/loadunimap.c:178 src/loadunimap.c:189
-#, c-format
-msgid "Bad input line: %s\n"
-msgstr "Fejlagtig inddatalinje: %s\n"
-
-#: src/loadunimap.c:198
-#, c-format
-msgid "%s: Glyph number (0x%x) larger than font length\n"
+#: src/libkfont/loadunimap.c:168
+#, fuzzy, c-format
+msgid "%s: Glyph number (0x%x) larger than font length"
 msgstr "%s: Tegnnummer (0x%x) større end skrifttypelængde\n"
 
-#: src/loadunimap.c:204
+#: src/libkfont/loadunimap.c:174
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
 msgstr "%s: Fejlagtigt slut på interval (0x%x)\n"
 
-#: src/loadunimap.c:234 src/psfxtable.c:180
-#, c-format
-msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-msgstr ""
-"%s: Fejlagtigt UCS-interval som modsvarer skrifttypepositionsinterval 0x%x-0x"
-"%x\n"
-
-#: src/loadunimap.c:241 src/psfxtable.c:187
-#, c-format
+#: src/libkfont/loadunimap.c:213
+#, fuzzy, c-format
 msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x\n"
+"%x-0x%x"
 msgstr ""
 "%s: UCS-interval U+%x-U+%x er ikke af samme længde som "
 "skrifttypespositionsinterval 0x%x-0x%x\n"
 
-#: src/loadunimap.c:260 src/psfxtable.c:208
-#, c-format
-msgid "%s: trailing junk (%s) ignored\n"
+#: src/libkfont/loadunimap.c:237
+#, fuzzy, c-format
+msgid "%s: trailing junk (%s) ignored"
 msgstr "%s: efterfølgende snavs (%s) ignoreret\n"
 
-#: src/loadunimap.c:279
-#, c-format
-msgid "Loading unicode map from file %s\n"
+#: src/libkfont/loadunimap.c:267
+#, fuzzy, c-format
+msgid "Loading unicode map from file %s"
 msgstr "Indlæser UCS-tabel fra fil %s\n"
 
-#: src/loadunimap.c:285
-#, c-format
-msgid "%s: %s: Warning: line too long\n"
-msgstr "%s: %s: Advarsel: linjen er for lang\n"
+#: src/libkfont/loadunimap.c:273
+#, fuzzy, c-format
+msgid "%s: Warning: line too long"
+msgstr "%s: Advarsel: linjen er for lang\n"
 
-#: src/loadunimap.c:295
-#, c-format
+#: src/libkfont/loadunimap.c:281
+#, fuzzy
 msgid ""
-"%s: not loading empty unimap\n"
-"(if you insist: use option -f to override)\n"
+"not loading empty unimap\n"
+"(if you insist: use option -f to override)"
 msgstr ""
 "%s: indlæser ikke tom ucs-tabel\n"
 "(hvis du insisterer: brug flaget -f til at tilsidesætte)\n"
 
-#: src/loadunimap.c:315
-msgid "entry"
-msgstr "post"
+#: src/libkfont/loadunimap.c:304
+#, fuzzy, c-format
+msgid "# %d entry"
+msgid_plural "# %d entries"
+msgstr[0] "post"
+msgstr[1] "post"
 
-#: src/loadunimap.c:315
-msgid "entries"
-msgstr "poster"
+#: src/libkfont/loadunimap.c:319 src/libkfont/mapscrn.c:102
+#: src/libkfont/mapscrn.c:234 src/loadkeys.c:277 src/openvt.c:437
+#: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
+#: src/psfxtable.c:143
+#, fuzzy, c-format
+msgid "Unable to open file: %s: %m"
+msgstr "Kan ikke åbne %s"
 
-#: src/loadunimap.c:342
-#, c-format
-msgid "Saved unicode map on `%s'\n"
+#: src/libkfont/loadunimap.c:332
+#, fuzzy, c-format
+msgid "Saved unicode map on `%s'"
 msgstr "Gemte ucs-tabel til \"%s\"\n"
 
-#: src/loadunimap.c:380
-#, c-format
-msgid "Appended Unicode map\n"
+#: src/libkfont/loadunimap.c:382
+#, fuzzy
+msgid "Appended Unicode map"
 msgstr "Tilføjede UCS-tabel\n"
 
-#: src/mapscrn.c:66
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:301
+#: src/libkfont/setfont.c:414 src/libkfont/setfont.c:421 src/loadkeys.c:245
 #, fuzzy, c-format
-msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-msgstr "brug: %s [-v] [-o originaltabel] tabelfil\n"
+msgid "Unable to find file: %s"
+msgstr "Kan ikke åbne %s"
 
-#: src/mapscrn.c:136
-#, c-format
-msgid "mapscrn: cannot open map file _%s_\n"
-msgstr "mapscrn: kan ikke åbne tabelfil _%s_\n"
-
-#: src/mapscrn.c:142
-#, c-format
-msgid "Cannot stat map file"
-msgstr "Kan ikke tage status på tabelfil"
-
-#: src/mapscrn.c:147
-#, c-format
-msgid "Loading binary direct-to-font screen map from file %s\n"
+#: src/libkfont/mapscrn.c:110
+#, fuzzy, c-format
+msgid "Loading binary direct-to-font screen map from file %s"
 msgstr "Indlæser binær direkte-til-skrifttype-skærmtabel fra fil %s\n"
 
-#: src/mapscrn.c:152 src/mapscrn.c:163
-#, c-format
-msgid "Error reading map from file `%s'\n"
+#: src/libkfont/mapscrn.c:114 src/libkfont/mapscrn.c:127
+#, fuzzy, c-format
+msgid "Error reading map from file `%s'"
 msgstr "Fejl ved læsning af tabel fra fil \"%s\"\n"
 
-#: src/mapscrn.c:158
-#, c-format
-msgid "Loading binary unicode screen map from file %s\n"
+#: src/libkfont/mapscrn.c:122
+#, fuzzy, c-format
+msgid "Loading binary unicode screen map from file %s"
 msgstr "Indlæser binær UCS-skærmfil fra fil %s\n"
 
-#: src/mapscrn.c:170
-#, c-format
-msgid "Loading symbolic screen map from file %s\n"
+#: src/libkfont/mapscrn.c:135
+#, fuzzy, c-format
+msgid "Loading symbolic screen map from file %s"
 msgstr "Indlæser symbolsk skærmtabel fra fil %s\n"
 
-#: src/mapscrn.c:174
-#, c-format
-msgid "Error parsing symbolic map from `%s', line %d\n"
+#: src/libkfont/mapscrn.c:140
+#, fuzzy, c-format
+msgid "Error parsing symbolic map from `%s', line %d"
 msgstr "Fejl ved tolkning af symbolsk tabel fra \"%s\", linje %d\n"
 
-#: src/mapscrn.c:279 src/mapscrn.c:284
-#, c-format
-msgid "Error writing map to file\n"
-msgstr "Fejl ved skrivning af tabel til fil\n"
-
-#: src/mapscrn.c:288
-#, c-format
-msgid "Cannot read console map\n"
+#: src/libkfont/mapscrn.c:266
+#, fuzzy
+msgid "Cannot read console map"
 msgstr "Kan ikke læse konsoltabel\n"
 
-#: src/mapscrn.c:294
-#, c-format
-msgid "Saved screen map in `%s'\n"
+#: src/libkfont/mapscrn.c:271
+#, fuzzy, c-format
+msgid "Saved screen map in `%s'"
 msgstr "Gemte skærmtabel i \"%s\"\n"
 
-#: src/openvt.c:48
-#, fuzzy, c-format
-msgid ""
-"Usage: %s [OPTIONS] -- command\n"
-"\n"
-"This utility helps you to start a program on a new virtual terminal (VT).\n"
-"\n"
-"Options:\n"
-"  -c, --console=NUM     use the given VT number;\n"
-"  -e, --exec            execute the command, without forking;\n"
-"  -f, --force           force opening a VT without checking;\n"
-"  -l, --login           make the command a login shell;\n"
-"  -u, --user            figure out the owner of the current VT;\n"
-"  -s, --switch          switch to the new VT;\n"
-"  -w, --wait            wait for command to complete;\n"
-"  -v, --verbose         explain what is being done;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
-"\n"
-msgstr ""
-"Brug: %s [TILVALG] -- kommando\n"
-"\n"
-"Dette program hjælper dig med at starte et program på en ny virtuel terminal "
-"(VT).\n"
-"\n"
-"Tilvalg:\n"
-"  -c, --console=NUM   brug det angivne VT-nummer;\n"
-"  -f, --force         gennemtving åbning af en VT uden at tjekke;\n"
-"  -l, --login         gør kommandoen til en login-skál;\n"
-"  -u, --user          find ejeren på den aktuelle VT;\n"
-"  -s, --switch        skift til den nye VT;\n"
-"  -w, --wait          vent på at kommandoen bliver færdig;\n"
-"  -v, --verbose       udskriv en besked for hver handling;\n"
-"  -V, --version       udskriv programversion og afslut;\n"
-"  -h, --help          udskriv en kort hjælpetekst.\n"
-"\n"
+#: src/libkfont/psffontop.c:46
+#, fuzzy
+msgid "short ucs2 unicode table"
+msgstr "%s: kort ucs2-tabel\n"
 
-#: src/openvt.c:140
+#: src/libkfont/psffontop.c:67
+#, fuzzy
+msgid "short utf8 unicode table"
+msgstr "%s: kort utf8-tabel\n"
+
+#: src/libkfont/psffontop.c:70
+#, fuzzy
+msgid "bad utf8"
+msgstr "%s: fejlagtig utf8\n"
+
+#: src/libkfont/psffontop.c:73
+#, fuzzy
+msgid "unknown utf8 error"
+msgstr "%s: ukendt utf8-fejl\n"
+
+#: src/libkfont/psffontop.c:98
+#, fuzzy
+msgid "short unicode table"
+msgstr "%s: kort UCS-tabel\n"
+
+#: src/libkfont/psffontop.c:173
+#, fuzzy
+msgid "Error reading input font"
+msgstr "%s: Fejl ved læsning af inddataskrifttype"
+
+#: src/libkfont/psffontop.c:179
+msgid "Font is too big"
+msgstr ""
+
+#: src/libkfont/psffontop.c:221
+#, fuzzy
+msgid "Bad call of readpsffont"
+msgstr "%s: Fejlagtigt kald af readpsffont\n"
+
+#: src/libkfont/psffontop.c:237
+#, fuzzy, c-format
+msgid "Unsupported psf file mode (%d)"
+msgstr "%s: psf-filtilstand (%d) understøttes ikke\n"
+
+#: src/libkfont/psffontop.c:253
+#, fuzzy, c-format
+msgid "Unsupported psf version (%d)"
+msgstr "%s: psf-version (%d) understøttes ikke\n"
+
+#: src/libkfont/psffontop.c:268
+#, fuzzy
+msgid "zero input font length?"
+msgstr "%s: længde af inddataskrifttype er nul?\n"
+
+#: src/libkfont/psffontop.c:272
+#, fuzzy
+msgid "zero input character size?"
+msgstr "%s: størrelse af inddatategn er nul?\n"
+
+#: src/libkfont/psffontop.c:279
+#, fuzzy, c-format
+msgid "Input file: bad input length (%d)"
+msgstr "%s: Inddatafil: ugyldig inddatalængde (%d)\n"
+
+#: src/libkfont/psffontop.c:317
+#, fuzzy
+msgid "Input file: trailing garbage"
+msgstr "%s: Inddatafil: efterfølgende snavs\n"
+
+#: src/libkfont/psffontop.c:354
+#, fuzzy, c-format
+msgid "illegal unicode %d"
+msgstr "appendunicode: ugyldig UCS %u\n"
+
+#: src/libkfont/psffontop.c:458
+msgid "Cannot write font file header"
+msgstr "Kan ikke skrive skrifttypefilhoved"
+
+#: src/libkfont/psffontop.c:491
+msgid "Cannot write font file"
+msgstr "Kan ikke skrive til skrifttypefilen"
+
+#: src/libkfont/setfont.c:58
+#, fuzzy, c-format
+msgid "Bad character height %d"
+msgstr "Fejlagtig tegnhøjde %d\n"
+
+#: src/libkfont/setfont.c:63
+#, fuzzy, c-format
+msgid "Bad character width %d"
+msgstr "Fejlagtig tegnbredde %d\n"
+
+#: src/libkfont/setfont.c:72
+#, c-format
+msgid "Cannot double %dx%d font (limit is 16x16)"
+msgstr ""
+
+#: src/libkfont/setfont.c:140
+#, fuzzy
+msgid "font position 32 is nonblank"
+msgstr "%s: Skrifttypesposition 32 er ikke-blank\n"
+
+#: src/libkfont/setfont.c:149
+#, fuzzy
+msgid "wiped it"
+msgstr "%s: rensede det\n"
+
+#: src/libkfont/setfont.c:152
+#, fuzzy
+msgid "background will look funny"
+msgstr "%s: baggrunden vil se mærkelig ud\n"
+
+#: src/libkfont/setfont.c:161
+#, fuzzy, c-format
+msgid "Loading %d-char %dx%d font from file %s"
+msgstr "Indlæser %d-tegns %d×%d-skrifttype fra filen %s\n"
+
+#: src/libkfont/setfont.c:164
+#, fuzzy, c-format
+msgid "Loading %d-char %dx%d font"
+msgstr "Indlæser %d-tegns %d×%d-skrifttype\n"
+
+#: src/libkfont/setfont.c:167
+#, fuzzy, c-format
+msgid "Loading %d-char %dx%d (%d) font from file %s"
+msgstr "Indlæser %d-tegns %d×%d-skrifttype (%d) fra filen %s\n"
+
+#: src/libkfont/setfont.c:170
+#, fuzzy, c-format
+msgid "Loading %d-char %dx%d (%d) font"
+msgstr "Indlæser %d-tegns %d×%d-skrifttype (%d)\n"
+
+#: src/libkfont/setfont.c:242
+#, fuzzy
+msgid "bug in do_loadtable"
+msgstr "%s: fejl i do_loadtable\n"
+
+#: src/libkfont/setfont.c:248
+#, fuzzy
+msgid "Loading Unicode mapping table..."
+msgstr "Indlæser UCS-konverteringsstabel...\n"
+
+#: src/libkfont/setfont.c:313
+#, fuzzy, c-format
+msgid "When loading several fonts, all must be psf fonts - %s isn't"
+msgstr ""
+"Når flere skrifttyper læses ind skal alle være psf-skrifttyper - %s er det "
+"ikke\n"
+
+#: src/libkfont/setfont.c:323
+#, fuzzy, c-format
+msgid "Read %d-char %dx%d font from file %s"
+msgstr "Læste %d-tegns %d×%d-skrifttype fra filen %s\n"
+
+#: src/libkfont/setfont.c:332
+#, fuzzy
+msgid "When loading several fonts, all must have the same height"
+msgstr "Når flere skrifttyper læses ind skal alle have samme højde\n"
+
+#: src/libkfont/setfont.c:340
+#, fuzzy
+msgid "When loading several fonts, all must have the same width"
+msgstr "Når flere skrifttyper læses ind skal alle have samme bredde\n"
+
+#: src/libkfont/setfont.c:406
+#, fuzzy
+msgid "Cannot find default font"
+msgstr "Kan ikke finde standardskrifttypen\n"
+
+#: src/libkfont/setfont.c:428
+#, fuzzy, c-format
+msgid "Reading font file %s"
+msgstr "Læser skrifttypefilen %s\n"
+
+#: src/libkfont/setfont.c:478
+#, fuzzy
+msgid "No final newline in combine file"
+msgstr "Intet endeligt nylinjestegn i kombinationsfilen\n"
+
+#: src/libkfont/setfont.c:484
+#, fuzzy
+msgid "Too many files to combine"
+msgstr "For mange filer at kombinere\n"
+
+#: src/libkfont/setfont.c:512
+#, fuzzy
+msgid "Hmm - a font from restorefont? Using the first half."
+msgstr "Hmm - en skrifttype fra restorefont? Bruger første halvdel.\n"
+
+#: src/libkfont/setfont.c:531
+#, fuzzy
+msgid "Bad input file size"
+msgstr "Fejlagtig størrelse på inddatafilen\n"
+
+#: src/libkfont/setfont.c:559
+#, c-format
+msgid ""
+"This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
+"using an option -8 or -14 or -16 which one you want loaded.\n"
+msgstr ""
+"Denne fil indeholder 3 skrifttyper: 8×8, 8×14 og 8×16. Vælg hvilken\n"
+"du vil indlæse via et af flagene -8, -14 eller -16.\n"
+
+#: src/libkfont/setfont.c:576
+#, c-format
+msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
+msgstr ""
+"Du bad om skrifttypesstørrelsen %d, men kun 8, 14 og 16 er mulige her.\n"
+
+#: src/libkfont/setfont.c:627
+#, fuzzy
+msgid "Found nothing to save"
+msgstr "Fandt ikke noget at gemme\n"
+
+#: src/libkfont/setfont.c:631
+#, fuzzy, c-format
+msgid "Cannot write font file: %m"
+msgstr "Kan ikke skrive til skrifttypefilen"
+
+#: src/libkfont/setfont.c:637
+#, fuzzy, c-format
+msgid "Saved %d-char %dx%d font file on %s"
+msgstr "Gemte %d-tegns %d×%d-skrifttypefil til %s\n"
+
+#: src/loadkeys.c:46
+#, c-format
+msgid "Usage: %s [option...] [mapfile...]\n"
+msgstr ""
+
+#: src/loadkeys.c:67
+#, fuzzy, c-format
+msgid "Default keymap: %s\n"
+msgstr "deallokér keymap %d\n"
+
+#: src/loadkeys.c:116
+msgid "force conversion to ASCII."
+msgstr ""
+
+#: src/loadkeys.c:117
+msgid "output a binary keymap to stdout."
+msgstr ""
+
+#: src/loadkeys.c:118
+msgid "clear kernel compose table."
+msgstr ""
+
+#: src/loadkeys.c:119
+msgid "load default."
+msgstr ""
+
+#: src/loadkeys.c:120
+msgid "output a 'defkeymap.c' to stdout."
+msgstr ""
+
+#: src/loadkeys.c:121
+msgid "search and parse keymap without action."
+msgstr ""
+
+#: src/loadkeys.c:122
+msgid "clear kernel string table."
+msgstr ""
+
+#: src/loadkeys.c:123
+msgid "force conversion to Unicode."
+msgstr ""
+
+#: src/loadkeys.c:146
+msgid "Unable to create kbdfile context"
+msgstr ""
+
+#: src/loadkeys.c:198
+#, fuzzy, c-format
+msgid "Options %s and %s are mutually exclusive."
+msgstr "%s: Tilvalg --unicode og --ascii er gensidigt udelukkende\n"
+
+#: src/loadkeys.c:215
+#, fuzzy
+msgid ""
+"Warning: loading non-Unicode keymap on Unicode console\n"
+"    (perhaps you want to do `kbd_mode -a'?)"
+msgstr ""
+"%s: advarsel: indlæser ikke-UCS keymap på UCS konsol\n"
+"    (måske vil du gerne lave 'kbd_mode -a'?)\n"
+
+#: src/loadkeys.c:226
+#, fuzzy
+msgid ""
+"Warning: loading Unicode keymap on non-Unicode console\n"
+"    (perhaps you want to do `kbd_mode -u'?)"
+msgstr ""
+"%s: advarsel: indlæser UCS keymap på ikke-UCS konsol\n"
+"    (måske vil du gerne lave 'kbd_mode -u'?)\n"
+
+#: src/loadkeys.c:241 src/loadkeys.c:255 src/loadkeys.c:269
+#, fuzzy, c-format
+msgid "Unable to create kbdfile instance: %m"
+msgstr "kunne ikke binde tast %d til værdien %d\n"
+
+#: src/loadunimap.c:75 src/mapscrn.c:72
+msgid "save the old map to the FILE."
+msgstr ""
+
+#: src/mapscrn.c:25
+#, fuzzy, c-format
+msgid "Usage: %s [option...] [map-file]\n"
+msgstr "brug: %s [-v] [-o originaltabel] tabelfil\n"
+
+#: src/openvt.c:52
+#, c-format
+msgid "Usage: %s [option...] -- command\n"
+msgstr ""
+
+#: src/openvt.c:54
+#, c-format
+msgid ""
+"This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr ""
+
+#: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
 msgstr "Kunne ikke finde ejer af aktuel tty!"
 
-#: src/openvt.c:207
+#: src/openvt.c:284
+msgid "execute the command, without forking."
+msgstr ""
+
+#: src/openvt.c:285
+msgid "force opening a VT without checking."
+msgstr ""
+
+#: src/openvt.c:286
+msgid "make the command a login shell."
+msgstr ""
+
+#: src/openvt.c:287
+msgid "figure out the owner of the current VT."
+msgstr ""
+
+#: src/openvt.c:288
+msgid "switch to the new VT."
+msgstr ""
+
+#: src/openvt.c:289
+msgid "wait for command to complete"
+msgstr ""
+
+#: src/openvt.c:303
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: Ugyldigt vt-nummer"
 
-#: src/openvt.c:234
+#: src/openvt.c:330
 msgid "Only root can use the -u flag."
 msgstr "Kun root kan bruge flaget -u."
 
-#: src/openvt.c:263
+#: src/openvt.c:359
 msgid "Cannot find a free vt"
 msgstr "Kan ikke finde en ledig vt"
 
-#: src/openvt.c:267
+#: src/openvt.c:363
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "Kan ikke undersøge om vt %d er ledig, brug '%s -f' at gennemtvinge."
 
-#: src/openvt.c:271
+#: src/openvt.c:367
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "vt %d er i brug, kommandoen afbrudt, brug '%s -f' at gennemtvinge."
 
-#: src/openvt.c:281
+#: src/openvt.c:377
 msgid "Unable to find command."
 msgstr "Kunne ikke finde kommando"
 
-#: src/openvt.c:313
+#: src/openvt.c:412
 msgid "Unable to set new session"
 msgstr "Kan ikke sætte ny session"
 
-#: src/openvt.c:337
-#, c-format
-msgid "Unable to open %s"
-msgstr "Kan ikke åbne %s"
-
-#: src/openvt.c:341
+#: src/openvt.c:441
 #, c-format
 msgid "Using VT %s"
 msgstr "Bruger VT %s"
 
-#: src/openvt.c:347
+#: src/openvt.c:447
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "Kan ikke åbne %s for læsning/skrivning"
 
-#: src/openvt.c:359
-#, c-format
-msgid "Couldn't activate vt %d"
-msgstr "Kunne ikke aktivere vt %d"
-
-#: src/openvt.c:362
-msgid "Activation interrupted?"
-msgstr "Aktivering afbrudt?"
-
-#: src/openvt.c:402
+#: src/openvt.c:494
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "Kunne ikke deallokere konsol %d"
 
-#: src/psffontop.c:75
-#, c-format
-msgid "%s: short ucs2 unicode table\n"
-msgstr "%s: kort ucs2-tabel\n"
-
-#: src/psffontop.c:97
-#, c-format
-msgid "%s: short utf8 unicode table\n"
-msgstr "%s: kort utf8-tabel\n"
-
-#: src/psffontop.c:100
-#, c-format
-msgid "%s: bad utf8\n"
-msgstr "%s: fejlagtig utf8\n"
-
-#: src/psffontop.c:103
-#, c-format
-msgid "%s: unknown utf8 error\n"
-msgstr "%s: ukendt utf8-fejl\n"
-
-#: src/psffontop.c:135
-#, c-format
-msgid "%s: short unicode table\n"
-msgstr "%s: kort UCS-tabel\n"
-
-#: src/psffontop.c:215
-#, c-format
-msgid "%s: Error reading input font"
-msgstr "%s: Fejl ved læsning af inddataskrifttype"
-
-#: src/psffontop.c:229
-#, c-format
-msgid "%s: Bad call of readpsffont\n"
-msgstr "%s: Fejlagtigt kald af readpsffont\n"
-
-#: src/psffontop.c:244
-#, c-format
-msgid "%s: Unsupported psf file mode (%d)\n"
-msgstr "%s: psf-filtilstand (%d) understøttes ikke\n"
-
-#: src/psffontop.c:262
-#, c-format
-msgid "%s: Unsupported psf version (%d)\n"
-msgstr "%s: psf-version (%d) understøttes ikke\n"
-
-#: src/psffontop.c:278
-#, c-format
-msgid "%s: zero input font length?\n"
-msgstr "%s: længde af inddataskrifttype er nul?\n"
-
-#: src/psffontop.c:283
-#, c-format
-msgid "%s: zero input character size?\n"
-msgstr "%s: størrelse af inddatategn er nul?\n"
-
-#: src/psffontop.c:289
-#, c-format
-msgid "%s: Input file: bad input length (%d)\n"
-msgstr "%s: Inddatafil: ugyldig inddatalængde (%d)\n"
-
-#: src/psffontop.c:321
-#, c-format
-msgid "%s: Input file: trailing garbage\n"
-msgstr "%s: Inddatafil: efterfølgende snavs\n"
-
-#: src/psffontop.c:360
-#, c-format
-msgid "appendunicode: illegal unicode %u\n"
-msgstr "appendunicode: ugyldig UCS %u\n"
-
-#: src/psffontop.c:454
-#, c-format
-msgid "Cannot write font file header"
-msgstr "Kan ikke skrive skrifttypefilhoved"
-
-#: src/psffontop.c:479 src/setfont.c:700
-#, c-format
-msgid "Cannot write font file"
-msgstr "Kan ikke skrive til skrifttypefilen"
-
-#: src/psfxtable.c:114
-#, c-format
-msgid "%s: Warning: line too long\n"
-msgstr "%s: Advarsel: linjen er for lang\n"
-
-#: src/psfxtable.c:128 src/psfxtable.c:138
-#, c-format
-msgid "%s: Bad input line: %s\n"
-msgstr "%s: Fejlagtig inddatalinje: %s\n"
-
-#: src/psfxtable.c:147
-#, c-format
-msgid "%s: Glyph number (0x%lx) past end of font\n"
-msgstr "%s: Glyfnummer (0x%lx) forbi slutningen af skrifttypen\n"
-
-#: src/psfxtable.c:152
-#, c-format
-msgid "%s: Bad end of range (0x%lx)\n"
-msgstr "%s: Fejlagtigt slut på interval (0x%lx)\n"
-
-#: src/psfxtable.c:171
-#, c-format
-msgid ""
-"%s: Corresponding to a range of font positions, there should be a Unicode "
-"range\n"
-msgstr ""
-"%s: Til et modsvarende interval af skrifttypespositioner burde der findes et "
-"UCS-interval\n"
-
-#: src/psfxtable.c:260
-#, c-format
-msgid ""
-"Usage:\n"
-"\t%s infont intable outfont\n"
+#: src/psfxtable.c:66
+#, fuzzy, c-format
+msgid "Usage: %s infont intable outfont\n"
 msgstr ""
 "Brug:\n"
 "\t%s inddataskrifttype inddatatabel uddataskrifttype\n"
 
-#: src/psfxtable.c:269
-#, c-format
-msgid ""
-"Usage:\n"
-"\t%s infont [outtable]\n"
+#: src/psfxtable.c:75
+#, fuzzy, c-format
+msgid "Usage: %s infont [outtable]\n"
 msgstr ""
 "Brug:\n"
 "\t%s inddataskrifttype [udtabel]\n"
 
-#: src/psfxtable.c:278
-#, c-format
-msgid ""
-"Usage:\n"
-"\t%s infont outfont\n"
+#: src/psfxtable.c:84
+#, fuzzy, c-format
+msgid "Usage: %s infont outfont\n"
 msgstr ""
 "Brug:\n"
 "\t%s inddataskrifttype uddataskrifttype\n"
 
-#: src/psfxtable.c:301
-#, c-format
-msgid ""
-"Usage:\n"
-"\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
+#: src/psfxtable.c:107
+#, fuzzy, c-format
+msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 "Brug:\n"
 "\t%s [-i inddataskrifttype] [-o uddataskrifttype] [-it indtabel] [-ot "
 "udtabel] [-nt]\n"
 
-#: src/psfxtable.c:361
-#, c-format
-msgid "%s: Bad magic number on %s\n"
+#: src/psfxtable.c:148
+#, fuzzy, c-format
+msgid "Bad magic number on %s"
 msgstr "%s: Fejlagtigt magisk nummer på %s\n"
 
-#: src/psfxtable.c:380
-#, c-format
-msgid "%s: psf file with unknown magic\n"
+#: src/psfxtable.c:167
+#, fuzzy
+msgid "psf file with unknown magic"
 msgstr "%s: psf-fil med ukendt magisk nummer\n"
 
-#: src/psfxtable.c:396
-#, c-format
-msgid "%s: input font does not have an index\n"
+#: src/psfxtable.c:178
+#, fuzzy
+msgid "input font does not have an index"
 msgstr "%s: inddataskrifttypen har ikke noget indeks\n"
 
-#: src/resizecons.c:142
+#: src/resizecons.c:149
 #, fuzzy, c-format
-msgid "resizecons: invalid columns number %d\n"
+msgid "resizecons: invalid columns number %d"
 msgstr "resizecons: kan ikke finde videotilstandsfil %s\n"
 
-#: src/resizecons.c:147
-#, c-format
-msgid "resizecons: invalid rows number %d\n"
-msgstr ""
-
-#: src/resizecons.c:158
-#, c-format
-msgid "resizecons: cannot find videomode file %s\n"
+#: src/resizecons.c:154
+#, fuzzy, c-format
+msgid "resizecons: invalid rows number %d"
 msgstr "resizecons: kan ikke finde videotilstandsfil %s\n"
 
-#: src/resizecons.c:175
-msgid "Invalid number of lines\n"
+#: src/resizecons.c:165
+#, fuzzy, c-format
+msgid "resizecons: cannot find videomode file %s"
+msgstr "resizecons: kan ikke finde videotilstandsfil %s\n"
+
+#: src/resizecons.c:182
+#, fuzzy
+msgid "Invalid number of lines"
 msgstr "Ugyldigt antal linjer\n"
 
-#: src/resizecons.c:258
+#: src/resizecons.c:265
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Gammel tilstand: %d×%d  Ny tilstand: %d×%d\n"
 
-#: src/resizecons.c:260
+#: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr ""
 "Gammelt antal skanlinjer: %d  Nyt antal skanlinjer: %d  Tegnhøjde: %d\n"
 
-#: src/resizecons.c:271
+#: src/resizecons.c:278
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: kommandoen \"%s\" mislykkedes\n"
 
-#: src/resizecons.c:356
+#: src/resizecons.c:363
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: glem ikke at ændre TERM (måske til con%dx%d eller linux-%dx%d)\n"
 
-#: src/resizecons.c:370
+#: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1224,7 +1406,7 @@ msgstr ""
 "eller: resizecons -lines LINJER, hvor LINJER er en af 25, 28, 30, 34, 36, "
 "40, 44, 50, 60\n"
 
-#: src/resizecons.c:409
+#: src/resizecons.c:416
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: kan ikke få I/O-rettigheder.\n"
@@ -1234,32 +1416,28 @@ msgstr "resizecons: kan ikke få I/O-rettigheder.\n"
 msgid "usage: screendump [n]\n"
 msgstr "brug: screendump [n]\n"
 
-#: src/screendump.c:78
+#: src/screendump.c:82
 #, fuzzy, c-format
 msgid "Error reading %s"
 msgstr "Fejl ved læsning af %s\n"
 
-#: src/screendump.c:123
-#, c-format
-msgid "couldn't read %s, and cannot ioctl dump\n"
-msgstr "kunne ikke læse %s, og kan ikke køre \"ioctl dump\"\n"
-
-#: src/screendump.c:129
-#, c-format
-msgid "couldn't read %s\n"
+#: src/screendump.c:136
+#, fuzzy, c-format
+msgid "Couldn't read %s"
 msgstr "kunne ikke læse %s\n"
 
-#: src/screendump.c:138
-#, c-format
-msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
+#: src/screendump.c:145
+#, fuzzy, c-format
+msgid "Strange ... screen is both %dx%d and %dx%d ?"
 msgstr "Mærkeligt ... skærmen er både %d×%d og %d×%d??\n"
 
-#: src/screendump.c:155
-msgid "Error writing screendump\n"
+#: src/screendump.c:166
+#, fuzzy
+msgid "Error writing screendump"
 msgstr "Fejl ved skrivning af skærmdump\n"
 
-#: src/setfont.c:77
-#, c-format
+#: src/setfont.c:28
+#, fuzzy, c-format
 msgid ""
 "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
 "unicodemap]\n"
@@ -1277,6 +1455,7 @@ msgid ""
 "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
 "will be loaded and, in the case of consolemaps, activated.\n"
 "    -h<N>      (no space) Override font height.\n"
+"    -d         Double size of font horizontally and vertically.\n"
 "    -m <fn>    Load console screen map.\n"
 "    -u <fn>    Load font unicode map.\n"
 "    -m none    Suppress loading and activation of a screen map.\n"
@@ -1314,194 +1493,63 @@ msgstr ""
 "    -V         Udskriv version og afslut.\n"
 "Filer indlæses fra det aktuelle katalog eller %s/*/.\n"
 
-#: src/setfont.c:177
-#, c-format
-msgid "setfont: too many input files\n"
+#: src/setfont.c:138
+#, fuzzy
+msgid "Too many input files."
 msgstr "setfont: for mange inddatafiler\n"
 
-#: src/setfont.c:185
-#, c-format
-msgid ""
-"setfont: cannot both restore from character ROM and from file. Font "
-"unchanged.\n"
+#: src/setfont.c:144
+#, fuzzy
+msgid "Cannot both restore from character ROM and from file. Font unchanged."
 msgstr ""
 "setfont: kan ikke både genskabe fra tegn-ROM og fra fil. Fonten uændret.\n"
 
-#: src/setfont.c:260
+#: src/setkeycodes.c:28
 #, c-format
-msgid "Bad character height %d\n"
-msgstr "Fejlagtig tegnhøjde %d\n"
-
-#: src/setfont.c:264
-#, c-format
-msgid "Bad character width %d\n"
-msgstr "Fejlagtig tegnbredde %d\n"
-
-#: src/setfont.c:289
-#, c-format
-msgid "%s: font position 32 is nonblank\n"
-msgstr "%s: Skrifttypesposition 32 er ikke-blank\n"
-
-#: src/setfont.c:297
-#, c-format
-msgid "%s: wiped it\n"
-msgstr "%s: rensede det\n"
-
-#: src/setfont.c:301
-#, c-format
-msgid "%s: background will look funny\n"
-msgstr "%s: baggrunden vil se mærkelig ud\n"
-
-#: src/setfont.c:311
-#, c-format
-msgid "Loading %d-char %dx%d font from file %s\n"
-msgstr "Indlæser %d-tegns %d×%d-skrifttype fra filen %s\n"
-
-#: src/setfont.c:314
-#, c-format
-msgid "Loading %d-char %dx%d font\n"
-msgstr "Indlæser %d-tegns %d×%d-skrifttype\n"
-
-#: src/setfont.c:317
-#, c-format
-msgid "Loading %d-char %dx%d (%d) font from file %s\n"
-msgstr "Indlæser %d-tegns %d×%d-skrifttype (%d) fra filen %s\n"
-
-#: src/setfont.c:320
-#, c-format
-msgid "Loading %d-char %dx%d (%d) font\n"
-msgstr "Indlæser %d-tegns %d×%d-skrifttype (%d)\n"
-
-#: src/setfont.c:376
-#, c-format
-msgid "%s: bug in do_loadtable\n"
-msgstr "%s: fejl i do_loadtable\n"
-
-#: src/setfont.c:382
-#, c-format
-msgid "Loading Unicode mapping table...\n"
-msgstr "Indlæser UCS-konverteringsstabel...\n"
-
-#: src/setfont.c:421 src/setfont.c:516
-#, c-format
-msgid "Cannot open font file %s\n"
-msgstr "Kan ikke åbne skrifttypefilen %s\n"
-
-#: src/setfont.c:432
-#, c-format
-msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
+msgid "Usage: %s [option...] scancode keycode ...\n"
 msgstr ""
-"Når flere skrifttyper læses ind skal alle være psf-skrifttyper - %s er det "
-"ikke\n"
 
-#: src/setfont.c:445
-#, c-format
-msgid "Read %d-char %dx%d font from file %s\n"
-msgstr "Læste %d-tegns %d×%d-skrifttype fra filen %s\n"
-
-#: src/setfont.c:451
-#, c-format
-msgid "When loading several fonts, all must have the same height\n"
-msgstr "Når flere skrifttyper læses ind skal alle have samme højde\n"
-
-#: src/setfont.c:458
-#, c-format
-msgid "When loading several fonts, all must have the same width\n"
-msgstr "Når flere skrifttyper læses ind skal alle have samme bredde\n"
-
-#: src/setfont.c:503
-#, c-format
-msgid "Cannot find default font\n"
-msgstr "Kan ikke finde standardskrifttypen\n"
-
-#: src/setfont.c:510
-#, c-format
-msgid "Cannot find %s font\n"
-msgstr "Kan ikke finde skrifttypen %s\n"
-
-#: src/setfont.c:522
-#, c-format
-msgid "Reading font file %s\n"
-msgstr "Læser skrifttypefilen %s\n"
-
-#: src/setfont.c:564
-#, c-format
-msgid "No final newline in combine file\n"
-msgstr "Intet endeligt nylinjestegn i kombinationsfilen\n"
-
-#: src/setfont.c:570
-#, c-format
-msgid "Too many files to combine\n"
-msgstr "For mange filer at kombinere\n"
-
-#: src/setfont.c:594
-#, c-format
-msgid "Hmm - a font from restorefont? Using the first half.\n"
-msgstr "Hmm - en skrifttype fra restorefont? Bruger første halvdel.\n"
-
-#: src/setfont.c:611
-#, c-format
-msgid "Bad input file size\n"
-msgstr "Fejlagtig størrelse på inddatafilen\n"
-
-#: src/setfont.c:633
-#, c-format
+#: src/setkeycodes.c:30
+#, fuzzy, c-format
 msgid ""
-"This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
-"using an option -8 or -14 or -16 which one you want loaded.\n"
-msgstr ""
-"Denne fil indeholder 3 skrifttyper: 8×8, 8×14 og 8×16. Vælg hvilken\n"
-"du vil indlæse via et af flagene -8, -14 eller -16.\n"
-
-#: src/setfont.c:650
-#, c-format
-msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"Du bad om skrifttypesstørrelsen %d, men kun 8, 14 og 16 er mulige her.\n"
-
-#: src/setfont.c:696
-#, c-format
-msgid "Found nothing to save\n"
-msgstr "Fandt ikke noget at gemme\n"
-
-#: src/setfont.c:705
-#, c-format
-msgid "Saved %d-char %dx%d font file on %s\n"
-msgstr "Gemte %d-tegns %d×%d-skrifttypefil til %s\n"
-
-#: src/setkeycodes.c:25
-#, c-format
-msgid ""
-"usage: setkeycode scancode keycode ...\n"
-" (where scancode is either xx or e0xx, given in hexadecimal,\n"
-"  and keycode is given in decimal)\n"
+"(where scancode is either xx or e0xx, given in hexadecimal,\n"
+"and keycode is given in decimal)\n"
 msgstr ""
 "brug: setkeycode aflæsningskode tastekode ...\n"
 " (hvor aflæsningskode er enten xx eller e0xx angivet heksadecimalt,\n"
 "  og tastekode er angivet decimalt)\n"
 
-#: src/setkeycodes.c:44
-msgid "even number of arguments expected"
-msgstr "lige antal argumenter forventedes"
-
-#: src/setkeycodes.c:53
+#: src/setkeycodes.c:68
 msgid "error reading scancode"
 msgstr "fejl ved læsning af aflæsningskode"
 
-#: src/setkeycodes.c:61
+#: src/setkeycodes.c:73
+#, fuzzy, c-format
+msgid "Argument out of range: %s"
+msgstr "UCS keysym uden for område: %s"
+
+#: src/setkeycodes.c:78
+#, c-format
+msgid "Argument must be positive: %s"
+msgstr ""
+
+#: src/setkeycodes.c:155
 msgid "code outside bounds"
 msgstr "kode uden for grænserne"
 
-#: src/setkeycodes.c:70
+#: src/setkeycodes.c:164
 #, fuzzy, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "kunne ikke sætte aflæsningskoden %x til tastekoden %d\n"
 
-#: src/setleds.c:25
+#: src/setleds.c:32
 #, c-format
+msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
+msgstr ""
+
+#: src/setleds.c:41
+#, fuzzy, c-format
 msgid ""
-"Usage:\n"
-"\tsetleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
 "Thus,\n"
 "\tsetleds +caps -num\n"
 "will set CapsLock, clear NumLock and leave ScrollLock unchanged.\n"
@@ -1526,15 +1574,15 @@ msgstr ""
 "Med -D sættes både flagene og standardflagene så senere\n"
 "nulstillinger ikke vil ændre flagene.\n"
 
-#: src/setleds.c:46
+#: src/setleds.c:77
 msgid "on "
 msgstr "til"
 
-#: src/setleds.c:46
+#: src/setleds.c:77
 msgid "off"
 msgstr "fra"
 
-#: src/setleds.c:90
+#: src/setleds.c:121
 #, fuzzy
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
@@ -1542,154 +1590,134 @@ msgstr ""
 "Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en "
 "VT?\n"
 
-#: src/setleds.c:110
-#, fuzzy
-msgid ""
-"Error reading current flags setting. Maybe you are not on the console?: "
-"ioctl KDGKBLED"
-msgstr ""
-"Fejl ved læsning af nuværende flagindstilling. Du er måske ikke på "
-"konsollen?\n"
-
-#: src/setleds.c:129
-#, fuzzy
-msgid "Error reading current led setting from /dev/kbd: ioctl KIOCGLED"
+#: src/setleds.c:157 src/setleds.c:176
+#, fuzzy, c-format
+msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr "Fejl ved læsning af nuværende diodeindstilling fra /dev/kbd.\n"
 
-#: src/setleds.c:133
-msgid "KIOCGLED unavailable?\n"
+#: src/setleds.c:161 src/setleds.c:180
+#, fuzzy, c-format
+msgid "ioctl %s unavailable?"
 msgstr "KIOCGLED ikke tilgængelig?\n"
 
-#: src/setleds.c:148
+#: src/setleds.c:244
+msgid "change both the VT flags and their default settings."
+msgstr ""
+
+#: src/setleds.c:245
 #, fuzzy
-msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
-msgstr "Fejl ved læsning af nuværende diodeindstilling fra /dev/kbd.\n"
+msgid "change the VT flags."
+msgstr "Kun root kan bruge flaget -u."
 
-#: src/setleds.c:152
-msgid "KIOCSLED unavailable?\n"
-msgstr "KIOCSLED ikke tilgængelig?\n"
+#: src/setleds.c:246
+msgid "change only the leds."
+msgstr ""
 
-#: src/setleds.c:205
-msgid "Error resetting ledmode\n"
+#: src/setleds.c:323
+#, fuzzy
+msgid "Error resetting ledmode"
 msgstr "Fejl ved nulstilling af diodetilstand\n"
 
-#: src/setleds.c:213
+#: src/setleds.c:331
 #, c-format
 msgid "Current default flags:  "
 msgstr "Nuværende standardflag:  "
 
-#: src/setleds.c:217
+#: src/setleds.c:335
 #, c-format
 msgid "Current flags:          "
 msgstr "Nuværende flag:          "
 
-#: src/setleds.c:221
+#: src/setleds.c:339
 #, c-format
 msgid "Current leds:           "
 msgstr "Nuværende dioder:           "
 
-#: src/setleds.c:257 src/setmetamode.c:136
-#, c-format
-msgid ""
-"unrecognized argument: _%s_\n"
-"\n"
-msgstr ""
-"ukendt argument: _%s_\n"
-"\n"
-
-#: src/setleds.c:266
+#: src/setleds.c:354
 #, c-format
 msgid "Old default flags:    "
 msgstr "Gamle standardflag:    "
 
-#: src/setleds.c:268
+#: src/setleds.c:356
 #, c-format
 msgid "New default flags:    "
 msgstr "Nye standardflag:      "
 
-#: src/setleds.c:275
+#: src/setleds.c:363
 #, c-format
 msgid "Old flags:            "
 msgstr "Gamle flag:            "
 
-#: src/setleds.c:277
+#: src/setleds.c:365
 #, c-format
 msgid "New flags:            "
 msgstr "Nye flag:              "
 
-#: src/setleds.c:290 src/setleds.c:299
+#: src/setleds.c:378 src/setleds.c:387
 #, c-format
 msgid "Old leds:             "
 msgstr "Gamle dioder:             "
 
-#: src/setleds.c:292 src/setleds.c:301
+#: src/setleds.c:380 src/setleds.c:389
 #, c-format
 msgid "New leds:             "
 msgstr "Nye dioder:               "
 
-#: src/setmetamode.c:25
+#: src/setmetamode.c:27
+#, c-format
+msgid "Usage: %s [option...] [argument]\n"
+msgstr ""
+
+#: src/setmetamode.c:30
 #, c-format
 msgid ""
-"Usage: %1$s [option...] [argument]\n"
-"\n"
-"Each vt has his own copy of this bit. Use\n"
-"    %1$s [argument] < /dev/ttyn\n"
-"to change the settings of another vt.\n"
-"The setting before and after the change are reported.\n"
-"\n"
 "Arguments:\n"
 "  metabit     the keysym marked with the high bit set.\n"
 "  escprefix   specifies if pressing the meta (alt) key\n"
 "              generates an ESC (\\033) prefix followed by\n"
 "              the keysym.\n"
-"\n"
-"Options:\n"
-"  -C, --console=DEV     the console device to be used;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number\n"
-"\n"
 msgstr ""
 
-#: src/setmetamode.c:53
-msgid "Meta key sets high order bit\n"
+#: src/setmetamode.c:69
+#, fuzzy
+msgid "Meta key sets high order bit"
 msgstr "Metatasten sætter højeste bit\n"
 
-#: src/setmetamode.c:56
-msgid "Meta key gives Esc prefix\n"
+#: src/setmetamode.c:72
+#, fuzzy
+msgid "Meta key gives Esc prefix"
 msgstr "Metatasten giver esc-præfiks\n"
 
-#: src/setmetamode.c:59
-msgid "Strange mode for Meta key?\n"
+#: src/setmetamode.c:75
+#, fuzzy
+msgid "Strange mode for Meta key?"
 msgstr "Mærkelig tilstand for Metatasten?\n"
 
-#: src/setmetamode.c:120
-#, fuzzy
-msgid ""
-"Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-msgstr ""
-"Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en "
-"VT?\n"
-
-#: src/setmetamode.c:140
+#: src/setmetamode.c:161
 #, c-format
 msgid "old state:    "
 msgstr "gammel tilstand:    "
 
-#: src/setmetamode.c:145
+#: src/setmetamode.c:166
 #, c-format
 msgid "new state:    "
 msgstr "ny tilstand:       "
 
 #: src/setvesablank.c:27
-#, c-format
-msgid "usage: %s\n"
-msgstr "brug: %s\n"
+#, fuzzy, c-format
+msgid "Usage: %s ON|on|off\n"
+msgstr ""
+"Brug:\n"
+"\t%s inddataskrifttype uddataskrifttype\n"
 
 #: src/setvtrgb.c:44
+#, c-format
+msgid "Usage: %s [option...] [vga|FILE|-]\n"
+msgstr ""
+
+#: src/setvtrgb.c:47
 #, fuzzy, c-format
 msgid ""
-"Usage: %s [options] [vga|FILE|-]\n"
-"\n"
 "If you use the FILE parameter, FILE should be exactly 3 lines of\n"
 "comma-separated decimal values for RED, GREEN, and BLUE.\n"
 "\n"
@@ -1697,12 +1725,6 @@ msgid ""
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
 "\n"
 "and then edit the values in FILE.\n"
-"\n"
-"Options:\n"
-"  -C, --console=DEV     the console device to be used;\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
-"\n"
 msgstr ""
 "Brug: %s vga|FIL|-\n"
 "\n"
@@ -1715,79 +1737,66 @@ msgstr ""
 "og redigér så værdierne i FIL.\n"
 "\n"
 
-#: src/setvtrgb.c:75
+#: src/setvtrgb.c:93
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Fejl: %s: Ugyldig værdi i felt %u i linje %u."
 
-#: src/setvtrgb.c:82
+#: src/setvtrgb.c:100
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Fejl: %s: Utilstrækkeligt antal felter i linje %u."
 
-#: src/setvtrgb.c:87
-#, c-format
-msgid "Error: %s: Line %u has ended unexpectedly.\n"
+#: src/setvtrgb.c:105
+#, fuzzy, c-format
+msgid "Error: %s: Line %u has ended unexpectedly."
 msgstr "Fejl: %s: linje %u afsluttedes uventet.\n"
 
-#: src/setvtrgb.c:91
-#, c-format
-msgid "Error: %s: Line %u is too long.\n"
+#: src/setvtrgb.c:109
+#, fuzzy, c-format
+msgid "Error: %s: Line %u is too long."
 msgstr "Fejl: %s: linje %u er for lang.\n"
 
-#: src/showconsolefont.c:37
-msgid "failed to restore original translation table\n"
+#: src/showconsolefont.c:35
+#, fuzzy
+msgid "failed to restore original translation table"
 msgstr "mislykkedes med at genskabe originaloversætningstabellen\n"
 
-#: src/showconsolefont.c:41
-msgid "failed to restore original unimap\n"
+#: src/showconsolefont.c:39
+#, fuzzy
+msgid "failed to restore original unimap"
 msgstr "mislykkedes med at genskabe originalucstabel\n"
 
-#: src/showconsolefont.c:60
-msgid "cannot change translation table\n"
+#: src/showconsolefont.c:58
+#, fuzzy
+msgid "cannot change translation table"
 msgstr "kan ikke ændre oversætningstabellen\n"
 
-#: src/showconsolefont.c:101
-#, fuzzy, c-format
-msgid ""
-"usage: showconsolefont -V|--version\n"
-"       showconsolefont [-C tty] [-v] [-i]\n"
-"(probably after loading a font with `setfont font')\n"
-"\n"
-"Options:\n"
-"  -C tty                device to read the font from. Default: current tty;\n"
-"  -v                    be more verbose;\n"
-"  -i                    don't print out the font table, just show;\n"
-"                        ROWSxCOLSxCOUNT and exit;\n"
-"  -V, --version         print version number.\n"
-msgstr ""
-"brug: showconsolefont -V|--version\n"
-"       showconsolefont [-C tty] [-v] [-i]\n"
-"(formentligt efter at have indlæst en skrifttype med `setfont font')\n"
-"\n"
-"Gyldige tilvalg er:\n"
-" -C tty   Enhed du vil læse skrifttypen fra. Standard: Aktuel Konsol-enhed "
-"(tty).\n"
-" -v       Vær mere snaksaglig.\n"
-" -i       Udskriv ikke skrifttypetabellen, bare vis\n"
-"          RÆKKERxKOLONNExANTAL og afslut.\n"
-
-#: src/showconsolefont.c:168
+#: src/showconsolefont.c:104
 #, c-format
-msgid "Character count: %d\n"
+msgid "(probably after loading a font with `setfont font')\n"
+msgstr ""
+
+#: src/showconsolefont.c:155
+msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
+msgstr ""
+
+#: src/showconsolefont.c:213
+#, fuzzy, c-format
+msgid "Character count: %u\n"
 msgstr "Antal tegn: %d\n"
 
-#: src/showconsolefont.c:169
-#, c-format
-msgid "Font width     : %d\n"
+#: src/showconsolefont.c:214
+#, fuzzy, c-format
+msgid "Font width     : %u\n"
 msgstr "Skrifttypebredde : %d\n"
 
-#: src/showconsolefont.c:170
-#, c-format
-msgid "Font height    : %d\n"
+#: src/showconsolefont.c:215
+#, fuzzy, c-format
+msgid "Font height    : %u\n"
 msgstr "Skrifttypehøjde  : %d\n"
 
-#: src/showconsolefont.c:181
+#: src/showconsolefont.c:226
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1796,16 +1805,16 @@ msgstr ""
 "Viser %d-tegns skrifttype\n"
 "\n"
 
-#: src/showkey.c:50
+#: src/showkey.c:51
 msgid "?UNKNOWN?"
 msgstr "?UKENDT?"
 
-#: src/showkey.c:53
+#: src/showkey.c:54
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "tgb-tilstand var %s\n"
 
-#: src/showkey.c:55
+#: src/showkey.c:56
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1814,37 +1823,24 @@ msgstr ""
 "[ hvis du gør dette i X så fungerer det måske ikke \n"
 "da X-serveren også læser /dev/console ]\n"
 
-#: src/showkey.c:75
+#: src/showkey.c:76
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "fik signalet %d, rydder op...\n"
 
-#: src/showkey.c:91
-#, fuzzy, c-format
-msgid ""
-"showkey version %s\n"
-"\n"
-"usage: showkey [options...]\n"
-"\n"
-"Options:\n"
-"  -a, --ascii           display the decimal/octal/hex values of the keys;\n"
-"  -s, --scancodes       display only the raw scan-codes;\n"
-"  -k, --keycodes        display only the interpreted keycodes (default);\n"
-"  -h, --help            print this usage message;\n"
-"  -V, --version         print version number.\n"
+#: src/showkey.c:142
+msgid "display the decimal/octal/hex values of the keys."
 msgstr ""
-"showkey version %s\n"
-"\n"
-"brug: showkey [flag...]\n"
-"\n"
-"tilladte flag er:\n"
-"\n"
-"\t-h --help\tvis denne hjælpeteksten\n"
-"\t-a --ascii\tvis decimale/oktale/heksadecimale værdier for tasterne\n"
-"\t-s --scancodes\tvis kun de rå skankoder\n"
-"\t-k --keycodes\tvis kun de tolkede tastekoder (standard)\n"
 
-#: src/showkey.c:170
+#: src/showkey.c:143
+msgid "display only the raw scan-codes."
+msgstr ""
+
+#: src/showkey.c:144
+msgid "display only the interpreted keycodes (default)."
+msgstr ""
+
+#: src/showkey.c:193
 #, c-format
 msgid ""
 "\n"
@@ -1855,29 +1851,25 @@ msgstr ""
 "Tryk en vilkårlig tast - Ctrl-D vil afslutte programmet\n"
 "\n"
 
-#: src/showkey.c:238
+#: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
 msgstr ""
 "tryk en vilkårlig tast (programmet afsluttes 10 s efter sidste "
 "tastetrykning)...\n"
 
-#: src/showkey.c:262
+#: src/showkey.c:285
 msgid "release"
 msgstr "slip"
 
-#: src/showkey.c:262
+#: src/showkey.c:285
 msgid "press"
 msgstr "tryk"
 
-#: src/showkey.c:272
+#: src/showkey.c:295
 #, c-format
 msgid "keycode %3d %s\n"
 msgstr "tastekode %3d %s\n"
-
-#: src/totextmode.c:28
-msgid "usage: totextmode\n"
-msgstr "brug: totextmode\n"
 
 #: src/vlock/auth.c:76
 msgid ""
@@ -1940,6 +1932,411 @@ msgstr ""
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 
+#, fuzzy, c-format
+#~ msgid ""
+#~ "Usage: %s [option...] N\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Brug: %s [tilvalg]\n"
+#~ "\n"
+#~ "Gyldige tilvalg er:\n"
+#~ "\n"
+#~ "\t-h --help            vis denne hjælpetekst\n"
+#~ "\t-V --version         vis versionsnummer\n"
+#~ "\t-n --next-available  vis nummer på næste utildelte VT\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "Usage: %s [option...] [N ...]\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Brug: %s [tilvalg]\n"
+#~ "\n"
+#~ "Gyldige tilvalg er:\n"
+#~ "\n"
+#~ "\t-h --help            vis denne hjælpetekst\n"
+#~ "\t-V --version         vis versionsnummer\n"
+#~ "\t-n --next-available  vis nummer på næste utildelte VT\n"
+
+#, c-format
+#~ msgid "%s: unknown option\n"
+#~ msgstr "%s: ukendt flag\n"
+
+#, c-format
+#~ msgid "dumpkeys version %s"
+#~ msgstr "dumpkeys version %s"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "\n"
+#~ "usage: dumpkeys [options...]\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -i, --short-info      display information about keyboard driver;\n"
+#~ "  -l, -s, --long-info   display above and symbols known to loadkeys;\n"
+#~ "  -n, --numeric         display keytable in hexadecimal notation;\n"
+#~ "  -f, --full-table      don't use short-hand notations, one row per "
+#~ "keycode;\n"
+#~ "  -1, --separate-lines  one line per (modifier,keycode) pair;\n"
+#~ "  -S, --shape=\n"
+#~ "  -t, --funcs-only      display only the function key strings;\n"
+#~ "  -k, --keys-only       display only key bindings;\n"
+#~ "  -d, --compose-only    display only compose key combinations;\n"
+#~ "  -c, --charset="
+#~ msgstr ""
+#~ "\n"
+#~ "brug: dumpkeys [flag...]\n"
+#~ "\n"
+#~ "gyldige flag er:\n"
+#~ "\n"
+#~ "\t-h --help\t    vis denne hjælpetekst\n"
+#~ "\t-i --short-info\t    vis information om tastaturdrivrutine\n"
+#~ "\t-l --long-info\t    vis ovenstående og symboler kendte for loadkeys\n"
+#~ "\t-n --numeric\t    vis tastetabel i heksadecimal notation\n"
+#~ "\t-f --full-table\t    brug ikke kort notation, en linje per tastekode\n"
+#~ "\t-1 --separate-lines en linje per (ændrer,tastekode)-par\n"
+#~ "\t   --funcs-only\t    vis kun strenge for funktionstaster\n"
+#~ "\t   --keys-only\t    vis kun tastebindinger\n"
+#~ "\t   --compose­only   vis kun \"compose\"-tastekombinationer\n"
+#~ "\t-c --charset="
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "  -v, --verbose         explain what is being done;\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Brug: %s [tilvalg]\n"
+#~ "\n"
+#~ "Gyldige tilvalg er:\n"
+#~ "\n"
+#~ "\t-h --help            vis denne hjælpetekst\n"
+#~ "\t-V --version         vis versionsnummer\n"
+#~ "\t-n --next-available  vis nummer på næste utildelte VT\n"
+
+#, fuzzy, c-format
+#~ msgid "%s: error reading keyboard mode: %m\n"
+#~ msgstr "%s: fejl ved læsning af tastaturstilstand\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Usage: %s [options]\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "\n"
+#~ "  -n, --next-available  print number of next unallocated VT\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Brug: %s [tilvalg]\n"
+#~ "\n"
+#~ "Gyldige tilvalg er:\n"
+#~ "\n"
+#~ "\t-h --help            vis denne hjælpetekst\n"
+#~ "\t-V --version         vis versionsnummer\n"
+#~ "\t-n --next-available  vis nummer på næste utildelte VT\n"
+
+#, c-format
+#~ msgid "usage: getkeycodes\n"
+#~ msgstr "brug: getkeycodes\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\t%s [-s] [-C console]\n"
+#~ msgstr ""
+#~ "Brug:\n"
+#~ "\t%s [-s] [-C console]\n"
+
+#, c-format
+#~ msgid "Error: Unrecognized action: %s\n"
+#~ msgstr "Fejl: Ukendt handling: %s\n"
+
+#, fuzzy, c-format
+#~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"
+#~ msgstr "brug: kbd_mode [-a|-u|-k|-s] [-C enhed]\n"
+
+#, c-format
+#~ msgid "%s: out of memory\n"
+#~ msgstr "%s: hukommelsen slut\n"
+
+#, c-format
+#~ msgid "Couldn't get a file descriptor referring to the console\n"
+#~ msgstr "Kunne ikke få en filidentifikator der referere til konsollen\n"
+
+#, fuzzy, c-format
+#~ msgid "assuming iso-8859-15 %s"
+#~ msgstr "antager iso-8859-15 %s\n"
+
+#, fuzzy, c-format
+#~ msgid "assuming iso-8859-2 %s"
+#~ msgstr "antager iso-8859-2 %s\n"
+
+#, fuzzy, c-format
+#~ msgid "assuming iso-8859-3 %s"
+#~ msgstr "antager iso-8859-3 %s\n"
+
+#, fuzzy, c-format
+#~ msgid "assuming iso-8859-4 %s"
+#~ msgstr "antager iso-8859-4 %s\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "loadkeys version %s\n"
+#~ "\n"
+#~ "Usage: %s [option...] [mapfile...]\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -a, --ascii           force conversion to ASCII;\n"
+#~ "  -b, --bkeymap         output a binary keymap to stdout;\n"
+#~ "  -c, --clearcompose    clear kernel compose table;\n"
+#~ "  -C, --console=file    the console device to be used;\n"
+#~ "  -d, --default         load \"%s\";\n"
+#~ "  -m, --mktable         output a \"defkeymap.c\" to stdout;\n"
+#~ "  -p, --parse           search and parse keymap without action;\n"
+#~ "  -s, --clearstrings    clear kernel string table;\n"
+#~ "  -u, --unicode         force conversion to Unicode;\n"
+#~ "  -q, --quiet           suppress all normal output;\n"
+#~ "  -v, --verbose         explain what is being done;\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "loadkeys version %s\n"
+#~ "\n"
+#~ "brug: loadkeys [tilvalg...] [tabelfil...]\n"
+#~ "\n"
+#~ "Gyldige tilvalg er:\n"
+#~ "\n"
+#~ "  -a --ascii         gennemtving konvertering til ASCII\n"
+#~ "  -b --bkeymap       udskriv en binær keymap til standardud\n"
+#~ "  -c --clearcompose  nulstil kernens kompositionstabel\n"
+#~ "  -C <cons1,cons2,...> --console=<cons1,cons2,...>\n"
+#~ "                     konsolenhederne der skal bruges\n"
+#~ "  -d --default       indlæs \"%s\"\n"
+#~ "  -h --help          vis denne hjælpetekst\n"
+#~ "  -m --mktable       udskriv en \"defkeymap.c\" til standardud\n"
+#~ "  -q --quiet         undertryk alt normal udskrift\n"
+#~ "  -s --clearstrings  nulstíl kernens strengtabel\n"
+#~ "  -u --unicode       gennemtving konvertering til UCS\n"
+#~ "  -v --verbose       udskriv ændringerne\n"
+
+#, c-format
+#~ msgid "Cannot find %s\n"
+#~ msgstr "Kan ikke finde %s\n"
+
+#, c-format
+#~ msgid "cannot open file %s\n"
+#~ msgstr "Kan ikke åbne fil %s\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\t%s [-C console] [-o map.orig]\n"
+#~ msgstr ""
+#~ "Brug:\n"
+#~ "\t%s [-C konsol] [-o map.orig]\n"
+
+#, c-format
+#~ msgid "Bad input line: %s\n"
+#~ msgstr "Fejlagtig inddatalinje: %s\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr ""
+#~ "%s: Fejlagtigt UCS-interval som modsvarer skrifttypepositionsinterval 0x"
+#~ "%x-0x%x\n"
+
+#, c-format
+#~ msgid "%s: %s: Warning: line too long\n"
+#~ msgstr "%s: %s: Advarsel: linjen er for lang\n"
+
+#~ msgid "entries"
+#~ msgstr "poster"
+
+#, c-format
+#~ msgid "mapscrn: cannot open map file _%s_\n"
+#~ msgstr "mapscrn: kan ikke åbne tabelfil _%s_\n"
+
+#, c-format
+#~ msgid "Cannot stat map file"
+#~ msgstr "Kan ikke tage status på tabelfil"
+
+#, c-format
+#~ msgid "Error writing map to file\n"
+#~ msgstr "Fejl ved skrivning af tabel til fil\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] -- command\n"
+#~ "\n"
+#~ "This utility helps you to start a program on a new virtual terminal "
+#~ "(VT).\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -c, --console=NUM     use the given VT number;\n"
+#~ "  -e, --exec            execute the command, without forking;\n"
+#~ "  -f, --force           force opening a VT without checking;\n"
+#~ "  -l, --login           make the command a login shell;\n"
+#~ "  -u, --user            figure out the owner of the current VT;\n"
+#~ "  -s, --switch          switch to the new VT;\n"
+#~ "  -w, --wait            wait for command to complete;\n"
+#~ "  -v, --verbose         explain what is being done;\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Brug: %s [TILVALG] -- kommando\n"
+#~ "\n"
+#~ "Dette program hjælper dig med at starte et program på en ny virtuel "
+#~ "terminal (VT).\n"
+#~ "\n"
+#~ "Tilvalg:\n"
+#~ "  -c, --console=NUM   brug det angivne VT-nummer;\n"
+#~ "  -f, --force         gennemtving åbning af en VT uden at tjekke;\n"
+#~ "  -l, --login         gør kommandoen til en login-skál;\n"
+#~ "  -u, --user          find ejeren på den aktuelle VT;\n"
+#~ "  -s, --switch        skift til den nye VT;\n"
+#~ "  -w, --wait          vent på at kommandoen bliver færdig;\n"
+#~ "  -v, --verbose       udskriv en besked for hver handling;\n"
+#~ "  -V, --version       udskriv programversion og afslut;\n"
+#~ "  -h, --help          udskriv en kort hjælpetekst.\n"
+#~ "\n"
+
+#~ msgid "Activation interrupted?"
+#~ msgstr "Aktivering afbrudt?"
+
+#, c-format
+#~ msgid "%s: Bad input line: %s\n"
+#~ msgstr "%s: Fejlagtig inddatalinje: %s\n"
+
+#, c-format
+#~ msgid "%s: Glyph number (0x%lx) past end of font\n"
+#~ msgstr "%s: Glyfnummer (0x%lx) forbi slutningen af skrifttypen\n"
+
+#, c-format
+#~ msgid "%s: Bad end of range (0x%lx)\n"
+#~ msgstr "%s: Fejlagtigt slut på interval (0x%lx)\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
+#~ "range\n"
+#~ msgstr ""
+#~ "%s: Til et modsvarende interval af skrifttypespositioner burde der findes "
+#~ "et UCS-interval\n"
+
+#, c-format
+#~ msgid "couldn't read %s, and cannot ioctl dump\n"
+#~ msgstr "kunne ikke læse %s, og kan ikke køre \"ioctl dump\"\n"
+
+#, c-format
+#~ msgid "Cannot open font file %s\n"
+#~ msgstr "Kan ikke åbne skrifttypefilen %s\n"
+
+#, c-format
+#~ msgid "Cannot find %s font\n"
+#~ msgstr "Kan ikke finde skrifttypen %s\n"
+
+#~ msgid "even number of arguments expected"
+#~ msgstr "lige antal argumenter forventedes"
+
+#, fuzzy
+#~ msgid ""
+#~ "Error reading current flags setting. Maybe you are not on the console?: "
+#~ "ioctl KDGKBLED"
+#~ msgstr ""
+#~ "Fejl ved læsning af nuværende flagindstilling. Du er måske ikke på "
+#~ "konsollen?\n"
+
+#, fuzzy
+#~ msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
+#~ msgstr "Fejl ved læsning af nuværende diodeindstilling fra /dev/kbd.\n"
+
+#~ msgid "KIOCSLED unavailable?\n"
+#~ msgstr "KIOCSLED ikke tilgængelig?\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
+#~ msgstr ""
+#~ "Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en "
+#~ "VT?\n"
+
+#, c-format
+#~ msgid "usage: %s\n"
+#~ msgstr "brug: %s\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "usage: showconsolefont -V|--version\n"
+#~ "       showconsolefont [-C tty] [-v] [-i]\n"
+#~ "(probably after loading a font with `setfont font')\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -C tty                device to read the font from. Default: current "
+#~ "tty;\n"
+#~ "  -v                    be more verbose;\n"
+#~ "  -i                    don't print out the font table, just show;\n"
+#~ "                        ROWSxCOLSxCOUNT and exit;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "brug: showconsolefont -V|--version\n"
+#~ "       showconsolefont [-C tty] [-v] [-i]\n"
+#~ "(formentligt efter at have indlæst en skrifttype med `setfont font')\n"
+#~ "\n"
+#~ "Gyldige tilvalg er:\n"
+#~ " -C tty   Enhed du vil læse skrifttypen fra. Standard: Aktuel Konsol-"
+#~ "enhed (tty).\n"
+#~ " -v       Vær mere snaksaglig.\n"
+#~ " -i       Udskriv ikke skrifttypetabellen, bare vis\n"
+#~ "          RÆKKERxKOLONNExANTAL og afslut.\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "showkey version %s\n"
+#~ "\n"
+#~ "usage: showkey [options...]\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -a, --ascii           display the decimal/octal/hex values of the "
+#~ "keys;\n"
+#~ "  -s, --scancodes       display only the raw scan-codes;\n"
+#~ "  -k, --keycodes        display only the interpreted keycodes (default);\n"
+#~ "  -h, --help            print this usage message;\n"
+#~ "  -V, --version         print version number.\n"
+#~ msgstr ""
+#~ "showkey version %s\n"
+#~ "\n"
+#~ "brug: showkey [flag...]\n"
+#~ "\n"
+#~ "tilladte flag er:\n"
+#~ "\n"
+#~ "\t-h --help\tvis denne hjælpeteksten\n"
+#~ "\t-a --ascii\tvis decimale/oktale/heksadecimale værdier for tasterne\n"
+#~ "\t-s --scancodes\tvis kun de rå skankoder\n"
+#~ "\t-k --keycodes\tvis kun de tolkede tastekoder (standard)\n"
+
+#~ msgid "usage: totextmode\n"
+#~ msgstr "brug: totextmode\n"
+
 #~ msgid "usage: chvt N\n"
 #~ msgstr "brug: chvt N\n"
 
@@ -1986,30 +2383,6 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "Warning: path too long: %s/%s\n"
 #~ msgstr "Advarsel: stien er for lang: %s/%s\n"
 
-#~ msgid "kbd_mode: error reading keyboard mode\n"
-#~ msgstr "kbd_mode: fejl ved læsning af tastaturstilstand\n"
-
-#~ msgid "%s: error setting keyboard mode\n"
-#~ msgstr "%s: fejl da tastaturstilstand sattes\n"
-
-#~ msgid "includes are nested too deeply"
-#~ msgstr "includes er i for dybe nveauer"
-
-#~ msgid "switching to %s\n"
-#~ msgstr "skifter til %s\n"
-
-#~ msgid "cannot open include file %s"
-#~ msgstr "Kan ikke åbne inkluderingsfilen %s"
-
-#~ msgid "expected filename between quotes"
-#~ msgstr "forventede filnavn i anførselstegn"
-
-#~ msgid "unicode keysym out of range: %s"
-#~ msgstr "UCS keysym uden for område: %s"
-
-#~ msgid "string too long"
-#~ msgstr "strengen er for lang"
-
 #~ msgid "addmap called with bad index %d"
 #~ msgstr "addmap kaldt ,ed dårligt indeks %d"
 
@@ -2055,23 +2428,11 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "definitions"
 #~ msgstr "definitioner"
 
-#~ msgid "loadkeys: don't know how to compose for %s\n"
-#~ msgstr "loadkeys: véd ikke hvordan at kompositionere for %s\n"
-
-#~ msgid "'%s' is not a function key symbol"
-#~ msgstr "'%s' er ikke et symbol for en funktionstast"
-
-#~ msgid "too many (%d) entries on one line"
-#~ msgstr "For mange (%d) indgange på én linje"
-
 #~ msgid "too many key definitions on one line"
 #~ msgstr "for mane definitioner for taster på én linje"
 
 #~ msgid "Searching in %s\n"
 #~ msgstr "Søger i %s\n"
-
-#~ msgid "Loading %s\n"
-#~ msgstr "Indlæser %s\n"
 
 #~ msgid "syntax error in map file\n"
 #~ msgstr "Syntaksfejl i tabelfil\n"
