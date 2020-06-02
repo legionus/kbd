@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT([kbd],[2.2.0],[gladkov.alexey@gmail.com],[],[http://kbd-project.org/])
+AC_INIT([kbd],[2.2.90],[gladkov.alexey@gmail.com],[],[http://kbd-project.org/])
 
 AC_PREREQ([2.69])
 
