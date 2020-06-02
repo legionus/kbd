@@ -71,7 +71,7 @@ fprint_mode(FILE *stream, int  mode)
 		default:
 			fprintf(stream, _("The keyboard is in some unknown mode"));
 	}
-	printf("\n");
+	fprintf(stream, "\n");
 }
 
 int main(int argc, char *argv[])
