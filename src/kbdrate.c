@@ -322,7 +322,7 @@ usage(int rc, const struct kbd_help *options)
 
 	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
 	fprintf(stderr, "\n");
-	fprintf(stderr, _("The prorgam sets the keyboard repeat rate and delay in user mode.\n"));
+	fprintf(stderr, _("The program sets the keyboard repeat rate and delay in user mode.\n"));
 
 	if (options) {
 		int max = 0;
