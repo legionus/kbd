@@ -137,11 +137,8 @@ setleds(unsigned char cur_leds)
 static void
 getflags(unsigned char *flags)
 {
-	if (ioctl(0, KDGKBLED, flags)) {
-		kbd_error(EX_OSERR, errno, _("Error reading current flags setting. "
-		                             "Maybe you are not on the console?: "
-		                             "ioctl KDGKBLED"));
-	}
+	if (ioctl(0, KDGKBLED, flags))
+		kbd_error(EX_OSERR, errno, _("Unable to read keyboard flags"));
 }
 
 static int sunkbdfd = -1;
@@ -285,7 +282,7 @@ int main(int argc, char **argv)
 					usage(EX_OK, opthelp);
 					break;
 				default:
-					kbd_warning(0, _("unrecognized argument: %s"), argv[1]);
+					kbd_warning(0, _("Unrecognized argument: %s"), argv[1]);
 					usage(EX_USAGE, opthelp);
 			}
 
@@ -293,7 +290,7 @@ int main(int argc, char **argv)
 		}
 
 		if (parse_let_option(argv[1], &nval, &ndef, &nsunval, &nsundef) < 0) {
-			kbd_warning(0, _("unrecognized argument: %s"), argv[1]);
+			kbd_warning(0, _("Unrecognized argument: %s"), argv[1]);
 			usage(EX_USAGE, opthelp);
 		}
 

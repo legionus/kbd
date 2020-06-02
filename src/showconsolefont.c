@@ -32,11 +32,11 @@ static void __attribute__((noreturn))
 leave(struct kfont_context *ctx, int n)
 {
 	if (have_obuf && kfont_put_uniscrnmap(ctx, fd, obuf)) {
-		kbd_warning(0, _("failed to restore original translation table\n"));
+		kbd_warning(0, _("failed to restore original translation table"));
 		n = EXIT_FAILURE;
 	}
 	if (have_ounimap && kfont_put_unicodemap(ctx, fd, NULL, &ounimap)) {
-		kbd_warning(0, _("failed to restore original unimap\n"));
+		kbd_warning(0, _("failed to restore original unimap"));
 		n = EXIT_FAILURE;
 	}
 	exit(n);
@@ -55,7 +55,7 @@ settrivialscreenmap(struct kfont_context *ctx)
 		nbuf[i] = i;
 
 	if (kfont_put_uniscrnmap(ctx, fd, nbuf)) {
-		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table\n"));
+		kbd_error(EXIT_FAILURE, 0, _("cannot change translation table"));
 	}
 }
 
@@ -191,10 +191,10 @@ int main(int argc, char **argv)
 		usage(EX_USAGE, opthelp);
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	if (ioctl(fd, KDGKBMODE, &mode)) {
-		kbd_warning(errno, "ioctl KDGKBMODE");
+		kbd_warning(errno, _("Unable to read keyboard mode"));
 		leave(kfont, EX_OSERR);
 	}
 	if (mode == K_UNICODE)

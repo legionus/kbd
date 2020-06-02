@@ -31,9 +31,9 @@ get_mode(void)
 {
 	const char *m;
 
-	if (ioctl(fd, KDGKBMODE, &oldkbmode)) {
-		kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
-	}
+	if (ioctl(fd, KDGKBMODE, &oldkbmode))
+		kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard mode"));
+
 	switch (oldkbmode) {
 		case K_RAW:
 			m = "RAW";
@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
 	}
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	/* the program terminates when there is no input for 10 secs */
 	signal(SIGALRM, watch_dog);

@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 	}
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	while (argc > 2) {
 		if (str_to_uint(argv[1], 16, &a.scancode) < 0)

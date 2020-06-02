@@ -95,12 +95,12 @@ int main(int argc, char *argv[])
 	}
 
 	if (argc == optind) {
-		fprintf(stderr, _("Argument required\n"));
+		kbd_warning(0, _("Not enough arguments."));
 		usage(EX_USAGE, opthelp);
 	}
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	num = atoi(argv[optind]);
 
@@ -109,14 +109,14 @@ int main(int argc, char *argv[])
 	sigemptyset(&sa.sa_mask);
 
 	if (sigaction(SIGALRM, &sa, NULL) < 0)
-		kbd_error(EXIT_FAILURE, errno, "sigaction");
+		kbd_error(EXIT_FAILURE, errno, _("Unable to set signal handler"));
 
 	sev.sigev_notify = SIGEV_SIGNAL;
 	sev.sigev_signo = SIGALRM;
 	sev.sigev_value.sival_ptr = &timerid;
 
 	if (timer_create(CLOCK_REALTIME, &sev, &timerid) < 0)
-		kbd_error(EXIT_FAILURE, errno, "timer_create");
+		kbd_error(EXIT_FAILURE, errno, _("Unable to create timer"));
 
 	its.it_value.tv_sec     = 1;
 	its.it_value.tv_nsec    = 0;
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	its.it_interval.tv_nsec = its.it_value.tv_nsec;
 
 	if (timer_settime(timerid, 0, &its, NULL) < 0)
-		kbd_error(EXIT_FAILURE, errno, "timer_settimer");
+		kbd_error(EXIT_FAILURE, errno, _("Unable to set timer"));
 
 	do {
 		errno = 0;

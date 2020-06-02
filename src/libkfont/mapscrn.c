@@ -93,13 +93,13 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 	}
 
 	if (kbdfile_find(mfil, ctx->mapdirpath, ctx->mapsuffixes, fp)) {
-		KFONT_ERR(ctx, _("Cannot open map file: %s"), mfil);
+		KFONT_ERR(ctx, _("Unable to find file: %s"), mfil);
 		ret = -EX_DATAERR;
 		goto end;
 	}
 
 	if (stat(kbdfile_get_pathname(fp), &stbuf)) {
-		KFONT_ERR(ctx, _("Cannot open map file: %s"), kbdfile_get_pathname(fp));
+		KFONT_ERR(ctx, _("Unable to open file: %s: %m"), kbdfile_get_pathname(fp));
 		ret = -EX_DATAERR;
 		goto end;
 	}
@@ -231,7 +231,7 @@ kfont_save_consolemap(struct kfont_context *ctx, int fd, const char *omfil)
 	int ret = 0;
 
 	if ((fp = fopen(omfil, "w")) == NULL) {
-		KFONT_ERR(ctx, "Unable to open file: %s: %m", omfil);
+		KFONT_ERR(ctx, _("Unable to open file: %s: %m"), omfil);
 		return -EX_DATAERR;
 	}
 

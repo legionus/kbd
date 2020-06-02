@@ -102,11 +102,11 @@ parse_file(FILE *fd, const char *filename)
 		}
 
 		if ((c = fgetc(fd)) == EOF)
-			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u has ended unexpectedly.\n"),
+			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u has ended unexpectedly."),
 			          filename, rows + 1);
 
 		if (c != '\n')
-			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u is too long.\n"),
+			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u is too long."),
 			          filename, rows + 1);
 	}
 }
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 	}
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	/* Apply the color map to the tty via ioctl */
 	if (ioctl(fd, PIO_CMAP, colormap) == -1)

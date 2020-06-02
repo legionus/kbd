@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 				(argc == 2) ? argv[1] : "0");
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	arg.fn     = TIOCL_SETKMSGREDIRECT; /* redirect kernel messages */
 	arg.subarg = (char) cons;           /* to specified console */

@@ -142,11 +142,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (!(fctx = kbdfile_context_new())) {
-		fprintf(stderr, "%s: Unable to create kbdfile context: %m\n",
-			get_progname());
-		exit(EXIT_FAILURE);
-	}
+	if (!(fctx = kbdfile_context_new()))
+		kbd_error(EXIT_FAILURE, errno, _("Unable to create kbdfile context"));
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
@@ -197,29 +194,26 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if ((options & OPT_U) && (options & OPT_A)) {
-		fprintf(stderr,
-		        _("%s: Options --unicode and --ascii are mutually exclusive\n"),
-		        get_progname());
-		exit(EXIT_FAILURE);
-	}
+	if ((options & OPT_U) && (options & OPT_A))
+		kbd_error(EXIT_FAILURE, 0, _("Options %s and %s are mutually exclusive."),
+				"--unicode", "--ascii");
 
 	if (!(options & OPT_M) && !(options & OPT_B)) {
 		/* get console */
 		if ((fd = getfd(console)) < 0)
-			kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+			kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 		/* check whether the keyboard is in Unicode mode */
-		if (ioctl(fd, KDGKBMODE, &kbd_mode) ||
-		    ioctl(fd, KDGETMODE, &kd_mode))
-			kbd_error(EXIT_FAILURE, errno, _("error reading keyboard mode"));
+		if (ioctl(fd, KDGKBMODE, &kbd_mode))
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard mode"));
+		if (ioctl(fd, KDGETMODE, &kd_mode))
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read console mode"));
 
 		if (kbd_mode == K_UNICODE) {
 			if (options & OPT_A) {
-				fprintf(stderr,
-				        _("%s: warning: loading non-Unicode keymap on Unicode console\n"
-				          "    (perhaps you want to do `kbd_mode -a'?)\n"),
-				        get_progname());
+				kbd_warning(0,
+				        _("Warning: loading non-Unicode keymap on Unicode console\n"
+				          "    (perhaps you want to do `kbd_mode -a'?)"));
 			} else {
 				flags |= LK_FLAG_PREFER_UNICODE;
 			}
@@ -228,10 +222,9 @@ int main(int argc, char *argv[])
 			flags ^= LK_FLAG_UNICODE_MODE;
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
-			fprintf(stderr,
-			        _("%s: warning: loading Unicode keymap on non-Unicode console\n"
-			          "    (perhaps you want to do `kbd_mode -u'?)\n"),
-			        get_progname());
+			kbd_warning(0,
+			        _("Warning: loading Unicode keymap on non-Unicode console\n"
+			          "    (perhaps you want to do `kbd_mode -u'?)"));
 		}
 	}
 
@@ -244,17 +237,12 @@ int main(int argc, char *argv[])
 	}
 
 	if (options & OPT_D) {
-		if (!(fp = kbdfile_new(fctx))) {
-			fprintf(stderr, "%s: Unable to create kbdfile instance: %m\n",
-				get_progname());
-			exit(EXIT_FAILURE);
-		}
+		if (!(fp = kbdfile_new(fctx)))
+			kbd_error(EXIT_FAILURE, 0, _("Unable to create kbdfile instance: %m"));
 
 		/* first read default map - search starts in . */
-		if (kbdfile_find(DEFMAP, dirpath, suffixes, fp)) {
-			fprintf(stderr, _("Cannot find %s\n"), DEFMAP);
-			exit(EXIT_FAILURE);
-		}
+		if (kbdfile_find(DEFMAP, dirpath, suffixes, fp))
+			kbd_error(EXIT_FAILURE, 0, _("Unable to find file: %s"), DEFMAP);
 
 		rc = lk_parse_keymap(ctx, fp);
 		kbdfile_free(fp);
@@ -263,11 +251,8 @@ int main(int argc, char *argv[])
 			goto fail;
 
 	} else if (optind == argc) {
-		if (!(fp = kbdfile_new(fctx))) {
-			fprintf(stderr, "%s: Unable to create kbdfile instance: %m\n",
-				get_progname());
-			exit(EXIT_FAILURE);
-		}
+		if (!(fp = kbdfile_new(fctx)))
+			kbd_error(EXIT_FAILURE, 0, _("Unable to create kbdfile instance: %m"));
 
 		kbdfile_set_file(fp, stdin);
 		kbdfile_set_pathname(fp, "<stdin>");
@@ -281,9 +266,7 @@ int main(int argc, char *argv[])
 
 	for (i = optind; argv[i]; i++) {
 		if (!(fp = kbdfile_new(fctx))) {
-			fprintf(stderr, "%s: Unable to create kbdfile instance: %m\n",
-				get_progname());
-			exit(EXIT_FAILURE);
+			kbd_error(EXIT_FAILURE, 0, _("Unable to create kbdfile instance: %m"));
 		}
 
 		if (!strcmp(argv[i], "-")) {
@@ -291,7 +274,7 @@ int main(int argc, char *argv[])
 			kbdfile_set_pathname(fp, "<stdin>");
 
 		} else if (kbdfile_find(argv[i], dirpath, suffixes, fp)) {
-			fprintf(stderr, _("cannot open file %s\n"), argv[i]);
+			kbd_warning(0, _("Unable to open file: %s: %m"), argv[i]);
 			goto fail;
 		}
 

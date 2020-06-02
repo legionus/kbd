@@ -73,10 +73,10 @@ int main(int argc, char **argv)
 		goto try_ioctl;
 
 	if (!(inbuf = malloc(rows * cols * 2)))
-		kbd_error(EXIT_FAILURE, errno, "malloc");
+		kbd_error(EXIT_FAILURE, errno, _("out of memory"));
 
 	if (!(outbuf = malloc(rows * (cols + 1))))
-		kbd_error(EXIT_FAILURE, errno, "malloc");
+		kbd_error(EXIT_FAILURE, errno, _("out of memory"));
 
 	if (read(fd, inbuf, rows * cols * 2) != (ssize_t)(rows * cols * 2)) {
 		kbd_error(EXIT_FAILURE, errno, _("Error reading %s"), infile);
@@ -118,7 +118,7 @@ try_ioctl : {
 
 	screenbuf = malloc(2 + (size_t)(win.ws_row * win.ws_col));
 	if (!screenbuf)
-		kbd_error(EXIT_FAILURE, errno, "malloc");
+		kbd_error(EXIT_FAILURE, errno, _("out of memory"));
 
 	screenbuf[0] = 0;
 	screenbuf[1] = (unsigned char)cons;
@@ -127,13 +127,13 @@ try_ioctl : {
 	    (!fd || ioctl(0, TIOCLINUX, screenbuf))) {
 #if 0
 	    perror("TIOCLINUX");
-	    fprintf(stderr,_("couldn't read %s, and cannot ioctl dump\n"),
+	    fprintf(stderr,"couldn't read %s, and cannot ioctl dump\n",
 		    infile);
 #else
 		/* we tried this just to be sure, but TIOCLINUX
 	       function 0 has been disabled since 1.1.92
 	       Do not mention `ioctl dump' in error msg */
-		kbd_warning(0, _("couldn't read %s"), infile);
+		kbd_warning(0, _("Couldn't read %s"), infile);
 #endif
 		return EXIT_FAILURE;
 	}
@@ -148,7 +148,7 @@ try_ioctl : {
 
 	outbuf = malloc(rows * (cols + 1));
 	if (!outbuf)
-		kbd_error(EXIT_FAILURE, errno, "malloc");
+		kbd_error(EXIT_FAILURE, errno, _("out of memory"));
 
 	p = ((char *)screenbuf) + 2;
 	q = outbuf;
@@ -163,7 +163,7 @@ try_ioctl : {
 }
 done:
 	if (write(1, outbuf, (size_t) (q - outbuf)) != q - outbuf) {
-		kbd_error(EXIT_FAILURE, 0, _("Error writing screendump\n"));
+		kbd_error(EXIT_FAILURE, errno, _("Error writing screendump"));
 	}
 
 	return EXIT_SUCCESS;

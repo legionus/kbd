@@ -24,12 +24,12 @@ int main(int argc, char *argv[])
 	setuplocale();
 
 	if (argc != 2) {
-		fprintf(stderr, _("usage: %s\n"), "setvesablank ON|on|off");
+		fprintf(stderr, _("Usage: %s ON|on|off\n"), get_progname());
 		return EXIT_FAILURE;
 	}
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	arg.ten   = 10;
 	arg.onoff = 0;

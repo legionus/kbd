@@ -117,14 +117,14 @@ int main(int argc, char **argv)
 	if (!strcmp(ifname, "-"))
 		ifil = stdin;
 	else if (!(ifil = fopen(ifname, "r")))
-		kbd_error(EX_NOINPUT, errno, _("Unable to open: %s"), ifname);
+		kbd_error(EX_NOINPUT, 0, _("Unable to open file: %s: %m"), ifname);
 
 	if (!itname)
 		/* nothing */;
 	else if (!strcmp(itname, "-"))
 		itab = stdin;
 	else if (!(itab = fopen(itname, "r")))
-		kbd_error(EX_NOINPUT, errno, _("Unable to open: %s"), itname);
+		kbd_error(EX_NOINPUT, 0, _("Unable to open file: %s: %m"), itname);
 
 	/* Refuse ifil == itab == stdin ? Perhaps not. */
 
@@ -133,14 +133,14 @@ int main(int argc, char **argv)
 	else if (!strcmp(ofname, "-"))
 		ofil = stdout;
 	else if (!(ofil = fopen(ofname, "w")))
-		kbd_error(EX_CANTCREAT, errno, _("Unable to open: %s"), ofname);
+		kbd_error(EX_CANTCREAT, 0, _("Unable to open file: %s: %m"), ofname);
 
 	if (!otname)
 		/* nothing */;
 	else if (!strcmp(otname, "-"))
 		otab = stdout;
 	else if (!(otab = fopen(otname, "w")))
-		kbd_error(EX_CANTCREAT, errno, _("Unable to open: %s"), otname);
+		kbd_error(EX_CANTCREAT, 0, _("Unable to open file: %s: %m"), otname);
 
 	if (kfont_read_psffont(kfont, ifil, &inbuf, &inbuflth, &fontbuf,
 				&fontbuflth, &width, &fontlen, 0,

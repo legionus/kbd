@@ -85,13 +85,13 @@ int main(int argc, char *argv[])
 
 	for (i = optind; i < argc; i++) {
 		if (!isdigit(argv[i][0])) {
-			fprintf(stderr, _("%s: unknown option\n"), get_progname());
+			kbd_warning(0, _("Unrecognized argument: %s"), argv[i]);
 			return EX_USAGE;
 		}
 	}
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	if (argc == 1) {
 		/* deallocate all unused consoles */

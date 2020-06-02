@@ -119,11 +119,11 @@ int main(int argc, char **argv)
 		value = argv[optind++];
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	if (!strcasecmp("GETMODE", action)) {
 		if (ioctl(fd, KDGETMODE, &mode) == -1)
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDGETMODE");
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read console mode"));
 
 		switch (mode) {
 			case KD_TEXT:
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 
 	} else if (!strcasecmp("GKBMODE", action)) {
 		if (ioctl(fd, KDGKBMODE, &mode) == -1)
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard mode"));
 
 		switch (mode) {
 			case K_RAW:
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 
 	} else if (!strcasecmp("GKBMETA", action)) {
 		if (ioctl(fd, KDGKBMETA, &mode) == -1)
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMETA");
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read meta key handling mode"));
 
 		switch (mode) {
 			case K_METABIT:
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
 
 	} else if (!strcasecmp("GKBLED", action)) {
 		if (ioctl(fd, KDGKBLED, &flags) == -1)
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBLED");
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard flags"));
 
 		mode = (flags & 0x7);
 
@@ -185,7 +185,7 @@ int main(int argc, char **argv)
 		}
 
 	} else {
-		kbd_warning(0, _("Unrecognized action: %s"), action);
+		kbd_warning(0, _("Unrecognized argument: %s"), action);
 	}
 
 	close(fd);

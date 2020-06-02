@@ -57,20 +57,21 @@ fprint_mode(FILE *stream, int  mode)
 {
 	switch (mode) {
 		case K_RAW:
-			fprintf(stream, _("The keyboard is in raw (scancode) mode\n"));
+			fprintf(stream, _("The keyboard is in raw (scancode) mode"));
 			break;
 		case K_MEDIUMRAW:
-			fprintf(stream, _("The keyboard is in mediumraw (keycode) mode\n"));
+			fprintf(stream, _("The keyboard is in mediumraw (keycode) mode"));
 			break;
 		case K_XLATE:
-			fprintf(stream, _("The keyboard is in the default (ASCII) mode\n"));
+			fprintf(stream, _("The keyboard is in the default (ASCII) mode"));
 			break;
 		case K_UNICODE:
-			fprintf(stream, _("The keyboard is in Unicode (UTF-8) mode\n"));
+			fprintf(stream, _("The keyboard is in Unicode (UTF-8) mode"));
 			break;
 		default:
-			fprintf(stream, _("The keyboard is in some unknown mode\n"));
-        }
+			fprintf(stream, _("The keyboard is in some unknown mode"));
+	}
+	printf("\n");
 }
 
 int main(int argc, char *argv[])
@@ -152,22 +153,21 @@ int main(int argc, char *argv[])
 	}
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	if (n == 0) {
 		/* report mode */
-		if (ioctl(fd, KDGKBMODE, &mode)) {
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
-		}
+		if (ioctl(fd, KDGKBMODE, &mode))
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard mode"));
+
 		fprint_mode(stdout, mode);
 		return EXIT_SUCCESS;
 	}
 
 	if (force == 0) {
 		/* only perform safe mode switches */
-		if (ioctl(fd, KDGKBMODE, &orig_mode)) {
-			kbd_error(EXIT_FAILURE, errno, "ioctl KDGKBMODE");
-		}
+		if (ioctl(fd, KDGKBMODE, &orig_mode))
+			kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard mode"));
 
 		if (mode == orig_mode) {
 			/* skip mode change */

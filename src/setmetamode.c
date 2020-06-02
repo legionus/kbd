@@ -136,12 +136,10 @@ int main(int argc, char **argv)
 	}
 
 	if (console && (fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
-	if (ioctl(fd, KDGKBMETA, &ometa)) {
-		kbd_error(EXIT_FAILURE, errno, _("Error reading current setting. Maybe stdin is not a VT?: "
-		                                 "ioctl KDGKBMETA"));
-	}
+	if (ioctl(fd, KDGKBMETA, &ometa))
+		kbd_error(EXIT_FAILURE, errno, _("Unable to read meta key handling mode"));
 
 	if (optind == argc) {
 		report(ometa);
@@ -155,7 +153,8 @@ int main(int argc, char **argv)
 			goto end;
 		}
 	}
-	fprintf(stderr, _("unrecognized argument: _%s_\n\n"), argv[1]);
+	fprintf(stderr, _("Unrecognized argument: %s"), argv[1]);
+	fprintf(stderr, "\n\n");
 	usage(EXIT_FAILURE, opthelp);
 
 end:

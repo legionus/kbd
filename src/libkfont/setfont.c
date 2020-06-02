@@ -298,7 +298,7 @@ kfont_load_fonts(struct kfont_context *ctx,
 		ifil = ifiles[i];
 
 		if (findfont(ctx, ifil, fp) && findpartialfont(ctx,ifil, fp)) {
-			KFONT_ERR(ctx, _("Cannot open font file %s"), ifil);
+			KFONT_ERR(ctx, _("Unable to find file: %s"), ifil);
 			ret = -EX_NOINPUT;
 			goto end;
 		}
@@ -411,14 +411,14 @@ kfont_load_font(struct kfont_context *ctx, int fd, const char *ifil,
 			sprintf(defname, "default8x%u", iunit);
 			if (findfont(ctx, ifil = defname, fp) &&
 			    findfont(ctx, ifil = "default", fp)) {
-				KFONT_ERR(ctx, _("Cannot find %s font"), ifil);
+				KFONT_ERR(ctx, _("Unable to find file: %s"), ifil);
 				ret = -EX_NOINPUT;
 				goto end;
 			}
 		}
 	} else {
 		if (findfont(ctx, ifil, fp)) {
-			KFONT_ERR(ctx, _("Cannot open font file %s"), ifil);
+			KFONT_ERR(ctx, _("Unable to find file: %s"), ifil);
 			ret = -EX_NOINPUT;
 			goto end;
 		}
@@ -653,7 +653,7 @@ kfont_save_font(struct kfont_context *ctx, int consolefd, const char *filename,
 	FILE *fpo = fopen(filename, "w");
 
 	if (!fpo) {
-		KFONT_ERR(ctx, "unable to open: %s: %m", filename);
+		KFONT_ERR(ctx, "Unable to open file: %s: %m", filename);
 		return -EX_CANTCREAT;
 	}
 

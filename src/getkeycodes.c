@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 	}
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	/* Old kernels don't support changing scancodes below SC_LIM. */
 	a.scancode = 0;

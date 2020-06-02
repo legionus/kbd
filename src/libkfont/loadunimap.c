@@ -300,10 +300,9 @@ getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr
 	if (kfont_get_unicodemap(ctx, fd, unimap_descr))
 		return -1;
 
-#ifdef MAIN
-	fprintf(stderr, "# %d %s\n", unimap_descr->entry_ct,
-	        (unimap_descr->entry_ct == 1) ? _("entry") : _("entries"));
-#endif
+	if (ctx->verbose)
+		KFONT_INFO(ctx, P_("# %d entry", "# %d entries", unimap_descr->entry_ct),
+				unimap_descr->entry_ct);
 	return 0;
 }
 
@@ -317,7 +316,7 @@ kfont_save_unicodemap(struct kfont_context *ctx, int consolefd,
 	int i, ret;
 
 	if ((fpo = fopen(filename, "w")) == NULL) {
-		KFONT_ERR(ctx, "Unable to open file: %s", filename);
+		KFONT_ERR(ctx, _("Unable to open file: %s: %m"), filename);
 		return -EX_DATAERR;
 	}
 

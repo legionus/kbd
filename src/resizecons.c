@@ -146,29 +146,29 @@ int main(int argc, char **argv)
 		usage();
 
 	if (cc <= 0 || cc > USHRT_MAX) {
-		kbd_error(EXIT_FAILURE, 0, _("resizecons: invalid columns number %d\n"), cc);
+		kbd_error(EXIT_FAILURE, 0, _("resizecons: invalid columns number %d"), cc);
 		usage();
 	}
 
 	if (rr <= 0 || rr > USHRT_MAX) {
-		kbd_error(EXIT_FAILURE, 0, _("resizecons: invalid rows number %d\n"), rr);
+		kbd_error(EXIT_FAILURE, 0, _("resizecons: invalid rows number %d"), rr);
 		usage();
 	}
 
 	if (!(fp = kbdfile_new(NULL)))
-		kbd_error(EXIT_FAILURE, 0, "Unable to create kbdfile instance: %m\n");
+		kbd_error(EXIT_FAILURE, errno, "Unable to create kbdfile instance");
 
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* prepare for: restoretextmode -r 80x25 */
 		sprintf(infile, "%dx%d", cc, rr);
 		if (kbdfile_find(infile, dirpath, suffixes, fp)) {
-			kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s\n"), infile);
+			kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s"), infile);
 		}
 		kbdfile_close(fp);
 	}
 
 	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	if (ioctl(fd, TIOCGWINSZ, &winsize)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl TIOCGWINSZ");
@@ -179,7 +179,7 @@ int main(int argc, char **argv)
 		cc = winsize.ws_col;
 		if (rr != 25 && rr != 28 && rr != 30 && rr != 34 && rr != 36 &&
 		    rr != 40 && rr != 44 && rr != 50 && rr != 60) {
-			kbd_error(EXIT_FAILURE, 0, _("Invalid number of lines\n"));
+			kbd_error(EXIT_FAILURE, 0, _("Invalid number of lines"));
 		}
 	}
 

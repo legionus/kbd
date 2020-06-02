@@ -85,7 +85,7 @@ getfd(const char *fnam)
 			return fd;
 
 	fprintf(stderr,
-	        _("Couldn't get a file descriptor referring to the console"));
+	        _("Couldn't get a file descriptor referring to the console."));
 	fprintf(stderr, "\n");
 
 	/* total failure */

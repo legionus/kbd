@@ -187,11 +187,11 @@ int main(int argc, char *argv[])
 		usage(EX_USAGE, opthelp);
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	/* check whether the keyboard is in Unicode mode */
 	if (ioctl(fd, KDGKBMODE, &kbd_mode))
-		kbd_error(EXIT_FAILURE, errno, _("error reading keyboard mode"));
+		kbd_error(EXIT_FAILURE, errno, _("Unable to read keyboard mode"));
 
 	if (kbd_mode == K_UNICODE) {
 		lk_set_parser_flags(ctx, LK_FLAG_PREFER_UNICODE);

@@ -349,7 +349,7 @@ int main(int argc, char *argv[])
 	}
 
 	if ((consfd = getfd(NULL)) < 0)
-		kbd_error(2, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(2, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	if (ioctl(consfd, VT_GETSTATE, &vtstat) < 0)
 		kbd_error(4, errno, "ioctl(VT_GETSTATE)");
@@ -433,7 +433,8 @@ int main(int argc, char *argv[])
 				}
 				snprintf(vtname, PATH_MAX, VTNAME, vtno);
 			}
-			kbd_error(5, errsv, _("Unable to open %s"), vtname);
+			errno = errsv;
+			kbd_error(5, 0, _("Unable to open file: %s: %m"), vtname);
 		}
 	got_vtno:
 		if (verbose)

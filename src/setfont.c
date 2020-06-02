@@ -134,22 +134,18 @@ int main(int argc, char *argv[])
 				usage();
 			iunit = (unsigned int)tmp;
 		} else {
-			if (ifilct == MAXIFILES) {
-				fprintf(stderr, _("setfont: too many input files\n"));
-				return EX_USAGE;
-			}
+			if (ifilct == MAXIFILES)
+				kbd_error(EX_USAGE, 0, _("Too many input files."));
 			ifiles[ifilct++] = argv[i];
 		}
 	}
 
-	if (ifilct && restore) {
-		fprintf(stderr, _("setfont: cannot both restore from character ROM"
-		                  " and from file. Font unchanged.\n"));
-		exit(EX_USAGE);
-	}
+	if (ifilct && restore)
+		kbd_error(EX_USAGE, 0, _("Cannot both restore from character ROM"
+					 " and from file. Font unchanged."));
 
 	if ((fd = getfd(console)) < 0)
-		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console"));
+		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	int kd_mode = -1;
 	if (!ioctl(fd, KDGETMODE, &kd_mode) && (kd_mode == KD_GRAPHICS)) {
