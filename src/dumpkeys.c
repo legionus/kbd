@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 		{ "-n, --numeric",          _("display keytable in hexadecimal notation.") },
 		{ "-f, --full-table",       _("don't use short-hand notations, one row per keycode.") },
 		{ "-1, --separate-lines",   _("one line per (modifier,keycode) pair.") },
-		{ "-S, --shape={2|4|8|16}", _("") },
+		{ "-S, --shape={2|4|8|16}", "" },
 		{ "-t, --funcs-only",       _("display only the function key strings.") },
 		{ "-k, --keys-only",        _("display only key bindings.") },
 		{ "-d, --compose-only",     _("display only compose key combinations.") },
