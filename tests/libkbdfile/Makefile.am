@@ -12,7 +12,7 @@ AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
 LDADD  = \
 	$(top_builddir)/src/libcommon/libcommon.a \
 	$(top_builddir)/src/libkbdfile/libkbdfile.la \
-	@INTLLIBS@ $(CODE_COVERAGE_LIBS)
+	@LIBINTL@ $(CODE_COVERAGE_LIBS)
 
 noinst_PROGRAMS = \
 	libkbdfile-test01 \

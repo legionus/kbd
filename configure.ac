@@ -35,7 +35,7 @@ dnl older versions of automake didn't include this macro
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 LT_INIT
 
-AM_GNU_GETTEXT_VERSION([0.14.1])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
 ALL_LINGUAS=`cd $srcdir/po > /dev/null && echo *.po | sed 's/\.po//g'`
 

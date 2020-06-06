@@ -78,7 +78,7 @@ execute()
 	"$prog" "$@" || exit 1
 }
 
-register autopoint  "${AUTOPOINT:-autopoint}"   '' '' $OPT
+register autopoint  "${AUTOPOINT:-autopoint}"   '' '' $OPT -f
 register libtoolize "${LIBTOOLIZE:-libtoolize}" '' '' $OPT --install --copy --automake
 register aclocal    "${ACLOCAL:-aclocal}"       '' '' $OPT -I m4
 register autoconf   "${AUTOCONF:-autoconf}"     '' '' $OPT -I m4

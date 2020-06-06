@@ -75,7 +75,7 @@ LDADD = \
 	libkeymap/libkeymap.la \
 	libkbdfile/libkbdfile.la \
 	libcommon/libcommon.a \
-	@INTLLIBS@ \
+	@LIBINTL@ \
 	$(CODE_COVERAGE_LIBS)
 
 install-exec-hook:
