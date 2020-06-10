@@ -1,0 +1,14 @@
+AT_SETUP([dumpkeys (dump loadable keymap)])
+AT_KEYWORDS([e2e dumpkeys])
+AT_SKIP_IF([ test "$TRAVIS_SANDBOX" != "priviliged" ])
+PREV_LANG="$LANG"
+export LANG=en_US.UTF-8
+${SUDO-} kbd_mode -u
+${SUDO-} "loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -v us], [${SUDO-} loadkeys us])
+E2E_CHECK(["$abs_top_builddir/src/dumpkeys" -C /dev/tty0 -k])
+cp -f -- stdout dumpkeys.map
+E2E_CHECK(["$abs_top_builddir/src/loadkeys" -C /dev/tty0 -u "$PWD/dumpkeys.map"], [${SUDO-} loadkeys us])
+export LANG="$PREV_LANG"
+${SUDO-} kbd_mode -a
+AT_CLEANUP

@@ -19,6 +19,7 @@ TESTSUITE = $(abs_builddir)/testsuite
 EXTRA_DIST = \
 	data                   \
 	e2e-clrunimap.at       \
+	e2e-dumpkeys.at        \
 	e2e-getunimap.at       \
 	e2e-kbdinfo.at         \
 	e2e-kbd_mode.at        \
