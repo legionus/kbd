@@ -16,7 +16,8 @@ loadunimap \- load the kernel unicode-to-font mapping table
 .SH DESCRIPTION
 The
 .B loadunimap
-command is obsolete - its function is now built-in into setfont.
+command is obsolete - its function is now built-in into
+.BR setfont (8).
 However, for backwards compatibility it is still available
 as a separate command.
 .LP
@@ -25,7 +26,7 @@ The program
 loads the specified map in the kernel unicode-to-font mapping table.
 If no map is given
 .I def
-is assumed.
+mapping table is assumed.
 The default extension (that can be omitted) is
 .IR .uni .
 .LP
@@ -41,10 +42,16 @@ option.
 Usually one does not call
 .B loadunimap
 directly - its function is also built into
-.BR setfont .
+.BR setfont (8).
 .SH FILES
+.TP
 .I @DATADIR@/unimaps
-is the default directory for unicode mappings.
+The default directory for unicode mappings.
+.LP
+.TP
+.I @DATADIR@/unimaps/def.uni
+The default mapping file.
+.LP
 .SH "SEE ALSO"
 .BR mapscrn (8),
 .BR setfont (8)
