@@ -386,7 +386,27 @@ static const char *const dead_syms[] = {
 	"dead_tilde",
 	"dead_diaeresis",
 	"dead_cedilla",
-	"dead_macron"
+	"dead_macron",
+	"dead_breve",
+	"dead_abovedot",
+	"dead_abovering",
+	"dead_doubleacute",
+	"dead_caron",
+	"dead_ogonek",
+	"dead_iota",
+	"dead_voiced_sound",
+	"dead_semivoiced_sound",
+	"dead_belowdot",
+	"dead_hook",
+	"dead_horn",
+	"dead_stroke",
+	"dead_abovecomma",
+	"dead_abovereversedcomma",
+	"dead_doublegrave",
+	"dead_invertedbreve",
+	"dead_belowcomma",
+	"dead_currency",
+	"dead_greek"
 };
 
 /*

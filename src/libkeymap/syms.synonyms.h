@@ -38,14 +38,6 @@ struct syn const synonyms[] = {
 	/* diacriticals */
 	{ "tilde", "asciitilde" },
 	{ "circumflex", "asciicircum" },
-	/* as dead_ogonek, dead_caron, dead_breve and dead_doubleacute do not exist
-	 * (yet), I put also compose lines for use with respectively dead_cedilla,
-	 * dead_circumflex, dead_tilde and dead_tilde
-	 */
-	{ "dead_ogonek", "dead_cedilla" },
-	{ "dead_caron", "dead_circumflex" },
-	{ "dead_breve", "dead_tilde" },
-	{ "dead_doubleacute", "dead_tilde" },
 	/* turkish */
 	{ "Idotabove", "Iabovedot" },
 	{ "dotlessi", "idotless" },
