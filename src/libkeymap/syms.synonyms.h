@@ -38,9 +38,10 @@ struct syn const synonyms[] = {
 	/* diacriticals */
 	{ "tilde", "asciitilde" },
 	{ "circumflex", "asciicircum" },
-	/* as dead_ogonek, dead_caron, dead_breve and dead_doubleacute do not exist
-	 * (yet), I put also compose lines for use with respectively dead_cedilla,
-	 * dead_circumflex, dead_tilde and dead_tilde
+	/* dead_ogonek, dead_caron, dead_breve and dead_doubleacute didn't exist in
+	 * the kernel, so they were introduced as aliases for other dead keys. For
+	 * backward compatilibty they remain as aliases and the real names are
+	 * prefixed with dead_k (kernel).
 	 */
 	{ "dead_ogonek", "dead_cedilla" },
 	{ "dead_caron", "dead_circumflex" },

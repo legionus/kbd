@@ -386,7 +386,27 @@ static const char *const dead_syms[] = {
 	"dead_tilde",
 	"dead_diaeresis",
 	"dead_cedilla",
-	"dead_macron"
+	"dead_macron",
+	"dead_kbreve", // dead_breve is an alias for dead_tilde
+	"dead_abovedot",
+	"dead_abovering",
+	"dead_kdoubleacute", // dead_doubleacute is an alias for dead_tilde
+	"dead_kcaron", // dead_caron is an alias for dead_circumflex
+	"dead_kogonek", // dead_ogonek is an alias for dead_cedilla
+	"dead_iota",
+	"dead_voiced_sound",
+	"dead_semivoiced_sound",
+	"dead_belowdot",
+	"dead_hook",
+	"dead_horn",
+	"dead_stroke",
+	"dead_abovecomma",
+	"dead_abovereversedcomma",
+	"dead_doublegrave",
+	"dead_invertedbreve",
+	"dead_belowcomma",
+	"dead_currency",
+	"dead_greek"
 };
 
 /*
