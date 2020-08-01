@@ -40,17 +40,18 @@ get_username(void)
 {
 	const char *name;
 	struct passwd *pw = 0;
+	char *logname = NULL;
 	uid_t uid         = getuid();
 
-	char *logname = getenv("LOGNAME");
+	/* If a non-root runs a sudo session, ask for user's
+	 * password to unlock it, not root's password */
+	logname = getenv("SUDO_USER");
+	if (logname == NULL)
+		logname = getenv("LOGNAME");
 
-	if (logname) {
-		pw = getpwnam(logname);
-		/* Ensure uid is same as current. */
-		if (pw && pw->pw_uid != uid)
-			pw = 0;
-	}
-	if (!pw)
+	pw = getpwnam(logname);
+
+	if (!pw && uid)
 		pw = getpwuid(uid);
 
 	if (!pw)
