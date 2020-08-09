@@ -8,6 +8,9 @@ LIBTSWRAP_AGE      = 0
 
 libtswrap_la_SOURCES = ioctl.c
 libtswrap_la_LIBADD  = -ldl
-libtswrap_la_LDFLAGS = -export-symbols-regex ^ioctl -version-info $(LIBTSWRAP_CURRENT):$(LIBTSWRAP_REVISION):$(LIBTSWRAP_AGE)
+libtswrap_la_LDFLAGS = \
+	-export-symbols-regex ^ioctl \
+	-version-info $(LIBTSWRAP_CURRENT):$(LIBTSWRAP_REVISION):$(LIBTSWRAP_AGE) \
+	-rpath /nowhere
 
-lib_LTLIBRARIES    = libtswrap.la
+noinst_LTLIBRARIES   = libtswrap.la
