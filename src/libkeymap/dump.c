@@ -212,38 +212,26 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 		fprintf(fd, "\t0,\n");
 	fprintf(fd, "};\n");
 
-	if (unicode) {
-		fprintf(fd, "\nstruct kbdiacruc accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < ctx->accent_table->count; i++) {
-			kddiac = lk_array_get_ptr(ctx->accent_table, i);
+	fprintf(fd, "\nstruct kbdiacr%s accent_table[MAX_DIACR] = {\n",
+			unicode ? "uc" : "");
+	for (i = 0; i < ctx->accent_table->count; i++) {
+		kddiac = lk_array_get_ptr(ctx->accent_table, i);
 
-			fprintf(fd, "\t{");
-			outchar(fd, kddiac->diacr, 1);
-			outchar(fd, kddiac->base, 1);
-			fprintf(fd, "0x%04x},", kddiac->result);
-			if (i % 2)
-				fprintf(fd, "\n");
-		}
-		if (i % 2)
-			fprintf(fd, "\n");
-		fprintf(fd, "};\n\n");
-	} else {
-		fprintf(fd, "\nstruct kbdiacr accent_table[MAX_DIACR] = {\n");
-		for (i = 0; i < ctx->accent_table->count; i++) {
-			kddiac = lk_array_get_ptr(ctx->accent_table, i);
-
-			fprintf(fd, "\t{");
-			outchar(fd, kddiac->diacr, 1);
-			outchar(fd, kddiac->base, 1);
+		fprintf(fd, "\t{");
+		outchar(fd, kddiac->diacr, 1);
+		outchar(fd, kddiac->base, 1);
+		if (unicode)
+			fprintf(fd, "0x%04x", kddiac->result);
+		else
 			outchar(fd, kddiac->result, 0);
-			fprintf(fd, "},");
-			if (i % 2)
-				fprintf(fd, "\n");
-		}
+		fprintf(fd, "},");
 		if (i % 2)
 			fprintf(fd, "\n");
-		fprintf(fd, "};\n\n");
 	}
+	if (i % 2)
+		fprintf(fd, "\n");
+	fprintf(fd, "};\n\n");
+
 	fprintf(fd, "unsigned int accent_table_size = %u;\n",
 	        (unsigned int)ctx->accent_table->count);
 	return 0;
