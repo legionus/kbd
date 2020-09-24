@@ -150,7 +150,7 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 	for (imax = MAX_NR_KEYMAPS - 1; imax > 0; imax--)
 		if (lk_map_exists(ctx, imax))
 			break;
-	fprintf(fd, "ushort *key_maps[MAX_NR_KEYMAPS] = {");
+	fprintf(fd, "unsigned short *key_maps[MAX_NR_KEYMAPS] = {");
 	for (i = 0; i <= imax; i++) {
 		fprintf(fd, (i % 4) ? " " : "\n\t");
 		if (lk_map_exists(ctx, i))

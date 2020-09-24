@@ -564,7 +564,7 @@ static unsigned short shift_altgr_ctrl_alt_map[NR_KEYS] = {
 	0xf200,	0xf200,	0xf200,	0xf200,	0xf200,	0xf200,	0xf200,	0xf200,
 };
 
-ushort *key_maps[MAX_NR_KEYMAPS] = {
+unsigned short *key_maps[MAX_NR_KEYMAPS] = {
 	plain_map, shift_map, altgr_map, shift_altgr_map,
 	ctrl_map, shift_ctrl_map, altgr_ctrl_map, shift_altgr_ctrl_map,
 	alt_map, shift_alt_map, altgr_alt_map, shift_altgr_alt_map,
