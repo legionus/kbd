@@ -115,15 +115,15 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 	fp->fd = popen(pipe_cmd, "r");
 	fp->flags |= KBDFILE_PIPE;
 
-	free(pipe_cmd);
-
 	if (!(fp->fd)) {
 		char buf[200];
 		strerror_r(errno, buf, sizeof(buf));
 		ERR(fp->ctx, "popen: %s: %s", pipe_cmd, buf);
+		free(pipe_cmd);
 		return -1;
 	}
 
+	free(pipe_cmd);
 	return 0;
 }
 
