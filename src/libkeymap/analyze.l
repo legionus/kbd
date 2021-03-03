@@ -319,7 +319,7 @@ Include			include[ \t]*
 Decimal			[1-9][0-9]*
 Octal			0[0-7]*
 Hex			0[xX][0-9a-fA-F]+
-Unicode			U\+([0-9a-fA-F]){4}
+Unicode			U\+([0-9a-fA-F]){4,6}
 Literal			[a-zA-Z][a-zA-Z_0-9]*
 Octa			([0-7]){1,3}
 Charset			charset|Charset|CharSet|CHARSET
