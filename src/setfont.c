@@ -189,8 +189,8 @@ int main(int argc, char *argv[])
 	if (restore)
 		kfont_restore_font(kfont, fd);
 
-	if (ifilct)
-		kfont_load_fonts(kfont, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u);
+	if (ifilct && (ret = kfont_load_fonts(kfont, fd, ifiles, ifilct, iunit, hwunit, no_m, no_u)) < 0)
+		return -ret;
 
 	if (ufil && (ret = kfont_load_unicodemap(kfont, fd, ufil)) < 0)
 		return -ret;
