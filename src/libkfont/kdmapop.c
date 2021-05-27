@@ -166,6 +166,7 @@ kfont_get_unicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 
 		if (ioctl(fd, GIO_UNIMAP, &ud)) {
 			KFONT_ERR(ctx, "ioctl(GIO_UNIMAP): %m");
+			free(ud.entries);
 			return -1;
 		}
 		if (ct != ud.entry_ct)
