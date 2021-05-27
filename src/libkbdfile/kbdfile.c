@@ -71,7 +71,7 @@ kbdfile_get_pathname(struct kbdfile *fp)
 int
 kbdfile_set_pathname(struct kbdfile *fp, const char *pathname)
 {
-	strncpy(fp->pathname, pathname, sizeof(fp->pathname));
+	strncpy(fp->pathname, pathname, sizeof(fp->pathname) - 1);
 	return 0;
 }
 
@@ -387,7 +387,7 @@ kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *su
 	fp->flags &= ~KBDFILE_PIPE;
 
 	/* Try explicitly given name first */
-	strncpy(fp->pathname, fnam, sizeof(fp->pathname));
+	strncpy(fp->pathname, fnam, sizeof(fp->pathname) - 1);
 
 	if (!maybe_pipe_open(fp))
 		return 0;
