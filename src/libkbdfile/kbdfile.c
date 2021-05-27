@@ -39,8 +39,10 @@ kbdfile_new(struct kbdfile_ctx *ctx)
 
 	if (!fp->ctx) {
 		fp->ctx = kbdfile_context_new();
-		if (!fp->ctx)
+		if (!fp->ctx) {
+			free(fp);
 			return NULL;
+		}
 		fp->flags |= KBDFILE_CTX_INITIALIZED;
 	}
 
