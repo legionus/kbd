@@ -296,7 +296,8 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 
 	for (i = 1; i < syms_size; i++) {
 		for (j = 0; j < syms[i].size; j++) {
-			if (!strcmp(s, get_sym(ctx, i, j)))
+			const char *ksym = get_sym(ctx, i, j);
+			if (ksym && !strcmp(s, ksym))
 				return K(i, j);
 		}
 	}
