@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # 0. Check whether we're on a console
-TTY="`/usr/bin/tty`"
+TTY=$(/usr/bin/tty)
 case "$TTY" in
 	/dev/console|/dev/vc*|/dev/tty[0-9]*)
 		;;
@@ -34,17 +34,17 @@ kbd_mode -u
 # not the global keymap. root will have to load the keymap in unicode mode
 # explicitly.
 
-uid="`id -u 2>/dev/null`" ||:
-if [ "$uid" = '0' ]; then
+uid="$(id -u 2>/dev/null)" ||:
+if [ "$uid" = 0 ]; then
 	# There is no way of reverting the effect of "dumpkeys | loadkeys --unicode",
 	# the memory of the earlier keymap is lost. Therefore, try
 	# to save a copy of the original keymap to be able to reload it in unicode_stop.
 	# (see also http://mail.nl.linux.org/linux-utf8/2003-08/msg00053.html):
 
-	[ -n "$HOME" -a "$HOME" != '/' ] ||
+	[ -n "$HOME" ] && [ "$HOME" != '/' ] ||
 		HOME='/root'
 
-	if [ -d "$HOME" -a -w "$HOME" ]; then
+	if [ -d "$HOME" ] && [ -w "$HOME" ]; then
 		[ -d "$HOME/.kbd" ] ||
 			mkdir -- "$HOME/.kbd"
 
@@ -62,7 +62,7 @@ fi
 
 # Tell the console output driver that the bytes arriving are UTF-8
 # encoded multibyte sequences.
-if [ -t 1 -a -t 2 ]; then
+if [ -t 1 ] && [ -t 2 ]; then
 	printf '\033%%G'
 fi
 stty iutf8
