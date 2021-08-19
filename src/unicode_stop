@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TTY="`/usr/bin/tty`"
+TTY=$(/usr/bin/tty)
 case "$TTY" in
 	/dev/console|/dev/vc*|/dev/tty[0-9]*)
 		;;
@@ -17,8 +17,8 @@ if test -t ; then
 fi
 stty -iutf8
 
-uid="`id -u 2>/dev/null`" ||:
-if [ "$uid" = '0' ]; then
+uid="$(id -u 2>/dev/null)" ||:
+if [ "$uid" = 0 ]; then
 	[ ! -r "$HOME/.kbd/.keymap_sv" ] ||
 		loadkeys "$HOME/.kbd/.keymap_sv"
 fi
