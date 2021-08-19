@@ -39,7 +39,7 @@ EOF
 # Let alt-uparrow (anytime) create a new virtual console
 # (watch out for security aspects!)
 #
-spawn_console&	# start a deamon that listens to the keyboard
+spawn_console&	# start a daemon that listens to the keyboard
 loadkeys << EOF
 alt keycode 103 = Spawn_Console
 EOF
