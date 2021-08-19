@@ -9,7 +9,7 @@ This distribution contains no binaries - the sources depend on the kernel
 version - compile them yourself.
 
 The home site of this package:
- * http://kbd-project.org/
+ * https://kbd-project.org/
 
 The latest stable version of kbd can always be found on:
  * https://www.kernel.org/pub/linux/utils/kbd/
@@ -50,4 +50,3 @@ BUG REPORTING
 
 Report problems with this package to the mailing list or
 to the Alexey Gladkov <gladkov.alexey AT gmail DOT com>.
-
