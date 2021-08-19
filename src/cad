@@ -5,9 +5,8 @@ trap "" 0 1 2 15
 tput clear
 
 # Find the non-local logins, probably on ttyp etc. Or on pts/N.
-# grep -E is equivalent to egrep but does not exist everywhere
-LOG="`w -s | egrep -v 'tty[0-9]' | tail +2`"
-count=`echo "$LOG" | wc -l`
+LOG=$(w -s | grep -E -v 'tty[0-9]' | tail +2)
+count=$(echo "$LOG" | wc -l)
 
 dont_panic() {
  dialog --infobox "
