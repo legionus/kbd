@@ -11,14 +11,15 @@ The
 .I setvtrgb
 command takes a single argument, either the string
 .B vga
-, or a path to a file
-containing the red, green, and blue colors to be used by the Linux virtual terminals.
+, or a path to a file containing the colors to be used by
+the Linux virtual terminals.
 
-If you use the
+You can choose to write the colors in decimal or hexadecimal format,
+it will be detected on runtime.
+
+Decimal
 .B FILE
-parameter,
-.B FILE
-should be exactly 3 lines of 16
+format should be exactly 3 lines of 16
 comma-separated decimal values for RED, GREEN, and BLUE.
 
 To seed a valid
@@ -30,6 +31,31 @@ To seed a valid
 
 And then edit the values in
 .B FILE
+
+Hexadecimal
+.B FILE
+format should be exactly 16 lines of hex triplets for RED, GREEN and BLUE,
+prefixed with a number sign (#). For example:
+.nf
+.RS
+.B #000000
+.B #AA0000
+.B #00AA00
+.B #AA5500
+.B #0000AA
+.B #AA00AA
+.B #00AAAA
+.B #AAAAAA
+.B #555555
+.B #FF5555
+.B #55FF55
+.B #FFFF55
+.B #5555FF
+.B #FF55FF
+.B #55FFFF
+.B #FFFFFF
+.RE
+.fi
 
 .SH OPTIONS
 .TP

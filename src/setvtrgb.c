@@ -44,13 +44,21 @@ usage(int rc, const struct kbd_help *options)
 	fprintf(stderr, _("Usage: %s [option...] [vga|FILE|-]\n"), get_progname());
 	fprintf(stderr, "\n");
 	fprintf(stderr, _(
-				"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
-				"comma-separated decimal values for RED, GREEN, and BLUE.\n"
+				"If you use the FILE parameter, it can be in either in decimal\n"
+				"or hexadecimal format, and will be detected on runtime.\n"
 				"\n"
+				"Decimal FILE format should be exactly 3 lines of comma-separated\n"
+				"decimal values for RED, GREEN, and BLUE.\n"
 				"To seed a valid FILE:\n"
 				"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
 				"\n"
-				"and then edit the values in FILE.\n"
+				"Hexadecimal FILE format should be exactly 16 lines of hex triplets\n"
+				"for RED, GREEN and BLUE, prefixed with a number sign (#).\n"
+				"For example:\n"
+				"   #000000\n"
+				"   #AA0000\n"
+				"   #00AA00\n"
+				"And so on, for all the 16 colors.\n"
 			 ));
 
 	if (options) {
@@ -79,7 +87,7 @@ usage(int rc, const struct kbd_help *options)
 }
 
 static void
-parse_file(FILE *fd, const char *filename)
+parse_dec_file(FILE *fd, const char *filename)
 {
 	int c;
 	unsigned int rows, cols, val;
@@ -108,6 +116,40 @@ parse_file(FILE *fd, const char *filename)
 		if (c != '\n')
 			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Line %u is too long."),
 			          filename, rows + 1);
+	}
+}
+
+static void
+parse_hex_file(FILE *fd, const char *filename)
+{
+	int c,l;
+	unsigned int r, g, b;
+
+	for (l = 0; l < 16; l++) {
+		if ((c = fscanf(fd, "#%2x%2x%2x\n", &r, &g, &b)) != 3) {
+			if (c == EOF)
+				kbd_error(EXIT_FAILURE, 0, _("Error: %s: Insufficient number of colors/lines: %u"),
+				          filename, l);
+
+			kbd_error(EXIT_FAILURE, 0, _("Error: %s: Invalid value in line %u."),
+			          filename, l + 1);
+		}
+
+		cmap[l * 3]     = (unsigned char)r;
+		cmap[l * 3 + 1] = (unsigned char)g;
+		cmap[l * 3 + 2] = (unsigned char)b;
+	}
+}
+
+static void
+parse_file(FILE *fd, const char *filename)
+{
+	if (fgetc(fd) == '#') {
+		rewind(fd);
+		parse_hex_file(fd, filename);
+	} else {
+		rewind(fd);
+		parse_dec_file(fd, filename);
 	}
 }
 
