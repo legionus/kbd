@@ -280,7 +280,7 @@ int main(int argc, char *argv[])
 	};
 
 	const struct kbd_help opthelp[] = {
-		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-c, --console=DEV", _("the console device to be used.") },
 		{ "-e, --exec",        _("execute the command, without forking.") },
 		{ "-f, --force",       _("force opening a VT without checking.") },
 		{ "-l, --login",       _("make the command a login shell.") },
