@@ -1,5 +1,4 @@
 m4_define([E2E_RUN],[[
-${SUDO-} \
 env \
 	LIBTSWRAP_OUTPUT="syscalls" \
 	LD_PRELOAD="$abs_builddir/libtswrap/.libs/libtswrap.so" \

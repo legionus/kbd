@@ -101,7 +101,7 @@ AT_CLEANUP
 
 AT_SETUP([test 20 (bkeymap)])
 AT_KEYWORDS([libkeymap unittest])
-AT_SKIP_IF([ test "$TRAVIS_CPU_ARCH" != "amd64" ])
+AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/defkeymap.map.bin" \
 	expout
@@ -149,7 +149,7 @@ AT_CLEANUP
 
 AT_SETUP([binary keymap (us.map)])
 AT_KEYWORDS([libkeymap unittest])
-AT_SKIP_IF([ test "$TRAVIS_CPU_ARCH" != "amd64" ])
+AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/us.map.bin" \
 	expout
@@ -159,7 +159,7 @@ AT_CLEANUP
 
 AT_SETUP([binary keymap (pt-latin9.map)])
 AT_KEYWORDS([libkeymap unittest])
-AT_SKIP_IF([ test "$TRAVIS_CPU_ARCH" != "amd64" ])
+AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/pt-latin9.map.bin" \
 	expout
@@ -169,7 +169,7 @@ AT_CLEANUP
 
 AT_SETUP([binary keymap (cz.map)])
 AT_KEYWORDS([libkeymap unittest])
-AT_SKIP_IF([ test "$TRAVIS_CPU_ARCH" != "amd64" ])
+AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/cz.map.bin" \
 	expout

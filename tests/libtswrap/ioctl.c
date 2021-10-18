@@ -330,7 +330,7 @@ int ioctl(int fd, ioctl_request_t request, ...)
 
 	switch (request) {
 		case PIO_FONT:
-			dprintf(outfd, "ioctl(%d, %s, char *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, char *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			dprintf(outfd, "char *arg = {\n");
@@ -338,13 +338,13 @@ int ioctl(int fd, ioctl_request_t request, ...)
 			dprintf(outfd, "};\n");
 			break;
 		case PIO_FONTX:
-			dprintf(outfd, "ioctl(%d, %s, struct consolefontdesc *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct consolefontdesc *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_consolefontdesc((struct consolefontdesc *) arg);
 			break;
 		case PIO_CMAP:
-			dprintf(outfd, "ioctl(%d, %s, unsigned char arg[48]) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, unsigned char arg[48]) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			dprintf(outfd, "unsigned char arg[48] = {\n");
@@ -354,11 +354,11 @@ int ioctl(int fd, ioctl_request_t request, ...)
 			break;
 		case KDGKBTYPE:
 			arg_char = *((char *) arg);
-			dprintf(outfd, "ioctl(%d, %s, 0x%04x) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, 0x%04x) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				(int) arg_char,
 				rc);
-			dprintf(outfd, "\t(descriptor %d is%sconsole)\n", fd,
+			dprintf(outfd, "\t(descriptor ? is%sconsole)\n",
 				((arg_char == KB_101) || (arg_char == KB_84))
 					? " "
 					: " not ");
@@ -370,7 +370,7 @@ int ioctl(int fd, ioctl_request_t request, ...)
 			arg_char = (request != KDSKBLED)
 				? *((char *) arg)
 				: (char) arg;
-			dprintf(outfd, "ioctl(%d, %s, 0x%04x) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, 0x%04x) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				(int) arg_char,
 				rc);
@@ -386,26 +386,26 @@ int ioctl(int fd, ioctl_request_t request, ...)
 		case KDGETMODE:
 		case KDSETMODE:
 			arg_i = *((unsigned int *) arg);
-			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, %s) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kd_mode, arg_i, buf1, sizeof(buf1)),
 				rc);
 			break;
 		case GIO_UNIMAP:
 		case PIO_UNIMAP:
-			dprintf(outfd, "ioctl(%d, %s, struct unimapdesc *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct unimapdesc *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_unimapdesc((struct unimapdesc *) arg);
 			break;
 		case PIO_UNIMAPCLR:
-			dprintf(outfd, "ioctl(%d, %s, struct unimapinit *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct unimapinit *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_unimapinit((struct unimapinit *) arg);
 			break;
 		case KDFONTOP:
-			dprintf(outfd, "ioctl(%d, %s, struct console_font_op *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct console_font_op *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_console_font_op((struct console_font_op *) arg);
@@ -415,54 +415,54 @@ int ioctl(int fd, ioctl_request_t request, ...)
 			arg_i = (request != KDSKBMODE)
 				? *((unsigned int *) arg)
 				: (unsigned int) arg;
-			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, %s) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kb_mode, arg_i, buf1, sizeof(buf1)),
 				rc);
 			break;
 		case KDGKBMETA:
 			arg_i = *((unsigned int *) arg);
-			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, %s) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kb_meta, arg_i, buf1, sizeof(buf1)),
 				rc);
 			break;
 		case KDSKBMETA:
-			dprintf(outfd, "ioctl(%d, %s, %s) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, %s) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				translate_ntoa(kb_meta, arg, buf1, sizeof(buf1)),
 				rc);
 			break;
 		case KDGKBENT:
 		case KDSKBENT:
-			dprintf(outfd, "ioctl(%d, %s, struct kbentry *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct kbentry *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_kbentry((struct kbentry *) arg);
 			break;
 		case KDGKBSENT:
 		case KDSKBSENT:
-			dprintf(outfd, "ioctl(%d, %s, struct kbsentry *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct kbsentry *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_kbsentry((struct kbsentry *) arg);
 			break;
 		case KDGKBDIACR:
 		case KDSKBDIACR:
-			dprintf(outfd, "ioctl(%d, %s, struct kbdiacrs *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct kbdiacrs *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_kbdiacrs((struct kbdiacrs *) arg);
 			break;
 		case KDGKBDIACRUC:
 		case KDSKBDIACRUC:
-			dprintf(outfd, "ioctl(%d, %s, struct kbdiacrsuc *arg) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, struct kbdiacrsuc *arg) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			print_kbdiacrsuc((struct kbdiacrsuc *) arg);
 			break;
 		default:
-			dprintf(outfd, "ioctl(%d, %s, ...) = %d;\n", fd,
+			dprintf(outfd, "ioctl(?, %s, ...) = %d;\n",
 				translate_ntoa(kd_request, request, buf0, sizeof(buf0)),
 				rc);
 			break;
