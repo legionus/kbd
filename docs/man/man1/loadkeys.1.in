@@ -4,37 +4,19 @@
 loadkeys \- load keyboard translation tables
 .SH SYNOPSIS
 .B loadkeys
-[
-.I -a --ascii
-] [
-.I -b --bkeymap
-] [
-.I -c --clearcompose
-] [
-.I -C '<FILE>'
-|
-.I --console=<FILE>
-] [
-.I -d --default
-] [
-.I -h --help
-] [
-.I -m --mktable
-] [
-.I -p --parse
-] [
-.I -q --quiet
-] [
-.I -s --clearstrings
-] [
-.I -u --unicode
-] [
-.I -v --verbose
-] [
-.I -V --version
-] [
-.I filename...
-]
+[\fI\,OPTION\/\fR]... \fI\,FILENAME\/\fR...
+.br
+.B loadkeys
+.I --default
+.br
+.B loadkeys
+.I --mktable
+.br
+.B loadkeys
+.I --bkeymap
+.br
+.B loadkeys
+.I --parse
 .LP
 .SH DESCRIPTION
 .IX "loadkeys command" "" "\fLloadkeys\fR command"
@@ -42,7 +24,7 @@ loadkeys \- load keyboard translation tables
 The program
 .B loadkeys
 reads the file or files specified by
-.IR filename... .
+.IR FILENAME... .
 Its main purpose is to load the kernel keymap for the console.
 You can specify console device by the
 .I -C
