@@ -1,4 +1,4 @@
-# qwertz-layout
+# qwerty-layout
 keycode  12 = q
 keycode  13 = w
 keycode  14 = e
