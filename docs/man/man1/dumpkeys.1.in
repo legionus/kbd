@@ -152,6 +152,35 @@ output of
 .LP
 .TP
 .BI \-S shape " " " " \-\-shape= shape
+Available shapes:
+.LP
+.RS
+.B 2
+default output.
+.RE
+.LP
+.RS
+.B 4
+one line for each keycode.
+.RE
+.LP
+.RS
+.B 8
+one line for each (modifier,keycode) pair.
+.RE
+.LP
+.RS
+.B 16
+one line for each keycode until 1st hole.
+.RE
+.LP
+.TP
+.B \-1 \-\-separate-lines
+This forces
+.B dumpkeys
+to write one line per (modifier,keycode) pair. It prefixes the word
+.I plain
+for plain keycodes.
 .LP
 .TP
 .B \-t \-\-funcs-only
@@ -196,7 +225,16 @@ loadkeys how to interpret the keymap. (For example, "division" is
 0xf7 in iso-8859-1 but 0xba in iso-8859-8.)
 .LP
 .TP
+.BI \-C dev " " " " \-\-console= dev
+The affected console device can be specified using the
+.I -C
+(or
+.I --console
+) option. This option supports exactly one device name.
+.LP
+.TP
 .B \-v \-\-verbose
+Turn on verbose output.
 .LP
 .TP
 .B \-V \-\-version
