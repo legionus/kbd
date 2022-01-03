@@ -25,4 +25,5 @@ vlock_SOURCES  = \
 	vlock.h \
 	vt.c
 
-vlock_LDADD = $(top_builddir)/src/libcommon/libcommon.a @PAM_LIBS@
+vlock_CFLAGS = @PAM_CFLAGS@ @PAM_MISC_CFLAGS@
+vlock_LDADD = $(top_builddir)/src/libcommon/libcommon.a @PAM_LIBS@ @PAM_MISC_LIBS@

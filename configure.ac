@@ -60,6 +60,14 @@ AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
 AC_FUNC_STAT
 
+m4_ifndef([PKG_PROG_PKG_CONFIG],
+  [m4_fatal([Could not locate the pkg-config autoconf
+    macros. These are usually located in /usr/share/aclocal/pkg.m4.
+    If your macros are in a different location, try setting the
+    environment variable AL_OPTS="-I/other/macro/dir" before running
+    ./autogen.sh or autoreconf again. Make sure pkg-config is installed.])])
+PKG_PROG_PKG_CONFIG
+
 AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
 strspn strstr strtol strtoul setpgrp malloc realloc])
 
@@ -138,18 +146,10 @@ AC_ARG_ENABLE(vlock,
 AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
 
 if test "$VLOCK_PROG" = "yes"; then
-	AC_CHECK_LIB(pam, pam_start, [
-	                AC_CHECK_HEADER([security/pam_appl.h],
-	                        [have_pam=1],
-	                        AC_MSG_ERROR([Can't find required header files.]))])
-	AC_CHECK_LIB(pam_misc, misc_conv, [
-	        AC_CHECK_HEADER([security/pam_misc.h],
-	                        [have_pam_misc=1],
-	                        AC_MSG_ERROR([Can't find required header files.]))])
-	if test -z "$have_pam" -o -z "$have_pam_misc"; then
-		AC_MSG_ERROR([libpam-devel required.])
-	fi
-	AC_SUBST(PAM_LIBS, "-lpam -lpam_misc")
+	PKG_CHECK_MODULES(PAM,      pam,      [HAVE_PAM=yes],      [HAVE_PAM=no])
+	PKG_CHECK_MODULES(PAM_MISC, pam_misc, [HAVE_PAM_MISC=yes], [HAVE_PAM_MISC=no])
+	AS_IF([test "$HAVE_PAM" != yes -o "$HAVE_PAM_MISC" != yes],
+		AC_MSG_ERROR([libpam-devel required.]))
 fi
 
 AC_ARG_ENABLE(tests,
@@ -159,6 +159,15 @@ AM_CONDITIONAL(BUILD_TESTS, test "$build_tests" != "no")
 
 AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
 AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
+
+AC_ARG_ENABLE([xkb],
+	[AS_HELP_STRING([--enable-xkb],
+			[allow to generate kernel keymaps based on xkb database @<:@default=yes@:>@])],
+	[USE_XKB=$enableval],[USE_XKB=yes])
+AS_IF([test "x$USE_XKB" != xno],
+	[PKG_CHECK_MODULES(XKBCOMMON, xkbcommon, [HAVE_XKBCOMMON=yes], [HAVE_XKBCOMMON=no])],
+	[USE_XKB=no])
+AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
 
 AC_CONFIG_FILES([Makefile
 		data/Makefile
@@ -209,4 +218,5 @@ AC_MSG_RESULT([
 	vlock:                  ${VLOCK_PROG}
 	libkbdfile:             ${BUILD_LIBKEYMAP}
 	libkeymap:              ${BUILD_LIBKEYMAP}
+	xkb support:            ${USE_XKB}
 ])
