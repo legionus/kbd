@@ -22,6 +22,7 @@ setfont \- load EGA/VGA console screen font
 .IR console ]
 .RB [ -h\c
 .IR H ]
+.RB [ -f ]
 .RB [ -v ]
 .RB [ -V ]
 .IX "setfont command" "" "\fLsetfont\fR command"
@@ -228,6 +229,10 @@ Load Unicode table describing the font from
 .TP
 .BI "\-C " console
 Set the font for the indicated console. (May require root permissions.)
+.TP
+.B \-f
+Force-load unicode map: Setfont`issues the system call to load the unicode
+map even if the specified map is empty.  This may be useful in unusual cases.
 .TP
 .B \-v
 Be verbose.
