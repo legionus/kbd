@@ -143,11 +143,12 @@ kfont_init(const char *prefix, struct kfont_context **ctx)
 {
 	struct kfont_context *p;
 
-	if (!(p = malloc(sizeof(*p))))
+	if (!(p = calloc(1, sizeof(*p))))
 		return -EX_OSERR;
 
 	p->progname = prefix;
 	p->verbose = 0;
+	p->options = 0;
 	p->log_fn = log_stderr;
 	p->mapdirpath = mapdirpath;
 	p->mapsuffixes = mapsuffixes;
