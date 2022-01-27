@@ -263,8 +263,7 @@ kfont_load_unicodemap(struct kfont_context *ctx, int fd, const char *tblname)
 		goto err;
 	}
 
-	if (ctx->verbose)
-		KFONT_INFO(ctx, _("Loading unicode map from file %s"), kbdfile_get_pathname(fp));
+	KFONT_INFO(ctx, _("Loading unicode map from file %s"), kbdfile_get_pathname(fp));
 
 	while (fgets(buffer, sizeof(buffer), kbdfile_get_file(fp)) != NULL) {
 		if ((p = strchr(buffer, '\n')) != NULL)
@@ -300,9 +299,8 @@ getunicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *unimap_descr
 	if (kfont_get_unicodemap(ctx, fd, unimap_descr))
 		return -1;
 
-	if (ctx->verbose)
-		KFONT_INFO(ctx, P_("# %d entry", "# %d entries", unimap_descr->entry_ct),
-				unimap_descr->entry_ct);
+	KFONT_INFO(ctx, P_("# %d entry", "# %d entries", unimap_descr->entry_ct),
+			unimap_descr->entry_ct);
 	return 0;
 }
 
@@ -328,8 +326,7 @@ kfont_save_unicodemap(struct kfont_context *ctx, int consolefd,
 	for (i = 0; i < unimap_descr.entry_ct; i++)
 		fprintf(fpo, "0x%02x\tU+%04x\n", unilist[i].fontpos, unilist[i].unicode);
 
-	if (ctx->verbose)
-		KFONT_INFO(ctx, _("Saved unicode map on `%s'"), filename);
+	KFONT_INFO(ctx, _("Saved unicode map on `%s'"), filename);
 end:
 	fclose(fpo);
 	return ret;
@@ -378,8 +375,7 @@ appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 	if (ctx->verbose > 1)
 		printf("\n");
 
-	if (ctx->verbose)
-		KFONT_INFO(ctx, _("Appended Unicode map"));
+	KFONT_INFO(ctx, _("Appended Unicode map"));
 
 	return 0;
 }

@@ -101,6 +101,16 @@ logger(struct kfont_context *ctx, int priority, const char *file,
 	va_list args;
 	if (ctx->log_fn == NULL)
 		return;
+	switch(ctx->verbose) {
+		case 0:
+			if (priority > LOG_CRIT)
+				return;
+			break;
+		case 1:
+			if (priority > LOG_INFO)
+				return;
+			break;
+	}
 	va_start(args, fmt);
 	ctx->log_fn(ctx, priority, file, line, fn, fmt, args);
 	va_end(args);
