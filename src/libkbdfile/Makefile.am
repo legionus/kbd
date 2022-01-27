@@ -24,7 +24,7 @@ KBDFILE_CURRENT  = 1
 KBDFILE_REVISION = 0
 KBDFILE_AGE      = 0
 
-if BUILD_LIBKEYMAP
+if BUILD_LIBKBDFILE
 lib_LTLIBRARIES = libkbdfile.la
 nobase_include_HEADERS = $(headers)
 libkbdfile_la_LDFLAGS = -export-symbols-regex ^kbdfile_.* -version-info $(KBDFILE_CURRENT):$(KBDFILE_REVISION):$(KBDFILE_AGE)
