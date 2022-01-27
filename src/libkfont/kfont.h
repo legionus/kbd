@@ -115,6 +115,7 @@ struct unicode_list;
 #define MAXIFILES 256
 
 int kfont_init(const char *prefix, struct kfont_context **ctx);
+void kfont_free(struct kfont_context *ctx);
 
 typedef void (*kfont_logger_t)(struct kfont_context *, int, const char *, int,
 		const char *, const char *, va_list)
