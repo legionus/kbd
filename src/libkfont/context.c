@@ -163,3 +163,10 @@ kfont_init(const char *prefix, struct kfont_context **ctx)
 
 	return 0;
 }
+
+void
+kfont_free(struct kfont_context *ctx)
+{
+	if (ctx)
+		free(ctx);
+}
