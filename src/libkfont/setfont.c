@@ -156,20 +156,18 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		}
 	}
 
-	if (ctx->verbose) {
-		if (height == hwunit && filename)
-			KFONT_INFO(ctx, _("Loading %d-char %dx%d font from file %s"),
-			       fontsize, width, height, filename);
-		else if (height == hwunit)
-			KFONT_INFO(ctx, _("Loading %d-char %dx%d font"),
-			       fontsize, width, height);
-		else if (filename)
-			KFONT_INFO(ctx, _("Loading %d-char %dx%d (%d) font from file %s"),
-			       fontsize, width, height, hwunit, filename);
-		else
-			KFONT_INFO(ctx, _("Loading %d-char %dx%d (%d) font"),
-			       fontsize, width, height, hwunit);
-	}
+	if (height == hwunit && filename)
+		KFONT_INFO(ctx, _("Loading %d-char %dx%d font from file %s"),
+		       fontsize, width, height, filename);
+	else if (height == hwunit)
+		KFONT_INFO(ctx, _("Loading %d-char %dx%d font"),
+		       fontsize, width, height);
+	else if (filename)
+		KFONT_INFO(ctx, _("Loading %d-char %dx%d (%d) font from file %s"),
+		       fontsize, width, height, hwunit, filename);
+	else
+		KFONT_INFO(ctx, _("Loading %d-char %dx%d (%d) font"),
+		       fontsize, width, height, hwunit);
 
 	if (kfont_put_font(ctx, fd, buf, fontsize, width, hwunit) < 0) {
 		ret = -EX_OSERR;
@@ -244,8 +242,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 		goto err;
 	}
 
-	if (ctx->verbose)
-		KFONT_INFO(ctx, _("Loading Unicode mapping table..."));
+	KFONT_INFO(ctx, _("Loading Unicode mapping table..."));
 
 	ud.entry_ct = ct;
 	ud.entries  = up;
@@ -319,9 +316,8 @@ kfont_load_fonts(struct kfont_context *ctx,
 		bytewidth = (width + 7) / 8;
 		height    = fontbuflth / (bytewidth * fontsize);
 
-		if (ctx->verbose)
-			KFONT_INFO(ctx, _("Read %d-char %dx%d font from file %s"),
-			     fontsize, width, height, kbdfile_get_pathname(fp));
+		KFONT_INFO(ctx, _("Read %d-char %dx%d font from file %s"),
+		     fontsize, width, height, kbdfile_get_pathname(fp));
 
 		kbdfile_free(fp); // avoid zombies, jw@suse.de (#88501)
 		fp = NULL;
@@ -632,11 +628,9 @@ save_font(struct kfont_context *ctx, int consolefd, const char *filename,
 				return -EX_IOERR;
 			}
 		}
-		if (ctx->verbose) {
-			KFONT_INFO(ctx,
-			     _("Saved %d-char %dx%d font file on %s"),
-			     ct, width, height, filename);
-		}
+		KFONT_INFO(ctx,
+		     _("Saved %d-char %dx%d font file on %s"),
+		     ct, width, height, filename);
 	}
 
 	if (count)

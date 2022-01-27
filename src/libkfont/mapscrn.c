@@ -105,10 +105,9 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 	}
 
 	if (stbuf.st_size == E_TABSZ) {
-		if (ctx->verbose)
-			KFONT_INFO(ctx,
-				_("Loading binary direct-to-font screen map from file %s"),
-				kbdfile_get_pathname(fp));
+		KFONT_INFO(ctx,
+			_("Loading binary direct-to-font screen map from file %s"),
+			kbdfile_get_pathname(fp));
 
 		if (fread(buf, E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
 			KFONT_ERR(ctx, _("Error reading map from file `%s'"),
@@ -117,10 +116,9 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 			goto end;
 		}
 	} else if (stbuf.st_size == 2 * E_TABSZ) {
-		if (ctx->verbose)
-			KFONT_INFO(ctx,
-				_("Loading binary unicode screen map from file %s"),
-				kbdfile_get_pathname(fp));
+		KFONT_INFO(ctx,
+			_("Loading binary unicode screen map from file %s"),
+			kbdfile_get_pathname(fp));
 
 		if (fread(ubuf, 2 * E_TABSZ, 1, kbdfile_get_file(fp)) != 1) {
 			KFONT_ERR(ctx,
@@ -131,9 +129,8 @@ readnewmapfromfile(struct kfont_context *ctx, const char *mfil,
 		}
 		ret = 1;
 	} else {
-		if (ctx->verbose)
-			KFONT_INFO(ctx, _("Loading symbolic screen map from file %s"),
-				kbdfile_get_pathname(fp));
+		KFONT_INFO(ctx, _("Loading symbolic screen map from file %s"),
+			kbdfile_get_pathname(fp));
 
 		if (parsemap(kbdfile_get_file(fp), buf, ubuf, &ret, &lineno)) {
 			KFONT_ERR(ctx,
@@ -267,7 +264,7 @@ kfont_save_consolemap(struct kfont_context *ctx, int fd, const char *omfil)
 		ret = -1;
 	}
 
-	if (!ret && ctx->verbose)
+	if (!ret)
 		KFONT_INFO(ctx, _("Saved screen map in `%s'"), omfil);
 
 	fclose(fp);
