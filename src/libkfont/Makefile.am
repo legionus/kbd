@@ -12,6 +12,9 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 
+CLEANFILES = libkfont.pc
+EXTRA_DIST = libkfont.pc.in libkfont.map
+
 LDADD = \
 	$(top_builddir)/src/libcommon/libcommon.a \
 	$(CODE_COVERAGE_LIBS)
@@ -37,6 +40,26 @@ libkfont_la_SOURCES = \
 	setfont.c \
 	kdfontop.c
 
+libkfont_la_LIBADD = $(builddir)/../libkbdfile/libkbdfile.la
 libkfont_la_LDFLAGS = -Wl,-soname,$(KFONT_SONAME),--version-script=$(KFONT_MAPFILE),-z,defs,-stats
 
+if BUILD_LIBKFONT
+pkgconfigdir   = $(libdir)/pkgconfig
+pkgconfig_DATA = libkfont.pc
+
+nobase_include_HEADERS = kfont.h
+lib_LTLIBRARIES = libkfont.la
+else
 noinst_LTLIBRARIES = libkfont.la
+endif
+
+%.pc: %.pc.in Makefile
+	$(SED) \
+	    -e 's,[@]VERSION[@],$(VERSION),g' \
+	    -e 's,[@]prefix[@],$(prefix),g' \
+	    -e 's,[@]exec_prefix[@],$(exec_prefix),g' \
+	    -e 's,[@]libdir[@],$(libdir),g' \
+	    -e 's,[@]includedir[@],$(includedir),g' \
+	    <$< >$(builddir)/$@
+	touch -r $< $(builddir)/$@
+	chmod 644 $(builddir)/$@

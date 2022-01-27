@@ -132,6 +132,17 @@ AC_ARG_ENABLE(libkeymap,
 	[BUILD_LIBKEYMAP=$enableval],[BUILD_LIBKEYMAP=no])
 AM_CONDITIONAL(BUILD_LIBKEYMAP, test "$BUILD_LIBKEYMAP" = "yes")
 
+AC_ARG_ENABLE(libkfont,
+	AS_HELP_STRING(--enable-libkfont, [Build and install a libkfont]),
+	[BUILD_LIBKFONT=$enableval],[BUILD_LIBKFONT=no])
+AM_CONDITIONAL(BUILD_LIBKFONT, test "$BUILD_LIBKFONT" = "yes")
+
+BUILD_LIBKBDFILE=no
+if test "$BUILD_LIBKFONT" = "yes" -o "$BUILD_LIBKEYMAP" = "yes"; then
+	BUILD_LIBKBDFILE=yes
+fi
+AM_CONDITIONAL(BUILD_LIBKBDFILE, test "$BUILD_LIBKBDFILE" = "yes")
+
 AC_ARG_ENABLE(vlock,
 	AS_HELP_STRING(--disable-vlock, [do not build vlock]),
 	[VLOCK_PROG=$enableval],[VLOCK_PROG=yes])
@@ -207,6 +218,7 @@ AC_MSG_RESULT([
 	resizecons:             ${RESIZECONS_PROGS}
 	optional progs:         ${OPTIONAL_PROGS}
 	vlock:                  ${VLOCK_PROG}
-	libkbdfile:             ${BUILD_LIBKEYMAP}
+	libkbdfile:             ${BUILD_LIBKBDFILE}
 	libkeymap:              ${BUILD_LIBKEYMAP}
+	libkfont:               ${BUILD_LIBKFONT}
 ])
