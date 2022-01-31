@@ -22,14 +22,6 @@ extern struct syn const synonyms[];
 extern const int syms_size;
 extern const int syn_size;
 
-/* Returned by ksymtocode to report an unknown symbol */
-#define CODE_FOR_UNKNOWN_KSYM (-1)
-
-/* Directions for converting keysyms */
-#define TO_AUTO (-1) /* use LK_FLAG_PREFER_UNICODE */
-#define TO_8BIT 0
-#define TO_UNICODE 1
-
 const char *get_sym(struct lk_ctx *ctx, int ktype, int index);
 int get_sym_size(struct lk_ctx *ctx, int ktype);
 
