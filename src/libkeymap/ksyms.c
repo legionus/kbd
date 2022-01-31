@@ -434,3 +434,18 @@ int add_capslock(struct lk_ctx *ctx, int code)
 	else
 		return convert_code(ctx, code, TO_AUTO);
 }
+
+
+int lk_convert_code(struct lk_ctx *ctx, int code, int direction)
+{
+	if (!ctx)
+		return CODE_FOR_UNKNOWN_KSYM;
+	return convert_code(ctx, code, direction);
+}
+
+int lk_add_capslock(struct lk_ctx *ctx, int code)
+{
+	if (!ctx)
+		return CODE_FOR_UNKNOWN_KSYM;
+	return add_capslock(ctx, code);
+}

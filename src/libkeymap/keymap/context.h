@@ -42,4 +42,15 @@ struct lk_kbdiacr {
  */
 struct lk_ctx;
 
+/* Returned by ksymtocode to report an unknown symbol */
+#define CODE_FOR_UNKNOWN_KSYM (-1)
+
+/* Directions for converting keysyms */
+#define TO_AUTO    (-1) /* use LK_FLAG_PREFER_UNICODE */
+#define TO_8BIT    0
+#define TO_UNICODE 1
+
+int lk_convert_code(struct lk_ctx *ctx, int code, int direction);
+int lk_add_capslock(struct lk_ctx *ctx, int code);
+
 #endif /* LK_CONTEXT_H */
