@@ -89,6 +89,22 @@ int lk_set_log_fn(struct lk_ctx *ctx, lk_logger_t log_fn, const void *data)
 	return 0;
 }
 
+lk_logger_t lk_get_log_fn(struct lk_ctx *ctx)
+{
+	if (!ctx)
+		return NULL;
+
+	return ctx->log_fn;
+}
+
+void *lk_get_log_data(struct lk_ctx *ctx)
+{
+	if (!ctx)
+		return NULL;
+
+	return ctx->log_data;
+}
+
 int lk_get_log_priority(struct lk_ctx *ctx)
 {
 	if (!ctx)
