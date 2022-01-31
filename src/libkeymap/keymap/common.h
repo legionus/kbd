@@ -65,4 +65,7 @@ int lk_set_log_priority(struct lk_ctx *ctx, int priority);
  */
 int lk_set_log_fn(struct lk_ctx *ctx, lk_logger_t log_fn, const void *data);
 
+lk_logger_t lk_get_log_fn(struct lk_ctx *ctx);
+void *lk_get_log_data(struct lk_ctx *ctx);
+
 #endif /* LK_COMMON_H */
