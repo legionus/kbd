@@ -77,6 +77,15 @@ static struct modifier_mapping modifier_mapping[] = {
 	{ NULL, NULL, 0 },
 };
 
+struct symbols_mapping {
+	char *xkb_sym;
+	char *krn_sym;
+};
+
+static struct symbols_mapping *symbols_mapping = NULL;
+static size_t symbols_mapping_nr = 0;
+
+
 static struct modifier_mapping *convert_modifier(const char *xkb_name)
 {
 	struct modifier_mapping *map = modifier_mapping;
@@ -89,81 +98,11 @@ static struct modifier_mapping *convert_modifier(const char *xkb_name)
 
 	return NULL;
 }
-
-struct symbols_mapping {
-	const char *xkb_sym;
-	const char *krn_sym;
-};
-
-static struct symbols_mapping symbols_mapping[] = {
-	{ "0", "zero" },
-	{ "1", "one" },
-	{ "2", "two" },
-	{ "3", "three" },
-	{ "4", "four" },
-	{ "5", "five" },
-	{ "6", "six" },
-	{ "7", "seven" },
-	{ "8", "eight" },
-	{ "9", "nine" },
-	{ "KP_Insert", "KP_0" },
-	{ "KP_End", "KP_1" },
-	{ "KP_Down", "KP_2" },
-	{ "KP_Next", "KP_3" },
-	{ "KP_Left", "KP_4" },
-	{ "KP_Right", "KP_6" },
-	{ "KP_Home", "KP_7" },
-	{ "KP_Up", "KP_8" },
-	{ "KP_Prior", "KP_9" },
-	{ "KP_Begin", "VoidSymbol" },
-	{ "KP_Delete", "VoidSymbol" },
-	{ "Alt_R", "Alt" },
-	{ "Alt_L", "Alt" },
-	{ "Control_R", "Control" },
-	{ "Control_L", "Control" },
-	{ "Super_R", "Alt" },
-	{ "Super_L", "Alt" },
-	{ "Hyper_R", "Alt" },
-	{ "Hyper_L", "Alt" },
-	{ "Mode_switch", "AltGr" },
-	{ "ISO_Group_Shift", "AltGr" },
-	{ "ISO_Group_Latch", "AltGr" },
-	{ "ISO_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Next_Group", "AltGr_Lock" },
-	{ "ISO_Next_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Prev_Group", "AltGr_Lock" },
-	{ "ISO_Prev_Group_Lock", "AltGr_Lock" },
-	{ "ISO_First_Group", "AltGr_Lock" },
-	{ "ISO_First_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Last_Group", "AltGr_Lock" },
-	{ "ISO_Last_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Level3_Shift", "AltGr" },
-	{ "ISO_Left_Tab", "Meta_Tab" },
-	{ "XF86Switch_VT_1", "Console_1" },
-	{ "XF86Switch_VT_2", "Console_2" },
-	{ "XF86Switch_VT_3", "Console_3" },
-	{ "XF86Switch_VT_4", "Console_4" },
-	{ "XF86Switch_VT_5", "Console_5" },
-	{ "XF86Switch_VT_6", "Console_6" },
-	{ "XF86Switch_VT_7", "Console_7" },
-	{ "XF86Switch_VT_8", "Console_8" },
-	{ "XF86Switch_VT_9", "Console_9" },
-	{ "XF86Switch_VT_10", "Console_10" },
-	{ "XF86Switch_VT_11", "Console_11" },
-	{ "XF86Switch_VT_12", "Console_12" },
-	{ "Sys_Req", "Last_Console" },
-	{ "Print", "Control_backslash" },
-	{ NULL, NULL },
-};
-
-static const char *convert_xkb_symbol(const char *xkb_sym)
+static char *convert_xkb_symbol(const char *xkb_sym)
 {
-	struct symbols_mapping *map = symbols_mapping;
-
-	while (map->xkb_sym) {
-		if (!strcmp(map->xkb_sym, xkb_sym))
-			return map->krn_sym;
-		map++;
+	for (size_t i = 0; i < symbols_mapping_nr; i++) {
+		if (!strcmp(symbols_mapping[i].xkb_sym, xkb_sym))
+			return symbols_mapping[i].krn_sym;
 	}
 
 	return NULL;
@@ -426,9 +365,68 @@ err:
 	return -1;
 }
 
+#include <ctype.h>
+
+static int parsemap(FILE *fp)
+{
+	struct symbols_mapping *new = NULL;
+	char buffer[BUFSIZ];
+	unsigned int ln = 0;
+	char *p, *q, *xkb_sym = NULL, *krn_sym = NULL;
+
+	while (fgets(buffer, sizeof(buffer) - 1, fp)) {
+		ln++;
+
+		p = buffer;
+		while (isspace(*p))
+			p++;
+
+		if (*p == '#')
+			continue;
+
+		q = p;
+		while (!isspace(*q))
+			q++;
+		*q = '\0';
+
+		if (!(xkb_sym = strdup(p)))
+			goto err;
+
+		p = ++q;
+		while (isspace(*p))
+			p++;
+
+		q = p;
+		while (!isspace(*q))
+			q++;
+		*q = '\0';
+
+		if (!(krn_sym = strdup(p)))
+			goto err;
+
+		new = realloc(symbols_mapping, sizeof(*new) * (symbols_mapping_nr + 1));
+		if (!new)
+			goto err;
+
+		symbols_mapping = new;
+
+		new[symbols_mapping_nr].xkb_sym = xkb_sym;
+		new[symbols_mapping_nr].krn_sym = krn_sym;
+		symbols_mapping_nr++;
+
+		xkb_sym = NULL;
+		krn_sym = NULL;
+	}
+	return 0;
+err:
+	free(xkb_sym);
+	free(krn_sym);
+	return -1;
+}
 
 int convert_xkb_keymap(struct lk_ctx *ctx, struct xkb_rule_names *names, int options)
 {
+	FILE *fp;
 	struct xkeymap xkeymap;
 	int ret = -1;
 
@@ -453,12 +451,26 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkb_rule_names *names, int opt
 		goto end;
 	}
 
+	if ((fp = fopen(DATADIR "/xkbtrans/names", "r")) != NULL) {
+		if (parsemap(fp) < 0) {
+			kbd_warning(0, "unable to parse xkb translation names");
+			goto end;
+		}
+		fclose(fp);
+	}
+
 	if (!(ret = xkeymap_walk(&xkeymap))) {
 		if (options & OPT_P)
 			lk_dump_keymap(ctx, stdout, LK_SHAPE_SEPARATE_LINES, 0);
 	}
 
 end:
+	for (size_t i = 0; i < symbols_mapping_nr; i++) {
+		free(symbols_mapping[i].xkb_sym);
+		free(symbols_mapping[i].krn_sym);
+	}
+	free(symbols_mapping);
+
 	xkb_keymap_unref(xkeymap.keymap);
 	xkb_context_unref(xkeymap.xkb);
 
