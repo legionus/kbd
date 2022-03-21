@@ -3,9 +3,14 @@ on:
   push:
     branches:
       - master
+      - for-master
       - github-ci
     tags:
       - v*
+  pull_request:
+    branches:
+      - master
+      - for-master
 jobs:
   distcheck_job:
     name: "Distcheck"
@@ -22,7 +27,7 @@ jobs:
     - name: "Configure"
       run: |
         ./autogen.sh
-        ./configure --datadir="$PWD/data" --enable-optional-progs --enable-libkeymap
+        ./configure --datadir="$PWD/data" --enable-optional-progs --enable-libkeymap --enable-libkfont
     - name: "Build"
       run: |
         make V=1
@@ -39,13 +44,13 @@ jobs:
             cc: gcc
             compiler: gcc
             libc: glibc
-            configure: --enable-libkeymap
+            configure: --enable-libkeymap --enable-libkfont
             check: unittest e2e
           - os: ubuntu-20.04
             cc: clang
             compiler: clang
             libc: glibc
-            configure: --enable-libkeymap
+            configure: --enable-libkeymap --enable-libkfont
             check: unittest e2e
           - os: ubuntu-20.04
             cc: musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
