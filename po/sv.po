@@ -6,16 +6,15 @@
 # Christer Andersson <klamm@comhem.se>, 2007.
 # Göran Uddeborg <goeran@uddeborg.se>, 2016, 2020.
 #
-# $Revision: 1.11 $
-#: src/dumpkeys.c:113
+# $Revision: 1.13 $
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.2.90\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2020-06-02 13:17+0200\n"
-"PO-Revision-Date: 2020-06-14 16:25+0200\n"
+"POT-Creation-Date: 2022-03-22 01:11+0100\n"
+"PO-Revision-Date: 2020-08-02 15:26+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
-"Language-Team: Swedish <tp-sv-list@lists.sourceforge.net>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +31,7 @@ msgstr "Användning: %s [flagga…] N\n"
 #: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
 #: src/kbdrate.c:331 src/loadkeys.c:52 src/loadunimap.c:35 src/mapscrn.c:31
 #: src/openvt.c:60 src/setkeycodes.c:37 src/setleds.c:56 src/setmetamode.c:41
-#: src/setvtrgb.c:60 src/showconsolefont.c:110 src/showkey.c:97
+#: src/setvtrgb.c:68 src/showconsolefont.c:110 src/showkey.c:97
 #, c-format
 msgid "Options:"
 msgstr "Flaggor:"
@@ -41,18 +40,18 @@ msgstr "Flaggor:"
 #: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
 #: src/kbdrate.c:346 src/loadkeys.c:69 src/loadunimap.c:50 src/mapscrn.c:46
 #: src/openvt.c:75 src/setkeycodes.c:52 src/setleds.c:71 src/setmetamode.c:56
-#: src/setvtrgb.c:75 src/showconsolefont.c:125 src/showkey.c:112
+#: src/setvtrgb.c:83 src/showconsolefont.c:125 src/showkey.c:112
 #, c-format
 msgid "Report bugs to authors.\n"
 msgstr ""
 "Rapportera fel till författarna.\n"
-"Skicka anmärkningar på översättningen till <tp-sv-list@lists.sourceforge.net>.\n"
+"Skicka anmärkningar på översättningen till <tp-sv@listor.tp-sv.se>.\n"
 
 #: src/chvt.c:78 src/deallocvt.c:69 src/dumpkeys.c:121 src/fgconsole.c:71
 #: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
 #: src/kbdrate.c:376 src/loadkeys.c:127 src/loadunimap.c:78 src/mapscrn.c:76
 #: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
-#: src/setmetamode.c:115 src/setvtrgb.c:135 src/showconsolefont.c:158
+#: src/setmetamode.c:115 src/setvtrgb.c:177 src/showconsolefont.c:158
 #: src/showkey.c:145
 msgid "print this usage message."
 msgstr "skriv ut detta användningsmeddelande."
@@ -61,7 +60,7 @@ msgstr "skriv ut detta användningsmeddelande."
 #: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
 #: src/kbdrate.c:375 src/loadkeys.c:126 src/loadunimap.c:77 src/mapscrn.c:75
 #: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
-#: src/setmetamode.c:114 src/setvtrgb.c:134 src/showconsolefont.c:157
+#: src/setmetamode.c:114 src/setvtrgb.c:176 src/showconsolefont.c:157
 #: src/showkey.c:146
 msgid "print version number."
 msgstr "skriv ut versionsnummer."
@@ -76,11 +75,11 @@ msgstr "Inte tillräckligt med argument."
 #: src/loadkeys.c:204 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
 #: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
 #: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:178 src/showconsolefont.c:194
+#: src/setvesablank.c:32 src/setvtrgb.c:220 src/showconsolefont.c:194
 #: src/showkey.c:211 src/totextmode.c:32
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console."
-msgstr "Kunde inte få en filidentifierare för konsolen"
+msgstr "Kunde inte få en filidentifierare för konsolen."
 
 #: src/chvt.c:112 src/openvt.c:199
 msgid "Unable to set signal handler"
@@ -123,8 +122,8 @@ msgstr "VT 1 är konsolen och kan inte avallokeras"
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "kunde inte avallokera konsol %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
-#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
+#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -183,13 +182,15 @@ msgid "display only compose key combinations."
 msgstr "visa endast kompositionstangentkombinationer."
 
 #: src/dumpkeys.c:117
-msgid "interpret character action codes to be from the specified character set."
-msgstr "tolka teckenåtgärdsskoder som om de är från den angivna teckenuppsättningen."
+msgid ""
+"interpret character action codes to be from the specified character set."
+msgstr ""
+"tolka teckenåtgärdsskoder som om de är från den angivna teckenuppsättningen."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
 #: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
 #: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
-#: src/setvtrgb.c:133 src/showconsolefont.c:154
+#: src/setvtrgb.c:175 src/showconsolefont.c:154
 msgid "the console device to be used."
 msgstr "konsolenheten att använda."
 
@@ -235,7 +236,8 @@ msgstr "Enkla avläsningskoder xx (hex) mot tangentkoder (dec)\n"
 #: src/getkeycodes.c:105
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 är ett fel, för 1-88 (0x01-0x58) är avläsningskoden lika med tangentkoden\n"
+msgstr ""
+"0 är ett fel, för 1-88 (0x01-0x58) är avläsningskoden lika med tangentkoden\n"
 
 #: src/getkeycodes.c:108
 #, c-format
@@ -250,7 +252,9 @@ msgstr "Utvidgade avläsningskoder e0 xx (hex)\n"
 #: src/getkeycodes.c:139
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr "misslyckades med att hämta tangentkoden för avläsningskod 0x%x: ioctl KDGETKEYCODE"
+msgstr ""
+"misslyckades med att hämta tangentkoden för avläsningskod 0x%x: ioctl "
+"KDGETKEYCODE"
 
 #: src/getunimap.c:82
 msgid "sort and merge elements."
@@ -288,7 +292,7 @@ msgstr "Kan inte läsa av metatangenthanteringsläget"
 
 #: src/kbdinfo.c:171 src/setleds.c:141
 msgid "Unable to read keyboard flags"
-msgstr "Kan inte läsa av tangenbordsflaggor"
+msgstr "Kan inte läsa av tangentbordsflaggor"
 
 #: src/kbd_mode.c:28 src/loadunimap.c:29
 #, c-format
@@ -342,8 +346,12 @@ msgstr "byt läget även om det gör tangentbordet oanvändbart."
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
-msgstr "Att ändra till det begärda läget kan göra ditt tangentbord oanvändbart, använd -f för att framtvinga ändringen.\n"
+msgid ""
+"Changing to the requested mode may make your keyboard unusable, please use -"
+"f to force the change.\n"
+msgstr ""
+"Att ändra till det begärda läget kan göra ditt tangentbord oanvändbart, "
+"använd -f för att framtvinga ändringen.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
@@ -375,17 +383,23 @@ msgid "Cannot open /dev/port"
 msgstr "Kan inte öppna /dev/port"
 
 #: src/kbdrate.c:325
-#, c-format
-msgid "The prorgam sets the keyboard repeat rate and delay in user mode.\n"
-msgstr "Programmet sätter repeteringshastigheten och fördröjningen för tangentbordet i användarläge.\n"
+#, fuzzy, c-format
+msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
+msgstr ""
+"Programmet sätter repetitionsshastigheten och fördröjningen för "
+"tangentbordet i användarläge.\n"
 
 #: src/kbdrate.c:371
 msgid "set the rate in characters per second."
 msgstr "ställ in hastigheten i tecken per sekund."
 
 #: src/kbdrate.c:372
-msgid "set the amount of time the key must remain depressed before it will start to repeat."
-msgstr "ställ in hur lång tid tangenten måste vara nedtryckt före den börjar repetera."
+msgid ""
+"set the amount of time the key must remain depressed before it will start to "
+"repeat."
+msgstr ""
+"ställ in hur lång tid tangenten måste vara nedtryckt före den börjar "
+"repetera."
 
 #: src/kbdrate.c:373
 msgid "do not set new values, but only display the current ones."
@@ -411,9 +425,9 @@ msgstr "inkluderingar är nästade för djupt"
 
 #: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
-#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
-#: src/screendump.c:121 src/screendump.c:151
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
+#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
+#: src/screendump.c:151
 msgid "out of memory"
 msgstr "minnet slut"
 
@@ -476,14 +490,15 @@ msgstr "Kan inte ta bort ett element från tabellen över diakritiska tecken"
 #: src/libkeymap/dump.c:78 src/libkeymap/loadkeys.c:44
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
-msgstr "det gick inte att binda tangenten %d till värdet %d för att det är för stort"
+msgstr ""
+"det gick inte att binda tangenten %d till värdet %d för att det är för stort"
 
-#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:257
-#: src/libkfont/mapscrn.c:262
+#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:254
+#: src/libkfont/mapscrn.c:259
 msgid "Error writing map to file"
 msgstr "Fel vid skrivning av tabell till fil"
 
-#: src/libkeymap/dump.c:548
+#: src/libkeymap/dump.c:538
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "omöjligt: inte meta?\n"
@@ -566,14 +581,14 @@ msgstr "kan inte hämta symbol enligt fel typ: %d"
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "kan inte hämta symbol av typ %d enligt fel index: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:341 src/libkeymap/ksyms.c:347
+#: src/libkeymap/ksyms.c:353 src/libkeymap/ksyms.c:359
+#: src/libkeymap/ksyms.c:365
 #, c-format
 msgid "assuming %s %s"
 msgstr "antar %s %s"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:370
 #, c-format
 msgid "unknown keysym '%s'"
 msgstr "okänd teckensymbol ”%s”"
@@ -638,7 +653,8 @@ msgstr "för många kompositionsdefinitioner"
 
 #: src/libkeymap/loadkeys.c:238
 msgid "unable to load compose definitions because some of them are too large"
-msgstr "kan inte ladda sammansättningsdefinitoner eftersom några av dem är för stora"
+msgstr ""
+"kan inte ladda sammansättningsdefinitioner eftersom några av dem är för stora"
 
 #: src/libkeymap/loadkeys.c:267
 #, c-format
@@ -758,25 +774,12 @@ msgstr ""
 "\n"
 "Igenkända modifierarnamn och deras kolumnnummer:\n"
 
-#: src/libkfont/kdfontop.c:92
-#, c-format
-msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
-msgstr "GIO_FONTX: antalet tecken i typsnittet får inte vara mer än %d"
-
-#: src/libkfont/kdfontop.c:126
-msgid "getfont called with count<256"
-msgstr "getfont anropad med count<256"
-
-#: src/libkfont/kdfontop.c:131
-msgid "getfont using GIO_FONT needs buf"
-msgstr "getfont som använder GIO_FONT behöver buf"
-
-#: src/libkfont/kdmapop.c:172
+#: src/libkfont/kdmapop.c:173
 #, c-format
 msgid "strange... ct changed from %d to %d"
 msgstr "konstigt …  ct ändrades från %d till %d"
 
-#: src/libkfont/kdmapop.c:198
+#: src/libkfont/kdmapop.c:199
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded."
@@ -796,25 +799,29 @@ msgstr "%s: Felaktigt slut på intervall (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
-msgstr "%s: Unicode-intervall U+%x-U+%x är inte av samma längd som typsnittspositionsintervall 0x%x-0x%x"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x"
+msgstr ""
+"%s: Unicode-intervall U+%x-U+%x är inte av samma längd som "
+"typsnittspositionsintervall 0x%x-0x%x"
 
 #: src/libkfont/loadunimap.c:237
 #, c-format
 msgid "%s: trailing junk (%s) ignored"
 msgstr "%s: efterföljande skräp (%s) ignorerat"
 
-#: src/libkfont/loadunimap.c:267
+#: src/libkfont/loadunimap.c:266
 #, c-format
 msgid "Loading unicode map from file %s"
 msgstr "Läser in Unicode-tabell från fil %s"
 
-#: src/libkfont/loadunimap.c:273
+#: src/libkfont/loadunimap.c:272
 #, c-format
 msgid "%s: Warning: line too long"
 msgstr "%s: Varning: raden är för lång"
 
-#: src/libkfont/loadunimap.c:281
+#: src/libkfont/loadunimap.c:280
 msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
@@ -822,66 +829,66 @@ msgstr ""
 "läser inte in tom unitabell\n"
 "(om du insisterar: använd flaggan -f för att åsidosätta)"
 
-#: src/libkfont/loadunimap.c:304
+#: src/libkfont/loadunimap.c:302
 #, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
 msgstr[0] "# %d post"
 msgstr[1] "# %d poster"
 
-#: src/libkfont/loadunimap.c:319 src/libkfont/mapscrn.c:102
-#: src/libkfont/mapscrn.c:234 src/loadkeys.c:277 src/openvt.c:437
+#: src/libkfont/loadunimap.c:317 src/libkfont/mapscrn.c:102
+#: src/libkfont/mapscrn.c:231 src/loadkeys.c:277 src/openvt.c:437
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
 msgid "Unable to open file: %s: %m"
 msgstr "Kan inte öppna filen %s: %m"
 
-#: src/libkfont/loadunimap.c:332
+#: src/libkfont/loadunimap.c:329
 #, c-format
 msgid "Saved unicode map on `%s'"
 msgstr "Sparade Unicode-tabell till ”%s”"
 
-#: src/libkfont/loadunimap.c:382
+#: src/libkfont/loadunimap.c:378
 msgid "Appended Unicode map"
 msgstr "Lade till Unicode-tabell"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:301
-#: src/libkfont/setfont.c:414 src/libkfont/setfont.c:421 src/loadkeys.c:245
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:298
+#: src/libkfont/setfont.c:410 src/libkfont/setfont.c:417 src/loadkeys.c:245
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Kan inte hitta filen: %s"
 
-#: src/libkfont/mapscrn.c:110
+#: src/libkfont/mapscrn.c:109
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
 msgstr "Läser in binär direkt-till-typsnitt-skärmtabell från fil %s"
 
-#: src/libkfont/mapscrn.c:114 src/libkfont/mapscrn.c:127
+#: src/libkfont/mapscrn.c:113 src/libkfont/mapscrn.c:125
 #, c-format
 msgid "Error reading map from file `%s'"
 msgstr "Fel vid läsning av tabell från fil ”%s”"
 
-#: src/libkfont/mapscrn.c:122
+#: src/libkfont/mapscrn.c:120
 #, c-format
 msgid "Loading binary unicode screen map from file %s"
 msgstr "Läser in binär Unicode-skärmfil från fil %s"
 
-#: src/libkfont/mapscrn.c:135
+#: src/libkfont/mapscrn.c:132
 #, c-format
 msgid "Loading symbolic screen map from file %s"
 msgstr "Läser in symbolisk skärmtabell från fil %s"
 
-#: src/libkfont/mapscrn.c:140
+#: src/libkfont/mapscrn.c:137
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
 msgstr "Fel vid tolkning av symbolisk tabell från ”%s”, rad %d"
 
-#: src/libkfont/mapscrn.c:266
+#: src/libkfont/mapscrn.c:263
 msgid "Cannot read console map"
 msgstr "Kan inte läsa konsoltabell"
 
-#: src/libkfont/mapscrn.c:271
+#: src/libkfont/mapscrn.c:268
 #, c-format
 msgid "Saved screen map in `%s'"
 msgstr "Sparade skärmtabell i ”%s”"
@@ -971,7 +978,7 @@ msgstr "Felaktig teckenbredd %d"
 #: src/libkfont/setfont.c:72
 #, c-format
 msgid "Cannot double %dx%d font (limit is 16x16)"
-msgstr "Det går inte att dubbla typnsnittet %d×%d (gränsen är 16×16)"
+msgstr "Det går inte att dubbla typsnittet %d×%d (gränsen är 16×16)"
 
 #: src/libkfont/setfont.c:140
 msgid "font position 32 is nonblank"
@@ -985,78 +992,79 @@ msgstr "rensade det"
 msgid "background will look funny"
 msgstr "bakgrunden kommer se konstig ut"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:160
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Läser in %d-teckens %d×%d-typsnitt från filen %s"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:163
 #, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Läser in %d-teckens %d×%d-typsnitt"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:166
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Läser in %d-teckens %d×%d-typsnitt (%d) från filen %s"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:169
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Läser in %d-teckens %d×%d-typsnitt (%d)"
 
-#: src/libkfont/setfont.c:242
+#: src/libkfont/setfont.c:240
 msgid "bug in do_loadtable"
 msgstr "fel i do_loadtable"
 
-#: src/libkfont/setfont.c:248
+#: src/libkfont/setfont.c:245
 msgid "Loading Unicode mapping table..."
 msgstr "Läser in Unicode-konverteringsstabell …"
 
-#: src/libkfont/setfont.c:313
+#: src/libkfont/setfont.c:310
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
-msgstr "När flera typsnitt läses in måste alla vara psf-typsnitt - %s är inte det"
+msgstr ""
+"När flera typsnitt läses in måste alla vara psf-typsnitt - %s är inte det"
 
-#: src/libkfont/setfont.c:323
+#: src/libkfont/setfont.c:319
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Läste %d-teckens %d×%d-typsnitt från filen %s"
 
-#: src/libkfont/setfont.c:332
+#: src/libkfont/setfont.c:328
 msgid "When loading several fonts, all must have the same height"
 msgstr "När flera typsnitt läses in måste alla ha samma höjd"
 
-#: src/libkfont/setfont.c:340
+#: src/libkfont/setfont.c:336
 msgid "When loading several fonts, all must have the same width"
 msgstr "När flera typsnitt läses in måste alla ha samma bredd"
 
-#: src/libkfont/setfont.c:406
+#: src/libkfont/setfont.c:402
 msgid "Cannot find default font"
 msgstr "Hittar inte standardtypsnittet"
 
-#: src/libkfont/setfont.c:428
+#: src/libkfont/setfont.c:424
 #, c-format
 msgid "Reading font file %s"
 msgstr "Läser typsnittsfilen %s"
 
-#: src/libkfont/setfont.c:478
+#: src/libkfont/setfont.c:474
 msgid "No final newline in combine file"
 msgstr "Inget slutgiltigt nyradstecken i kombinationsfilen"
 
-#: src/libkfont/setfont.c:484
+#: src/libkfont/setfont.c:480
 msgid "Too many files to combine"
 msgstr "För många filer att kombinera"
 
-#: src/libkfont/setfont.c:512
+#: src/libkfont/setfont.c:508
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hmm - ett typsnitt från restorefont? Använder första halvan."
 
-#: src/libkfont/setfont.c:531
+#: src/libkfont/setfont.c:527
 msgid "Bad input file size"
 msgstr "Felaktig storlek på indatafilen"
 
-#: src/libkfont/setfont.c:559
+#: src/libkfont/setfont.c:555
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1065,21 +1073,22 @@ msgstr ""
 "Den här filen innehåller 3 typsnitt: 8×8, 8×14 och 8×16. Välj vilket\n"
 "du vill läsa in med någon av flaggorna -8, -14 och -16.\n"
 
-#: src/libkfont/setfont.c:576
+#: src/libkfont/setfont.c:572
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "Du bad om typsnittsstorleken %d, men bara 8, 14 och 16 är möjliga här.\n"
+msgstr ""
+"Du bad om typsnittsstorleken %d, men bara 8, 14 och 16 är möjliga här.\n"
 
-#: src/libkfont/setfont.c:627
+#: src/libkfont/setfont.c:623
 msgid "Found nothing to save"
 msgstr "Hittade inget att spara"
 
-#: src/libkfont/setfont.c:631
+#: src/libkfont/setfont.c:627
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "Kan inte skriva till typsnittsfilen: %m"
 
-#: src/libkfont/setfont.c:637
+#: src/libkfont/setfont.c:632
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Sparade %d-teckens %d×%d-typsnittsfil till %s"
@@ -1172,8 +1181,11 @@ msgstr "Användning: %s [flagga …] -- kommando\n"
 
 #: src/openvt.c:54
 #, c-format
-msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
-msgstr "Detta verktyg hjälper till att starta ett program på en ny virtuell terminal (VT).\n"
+msgid ""
+"This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr ""
+"Detta verktyg hjälper till att starta ett program på en ny virtuell terminal "
+"(VT).\n"
 
 #: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
@@ -1219,7 +1231,9 @@ msgstr "Kan inte hitta en ledig vt"
 #: src/openvt.c:363
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "Kan inte undersöka huruvida vt %d är ledig; använd ”%s -f“ för att framtvinga."
+msgstr ""
+"Kan inte undersöka huruvida vt %d är ledig; använd ”%s -f“ för att "
+"framtvinga."
 
 #: src/openvt.c:367
 #, c-format
@@ -1267,7 +1281,9 @@ msgstr "Användning: %s intypsnitt uttypsnitt\n"
 #: src/psfxtable.c:107
 #, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
-msgstr "Användning: %s [-i intypsnitt] [-o uttypsnitt] [-it intabell] [-ot uttabell] [-nt]\n"
+msgstr ""
+"Användning: %s [-i intypsnitt] [-o uttypsnitt] [-it intabell] [-ot uttabell] "
+"[-nt]\n"
 
 #: src/psfxtable.c:148
 #, c-format
@@ -1309,7 +1325,8 @@ msgstr "Gammalt läge: %d×%d  Nytt läge: %d×%d\n"
 #: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Gammalt antal skannlinjer: %d  Nytt antal skannlinjer: %d  Teckenhöjd: %d\n"
+msgstr ""
+"Gammalt antal skannlinjer: %d  Nytt antal skannlinjer: %d  Teckenhöjd: %d\n"
 
 #: src/resizecons.c:278
 #, c-format
@@ -1318,19 +1335,23 @@ msgstr "resizecons: kommandot \"%s\" misslyckades\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: glöm inte ändra TERM (kanske till con%dx%d eller linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: glöm inte ändra TERM (kanske till con%dx%d eller linux-%dx%d)\n"
 
 #: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "anrop: resizecons KOLUMNERxRADER  eller: resizecons KOLUMNER RADER\n"
-"eller: resizecons -lines RADER, där RADER är en av 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"eller: resizecons -lines RADER, där RADER är en av 25, 28, 30, 34, 36, 40, "
+"44, 50, 60\n"
 
 #: src/resizecons.c:416
 #, c-format
@@ -1364,7 +1385,8 @@ msgstr "Fel vid skrivning av skärmdump"
 #: src/setfont.c:28
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1389,18 +1411,22 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Användning: setfont [skrivflaggor] [-<N>] [nytt_typsnitt…] [-m konsoltabell] [-u Unicode-tabell]\n"
+"Användning: setfont [skrivflaggor] [-<N>] [nytt_typsnitt…] [-m konsoltabell] "
+"[-u Unicode-tabell]\n"
 "  skrivflaggor (händer före filer läses):\n"
 "    -o  <filnamn> Skriv nuvarande typsnitt till <filnamn>\n"
-"    -O  <filnamn> Skriv nuvarande typsnitt och Unicode-tabell till <filnamn>\n"
+"    -O  <filnamn> Skriv nuvarande typsnitt och Unicode-tabell till "
+"<filnamn>\n"
 "    -om <filnamn> Skriv nuvarande konsoltabell till <filnamn>\n"
 "    -ou <filnamn> Skriv nuvarande Unicode-tabell till <filnamn>\n"
 "Om inget \"nytt_typsnitt\" och ingen -[o|O|om|ou|m|u]-flagga är given,\n"
 "läses ett standardtypsnitt in:\n"
 "    setfont       Läs in typsnitt \"default[.gz]\"\n"
 "    setfont -<N>  Läs in typsnitt \"default8x<N>[.gz]\"\n"
-"-<N>-flaggan väljer ett typsnitt från en teckentabell som innehåller tre typsnitt:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Läs in 8×<N>-typsnitt från codepage.cp\n"
+"-<N>-flaggan väljer ett typsnitt från en teckentabell som innehåller tre "
+"typsnitt:\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Läs in 8×<N>-typsnitt från "
+"codepage.cp\n"
 "Explicit (med -m eller -u) eller implicit (i typsnittsfilen) givna tabeller\n"
 "kommer läsas in och, om det gäller konsoltabeller, aktiveras.\n"
 "    -h<N>      (inget blanktecken) åsidosätt typsnittshöjd.\n"
@@ -1419,7 +1445,9 @@ msgstr "För många indatafiler."
 
 #: src/setfont.c:144
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
-msgstr "Kan inte både återställa från tecken-ROM och från fil.  Typsnittet oförändrat."
+msgstr ""
+"Kan inte både återställa från tecken-ROM och från fil.  Typsnittet "
+"oförändrat."
 
 #: src/setkeycodes.c:28
 #, c-format
@@ -1456,7 +1484,8 @@ msgstr "kod utanför gränserna"
 #: src/setkeycodes.c:164
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
-msgstr "kunde inte sätta avläsningskoden %x till tangentkoden %d; ioctl KDSETKEYCODE"
+msgstr ""
+"kunde inte sätta avläsningskoden %x till tangentkoden %d; ioctl KDSETKEYCODE"
 
 #: src/setleds.c:32
 #, c-format
@@ -1497,13 +1526,17 @@ msgid "off"
 msgstr "av"
 
 #: src/setleds.c:121
-msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr "Fel vid läsning av nuvarande lysdiodinställning.  Standard in kanske inte är en VT?: ioctl KDGETLED"
+msgid ""
+"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgstr ""
+"Fel vid läsning av nuvarande lysdiodinställning.  Standard in kanske inte är "
+"en VT?: ioctl KDGETLED"
 
 #: src/setleds.c:157 src/setleds.c:176
 #, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
-msgstr "Fel vid läsning av nuvarande lysdiodinställning från /dev/kbd: ioctl %s"
+msgstr ""
+"Fel vid läsning av nuvarande lysdiodinställning från /dev/kbd: ioctl %s"
 
 #: src/setleds.c:161 src/setleds.c:180
 #, c-format
@@ -1516,7 +1549,7 @@ msgstr "byt både VT-flaggorna och deras standardinställningar."
 
 #: src/setleds.c:245
 msgid "change the VT flags."
-msgstr "ändra VT-flagganorna."
+msgstr "ändra VT-flaggorna."
 
 #: src/setleds.c:246
 msgid "change only the leds."
@@ -1624,15 +1657,23 @@ msgid "Usage: %s [option...] [vga|FILE|-]\n"
 msgstr "Användning: %s [flagga…] [vga|FIL|-]\n"
 
 #: src/setvtrgb.c:47
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
-"comma-separated decimal values for RED, GREEN, and BLUE.\n"
+"If you use the FILE parameter, it can be in either in decimal\n"
+"or hexadecimal format, and will be detected on runtime.\n"
 "\n"
+"Decimal FILE format should be exactly 3 lines of comma-separated\n"
+"decimal values for RED, GREEN, and BLUE.\n"
 "To seed a valid FILE:\n"
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
 "\n"
-"and then edit the values in FILE.\n"
+"Hexadecimal FILE format should be exactly 16 lines of hex triplets\n"
+"for RED, GREEN and BLUE, prefixed with a number sign (#).\n"
+"For example:\n"
+"   #000000\n"
+"   #AA0000\n"
+"   #00AA00\n"
+"And so on, for all the 16 colors.\n"
 msgstr ""
 "Om du använder parametern FIL, skall FIL vara precis 3 rader med\n"
 "kommaseparerade decimala värden för RÖD, GRÖN och BLÅ.\n"
@@ -1642,25 +1683,35 @@ msgstr ""
 "\n"
 "och redigera sedan värdena i FIL.\n"
 
-#: src/setvtrgb.c:93
+#: src/setvtrgb.c:101
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Fel: %s: Felaktigt värde i fält %u på rad %u."
 
-#: src/setvtrgb.c:100
+#: src/setvtrgb.c:108
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Fel: %s: Otillräckligt antal fält på rad %u."
 
-#: src/setvtrgb.c:105
+#: src/setvtrgb.c:113
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
 msgstr "Fel: %s: Rad %u slutade oväntat."
 
-#: src/setvtrgb.c:109
+#: src/setvtrgb.c:117
 #, c-format
 msgid "Error: %s: Line %u is too long."
 msgstr "Fel: %s: Rad %u är för lång."
+
+#: src/setvtrgb.c:131
+#, fuzzy, c-format
+msgid "Error: %s: Insufficient number of colors/lines: %u"
+msgstr "Fel: %s: Otillräckligt antal fält på rad %u."
+
+#: src/setvtrgb.c:134
+#, fuzzy, c-format
+msgid "Error: %s: Invalid value in line %u."
+msgstr "Fel: %s: Felaktigt värde i fält %u på rad %u."
 
 #: src/showconsolefont.c:35
 msgid "failed to restore original translation table"
@@ -1681,7 +1732,8 @@ msgstr "(antagligen efter att ha laddat ett typsnitt med ”setfont typsnitt”)
 
 #: src/showconsolefont.c:155
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
-msgstr "skriv inte ut typsnittstabellen, visa bara: RADER×KOLUMNER×ANTAL och avsluta."
+msgstr ""
+"skriv inte ut typsnittstabellen, visa bara: RADER×KOLUMNER×ANTAL och avsluta."
 
 #: src/showconsolefont.c:213
 #, c-format
@@ -1736,7 +1788,7 @@ msgstr "visa decimal-/oktal-/hexvärden för tangenterna."
 
 #: src/showkey.c:143
 msgid "display only the raw scan-codes."
-msgstr "visa endast de råa skannkoderna."
+msgstr "visa endast de råa avläsningskoderna."
 
 #: src/showkey.c:144
 msgid "display only the interpreted keycodes (default)."
@@ -1756,7 +1808,9 @@ msgstr ""
 #: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "tryck någon tangent (programmet avslutas 10 s efter sista tangenttryckning)...\n"
+msgstr ""
+"tryck någon tangent (programmet avslutas 10 s efter sista "
+"tangenttryckning)...\n"
 
 #: src/showkey.c:285
 msgid "release"
@@ -1793,7 +1847,8 @@ msgstr "%s är nu låst av %s.\n"
 
 #: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
-msgstr "Använd Alt-funktionstangenter för att byta till andra virtuella konsoler."
+msgstr ""
+"Använd Alt-funktionstangenter för att byta till andra virtuella konsoler."
 
 #: src/vlock/parse.c:52
 #, c-format
@@ -1818,7 +1873,8 @@ msgstr ""
 "       Där [flaggor] är några av:\n"
 "-c eller --current: lås endast denna virtuella konsol, tillåt användare att\n"
 "       byta till andra virtuella konsoler.\n"
-"-a eller --all: lås alla virtuella konsoler genom att hindra andra användare\n"
+"-a eller --all: lås alla virtuella konsoler genom att hindra andra "
+"användare\n"
 "       att byta virtuell konsol.\n"
 "-v eller --version: Skriv vlocks versionsnummer och avsluta.\n"
 "-h eller --help: Skriv detta hjälpmeddelande och avsluta.\n"
@@ -1840,3 +1896,14 @@ msgstr "Denna tty (%s) är inte en virtuell konsol.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Hela konsoldisplayen kan inte låsas.\n"
+
+#, c-format
+#~ msgid ""
+#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
+#~ msgstr "GIO_FONTX: antalet tecken i typsnittet får inte vara mer än %d"
+
+#~ msgid "getfont called with count<256"
+#~ msgstr "getfont anropad med count<256"
+
+#~ msgid "getfont using GIO_FONT needs buf"
+#~ msgstr "getfont som använder GIO_FONT behöver buf"

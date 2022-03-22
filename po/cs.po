@@ -6,12 +6,11 @@
 # keymap → mapa kláves
 # key binding → mapování kláves
 #
-#: src/dumpkeys.c:113
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.2.90\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2020-06-02 13:17+0200\n"
+"POT-Creation-Date: 2022-03-22 01:11+0100\n"
 "PO-Revision-Date: 2020-07-11 13:28+02:00\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -31,7 +30,7 @@ msgstr "Použití: %s [PŘEPÍNAČE…] N\n"
 #: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
 #: src/kbdrate.c:331 src/loadkeys.c:52 src/loadunimap.c:35 src/mapscrn.c:31
 #: src/openvt.c:60 src/setkeycodes.c:37 src/setleds.c:56 src/setmetamode.c:41
-#: src/setvtrgb.c:60 src/showconsolefont.c:110 src/showkey.c:97
+#: src/setvtrgb.c:68 src/showconsolefont.c:110 src/showkey.c:97
 #, c-format
 msgid "Options:"
 msgstr "Přepínače:"
@@ -40,7 +39,7 @@ msgstr "Přepínače:"
 #: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
 #: src/kbdrate.c:346 src/loadkeys.c:69 src/loadunimap.c:50 src/mapscrn.c:46
 #: src/openvt.c:75 src/setkeycodes.c:52 src/setleds.c:71 src/setmetamode.c:56
-#: src/setvtrgb.c:75 src/showconsolefont.c:125 src/showkey.c:112
+#: src/setvtrgb.c:83 src/showconsolefont.c:125 src/showkey.c:112
 #, c-format
 msgid "Report bugs to authors.\n"
 msgstr "Chyby hlaste autorům.\n"
@@ -49,7 +48,7 @@ msgstr "Chyby hlaste autorům.\n"
 #: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
 #: src/kbdrate.c:376 src/loadkeys.c:127 src/loadunimap.c:78 src/mapscrn.c:76
 #: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
-#: src/setmetamode.c:115 src/setvtrgb.c:135 src/showconsolefont.c:158
+#: src/setmetamode.c:115 src/setvtrgb.c:177 src/showconsolefont.c:158
 #: src/showkey.c:145
 msgid "print this usage message."
 msgstr "zobrazí tento návod na použití."
@@ -58,7 +57,7 @@ msgstr "zobrazí tento návod na použití."
 #: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
 #: src/kbdrate.c:375 src/loadkeys.c:126 src/loadunimap.c:77 src/mapscrn.c:75
 #: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
-#: src/setmetamode.c:114 src/setvtrgb.c:134 src/showconsolefont.c:157
+#: src/setmetamode.c:114 src/setvtrgb.c:176 src/showconsolefont.c:157
 #: src/showkey.c:146
 msgid "print version number."
 msgstr "zobrazí číslo verze."
@@ -73,7 +72,7 @@ msgstr "Málo argumentů."
 #: src/loadkeys.c:204 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
 #: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
 #: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:178 src/showconsolefont.c:194
+#: src/setvesablank.c:32 src/setvtrgb.c:220 src/showconsolefont.c:194
 #: src/showkey.c:211 src/totextmode.c:32
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console."
@@ -120,8 +119,8 @@ msgstr "VT 1 je konzola a nemůže být dealokován"
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "nelze dealokovat konzolu %d: IOCTL VT_DISALLOCATE"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
-#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
+#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -180,13 +179,14 @@ msgid "display only compose key combinations."
 msgstr "zobrazí pouze kombinace kompozičních kláves."
 
 #: src/dumpkeys.c:117
-msgid "interpret character action codes to be from the specified character set."
+msgid ""
+"interpret character action codes to be from the specified character set."
 msgstr "interpretuje kódy akce znaků jako z určené znakové sady."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
 #: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
 #: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
-#: src/setvtrgb.c:133 src/showconsolefont.c:154
+#: src/setvtrgb.c:175 src/showconsolefont.c:154
 msgid "the console device to be used."
 msgstr "použije toto zařízení konzoly."
 
@@ -339,8 +339,12 @@ msgstr "přepne režim, i když to učiní klávesnici nepoužitelnou."
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
-msgstr "Změna na požadovaný režim může učinit vaši klávesnici nepoužitelnou. Prosím, změnu vynuťte přepínačem -f.\n"
+msgid ""
+"Changing to the requested mode may make your keyboard unusable, please use -"
+"f to force the change.\n"
+msgstr ""
+"Změna na požadovaný režim může učinit vaši klávesnici nepoužitelnou. Prosím, "
+"změnu vynuťte přepínačem -f.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
@@ -372,17 +376,22 @@ msgid "Cannot open /dev/port"
 msgstr "Nelze otevřít /dev/port"
 
 #: src/kbdrate.c:325
-#, c-format
-msgid "The prorgam sets the keyboard repeat rate and delay in user mode.\n"
-msgstr "Program nastaví rychlost opakování a zpoždění klávesnice v uživatelském režimu.\n"
+#, fuzzy, c-format
+msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
+msgstr ""
+"Program nastaví rychlost opakování a zpoždění klávesnice v uživatelském "
+"režimu.\n"
 
 #: src/kbdrate.c:371
 msgid "set the rate in characters per second."
 msgstr "nastaví rychlost opakování ve znacích za sekundu."
 
 #: src/kbdrate.c:372
-msgid "set the amount of time the key must remain depressed before it will start to repeat."
-msgstr "nastaví dobu, po kterou klávesa musí zůstat stisknuta, než se začne opakovat."
+msgid ""
+"set the amount of time the key must remain depressed before it will start to "
+"repeat."
+msgstr ""
+"nastaví dobu, po kterou klávesa musí zůstat stisknuta, než se začne opakovat."
 
 #: src/kbdrate.c:373
 msgid "do not set new values, but only display the current ones."
@@ -408,9 +417,9 @@ msgstr "vložení jsou zanořena příliš hluboko"
 
 #: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
-#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
-#: src/screendump.c:121 src/screendump.c:151
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
+#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
+#: src/screendump.c:151
 msgid "out of memory"
 msgstr "nedostatek paměti"
 
@@ -475,12 +484,12 @@ msgstr "Z tabulky diakritiky nelze odstranit položku"
 msgid "can not bind key %d to value %d because it is too large"
 msgstr "navázat klávesu %d na hodnotu %d nelze, protože je příliš velká"
 
-#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:257
-#: src/libkfont/mapscrn.c:262
+#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:254
+#: src/libkfont/mapscrn.c:259
 msgid "Error writing map to file"
 msgstr "Chyba při zápisu mapy do souboru"
 
-#: src/libkeymap/dump.c:548
+#: src/libkeymap/dump.c:538
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "nemožné: není meta?\n"
@@ -563,14 +572,14 @@ msgstr "symbol nelze získat podle chybného typu: %d"
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "symbol typu %d nelze získat podle chybného indexu: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:341 src/libkeymap/ksyms.c:347
+#: src/libkeymap/ksyms.c:353 src/libkeymap/ksyms.c:359
+#: src/libkeymap/ksyms.c:365
 #, c-format
 msgid "assuming %s %s"
 msgstr "předpokládá se %s %s"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:370
 #, c-format
 msgid "unknown keysym '%s'"
 msgstr "neznámý symbol klávesy „%s“"
@@ -636,7 +645,8 @@ msgstr "příliš mnoho definic skladby"
 
 #: src/libkeymap/loadkeys.c:238
 msgid "unable to load compose definitions because some of them are too large"
-msgstr "nelze zavést definice skladby, protože některé z nich jsou příliš rozsáhlé"
+msgstr ""
+"nelze zavést definice skladby, protože některé z nich jsou příliš rozsáhlé"
 
 #: src/libkeymap/loadkeys.c:267
 #, c-format
@@ -761,25 +771,12 @@ msgstr ""
 "\n"
 "Rozpoznávané názvy modifikátorů a jejich čísla sloupců:\n"
 
-#: src/libkfont/kdfontop.c:92
-#, c-format
-msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
-msgstr "GIO_FONTX: počet znaků v písmu nemůže být větší než %d"
-
-#: src/libkfont/kdfontop.c:126
-msgid "getfont called with count<256"
-msgstr "getfont zavoláno s count<256"
-
-#: src/libkfont/kdfontop.c:131
-msgid "getfont using GIO_FONT needs buf"
-msgstr "getfont pomocí GIO_FONT potřebuje buf"
-
-#: src/libkfont/kdmapop.c:172
+#: src/libkfont/kdmapop.c:173
 #, c-format
 msgid "strange... ct changed from %d to %d"
 msgstr "divné… ct změněno z %d na %d"
 
-#: src/libkfont/kdmapop.c:198
+#: src/libkfont/kdmapop.c:199
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded."
@@ -799,25 +796,29 @@ msgstr "%s: Špatný konec rozsahu (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
 #, c-format
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
-msgstr "%s: Rozsah Unicode U+%x-U+%x není stejné délky jako rozsah pozic písma 0x%x-0x%x"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x"
+msgstr ""
+"%s: Rozsah Unicode U+%x-U+%x není stejné délky jako rozsah pozic písma 0x"
+"%x-0x%x"
 
 #: src/libkfont/loadunimap.c:237
 #, c-format
 msgid "%s: trailing junk (%s) ignored"
 msgstr "%s: smetí na konci (%s) ignorováno"
 
-#: src/libkfont/loadunimap.c:267
+#: src/libkfont/loadunimap.c:266
 #, c-format
 msgid "Loading unicode map from file %s"
 msgstr "Načítá se mapa Unicode ze souboru %s"
 
-#: src/libkfont/loadunimap.c:273
+#: src/libkfont/loadunimap.c:272
 #, c-format
 msgid "%s: Warning: line too long"
 msgstr "%s: Pozor: řádek je příliš dlouhý"
 
-#: src/libkfont/loadunimap.c:281
+#: src/libkfont/loadunimap.c:280
 msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
@@ -825,7 +826,7 @@ msgstr ""
 "prázdná mapa Unicode nebude zavedena\n"
 "(pokud na tom trváte: použijte přepínač -f pro vynucení)"
 
-#: src/libkfont/loadunimap.c:304
+#: src/libkfont/loadunimap.c:302
 #, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
@@ -833,59 +834,59 @@ msgstr[0] "# %d položka"
 msgstr[1] "# %d položky"
 msgstr[2] "# %d položek"
 
-#: src/libkfont/loadunimap.c:319 src/libkfont/mapscrn.c:102
-#: src/libkfont/mapscrn.c:234 src/loadkeys.c:277 src/openvt.c:437
+#: src/libkfont/loadunimap.c:317 src/libkfont/mapscrn.c:102
+#: src/libkfont/mapscrn.c:231 src/loadkeys.c:277 src/openvt.c:437
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
 msgid "Unable to open file: %s: %m"
 msgstr "Soubor nelze otevřít: %s: %m"
 
-#: src/libkfont/loadunimap.c:332
+#: src/libkfont/loadunimap.c:329
 #, c-format
 msgid "Saved unicode map on `%s'"
 msgstr "Mapa Unicode uložena do „%s“"
 
-#: src/libkfont/loadunimap.c:382
+#: src/libkfont/loadunimap.c:378
 msgid "Appended Unicode map"
 msgstr "Připojena mapa Unicode"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:301
-#: src/libkfont/setfont.c:414 src/libkfont/setfont.c:421 src/loadkeys.c:245
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:298
+#: src/libkfont/setfont.c:410 src/libkfont/setfont.c:417 src/loadkeys.c:245
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Soubor nelze nalézt: %s"
 
-#: src/libkfont/mapscrn.c:110
+#: src/libkfont/mapscrn.c:109
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
 msgstr "Načítá se binární mapa obrazovky přímo do písma ze souboru %s"
 
-#: src/libkfont/mapscrn.c:114 src/libkfont/mapscrn.c:127
+#: src/libkfont/mapscrn.c:113 src/libkfont/mapscrn.c:125
 #, c-format
 msgid "Error reading map from file `%s'"
 msgstr "Chyba při čtení mapy ze souboru „%s“"
 
-#: src/libkfont/mapscrn.c:122
+#: src/libkfont/mapscrn.c:120
 #, c-format
 msgid "Loading binary unicode screen map from file %s"
 msgstr "Načítá se binární unikódová mapa obrazovky ze souboru %s"
 
-#: src/libkfont/mapscrn.c:135
+#: src/libkfont/mapscrn.c:132
 #, c-format
 msgid "Loading symbolic screen map from file %s"
 msgstr "Načítá se symbolická mapa obrazovky ze souboru %s"
 
-#: src/libkfont/mapscrn.c:140
+#: src/libkfont/mapscrn.c:137
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
 msgstr "Chyba při zpracovávání symbolické mapy z „%s“, řádek %d"
 
-#: src/libkfont/mapscrn.c:266
+#: src/libkfont/mapscrn.c:263
 msgid "Cannot read console map"
 msgstr "Mapu konzoly nelze přečíst"
 
-#: src/libkfont/mapscrn.c:271
+#: src/libkfont/mapscrn.c:268
 #, c-format
 msgid "Saved screen map in `%s'"
 msgstr "Mapa obrazovky uložena do „%s“"
@@ -989,78 +990,78 @@ msgstr "vymazáno"
 msgid "background will look funny"
 msgstr "pozadí bude vypadat divně"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:160
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Načítá se %d-znakové písmo %d×%d ze souboru %s"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:163
 #, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Načítá se %d-znakové písmo %d×%d"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:166
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Načítá se %d-znakové písmo %d×%d (%d) ze souboru %s"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:169
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Načítá se %d-znakové písmo %d×%d (%d)"
 
-#: src/libkfont/setfont.c:242
+#: src/libkfont/setfont.c:240
 msgid "bug in do_loadtable"
 msgstr "chyba v do_loadtable"
 
-#: src/libkfont/setfont.c:248
+#: src/libkfont/setfont.c:245
 msgid "Loading Unicode mapping table..."
 msgstr "Načítá se mapovací tabulku Unicode…"
 
-#: src/libkfont/setfont.c:313
+#: src/libkfont/setfont.c:310
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr "Při načítání více písem musí všechna být ve formátu psf - %s není"
 
-#: src/libkfont/setfont.c:323
+#: src/libkfont/setfont.c:319
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Načteno %d-znakové písmo %d×%d ze souboru %s"
 
-#: src/libkfont/setfont.c:332
+#: src/libkfont/setfont.c:328
 msgid "When loading several fonts, all must have the same height"
 msgstr "Při načítání více písem musí všechna míst stejnou výšku"
 
-#: src/libkfont/setfont.c:340
+#: src/libkfont/setfont.c:336
 msgid "When loading several fonts, all must have the same width"
 msgstr "Při načítání více písem musí všechna míst stejnou šířku"
 
-#: src/libkfont/setfont.c:406
+#: src/libkfont/setfont.c:402
 msgid "Cannot find default font"
 msgstr "Nelze nalézt výchozí písmo"
 
-#: src/libkfont/setfont.c:428
+#: src/libkfont/setfont.c:424
 #, c-format
 msgid "Reading font file %s"
 msgstr "Čte se soubor s písmem %s"
 
-#: src/libkfont/setfont.c:478
+#: src/libkfont/setfont.c:474
 msgid "No final newline in combine file"
 msgstr "Chybí závěrečný konec řádku v kombinovaném souboru"
 
-#: src/libkfont/setfont.c:484
+#: src/libkfont/setfont.c:480
 msgid "Too many files to combine"
 msgstr "Příliš mnoho souborů pro kombinování"
 
-#: src/libkfont/setfont.c:512
+#: src/libkfont/setfont.c:508
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hmm - písmo z restorefont? Použije se první polovina."
 
-#: src/libkfont/setfont.c:531
+#: src/libkfont/setfont.c:527
 msgid "Bad input file size"
 msgstr "Chybná velikost vstupního souboru"
 
-#: src/libkfont/setfont.c:559
+#: src/libkfont/setfont.c:555
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1069,21 +1070,21 @@ msgstr ""
 "Tento soubor obsahuje tři písma: 8×8, 8×14 a 8×16. Naznačte prosím\n"
 "pomocí přepínače -8 nebo -14 nebo -16, které chcete načíst.\n"
 
-#: src/libkfont/setfont.c:576
+#: src/libkfont/setfont.c:572
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Požádali jste o velikost písma %d, ale tady je možné jen 8, 14, 16.\n"
 
-#: src/libkfont/setfont.c:627
+#: src/libkfont/setfont.c:623
 msgid "Found nothing to save"
 msgstr "Nenalezeno nic k uložení"
 
-#: src/libkfont/setfont.c:631
+#: src/libkfont/setfont.c:627
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "Nelze zapsat soubor písma: %m"
 
-#: src/libkfont/setfont.c:637
+#: src/libkfont/setfont.c:632
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Uložen %d-znakový soubor písma %d×%d do %s"
@@ -1176,8 +1177,10 @@ msgstr "Použití: %s [PŘEPÍNAČ…] -- PŘÍKAZ\n"
 
 #: src/openvt.c:54
 #, c-format
-msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
-msgstr "Tento nástroj pomůže spustit program na novém virtuálním terminálu (VT).\n"
+msgid ""
+"This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr ""
+"Tento nástroj pomůže spustit program na novém virtuálním terminálu (VT).\n"
 
 #: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
@@ -1223,7 +1226,8 @@ msgstr "Nebylo možné nalézt volný VT"
 #: src/openvt.c:363
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "Nelze zkontrolovat, jestli VT %d je volný. Použijte „%s -f“ k vynucení."
+msgstr ""
+"Nelze zkontrolovat, jestli VT %d je volný. Použijte „%s -f“ k vynucení."
 
 #: src/openvt.c:367
 #, c-format
@@ -1324,19 +1328,23 @@ msgstr "resizecons: příkaz `%s' selhal\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: nezapomeňte změnit TERM (možná na con%dx%d nebo linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr ""
+"resizecons: nezapomeňte změnit TERM (možná na con%dx%d nebo linux-%dx%d)\n"
 
 #: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "volání je:  resizecons SLOUPCŮxŘÁDKŮ  nebo:  resizecons SLOUPCŮ ŘÁDKŮ\n"
-"nebo: resizecons -lines ŘÁDKŮ, ke ŘÁDKŮ je jedno z 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"nebo: resizecons -lines ŘÁDKŮ, ke ŘÁDKŮ je jedno z 25, 28, 30, 34, 36, 40, "
+"44, 50, 60\n"
 
 #: src/resizecons.c:416
 #, c-format
@@ -1370,7 +1378,8 @@ msgstr "Chyba při zápisu sejmuté obrazovky"
 #: src/setfont.c:28
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1399,7 +1408,8 @@ msgstr ""
 "                 [-u MAPA_UNICODE]\n"
 "  PŘEPÍNAČE_ZÁPISU (mají vliv před načtením souboru):\n"
 "    -o  <NÁZEV_SOUBORU>  Zapíše aktuální písmo do <NÁZVU_SOUBORU>\n"
-"    -O  <NÁZEV_SOUBORU>  Zapíše aktuální písmo a mapu Unicode do <NÁZVU_SOUBORU>\n"
+"    -O  <NÁZEV_SOUBORU>  Zapíše aktuální písmo a mapu Unicode do "
+"<NÁZVU_SOUBORU>\n"
 "    -om <NÁZEV_SOUBORU>  Zapíše aktuální mapu konzoly do <NÁZVU_SOUBORU>\n"
 "    -ou <NÁZEV_SOUBORU>  Zapíše aktuální mapu unicode do <NÁZVU_SOUBORU>\n"
 "Není-li zadáno NOVÉ_PÍSMO ani přepínač -[o|O|om|ou|m|u],\n"
@@ -1408,7 +1418,8 @@ msgstr ""
 "    setfont -<N>         Zavede písmo „default8x<N>[.gz]“\n"
 "Přepínač -<N> vybírá písmo z codepage, která obsahuje tři písma:\n"
 "    setfont -{8|14|16} codepage.cp[.gz]   Zavede písmo 8×<N> z codepage.cp\n"
-"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná mapování\n"
+"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná "
+"mapování\n"
 "budou načtena a v případě map konzoly aktivována.\n"
 "    -h<N>       (bez mezery) Vnutí výšku písma.\n"
 "    -d          Zdvojnásobí velikost písma vodorovně i svisle.\n"
@@ -1505,8 +1516,11 @@ msgid "off"
 msgstr "vypnut "
 
 #: src/setleds.c:121
-msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr "Chyba při čtení aktuálního nastavení LED. Možná stdin není VT?: IOCTL KDGETLED"
+msgid ""
+"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgstr ""
+"Chyba při čtení aktuálního nastavení LED. Možná stdin není VT?: IOCTL "
+"KDGETLED"
 
 #: src/setleds.c:157 src/setleds.c:176
 #, c-format
@@ -1633,15 +1647,23 @@ msgid "Usage: %s [option...] [vga|FILE|-]\n"
 msgstr "Použití: %s [PŘEPÍNAČ…] [vga|SOUBOR|-]\n"
 
 #: src/setvtrgb.c:47
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
-"comma-separated decimal values for RED, GREEN, and BLUE.\n"
+"If you use the FILE parameter, it can be in either in decimal\n"
+"or hexadecimal format, and will be detected on runtime.\n"
 "\n"
+"Decimal FILE format should be exactly 3 lines of comma-separated\n"
+"decimal values for RED, GREEN, and BLUE.\n"
 "To seed a valid FILE:\n"
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
 "\n"
-"and then edit the values in FILE.\n"
+"Hexadecimal FILE format should be exactly 16 lines of hex triplets\n"
+"for RED, GREEN and BLUE, prefixed with a number sign (#).\n"
+"For example:\n"
+"   #000000\n"
+"   #AA0000\n"
+"   #00AA00\n"
+"And so on, for all the 16 colors.\n"
 msgstr ""
 "Použijete-li parametr SOUBOR, SOUBOR by měl obsahovat přesně 3 řádky\n"
 "čárkou oddělených desítkových hodnot pro ČERVENOU, ZELENOU a MODROU.\n"
@@ -1651,25 +1673,35 @@ msgstr ""
 "\n"
 "a pak upravte hodnoty v SOUBORU.\n"
 
-#: src/setvtrgb.c:93
+#: src/setvtrgb.c:101
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Chyba: %s: Neplatná hodnota v položce %u na řádku %u."
 
-#: src/setvtrgb.c:100
+#: src/setvtrgb.c:108
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Chyba: %s: Nedostatečný počet položek na řádku %u."
 
-#: src/setvtrgb.c:105
+#: src/setvtrgb.c:113
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
 msgstr "Chyba: %s: Řádek %u neočekávaně skončil."
 
-#: src/setvtrgb.c:109
+#: src/setvtrgb.c:117
 #, c-format
 msgid "Error: %s: Line %u is too long."
 msgstr "Chyba: %s: Řádek %u je příliš dlouhý."
+
+#: src/setvtrgb.c:131
+#, fuzzy, c-format
+msgid "Error: %s: Insufficient number of colors/lines: %u"
+msgstr "Chyba: %s: Nedostatečný počet položek na řádku %u."
+
+#: src/setvtrgb.c:134
+#, fuzzy, c-format
+msgid "Error: %s: Invalid value in line %u."
+msgstr "Chyba: %s: Neplatná hodnota v položce %u na řádku %u."
 
 #: src/showconsolefont.c:35
 msgid "failed to restore original translation table"
@@ -1765,7 +1797,9 @@ msgstr ""
 #: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr "stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku klávesy)...\n"
+msgstr ""
+"stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku "
+"klávesy)...\n"
 
 #: src/showkey.c:285
 msgid "release"
@@ -1827,7 +1861,8 @@ msgstr ""
 "       Kde [přepínače] jsou kterýkoliv z:\n"
 "-c nebo --current: zamkne pouze tuto virtuální konzolu, dovolí uživateli\n"
 "       přepnout na jiné virtuální konzoly.\n"
-"-a nebo --all: zamkne všechny virtuální konzoly, zabrání ostatním uživatelům\n"
+"-a nebo --all: zamkne všechny virtuální konzoly, zabrání ostatním "
+"uživatelům\n"
 "       přepínat mezi virtuálními konzolemi.\n"
 "-v nebo --version: vypíše číslo verze vlocku a skončí.\n"
 "-h nebo --help: vypíše tuto nápovědu a skončí.\n"
@@ -1850,6 +1885,17 @@ msgstr "Tento TTY (%s) není virtuální konzola.\n"
 msgid "The entire console display cannot be locked.\n"
 msgstr "Nelze uzamknout celý displej konzole.\n"
 
+#, c-format
+#~ msgid ""
+#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
+#~ msgstr "GIO_FONTX: počet znaků v písmu nemůže být větší než %d"
+
+#~ msgid "getfont called with count<256"
+#~ msgstr "getfont zavoláno s count<256"
+
+#~ msgid "getfont using GIO_FONT needs buf"
+#~ msgstr "getfont pomocí GIO_FONT potřebuje buf"
+
 #~ msgid "usage: chvt N\n"
 #~ msgstr "použití: chvt N\n"
 
@@ -1869,7 +1915,8 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ "\t-i --short-info\t    display information about keyboard driver\n"
 #~ "\t-l -s --long-info   display above and symbols known to loadkeys\n"
 #~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
-#~ "\t-f --full-table\t    don't use short-hand notations, one row per keycode\n"
+#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
+#~ "keycode\n"
 #~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
 #~ "\t-S --shape=\n"
 #~ "\t-t --funcs-only\t    display only the function key strings\n"
@@ -1942,7 +1989,8 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ msgstr "použití: kbd_mode [-a|-u|-k|-s] [-C zařízení]\n"
 
 #~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-#~ msgstr "Použití: kbdrate [-V | --version] [-s] [-r rychlost] [-d zpoždění]\n"
+#~ msgstr ""
+#~ "Použití: kbdrate [-V | --version] [-s] [-r rychlost] [-d zpoždění]\n"
 
 #~ msgid "%s: out of memory\n"
 #~ msgstr "%s: nedostatek paměti\n"
@@ -2018,8 +2066,10 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "Špatný řádek vstupu: %s\n"
 
-#~ msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-#~ msgstr "%s: Špatný rozsah Unicode odpovídající rozsahu pozic písma 0x%x-0x%x\n"
+#~ msgid ""
+#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr ""
+#~ "%s: Špatný rozsah Unicode odpovídající rozsahu pozic písma 0x%x-0x%x\n"
 
 #~ msgid "%s: %s: Warning: line too long\n"
 #~ msgstr "%s: %s: Varování: řádek příliš dlouhý\n"
@@ -2056,7 +2106,8 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ msgstr ""
 #~ "Použít: %s [PŘEPÍNAČE] -- příkaz\n"
 #~ "\n"
-#~ "Tento nástroj vám pomůže spustit program na novém virtuálním terminálu (VT).\n"
+#~ "Tento nástroj vám pomůže spustit program na novém virtuálním terminálu "
+#~ "(VT).\n"
 #~ "\n"
 #~ "Přepínače:\n"
 #~ "  -c, --console=ČÍSLO  použije zadané číslo VT;\n"
@@ -2083,8 +2134,11 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: Špatný konec rozsahu (0x%lx)\n"
 
-#~ msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
-#~ msgstr "%s: Měl by existovat rozsah Unicode odpovídající rozsahu pozic písma\n"
+#~ msgid ""
+#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
+#~ "range\n"
+#~ msgstr ""
+#~ "%s: Měl by existovat rozsah Unicode odpovídající rozsahu pozic písma\n"
 
 #~ msgid "couldn't read %s, and cannot ioctl dump\n"
 #~ msgstr "nemohu načíst %s a nemohu ioctl dump\n"
@@ -2098,8 +2152,12 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ msgid "even number of arguments expected"
 #~ msgstr "očekáván sudý počet argumentů"
 
-#~ msgid "Error reading current flags setting. Maybe you are not on the console?: ioctl KDGKBLED"
-#~ msgstr "Chyba při čtení aktuálního nastavení příznaků. Možná nejste na konzole?: IOCTL KDGKBLED"
+#~ msgid ""
+#~ "Error reading current flags setting. Maybe you are not on the console?: "
+#~ "ioctl KDGKBLED"
+#~ msgstr ""
+#~ "Chyba při čtení aktuálního nastavení příznaků. Možná nejste na konzole?: "
+#~ "IOCTL KDGKBLED"
 
 #~ msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
 #~ msgstr "Chyba při čtení aktuálního nastavení led z /dev/kbd: IOCTL KIOCSLED"
@@ -2122,8 +2180,11 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ "pro změnu nastavení na jiném vt.\n"
 #~ "Nastavení před a po změně je vypsáno.\n"
 
-#~ msgid "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-#~ msgstr "Chyba při čtení aktuálního nastavení. Možná stdin není VT?: IOCTL KDGKBMETA"
+#~ msgid ""
+#~ "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
+#~ msgstr ""
+#~ "Chyba při čtení aktuálního nastavení. Možná stdin není VT?: IOCTL "
+#~ "KDGKBMETA"
 
 #~ msgid "usage: %s\n"
 #~ msgstr "použití: %s\n"
@@ -2146,7 +2207,8 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ "\n"
 #~ "Platné přepínače jsou:\n"
 #~ " -V --version    Zobrazí číslo verze a skončí.\n"
-#~ " -C TTY          Zařízení, ze kterého načte písmo. Výchozí je aktuální TTY.\n"
+#~ " -C TTY          Zařízení, ze kterého načte písmo. Výchozí je aktuální "
+#~ "TTY.\n"
 #~ " -v              Bude podrobnější.\n"
 #~ " -i              Nevypíše tabulku písma, jen zobrazí ŘÁDKŮxSLOUPCŮxPOČET\n"
 #~ "                 a skončí.\n"

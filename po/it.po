@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the kbd package.
 # Sergio Zanchetta <primes2h@ubuntu.com>, 2010, 2011.
 #
-#: src/dumpkeys.c:113
 msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2020-06-02 13:17+0200\n"
+"POT-Creation-Date: 2022-03-22 01:11+0100\n"
 "PO-Revision-Date: 2011-06-13 00:36+0200\n"
 "Last-Translator: Sergio Zanchetta <primes2h@ubuntu.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -28,7 +27,7 @@ msgstr ""
 #: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
 #: src/kbdrate.c:331 src/loadkeys.c:52 src/loadunimap.c:35 src/mapscrn.c:31
 #: src/openvt.c:60 src/setkeycodes.c:37 src/setleds.c:56 src/setmetamode.c:41
-#: src/setvtrgb.c:60 src/showconsolefont.c:110 src/showkey.c:97
+#: src/setvtrgb.c:68 src/showconsolefont.c:110 src/showkey.c:97
 #, c-format
 msgid "Options:"
 msgstr ""
@@ -37,7 +36,7 @@ msgstr ""
 #: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
 #: src/kbdrate.c:346 src/loadkeys.c:69 src/loadunimap.c:50 src/mapscrn.c:46
 #: src/openvt.c:75 src/setkeycodes.c:52 src/setleds.c:71 src/setmetamode.c:56
-#: src/setvtrgb.c:75 src/showconsolefont.c:125 src/showkey.c:112
+#: src/setvtrgb.c:83 src/showconsolefont.c:125 src/showkey.c:112
 #, c-format
 msgid "Report bugs to authors.\n"
 msgstr ""
@@ -46,7 +45,7 @@ msgstr ""
 #: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
 #: src/kbdrate.c:376 src/loadkeys.c:127 src/loadunimap.c:78 src/mapscrn.c:76
 #: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
-#: src/setmetamode.c:115 src/setvtrgb.c:135 src/showconsolefont.c:158
+#: src/setmetamode.c:115 src/setvtrgb.c:177 src/showconsolefont.c:158
 #: src/showkey.c:145
 msgid "print this usage message."
 msgstr ""
@@ -55,7 +54,7 @@ msgstr ""
 #: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
 #: src/kbdrate.c:375 src/loadkeys.c:126 src/loadunimap.c:77 src/mapscrn.c:75
 #: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
-#: src/setmetamode.c:114 src/setvtrgb.c:134 src/showconsolefont.c:157
+#: src/setmetamode.c:114 src/setvtrgb.c:176 src/showconsolefont.c:157
 #: src/showkey.c:146
 msgid "print version number."
 msgstr ""
@@ -71,7 +70,7 @@ msgstr "Errore: argomenti non sufficienti.\n"
 #: src/loadkeys.c:204 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
 #: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
 #: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:178 src/showconsolefont.c:194
+#: src/setvesablank.c:32 src/setvtrgb.c:220 src/showconsolefont.c:194
 #: src/showkey.c:211 src/totextmode.c:32
 #, fuzzy, c-format
 msgid "Couldn't get a file descriptor referring to the console."
@@ -192,7 +191,7 @@ msgstr ""
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
 #: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
 #: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
-#: src/setvtrgb.c:133 src/showconsolefont.c:154
+#: src/setvtrgb.c:175 src/showconsolefont.c:154
 msgid "the console device to be used."
 msgstr ""
 
@@ -391,7 +390,7 @@ msgstr "Impossibile aprire /dev/port"
 
 #: src/kbdrate.c:325
 #, c-format
-msgid "The prorgam sets the keyboard repeat rate and delay in user mode.\n"
+msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
 msgstr ""
 
 #: src/kbdrate.c:371
@@ -496,13 +495,13 @@ msgstr ""
 msgid "can not bind key %d to value %d because it is too large"
 msgstr "associazione del tasto %d al valore %d non riuscita\n"
 
-#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:257
-#: src/libkfont/mapscrn.c:262
+#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:254
+#: src/libkfont/mapscrn.c:259
 #, fuzzy
 msgid "Error writing map to file"
 msgstr "Errore nella scrittura della mappa sul file\n"
 
-#: src/libkeymap/dump.c:548
+#: src/libkeymap/dump.c:538
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "impossibile: forse non è meta\n"
@@ -586,14 +585,14 @@ msgstr ""
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr ""
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:341 src/libkeymap/ksyms.c:347
+#: src/libkeymap/ksyms.c:353 src/libkeymap/ksyms.c:359
+#: src/libkeymap/ksyms.c:365
 #, fuzzy, c-format
 msgid "assuming %s %s"
 msgstr "si assume iso-8859-1 %s\n"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:370
 #, fuzzy, c-format
 msgid "unknown keysym '%s'"
 msgstr "simbolo di tasto \"%s\" sconosciuto\n"
@@ -780,27 +779,12 @@ msgstr ""
 "\n"
 "Nomi dei modificatori rilevati e relativi numeri di colonna:\n"
 
-#: src/libkfont/kdfontop.c:92
-#, c-format
-msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
-msgstr ""
-
-#: src/libkfont/kdfontop.c:126
-#, fuzzy
-msgid "getfont called with count<256"
-msgstr "bug: chiamata a getfont con contatore<256\n"
-
-#: src/libkfont/kdfontop.c:131
-#, fuzzy
-msgid "getfont using GIO_FONT needs buf"
-msgstr "bug: getfont usa GIO_FONT e necessita del buffer\n"
-
-#: src/libkfont/kdmapop.c:172
+#: src/libkfont/kdmapop.c:173
 #, fuzzy, c-format
 msgid "strange... ct changed from %d to %d"
 msgstr "strano... ct è cambiato da %d a %d\n"
 
-#: src/libkfont/kdmapop.c:198
+#: src/libkfont/kdmapop.c:199
 #, fuzzy
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
@@ -834,17 +818,17 @@ msgstr ""
 msgid "%s: trailing junk (%s) ignored"
 msgstr "%s: spazzatura a fine riga (%s) ignorata\n"
 
-#: src/libkfont/loadunimap.c:267
+#: src/libkfont/loadunimap.c:266
 #, fuzzy, c-format
 msgid "Loading unicode map from file %s"
 msgstr "Caricamento della mappa Unicode dal file %s\n"
 
-#: src/libkfont/loadunimap.c:273
+#: src/libkfont/loadunimap.c:272
 #, fuzzy, c-format
 msgid "%s: Warning: line too long"
 msgstr "%s: attenzione: riga troppo lunga\n"
 
-#: src/libkfont/loadunimap.c:281
+#: src/libkfont/loadunimap.c:280
 #, fuzzy
 msgid ""
 "not loading empty unimap\n"
@@ -853,68 +837,68 @@ msgstr ""
 "%s: mappa Unimap vuota non caricata\n"
 "(se si insiste: usare l'opzione -f per sovrascrivere)\n"
 
-#: src/libkfont/loadunimap.c:304
+#: src/libkfont/loadunimap.c:302
 #, fuzzy, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
 msgstr[0] "voce"
 msgstr[1] "voce"
 
-#: src/libkfont/loadunimap.c:319 src/libkfont/mapscrn.c:102
-#: src/libkfont/mapscrn.c:234 src/loadkeys.c:277 src/openvt.c:437
+#: src/libkfont/loadunimap.c:317 src/libkfont/mapscrn.c:102
+#: src/libkfont/mapscrn.c:231 src/loadkeys.c:277 src/openvt.c:437
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, fuzzy, c-format
 msgid "Unable to open file: %s: %m"
 msgstr "Impossibile aprire %s"
 
-#: src/libkfont/loadunimap.c:332
+#: src/libkfont/loadunimap.c:329
 #, fuzzy, c-format
 msgid "Saved unicode map on `%s'"
 msgstr "Mappa Unimap salvata su \"%s\"\n"
 
-#: src/libkfont/loadunimap.c:382
+#: src/libkfont/loadunimap.c:378
 #, fuzzy
 msgid "Appended Unicode map"
 msgstr "Mappa Unimap accodata\n"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:301
-#: src/libkfont/setfont.c:414 src/libkfont/setfont.c:421 src/loadkeys.c:245
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:298
+#: src/libkfont/setfont.c:410 src/libkfont/setfont.c:417 src/loadkeys.c:245
 #, fuzzy, c-format
 msgid "Unable to find file: %s"
 msgstr "Impossibile aprire %s"
 
-#: src/libkfont/mapscrn.c:110
+#: src/libkfont/mapscrn.c:109
 #, fuzzy, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
 msgstr "Caricamento della mappa schermo binaria direct-to-font dal file %s\n"
 
-#: src/libkfont/mapscrn.c:114 src/libkfont/mapscrn.c:127
+#: src/libkfont/mapscrn.c:113 src/libkfont/mapscrn.c:125
 #, fuzzy, c-format
 msgid "Error reading map from file `%s'"
 msgstr "Errore nella lettura della mappa dal file \"%s\"\n"
 
-#: src/libkfont/mapscrn.c:122
+#: src/libkfont/mapscrn.c:120
 #, fuzzy, c-format
 msgid "Loading binary unicode screen map from file %s"
 msgstr "Caricamento della mappa schermo binaria Unicode dal file %s\n"
 
-#: src/libkfont/mapscrn.c:135
+#: src/libkfont/mapscrn.c:132
 #, fuzzy, c-format
 msgid "Loading symbolic screen map from file %s"
 msgstr "Caricamento della mappa schermo simbolica dal file %s\n"
 
-#: src/libkfont/mapscrn.c:140
+#: src/libkfont/mapscrn.c:137
 #, fuzzy, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
 msgstr "Errore nell'analisi della mappa simbolica da \"%s\", riga %d\n"
 
-#: src/libkfont/mapscrn.c:266
+#: src/libkfont/mapscrn.c:263
 #, fuzzy
 msgid "Cannot read console map"
 msgstr "Impossibile leggere la mappa della console\n"
 
-#: src/libkfont/mapscrn.c:271
+#: src/libkfont/mapscrn.c:268
 #, fuzzy, c-format
 msgid "Saved screen map in `%s'"
 msgstr "Mappa schermo salvata in \"%s\"\n"
@@ -1031,94 +1015,94 @@ msgstr "%s: pulito\n"
 msgid "background will look funny"
 msgstr "%s: lo sfondo sarà strano\n"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:160
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Caricamento del tipo di carattere %d-char %dx%d dal file %s\n"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:163
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Caricamento del tipo di carattere %d-char %dx%d\n"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:166
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Caricamento del tipo di carattere %d-char %dx%d (%d) dal file %s\n"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:169
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Caricamento del tipo di carattere %d-char %dx%d (%d)\n"
 
-#: src/libkfont/setfont.c:242
+#: src/libkfont/setfont.c:240
 #, fuzzy
 msgid "bug in do_loadtable"
 msgstr "%s: bug in do_loadtable\n"
 
-#: src/libkfont/setfont.c:248
+#: src/libkfont/setfont.c:245
 #, fuzzy
 msgid "Loading Unicode mapping table..."
 msgstr "Caricamento della tabella di mappatura Unicode...\n"
 
-#: src/libkfont/setfont.c:313
+#: src/libkfont/setfont.c:310
 #, fuzzy, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
 "Quando vengono caricati diversi tipi di carattere, devono essere tutti di "
 "tipo psf - %s non lo è\n"
 
-#: src/libkfont/setfont.c:323
+#: src/libkfont/setfont.c:319
 #, fuzzy, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Lettura del tipo di carattere %d-char %dx%d dal file %s\n"
 
-#: src/libkfont/setfont.c:332
+#: src/libkfont/setfont.c:328
 #, fuzzy
 msgid "When loading several fonts, all must have the same height"
 msgstr ""
 "Quando vengono aperti diversi tipi di carattere, devono avere tutti la "
 "stessa altezza\n"
 
-#: src/libkfont/setfont.c:340
+#: src/libkfont/setfont.c:336
 #, fuzzy
 msgid "When loading several fonts, all must have the same width"
 msgstr ""
 "Quando vengono aperti diversi tipi di carattere, devono avere tutti la "
 "stessa larghezza\n"
 
-#: src/libkfont/setfont.c:406
+#: src/libkfont/setfont.c:402
 #, fuzzy
 msgid "Cannot find default font"
 msgstr "Impossibile trovare il tipo di carattere predefinito\n"
 
-#: src/libkfont/setfont.c:428
+#: src/libkfont/setfont.c:424
 #, fuzzy, c-format
 msgid "Reading font file %s"
 msgstr "Lettura del file di carattere %s\n"
 
-#: src/libkfont/setfont.c:478
+#: src/libkfont/setfont.c:474
 #, fuzzy
 msgid "No final newline in combine file"
 msgstr "Nessun carattere newline finale nel file da unire\n"
 
-#: src/libkfont/setfont.c:484
+#: src/libkfont/setfont.c:480
 #, fuzzy
 msgid "Too many files to combine"
 msgstr "Troppi file da unire\n"
 
-#: src/libkfont/setfont.c:512
+#: src/libkfont/setfont.c:508
 #, fuzzy
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr ""
 "Hmm - un tipo di carattere da restorefont. Ne viene usata la prima metà.\n"
 
-#: src/libkfont/setfont.c:531
+#: src/libkfont/setfont.c:527
 #, fuzzy
 msgid "Bad input file size"
 msgstr "Dimensione errata del file di input\n"
 
-#: src/libkfont/setfont.c:559
+#: src/libkfont/setfont.c:555
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1127,24 +1111,24 @@ msgstr ""
 "Questo file contiene 3 tipi di carattere: 8x8, 8x14 e 8x16. Indicare,\n"
 "usando l'opzione -8, -14 o -16, quale si desidera caricare.\n"
 
-#: src/libkfont/setfont.c:576
+#: src/libkfont/setfont.c:572
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "È stato richiesto %d come dimensione di carattere, ma i valori possibili "
 "sono solo 8, 14 e 16.\n"
 
-#: src/libkfont/setfont.c:627
+#: src/libkfont/setfont.c:623
 #, fuzzy
 msgid "Found nothing to save"
 msgstr "Non è stato trovato nulla da salvare\n"
 
-#: src/libkfont/setfont.c:631
+#: src/libkfont/setfont.c:627
 #, fuzzy, c-format
 msgid "Cannot write font file: %m"
 msgstr "Impossibile scrivere il file di carattere"
 
-#: src/libkfont/setfont.c:637
+#: src/libkfont/setfont.c:632
 #, fuzzy, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "File del carattere di tipo %d-char %dx%d salvato su %s\n"
@@ -1739,13 +1723,21 @@ msgstr ""
 #: src/setvtrgb.c:47
 #, fuzzy, c-format
 msgid ""
-"If you use the FILE parameter, FILE should be exactly 3 lines of\n"
-"comma-separated decimal values for RED, GREEN, and BLUE.\n"
+"If you use the FILE parameter, it can be in either in decimal\n"
+"or hexadecimal format, and will be detected on runtime.\n"
 "\n"
+"Decimal FILE format should be exactly 3 lines of comma-separated\n"
+"decimal values for RED, GREEN, and BLUE.\n"
 "To seed a valid FILE:\n"
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
 "\n"
-"and then edit the values in FILE.\n"
+"Hexadecimal FILE format should be exactly 16 lines of hex triplets\n"
+"for RED, GREEN and BLUE, prefixed with a number sign (#).\n"
+"For example:\n"
+"   #000000\n"
+"   #AA0000\n"
+"   #00AA00\n"
+"And so on, for all the 16 colors.\n"
 msgstr ""
 "Uso: %s vga|FILE|-\n"
 "\n"
@@ -1758,25 +1750,35 @@ msgstr ""
 "e quindi modificare i valori nel FILE.\n"
 "\n"
 
-#: src/setvtrgb.c:93
+#: src/setvtrgb.c:101
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Errore: %s, valore non valido nel campo %u riga %u."
 
-#: src/setvtrgb.c:100
+#: src/setvtrgb.c:108
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Errore: %s, numero insufficiente di campi nella riga %u."
 
-#: src/setvtrgb.c:105
+#: src/setvtrgb.c:113
 #, fuzzy, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
 msgstr "Errore: %s, la riga %u è terminata in modo inatteso.\n"
 
-#: src/setvtrgb.c:109
+#: src/setvtrgb.c:117
 #, fuzzy, c-format
 msgid "Error: %s: Line %u is too long."
 msgstr "Errore: %s, la riga %u è troppo lunga.\n"
+
+#: src/setvtrgb.c:131
+#, fuzzy, c-format
+msgid "Error: %s: Insufficient number of colors/lines: %u"
+msgstr "Errore: %s, numero insufficiente di campi nella riga %u."
+
+#: src/setvtrgb.c:134
+#, fuzzy, c-format
+msgid "Error: %s: Invalid value in line %u."
+msgstr "Errore: %s, valore non valido nel campo %u riga %u."
 
 #: src/showconsolefont.c:35
 #, fuzzy
@@ -1952,6 +1954,14 @@ msgstr ""
 #, fuzzy, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: il terminale virtuale 1 è la console e non può essere deallocata\n"
+
+#, fuzzy
+#~ msgid "getfont called with count<256"
+#~ msgstr "bug: chiamata a getfont con contatore<256\n"
+
+#, fuzzy
+#~ msgid "getfont using GIO_FONT needs buf"
+#~ msgstr "bug: getfont usa GIO_FONT e necessita del buffer\n"
 
 #, fuzzy, c-format
 #~ msgid ""
