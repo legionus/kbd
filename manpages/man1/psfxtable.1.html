@@ -1,111 +1,92 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>PSFXTABLE</title>
 
-<HTML><HEAD><TITLE>Manpage of PSFXTABLE</TITLE>
-</HEAD><BODY>
-<H1>PSFXTABLE</H1>
-Section: User Commands  (1)<BR>Updated: 9 Dec 1999<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">PSFXTABLE</h1>
 
-psfxtable - handle Unicode character tables for console fonts
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>psfxtable</B>
+<hr>
 
-[<B>-i</B>
 
-<I>infont</I>]
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-[<B>-o</B>
 
-<I>outfont</I>]
+<p style="margin-left:11%; margin-top: 1em">psfxtable -
+handle Unicode character tables for console fonts</p>
 
-[<B>-it</B>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-<I>intable</I>]
 
-[<B>-ot</B>
 
-<I>outtable</I>]
+<p style="margin-left:11%; margin-top: 1em"><b>psfxtable</b>
+[<b>-i</b> <i>infont</i>] [<b>-o</b> <i>outfont</i>]
+[<b>-it</b> <i>intable</i>] [<b>-ot</b> <i>outtable</i>]
+[<b>-nt</b>]</p>
 
-[<B>-nt</B>]
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
 
-<A NAME="ixAAB"></A>
-<P>
 
-<B>psfxtable</B>
-
+<p style="margin-left:11%; margin-top: 1em"><b>psfxtable</b>
 handles the embedded Unicode character table for .psf format
-console fonts. It reads a font and possibly a table
-and writes a font and/or a table.
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfaddtable">psfaddtable</A></B>(1),
+console fonts. It reads a font and possibly a table and
+writes a font and/or a table. <b>psfaddtable</b>(1),
+<b>psfgettable</b>(1) and <b>psfstriptable</b>(1) are links
+to it.</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfgettable">psfgettable</A></B>(1)
+<p style="margin-left:11%; margin-top: 1em">Each of the
+filenames <i>infont</i>, <i>outfont</i>, <i>intable</i>, and
+<i>outtable</i> may be replaced by a single dash (-), in
+which case standard input or standard output is used. If no
+<i>-i</i> option is given, the font is read from standard
+input. If no <i>-it</i> or <i>-o</i> or <i>-ot</i> option is
+given, no input table is read or no output font or output
+table is written.</p>
 
-and
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfstriptable">psfstriptable</A></B>(1)
+<p style="margin-left:11%; margin-top: 1em">By default the
+output font (if any) will have a Unicode table when either
+the input font has one, or an explicit table (which
+overrides an input font table) has been provided. The option
+<i>-nt</i> causes output of a font without table. When
+<i>outfont</i> is requested it will get a psf1 header when
+infont has a psf1 header and <i>intable</i> does not have
+sequences and a psf2 header otherwise.</p>
 
-are links to it.
-<P>
-Each of the filenames
-<I>infont</I>,
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
 
-<I>outfont</I>,
 
-<I>intable</I>,
 
-and
-<I>outtable</I>
-
-may be replaced by a single dash (-), in which case
-standard input or standard output is used.
-If no -i option is given, the font is read from standard input.
-If no -it or -o or -ot option is given,
-no input table is read or no output font or output table is written.
-<P>
-By default the output font (if any) will have a Unicode table
-when either the input font has one, or an explicit table
-(which overrides an input font table) has been provided.
-The option -nt causes output of a font without table.
-When
-<I>outfont</I>
-
-is requested it will get a psf1 header when infont has
-a psf1 header and
-<I>intable</I>
-
-does not have sequences and a psf2 header otherwise.
-<A NAME="lbAE">&nbsp;</A>
-<H2>SEE ALSO</H2>
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+setfont">setfont</A></B>(8),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfaddtable">psfaddtable</A></B>(1),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfgettable">psfgettable</A></B>(1),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfstriptable">psfstriptable</A></B>(1)
-
-<P>
-
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em"><b>setfont</b>(8),
+<b>psfaddtable</b>(1), <b>psfgettable</b>(1),
+<b>psfstriptable</b>(1)</p>
+<hr>
+</body>
+</html>

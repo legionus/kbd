@@ -1,125 +1,142 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>KBDRATE</title>
 
-<HTML><HEAD><TITLE>Manpage of KBDRATE</TITLE>
-</HEAD><BODY>
-<H1>KBDRATE</H1>
-Section: Linux Programmer's Manual (8)<BR>Updated: 22 June 1994<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">KBDRATE</h1>
 
-kbdrate - reset the keyboard repeat rate and delay time
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#FILES">FILES</a><br>
 
-<B>kbdrate [ -s ] [ -r</B>
+<hr>
 
-rate
-<B>] [ -d</B>
 
-delay
-<B>]</B>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
 
-<B>kbdrate</B>
+<p style="margin-left:11%; margin-top: 1em">kbdrate - reset
+the keyboard repeat rate and delay time</p>
 
-is used to change the keyboard repeat rate and delay time.  The delay
-is the amount of time that a key must be depressed before it will start to
-repeat.
-<P>
-Using
-<B>kbdrate</B>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-without any options will reset the repeat rate to 10.9 characters per second (cps)
-and the delay to 250 milliseconds (ms) for Intel- and M68K-based systems.
-These are the IBM defaults. On SPARC-based systems it will reset the repeat rate
-to 5 cps and the delay to 200 ms.
-<P>
-<A NAME="lbAE">&nbsp;</A>
-<H2>OPTIONS</H2>
 
-<DL COMPACT>
-<DT><B>-s</B>
+<p style="margin-left:11%; margin-top: 1em"><b>kbdrate</b>
+[<i>options</i>...]</p>
 
-<DD>
-Silent.  No messages are printed.
-<DT><B>-r</B><I> rate</I>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<DD>
-Change the keyboard repeat rate to
-<I>rate</I>
 
-cps.   For Intel-based systems, the allowable range is from 2.0 to 30.0 cps.
-Only certain, specific values are possible, and the program will select the
-nearest possible value to the one specified.  The possible values are given,
-in characters per second, as follows: 2.0, 2.1, 2.3, 2.5, 2.7, 3.0, 3.3, 3.7,
-4.0, 4.3, 4.6, 5.0, 5.5, 6.0, 6.7, 7.5, 8.0, 8.6, 9.2, 10.0, 10.9, 12.0, 13.3,
-15.0, 16.0, 17.1, 18.5, 20.0, 21.8, 24.0, 26.7, 30.0.
-For SPARC-based systems, the allowable range is from 0 (no repeat) to 50 cps.
-<DT><B>-d</B><I> delay</I>
+<p style="margin-left:11%; margin-top: 1em"><b>kbdrate</b>
+is used to change the keyboard repeat rate and delay time.
+The delay is the amount of time that a key must be depressed
+before it will start to repeat.</p>
 
-<DD>
-Change the delay to
-<I>delay</I>
+<p style="margin-left:11%; margin-top: 1em">Using
+<b>kbdrate</b> without any options will reset the repeat
+rate to 10.9 characters per second (cps) and the delay to
+250 milliseconds (ms) for Intel- and M68K-based systems.
+These are the IBM defaults. On SPARC-based systems it will
+reset the repeat rate to 5 cps and the delay to 200 ms.</p>
 
-milliseconds.
-For Intel-based systems, the allowable range is from 250 to 1000 ms,
-in 250 ms steps. For SPARC systems, possible values are between 10 ms and 1440 ms,
-in 10 ms steps.
-<DT><B>-V --version</B>
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
 
-<DD>
-Display a version number and exit.
-</DL>
-<A NAME="lbAF">&nbsp;</A>
-<H2>BUGS</H2>
 
-Not all keyboards support all rates.
-<P>
+<p style="margin-left:11%; margin-top: 1em"><b>-r</b>,
+<b>--rate</b>=<i>NUMBER</i></p>
 
-Not all keyboards have the rates mapped in the same way.
-<P>
+<p style="margin-left:22%;">Change the keyboard repeat rate
+to <i>NUMBER</i> cps. For Intel-based systems, the allowable
+range is from 2.0 to 30.0 cps. Only certain, specific values
+are possible, and the program will select the nearest
+possible value to the one specified. The possible values are
+given, in characters per second, as follows: 2.0, 2.1, 2.3,
+2.5, 2.7, 3.0, 3.3, 3.7, 4.0, 4.3, 4.6, 5.0, 5.5, 6.0, 6.7,
+7.5, 8.0, 8.6, 9.2, 10.0, 10.9, 12.0, 13.3, 15.0, 16.0,
+17.1, 18.5, 20.0, 21.8, 24.0, 26.7, 30.0. For SPARC-based
+systems, the allowable range is from 0 (no repeat) to 50
+cps.</p>
 
-Setting the repeat rate on the Gateway AnyKey keyboard does not work.  If
-someone with a Gateway figures out how to program the keyboard, please send
-mail to <A HREF="mailto:util-linux@math.uio.no">util-linux@math.uio.no</A>.
-<P>
+<p style="margin-left:11%;"><b>-d</b>,
+<b>--delay</b>=<i>NUMBER</i></p>
 
-All this is very architecture dependent.
-Nowadays
-<B>kbdrate</B>
+<p style="margin-left:22%;">Change the delay to
+<i>NUMBER</i> milliseconds. For Intel-based systems, the
+allowable range is from 250 to 1000 ms, in 250 ms steps. For
+SPARC systems, possible values are between 10 ms and 1440
+ms, in 10 ms steps.</p>
 
-first tries the KDKBDREP and KIOCSRATE ioctls.
-(The former usually works on an m68k machine, the latter for SPARC.)
-When these ioctls fail an ioport interface as on i386 is assumed.
-<A NAME="lbAG">&nbsp;</A>
-<H2>FILES</H2>
+<p style="margin-left:11%;"><b>-s</b>, <b>--silent</b></p>
 
-<I>/etc/rc.local</I>
+<p style="margin-left:22%;">Silent. No messages are
+printed.</p>
 
-<BR>
+<p style="margin-left:11%;"><b>-h</b>, <b>--help</b></p>
 
-<I>/dev/port</I>
+<p style="margin-left:22%;">Display a help text.</p>
 
-<P>
+<p style="margin-left:11%;"><b>-V</b>, <b>--version</b></p>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">BUGS</A><DD>
-<DT><A HREF="#lbAG">FILES</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:23:39 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:22%;">Display a version number and
+exit.</p>
+
+<h2>BUGS
+<a name="BUGS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Not all
+keyboards support all rates.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Not all
+keyboards have the rates mapped in the same way.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Setting the
+repeat rate on the Gateway AnyKey keyboard does not work. If
+someone with a Gateway figures out how to program the
+keyboard, please send mail to util-linux@math.uio.no.</p>
+
+<p style="margin-left:11%; margin-top: 1em">All this is
+very architecture dependent. Nowadays <b>kbdrate</b> first
+tries the KDKBDREP and KIOCSRATE ioctls. (The former usually
+works on an m68k/i386 machine, the latter for SPARC.) When
+these ioctls fail an ioport interface.</p>
+
+<h2>FILES
+<a name="FILES"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><i>/etc/rc.local
+<br>
+ /dev/port</i></p>
+<hr>
+</body>
+</html>

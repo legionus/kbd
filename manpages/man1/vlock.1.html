@@ -1,107 +1,124 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>VLOCK</title>
 
-<HTML><HEAD><TITLE>Manpage of VLOCK</TITLE>
-</HEAD><BODY>
-<H1>VLOCK</H1>
-Section: User Commands  (1)<BR>Updated: 16 May 1996<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">VLOCK</h1>
 
-vlock - Virtual Console lock program
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
 
-<B>vlock</B>
+<hr>
 
-<P>
 
-<B>vlock [ -a,--all ] [ -c,--current ] [ -h,--help ] [ -v,--version ]</B>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
 
-<B>vlock</B>
+<p style="margin-left:11%; margin-top: 1em">vlock - Virtual
+Console lock program</p>
 
-is a program to lock one or more sessions on the Linux console.  This is
-especially useful for Linux machines which have multiple users with access
-to the console.  One user may lock his or her session(s) while still allowing
-other users to use the system on other virtual consoles.  If desired, the
-entire console may be locked and virtual console switching disabled.
-<P>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-By default, only the current VC (virtual console) is locked.  With the
-<B>-a,-all</B> option all VCs are locked.  The locked VCs cannot be unlocked
-without the invoker's password.  And, for the paranoid,
-vlock makes it a trying experience for those attempting to guess the
-password, so unauthorized access to session(s) is highly unlikely.
-<P>
 
-Please note that it is entirely possible to completely lock yourself out of
-the console with the <B>-a,--all</B> option if you cannot remember your
-password!  Unless you are able to kill vlock by logging in remotely via a
-serial terminal or network, a hard reset is the only method of ``unlocking''
-the display.
-<P>
 
-<B>vlock</B> works for console sessions primarily.  However, there is
-support for trying to lock non-console sessions as well, but that
-support has not been well tested.
-<A NAME="lbAE">&nbsp;</A>
-<H2>OPTIONS</H2>
+<p style="margin-left:11%; margin-top: 1em"><b>vlock</b></p>
 
-<B>-a,--all</B>
+<p style="margin-left:11%; margin-top: 1em"><b>vlock [
+-a,--all ] [ -c,--current ] [ -h,--help ] [ -v,--version
+]</b></p>
 
-<DL COMPACT>
-<DT><DD>
-Lock all console sessions and disable VC switching.
-</DL>
-<P>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<B>-c,--current</B>
 
-<DL COMPACT>
-<DT><DD>
-Lock the current session (this is the default).
-</DL>
-<P>
+<p style="margin-left:11%; margin-top: 1em"><b>vlock</b> is
+a program to lock one or more sessions on the Linux console.
+This is especially useful for Linux machines which have
+multiple users with access to the console. One user may lock
+his or her session(s) while still allowing other users to
+use the system on other virtual consoles. If desired, the
+entire console may be locked and virtual console switching
+disabled.</p>
 
-<B>-h,--help</B>
+<p style="margin-left:11%; margin-top: 1em">By default,
+only the current VC (virtual console) is locked. With the
+<b>-a,-all</b> option all VCs are locked. The locked VCs
+cannot be unlocked without the invoker's password. And, for
+the paranoid, vlock makes it a trying experience for those
+attempting to guess the password, so unauthorized access to
+session(s) is highly unlikely.</p>
 
-<DL COMPACT>
-<DT><DD>
-Print a brief help message.
-</DL>
-<P>
+<p style="margin-left:11%; margin-top: 1em">Please note
+that it is entirely possible to completely lock yourself out
+of the console with the <b>-a,--all</b> option if you cannot
+remember your password! Unless you are able to kill vlock by
+logging in remotely via a serial terminal or network, a hard
+reset is the only method of ``unlocking'' the display.</p>
 
-<B>-v,--version</B>
+<p style="margin-left:11%; margin-top: 1em"><b>vlock</b>
+works for console sessions primarily. However, there is
+support for trying to lock non-console sessions as well, but
+that support has not been well tested.</p>
 
-<DL COMPACT>
-<DT><DD>
-Print the version number of <B>vlock</B>.
-</DL>
-<P>
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
 
-<A NAME="lbAF">&nbsp;</A>
-<H2>AUTHOR</H2>
 
-Michael K. Johnson &lt;<A HREF="mailto:johnsonm@redhat.com">johnsonm@redhat.com</A>&gt;
-<P>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">AUTHOR</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em"><b>-a,--all</b></p>
+
+<p style="margin-left:22%; margin-top: 1em">Lock all
+console sessions and disable VC switching.</p>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>-c,--current</b></p>
+
+<p style="margin-left:22%; margin-top: 1em">Lock the
+current session (this is the default).</p>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>-h,--help</b></p>
+
+<p style="margin-left:22%; margin-top: 1em">Print a brief
+help message.</p>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>-v,--version</b></p>
+
+<p style="margin-left:22%; margin-top: 1em">Print the
+version number of <b>vlock</b>.</p>
+
+<h2>AUTHOR
+<a name="AUTHOR"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Michael K.
+Johnson &lt;johnsonm@redhat.com&gt;</p>
+<hr>
+</body>
+</html>

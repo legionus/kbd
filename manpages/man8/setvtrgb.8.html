@@ -1,92 +1,139 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>SETVTRGB</title>
 
-<HTML><HEAD><TITLE>Manpage of SETVTRGB</TITLE>
-</HEAD><BODY>
-<H1>SETVTRGB</H1>
-Section: Maintenance Commands (8)<BR>Updated: 3 Mar 2011<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">SETVTRGB</h1>
 
-setvtrgb - set the virtual terminal RGB colors
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
+<a href="#DOCUMENTATION">DOCUMENTATION</a><br>
 
-<B>setvtrgb</B>
+<hr>
 
-<I>-h|-V|vga|FILE|-</I>
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-The
-<I>setvtrgb</I>
 
-command takes a single argument, either the string
-<B>vga</B>
+<p style="margin-left:11%; margin-top: 1em">setvtrgb - set
+the virtual terminal RGB colors</p>
 
-, or a path to a file
-containing the red, green, and blue colors to be used by the Linux virtual terminals.
-<P>
-If you use the
-<B>FILE</B>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-parameter,
-<B>FILE</B>
 
-should be exactly 3 lines of 16
-comma-separated decimal values for RED, GREEN, and BLUE.
-<P>
-To seed a valid
-<B>FILE</B>
 
-:
-<DL COMPACT><DT><DD>
-<B>cat /sys/module/vt/parameters/default_{red,grn,blu} &gt; FILE</B>
+<p style="margin-left:11%; margin-top: 1em"><b>setvtrgb</b>
+[<i>options</i>] <i>vga|FILE|-</i></p>
 
-</DL>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<P>
-And then edit the values in
-<B>FILE</B>
 
-<P>
-<A NAME="lbAE">&nbsp;</A>
-<H2>OTHER OPTIONS</H2>
+<p style="margin-left:11%; margin-top: 1em">The
+<i>setvtrgb</i> command takes a single argument, either the
+string <b>vga</b> , or a path to a file containing the
+colors to be used by the Linux virtual terminals.</p>
 
-<DL COMPACT>
-<DT>-h<DD>
-Prints usage message and exits.
-<DT>-V<DD>
-Prints version number and exists.
-<P>
-</DL>
-<A NAME="lbAF">&nbsp;</A>
-<H2>AUTHOR</H2>
+<p style="margin-left:11%; margin-top: 1em">You can choose
+to write the colors in decimal or hexadecimal format, it
+will be detected on runtime.</p>
 
-The utility is written by Alexey Gladkov, Seth Forshee, Dustin Kirkland.
-<P>
-<A NAME="lbAG">&nbsp;</A>
-<H2>DOCUMENTATION</H2>
+<p style="margin-left:11%; margin-top: 1em">Decimal
+<b>FILE</b> format should be exactly 3 lines of 16
+comma-separated decimal values for RED, GREEN, and BLUE.</p>
 
-Documentation by Dustin Kirkland.
-<P>
+<p style="margin-left:11%; margin-top: 1em">To seed a valid
+<b>FILE</b> :</p>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OTHER OPTIONS</A><DD>
-<DT><A HREF="#lbAF">AUTHOR</A><DD>
-<DT><A HREF="#lbAG">DOCUMENTATION</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:23:39 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:22%;"><b>cat
+/sys/module/vt/parameters/default_{red,grn,blu} &gt;
+FILE</b></p>
+
+<p style="margin-left:11%; margin-top: 1em">And then edit
+the values in <b>FILE</b></p>
+
+<p style="margin-left:11%; margin-top: 1em">Hexadecimal
+<b>FILE</b> format should be exactly 16 lines of hex
+triplets for RED, GREEN and BLUE, prefixed with a number
+sign (#). For example:</p>
+
+<p style="margin-left:22%;"><b>#000000 <br>
+#AA0000 <br>
+#00AA00 <br>
+#AA5500 <br>
+#0000AA <br>
+#AA00AA <br>
+#00AAAA <br>
+#AAAAAA <br>
+#555555 <br>
+#FF5555 <br>
+#55FF55 <br>
+#FFFF55 <br>
+#5555FF <br>
+#FF55FF <br>
+#55FFFF <br>
+#FFFFFF</b></p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>-C</b>,
+<b>--console</b>=<i>DEV</i></p>
+
+<p style="margin-left:22%;">the console device to be
+used;</p>
+
+<p style="margin-left:11%;"><b>-h</b>, <b>--help</b></p>
+
+<p style="margin-left:22%;">Prints usage message and
+exits.</p>
+
+<p style="margin-left:11%;"><b>-V</b>, <b>--version</b></p>
+
+<p style="margin-left:22%;">Prints version number and
+exists.</p>
+
+<h2>AUTHOR
+<a name="AUTHOR"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">The utility is
+written by Alexey Gladkov, Seth Forshee, Dustin
+Kirkland.</p>
+
+<h2>DOCUMENTATION
+<a name="DOCUMENTATION"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Documentation
+by Dustin Kirkland.</p>
+<hr>
+</body>
+</html>

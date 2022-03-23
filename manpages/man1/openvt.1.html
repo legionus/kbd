@@ -1,167 +1,187 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>OPENVT</title>
 
-<HTML><HEAD><TITLE>Manpage of OPENVT</TITLE>
-</HEAD><BODY>
-<H1>OPENVT</H1>
-Section: Linux 1.x (1)<BR>Updated: V1.4<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">OPENVT</h1>
 
-openvt - start a program on a new virtual terminal (VT).
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#NOTE">NOTE</a><br>
+<a href="#EXAMPLES">EXAMPLES</a><br>
+<a href="#HISTORY">HISTORY</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>openvt </B>
-
-[-c vtnumber] [OPTIONS] [--] command
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
-
-<B>openvt</B>
-
-will find the first available VT, and run on it the given 
-<B>command</B>
-
-with the given 
-<B>command options,</B>
-
-standard input, output and error are directed to that terminal. The current
-search path ($PATH) is used to find the requested command. If no command is
-specified then the environment variable $SHELL is used.
-<A NAME="lbAE">&nbsp;</A>
-<H3>OPTIONS</H3>
-
-<DL COMPACT>
-<DT><I>-c, --console=VTNUMBER</I>
-
-<DD>
-Use the given VT number and not the first available. Note you
-must have write access to the supplied VT for this to work;
-<DT><I>-f, --force</I>
-
-<DD>
-Force opening a VT without checking whether it is already in use;
-<DT><I>-e, --exec</I>
-
-<DD>
-Directly execute the given command, without forking.
-This option is meant for use in
-<I>/etc/inittab</I>;
-
-<DT><I>-s, --switch</I>
-
-<DD>
-Switch to the new VT when starting the command. The VT of the new command
-will be made the new current VT;
-<DT><I>-u, --user</I>
-
-<DD>
-Figure out the owner of the current VT, and run login as that user.
-Suitable to be called by init. Shouldn't be used with -c or -l;
-<DT><I>-l, --login</I>
-
-<DD>
-Make the command a login shell. A - is prepended to the name of the command
-to be executed;
-<DT><I>-v, --verbose</I>
-
-<DD>
-Be a bit more verbose;
-<DT><I>-w, --wait</I>
-
-<DD>
-wait for command to complete. If -w and -s are used together then
-<B>openvt</B>
-
-will switch back to the controlling terminal when the command completes;
-<DT><I>-V, --version</I>
-
-<DD>
-print program version and exit;
-<DT><I>-h, --help</I>
-
-<DD>
-show this text and exit.
-<DT><I>-- </I>
-
-<DD>
-end of options to
-<B>openvt</B>.
-
-</DL>
-<A NAME="lbAF">&nbsp;</A>
-<H2>NOTE</H2>
-
-If
-<B>openvt</B>
-
-is compiled with a getopt_long() and you wish to set
-options to the command to be run, then you must supply
-the end of options -- flag before the command.
-<B>.SH</B>EXAMPLES
-
-<B>openvt</B>
-
-can be used to start a shell on the next free VT, by using the command:
-<DL COMPACT>
-<DT><I>openvt bash</I>
-
-<DD>
-<DT><DD>
-To start the shell as a login shell, use:
-<DT><I>openvt -l bash</I>
-
-<DD>
-<DT><DD>
-To get a long listing you must supply the -- separator:
-<DT><I>openvt -- ls -l</I>
-
-<DD>
+<hr>
 
 
-</DL>
-<A NAME="lbAG">&nbsp;</A>
-<H2>HISTORY</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-Earlier,
-<B>openvt</B>
 
-was called
-<B>open</B>.
+<p style="margin-left:11%; margin-top: 1em">openvt - start
+a program on a new virtual terminal (VT).</p>
 
-It was written by Jon Tombs &lt;<A HREF="mailto:jon@gtex02.us.es">jon@gtex02.us.es</A> or <A HREF="mailto:jon@robots.ox.ac.uk">jon@robots.ox.ac.uk</A>&gt;.
-The -w idea is from &quot;sam&quot;.
-<P>
-<A NAME="lbAH">&nbsp;</A>
-<H2>SEE ALSO</H2>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+chvt">chvt</A></B>(1),
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+doshell">doshell</A></B>(8),
+<p style="margin-left:11%; margin-top: 1em"><b>openvt</b>
+[-c vtnumber] [OPTIONS] [--] command</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+login">login</A></B>(1)
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<P>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DL>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
-</DL>
-<DT><A HREF="#lbAF">NOTE</A><DD>
-<DT><A HREF="#lbAG">HISTORY</A><DD>
-<DT><A HREF="#lbAH">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em"><b>openvt</b>
+will find the first available VT, and run on it the given
+<b>command</b> with the given <b>command options ,</b>
+standard input, output and error are directed to that
+terminal. The current search path ($PATH) is used to find
+the requested command. If no command is specified then the
+environment variable $SHELL is used.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>OPTIONS</b>
+<i><br>
+-c, --console=VTNUMBER</i></p>
+
+<p style="margin-left:22%;">Use the given VT number and not
+the first available. Note you must have write access to the
+supplied VT for this to work.</p>
+
+<p style="margin-left:11%;"><i>-f, --force</i></p>
+
+<p style="margin-left:22%;">Force opening a VT without
+checking whether it is already in use.</p>
+
+<p style="margin-left:11%;"><i>-e, --exec</i></p>
+
+<p style="margin-left:22%;">Directly execute the given
+command, without forking. This option is meant for use in
+<i>/etc/inittab</i>.</p>
+
+<p style="margin-left:11%;"><i>-s, --switch</i></p>
+
+<p style="margin-left:22%;">Switch to the new VT when
+starting the command. The VT of the new command will be made
+the new current VT.</p>
+
+<p style="margin-left:11%;"><i>-u, --user</i></p>
+
+<p style="margin-left:22%;">Figure out the owner of the
+current VT, and run login as that user. Suitable to be
+called by init. Shouldn't be used with <i>-c</i> or
+<i>-l</i>.</p>
+
+<p style="margin-left:11%;"><i>-l, --login</i></p>
+
+<p style="margin-left:22%;">Make the command a login shell.
+A - is prepended to the name of the command to be
+executed.</p>
+
+<p style="margin-left:11%;"><i>-v, --verbose</i></p>
+
+<p style="margin-left:22%;">Be a bit more verbose.</p>
+
+<p style="margin-left:11%;"><i>-w, --wait</i></p>
+
+<p style="margin-left:22%;">wait for command to complete.
+If -w and -s are used together then <b>openvt</b> will
+switch back to the controlling terminal when the command
+completes.</p>
+
+<p style="margin-left:11%;"><i>-V, --version</i></p>
+
+<p style="margin-left:22%;">print program version and
+exit.</p>
+
+<p style="margin-left:11%;"><i>-h, --help</i></p>
+
+<p style="margin-left:22%;">show this text and exit.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><i>--</i></p></td>
+<td width="8%"></td>
+<td width="38%">
+
+
+<p>end of options to <b>openvt</b>.</p></td>
+<td width="40%">
+</td></tr>
+</table>
+
+<h2>NOTE
+<a name="NOTE"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">If
+<b>openvt</b> is compiled with a getopt_long() and you wish
+to set options to the command to be run, then you must
+supply the end of options -- flag before the command.</p>
+
+<h2>EXAMPLES
+<a name="EXAMPLES"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>openvt</b>
+can be used to start a shell on the next free VT, by using
+the command: <i><br>
+openvt bash</i></p>
+
+<p style="margin-left:11%; margin-top: 1em">To start the
+shell as a login shell, use: <i><br>
+openvt -l bash</i></p>
+
+<p style="margin-left:11%; margin-top: 1em">To get a long
+listing you must supply the -- separator: <i><br>
+openvt -- ls -l</i></p>
+
+<h2>HISTORY
+<a name="HISTORY"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Earlier,
+<b>openvt</b> was called <b>open</b>. It was written by Jon
+Tombs &lt;jon@gtex02.us.es&gt; or
+&lt;jon@robots.ox.ac.uk&gt;. The <i>-w</i> idea is from
+&quot;sam&quot;.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>chvt</b>(1),
+<b>doshell</b>(8), <b>login</b>(1)</p>
+<hr>
+</body>
+</html>

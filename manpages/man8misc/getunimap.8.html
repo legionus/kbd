@@ -1,122 +1,130 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:49 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>GETUNIMAP</title>
 
-<HTML><HEAD><TITLE>Manpage of GETUNIMAP</TITLE>
-</HEAD><BODY>
-<H1>GETUNIMAP</H1>
-Section: Linux (8)<BR>Updated: 2004-01-01<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<P>
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">GETUNIMAP</h1>
 
-getunimap - dump the unicode map for the current console to stdout
-<P>
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>getunimap [ -s ] [ -C</B>
+<hr>
 
-<I>console</I>
 
-]
-<P>
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-The
-<B>getunimap</B>
 
-program is old and obsolete. It is now part of
-<B>setfont (1).</B>
+<p style="margin-left:11%; margin-top: 1em">getunimap -
+dump the unicode map for the current console to stdout</p>
 
-<P>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-The 
-<B>getunimap</B>
 
-program outputs the unicode map (also called a &quot;Screen Font Map&quot;) 
-for the current console to standard output.
-<P>
+<p style="margin-left:11%; margin-top: 1em"><b>getunimap [
+-s ] [ -C</b> <i>console</i> ]</p>
 
-The
-<B>-C</B>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-option may be used with Linux 2.6.1 and later to get the map for
-a console different from the current one. Its argument is a pathname.
-<P>
 
-The output of
-<B>getunimap</B>
+<p style="margin-left:11%; margin-top: 1em">The
+<b>getunimap</b> program is old and obsolete. It is now part
+of <b>setfont (1).</b></p>
 
-is of the form
-<P>
+<p style="margin-left:11%; margin-top: 1em">The
+<b>getunimap</b> program outputs the unicode map (also
+called a &quot;Screen Font Map&quot;) for the current
+console to standard output.</p>
 
-<DL COMPACT><DT><DD>
-<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>0xAA U+1234 # comment<BR>
-</DL>
+<p style="margin-left:11%; margin-top: 1em">The <b>-C</b>
+option may be used with Linux 2.6.1 and later to get the map
+for a console different from the current one. Its argument
+is a pathname.</p>
 
-<P>
+<p style="margin-left:11%; margin-top: 1em">The output of
+<b>getunimap</b> is of the form</p>
 
-where 0xAA is the font character code and U+1234 is a unicode character,
-that if displayed, will be displayed using glyph 0xAA in the font.
-Many unicode characters may be mapped to the same glyph.
-<BR>
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="8%"></td>
+<td width="7%"></td>
+<td width="85%">
 
-the Hash symbol
-<B>#</B>
 
-is used as a comment delimiter; characters after a hash sign (to the end of 
-the line) are comments.
+<p>0xAA U+1234 # comment</p></td></tr>
+</table>
 
-The 
-<B>-s</B>
+<p style="margin-left:11%; margin-top: 1em">where 0xAA is
+the font character code and U+1234 is a unicode character,
+that if displayed, will be displayed using glyph 0xAA in the
+font. Many unicode characters may be mapped to the same
+glyph. <br>
+the Hash symbol <b>#</b> is used as a comment delimiter;
+characters after a hash sign (to the end of the line) are
+comments.</p>
 
-option will sort and merge elements, sorting on font character.
-Hence, it will produce output of the form:
-<P>
+<p style="margin-left:11%; margin-top: 1em">The <b>-s</b>
+option will sort and merge elements, sorting on font
+character. Hence, it will produce output of the form:</p>
 
-<DL COMPACT><DT><DD>
-<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>0x22 U+1234 U+5678 U+3456<BR>
-<BR>
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="8%"></td>
+<td width="92%">
 
-<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>0x23 U+0023<BR>
-</DL>
 
-<P>
+<p>0x22 U+1234 U+5678 U+3456</p></td></tr>
+<tr valign="top" align="left">
+<td width="8%"></td>
+<td width="92%">
 
-<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>etc., listing the multiple unicode characters that map to a font glyph.<BR>
 
-The output of
-<B>getunimap</B>
+<p>0x23 U+0023</p></td></tr>
+<tr valign="top" align="left">
+<td width="8%"></td>
+<td width="92%">
 
-is of the form accepted by 
-<B>setfont</B>
 
-and
-<B>psfaddtable</B>
+<p>etc., listing the multiple unicode characters that map
+to a font glyph.</p></td></tr>
+</table>
 
-<A NAME="lbAE">&nbsp;</A>
-<H2>SEE ALSO</H2>
+<p style="margin-left:11%; margin-top: 1em">The output of
+<b>getunimap</b> is of the form accepted by <b>setfont</b>
+and <b>psfaddtable</b></p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfaddtable">psfaddtable</A></B>(1),
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+setfont">setfont</A></B>(1).
 
-<P>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:24:05 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em"><b>psfaddtable</b>(1),
+<b>setfont</b>(1).</p>
+<hr>
+</body>
+</html>

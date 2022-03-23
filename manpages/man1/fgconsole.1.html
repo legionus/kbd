@@ -1,98 +1,97 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>FGCONSOLE</title>
 
-<HTML><HEAD><TITLE>Manpage of FGCONSOLE</TITLE>
-</HEAD><BODY>
-<H1>FGCONSOLE</H1>
-Section: Linux User's Manual (1)<BR>Updated: 14 Feburary 2002<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<P>
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">FGCONSOLE</h1>
 
-fgconsole - print the number of the active VT.
-<P>
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#NOTES">NOTES</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>fgconsole</B>
+<hr>
 
-<B>[</B>
 
--h --help
-|
--V --version
-|
--n --next-available
-]
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-If the active Virtual Terminal is
-<I>/dev/ttyN</I>,
 
-then prints
-<I>N</I>
+<p style="margin-left:11%; margin-top: 1em">fgconsole -
+print the number of the active VT.</p>
 
-on standard output.
-<P>
-If the console is a serial console, then 
-&quot;serial&quot; 
-is printed instead.
-<DL COMPACT>
-<DT><I>-h --help</I>
-
-<DD>
-Prints short usage message and exits.
-<DT><I>-V --version</I>
-
-<DD>
-Prints version number and exits.
-<DT><I>--next-available</I>
-
-<DD>
-Will show the next unallocated virtual terminal. Normally 6 virtual
-terminals are allocated, with number 7 used for X; this will return
-&quot;8&quot; in this case.
-<P>
-</DL>
-<A NAME="lbAE">&nbsp;</A>
-<H2>NOTES</H2>
-
-Under 
-<I>devfs</I>,
-
-the consoles are in 
-<I>/dev/vc/N</I>.
-
-<I>devfsd</I>
-
-may maintain symlinks for compatibility.
-<A NAME="lbAF">&nbsp;</A>
-<H2>SEE ALSO</H2>
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+chvt">chvt</A></B>(1).
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
 
 
+<p style="margin-left:11%; margin-top: 1em"><b>fgconsole</b>
+[ <b>-h --help</b> | <b>-V --version</b> | <b>-n
+--next-available</b> ]</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
 
-<P>
-<P>
+<p style="margin-left:11%; margin-top: 1em">If the active
+Virtual Terminal is <i>/dev/ttyN</i>, then prints <i>N</i>
+on standard output.</p>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">NOTES</A><DD>
-<DT><A HREF="#lbAF">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em">If the console
+is a serial console, then &quot;serial&quot; is printed
+instead. <i><br>
+-h --help</i></p>
+
+<p style="margin-left:22%;">Prints short usage message and
+exits.</p>
+
+<p style="margin-left:11%;"><i>-V --version</i></p>
+
+<p style="margin-left:22%;">Prints version number and
+exits.</p>
+
+<p style="margin-left:11%;"><i>--next-available</i></p>
+
+<p style="margin-left:22%;">Will show the next unallocated
+virtual terminal. Normally 6 virtual terminals are
+allocated, with number 7 used for X; this will return
+&quot;8&quot; in this case.</p>
+
+<h2>NOTES
+<a name="NOTES"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Under
+<i>devfs</i>, the consoles are in <i>/dev/vc/N</i>.
+<i>devfsd</i> may maintain symlinks for compatibility.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>chvt</b>(1).</p>
+<hr>
+</body>
+</html>

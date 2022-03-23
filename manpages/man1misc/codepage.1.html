@@ -1,116 +1,148 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>CODEPAGE</title>
 
-<HTML><HEAD><TITLE>Manpage of CODEPAGE</TITLE>
-</HEAD><BODY>
-<H1>CODEPAGE</H1>
-Section: Debian Linux (1)<BR>Updated: 2002-02-19<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<P>
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">CODEPAGE</h1>
 
-codepage - extract a codepage from an MSDOS codepage file
-<P>
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#EXAMPLE">EXAMPLE</a><br>
 
-<B>codepage </B>
+<hr>
 
-[ 
-<I>-c </I>
 
-] | [ 
-<I>-l</I>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-] | 
-<I>-L </I>
 
-] | [
-<I>-a </I>
+<p style="margin-left:11%; margin-top: 1em">codepage -
+extract a codepage from an MSDOS codepage file</p>
 
-| 
-<I>nnn</I>
-
-] 
-<I>&lt;file.cpi&gt;</I>
-
-<P>
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
-
-The
-<B>codepage</B>
-
-command extracts codepages from an MSDOS codepage file.
-<P>
-<A NAME="lbAE">&nbsp;</A>
-<H2>OPTIONS</H2>
-
-<DL COMPACT>
-<DT><I>-c </I>
-
-<DD>
-Input file is a single codepage
-<P>
-<DT><I>-L </I>
-
-<DD>
-Print header info (you don't want to see this).
-<P>
-<DT><I>-l </I>
-
-<DD>
-List all codepages contained in the file.
-<P>
-<DT><I>-a</I>
-
-<DD>
-Extract all codepages from the file
-<P>
-<DT><I>nnn</I>
-
-<DD>
-(3 digits): extract codepage
-<I>nnn</I>
-
-from the file.
-<P>
-</DL>
-<A NAME="lbAF">&nbsp;</A>
-<H2>EXAMPLE</H2>
-
-To create a file 850.cp, with codepage 850 from a file
-ega.cpi, execute:
-<P>
-
-<DL COMPACT><DT><DD>
-<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>codepage ega.cpi 850<BR>
-</DL>
-
-<P>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
 
 
+<p style="margin-left:11%; margin-top: 1em"><b>codepage</b>
+[ <i>-c</i> | <i>-l</i> | <i>-L</i> | <i>-a</i> | <i>nnn</i>
+] <i>file.cpi</i></p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
 
+<p style="margin-left:11%; margin-top: 1em">The
+<b>codepage</b> command extracts codepages from an MSDOS
+codepage file.</p>
 
-<P>
-<P>
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">EXAMPLE</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:23:01 GMT, January 09, 2017
-</BODY>
-</HTML>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="4%">
+
+
+<p style="margin-top: 1em"><i>-c</i></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Input file is a single
+codepage</p> </td>
+<td width="6%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="4%">
+
+
+<p><i>-L</i></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p>Print header info (you don't want to see this).</p></td>
+<td width="6%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="4%">
+
+
+<p><i>-l</i></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p>List all codepages contained in the file.</p></td>
+<td width="6%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="4%">
+
+
+<p><i>-a</i></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p>Extract all codepages from the file</p></td>
+<td width="6%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="4%">
+
+
+<p><i>nnn</i></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p>(3 digits): extract codepage <i>nnn</i> from the
+file.</p> </td>
+<td width="6%">
+</td></tr>
+</table>
+
+<h2>EXAMPLE
+<a name="EXAMPLE"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">To create a
+file 850.cp, with codepage 850 from a file ega.cpi,
+execute:</p>
+
+<p style="margin-left:22%; margin-top: 1em">codepage
+ega.cpi 850</p>
+<hr>
+</body>
+</html>

@@ -1,207 +1,206 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>MAPSCRN</title>
 
-<HTML><HEAD><TITLE>Manpage of MAPSCRN</TITLE>
-</HEAD><BODY>
-<H1>MAPSCRN</H1>
-Section: International Support (8)<BR>Updated: 20 March 1993<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">MAPSCRN</h1>
 
-mapscrn - load screen output mapping table
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#USE">USE</a><br>
+<a href="#INPUT FORMAT">INPUT FORMAT</a><br>
+<a href="#OTHER OPTIONS">OTHER OPTIONS</a><br>
+<a href="#FILES">FILES</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
 
-<B>mapscrn</B> [<B>-V</B>] [<B>-v</B>] [<B>-o</B>
+<hr>
 
-<I>map.orig</I>]
 
-<I>mapfile</I>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
 
-The
-<B>mapscrn</B>
+<p style="margin-left:11%; margin-top: 1em">mapscrn - load
+screen output mapping table</p>
 
-command is obsolete - its function is now built-in into setfont.
-However, for backwards compatibility it is still available
-as a separate command.
-<P>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-The
-<I>mapscrn</I>
 
-command loads a user defined output character mapping table into the
-console driver. The console driver may be later put into
-<B>use user-defined mapping table</B>
+<p style="margin-left:11%; margin-top: 1em"><b>mapscrn</b>
+[<b>-V</b>] [<b>-v</b>] [<b>-o</b> <i>map.orig</i>]
+<i>mapfile</i></p>
 
-mode by outputting a special escape sequence to the console device.
-This sequence is
-<I>&lt;esc&gt;(K</I>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-for the
-<B>G0 </B>
 
-character set and
-<I>&lt;esc&gt;)K</I>
+<p style="margin-left:11%; margin-top: 1em">The
+<b>mapscrn</b> command is obsolete - its function is now
+built-in into setfont. However, for backwards compatibility
+it is still available as a separate command.</p>
 
-for the
-<B>G1</B>
+<p style="margin-left:11%; margin-top: 1em">The
+<i>mapscrn</i> command loads a user defined output character
+mapping table into the console driver. The console driver
+may be later put into <b>use user-defined mapping table</b>
+mode by outputting a special escape sequence to the console
+device. This sequence is <i>&lt;esc&gt;(K</i> for the
+<b>G0</b> character set and <i>&lt;esc&gt;)K</i> for the
+<b>G1</b> character set. When the <i>-o</i> option is given,
+the old map is saved in <i>map.orig.</i></p>
 
-character set.
-When the
-<I>-o</I>
+<h2>USE
+<a name="USE"></a>
+</h2>
 
-option is given, the old map is saved in
-<I>map.orig.</I>
 
-<A NAME="lbAE">&nbsp;</A>
-<H2>USE</H2>
+<p style="margin-left:11%; margin-top: 1em">There are two
+kinds of mapping tables: direct-to-font tables, that give a
+font position for each user byte value, and user-to-unicode
+tables that give a unicode value for each user byte. The
+corresponding glyph is now found using the unicode index of
+the font. The command</p>
 
-There are two kinds of mapping tables: direct-to-font tables,
-that give a font position for each user byte value, and user-to-unicode
-tables that give a unicode value for each user byte. The corresponding
-glyph is now found using the unicode index of the font.
-The command
-<DL COMPACT><DT><DD>
-mapscrn trivial
-</DL>
+<p style="margin-left:22%;">mapscrn trivial</p>
 
-sets up a one-to-one direct-to-font table where user bytes
-directly address the font. This is useful for fonts that are
-in the same order as the character set one uses.
-A command like
-<DL COMPACT><DT><DD>
-mapscrn 8859-2
-</DL>
+<p style="margin-left:11%;">sets up a one-to-one
+direct-to-font table where user bytes directly address the
+font. This is useful for fonts that are in the same order as
+the character set one uses. A command like</p>
 
-sets up a user-to-unicode table that assumes that the user
-uses ISO 8859-2.
-<A NAME="lbAF">&nbsp;</A>
-<H2>INPUT FORMAT</H2>
+<p style="margin-left:22%;">mapscrn 8859-2</p>
 
-The
-<I>mapscrn</I>
+<p style="margin-left:11%;">sets up a user-to-unicode table
+that assumes that the user uses ISO 8859-2.</p>
 
-command can read the map in either of two formats:
-<BR>
+<h2>INPUT FORMAT
+<a name="INPUT FORMAT"></a>
+</h2>
 
-1. 256 or 512 bytes binary data
-<BR>
 
-2. two-column text file
-<BR>
+<p style="margin-left:11%; margin-top: 1em">The
+<i>mapscrn</i> command can read the map in either of two
+formats: <br>
+1. 256 or 512 bytes binary data <br>
+2. two-column text file <br>
+Format (1) is a direct image of the translation <i>table.
+The 256-bytes tables are direct-to-font,</i> the 512-bytes
+tables are user-to-unicode tables. Format (2) is used to
+fill the <i>table</i> as follows: cell with offset mentioned
+in the first column is filled with the value mentioned in
+the second column. When values larger than 255 occur, or
+values are written using the U+xxxx notation, the table is
+assumed to be a user-to-unicode table, otherwise it is a
+direct-to-font table.</p>
 
-Format (1) is a direct image of the translation 
-<I>table. The 256-bytes tables are direct-to-font,</I>
+<p style="margin-left:11%; margin-top: 1em">Values in the
+file may be specified in one of several <b>formats: <br>
+1. Decimal:</b> String of decimal digits not starting with
+'0' <b><br>
+2. Octal:</b> String of octal digits beginning with '0'.
+<b><br>
+3. Hexadecimal:</b> String of hexadecimal digits preceded by
+&quot;0x&quot;. <b><br>
+4. Unicode:</b> String of four hexadecimal digits preceded
+by &quot;U+&quot;. <b><br>
+5. Character:</b> Single character enclosed in single
+quotes. (And the binary value is used.) Note that blank,
+comma, tab character and '#' cannot be specified with this
+format. <b><br>
+6. UTF-8 Character:</b> Single (possibly multi-byte) UTF-8
+character, enclosed in single quotes.</p>
 
-the 512-bytes tables are user-to-unicode tables.
-Format (2) is used to fill the 
-<I>table</I>
+<p style="margin-left:11%; margin-top: 1em">Note that
+control characters (with codes &lt; 32) cannot be re-mapped
+with <i>mapscrn</i> because they have special meaning for
+the driver.</p>
 
-as follows: cell with offset mentioned in the first column is filled
-with the value mentioned in the second column.
-When values larger than 255 occur, or values are written using
-the U+xxxx notation, the table is assumed to be a user-to-unicode
-table, otherwise it is a direct-to-font table.
-<P>
+<h2>OTHER OPTIONS
+<a name="OTHER OPTIONS"></a>
+</h2>
 
-Values in the file may be specified in one of several
-<B>formats:</B>
 
-<BR>
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
 
-<B>1. Decimal: </B>
 
-String of decimal digits not starting with '0'
-<BR>
+<p style="margin-top: 1em"><b>-V</b></p></td>
+<td width="8%"></td>
+<td width="49%">
 
-<B>2. Octal: </B>
 
-String of octal digits beginning with '0'.
-<BR>
+<p style="margin-top: 1em">Prints version number and
+exits.</p> </td>
+<td width="29%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
 
-<B>3. Hexadecimal: </B>
 
-String of hexadecimal digits preceded by &quot;0x&quot;.
-<BR>
+<p><b>-v</b></p></td>
+<td width="8%"></td>
+<td width="49%">
 
-<B>4. Unicode:</B>
 
-String of four hexadecimal digits preceded by &quot;U+&quot;.
-<BR>
+<p>Be verbose.</p></td>
+<td width="29%">
+</td></tr>
+</table>
 
-<B>5. Character: </B>
+<h2>FILES
+<a name="FILES"></a>
+</h2>
 
-Single character enclosed in single quotes. (And the binary value is used.)
-Note that blank, comma, tab character and '#' cannot be specified
-with this format.
-<BR>
 
-<B>6. UTF-8 Character:</B>
 
-Single (possibly multi-byte) UTF-8 character, enclosed in single quotes.
-<P>
+<p style="margin-left:11%; margin-top: 1em"><i>@DATADIR@/consoletrans</i></p>
 
-Note that control characters (with codes &lt; 32) cannot be re-mapped with
-<I>mapscrn</I>
+<p style="margin-left:22%;">The default directory for
+screen mappings.</p>
 
-because they have special meaning for the driver.
-<A NAME="lbAG">&nbsp;</A>
-<H2>OTHER OPTIONS</H2>
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
 
-<DL COMPACT>
-<DT><B>-V</B>
 
-<DD>
-Prints version number and exits.
-<DT><B>-v</B>
 
-<DD>
-Be verbose.
-</DL>
-<A NAME="lbAH">&nbsp;</A>
-<H2>FILES</H2>
+<p style="margin-left:11%; margin-top: 1em"><i>setfont</i>(8)</p>
 
-<I>@DATADIR@/consoletrans</I>
+<h2>AUTHOR
+<a name="AUTHOR"></a>
+</h2>
 
-is the default directory for screen mappings.
-<A NAME="lbAI">&nbsp;</A>
-<H2>SEE ALSO</H2>
 
-<I><A HREF="http://localhost/cgi-bin/man/man2html?8+setfont">setfont</A></I>(8)
-
-<A NAME="lbAJ">&nbsp;</A>
-<H2>AUTHOR</H2>
-
-Copyright (C) 1993 Eugene G. Crosser
-<BR>
-
-&lt;<A HREF="mailto:crosser@pccross.msk.su">crosser@pccross.msk.su</A>&gt;
-<BR>
-
-This software and documentation may be distributed freely.
-<P>
-
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">USE</A><DD>
-<DT><A HREF="#lbAF">INPUT FORMAT</A><DD>
-<DT><A HREF="#lbAG">OTHER OPTIONS</A><DD>
-<DT><A HREF="#lbAH">FILES</A><DD>
-<DT><A HREF="#lbAI">SEE ALSO</A><DD>
-<DT><A HREF="#lbAJ">AUTHOR</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:23:39 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em">Copyright (C)
+1993 Eugene G. Crosser <br>
+&lt;crosser@pccross.msk.su&gt; <br>
+This software and documentation may be distributed
+freely.</p>
+<hr>
+</body>
+</html>

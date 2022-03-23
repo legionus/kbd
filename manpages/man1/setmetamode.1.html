@@ -1,91 +1,122 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>SETMETAMODE</title>
 
-<HTML><HEAD><TITLE>Manpage of SETMETAMODE</TITLE>
-</HEAD><BODY>
-<H1>SETMETAMODE</H1>
-Section: User Commands  (1)<BR>Updated: 30 Jan 1994<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">SETMETAMODE</h1>
 
-setmetamode - define the keyboard meta key handling
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#ARGUMENTS">ARGUMENTS</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>setmetamode</B>
-
-[
-<I>{meta|bit|metabit | esc|prefix|escprefix}</I>
-
-]
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
-
-<A NAME="ixAAB"></A>
-<P>
-
-Without argument,
-<B>setmetamode</B>
-
-prints the current Meta key mode.
-With argument, it sets the Meta key mode as indicated.
-The setting before and after the change are reported.
-<P>
-
-The Meta key mode is specific for each VT (and the VT
-corresponding to stdin is used).
-One might use
-<B>setmetamode</B>
-
-in /etc/rc to define the initial state of the Meta key mode,
-e.g. by
-<BR>
+<hr>
 
 
-INITTY=/dev/tty[1-8]
-<BR>
-
-for tty in $INITTY; do
-<BR>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
 
-setmetamode escprefix &lt; $tty
-<BR>
+<p style="margin-left:11%; margin-top: 1em">setmetamode -
+define the keyboard meta key handling</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
 
-done
 
-<A NAME="lbAE">&nbsp;</A>
-<H2>OPTIONS</H2>
+<p style="margin-left:11%; margin-top: 1em"><b>setmetamode</b>
+[ <i>options</i> ] [ <i>argument</i> ]</p>
 
-<DL COMPACT>
-<DT>esc prefix escprefix<DD>
-The Meta key sends an Escape prefix.
-<DT>meta bit metabit<DD>
-The Meta key sets the high order bit of the character.
-</DL>
-<A NAME="lbAF">&nbsp;</A>
-<H2>SEE ALSO</H2>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
 
-<P>
-<P>
+<p style="margin-left:11%; margin-top: 1em">Without
+argument, <b>setmetamode</b> prints the current Meta key
+mode. With argument, it sets the Meta key mode as indicated.
+The setting before and after the change are reported.</p>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em">The Meta key
+mode is specific for each VT (and the VT corresponding to
+stdin is used). One might use <b>setmetamode</b> in /etc/rc
+to define the initial state of the Meta key mode, e.g.
+by</p>
+
+
+<p style="margin-left:18%; margin-top: 1em">INITTY=/dev/tty[1-8]
+<br>
+for tty in $INITTY; do</p>
+
+<p style="margin-left:26%;">setmetamode escprefix &lt;
+$tty</p>
+
+<p style="margin-left:18%;">done</p>
+
+<h2>ARGUMENTS
+<a name="ARGUMENTS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>esc</b>,
+<b>prefix</b>, <b>escprefix</b></p>
+
+<p style="margin-left:22%;">The Meta key sends an Escape
+prefix.</p>
+
+<p style="margin-left:11%;"><b>meta</b>, <b>bit</b>,
+<b>metabit</b></p>
+
+<p style="margin-left:22%;">The Meta key sets the high
+order bit of the character.</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>-C</b>,
+<b>--console</b>=<i>DEV</i></p>
+
+<p style="margin-left:22%;">the console device to be
+used;</p>
+
+<p style="margin-left:11%;"><b>-V</b>, <b>--version</b></p>
+
+<p style="margin-left:22%;">print version number;</p>
+
+<p style="margin-left:11%;"><b>-h</b>, <b>--help</b></p>
+
+<p style="margin-left:22%;">print this usage message.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>loadkeys</b>(1),
+<b>kbdinfo</b>(1)</p>
+<hr>
+</body>
+</html>

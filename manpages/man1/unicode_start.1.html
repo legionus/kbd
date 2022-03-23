@@ -1,88 +1,96 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>UNICODE_START</title>
 
-<HTML><HEAD><TITLE>Manpage of UNICODE_START</TITLE>
-</HEAD><BODY>
-<H1>UNICODE_START</H1>
-Section: User Commands  (1)<BR>Updated: 3 Feb 2001<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">UNICODE_START</h1>
 
-unicode_start - put keyboard and console in unicode mode
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#NOTE">NOTE</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>unicode_start</B>
+<hr>
 
-[<I>font</I> [<I>umap</I>]]
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-<A NAME="ixAAB"></A>
-<P>
 
-The
-<B>unicode_start</B>
+<p style="margin-left:11%; margin-top: 1em">unicode_start -
+put keyboard and console in unicode mode</p>
 
-command will put the keyboard and console into Unicode (UTF-8) mode.
-<P>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-For the keyboard this means that one can attach 16-bit U+xxxx values
-to keyboard keys using
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1),
 
-and have these appear as UTF-8 input to user programs.
-Also, that one can type hexadecimal Alt-xxxx using the numeric keypad,
-and again produce UTF-8.
-<P>
 
-For the console this means that the kernel expects UTF-8 output
-from user programs, and displays the output accordingly.
-<P>
+<p style="margin-left:11%; margin-top: 1em"><b>unicode_start</b>
+[<i>font</i> [<i>umap</i>]]</p>
 
-The parameter
-<I>font</I>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-is a font that is loaded. It should have a built-in Unicode map,
-or, if it hasn't, such a map can be given explicitly as second parameter.
-When no font was specified, the current font is kept.
-<A NAME="lbAE">&nbsp;</A>
-<H2>NOTE</H2>
 
-Unicode mode is a parameter with a value per virtual console.
-However, usually the font and keymap is common to all consoles.
-<A NAME="lbAF">&nbsp;</A>
-<H2>SEE ALSO</H2>
+<p style="margin-left:11%; margin-top: 1em">The
+<b>unicode_start</b> command will put the keyboard and
+console into Unicode (UTF-8) mode.</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+dumpkeys">dumpkeys</A></B>(1),
+<p style="margin-left:11%; margin-top: 1em">For the
+keyboard this means that one can attach 16-bit U+xxxx values
+to keyboard keys using <b>loadkeys</b>(1), and have these
+appear as UTF-8 input to user programs. Also, that one can
+type hexadecimal Alt-xxxx using the numeric keypad, and
+again produce UTF-8.</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+kbd_mode">kbd_mode</A></B>(1),
+<p style="margin-left:11%; margin-top: 1em">For the console
+this means that the kernel expects UTF-8 output from user
+programs, and displays the output accordingly.</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1),
+<p style="margin-left:11%; margin-top: 1em">The parameter
+<i>font</i> is a font that is loaded. It should have a
+built-in Unicode map, or, if it hasn't, such a map can be
+given explicitly as second parameter. When no font was
+specified, the current font is kept.</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+unicode_stop">unicode_stop</A></B>(1),
+<h2>NOTE
+<a name="NOTE"></a>
+</h2>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?7+utf-8">utf-8</A>(7),</B>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+setfont">setfont</A></B>(8)
+<p style="margin-left:11%; margin-top: 1em">Unicode mode is
+a parameter with a value per virtual console. However,
+usually the font and keymap is common to all consoles.</p>
 
-<P>
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">NOTE</A><DD>
-<DT><A HREF="#lbAF">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>dumpkeys</b>(1),
+<b>kbd_mode</b>(1), <b>loadkeys</b>(1),
+<b>unicode_stop</b>(1), <b>utf-8</b>(7),
+<b>setfont</b>(8)</p>
+<hr>
+</body>
+</html>

@@ -1,59 +1,76 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>CHVT</title>
 
-<HTML><HEAD><TITLE>Manpage of CHVT</TITLE>
-</HEAD><BODY>
-<H1>CHVT</H1>
-Section: User Commands  (1)<BR>Updated: 26 January 1997<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">CHVT</h1>
 
-chvt - change foreground virtual terminal
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
 
-<B>chvt</B>
+<hr>
 
-<I>N</I>
 
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-The command
-<B>chvt</B>
 
-<I>N</I>
+<p style="margin-left:11%; margin-top: 1em">chvt - change
+foreground virtual terminal</p>
 
-makes
-<I>/dev/ttyN</I>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
-the foreground terminal.
-(The corresponding screen is created if it did not exist yet.
-To get rid of unused VTs,
-use
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+deallocvt">deallocvt</A></B>(1).)
 
-The key combination
-(Ctrl-)LeftAlt-F<I>N</I>
+<p style="margin-left:11%; margin-top: 1em"><b>chvt</b>
+[<i>option</i>...] <i>N</i></p>
 
-(with
-<I>N</I>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-in the range 1-12) usually has a similar effect.
-<P>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em">The command
+<b>chvt</b> <i>N</i> makes <i>/dev/ttyN</i> the foreground
+terminal. (The corresponding screen is created if it did not
+exist yet. To get rid of unused VTs, use
+<b>deallocvt</b>(1).) The key combination
+(Ctrl-)LeftAlt-F<i>N</i> (with <i>N</i> in the range 1-12)
+usually has a similar effect.</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><i>-V,
+--version</i></p>
+
+<p style="margin-left:22%;">print program version and
+exit.</p>
+
+<p style="margin-left:11%;"><i>-h, --help</i></p>
+
+<p style="margin-left:22%;">show this text and exit.</p>
+<hr>
+</body>
+</html>

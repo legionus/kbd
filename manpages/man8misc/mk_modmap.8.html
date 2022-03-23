@@ -1,82 +1,85 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:49 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>MK_MODMAP</title>
 
-<HTML><HEAD><TITLE>Manpage of MK_MODMAP</TITLE>
-</HEAD><BODY>
-<H1>MK_MODMAP</H1>
-Section: Maintenance Commands (8)<BR>Updated: 2002-02-22<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<P>
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">MK_MODMAP</h1>
 
-mk_modmap - translate a Linux keytable file into an xmodmap file
-<P>
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#NOTES">NOTES</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>mk_modmap</B>
+<hr>
 
-[ 
-<B>-v</B>
 
-]
-keymap_file
-<P>
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
-The
-<B>mk_modmap</B>
 
-command tries to translate a Linux console keytable file into
-a file that can be parsed by xmodmap, and used within X.
-It outputs the results to standard out.
+<p style="margin-left:11%; margin-top: 1em">mk_modmap -
+translate a Linux keytable file into an xmodmap file</p>
 
-If the 
-<B>-v</B>
-
-flag is used, verbose output is given.
-
-It requires the X header files to be installed.
-(In Debian, these are in the &quot;xlibs-dev&quot; package).
-<A NAME="lbAE">&nbsp;</A>
-<H2>NOTES</H2>
-
-Since XFree version 2.1, X initialises its keymap using the Linux
-keymap, so xmodmap will often be superflous.
-<P>
-<A NAME="lbAF">&nbsp;</A>
-<H2>SEE ALSO</H2>
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+dumpkeys">dumpkeys</A></B>(1),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?5+keymaps">keymaps</A></B>(5),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+xmodmap">xmodmap</A>(1)</B>
-
-<P>
-<P>
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
 
 
+<p style="margin-left:11%; margin-top: 1em"><b>mk_modmap</b>
+[ <b>-v</b> ] keymap_file</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">The
+<b>mk_modmap</b> command tries to translate a Linux console
+keytable file into a file that can be parsed by xmodmap, and
+used within X. It outputs the results to standard out.</p>
+
+<p style="margin-left:11%; margin-top: 1em">If the
+<b>-v</b> flag is used, verbose output is given.</p>
+
+<p style="margin-left:11%; margin-top: 1em">It requires the
+X header files to be installed. (In Debian, these are in the
+&quot;xlibs-dev&quot; package).</p>
+
+<h2>NOTES
+<a name="NOTES"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Since XFree
+version 2.1, X initialises its keymap using the Linux
+keymap, so xmodmap will often be superfluous.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
 
 
 
-
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">NOTES</A><DD>
-<DT><A HREF="#lbAF">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:24:05 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em"><b>dumpkeys</b>(1),
+<b>keymaps</b>(5), <b>xmodmap</b>(1)</p>
+<hr>
+</body>
+</html>

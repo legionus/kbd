@@ -1,141 +1,141 @@
-Content-type: text/html
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>SETLEDS</title>
 
-<HTML><HEAD><TITLE>Manpage of SETLEDS</TITLE>
-</HEAD><BODY>
-<H1>SETLEDS</H1>
-Section: User Commands  (1)<BR>Updated: 24 Sep 1994<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+</head>
+<body>
 
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
+<h1 align="center">SETLEDS</h1>
 
-setleds - set the keyboard leds
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
 
-<B>setleds</B>
-
-[<I>-v</I>] [<I>-L</I>] [<I>-D</I>] [<I>-F</I>]
-
-[<I>{+|-}num</I>] [<I>{+|-}caps</I>] [<I>{+|-}scroll</I>]
-
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
-
-<A NAME="ixAAB"></A>
-<P>
-
-<B>Setleds</B>
-
-reports and changes the led flag settings of a VT
-(namely NumLock, CapsLock and ScrollLock).
-Without arguments,
-<B>setleds</B>
-
-prints the current settings.
-With arguments, it sets or clears the indicated flags
-(and leaves the others unchanged). The settings before
-and after the change are reported if the -v flag is given.
-<P>
-
-The led flag settings are specific for each VT (and the VT
-corresponding to stdin is used).
-<P>
-
-By default (or with option -F),
-<B>setleds</B>
-
-will only change the VT flags (and their setting may be
-reflected by the keyboard leds).
-<P>
-
-With option -D,
-<B>setleds</B>
-
-will change both the VT flags and their default settings
-(so that a subsequent reset will not undo the change).
-This might be useful for people who always want to have numlock set.
-<P>
-
-With option -L,
-<B>setleds</B>
-
-will not touch the VT flags, but only change the leds.
-From this moment on, the leds will no longer reflect the VT flags
-(but display whatever is put into them). The command
-<B>setleds -L</B>
-
-(without further arguments) will restore the situation in which
-the leds reflect the VT flags.
-<P>
-
-One might use
-<B>setleds</B>
-
-in /etc/rc to define the initial and default state of NumLock,
-e.g. by
-<BR>
+<hr>
 
 
-INITTY=/dev/tty[1-8]
-<BR>
-
-for tty in $INITTY; do
-<BR>
+<h2>NAME
+<a name="NAME"></a>
+</h2>
 
 
-setleds -D +num &lt; $tty
-<BR>
+<p style="margin-left:11%; margin-top: 1em">setleds - set
+the keyboard leds</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
 
 
-done
+<p style="margin-left:11%; margin-top: 1em"><b>setleds</b>
+[<i>-v</i>] [<i>-L</i>] [<i>-D</i>] [<i>-F</i>]
+[<i>{+|-}num</i>] [<i>{+|-}caps</i>]
+[<i>{+|-}scroll</i>]</p>
 
-<A NAME="lbAE">&nbsp;</A>
-<H2>OPTIONS</H2>
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
 
-<DL COMPACT>
-<DT>-num +num<DD>
-Clear or set NumLock.
-(At present, the NumLock setting influences the
-interpretation of keypad keys.
-Pressing the NumLock key complements the NumLock setting.)
-<DT>-caps +caps<DD>
-Clear or set CapsLock.
-(At present, the CapsLock setting complements the Shift key
-when applied to letters.
-Pressing the CapsLock key complements the CapsLock setting.)
-<DT>-scroll +scroll<DD>
-Clear or set ScrollLock.
-(At present, pressing the ScrollLock key (or ^S/^Q) stops/starts
-console output.)
-</DL>
-<A NAME="lbAF">&nbsp;</A>
-<H2>BUGS</H2>
 
-In keyboard application mode the NumLock key does not
-influence the NumLock flag setting.
-<A NAME="lbAG">&nbsp;</A>
-<H2>SEE ALSO</H2>
+<p style="margin-left:11%; margin-top: 1em"><b>Setleds</b>
+reports and changes the led flag settings of a VT (namely
+NumLock, CapsLock and ScrollLock). Without arguments,
+<b>setleds</b> prints the current settings. With arguments,
+it sets or clears the indicated flags (and leaves the others
+unchanged). The settings before and after the change are
+reported if the -v flag is given.</p>
 
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+loadkeys">loadkeys</A></B>(1)
+<p style="margin-left:11%; margin-top: 1em">The led flag
+settings are specific for each VT (and the VT corresponding
+to stdin is used).</p>
 
-<P>
-<P>
+<p style="margin-left:11%; margin-top: 1em">By default (or
+with option -F), <b>setleds</b> will only change the VT
+flags (and their setting may be reflected by the keyboard
+leds).</p>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">BUGS</A><DD>
-<DT><A HREF="#lbAG">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:21:23 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:11%; margin-top: 1em">With option -D,
+<b>setleds</b> will change both the VT flags and their
+default settings (so that a subsequent reset will not undo
+the change). This might be useful for people who always want
+to have numlock set.</p>
+
+<p style="margin-left:11%; margin-top: 1em">With option -L,
+<b>setleds</b> will not touch the VT flags, but only change
+the leds. From this moment on, the leds will no longer
+reflect the VT flags (but display whatever is put into
+them). The command <b>setleds -L</b> (without further
+arguments) will restore the situation in which the leds
+reflect the VT flags.</p>
+
+<p style="margin-left:11%; margin-top: 1em">One might use
+<b>setleds</b> in /etc/rc to define the initial and default
+state of NumLock, e.g. by</p>
+
+<p style="margin-left:18%;">INITTY=/dev/tty[1-8] <br>
+for tty in $INITTY; do</p>
+
+<p style="margin-left:26%;">setleds -D +num &lt; $tty</p>
+
+<p style="margin-left:18%;">done</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">-num +num</p>
+
+<p style="margin-left:22%;">Clear or set NumLock. (At
+present, the NumLock setting influences the interpretation
+of keypad keys. Pressing the NumLock key complements the
+NumLock setting.)</p>
+
+<p style="margin-left:11%;">-caps +caps</p>
+
+<p style="margin-left:22%;">Clear or set CapsLock. (At
+present, the CapsLock setting complements the Shift key when
+applied to letters. Pressing the CapsLock key complements
+the CapsLock setting.)</p>
+
+<p style="margin-left:11%;">-scroll +scroll</p>
+
+<p style="margin-left:22%;">Clear or set ScrollLock. (At
+present, pressing the ScrollLock key (or ^S/^Q) stops/starts
+console output.)</p>
+
+<h2>BUGS
+<a name="BUGS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">In keyboard
+application mode the NumLock key does not influence the
+NumLock flag setting.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>loadkeys</b>(1)</p>
+<hr>
+</body>
+</html>

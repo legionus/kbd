@@ -1,388 +1,380 @@
-Content-type: text/html
-
-<HTML><HEAD><TITLE>Manpage of SETFONT</TITLE>
-</HEAD><BODY>
-<H1>SETFONT</H1>
-Section: International Support (8)<BR>Updated: 11 Feb 2001<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
-
-<A NAME="lbAB">&nbsp;</A>
-<H2>NAME</H2>
-
-setfont - load EGA/VGA console screen font
-<A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
-
-<B>setfont</B>
-
-[-O <I>font+umap.orig</I>] [-o <I>font.orig</I>]
-
-[-om <I>cmap.orig</I>]
-
-[-ou <I>umap.orig</I>]
-
-[-<I>N</I>] [<I>font.new ...</I>]
-
-[-m <I>cmap</I>]
-
-[-u <I>umap</I>]
-
-[-C <I>console</I>]
-
-[-h<I>H</I>]
-
-[-v] [-V]
-
-<A NAME="ixAAB"></A>
-<A NAME="lbAD">&nbsp;</A>
-<H2>DESCRIPTION</H2>
-
-The
-<B>setfont</B>
-
-command reads a font from the file
-<I>font.new</I>
-
-and loads it into the EGA/VGA character generator,
-and optionally outputs the previous font.
-It can also load various mapping tables
-and output the previous versions.
-<P>
-
-If no args are given (or only the option
--<I>N</I>
-
-for some number
-<I>N</I>),
-
-then a default
-(8x<I>N</I>)
-
-font is loaded (see below).
-One may give several small fonts, all containing
-a Unicode table, and
-<B>setfont</B>
-
-will combine them and load the union.
-Typical use:
-<DL COMPACT>
-<DT><B>setfont</B>
-
-<DD>
-Load a default font.
-<DT><B>setfont drdos8x16</B>
-
-<DD>
-Load a given font (here the 448-glyph drdos font).
-<DT><B>setfont cybercafe -u cybercafe</B>
-
-<DD>
-Load a given font that does not have a Unicode map
-and provide one explicitly.
-<DT><B>setfont LatArCyrHeb-19 -m 8859-2</B>
-
-<DD>
-Load a given font (here a 512-glyph font combining several
-character sets) and indicate that one's local character set
-is ISO 8859-2.
-</DL>
-<P>
-
-Note: if a font has more than 256 glyphs, only 8 out of 16 colors
-can be used simultaneously. It can make console perception worse
-(loss of intensity and even some colors).
-<P>
-<A NAME="lbAE">&nbsp;</A>
-<H2>FONT FORMATS</H2>
-
-The standard Linux font format is the PSF font.
-It has a header describing font properties like character size,
-followed by the glyph bitmaps, optionally followed by a Unicode mapping
-table giving the Unicode value for each glyph.
-Several other (obsolete) font formats are recognized.
-If the input file has code page format (probably with suffix .cp),
-containing three fonts with sizes e.g. 8x8, 8x14 and 8x16, then one of
-the options -8 or -14 or -16 must be used to select one.
-Raw font files are binary files of size
-256*<I>N</I>
-
-bytes, containing bit images for each of 256 characters,
-one byte per scan line, and
-<I>N</I>
-
-bytes per character (0 &lt; 
-<I>N</I>
-
-&lt;= 32).
-Most fonts have a width of 8 bits, but with the framebuffer device (fb)
-other widths can be used.
-<P>
-<A NAME="lbAF">&nbsp;</A>
-<H2>FONT HEIGHT</H2>
-
-The program
-<B>setfont</B>
-
-has no built-in knowledge of VGA video modes, but just asks
-the kernel to load the character ROM of the video card with
-certain bitmaps. However, since Linux 1.3.1 the kernel knows
-enough about EGA/VGA video modes to select a different line
-distance. The default character height will be the number
-<I>N</I>
-
-inferred from the font or specified by option. However, the
-user can specify a different character height
-<I>H</I>
-
-using the
-<I>-h</I>
-
-option.
-<P>
-<A NAME="lbAG">&nbsp;</A>
-<H2>CONSOLE MAPS</H2>
-
-Several mappings are involved in the path from user program
-output to console display. If the console is in utf8 mode (see
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+unicode_start">unicode_start</A></B>(1))
-
-then the kernel expects that user program output is coded as UTF-8 (see
-<B><A HREF="http://localhost/cgi-bin/man/man2html?7+utf-8">utf-8</A></B>(7)),
-
-and converts that to Unicode (ucs2).
-Otherwise, a translation table is used from the 8-bit program output
-to 16-bit Unicode values. Such a translation table is called a
-<I>Unicode console map</I>.
-
-There are four of them: three built into the kernel, the fourth
-settable using the
-<I>-m</I>
-
-option of
-<B>setfont</B>.
-
-An escape sequence chooses between these four tables; after loading a
-<I>cmap</I>,
-
-<B>setfont</B>
-
-will output the escape sequence Esc ( K that makes it the active translation.
-<P>
-
-Suitable arguments for the
-<I>-m</I>
-
-option are for example
-<I>8859-1</I>,
-
-<I>8859-2</I>, ...,
-
-<I>8859-15</I>,
-
-<I>cp437</I>, ...,
-
-<I>cp1250</I>.
-
-<P>
-
-Given the Unicode value of the symbol to be displayed, the kernel
-finds the right glyph in the font using the Unicode mapping info
-of the font and displays it.
-<P>
-
-Old fonts do not have Unicode mapping info, and in order to handle
-them there are direct-to-font maps (also loaded using
-<I>-m</I>)
-
-that give a correspondence between user bytes and font positions.
-The most common correspondence is the one given in the file
-<I>trivial</I>
-
-(where user byte values are used directly as font positions).
-Other correspondences are sometimes preferable since the
-PC video hardware expects line drawing characters in certain
-font positions.
-<P>
-
-Giving a
-<I>-m none</I>
-
-argument inhibits the loading and activation of a mapping table.
-The previous console map can be saved to a file using the
-<I>-om file</I>
-
-option.
-These options of setfont render
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+mapscrn">mapscrn</A></B>(8)
-
-obsolete. (However, it may be useful to read that man page.)
-<P>
-<A NAME="lbAH">&nbsp;</A>
-<H2>UNICODE FONT MAPS</H2>
-
-The correspondence between the glyphs in the font and
-Unicode values is described by a Unicode mapping table.
-Many fonts have a Unicode mapping table included in
-the font file, and an explicit table can be indicated using
-the
-<I>-u</I>
-
-option. The program
-<B>setfont</B>
-
-will load such a Unicode mapping table, unless a
-<I>-u none</I>
-
-argument is given. The previous Unicode mapping table
-will be saved as part of the saved font file when the -O
-option is used. It can be saved to a separate file using the
-<I>-ou file</I>
-
-option.
-These options of setfont render
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+loadunimap">loadunimap</A></B>(8)
-
-obsolete.
-<P>
-
-The Unicode mapping table should assign some glyph to
-the `missing character' value U+fffd, otherwise missing
-characters are not translated, giving a usually very confusing
-result.
-<P>
-Usually no mapping table is needed, and a Unicode mapping table
-is already contained in the font (sometimes this is indicated
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Wed Mar 23 11:14:50 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>SETFONT</title>
+
+</head>
+<body>
+
+<h1 align="center">SETFONT</h1>
+
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#FONT FORMATS">FONT FORMATS</a><br>
+<a href="#FONT HEIGHT">FONT HEIGHT</a><br>
+<a href="#CONSOLE MAPS">CONSOLE MAPS</a><br>
+<a href="#UNICODE FONT MAPS">UNICODE FONT MAPS</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#NOTE">NOTE</a><br>
+<a href="#FILES">FILES</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+
+<hr>
+
+
+<h2>NAME
+<a name="NAME"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">setfont - load
+EGA/VGA console screen font</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>setfont</b>
+[<b>-O</b> <i>font+umap.orig</i>] [<b>-o</b>
+<i>font.orig</i>] [<b>-om</b> <i>cmap.orig</i>] [<b>-ou</b>
+<i>umap.orig</i>] [<b>-</b><i>N</i>] [<i>font.new ...</i>]
+[<b>-m</b> <i>cmap</i>] [<b>-u</b> <i>umap</i>] [<b>-C</b>
+<i>console</i>] [<b>-h</b><i>H</i>] [<b>-f</b>] [<b>-v</b>]
+[<b>-V</b>]</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">The
+<b>setfont</b> command reads a font from the file
+<i>font.new</i> and loads it into the EGA/VGA character
+generator, and optionally outputs the previous font. It can
+also load various mapping tables and output the previous
+versions.</p>
+
+<p style="margin-left:11%; margin-top: 1em">If no args are
+given (or only the option -<i>N</i> for some number
+<i>N</i>), then a default (8x<i>N</i>) font is loaded (see
+below). One may give several small fonts, all containing a
+Unicode table, and <b>setfont</b> will combine them and load
+the union. Typical use: <b><br>
+setfont</b></p>
+
+<p style="margin-left:22%;">Load a default font.</p>
+
+<p style="margin-left:11%;"><b>setfont drdos8x16</b></p>
+
+<p style="margin-left:22%;">Load a given font (here the
+448-glyph drdos font).</p>
+
+<p style="margin-left:11%;"><b>setfont cybercafe -u
+cybercafe</b></p>
+
+<p style="margin-left:22%;">Load a given font that does not
+have a Unicode map and provide one explicitly.</p>
+
+<p style="margin-left:11%;"><b>setfont LatArCyrHeb-19 -m
+8859-2</b></p>
+
+<p style="margin-left:22%;">Load a given font (here a
+512-glyph font combining several character sets) and
+indicate that one's local character set is ISO 8859-2.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Note: if a font
+has more than 256 glyphs, only 8 out of 16 colors can be
+used simultaneously. It can make console perception worse
+(loss of intensity and even some colors).</p>
+
+<h2>FONT FORMATS
+<a name="FONT FORMATS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">The standard
+Linux font format is the PSF font. It has a header
+describing font properties like character size, followed by
+the glyph bitmaps, optionally followed by a Unicode mapping
+table giving the Unicode value for each glyph. Several other
+(obsolete) font formats are recognized. If the input file
+has code page format (probably with suffix .cp), containing
+three fonts with sizes e.g. 8x8, 8x14 and 8x16, then one of
+the options -8 or -14 or -16 must be used to select one. Raw
+font files are binary files of size 256*<i>N</i> bytes,
+containing bit images for each of 256 characters, one byte
+per scan line, and <i>N</i> bytes per character (0 &lt;
+<i>N</i> &lt;= 32). Most fonts have a width of 8 bits, but
+with the framebuffer device (fb) other widths can be
+used.</p>
+
+<h2>FONT HEIGHT
+<a name="FONT HEIGHT"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">The program
+<b>setfont</b> has no built-in knowledge of VGA video modes,
+but just asks the kernel to load the character ROM of the
+video card with certain bitmaps. However, since Linux 1.3.1
+the kernel knows enough about EGA/VGA video modes to select
+a different line distance. The default character height will
+be the number <i>N</i> inferred from the font or specified
+by option. However, the user can specify a different
+character height <i>H</i> using the <i>-h</i> option.</p>
+
+<h2>CONSOLE MAPS
+<a name="CONSOLE MAPS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Several
+mappings are involved in the path from user program output
+to console display. If the console is in utf8 mode (see
+<b>unicode_start</b>(1)) then the kernel expects that user
+program output is coded as UTF-8 (see <b>utf-8</b>(7)), and
+converts that to Unicode (ucs2). Otherwise, a translation
+table is used from the 8-bit program output to 16-bit
+Unicode values. Such a translation table is called a
+<i>Unicode console map</i>. There are four of them: three
+built into the kernel, the fourth settable using the
+<i>-m</i> option of <b>setfont</b>. An escape sequence
+chooses between these four tables; after loading a
+<i>cmap</i>, <b>setfont</b> will output the escape sequence
+Esc ( K that makes it the active translation.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Suitable
+arguments for the <i>-m</i> option are for example
+<i>8859-1</i>, <i>8859-2</i>, ..., <i>8859-15</i>,
+<i>cp437</i>, ..., <i>cp1250</i>.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Given the
+Unicode value of the symbol to be displayed, the kernel
+finds the right glyph in the font using the Unicode mapping
+info of the font and displays it.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Old fonts do
+not have Unicode mapping info, and in order to handle them
+there are direct-to-font maps (also loaded using <i>-m</i>)
+that give a correspondence between user bytes and font
+positions. The most common correspondence is the one given
+in the file <i>trivial</i> (where user byte values are used
+directly as font positions). Other correspondences are
+sometimes preferable since the PC video hardware expects
+line drawing characters in certain font positions.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Giving a <i>-m
+none</i> argument inhibits the loading and activation of a
+mapping table. The previous console map can be saved to a
+file using the <i>-om file</i> option. These options of
+setfont render <b>mapscrn</b>(8) obsolete. (However, it may
+be useful to read that man page.)</p>
+
+<h2>UNICODE FONT MAPS
+<a name="UNICODE FONT MAPS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">The
+correspondence between the glyphs in the font and Unicode
+values is described by a Unicode mapping table. Many fonts
+have a Unicode mapping table included in the font file, and
+an explicit table can be indicated using the <i>-u</i>
+option. The program <b>setfont</b> will load such a Unicode
+mapping table, unless a <i>-u none</i> argument is given.
+The previous Unicode mapping table will be saved as part of
+the saved font file when the -O option is used. It can be
+saved to a separate file using the <i>-ou file</i> option.
+These options of setfont render <b>loadunimap</b>(8)
+obsolete.</p>
+
+<p style="margin-left:11%; margin-top: 1em">The Unicode
+mapping table should assign some glyph to the `missing
+character' value U+fffd, otherwise missing characters are
+not translated, giving a usually very confusing result.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Usually no
+mapping table is needed, and a Unicode mapping table is
+already contained in the font (sometimes this is indicated
 by the .psfu extension), so that most users need not worry
-about the precise meaning and functioning of these mapping tables.
-<P>
-One may add a Unicode mapping table to a psf font using
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfaddtable">psfaddtable</A></B>(1).
+about the precise meaning and functioning of these mapping
+tables.</p>
 
-<P>
-<A NAME="lbAI">&nbsp;</A>
-<H2>OPTIONS</H2>
+<p style="margin-left:11%; margin-top: 1em">One may add a
+Unicode mapping table to a psf font using
+<b>psfaddtable</b>(1).</p>
 
-<DL COMPACT>
-<DT><B>-h </B><I>H</I>
-
-<DD>
-Override font height.
-<DT><B>-m </B><I>file</I>
-
-<DD>
-Load console map or Unicode console map from
-<I>file</I>.
-
-<DT><B>-o </B><I>file</I>
-
-<DD>
-Save previous font in
-<I>file</I>.
-
-<DT><B>-O </B><I>file</I>
-
-<DD>
-Save previous font and Unicode map in
-<I>file</I>.
-
-<DT><B>-om </B><I>file</I>
-
-<DD>
-Store console map in
-<I>file</I>.
-
-<DT><B>-ou </B><I>file</I>
-
-<DD>
-Save previous Unicode map in
-<I>file</I>.
-
-<DT><B>-u </B><I>file</I>
-
-<DD>
-Load Unicode table describing the font from
-<I>file</I>.
-
-<DT><B>-C </B><I>console</I>
-
-<DD>
-Set the font for the indicated console. (May require root permissions.)
-<DT><B>-v</B>
-
-<DD>
-Be verbose.
-<DT><B>-V</B>
-
-<DD>
-Print version and exit.
-<P>
-</DL>
-<A NAME="lbAJ">&nbsp;</A>
-<H2>NOTE</H2>
-
-PC video hardware allows one to use the &quot;intensity&quot; bit
-either to indicate brightness, or to address 512 (instead of 256)
-glyphs in the font. So, if the font has more than 256 glyphs,
-the console will be reduced to 8 (instead of 16) colors.
-<P>
-<A NAME="lbAK">&nbsp;</A>
-<H2>FILES</H2>
-
-<I>@DATADIR@/consolefonts</I>
-
-is the default font directory.
-<I>@DATADIR@/unimaps</I>
-
-is the default directory for Unicode maps.
-<I>@DATADIR@/consoletrans</I>
-
-is the default directory for screen mappings.
-The default font is a file
-<I>default</I>
-
-(or
-<I>default8x</I>N
-
-if the -N option was given for some number N)
-perhaps with suitable extension (like .psf).
-<A NAME="lbAL">&nbsp;</A>
-<H2>SEE ALSO</H2>
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+psfaddtable">psfaddtable</A></B>(1),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?1+unicode_start">unicode_start</A></B>(1),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+loadunimap">loadunimap</A></B>(8),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?7+utf-8">utf-8</A></B>(7),
-
-<B><A HREF="http://localhost/cgi-bin/man/man2html?8+mapscrn">mapscrn</A></B>(8)
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
 
 
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="6%">
+
+
+<p style="margin-top: 1em"><b>-h</b> <i>H</i></p></td>
+<td width="5%"></td>
+<td width="78%">
+
+
+<p style="margin-top: 1em">Override font height.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="6%">
+
+
+<p><b>-d</b></p></td>
+<td width="5%"></td>
+<td width="78%">
+
+
+<p>Doubles the size of the font, by replicating all of its
+pixels vertically and horizontally. This is suitable for
+high pixel density (e.g. &quot;4k&quot;) displays on which
+the standard fonts are too small to be easily legible. Due
+to kernel limitations, this is suitable only for 16x16 or
+smaller fonts.</p></td></tr>
+</table>
+
+<p style="margin-left:11%;"><b>-m</b> <i>file</i></p>
+
+<p style="margin-left:22%;">Load console map or Unicode
+console map from <i>file</i>.</p>
+
+<p style="margin-left:11%;"><b>-o</b> <i>file</i></p>
+
+<p style="margin-left:22%;">Save previous font in
+<i>file</i>.</p>
+
+<p style="margin-left:11%;"><b>-O</b> <i>file</i></p>
+
+<p style="margin-left:22%;">Save previous font and Unicode
+map in <i>file</i>.</p>
+
+<p style="margin-left:11%;"><b>-om</b> <i>file</i></p>
+
+<p style="margin-left:22%;">Store console map in
+<i>file</i>.</p>
+
+<p style="margin-left:11%;"><b>-ou</b> <i>file</i></p>
+
+<p style="margin-left:22%;">Save previous Unicode map in
+<i>file</i>.</p>
+
+<p style="margin-left:11%;"><b>-u</b> <i>file</i></p>
+
+<p style="margin-left:22%;">Load Unicode table describing
+the font from <i>file</i>.</p>
+
+<p style="margin-left:11%;"><b>-C</b> <i>console</i></p>
+
+<p style="margin-left:22%;">Set the font for the indicated
+console. (May require root permissions.)</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-f</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Force-load unicode map: Setfont`issues the system call
+to load the unicode map even if the specified map is empty.
+This may be useful in unusual cases.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-v</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Be verbose.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-V</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Print version and exit.</p></td></tr>
+</table>
+
+<h2>NOTE
+<a name="NOTE"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">PC video
+hardware allows one to use the &quot;intensity&quot; bit
+either to indicate brightness, or to address 512 (instead of
+256) glyphs in the font. So, if the font has more than 256
+glyphs, the console will be reduced to 8 (instead of 16)
+colors.</p>
+
+<h2>FILES
+<a name="FILES"></a>
+</h2>
 
 
 
-<P>
+<p style="margin-left:11%; margin-top: 1em"><i>@DATADIR@/consolefonts</i></p>
 
-<HR>
-<A NAME="index">&nbsp;</A><H2>Index</H2>
-<DL>
-<DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">FONT FORMATS</A><DD>
-<DT><A HREF="#lbAF">FONT HEIGHT</A><DD>
-<DT><A HREF="#lbAG">CONSOLE MAPS</A><DD>
-<DT><A HREF="#lbAH">UNICODE FONT MAPS</A><DD>
-<DT><A HREF="#lbAI">OPTIONS</A><DD>
-<DT><A HREF="#lbAJ">NOTE</A><DD>
-<DT><A HREF="#lbAK">FILES</A><DD>
-<DT><A HREF="#lbAL">SEE ALSO</A><DD>
-</DL>
-<HR>
-This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
-using the manual pages.<BR>
-Time: 08:23:39 GMT, January 09, 2017
-</BODY>
-</HTML>
+<p style="margin-left:22%;">The default font directory.</p>
+
+<p style="margin-left:11%;"><i>@DATADIR@/unimaps</i></p>
+
+<p style="margin-left:22%;">The default directory for
+Unicode maps.</p>
+
+
+<p style="margin-left:11%;"><i>@DATADIR@/consoletrans</i></p>
+
+<p style="margin-left:22%;">The default directory for
+screen mappings.</p>
+
+<p style="margin-left:11%; margin-top: 1em">The default
+font is a file <i>default</i> (or <i>default8x</i>N if the
+-N option was given for some number N) perhaps with suitable
+extension (like .psf).</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>psfaddtable</b>(1),
+<b>unicode_start</b>(1), <b>loadunimap</b>(8),
+<b>utf-8</b>(7), <b>mapscrn</b>(8)</p>
+<hr>
+</body>
+</html>
