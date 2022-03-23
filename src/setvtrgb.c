@@ -44,7 +44,7 @@ usage(int rc, const struct kbd_help *options)
 	fprintf(stderr, _("Usage: %s [option...] [vga|FILE|-]\n"), get_progname());
 	fprintf(stderr, "\n");
 	fprintf(stderr, _(
-				"If you use the FILE parameter, it can be in either in decimal\n"
+				"If you use the FILE parameter, it can be either in decimal\n"
 				"or hexadecimal format, and will be detected on runtime.\n"
 				"\n"
 				"Decimal FILE format should be exactly 3 lines of comma-separated\n"
