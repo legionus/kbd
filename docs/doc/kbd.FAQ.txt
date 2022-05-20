@@ -1847,23 +1847,8 @@
   Since version 1.3.33, the kernel knows about `sticky' modifier keys.
   These act on the next key pressed. So, where one earlier needed the
   3-symbol sequence Shift_Lock a Shift_Lock to type `A', one can now use
-  the 2-symbol sequence SShift_Lock a.  Versions of the kbd package
-  older than 0.93 do not yet include code for these sticky modifiers,
-  and have to invoke them using their hexadecimal codes. For example,
-
-
-               % loadkeys
-               keymaps 0-15
-               keycode 54 = 0x0c00
-               keycode 97 = 0x0c02
-               keycode 100 = 0x0c03
-               %
-
-
-
-
-  will make the right Shift, Ctrl, Alt sticky versions of the left ones.
-  From 0.93 on you can say
+  the 2-symbol sequence SShift a.
+  You can say
 
 
                % loadkeys
