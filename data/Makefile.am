@@ -11,7 +11,8 @@ TRANSDIR     = consoletrans
 
 KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
 	i386/fgGIod i386/qwerty i386/qwertz i386/include i386/olpc \
-	i386/colemak i386/carpalx i386/neo mac/include mac/all
+	i386/colemak i386/carpalx i386/neo mac/include mac/all \
+	pine
 
 # Do not use GZIP - it is interpreted by gzip
 MYGZIP = gzip -f -n -9
