@@ -117,8 +117,8 @@ msgstr "VT 1 é a consola e não pode ser desalocado"
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "impossível desalojar a consola %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
-#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
+#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -177,11 +177,8 @@ msgid "display only compose key combinations."
 msgstr "mostrar só combinações de teclas compostas."
 
 #: src/dumpkeys.c:117
-msgid ""
-"interpret character action codes to be from the specified character set."
-msgstr ""
-"interpretar códigos de acção de carácter como sendo do conjunto de "
-"caracteres especificado."
+msgid "interpret character action codes to be from the specified character set."
+msgstr "interpretar códigos de acção de carácter como sendo do conjunto de caracteres especificado."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
 #: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
@@ -339,12 +336,8 @@ msgstr "trocar o modo, mesmo que torne o teclado inutilizável."
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
-msgstr ""
-"Mudar para o modo pedido pode tornar o teclado inutilizável, por favor use -"
-"f para forçar a alteração.\n"
+msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
+msgstr "Mudar para o modo pedido pode tornar o teclado inutilizável, por favor use -f para forçar a alteração.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
@@ -377,21 +370,17 @@ msgstr "Impossível abrir /dev/port"
 
 #: src/kbdrate.c:325
 #, fuzzy, c-format
+#| msgid "The prorgam sets the keyboard repeat rate and delay in user mode.\n"
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
-msgstr ""
-"O programa define a taxa de repetição do teclado e o atraso em modo de "
-"utilizador.\n"
+msgstr "O programa define a taxa de repetição do teclado e o atraso em modo de utilizador.\n"
 
 #: src/kbdrate.c:371
 msgid "set the rate in characters per second."
 msgstr "definir a taxa em caracteres por segundo."
 
 #: src/kbdrate.c:372
-msgid ""
-"set the amount of time the key must remain depressed before it will start to "
-"repeat."
-msgstr ""
-"definir o tempo que a tecla se mantém premida antes de começar a repetir."
+msgid "set the amount of time the key must remain depressed before it will start to repeat."
+msgstr "definir o tempo que a tecla se mantém premida antes de começar a repetir."
 
 #: src/kbdrate.c:373
 msgid "do not set new values, but only display the current ones."
@@ -417,9 +406,9 @@ msgstr "includes demasiadamente aninhados"
 
 #: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
-#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
-#: src/screendump.c:151
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
+#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
+#: src/screendump.c:121 src/screendump.c:151
 msgid "out of memory"
 msgstr "memória esgotada"
 
@@ -644,8 +633,7 @@ msgstr "demasiadas definições compostas"
 
 #: src/libkeymap/loadkeys.c:238
 msgid "unable to load compose definitions because some of them are too large"
-msgstr ""
-"impossível carregar definições compostas porque algumas são muito grandes"
+msgstr "impossível carregar definições compostas porque algumas são muito grandes"
 
 #: src/libkeymap/loadkeys.c:267
 #, c-format
@@ -791,12 +779,8 @@ msgstr "%s: mau fim de intervalo (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x"
-msgstr ""
-"%s: intervalo Unicode U+%x-U+%x não é do mesmo tamanho que o intervalo de "
-"posição da letra 0x%x-0x%x"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
+msgstr "%s: intervalo Unicode U+%x-U+%x não é do mesmo tamanho que o intervalo de posição da letra 0x%x-0x%x"
 
 #: src/libkfont/loadunimap.c:237
 #, c-format
@@ -1171,10 +1155,8 @@ msgstr "Uso: %s [opção...] -- comando\n"
 
 #: src/openvt.c:54
 #, c-format
-msgid ""
-"This utility helps you to start a program on a new virtual terminal (VT).\n"
-msgstr ""
-"Este utilitário ajuda a iniciar um programa num novo terminal virtual (VT).\n"
+msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr "Este utilitário ajuda a iniciar um programa num novo terminal virtual (VT).\n"
 
 #: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
@@ -1268,9 +1250,7 @@ msgstr "Uso: %s letraentrada letrasaída\n"
 #: src/psfxtable.c:107
 #, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
-msgstr ""
-"Uso: %s [-i letraentrada] [-o letrasaída] [-it tabelaentrada] [-ot "
-"tabelasaída] [-nt]\n"
+msgstr "Uso: %s [-i letraentrada] [-o letrasaída] [-it tabelaentrada] [-ot tabelasaída] [-nt]\n"
 
 #: src/psfxtable.c:148
 #, c-format
@@ -1321,24 +1301,19 @@ msgstr "resizecons: o comando \"%s\" falhou\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: não se esqueça de alterar TERM (talvez para con%dx%d ou linux-%dx"
-"%d)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: não se esqueça de alterar TERM (talvez para con%dx%d ou linux-%dx%d)\n"
 
 #: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
 "a chamada é:  resizecons COLSxLINS  ou:  resizecons COLS LINS\n"
-"ou: resizecons -lines LINS, com LINS sendo 25, 28, 30, 34, 36, 40, 44, 50 ou "
-"60\n"
+"ou: resizecons -lines LINS, com LINS sendo 25, 28, 30, 34, 36, 40, 44, 50 ou 60\n"
 
 #: src/resizecons.c:416
 #, c-format
@@ -1372,8 +1347,7 @@ msgstr "Erro ao escrever screedump"
 #: src/setfont.c:28
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1398,8 +1372,7 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Uso: setfont [opções-escrita] [-<N>] [novaletra..] [-m mapaconsola] [-u "
-"mapaunicode]\n"
+"Uso: setfont [opções-escrita] [-<N>] [novaletra..] [-m mapaconsola] [-u mapaunicode]\n"
 "  opções-escrita (têm lugar antes de carregar o ficheiro):\n"
 "    -o  <nomefich>  escreve a letra actual em <nomefich>\n"
 "    -O  <nomefich>  escreve a letra e o mapa Unicode actuais em <nomefich>\n"
@@ -1410,10 +1383,8 @@ msgstr ""
 "    setfont         carrega a letra \"default[.gz]\"\n"
 "    setfont -<N>    carrega a letra \"default8x<N>[.gz]\"\n"
 "A opção -<N> selecciona uma letra de uma codepage que contém três letras:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   carrega a letra 8x<N> de codepage."
-"cp\n"
-"Explicitamente (com -m ou -u) ou implicitamente (no ficheiro de letra) serão "
-"carregados\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   carrega a letra 8x<N> de codepage.cp\n"
+"Explicitamente (com -m ou -u) ou implicitamente (no ficheiro de letra) serão carregados\n"
 "os mapas indicados e, no caso de mapas de consola, activados.\n"
 "    -h<N>      (sem espaço) sobrepõe a altura da letra\n"
 "    -d         Tamanho duplo da letra horizontal e verticalmente.\n"
@@ -1432,8 +1403,7 @@ msgstr "Demasiados ficheiros de entrada."
 
 #: src/setfont.c:144
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
-msgstr ""
-"Impossível restaurar de ROM de carácter e de ficheiro. Letra inalterada."
+msgstr "Impossível restaurar de ROM de carácter e de ficheiro. Letra inalterada."
 
 #: src/setkeycodes.c:28
 #, c-format
@@ -1511,11 +1481,8 @@ msgid "off"
 msgstr "desligado"
 
 #: src/setleds.c:121
-msgid ""
-"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr ""
-"Erro ao ler a definição actual do led. Talvez stdin não seja um TV?: ioctl "
-"KDGETLED"
+msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgstr "Erro ao ler a definição actual do led. Talvez stdin não seja um TV?: ioctl KDGETLED"
 
 #: src/setleds.c:157 src/setleds.c:176
 #, c-format
@@ -1642,6 +1609,14 @@ msgstr "Uso: %s [opção...] [vga|FICH|-]\n"
 
 #: src/setvtrgb.c:47
 #, fuzzy, c-format
+#| msgid ""
+#| "If you use the FILE parameter, FILE should be exactly 3 lines of\n"
+#| "comma-separated decimal values for RED, GREEN, and BLUE.\n"
+#| "\n"
+#| "To seed a valid FILE:\n"
+#| "   cat /sys/module/vt/parameters/default_{red,grn,blu} > FILE\n"
+#| "\n"
+#| "and then edit the values in FILE.\n"
 msgid ""
 "If you use the FILE parameter, it can be either in decimal\n"
 "or hexadecimal format, and will be detected on runtime.\n"
@@ -1689,11 +1664,13 @@ msgstr "Erro: %s: a linha %u é muito longa."
 
 #: src/setvtrgb.c:131
 #, fuzzy, c-format
+#| msgid "Error: %s: Insufficient number of fields in line %u."
 msgid "Error: %s: Insufficient number of colors/lines: %u"
 msgstr "Erro: %s: número insuficiente de campos na linha %u."
 
 #: src/setvtrgb.c:134
 #, fuzzy, c-format
+#| msgid "Error: %s: Invalid value in field %u in line %u."
 msgid "Error: %s: Invalid value in line %u."
 msgstr "Erro: %s: valor inválido no campo %u, linha %u."
 
@@ -1791,9 +1768,7 @@ msgstr ""
 #: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr ""
-"prima qualquer tecla (o programa termina 10s após a última tecla "
-"premida)...\n"
+msgstr "prima qualquer tecla (o programa termina 10s após a última tecla premida)...\n"
 
 #: src/showkey.c:285
 msgid "release"
@@ -1853,8 +1828,7 @@ msgstr ""
 "%s: bloqueia consolas virtuais, gravando a sessão actual.\n"
 "Uso: %s [opões]\n"
 "       Onde [opões] são qualquer uma de:\n"
-"-c ou --current: blocqueia só esta consola virtual, permitindo ao "
-"utilizador\n"
+"-c ou --current: blocqueia só esta consola virtual, permitindo ao utilizador\n"
 "       mudar para outras consolas virtuais.\n"
 "-a ou --all: bloqueia todas as consolas virtuais impedindo que outros\n"
 "       utilizadores mudem de consola.\n"
@@ -1879,9 +1853,7 @@ msgstr "Este tty (%s) não é uma consola virtual.\n"
 msgid "The entire console display cannot be locked.\n"
 msgstr "Impossível bloquear todo o mostrador da consola.\n"
 
-#, c-format
-#~ msgid ""
-#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
+#~ msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
 #~ msgstr "GIO_FONTX: o número de carácters na letra não pode ser maior que %d"
 
 #~ msgid "getfont called with count<256"
@@ -1909,8 +1881,7 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ "\t-i --short-info\t    display information about keyboard driver\n"
 #~ "\t-l -s --long-info   display above and symbols known to loadkeys\n"
 #~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
-#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
-#~ "keycode\n"
+#~ "\t-f --full-table\t    don't use short-hand notations, one row per keycode\n"
 #~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
 #~ "\t-S --shape=\n"
 #~ "\t-t --funcs-only\t    display only the function key strings\n"
@@ -1925,11 +1896,9 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ "\n"
 #~ "\t-h --help\t    mostra esta mensagem de ajuda\n"
 #~ "\t-i --short-info\t    mostra informação sobre o controlador de teclado\n"
-#~ "\t-l -s --long-info   mostra a anterior e símbolos conhecidos para "
-#~ "loadkeys\n"
+#~ "\t-l -s --long-info   mostra a anterior e símbolos conhecidos para loadkeys\n"
 #~ "\t-n --numeric\t    mostra a tabela de teclas em notação hexadecimal\n"
-#~ "\t-f --full-table\t    não usa estenografia, só uma linha por código de "
-#~ "tecla\n"
+#~ "\t-f --full-table\t    não usa estenografia, só uma linha por código de tecla\n"
 #~ "\t-1 --separate-lines uma linha por par (modificador, código de tecla)\n"
 #~ "\t-S --shape=\n"
 #~ "\t-t --funcs-only\t    mostra só as cadeias de teclas de função\n"
@@ -2058,11 +2027,8 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "Má linha de entrada: %s\n"
 
-#~ msgid ""
-#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-#~ msgstr ""
-#~ "%s: mau intervalo Unicode correspondendo ao intervalo de posição da letra "
-#~ "0x%x-0x%x\n"
+#~ msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr "%s: mau intervalo Unicode correspondendo ao intervalo de posição da letra 0x%x-0x%x\n"
 
 #~ msgid "%s: %s: Warning: line too long\n"
 #~ msgstr "%s: %s: aviso: linha muito longa\n"
@@ -2099,8 +2065,7 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ msgstr ""
 #~ "Uso: %s [OPÇÕES] -- comando\n"
 #~ "\n"
-#~ "Este utilitário ajuda-o a iniciar um programa num novo terminal virtual "
-#~ "(TV).\n"
+#~ "Este utilitário ajuda-o a iniciar um programa num novo terminal virtual (TV).\n"
 #~ "\n"
 #~ "Opções:\n"
 #~ "  -c, --console=NUM   usa o número de TV indicado\n"
@@ -2127,12 +2092,8 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: mau fim de intervalo (0x%lx)\n"
 
-#~ msgid ""
-#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
-#~ "range\n"
-#~ msgstr ""
-#~ "%s: correspondendo a um intervalo de posições de letra, devia haver um "
-#~ "intervalo Unicode\n"
+#~ msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+#~ msgstr "%s: correspondendo a um intervalo de posições de letra, devia haver um intervalo Unicode\n"
 
 #~ msgid "couldn't read %s, and cannot ioctl dump\n"
 #~ msgstr "impossível ler %s e não se pôde despejar ioctl\n"
@@ -2146,12 +2107,8 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ msgid "even number of arguments expected"
 #~ msgstr "esperado número par de argumentos"
 
-#~ msgid ""
-#~ "Error reading current flags setting. Maybe you are not on the console?: "
-#~ "ioctl KDGKBLED"
-#~ msgstr ""
-#~ "Erro ao ler a definição actual das bandeiras. Talvez não esteja numa "
-#~ "consola?: ioctl KDGKBLED"
+#~ msgid "Error reading current flags setting. Maybe you are not on the console?: ioctl KDGKBLED"
+#~ msgstr "Erro ao ler a definição actual das bandeiras. Talvez não esteja numa consola?: ioctl KDGKBLED"
 
 #~ msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
 #~ msgstr "Erro ao ler a definição actual do led de /dev/kbd: ioctl KIOCSLED"
@@ -2174,11 +2131,8 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ "para alterar as definições de outro TV.\n"
 #~ "As definições antes e depois da alteração são reportadas.\n"
 
-#~ msgid ""
-#~ "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-#~ msgstr ""
-#~ "Erro ao ler a definição actual. Talvez stdin não seja um TV?: ioctl "
-#~ "KDGKBMETA"
+#~ msgid "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
+#~ msgstr "Erro ao ler a definição actual. Talvez stdin não seja um TV?: ioctl KDGKBMETA"
 
 #~ msgid "usage: %s\n"
 #~ msgstr "uso: %s\n"
@@ -2201,8 +2155,7 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ "\n"
 #~ "As opções válidas são:\n"
 #~ " -V --version    mostra o número da versão e sai\n"
-#~ " -C tty          dispositivo de onde ler a letra. Predefinição: tty "
-#~ "actual\n"
+#~ " -C tty          dispositivo de onde ler a letra. Predefinição: tty actual\n"
 #~ " -v              é mais verboso\n"
 #~ " -i              não imprime a tabela de letras, mostra só\n"
 #~ "                 LINSxCOLSxTOTAL e sai\n"

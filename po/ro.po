@@ -1,25 +1,41 @@
-# Mesajele în limba românã pentru pachetul kbd.
-# Acest fiºier este distribuit sub aceeaºi licenşã ca pachetul kbd.
+# Mesajele Ã®n limba romÃ¢nÄƒÂƒ pentru pachetul kbd.
+# Copyright (C) 2020 Alexey Gladkov <gladkov.alexey@gmail.com>
+# This file is distributed under the same license as the kbd package.
+# Acest fiÈ™ÂŸier este distribuit sub aceeaÈ™ÂŸi licenÈ›ÄƒÂƒ ca pachetul kbd.
+#
 # Eugen Hoanca <eugenh@urban-grafx.ro>, 2003.
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2022.
+#
+# Cronologia traducerii fiÈ™ierului â€kbdâ€:
+# Traducere iniÈ›ialÄƒ, fÄƒcutÄƒ de EH, pentru versiunea kbd 1.08.
+# Actualizare a codÄƒrii caracteror, la codarea de caractere UTF-8.
+# Actualizare a diacriticelor de la â€cu sedilÄƒâ€ la â€cu virgulÄƒâ€.
+# Actualizare a algoritmului formelor de plural (de la â€nullâ€ la â€patruâ€)
+# Eliminare a mesajelor ce-au dispÄƒrut Ã®n ultima versiune.
+# Acestea sunt modificÄƒrile care s-au fÄƒcut pt. versiunea kbd 2.2.90.
+# Mesajele au fost traduse Ã®n proporÈ›ie de 95%, 323 din 339; pt. ver 2.2.90.
+# Actualizare completÄƒ la versiunea 2.5-rc2 (traducerea mesajelor 100%).
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 1.08\n"
+"Project-Id-Version: kbd 2.5-rc2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2022-03-23 14:43+0100\n"
-"PO-Revision-Date: 2003-11-20 17:33+0200\n"
-"Last-Translator: Eugen Hoanca <eugenh@urban-grafx.ro>\n"
+"PO-Revision-Date: 2022-04-07 02:02+0200\n"
+"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=((n==1) ? 0 : (n==2) ? 1 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 2 : 3);\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: src/chvt.c:25
 #, c-format
 msgid "Usage: %s [option...] N\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] N\n"
 
 #: src/chvt.c:30 src/deallocvt.c:30 src/dumpkeys.c:38 src/fgconsole.c:29
 #: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
@@ -28,7 +44,7 @@ msgstr ""
 #: src/setvtrgb.c:68 src/showconsolefont.c:110 src/showkey.c:97
 #, c-format
 msgid "Options:"
-msgstr ""
+msgstr "OpÈ›iuni:"
 
 #: src/chvt.c:45 src/deallocvt.c:45 src/dumpkeys.c:64 src/fgconsole.c:44
 #: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
@@ -37,7 +53,7 @@ msgstr ""
 #: src/setvtrgb.c:83 src/showconsolefont.c:125 src/showkey.c:112
 #, c-format
 msgid "Report bugs to authors.\n"
-msgstr ""
+msgstr "RaportaÈ›i erorile cÄƒtre autori.\n"
 
 #: src/chvt.c:78 src/deallocvt.c:69 src/dumpkeys.c:121 src/fgconsole.c:71
 #: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
@@ -46,7 +62,7 @@ msgstr ""
 #: src/setmetamode.c:115 src/setvtrgb.c:177 src/showconsolefont.c:158
 #: src/showkey.c:145
 msgid "print this usage message."
-msgstr ""
+msgstr "imprimÄƒ acest mesaj de utilizare."
 
 #: src/chvt.c:79 src/deallocvt.c:70 src/dumpkeys.c:120 src/fgconsole.c:70
 #: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
@@ -55,11 +71,11 @@ msgstr ""
 #: src/setmetamode.c:114 src/setvtrgb.c:176 src/showconsolefont.c:157
 #: src/showkey.c:146
 msgid "print version number."
-msgstr ""
+msgstr "imprimÄƒ numÄƒrul de versiune."
 
 #: src/chvt.c:98 src/kbdinfo.c:113 src/setkeycodes.c:134
 msgid "Not enough arguments."
-msgstr ""
+msgstr "Nu sunt suficiente argumente."
 
 #: src/chvt.c:103 src/clrunimap.c:29 src/deallocvt.c:94 src/dumpkeys.c:190
 #: src/fgconsole.c:96 src/getkeycodes.c:87 src/getunimap.c:113
@@ -69,71 +85,69 @@ msgstr ""
 #: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
 #: src/setvesablank.c:32 src/setvtrgb.c:220 src/showconsolefont.c:194
 #: src/showkey.c:211 src/totextmode.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't get a file descriptor referring to the console."
-msgstr ""
-"Nu am putut gãsi un descriptor de fiºier care sã se refere la aceastã "
-"consolã\n"
+msgstr "Nu s-a putut gÄƒsi un descriptor de fiÈ™ier care sÄƒ se refere la aceastÄƒ consolÄƒ."
 
+# R-GC
+# Ãntrebare:
+# â€Nu s-a putut configura un operator de semnalâ€
+# sau
+# â€Nu se poate configura gestionarea semnaluluiâ€
+# ====================================
+# Idei ?
 #: src/chvt.c:112 src/openvt.c:199
-#, fuzzy
 msgid "Unable to set signal handler"
-msgstr "openvt: nu se poate seta sesiune nouã (%s)\n"
+msgstr "Nu s-a putut configura un operator de semnal"
 
 #: src/chvt.c:119 src/openvt.c:208
-#, fuzzy
 msgid "Unable to create timer"
-msgstr "openvt: nu se poate seta sesiune nouã (%s)\n"
+msgstr "Nu s-a putut crea un temporizator"
 
 #: src/chvt.c:127 src/openvt.c:218
-#, fuzzy
 msgid "Unable to set timer"
-msgstr "openvt: nu se poate seta sesiune nouã (%s)\n"
+msgstr "Nu s-a putut configura temporizatorul"
 
 #: src/chvt.c:133 src/openvt.c:226
 #, c-format
 msgid "Couldn't activate vt %d"
-msgstr ""
+msgstr "Nu s-a putut activa terminalul virtual(vt) %d"
 
 #: src/deallocvt.c:25
 #, c-format
 msgid "Usage: %s [option...] [N ...]\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] [N ...]\n"
 
 #: src/deallocvt.c:88 src/kbdinfo.c:188 src/setleds.c:285 src/setleds.c:293
 #: src/setmetamode.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized argument: %s"
-msgstr ""
-"argument necunoscut: _%s_\n"
-"\n"
+msgstr "Argument nerecunoscut: %s"
 
 #: src/deallocvt.c:105
-#, fuzzy
 msgid "0: illegal VT number"
-msgstr "%s: 0: numãr VT ilegal\n"
+msgstr "0: numÄƒr de terminal virtual (VT) ilegal"
 
 #: src/deallocvt.c:107
-#, fuzzy
 msgid "VT 1 is the console and cannot be deallocated"
-msgstr "%s: VT 1 este consola ºi nu poate fi dealocatã\n"
+msgstr "%s: terminalul virtual 1 (VT 1) este consola È™i nu poate fi eliberatÄƒ"
 
 #: src/deallocvt.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
-msgstr "%s:nu se poate derepartiza(deallocate) consola %d\n"
+msgstr "nu s-a putut elibera consola %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
-#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
+#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...]\n"
 
 #: src/dumpkeys.c:53
 #, c-format
 msgid "Available charsets: "
-msgstr ""
+msgstr "Seturi de caractere disponibile: "
 
 #: src/dumpkeys.c:57
 #, c-format
@@ -144,72 +158,95 @@ msgid ""
 "  8  - one line for each (modifier,keycode) pair;\n"
 "  16 - one line for each keycode until 1st hole.\n"
 msgstr ""
+"Forme disponibile:\n"
+"  2  - ieÈ™irea implicitÄƒ;\n"
+"  4  - o linie pentru fiecare cod de tastÄƒ;\n"
+"  8  - o linie pentru fiecare pereche (modificator, cod tastÄƒ);\n"
+"  16 - o linie pentru fiecare cod de tastÄƒ pÃ¢nÄƒ la primul loc gol din tablÄƒ.\n"
 
 #: src/dumpkeys.c:108
 msgid "display information about keyboard driver."
-msgstr ""
+msgstr "afiÈ™eazÄƒ informaÈ›ii despre driverul tastaturii."
 
+# R-GC:
+# NotÄƒ:
+# acest mesaj face parte din grupul de mesaje de ajutor, care este afiÈ™at la lansarea comenzii:
+# Â«dumpkeys --helpÂ»; aÈ™a cÄƒ, vÄƒ rog, sÄƒ-i lÄƒsaÈ›i
+# structura, nealteratÄƒ...
 #: src/dumpkeys.c:109
 msgid "display above and symbols known to loadkeys."
 msgstr ""
+"afiÈ™eazÄƒ aceeaÈ™i informaÈ›ie ca opÈ›iunea de mai sus, È™i\n"
+"                           simbolurile cunoscute ale tastelor Ã®ncÄƒrcate(loadkeys)."
 
 #: src/dumpkeys.c:110
 msgid "display keytable in hexadecimal notation."
-msgstr ""
+msgstr "afiÈ™eazÄƒ tabla de taste Ã®n notaÈ›ie hexazecimalÄƒ."
 
+# R-GC:
+# NotÄƒ:
+# acest mesaj face parte din grupul de mesaje de ajutor, care este afiÈ™at la lansarea comenzii:
+# Â«dumpkeys --helpÂ»; aÈ™a cÄƒ, vÄƒ rog, sÄƒ-i lÄƒsaÈ›i
+# structura, nealteratÄƒ...
 #: src/dumpkeys.c:111
 msgid "don't use short-hand notations, one row per keycode."
 msgstr ""
+"nu utilizeazÄƒ notaÈ›iile scurte, cÃ¢te un rÃ¢nd pentru\n"
+"                           fiecare cod de tastÄƒ."
 
 #: src/dumpkeys.c:112
 msgid "one line per (modifier,keycode) pair."
-msgstr ""
+msgstr "o linie pe pereche (modificator, cod cheie)."
 
+# R-GC:
+# NotÄƒ:
+# mesajul se referÄƒ la tastele cu funcÈ›ii, precum Â«AltÂ»; aÈ™a cÄƒ traducerea ar trebui modificatÄƒ...
+# â€afiÈ™eazÄƒ doar È™irurile de taste cu funcÈ›ii(uni) specialeâ€ ???
+# Ce zici, DÈ˜ ?
 #: src/dumpkeys.c:114
 msgid "display only the function key strings."
-msgstr ""
+msgstr "afiÈ™eazÄƒ doar È™irurile de taste funcÈ›ionale."
 
 #: src/dumpkeys.c:115
 msgid "display only key bindings."
-msgstr ""
+msgstr "afiÈ™eazÄƒ numai tastele asociate comenzilor rapide."
 
 #: src/dumpkeys.c:116
-#, fuzzy
 msgid "display only compose key combinations."
-msgstr "nr max de definişii compuse: %d\n"
+msgstr "afiÈ™eazÄƒ numai combinaÈ›ii de taste de compunere."
 
+# R-GC:
+# NotÄƒ:
+# acest mesaj face parte din grupul de mesaje de ajutor, care este afiÈ™at la lansarea comenzii:
+# Â«dumpkeys --helpÂ»; aÈ™a cÄƒ, vÄƒ rog, sÄƒ-i lÄƒsaÈ›i
+# structura, nealteratÄƒ...
 #: src/dumpkeys.c:117
-#, fuzzy
-msgid ""
-"interpret character action codes to be from the specified character set."
+msgid "interpret character action codes to be from the specified character set."
 msgstr ""
-"\t\t\t    interpreteazã codurile de acşiune ale caracterelor ce vor fi "
-"luate\n"
-"\t\t\t    din setul de caractere specificat\n"
+"interpreteazÄƒ codurile de acÈ›iuni ale caracterelor ca\n"
+"                           fiind din setul de caractere specificat."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
 #: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
 #: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
 #: src/setvtrgb.c:175 src/showconsolefont.c:154
 msgid "the console device to be used."
-msgstr ""
+msgstr "dispozitivul consolÄƒ care urmeazÄƒ sÄƒ fie utilizat."
 
 #: src/dumpkeys.c:119 src/loadkeys.c:125 src/mapscrn.c:74 src/openvt.c:290
 #: src/setleds.c:248 src/showconsolefont.c:156
 msgid "be more verbose."
-msgstr ""
+msgstr "oferÄƒ mai multe detalii."
 
 #: src/dumpkeys.c:165 parser.y:195
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
-msgstr ""
-"set de caractere %s necunoscut - se ignorã cererea de set de caractere\n"
+msgstr "set de caractere %s necunoscut - se ignorÄƒ cererea de set de caractere\n"
 
 #: src/dumpkeys.c:194 src/kbdinfo.c:139 src/kbd_mode.c:161 src/kbd_mode.c:170
 #: src/loadkeys.c:208 src/showconsolefont.c:197 src/showkey.c:35
-#, fuzzy
 msgid "Unable to read keyboard mode"
-msgstr "kbd_mode: eroare în citirea modului tastaturii\n"
+msgstr "Nu se poate citi modul de tastaturÄƒ"
 
 #: src/dumpkeys.c:207
 #, c-format
@@ -219,55 +256,45 @@ msgid ""
 "\n"
 msgstr ""
 "Simboluri recunoscute de %s:\n"
-"(valoare numericã, simbol)\n"
+"(valoare numericÄƒ, simbol)\n"
 "\n"
 
 #: src/fgconsole.c:69
 msgid "print number of next unallocated VT."
-msgstr ""
+msgstr "imprimÄƒ numÄƒrul urmÄƒtorului terminal virtual(VT) nealocat."
 
 #: src/fgconsole.c:100
-#, fuzzy
 msgid "Couldn't read VTNO: "
-msgstr "nu s-a putut citi %s\n"
+msgstr "Nu s-a putut citi numÄƒrul terminalului virtual(VTNO): "
 
 #: src/getkeycodes.c:102
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
-msgstr "Scancodes normale(plain) xx (hex) versus keycodes (dec)\n"
+msgstr "Codurile de scanare simplÄƒ xx (hex) versus codurile de taste (zec)\n"
 
 #: src/getkeycodes.c:105
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr ""
-"0 este eroare; pentru 1-88 (0x01-0x58) codul de scan(scancode) egal codul "
-"tastei\n"
+msgstr "0 este o eroare; pentru 1-88 (0x01-0x58) codul de scanare\n"
 
 #: src/getkeycodes.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr ""
-"0 este eroare; pentru 1-88 (0x01-0x58) codul de scan(scancode) egal codul "
-"tastei\n"
+msgstr "pentru 1-%d (0x01-0x%02x) codul de scanare este egal cu codul tastei\n"
 
 #: src/getkeycodes.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Escaped scancodes e0 xx (hex)\n"
-msgstr ""
-"\n"
-"\n"
-"Coduri scanare de escape e0 xx (hex)\n"
+msgstr "Coduri de scanare eludate e0 xx (hex)\n"
 
 #: src/getkeycodes.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr ""
-"eroare în primirea codului de tastã(keycode) pentru codul de scan(scancode) "
-"0x%x\n"
+msgstr "nu s-a putut obÈ›ine codul de tastÄƒ pentru codul de scanare 0x%x: ioctl KDGETKEYCODE"
 
 #: src/getunimap.c:82
 msgid "sort and merge elements."
-msgstr ""
+msgstr "sorteazÄƒ È™i combinÄƒ elemente."
 
 #: src/kbdinfo.c:24
 #, c-format
@@ -277,6 +304,10 @@ msgid ""
 "   or: %1$s [option...] gkbmeta [metabit|escprefix]\n"
 "   or: %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
+"Utilizare: %1$s [opÈ›iune...] getmode [text|graphics]\n"
+"   sau: %1$s [opÈ›iune...] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"   sau: %1$s [opÈ›iune...] gkbmeta [metabit|escprefix]\n"
+"   sau: %1$s [opÈ›iune...] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:31
 #, c-format
@@ -284,101 +315,109 @@ msgid ""
 "The utility allows to read and check various parameters\n"
 "of the keyboard and virtual console.\n"
 msgstr ""
+"Utilitarul permite citirea È™i verificarea diverÈ™ilor parametri\n"
+"ai tastaturii È™i consolei virtuale. \n"
 
 #: src/kbdinfo.c:126 src/loadkeys.c:210
-#, fuzzy
 msgid "Unable to read console mode"
-msgstr "Nu se poate citi maparea consolei\n"
+msgstr "Nu se poate citi modul consolÄƒ"
 
+# Ãntrebare:
+# forma actualÄƒ de traducere, sau:
+# â€Nu se poate citi modul de gestionare al meta-tastelorâ€ ???
 #: src/kbdinfo.c:158 src/setmetamode.c:142
 msgid "Unable to read meta key handling mode"
-msgstr ""
+msgstr "Modul de gestionare al meta-tastelor nu poate fi citit"
 
+# RG-C, scrie:
+# am tradus acest mesaj, de aceastÄƒ formÄƒ,
+# pentru cÄƒ referinÈ›a mesajului, este:
+# Â«src/kbdinfo.c:171 src/setleds.c:141Â»
 #: src/kbdinfo.c:171 src/setleds.c:141
 msgid "Unable to read keyboard flags"
-msgstr ""
+msgstr "Nu se pot citi indicatorii(starea ledurilor) de la tastaturÄƒ"
 
 #: src/kbd_mode.c:28 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr ""
+"Acest utilitar raporteazÄƒ sau stabileÈ™te modul tastaturii.\n"
+"\n"
 
 #: src/kbd_mode.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "The keyboard is in raw (scancode) mode"
-msgstr "Tastatura este în mod brut (scancode)\n"
+msgstr "Tastatura se aflÄƒ Ã®n modul brut (scanare de cod)"
 
 #: src/kbd_mode.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
-msgstr "Tastatura este în mod mediu-brut (keycode)\n"
+msgstr "Tastatura se aflÄƒ Ã®n modul brut-mediu (cod de taste)"
 
 #: src/kbd_mode.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "The keyboard is in the default (ASCII) mode"
-msgstr "Tastatura este în modul implicit (ASCII)\n"
+msgstr "Tastatura este Ã®n modul predefinit (ASCII)"
 
 #: src/kbd_mode.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
-msgstr "Tastatura este în modul Unicode (UTF-8)\n"
+msgstr "Tastatura este Ã®n modul Unicode (UTF-8)"
 
 #: src/kbd_mode.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "The keyboard is in some unknown mode"
-msgstr "Tastatura este într-un mod necunoscut\n"
+msgstr "Tastatura este Ã®ntr-un mod necunoscut"
 
 #: src/kbd_mode.c:98
 msgid "set ASCII mode."
-msgstr ""
+msgstr "stabileÈ™te modul ASCII."
 
 #: src/kbd_mode.c:99
 msgid "set keycode mode."
-msgstr ""
+msgstr "stabileÈ™te modul cod de tastÄƒ."
 
 #: src/kbd_mode.c:100
 msgid "set scancode mode."
-msgstr ""
+msgstr "stabileÈ™te modul cod de scanare."
 
 #: src/kbd_mode.c:101
 msgid "set UTF-8 mode."
-msgstr ""
+msgstr "stabileÈ™te modul UTF-8."
 
 #: src/kbd_mode.c:102
 msgid "switch the mode even if it makes the keyboard unusable."
-msgstr ""
+msgstr "comutÄƒ modul chiar dacÄƒ asta face ca tastatura sÄƒ fie inutilizabilÄƒ."
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
-msgstr ""
+msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
+msgstr "Trecerea la modul solicitat poate face tastatura inutilizabilÄƒ, utilizaÈ›i -f pentru a forÈ›a schimbarea.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "Typematic Rate is %.1f cps\n"
-msgstr "Rata de Tipãrire(Typematic) setatã la %.1f cps (întârziere = %d ms)\n"
+msgstr "CadenÈ›a de repetare a tastei este de %.1f carac/sec\n"
 
 #: src/kbdrate.c:140 src/kbdrate.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Current keyboard delay %d ms\n"
-msgstr "%s: eroare în setarea modului tastaturii\n"
+msgstr "ÃntÃ¢rzierea curentÄƒ a tastaturii este de %d ms\n"
 
 #: src/kbdrate.c:141
-#, fuzzy, c-format
+#, c-format
 msgid "Current keyboard period %d ms\n"
-msgstr "%s: eroare în setarea modului tastaturii\n"
+msgstr "Perioada curentÄƒ de tastaturÄƒ este de %d ms\n"
 
 #: src/kbdrate.c:179 src/kbdrate.c:303
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
-msgstr "Rata de Tipãrire(Typematic) setatã la %.1f cps (întârziere = %d ms)\n"
+msgstr "CadenÈ›a de repetare a tastei stabilitÄƒ la %.1f carac/sec (Ã®ntÃ¢rziere = %d ms)\n"
 
 #: src/kbdrate.c:248
 #, c-format
 msgid "Not supported\n"
-msgstr ""
+msgstr "NesuportatÄƒ\n"
 
 #: src/kbdrate.c:269
 msgid "Cannot open /dev/port"
@@ -387,30 +426,28 @@ msgstr "Nu se poate deschide /dev/port"
 #: src/kbdrate.c:325
 #, c-format
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
-msgstr ""
+msgstr "Programul stabileÈ™te cadenÈ›a de repetare a tastaturii È™i Ã®ntÃ¢rzierea Ã®n modul utilizator.\n"
 
 #: src/kbdrate.c:371
 msgid "set the rate in characters per second."
-msgstr ""
+msgstr "stabileÈ™te cadenÈ›a Ã®n caractere pe secundÄƒ."
 
 #: src/kbdrate.c:372
-msgid ""
-"set the amount of time the key must remain depressed before it will start to "
-"repeat."
-msgstr ""
+msgid "set the amount of time the key must remain depressed before it will start to repeat."
+msgstr "stabileÈ™te perioada de timp Ã®n care tasta trebuie sÄƒ rÄƒmÃ¢nÄƒ apÄƒsatÄƒ Ã®nainte de a Ã®ncepe sÄƒ se repete."
 
 #: src/kbdrate.c:373
 msgid "do not set new values, but only display the current ones."
-msgstr ""
+msgstr "nu stabileÈ™te valori noi, ci doar afiÈ™eazÄƒ pe cele actuale."
 
 #: src/kbdrate.c:374 src/loadkeys.c:124
 msgid "suppress all normal output."
-msgstr ""
+msgstr "suprimÄƒ toate ieÈ™irile normale."
 
 #: src/libcommon/getfd.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't open %s"
-msgstr "nu s-a putut citi %s\n"
+msgstr "Nu s-a putut deschide %s"
 
 #: src/libcommon/version.c:27
 #, c-format
@@ -419,84 +456,89 @@ msgstr "%s din %s\n"
 
 #: analyze.l:43
 msgid "includes are nested too deeply"
-msgstr ""
+msgstr "includerile sunt la niveluri prea profunde"
 
 #: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
-#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
-#: src/screendump.c:151
-#, fuzzy
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
+#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
+#: src/screendump.c:121 src/screendump.c:151
 msgid "out of memory"
-msgstr "%s: memorie plinã\n"
+msgstr "memorie plinÄƒ"
 
 #: analyze.l:259
-#, fuzzy, c-format
+#, c-format
 msgid "switching to %s"
-msgstr "openvt: se foloseºte VT %s\n"
+msgstr "se comutÄƒ la %s"
 
 #: analyze.l:269
-#, fuzzy, c-format
+#, c-format
 msgid "cannot open include file %s"
-msgstr "Nu se poate deschide fiºierul de font %s\n"
+msgstr "nu se poate deschide fiÈ™ierul de includere %s"
 
 #: analyze.l:291
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse number: %s"
-msgstr "openvt: Nu se poate deschide %s: %s\n"
+msgstr "nu s-a putut analiza numÄƒrul: %s"
 
 #: analyze.l:296
 #, c-format
 msgid "value must be a positive number: %s"
-msgstr ""
+msgstr "valoarea trebuie sÄƒ fie un numÄƒr pozitiv: %s"
 
 #: analyze.l:301
 #, c-format
 msgid "value must be less than %d: %s"
-msgstr ""
+msgstr "valoarea trebuie sÄƒ fie mai micÄƒ decÃ¢t %d: %s"
 
 #: analyze.l:369
 msgid "expected filename between quotes"
-msgstr ""
+msgstr "se aÈ™tepta numele fiÈ™ierului Ã®ntre ghilimele"
 
 #: analyze.l:408
 #, c-format
 msgid "unicode keysym out of range: %s"
-msgstr ""
+msgstr "simbolul de tastÄƒ(keysym) unicode, Ã®n afara intervalului: %s"
 
 #: analyze.l:468 analyze.l:492 analyze.l:499 analyze.l:506 analyze.l:515
-#, fuzzy
 msgid "string too long"
-msgstr "%s: Avertisment: linie prea lungã\n"
+msgstr "È™ir prea lung"
 
 #: analyze.l:484
 msgid "octal number too big"
-msgstr ""
+msgstr "numÄƒr octal prea mare"
 
 #: src/libkeymap/common.c:141
 #, c-format
 msgid "unable to initialize array: %s"
-msgstr ""
+msgstr "nu se poate iniÈ›ializa matricea: %s"
 
 #: src/libkeymap/diacr.c:31
 #, c-format
 msgid "Index %d in the accent table does not exist"
-msgstr ""
+msgstr "Indexul %d din tabla de accente nu existÄƒ"
 
 #: src/libkeymap/diacr.c:85
 msgid "Unable to remove item from the diacritical table"
-msgstr ""
+msgstr "Nu se poate elimina elementul din tabla de diacritice"
 
 #: src/libkeymap/dump.c:78 src/libkeymap/loadkeys.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "can not bind key %d to value %d because it is too large"
-msgstr "eroare în setarea scancode %x în keycode %d\n"
+msgstr "nu se poate asocia tasta %d la valoarea %d deoarece aceasta este prea mare"
 
+# NotÄƒ:
+# â€mapâ€ Ã®n contextul fiÈ™ierului de mesaje, se poate traduce ca:
+# - Â«hartÄƒÂ» de caractere(traducerea directÄƒ È™i exactÄƒ, mot-a-mot)
+# - Â«tablÄƒÂ» de caractere; sau
+# - Â«tabelÂ» de caractere.
+# Ultimele douÄƒ, find o traducere â€graficÄƒâ€/ilustrativÄƒ a cuvÃ¢ntului, Ã®n contextul dat.
+# Ãntrebare:
+# care dintre aceste 3 traduceri, este cea mai adecvatÄƒ de folosit?
 #: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:254
 #: src/libkfont/mapscrn.c:259
-#, fuzzy
 msgid "Error writing map to file"
-msgstr "Eroare în scrierea mapãrii în fiºier\n"
+msgstr "Eroare la scrierea hÄƒrÈ›ii de caractere Ã®n fiÈ™ier"
 
 #: src/libkeymap/dump.c:538
 #, c-format
@@ -506,160 +548,162 @@ msgstr "imposibil: non meta?\n"
 #: src/libkeymap/func.c:30
 #, c-format
 msgid "func %d not allocated"
-msgstr ""
+msgstr "funcÈ›ia %d nu a fost alocatÄƒ"
 
 #: src/libkeymap/func.c:62
 msgid "Unable to remove item from the list of functions"
-msgstr ""
+msgstr "Nu s-a putut elimina elementul din lista de funcÈ›ii"
 
 #: src/libkeymap/kernel.c:27
 #, c-format
 msgid "table %d must be less than %d"
-msgstr ""
+msgstr "tabelul %d trebuie sÄƒ fie mai mic decÃ¢t %d"
 
 #: src/libkeymap/kernel.c:32
 #, c-format
 msgid "index %d must be less than %d"
-msgstr ""
+msgstr "indexul %d trebuie sÄƒ fie mai mic decÃ¢t %d"
 
 #: src/libkeymap/kernel.c:40
-#, fuzzy, c-format
+#, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
-msgstr "eroare KDGKBENT la indexul %d în tabelul %d: "
+msgstr "KDGKBENT: %s: eroare la indexul %d din tabelul %d"
 
 #: src/libkeymap/kernel.c:66
 #, c-format
 msgid "function index %d must be less than %d"
-msgstr ""
+msgstr "indexul funcÈ›iei %d trebuie sÄƒ fie mai mic decÃ¢t %d"
 
 #: src/libkeymap/kernel.c:72
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
-msgstr ""
+msgstr "KDGKBSENT: %s: Nu se poate obÈ›ine È™irul de taste funcÈ›ionale"
 
 #: src/libkeymap/kernel.c:102
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
-msgstr ""
+msgstr "KDGKBDIACR(UC): %s: Nu se poate obÈ›ine tabla de accente"
 
 #: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:101
 #, c-format
 msgid "unable to get keymap %d"
-msgstr ""
+msgstr "nu se poate obÈ›ine harta de taste %d"
 
+# Ãntrebare:
+# â€nu se poate elimina tasta X din tabelul Yâ€, este
+# o traducere mai bunÄƒ a mesajului ?
+# R-GC
 #: src/libkeymap/kmap.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "unable to unset key %d for table %d"
-msgstr ""
-"eroare în primirea codului de tastã(keycode) pentru codul de scan(scancode) "
-"0x%x\n"
+msgstr "nu se poate anula tasta %d din tabelul %d"
 
 #: src/libkeymap/kmap.c:125
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
-msgstr ""
+msgstr "lk_add_key a fost apelat cu codul de tastÄƒ greÈ™it %d"
 
 #: src/libkeymap/kmap.c:132
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
-msgstr ""
+msgstr "adÄƒugarea hÄƒrÈ›ii %d, Ã®ncalcÄƒ linia explicitÄƒ a hÄƒrÈ›ilor de taste"
 
 #: src/libkeymap/kmap.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set key %d for table %d"
-msgstr ""
-"eroare în primirea codului de tastã(keycode) pentru codul de scan(scancode) "
-"0x%x\n"
+msgstr "nu se poate configura tasta %d din tabelul %d"
 
 #: src/libkeymap/kmap.c:239
 msgid "impossible error in lk_add_constants"
-msgstr ""
+msgstr "eroare imposibilÄƒ Ã®n lk_add_constants"
 
 #: src/libkeymap/ksyms.c:151
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
-msgstr ""
+msgstr "nu se poate obÈ›ine simbolul dupÄƒ tipul eronat: %d"
 
 #: src/libkeymap/ksyms.c:165
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
-msgstr ""
+msgstr "nu se poate obÈ›ine simbolul de tip %d dupÄƒ indexul greÈ™it: %d"
 
 #: src/libkeymap/ksyms.c:341 src/libkeymap/ksyms.c:347
 #: src/libkeymap/ksyms.c:353 src/libkeymap/ksyms.c:359
 #: src/libkeymap/ksyms.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "assuming %s %s"
-msgstr "se presupune iso-8859-1 %s\n"
+msgstr "presupunÃ¢nd %s %s"
 
 #: src/libkeymap/ksyms.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "unknown keysym '%s'"
-msgstr "keysym '%s' necunoscut\n"
+msgstr "simbol_tastÄƒ(keysym) â€%sâ€ necunoscut"
 
 #: src/libkeymap/loadkeys.c:27
 #, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr ""
+msgstr "KDSKBMODE: %s: nu s-a putut comuta la modul Unicode"
 
 #: src/libkeymap/loadkeys.c:56
 #, c-format
 msgid "Keymap %d: Permission denied"
-msgstr ""
+msgstr "Harta de taste %d: Permisiune refuzatÄƒ"
 
 #: src/libkeymap/loadkeys.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "keycode %d, table %d = %d%s"
-msgstr "cod tastã %3d %s\n"
+msgstr "codul tastei %d, tabelul %d = %d%s"
 
 #: src/libkeymap/loadkeys.c:65
 msgid "    FAILED"
-msgstr ""
+msgstr "    A EÈ˜UAT"
 
 #: src/libkeymap/loadkeys.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "failed to bind key %d to value %d"
-msgstr "eroare în setarea scancode %x în keycode %d\n"
+msgstr "nu s-a putut asocia tasta %d cu valoarea %d"
 
 #: src/libkeymap/loadkeys.c:78
 #, c-format
 msgid "deallocate keymap %d"
-msgstr ""
+msgstr "se elibereazÄƒ harta de taste %d"
 
 #: src/libkeymap/loadkeys.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "%s:nu se poate derepartiza(deallocate) consola %d\n"
+msgstr "KDSKBENT: %s: nu s-a putut elibera harta de taste %d"
 
 #: src/libkeymap/loadkeys.c:97
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr ""
+msgstr "KDSKBENT: %s: nu se poate elibera sau È™terge harta de taste"
 
 #: src/libkeymap/loadkeys.c:107
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr ""
+msgstr "KDSKBMODE: %s: nu s-a putut reveni la modul iniÈ›ial de tastaturÄƒ"
 
 #: src/libkeymap/loadkeys.c:170
 #, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr ""
+msgstr "nu s-a putut asocia È™irul â€%sâ€ cu funcÈ›ia %s"
 
 #: src/libkeymap/loadkeys.c:180
 #, c-format
 msgid "failed to clear string %s"
-msgstr ""
+msgstr "nu s-a putut È™terge È™irul %s"
 
 #: src/libkeymap/loadkeys.c:198
-#, fuzzy
 msgid "too many compose definitions"
-msgstr "nr max de definişii compuse: %d\n"
+msgstr "prea multe definiÈ›ii compuse"
 
 #: src/libkeymap/loadkeys.c:238
 msgid "unable to load compose definitions because some of them are too large"
-msgstr ""
+msgstr "nu se pot Ã®ncÄƒrca definiÈ›iile de compunere, deoarece unele dintre ele sunt prea lungi"
 
+# Ãntrebare:
+# ar fi mai potrivit de tradus:
+# A fost schimbatÄƒ /Au fost schimbate?
 #: src/libkeymap/loadkeys.c:267
 #, c-format
 msgid ""
@@ -669,86 +713,102 @@ msgid_plural ""
 "\n"
 "Changed %d keys"
 msgstr[0] ""
+"\n"
+"S-a schimbat o tastÄƒ"
 msgstr[1] ""
+"\n"
+"S-au schimbat douÄƒ taste"
+msgstr[2] ""
+"\n"
+"S-au schimbat %d taste"
+msgstr[3] ""
+"\n"
+"S-au schimbat %d de taste"
 
 #: src/libkeymap/loadkeys.c:268
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "S-a schimbat un È™ir"
+msgstr[1] "S-au schimbat douÄƒ È™iruri"
+msgstr[2] "S-au schimbat %d È™iruri"
+msgstr[3] "S-au schimbat %d de È™iruri"
 
 #: src/libkeymap/loadkeys.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
-msgstr[0] "nr max de definişii compuse: %d\n"
-msgstr[1] "nr max de definişii compuse: %d\n"
+msgstr[0] "S-a Ã®ncÄƒrcat o definiÈ›ie compusÄƒ"
+msgstr[1] "S-au Ã®ncÄƒrcat douÄƒ definiÈ›ii compuse"
+msgstr[2] "S-au Ã®ncÄƒrcat %d definiÈ›ii compuse"
+msgstr[3] "S-au Ã®ncÄƒrcat %d de definiÈ›ii compuse"
 
 #: src/libkeymap/loadkeys.c:281
-#, fuzzy
 msgid "(No change in compose definitions)"
-msgstr "nr max de definişii compuse: %d\n"
+msgstr "(Nicio modificare Ã®n definiÈ›iile compuse)"
 
 #: parser.y:117
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
-msgstr ""
+msgstr "loadkeys: nu È™tiu cum sÄƒ compun pentru %s"
 
 #: parser.y:258
 #, c-format
 msgid "'%s' is not a function key symbol"
-msgstr ""
+msgstr "â€%sâ€ nu este un simbol al unei taste funcÈ›ionale"
 
 #: parser.y:345
-#, fuzzy, c-format
+#, c-format
 msgid "too many (%ld) entries on one line"
-msgstr "Prea multe fiºiere de combinat\n"
+msgstr "prea multe (%ld) intrÄƒri Ã®ntr-o singurÄƒ linie"
 
 #: parser.y:415
-#, fuzzy, c-format
+#, c-format
 msgid "Loading %s"
-msgstr "Eroare în citirea %s\n"
+msgstr "Se Ã®ncarcÄƒ %s"
 
 #: src/libkeymap/summary.c:92
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr "domeniu cod de taste suportat de kernel:           1 - %d\n"
+msgstr "gama de coduri de taste acceptatÄƒ de nucleu:           1 - %d\n"
 
+# NotÄƒ:
+# ar fi mai corect:
+# â€numÄƒrul maxim de acÈ›iuni de asociere(bindable) ...â€ ??
 #: src/libkeymap/summary.c:94
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
-msgstr "numãr maxim de acşiuni legate(bindable) de o tastã:         %d\n"
+msgstr "numÄƒrul maxim de acÈ›iuni asociabile(bindable) ale unei taste:         %d\n"
 
 #: src/libkeymap/summary.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "numãr de mapãri de taste în folosire actualã:                 %d\n"
+msgstr "numÄƒrul de hÄƒrÈ›i de tastaturÄƒ aflate actualmente, Ã®n uz:                 %u\n"
 
 #: src/libkeymap/summary.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "of which %u dynamically allocated\n"
-msgstr "din care %d alocate dinamic\n"
+msgstr "din care %u alocate dinamic\n"
 
 #: src/libkeymap/summary.c:102
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
-msgstr "interval de coduri de acşiune suportat de kernel:\n"
+msgstr "gama de coduri de acÈ›iune suportatÄƒ de cÄƒtre nucleu:\n"
 
 #: src/libkeymap/summary.c:108
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
-msgstr "numãr taste de funcşii suportat de kernel: %d.\n"
+msgstr "numÄƒrul tastelor de funcÈ›ii suportat de cÄƒtre nucleu: %d.\n"
 
 #: src/libkeymap/summary.c:110
 #, c-format
 msgid "max nr of compose definitions: %d\n"
-msgstr "nr max de definişii compuse: %d\n"
+msgstr "nr. max de definiÈ›ii compuse: %d\n"
 
 #: src/libkeymap/summary.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "nr of compose definitions in actual use: %u\n"
-msgstr "nr de definişii compuse actualmente în folosire: %d\n"
+msgstr "nr. de definiÈ›ii compuse, actualmente Ã®n uz: %u\n"
 
 #: src/libkeymap/summary.c:136
 #, c-format
@@ -758,7 +818,7 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Urmãtoarele sinonime sunt recunoscute:\n"
+"UrmÄƒtoarele sinonime sunt recunoscute:\n"
 "\n"
 
 #: src/libkeymap/summary.c:139
@@ -773,323 +833,298 @@ msgid ""
 "Recognized modifier names and their column numbers:\n"
 msgstr ""
 "\n"
-"S-au recunoscut numele modificatorilor ºi numerele lor de coloane:\n"
+"S-au recunoscut numele modificatorilor È™i numerele lor de coloane:\n"
 
 #: src/libkfont/kdmapop.c:173
 #, c-format
 msgid "strange... ct changed from %d to %d"
-msgstr ""
+msgstr "ciudat... ct schimbat de la %d la %d"
 
 #: src/libkfont/kdmapop.c:199
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded."
 msgstr ""
+"Se pare cÄƒ versiunea acestui nucleu este mai veche decÃ¢t 1.1.92\n"
+"Nu s-a Ã®ncÄƒrcat nicio tablÄƒ de aranjament Unicode."
 
+# R-GC, scrie:
+# definiÈ›ie de dicÈ›ionar pentru â€glypphâ€:
+# ======================
+# glypph = a hieroglyphic character or symbol; a pictograph.
 #: src/libkfont/loadunimap.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Glyph number (0x%x) larger than font length"
-msgstr "%s: Numãrul reprezentãrii(glyph) (0x%x) mai mare decât fontul\n"
+msgstr "%s: NumÄƒrul pictogramei(glyph) (0x%x) mai mare decÃ¢t lungimea literei"
 
 #: src/libkfont/loadunimap.c:174
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
-msgstr "%s: Sfârºit de interval eronat (0x%x)\n"
+msgstr "%s: SfÃ¢rÈ™it de interval eronat (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
-#, fuzzy, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x"
-msgstr ""
-"%s: Intervalul Unicode U+%x-U+%x nu are aceeaºi mãrime ca intervalul de "
-"pozişie al fontului 0x%x-0x%x\n"
+#, c-format
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
+msgstr "%s: Intervalul Unicode U+%x-U+%x nu are aceeaÈ™i lungime ca intervalul de poziÈ›ie al fontului 0x%x-0x%x"
 
 #: src/libkfont/loadunimap.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "%s: trailing junk (%s) ignored"
-msgstr "%s: gunoiul(junk) de la sfârºit (%s) ignorat\n"
+msgstr "%s: gunoiul(junk) de la sfÃ¢rÈ™it (%s) ignorat"
 
 #: src/libkfont/loadunimap.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Loading unicode map from file %s"
-msgstr "Se încarcã maparea unicode din fiºierul %s\n"
+msgstr "Se Ã®ncarcÄƒ harta de caractere unicode din fiÈ™ierul %s"
 
 #: src/libkfont/loadunimap.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Warning: line too long"
-msgstr "%s: Avertisment: linie prea lungã\n"
+msgstr "%s: Avertisment: linie prea lungÄƒ"
 
 #: src/libkfont/loadunimap.c:280
-#, fuzzy
 msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
 msgstr ""
-"%s: nu s-a încãrcat unimap-ul vid\n"
-"(dacã inistaşi: folosişi opşiunea -f pentru suprascriere(override))\n"
+"%s: nu s-a Ã®ncÄƒrcat harta de caractere unicode, goalÄƒ\n"
+"(dacÄƒ insistaÈ›i: folosiÈ›i opÈ›iunea -f pentru suprascriere)"
 
 #: src/libkfont/loadunimap.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
-msgstr[0] "intrare"
-msgstr[1] "intrare"
+msgstr[0] "# o intrare"
+msgstr[1] "# douÄƒ intrÄƒri"
+msgstr[2] "# %d intrÄƒri"
+msgstr[3] "# %d de intrÄƒri"
 
 #: src/libkfont/loadunimap.c:317 src/libkfont/mapscrn.c:102
 #: src/libkfont/mapscrn.c:231 src/loadkeys.c:277 src/openvt.c:437
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open file: %s: %m"
-msgstr "openvt: Nu se poate deschide %s: %s\n"
+msgstr "Nu se poate deschide fiÈ™ierul %s: %m"
 
 #: src/libkfont/loadunimap.c:329
-#, fuzzy, c-format
+#, c-format
 msgid "Saved unicode map on `%s'"
-msgstr "S-a salvat maparea unicode în `%s'\n"
+msgstr "S-a salvat harta de caractere unicode Ã®n â€%sâ€"
 
 #: src/libkfont/loadunimap.c:378
-#, fuzzy
 msgid "Appended Unicode map"
-msgstr "S-a adãugat(appended) maparea Unicode\n"
+msgstr "S-a adÄƒugat harta de caractere unicode"
 
 #: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:298
 #: src/libkfont/setfont.c:410 src/libkfont/setfont.c:417 src/loadkeys.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to find file: %s"
-msgstr "openvt: Nu se poate deschide %s: %s\n"
+msgstr "Nu se poate gÄƒsi fiÈ™ierul: %s"
 
 #: src/libkfont/mapscrn.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
-msgstr "Se încarcã maparea de ecran binarã direct-la-font din fiºierul %s\n"
+msgstr "Se Ã®ncarcÄƒ harta de ecran binarÄƒ direct-la-font din fiÈ™ierul %s"
 
 #: src/libkfont/mapscrn.c:113 src/libkfont/mapscrn.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading map from file `%s'"
-msgstr "Eroare în citirea mapãrii din fiºierul `%s'\n"
+msgstr "Eroare la citirea hÄƒrÈ›ii de caractere din fiÈ™ierul â€%sâ€"
 
 #: src/libkfont/mapscrn.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "Loading binary unicode screen map from file %s"
-msgstr "Se încarcã maparea de ecran binarã unicode din fiºierul %s\n"
+msgstr "Se Ã®ncarcÄƒ harta de ecran binarÄƒ unicode din fiÈ™ierul %s"
 
 #: src/libkfont/mapscrn.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "Loading symbolic screen map from file %s"
-msgstr "Se încarcã maparea de ecran simbolicã din fiºierul %s\n"
+msgstr "Se Ã®ncarcÄƒ harta de ecran simbolicÄƒ din fiÈ™ierul %s"
 
 #: src/libkfont/mapscrn.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
-msgstr "Eroare in analiza(parsing) mapãrii simbolice din `%s', linia `%d'\n"
+msgstr "Eroare la analizarea hÄƒrÈ›ii de caractere simbolice din â€%sâ€, linia â€%dâ€"
 
 #: src/libkfont/mapscrn.c:263
-#, fuzzy
 msgid "Cannot read console map"
-msgstr "Nu se poate citi maparea consolei\n"
+msgstr "Nu se poate citi harta de caractere a consolei"
 
 #: src/libkfont/mapscrn.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "Saved screen map in `%s'"
-msgstr "S-a salvat maparea ecranului în `%s'\n"
+msgstr "S-a salvat harta ecranului Ã®n â€%sâ€"
 
 #: src/libkfont/psffontop.c:46
-#, fuzzy
 msgid "short ucs2 unicode table"
-msgstr "%s: tabel scurt ucs2 unicode\n"
+msgstr "tabelul unicode scurt ucs2"
 
 #: src/libkfont/psffontop.c:67
-#, fuzzy
 msgid "short utf8 unicode table"
-msgstr "%s: tabel scurt utf8 unicode\n"
+msgstr "tabelul unicode scurt utf8"
 
 #: src/libkfont/psffontop.c:70
-#, fuzzy
 msgid "bad utf8"
-msgstr "%s: utf8 eronat\n"
+msgstr "utf8 eronat"
 
 #: src/libkfont/psffontop.c:73
-#, fuzzy
 msgid "unknown utf8 error"
-msgstr "%s: eroare utf8 necunoscutã\n"
+msgstr "eroare utf8 necunoscutÄƒ"
 
 #: src/libkfont/psffontop.c:98
-#, fuzzy
 msgid "short unicode table"
-msgstr "%s: tabel scurt unicode\n"
+msgstr "tabelul unicode scurt"
 
 #: src/libkfont/psffontop.c:173
-#, fuzzy
 msgid "Error reading input font"
-msgstr "%s: Eroare în citirea fontului de intrare(input)"
+msgstr "Eroare la citirea fontului de intrare"
 
 #: src/libkfont/psffontop.c:179
 msgid "Font is too big"
-msgstr ""
+msgstr "Fontul este prea mare"
 
 #: src/libkfont/psffontop.c:221
-#, fuzzy
 msgid "Bad call of readpsffont"
-msgstr "%s: Apelare greºitã a readpsffont\n"
+msgstr "Apelare greÈ™itÄƒ a readpsffont()"
 
 #: src/libkfont/psffontop.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported psf file mode (%d)"
-msgstr "%s:Mod fiºier psf nesuportat (%d)\n"
+msgstr "Mod fiÈ™ier psf neacceptat (%d)"
 
 #: src/libkfont/psffontop.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported psf version (%d)"
-msgstr "%s:Versiune fiºier psf nesuportatã (%d)\n"
+msgstr "Versiune psf neacceptatÄƒ (%d)"
 
 #: src/libkfont/psffontop.c:268
-#, fuzzy
 msgid "zero input font length?"
-msgstr "%s: intrare(input) zero pentru mãrime(length)?\n"
+msgstr "lungimea fontului de intrare zero?"
 
 #: src/libkfont/psffontop.c:272
-#, fuzzy
 msgid "zero input character size?"
-msgstr "%s: intrare(input) mãrime caracter zero?\n"
+msgstr "dimensiunea caracterului de intrare zero?"
 
 #: src/libkfont/psffontop.c:279
-#, fuzzy, c-format
+#, c-format
 msgid "Input file: bad input length (%d)"
-msgstr "%s: Fiºier intrare(input): mãrime intrare(input) eronatã (%d)\n"
+msgstr "FiÈ™ier de intrare: lungime de intrare necorespunzÄƒtoare (%d)"
 
 #: src/libkfont/psffontop.c:317
-#, fuzzy
 msgid "Input file: trailing garbage"
-msgstr "%s: Fiºier intrare(input): gunoi(garbage) la sfârºit\n"
+msgstr "FiÈ™ier de intrare: gunoi la final"
 
 #: src/libkfont/psffontop.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "illegal unicode %d"
-msgstr "appendunicode: unicode ilegal %u\n"
+msgstr "unicode ilegal %d"
 
 #: src/libkfont/psffontop.c:458
 msgid "Cannot write font file header"
-msgstr "Nu se poate scrie header-ul fiºierului de font"
+msgstr "Nu se poate scrie antetul fiÈ™ierului de font"
 
 #: src/libkfont/psffontop.c:491
 msgid "Cannot write font file"
-msgstr "Nu se poate scrie fiºierul de font"
+msgstr "Nu se poate scrie fiÈ™ierul de font"
 
 #: src/libkfont/setfont.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "Bad character height %d"
-msgstr "Înãlşime de caracter greºitã: %d\n"
+msgstr "ÃnÄƒlÈ›ime de caracter greÈ™itÄƒ %d"
 
 #: src/libkfont/setfont.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "Bad character width %d"
-msgstr "Lãşime de caracter greºitã: %d\n"
+msgstr "LÄƒÈ›ime de caracter greÈ™itÄƒ: %d"
 
 #: src/libkfont/setfont.c:72
 #, c-format
 msgid "Cannot double %dx%d font (limit is 16x16)"
-msgstr ""
+msgstr "Nu se poate dubla fontul %dx%d (limita este 16x16)"
 
 #: src/libkfont/setfont.c:140
-#, fuzzy
 msgid "font position 32 is nonblank"
-msgstr "%s: pozişia font 32 este nonblank\n"
+msgstr "poziÈ›ia 32 a fontului nu este goalÄƒ"
 
 #: src/libkfont/setfont.c:149
-#, fuzzy
 msgid "wiped it"
-msgstr "%s: a fost ºters(wiped)\n"
+msgstr "a fost È™ters"
 
 #: src/libkfont/setfont.c:152
-#, fuzzy
 msgid "background will look funny"
-msgstr "%s: fundalul va arãta nostim\n"
+msgstr "fundalul va arÄƒta amuzant"
 
 #: src/libkfont/setfont.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "Loading %d-char %dx%d font from file %s"
-msgstr "Se încarcã %d-char fontul %dx%d din fiºierul %s\n"
+msgstr "Se Ã®ncarcÄƒ fontul %2$dx%3$d de caractere %1$d din fiÈ™ierul %4$s"
 
 #: src/libkfont/setfont.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "Loading %d-char %dx%d font"
-msgstr "Se încarcã %d-char fontul %dx%d\n"
+msgstr "Se Ã®ncarcÄƒ fontul %2$dx%3$d de caractere %1$d"
 
 #: src/libkfont/setfont.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
-msgstr "Se încarcã %d-char fontul %dx%d(%d) din fiºierul %s\n"
+msgstr "Se Ã®ncarcÄƒ fontul %2$dx%3$d (%4$d) de caractere %1$d din fiÈ™ierul %5$s"
 
 #: src/libkfont/setfont.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "Loading %d-char %dx%d (%d) font"
-msgstr "Se încarcã %d-char fontul %dx%d(%d)\n"
+msgstr "Se Ã®ncarcÄƒ fontul %2$dx%3$d (%4$d) de caractere %1$d"
 
 #: src/libkfont/setfont.c:240
-#, fuzzy
 msgid "bug in do_loadtable"
-msgstr "%s: bug în do_loadtable\n"
+msgstr "%s: eroare Ã®n do_loadtable"
 
 #: src/libkfont/setfont.c:245
-#, fuzzy
 msgid "Loading Unicode mapping table..."
-msgstr "Se încarcã tabela de mapare Unicode...\n"
+msgstr "Se Ã®ncarcÄƒ tabelul de poziÈ›ionare Unicode..."
 
 #: src/libkfont/setfont.c:310
-#, fuzzy, c-format
+#, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
-msgstr ""
-"Când se încarcã mai multe fonturi, toate trebuie sã fie fonturi psf. - %s nu "
-"este\n"
+msgstr "CÃ¢nd se Ã®ncarcÄƒ mai multe fonturi, toate trebuie sÄƒ fie fonturi â€psfâ€ - %s nu este"
 
 #: src/libkfont/setfont.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d-char %dx%d font from file %s"
-msgstr "S-a citit %d-char fontul %dx%d din fiºierul %s\n"
+msgstr "S-a citit fontul %2$dx%3$d de caractere %1$d din fiÈ™ierul %4$s"
 
 #: src/libkfont/setfont.c:328
-#, fuzzy
 msgid "When loading several fonts, all must have the same height"
-msgstr ""
-"Când se încarcã mai multe fonturi, toate trebuie sã aibã aceeaºi înãlşime\n"
+msgstr "CÃ¢nd se Ã®ncarcÄƒ mai multe fonturi, toate trebuie sÄƒ aibÄƒ aceeaÈ™i Ã®nÄƒlÈ›ime"
 
 #: src/libkfont/setfont.c:336
-#, fuzzy
 msgid "When loading several fonts, all must have the same width"
-msgstr ""
-"Când se încarcã mai multe fonturi, toate trebuie sã aibã aceeaºi lãşime\n"
+msgstr "CÃ¢nd se Ã®ncarcÄƒ mai multe fonturi, toate trebuie sÄƒ aibÄƒ aceeaÈ™i lÄƒÈ›ime"
 
 #: src/libkfont/setfont.c:402
-#, fuzzy
 msgid "Cannot find default font"
-msgstr "Nu se poate gãsi fontul implicit\n"
+msgstr "Nu se poate gÄƒsi fontul implicit"
 
 #: src/libkfont/setfont.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "Reading font file %s"
-msgstr "Se citeºte fiºierul de font %s\n"
+msgstr "Se citeÈ™te fiÈ™ierul de font %s"
 
 #: src/libkfont/setfont.c:474
-#, fuzzy
 msgid "No final newline in combine file"
-msgstr "Nu existã marcaj_linie_nouã(newline) final în fiºierul combinat\n"
+msgstr "Nu existÄƒ marcaj de linie nouÄƒ final Ã®n fiÈ™ierul combinat"
 
 #: src/libkfont/setfont.c:480
-#, fuzzy
 msgid "Too many files to combine"
-msgstr "Prea multe fiºiere de combinat\n"
+msgstr "Prea multe fiÈ™iere de combinat"
 
 #: src/libkfont/setfont.c:508
-#, fuzzy
 msgid "Hmm - a font from restorefont? Using the first half."
-msgstr "Hmm - un font din restorefont? Se foloseºte prima jumãtate.\n"
+msgstr "Hmm - un font de la restorefont? Se utilizeazÄƒ prima jumÄƒtate."
 
 #: src/libkfont/setfont.c:527
-#, fuzzy
 msgid "Bad input file size"
-msgstr "Mãrime fiºier intrare(input) invalidã\n"
+msgstr "Dimensiune incorectÄƒ a fiÈ™ierului de intrare"
 
 #: src/libkfont/setfont.c:555
 #, c-format
@@ -1097,259 +1132,250 @@ msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
 "using an option -8 or -14 or -16 which one you want loaded.\n"
 msgstr ""
-"Acest fiºier conşine 3 fonturi: 8x8, 8x14 ºi 8x16. Vã rugãm indicaşi\n"
-"folosind o opşiune -8 or -14 or -16 pentru a-l selecta pe cel dorit.\n"
+"Acest fiÈ™ier conÈ›ine 3 fonturi: 8x8, 8x14 È™i 8x16. VÄƒ rugÄƒm indicaÈ›i\n"
+"folosind o opÈ›iune -8 sau -14 sau -16 pentru a-l selecta pe cel dorit.\n"
 
 #: src/libkfont/setfont.c:572
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"Aşi cerut o mãrime de font %d, dar doar 8, 14, 16 sunt posibile aici.\n"
+msgstr "AÈ›i cerut o mÄƒrime de font %d, dar doar 8, 14, 16 sunt posibile aici.\n"
 
 #: src/libkfont/setfont.c:623
-#, fuzzy
 msgid "Found nothing to save"
-msgstr "Nu am gãsit nimic de salvat\n"
+msgstr "Nu s-a gÄƒsit nimic de salvat"
 
 #: src/libkfont/setfont.c:627
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write font file: %m"
-msgstr "Nu se poate scrie fiºierul de font"
+msgstr "Nu se poate scrie fiÈ™ierul de font: %m"
 
 #: src/libkfont/setfont.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "Saved %d-char %dx%d font file on %s"
-msgstr "S-a salvat fiºierul %d-char fontul %dx%d în %s\n"
+msgstr "S-a salvat fiÈ™ierul fontului %2$dx%3$d de caractere %1$d Ã®n %4$s"
 
 #: src/loadkeys.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [mapfile...]\n"
-msgstr "folosire: %s [-o map.orig] [fiºier-mapare]\n"
+msgstr "Utilizare: %s [opÈ›iune...] [fiÈ™ier-hartÄƒ]\n"
 
 #: src/loadkeys.c:67
 #, c-format
 msgid "Default keymap: %s\n"
-msgstr ""
+msgstr "Harta de tastaturÄƒ implicitÄƒ: %s\n"
 
 #: src/loadkeys.c:116
 msgid "force conversion to ASCII."
-msgstr ""
+msgstr "conversie forÈ›atÄƒ la ASCII."
 
 #: src/loadkeys.c:117
 msgid "output a binary keymap to stdout."
-msgstr ""
+msgstr "afiÈ™eazÄƒ o hartÄƒ binarÄƒ de taste la ieÈ™irea standard."
 
 #: src/loadkeys.c:118
 msgid "clear kernel compose table."
-msgstr ""
+msgstr "È™terge tabelul de compoziÈ›ie al nucleului."
 
 #: src/loadkeys.c:119
 msgid "load default."
-msgstr ""
+msgstr "Ã®ncarcÄƒ valorile implicite."
 
 #: src/loadkeys.c:120
 msgid "output a 'defkeymap.c' to stdout."
-msgstr ""
+msgstr "afiÈ™eazÄƒ un â€defkeymap.câ€ la ieÈ™irea standard."
 
 #: src/loadkeys.c:121
 msgid "search and parse keymap without action."
-msgstr ""
+msgstr "cautÄƒ È™i analizeazÄƒ harta tastelor fÄƒrÄƒ alte acÈ›iuni suplimentare."
 
 #: src/loadkeys.c:122
 msgid "clear kernel string table."
-msgstr ""
+msgstr "È™terge tabelul de È™iruri de nucleu."
 
 #: src/loadkeys.c:123
 msgid "force conversion to Unicode."
-msgstr ""
+msgstr "conversie forÈ›atÄƒ la Unicode."
 
 #: src/loadkeys.c:146
 msgid "Unable to create kbdfile context"
-msgstr ""
+msgstr "Nu se poate crea contextul kbdfile"
 
 #: src/loadkeys.c:198
 #, c-format
 msgid "Options %s and %s are mutually exclusive."
-msgstr ""
+msgstr "OpÈ›iunile %s È™i %s se exclud reciproc."
 
+# R-GC, scrie:
+# dupÄƒ revizarea fiÈ™ierului, DÈ˜, spune:
+# Â«â†’ aici se poate adapta cu â€sÄƒ executaÈ›iâ€ sau â€sÄƒ efectuaÈ›iâ€Â»
+# ***
+# corecÈ›ie aplicatÄƒ; traducerea iniÈ›ialÄƒ:
+# â€... sÄƒ faceÈ›i ...?â€
 #: src/loadkeys.c:215
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
 msgstr ""
+"Avertisment: se Ã®ncarcÄƒ harta tastelor non-Unicode pe consola Unicode\n"
+"    (Poate cÄƒ doriÈ›i sÄƒ executaÈ›i Â«kbd_mode -aÂ»?)"
 
 #: src/loadkeys.c:226
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
 msgstr ""
+"Avertisment: se Ã®ncarcÄƒ harta tastelor Unicode pe consola non-Unicode\n"
+"    (Poate cÄƒ doriÈ›i sÄƒ faceÈ›i Â«kbd_mode -aÂ»?)"
 
 #: src/loadkeys.c:241 src/loadkeys.c:255 src/loadkeys.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create kbdfile instance: %m"
-msgstr ""
-"eroare în primirea codului de tastã(keycode) pentru codul de scan(scancode) "
-"0x%x\n"
+msgstr "Nu se poate crea instanÈ›a kbdfile: %m"
 
 #: src/loadunimap.c:75 src/mapscrn.c:72
 msgid "save the old map to the FILE."
-msgstr ""
+msgstr "salveazÄƒ harta veche Ã®n FIÈ˜IERul."
 
 #: src/mapscrn.c:25
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [map-file]\n"
-msgstr "folosire: %s [-o map.orig] [fiºier-mapare]\n"
+msgstr "Utilizare: %s [opÈ›iune..] [fiÈ™ier-hartÄƒ]\n"
 
 #: src/openvt.c:52
 #, c-format
 msgid "Usage: %s [option...] -- command\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] -- comandÄƒ\n"
 
 #: src/openvt.c:54
 #, c-format
-msgid ""
-"This utility helps you to start a program on a new virtual terminal (VT).\n"
-msgstr ""
+msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr "Acest utilitar vÄƒ ajutÄƒ sÄƒ porniÈ›i un program pe un terminal virtual(VT) nou.\n"
 
 #: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
-msgstr ""
+msgstr "Nu s-a putut gÄƒsi proprietarul actualului tty!"
 
 #: src/openvt.c:284
 msgid "execute the command, without forking."
-msgstr ""
+msgstr "executÄƒ comanda, fÄƒrÄƒ bifurcare."
 
 #: src/openvt.c:285
 msgid "force opening a VT without checking."
-msgstr ""
+msgstr "forÈ›eazÄƒ deschiderea unui terminal virtual(VT) fÄƒrÄƒ a verifica."
 
 #: src/openvt.c:286
 msgid "make the command a login shell."
-msgstr ""
+msgstr "face din comandÄƒ un shell de autentificare."
 
 #: src/openvt.c:287
 msgid "figure out the owner of the current VT."
-msgstr ""
+msgstr "descoperÄƒ proprietarul actualului terminal virtual(VT)."
 
 #: src/openvt.c:288
 msgid "switch to the new VT."
-msgstr ""
+msgstr "comutÄƒ la noul terminal virtual(VT)."
 
 #: src/openvt.c:289
 msgid "wait for command to complete"
-msgstr ""
+msgstr "aÈ™teaptÄƒ finalizarea comenzii"
 
 #: src/openvt.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Illegal vt number"
-msgstr "openvt: %s: numãr vt ilegal\n"
+msgstr "%s: numÄƒr de terminal virtual(vt) ilegal"
 
 #: src/openvt.c:330
-#, fuzzy
 msgid "Only root can use the -u flag."
-msgstr "openvt: doar root-ul poate folosi marcajul(flag) -u.\n"
+msgstr "Numai Â«rootÂ» poate folosi indicatorul â€-uâ€."
 
 #: src/openvt.c:359
-#, fuzzy
 msgid "Cannot find a free vt"
-msgstr "openvt: nu pot gãsi un vt liber\n"
+msgstr "Nu se poate gÄƒsi un terminal virtual(vt) liber"
 
 #: src/openvt.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr "openvt: nu pot verifica dacã vt %d este liber\n"
+msgstr "Nu se poate verifica dacÄƒ terminalul virtual(vt) %d este liber; utilizaÈ›i Â«%s -fÂ» pentru a forÈ›a verificarea."
 
 #: src/openvt.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr "openvt: vt %d este în uz; se renunşã la comandã\n"
+msgstr "terminalul virtual(vt) %d este Ã®n uz; comanda a fost anulatÄƒ; utilizaÈ›i Â«%s -fÂ» pentru a forÈ›a."
 
 #: src/openvt.c:377
 msgid "Unable to find command."
-msgstr ""
+msgstr "Nu se poate gÄƒsi comanda."
 
 #: src/openvt.c:412
-#, fuzzy
 msgid "Unable to set new session"
-msgstr "openvt: nu se poate seta sesiune nouã (%s)\n"
+msgstr "Nu se poate configura o nouÄƒ sesiune"
 
 #: src/openvt.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Using VT %s"
-msgstr "openvt: se foloseºte VT %s\n"
+msgstr "Se utilizeazÄƒ terminalul virtual(VT) %s"
 
 #: src/openvt.c:447
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open %s read/write"
-msgstr "openvt: Nu se poate deschide %s citire/scriere (%s)\n"
+msgstr "Nu se poate deschide %s pentru citire/scriere"
 
 #: src/openvt.c:494
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "%s:nu se poate derepartiza(deallocate) consola %d\n"
+msgstr "Nu s-a putut elibera consola %d"
 
 #: src/psfxtable.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s infont intable outfont\n"
-msgstr ""
-"Folosire:\n"
-"\t%s infont intable outfont\n"
+msgstr "Utilizare: %s font_intrare tabla_intrare font_ieÈ™ire\n"
 
 #: src/psfxtable.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s infont [outtable]\n"
-msgstr ""
-"Folosire:\n"
-"\t%s infont [outtable]\n"
+msgstr "Utilizare: %s font_intrare [tabla_ieÈ™ire]\n"
 
 #: src/psfxtable.c:84
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s infont outfont\n"
-msgstr ""
-"Folosire:\n"
-"\t%s infont outfont\n"
+msgstr "Utilizare: %s font_intrare font_ieÈ™ire\n"
 
 #: src/psfxtable.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
-msgstr ""
-"Folosire:\n"
-"\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
+msgstr "Utilizare: %s [-i font_intrare] [-o font_ieÈ™ire] [-it tabla_intrare] [-ot tabla_ieÈ™ire] [-nt]\n"
 
 #: src/psfxtable.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Bad magic number on %s"
-msgstr "%s: Numãr magic greºit în cazul %s\n"
+msgstr "NumÄƒr magic greÈ™it Ã®n %s"
 
 #: src/psfxtable.c:167
-#, fuzzy
 msgid "psf file with unknown magic"
-msgstr "%s: fiºier psf cu numãr magic necunoscut\n"
+msgstr "%s: fiÈ™ier psf cu numÄƒr magic necunoscut"
 
 #: src/psfxtable.c:178
-#, fuzzy
 msgid "input font does not have an index"
-msgstr "%s: fontul de intrare(input) nu are un index\n"
+msgstr "%s: fontul de intrare nu are un index"
 
 #: src/resizecons.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "resizecons: invalid columns number %d"
-msgstr "resizecons: nu se poate gãsi fiºierul de moduri video %s\n"
+msgstr "resizecons: numÄƒr de coloane nevalid %d"
 
 #: src/resizecons.c:154
-#, fuzzy, c-format
+#, c-format
 msgid "resizecons: invalid rows number %d"
-msgstr "resizecons: nu se poate gãsi fiºierul de moduri video %s\n"
+msgstr "resizecons: numÄƒr de rÃ¢nduri nevalid %d"
 
 #: src/resizecons.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "resizecons: cannot find videomode file %s"
-msgstr "resizecons: nu se poate gãsi fiºierul de moduri video %s\n"
+msgstr "resizecons: nu se poate gÄƒsi fiÈ™ierul de moduri video %s"
 
 #: src/resizecons.c:182
-#, fuzzy
 msgid "Invalid number of lines"
-msgstr "Numãr de linii invalid\n"
+msgstr "NumÄƒr de linii nevalid"
 
 #: src/resizecons.c:265
 #, c-format
@@ -1359,70 +1385,68 @@ msgstr "Mod vechi: %dx%d  Mod nou: %dx%d\n"
 #: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Vechi #liniiscan: %d  Nou #liniiscan: %d  Înãlşime caracter: %d\n"
+msgstr "Nr. vechi de liniiscan: %d  Nr. nou de liniiscan: %d  ÃnÄƒlÈ›ime caracter: %d\n"
 
 #: src/resizecons.c:278
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
-msgstr "resizecons: comanda `%s' a eºuat\n"
+msgstr "resizecons: comanda â€%sâ€ a eÈ™uat\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: nu uitaşi sã schimbaşi TERM (poate în con%dx%d sau în linux-%dx"
-"%d)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: nu uitaÈ›i sÄƒ schimbaÈ›i TERM (poate Ã®n con%dx%d sau Ã®n linux-%dx%d)\n"
 
 #: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
-"apelarea este:  resizecons COLOANExRÂNDURI  sau:  resizecons COLOANEx\n"
-"RÂNDURI\n"
-"sau: resizecons -lines RÂDURI, cu RÂNDURI unul din numerele 25, 28, 30, 34,\n"
+"apelarea este:  resizecons COLOANExRÃ‚NDURI  sau:  resizecons COLOANE RÃ‚NDURI\n"
+"sau: resizecons -lines RÃ‚NDURI, cu RÃ‚NDURI unul din numerele 25, 28, 30, 34,\n"
 "36, 40, 44, 50, 60\n"
 
 #: src/resizecons.c:416
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
-msgstr "resizecons: nu se pot primi(get) permisiile I/O.\n"
+msgstr "resizecons: nu se pot obÈ›ine permisiuni de In/IeÈ™.\n"
 
 #: src/screendump.c:48
 #, c-format
 msgid "usage: screendump [n]\n"
-msgstr "folosire: screendump [n]\n"
+msgstr "utilizare: screendump [n]\n"
 
 #: src/screendump.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading %s"
-msgstr "Eroare în citirea %s\n"
+msgstr "Eroare Ã®n citirea %s"
 
 #: src/screendump.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't read %s"
-msgstr "nu s-a putut citi %s\n"
+msgstr "Nu s-a putut citi %s"
 
+# R-GC, scrie:
+# Ar fi mai sugestiv mesajul, tradus ca:
+# â€Ciudat ... ecranul ete Ã®n acelaÈ™i timp %dx%d È™i %dx%d ?
+# ***
+# Idei/Opinii?
 #: src/screendump.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ?"
-msgstr "Ciudat ... ecranul este ºi %dx%d ºi %dx%d ??\n"
+msgstr "Ciudat ... ecranul este atÃ¢t %dx%d cÃ¢t È™i %dx%d ?"
 
 #: src/screendump.c:166
-#, fuzzy
 msgid "Error writing screendump"
-msgstr "Eroare în scrierea dump-ului de ecran\n"
+msgstr "Eroare la scrierea rezultatului(dump) pe ecran"
 
 #: src/setfont.c:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1447,91 +1471,83 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Folosire: setfont [opşiuni-scriere] [-<N>] [fontnou..] [-m mapare_consolã] [-"
-"u mapare_unicode]\n"
-"  opşiuni-scriere (are loc înainte de încãrcarea fiºierului):\n"
-"    -o  <nume_fiºier>\tScrie fontul curent în <nume_fiºier>\n"
-"    -O  <nume_fiºier>\tScrie fontul curent ºi maparea unicode în "
-"<nume_fiºier>\n"
-"    -om <nume_fiºier>\tScrie maparea curentã a consolei în <nume_fiºier>\n"
-"    -ou <nume_fiºier>\tScrie maparea curentã unicode în <nume_fiºier>\n"
-"Dacã nici un fontnou ºi nici o opşiune-[o|O|om|ou|m|u] nu sunt specificate,\n"
-"va fi încãrcat un font nou:\n"
-"    setfont             Încarcã fontul \"default[.gz]\"\n"
-"    setfont -<N>        Încarcã fontul \"default8x<N>[.gz]\"\n"
-"Opşiunea -<N> selecteazã un font dintr-un cod de paginã care conşine trei "
-"fonturi:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Încarcã fontul 8x<N> din codepage."
-"cp\n"
-"Explicit (cu -m sau -u) sau implicit (în fiºierul de font) mapãrile "
-"furnizate\n"
-"vor fi încãrcate, sau în cazul mapãrilor de consolã, activate.\n"
-"    -h<N>      (fãrã spaşiu) Suprascrie(override) înãlşimea fontului.\n"
-"    -m <fn>    Se încarcã maparea de ecran a consolei.\n"
-"    -u <fn>    Se încarcã maparea fontului unicode.\n"
-"    -m nimic\tSe suprimã încãrcarea ºi activarea unei mapãrii de ecran.\n"
-"    -u nimic\tSe suprimã încãrcarea unei mapãri unicode\n"
-"    -v\t\tDetaliat.\n"
-"    -V\t\tAfiºeazã versiunea ºi iese.\n"
-"Fiºierele sunt încãrcate din directorul curent sau din /usr/lib/kbd/*/.\n"
+"Utilizare: setfont [opÈ›iuni-scriere] [-<N>] [font_nou..] [-m harta_de_consolÄƒ] [-u harta_unicode]\n"
+"  opÈ›iuni-scriere (are loc Ã®nainte de Ã®ncÄƒrcarea fiÈ™ierului):\n"
+"    -o  <nume_fiÈ™ier>\tScrie fontul curent Ã®n <nume_fiÈ™ier>\n"
+"    -O  <nume_fiÈ™ier>\tScrie fontul curent È™i harta unicode Ã®n <nume_fiÈ™ier>\n"
+"    -om <nume_fiÈ™ier>\tScrie harta curentÄƒ a consolei Ã®n <nume_fiÈ™ier>\n"
+"    -ou <nume_fiÈ™ier>\tScrie harta curentÄƒ unicode Ã®n <nume_fiÈ™ier>\n"
+"DacÄƒ nici un font_nou È™i nici o opÈ›iune-[o|O|om|ou|m|u] nu sunt specificate,\n"
+"va fi Ã®ncÄƒrcat un font implicit:\n"
+"    setfont             ÃncarcÄƒ fontul â€default[.gz]â€\n"
+"    setfont -<N>        ÃncarcÄƒ fontul â€default8x<N>[.gz]â€\n"
+"OpÈ›iunea -<N> selecteazÄƒ un font dintr-un cod de paginÄƒ care conÈ›ine trei fonturi:\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   ÃncarcÄƒ fontul 8x<N> din codepage.cp\n"
+"Explicit (cu -m sau -u) sau implicit (Ã®n fiÈ™ierul de font) hÄƒrÈ›ile furnizate\n"
+"vor fi Ã®ncÄƒrcate, sau Ã®n cazul hÄƒrÈ›ilor de consolÄƒ, activate.\n"
+"    -h<N>      (fÄƒrÄƒ spaÈ›iu) Suprascrie Ã®nÄƒlÈ›imea fontului.\n"
+"    -d         DubleazÄƒ dimensiunea fontului pe orizontalÄƒ È™i pe verticalÄƒ.\n"
+"    -m <fn>    ÃncarcÄƒ harta de ecran a consolei.\n"
+"    -u <fn>    ÃncarcÄƒ harta fontului unicode.\n"
+"    -m nimic   SuprimÄƒ Ã®ncÄƒrcarea È™i activarea unei hÄƒrÈ›i de ecran.\n"
+"    -u nimic   SuprimÄƒ Ã®ncÄƒrcarea unei hÄƒrÈ›i unicode\n"
+"    -v         OferÄƒ informaÈ›ii detaliate.\n"
+"    -C <cons>  IndicÄƒ dispozitivul de consolÄƒ care va fi utilizat.\n"
+"    -V         AfiÈ™eazÄƒ versiunea È™i iese.\n"
+"FiÈ™ierele sunt Ã®ncÄƒrcate din directorul curent sau din %s/*/.\n"
 
 #: src/setfont.c:138
-#, fuzzy
 msgid "Too many input files."
-msgstr "setfont: prea multe fiºiere de intrare(input)\n"
+msgstr "Prea multe fiÈ™iere de intrare."
 
 #: src/setfont.c:144
-#, fuzzy
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
-msgstr ""
-"setfont: nu se poate reveni(restore) ºi din caracterul ROM ºi din fiºier. "
-"Font neschimbat.\n"
+msgstr "Nu se poate restaura Ã®n acelaÈ™i timp din ROM-ul de caractere, cÃ¢t È™i din fiÈ™ier. Font neschimbat."
 
 #: src/setkeycodes.c:28
 #, c-format
 msgid "Usage: %s [option...] scancode keycode ...\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] cod_scanare cod_tastÄƒ ...\n"
 
 #: src/setkeycodes.c:30
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(where scancode is either xx or e0xx, given in hexadecimal,\n"
 "and keycode is given in decimal)\n"
 msgstr ""
-"folosire: setkeycode scancode keycode ...\n"
-" (unde scancode este fie xx sau e0xx, dat în hexazecimal,\n"
-" ºi keycode este dat în zecimal)\n"
+"(unde codul de scanare este fie xx fie e0xx, dat Ã®n hexazecimal,\n"
+"È™i codul tastei este dat Ã®n zecimal)\n"
 
 #: src/setkeycodes.c:68
 msgid "error reading scancode"
-msgstr "eroare în citirea codului de scan(scancode)"
+msgstr "eroare la citirea codului de scanare(scancode)"
 
 #: src/setkeycodes.c:73
 #, c-format
 msgid "Argument out of range: %s"
-msgstr ""
+msgstr "Argument Ã®n afara intervalului: %s"
 
 #: src/setkeycodes.c:78
 #, c-format
 msgid "Argument must be positive: %s"
-msgstr ""
+msgstr "Argumentul trebuie sÄƒ fie pozitiv: %s"
 
 #: src/setkeycodes.c:155
 msgid "code outside bounds"
-msgstr "cod în afara limitelor(bounds)"
+msgstr "cod Ã®n afara limitelor"
 
 #: src/setkeycodes.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
-msgstr "eroare în setarea scancode %x în keycode %d\n"
+msgstr "nu s-a putut aloca codul de scanare %x la codul tastei %d: ioctl KDSETKEYCODE"
 
 #: src/setleds.c:32
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] [[+|-][ num | caps | scroll %s]]\n"
 
 #: src/setleds.c:41
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Thus,\n"
 "\tsetleds +caps -num\n"
@@ -1544,112 +1560,143 @@ msgid ""
 "With -D, setleds sets both the flags and the default flags, so\n"
 "that a subsequent reset will not change the flags.\n"
 msgstr ""
-"Folosire:\n"
-"\tsetleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
 "Astfel,\n"
 "\tsetleds +caps -num\n"
-"va seta CapsLock, ºterge NumLock ºi va lãsa ScrollLock neschimbat.\n"
-"Setãrile de dinainte ºi de dupã schimbare(dacã existã) sunt raportate\n"
-"când opşiunea -v este furnizatã sau când nu este cerutã nici o schimbare.\n"
-"În mod normal, setleds influenşeazã setãrile marcajului(flag) vt\n"
-"(ºi acestea sunt de obicei reflectate în leduri).\n"
-"Cu -L, setleds doar va seta ledurile, nechimbând marcajele(flag).\n"
-"Cu -D, setleds seteazã atât marcajele(flags), cât ºi marcajele implicite,\n"
-"pentru ca o resetare ulterioarã nu va schimba marcajele.\n"
+"va activa CapsLock, va dezactiva NumLock È™i va lÄƒsa ScrollLock neschimbat.\n"
+"ConfigurÄƒrile de dinainte È™i de dupÄƒ schimbare(dacÄƒ existÄƒ) sunt raportate\n"
+"cÃ¢nd opÈ›iunea -v este furnizatÄƒ sau cÃ¢nd nu este cerutÄƒ nici o schimbare.\n"
+"Ãn mod normal, Â«setledsÂ» influenÈ›eazÄƒ starea indicatoarelor terminalului\n"
+"virtual â€vtâ€ (È™i acestea sunt de obicei reflectate Ã®n leduri).\n"
+"Cu -L, Â«setledsÂ» modificÄƒ doar ledurile, lÄƒsÃ¢nd indicatoarele neschimbate.\n"
+"Cu -D, Â«setledsÂ» modificÄƒ atÃ¢t indicatoarele, cÃ¢t È™i indicatoarele implicite,\n"
+"pentru ca o repornire ulterioarÄƒ sÄƒ nu schimbe indicatoarele.\n"
 
+# R-GC, scrie:
+# am inclus trei spaÈ›ii goale Ã®n partea dreaptÄƒ
+# a cuvÃ®ntului, pentru ca acesta sÄƒ ocupe
+# aceeaÈ™i lungime de spaÈ›iu, ca â€dezactivatâ€:
+# ==========================
+# activat       activat       activat
+# dezactivat dezactivat dezactivat
 #: src/setleds.c:77
 msgid "on "
-msgstr "activat(on)"
+msgstr "activat    "
 
 #: src/setleds.c:77
 msgid "off"
-msgstr "dezactivat(off)"
+msgstr "dezactivat"
 
+# R-GC, scrie:
+# structura mesajului tradus, este inspiratÄƒ
+# din traducerea olandezÄƒ; mi s-a pÄƒrut mai
+# potrivit decÃ®t â€Ã®nÈ™irarea unui cÃ®rnat lungâ€ :)
+# =======================
+# Ãn plus, â€kbdâ€, â€Ã®È™i are loculâ€ numai Ã®ntr-un
+# TV; datoritÄƒ faptului cÄƒ Ã®ntr-o sesiune X,
+# servitorul X se aflÄƒ citind din /dev/console,
+# Ã®n acelaÈ™i timp cu â€kbdâ€.
 #: src/setleds.c:121
-#, fuzzy
-msgid ""
-"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
-"Eroare în citirea setãrilor curente ale ledului. E posibil ca stdin sã nu "
-"fie un VT?\n"
+"Eroare la citirea configurÄƒrii curente a LED-urilor: ioctl KDGETLED\n"
+"Poate cÄƒ intrarea standard nu este un terminal virtual(VT)?"
 
 #: src/setleds.c:157 src/setleds.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
-msgstr "Eroare în citirea setãrii curente a ledului din /dev/kbd.\n"
+msgstr "Eroare la citirea configurÄƒrii curente a LED-urilor din /dev/kbd: ioctl %s"
 
 #: src/setleds.c:161 src/setleds.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "ioctl %s unavailable?"
-msgstr "KIOCGLED indisponibil?\n"
+msgstr "ioctl %s indisponibil?"
 
 #: src/setleds.c:244
 msgid "change both the VT flags and their default settings."
-msgstr ""
+msgstr "modificÄƒ atÃ¢t indicatorii terminalului virtual(VT), cÃ¢t È™i configurÄƒrile implicite ale acestora."
 
 #: src/setleds.c:245
-#, fuzzy
 msgid "change the VT flags."
-msgstr "openvt: doar root-ul poate folosi marcajul(flag) -u.\n"
+msgstr "modificÄƒ indicatorii terminalului virtual(VT)."
 
 #: src/setleds.c:246
 msgid "change only the leds."
-msgstr ""
+msgstr "modificÄƒ doar led-urile."
 
+# R-GC, scrie:
+# am tradus, de aceastÄƒ formÄƒ mesajul, cÃ®nd
+# la â€È™lefuireaâ€ fiÈ™ierului, mi-am dat seama
+# cÄƒ traducerea iniÈ›ialÄƒ:
+# â€Eroare Ã®n restabilirea modurilor led-uluiâ€,
+# nu â€spuneâ€, mai nimic...
 #: src/setleds.c:323
-#, fuzzy
 msgid "Error resetting ledmode"
-msgstr "Eroare în resetarea modurilor ledului\n"
+msgstr "Eroare Ã®n restabilirea stÄƒrii led-urilor"
 
 #: src/setleds.c:331
 #, c-format
 msgid "Current default flags:  "
-msgstr "Marcajele(flags) implicite curente:"
+msgstr "Indicatorii impliciÈ›i, actuali:  "
 
+# R-GC, scrie:
+# am inclus trei spaÈ›ii goale dupÄƒ cele douÄƒ
+# puncte â€:â€, pentru a obÈ›ine urmÄƒtorul
+# â€efectâ€:
+# ==========================
+# Indicatorii impliciÈ›i, actuali:  NumLock activat
+# Indicatorii actuali:                 NumLock activat
 #: src/setleds.c:335
 #, c-format
 msgid "Current flags:          "
-msgstr "Marcajele(flags) curente:          "
+msgstr "Indicatorii actuali:             "
 
+# R-GC, scrie:
+# am inclus È™apte spaÈ›ii goale dupÄƒ cele douÄƒ
+# puncte â€:â€, pentru a obÈ›ine urmÄƒtorul
+# â€efectâ€:
+# ==========================
+# Indicatorii impliciÈ›i, actuali:  NumLock activat
+# Indicatorii actuali:                 NumLock activat
+# Led-uri curente:                     NumLock activat
 #: src/setleds.c:339
 #, c-format
 msgid "Current leds:           "
-msgstr "Leduri curente:          "
+msgstr "Led-uri curente:                 "
 
 #: src/setleds.c:354
 #, c-format
 msgid "Old default flags:    "
-msgstr "Marcaje(flags) implicite vechi:    "
+msgstr "Indicatorii impliciÈ›i, vechi:    "
 
 #: src/setleds.c:356
 #, c-format
 msgid "New default flags:    "
-msgstr "Marcaje(flags) implicite noi:    "
+msgstr "Indicatorii impliciÈ›i, noi:    "
 
 #: src/setleds.c:363
 #, c-format
 msgid "Old flags:            "
-msgstr "Marcaje(flags) vechi:            "
+msgstr "Indicatori vechi:            "
 
 #: src/setleds.c:365
 #, c-format
 msgid "New flags:            "
-msgstr "Marcaje(flags) noi:            "
+msgstr "Indicatori noi:            "
 
 #: src/setleds.c:378 src/setleds.c:387
 #, c-format
 msgid "Old leds:             "
-msgstr "Leduri vechi:             "
+msgstr "Led-uri vechi:             "
 
 #: src/setleds.c:380 src/setleds.c:389
 #, c-format
 msgid "New leds:             "
-msgstr "Leduri noi:             "
+msgstr "Led-uri noi:             "
 
 #: src/setmetamode.c:27
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] [argument]\n"
 
 #: src/setmetamode.c:30
 #, c-format
@@ -1660,21 +1707,24 @@ msgid ""
 "              generates an ESC (\\033) prefix followed by\n"
 "              the keysym.\n"
 msgstr ""
+"Argumente:\n"
+"  metabit     marcheazÄƒ simbolul tastei (keysym) cu\n"
+"              setul de bit Ã®nalt.\n"
+"  escprefix   specificÄƒ dacÄƒ apÄƒsarea tastei meta (alt)\n"
+"              genereazÄƒ un prefix ESC (\\033) urmat de\n"
+"              simbolul tastei (keysym).\n"
 
 #: src/setmetamode.c:69
-#, fuzzy
 msgid "Meta key sets high order bit"
-msgstr "Tasta Meta seteazã bitul de ordine înaltã\n"
+msgstr "Tasta Meta activeazÄƒ bitul de ordine Ã®naltÄƒ"
 
 #: src/setmetamode.c:72
-#, fuzzy
 msgid "Meta key gives Esc prefix"
-msgstr "Tasta Meta furnizeazã prefix Esc\n"
+msgstr "Tasta Meta furnizeazÄƒ prefixul Esc"
 
 #: src/setmetamode.c:75
-#, fuzzy
 msgid "Strange mode for Meta key?"
-msgstr "Mod ciudat pentru tasta Meta?\n"
+msgstr "Mod ciudat pentru tasta Meta?"
 
 #: src/setmetamode.c:161
 #, c-format
@@ -1684,19 +1734,17 @@ msgstr "stare veche:    "
 #: src/setmetamode.c:166
 #, c-format
 msgid "new state:    "
-msgstr "stare nouã:    "
+msgstr "stare nouÄƒ:    "
 
 #: src/setvesablank.c:27
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s ON|on|off\n"
-msgstr ""
-"Folosire:\n"
-"\t%s infont outfont\n"
+msgstr "Utilizare: %s ON|on|off\n"
 
 #: src/setvtrgb.c:44
 #, c-format
 msgid "Usage: %s [option...] [vga|FILE|-]\n"
-msgstr ""
+msgstr "Utilizare: %s [opÈ›iune...] [vga|FIÈ˜IER|-]\n"
 
 #: src/setvtrgb.c:47
 #, c-format
@@ -1717,84 +1765,103 @@ msgid ""
 "   #00AA00\n"
 "And so on, for all the 16 colors.\n"
 msgstr ""
+"DacÄƒ utilizaÈ›i parametrul FIÈ˜IER, acesta poate fi Ã®n format zecimal\n"
+"sau hexazecimal È™i va fi detectat Ã®n timpul execuÈ›iei.\n"
+"\n"
+"Formatul zecimal al FIÈ˜IERului ar trebui sÄƒ aibÄƒ exact 3 linii de valori\n"
+"zecimale separate prin virgulÄƒ pentru ROÈ˜U, VERDE È™i ALBASTRU.\n"
+"Pentru a genera un FIÈ˜IER valid:\n"
+"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FIÈ˜IER\n"
+"\n"
+"Formatul hexazecimal al FIÈ˜IERului ar trebui sÄƒ aibÄƒ exact 16 linii de\n"
+"triplete hexazecimale pentru ROÈ˜U, VERDE È™i ALBASTRU, prefixate cu\n"
+"un semn numeric (#).\n"
+"De exemplu:\n"
+"   #000000\n"
+"   #AA0000\n"
+"   #00AA00\n"
+"È˜i aÈ™a mai departe, pentru toate cele 16 culori.\n"
 
 #: src/setvtrgb.c:101
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr ""
+msgstr "Eroare: %s: Valoare nevalidÄƒ Ã®n cÃ¢mpul %u din linia %u."
 
 #: src/setvtrgb.c:108
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr ""
+msgstr "Eroare: %s: NumÄƒr insuficient de cÃ¢mpuri Ã®n linia %u."
 
 #: src/setvtrgb.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
-msgstr "%s: %s: Avertisment: linie prea lungã\n"
+msgstr "Eroare: %s: Linia %u s-a Ã®ncheiat Ã®n mod neaÈ™teptat."
 
 #: src/setvtrgb.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Line %u is too long."
-msgstr "%s: %s: Avertisment: linie prea lungã\n"
+msgstr "Eroare: %s: Linia %u este prea lungÄƒ."
 
 #: src/setvtrgb.c:131
 #, c-format
 msgid "Error: %s: Insufficient number of colors/lines: %u"
-msgstr ""
+msgstr "Eroare: %s: NumÄƒr insuficient de culori/linii: %u"
 
 #: src/setvtrgb.c:134
 #, c-format
 msgid "Error: %s: Invalid value in line %u."
-msgstr ""
+msgstr "Eroare: %s: Valoare nevalidÄƒ Ã®n linia %u."
 
 #: src/showconsolefont.c:35
-#, fuzzy
 msgid "failed to restore original translation table"
-msgstr "eroare în restaurarea(restore) tabelei de traduceri originale\n"
+msgstr "eroare Ã®n restaurarea tablei de transpuneri originale"
 
 #: src/showconsolefont.c:39
-#, fuzzy
 msgid "failed to restore original unimap"
-msgstr "eroare în restaurarea unimap-ului original\n"
+msgstr "nu s-a reuÈ™it sÄƒ se restaureze harta unicode originalÄƒ"
 
+# R-GC, scrie:
+# NotÄƒ:
+# cred cÄƒ mai potrivit ar fi:
+# â€tabla de corespondenÈ›eâ€
+# ***
+# Opinii/Idei?
 #: src/showconsolefont.c:58
-#, fuzzy
 msgid "cannot change translation table"
-msgstr "nu se poate schimba tabela de traduceri\n"
+msgstr "nu se poate schimba tabela de transpuneri"
 
 #: src/showconsolefont.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "(probably after loading a font with `setfont font')\n"
-msgstr ""
-"folosire: showconsolefont [-v|-V]\n"
-"(probabil dupã încãrcarea unui font cu `setfont font')\n"
+msgstr "(probabil dupÄƒ Ã®ncÄƒrcarea unui font cu Â«setfont fontÂ»)\n"
 
 #: src/showconsolefont.c:155
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
-msgstr ""
+msgstr "nu afiÈ™eazÄƒ tabelul cu fonturi, afiÈ™eazÄƒ doar: RÃNDxCOLxNUM È™i iese."
 
 #: src/showconsolefont.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "Character count: %u\n"
-msgstr "Lãşime de caracter greºitã: %d\n"
+msgstr "NumÄƒr de caractere: %u\n"
 
 #: src/showconsolefont.c:214
 #, c-format
 msgid "Font width     : %u\n"
-msgstr ""
+msgstr "LÄƒÈ›imea fontului     : %u\n"
 
 #: src/showconsolefont.c:215
 #, c-format
 msgid "Font height    : %u\n"
-msgstr ""
+msgstr "ÃnÄƒlÈ›imea fontului    : %u\n"
 
 #: src/showconsolefont.c:226
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Showing %d-char font\n"
 "\n"
-msgstr "Se încarcã %d-char fontul %dx%d\n"
+msgstr ""
+"Se afiÈ™eazÄƒ fontul %d de caractere\n"
+"\n"
 
 #: src/showkey.c:51
 msgid "?UNKNOWN?"
@@ -1811,26 +1878,32 @@ msgid ""
 "[ if you are trying this under X, it might not work\n"
 "since the X server is also reading /dev/console ]\n"
 msgstr ""
-"[ Dacã încercaşi asta sub X, s-ar putea sã nu funcşioneze\n"
-"atâta timp cât ºi serverul X citeºte /dev/console ]\n"
+"[ DacÄƒ Ã®ncercaÈ›i asta sub X, s-ar putea sÄƒ nu funcÈ›ioneze\n"
+"atÃ¢ta timp cÃ¢t È™i serverul X citeÈ™te /dev/console ]\n"
 
 #: src/showkey.c:76
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
-msgstr "s-a primit semnal %d, se face curãşenie...\n"
+msgstr "s-a primit semnalul %d, se face curÄƒÈ›enie...\n"
 
 #: src/showkey.c:142
 msgid "display the decimal/octal/hex values of the keys."
-msgstr ""
+msgstr "afiÈ™eazÄƒ valorile zecimale/octale/hexazecimale ale tastelor."
 
 #: src/showkey.c:143
 msgid "display only the raw scan-codes."
-msgstr ""
+msgstr "afiÈ™eazÄƒ numai codurile de scanare brute."
 
 #: src/showkey.c:144
 msgid "display only the interpreted keycodes (default)."
-msgstr ""
+msgstr "afiÈ™eazÄƒ numai codurile de tastÄƒ interpretate (implicit)."
 
+# R-GC, scrie:
+# dupÄƒ revizarea fiÈ™ierului, DÈ˜, spune:
+# â€â†’ oricare Ã®n loc de oriceâ€
+# ***
+# corecÈ›ie aplicatÄƒ:
+# â€... orice taste ...â€ â†’ â€... oricare tastÄƒ ...â€
 #: src/showkey.c:193
 #, c-format
 msgid ""
@@ -1839,15 +1912,13 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Apãsaşi orice taste - Ctrl-D va termina acest program\n"
+"ApÄƒsaÈ›i oricare tastÄƒ - â€Ctrl-Dâ€ va termina acest program\n"
 "\n"
 
 #: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr ""
-"aspãsaşi orice tastã (programul se terminã la 10s dupã ultima apãsare de "
-"tastã)...\n"
+msgstr "apÄƒsaÈ›i orice tastÄƒ (programul se terminÄƒ la 10s dupÄƒ ultima apÄƒsare de tastÄƒ)...\n"
 
 #: src/showkey.c:285
 msgid "release"
@@ -1855,12 +1926,12 @@ msgstr "eliberare"
 
 #: src/showkey.c:285
 msgid "press"
-msgstr "apãsare"
+msgstr "apÄƒsare"
 
 #: src/showkey.c:295
 #, c-format
 msgid "keycode %3d %s\n"
-msgstr "cod tastã %3d %s\n"
+msgstr "codul tastei %3d %s\n"
 
 #: src/vlock/auth.c:76
 msgid ""
@@ -1868,25 +1939,28 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"ÃncercaÈ›i din nou mai tÃ¢rziu.\n"
+"\n"
+"\n"
 
 #: src/vlock/auth.c:84
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
-msgstr ""
+msgstr "Ãntregul afiÈ™aj al consolei este acum complet blocat de %s.\n"
 
 #: src/vlock/auth.c:87
 #, c-format
 msgid "The %s is now locked by %s.\n"
-msgstr ""
+msgstr "%s este blocat acum de %s\n"
 
 #: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
-msgstr ""
+msgstr "UtilizaÈ›i funcÈ›ia tastei Alt, pentru a comuta la alte console virtuale."
 
 #: src/vlock/parse.c:52
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr ""
+msgstr "ÃncercaÈ›i Â«%s --helpÂ» pentru mai multe informaÈ›ii.\n"
 
 #: src/vlock/parse.c:61
 #, c-format
@@ -1901,408 +1975,30 @@ msgid ""
 "-v or --version: Print the version number of vlock and exit.\n"
 "-h or --help: Print this help message and exit.\n"
 msgstr ""
+"%s: blocheazÄƒ consolele virtuale, salvÃ¢nd sesiunea curentÄƒ.\n"
+"Utilizare: %s [opÈ›iuni]\n"
+"        Unde [opÈ›iuni] sunt oricare dintre:\n"
+"-c sau --current: blocheazÄƒ doar aceastÄƒ consolÄƒ virtualÄƒ, permiÈ›Ã¢nd\n"
+"        utilizatorului sÄƒ treacÄƒ la alte console virtuale.\n"
+"-a sau --all: blocheazÄƒ toate consolele virtuale, Ã®mpiedicÃ¢nd ca alÈ›i\n"
+"        utilizatori sÄƒ comute la consolele virtuale.\n"
+"-v sau --version: afiÈ™eazÄƒ numÄƒrul de versiune a vlock È™i iese.\n"
+"-h sau --help: afiÈ™eazÄƒ acest mesaj de ajutor È™i iese.\n"
 
 #: src/vlock/username.c:57
-#, fuzzy
 msgid "unrecognized user"
-msgstr ""
-"argument necunoscut: _%s_\n"
-"\n"
+msgstr "utilizator nerecunoscut"
 
 #: src/vlock/vlock.c:55
 msgid "stdin is not a tty"
-msgstr ""
+msgstr "intrarea standard, nu este un terminal(tty)"
 
 #: src/vlock/vt.c:147
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
-msgstr ""
+msgstr "Acest terminal(tty) Â«%sÂ» nu este o consolÄƒ virtualÄƒ.\n"
 
 #: src/vlock/vt.c:154
-#, fuzzy, c-format
+#, c-format
 msgid "The entire console display cannot be locked.\n"
-msgstr "%s: VT 1 este consola ºi nu poate fi dealocatã\n"
-
-#, fuzzy
-#~ msgid "getfont called with count<256"
-#~ msgstr "bug: getfont apelat cu numãr(count)<256\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage: %s [option...] N\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  -h, --help            print this usage message;\n"
-#~ "  -V, --version         print version number.\n"
-#~ msgstr ""
-#~ "showkey versiunea %s\n"
-#~ "\n"
-#~ "folosire: showkey [opşiune ...]\n"
-#~ "\n"
-#~ "opşiuni valide:\n"
-#~ "\n"
-#~ "\t-h --help\tafiºeazã acest text de ajutor\n"
-#~ "\t-a --ascii\tafiºeazã valorile zecimale/octale/hexazecimale ale "
-#~ "tastelor\n"
-#~ "\t-s --scancodes\tafiºeazã doar codurile de scanare brute(raw)\n"
-#~ "\t-k --keycodes\tafiºeazã doar codurile de taste interpretate(implicit)\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage: %s [option...] [N ...]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "\n"
-#~ "  -h, --help            print this usage message;\n"
-#~ "  -V, --version         print version number.\n"
-#~ msgstr ""
-#~ "showkey versiunea %s\n"
-#~ "\n"
-#~ "folosire: showkey [opşiune ...]\n"
-#~ "\n"
-#~ "opşiuni valide:\n"
-#~ "\n"
-#~ "\t-h --help\tafiºeazã acest text de ajutor\n"
-#~ "\t-a --ascii\tafiºeazã valorile zecimale/octale/hexazecimale ale "
-#~ "tastelor\n"
-#~ "\t-s --scancodes\tafiºeazã doar codurile de scanare brute(raw)\n"
-#~ "\t-k --keycodes\tafiºeazã doar codurile de taste interpretate(implicit)\n"
-
-#, c-format
-#~ msgid "%s: unknown option\n"
-#~ msgstr "%s: opşiune necunoscutã\n"
-
-#, c-format
-#~ msgid "dumpkeys version %s"
-#~ msgstr "dumpkeys versiune %s"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "\n"
-#~ "usage: dumpkeys [options...]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  -i, --short-info      display information about keyboard driver;\n"
-#~ "  -l, -s, --long-info   display above and symbols known to loadkeys;\n"
-#~ "  -n, --numeric         display keytable in hexadecimal notation;\n"
-#~ "  -f, --full-table      don't use short-hand notations, one row per "
-#~ "keycode;\n"
-#~ "  -1, --separate-lines  one line per (modifier,keycode) pair;\n"
-#~ "  -S, --shape=\n"
-#~ "  -t, --funcs-only      display only the function key strings;\n"
-#~ "  -k, --keys-only       display only key bindings;\n"
-#~ "  -d, --compose-only    display only compose key combinations;\n"
-#~ "  -c, --charset="
-#~ msgstr ""
-#~ "\n"
-#~ "folosire: dumpkeys [opşiuni...]\n"
-#~ "\n"
-#~ "opşiuni valide:\n"
-#~ "\n"
-#~ "\t-h --help\t    afiºeazã acest text de ajutor\n"
-#~ "\t-i --short-info\t    afiºeazã informaşii despre driverul de tastaturã\n"
-#~ "\t-l --long-info\t    afiºeazã cele de mai sus ºi simbolurile cunoscute "
-#~ "loadkeys\n"
-#~ "\t-n --numeric\t    afiºeazã tabela de taste în notare hexazecimalã\n"
-#~ "\t-f --full-table\t    nu foloseºte notaşii scurte, ci un rând pe "
-#~ "cod_tastã\n"
-#~ "\t-1 --separate-lines o linie pe (modificator,cod_tastã) pereche\n"
-#~ "\t   --funcs-only\t    afiºeazã numai ºirurile tastei de funcşii\n"
-#~ "\t   --keys-only\t    afiºeazã numai legãturile(bindings) tastelor\n"
-#~ "\t   --compose-only   afiºeazã doar combinaşiile tastelor compuse\n"
-#~ "\t-c --charset="
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "  -v, --verbose         explain what is being done;\n"
-#~ "  -h, --help            print this usage message;\n"
-#~ "  -V, --version         print version number.\n"
-#~ msgstr ""
-#~ "showkey versiunea %s\n"
-#~ "\n"
-#~ "folosire: showkey [opşiune ...]\n"
-#~ "\n"
-#~ "opşiuni valide:\n"
-#~ "\n"
-#~ "\t-h --help\tafiºeazã acest text de ajutor\n"
-#~ "\t-a --ascii\tafiºeazã valorile zecimale/octale/hexazecimale ale "
-#~ "tastelor\n"
-#~ "\t-s --scancodes\tafiºeazã doar codurile de scanare brute(raw)\n"
-#~ "\t-k --keycodes\tafiºeazã doar codurile de taste interpretate(implicit)\n"
-
-#, fuzzy, c-format
-#~ msgid "%s: error reading keyboard mode: %m\n"
-#~ msgstr "%s: eroare în setarea modului tastaturii\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "%s version %s\n"
-#~ "\n"
-#~ "Usage: %s [options]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "\n"
-#~ "  -n, --next-available  print number of next unallocated VT\n"
-#~ "  -h, --help            print this usage message;\n"
-#~ "  -V, --version         print version number.\n"
-#~ msgstr ""
-#~ "showkey versiunea %s\n"
-#~ "\n"
-#~ "folosire: showkey [opşiune ...]\n"
-#~ "\n"
-#~ "opşiuni valide:\n"
-#~ "\n"
-#~ "\t-h --help\tafiºeazã acest text de ajutor\n"
-#~ "\t-a --ascii\tafiºeazã valorile zecimale/octale/hexazecimale ale "
-#~ "tastelor\n"
-#~ "\t-s --scancodes\tafiºeazã doar codurile de scanare brute(raw)\n"
-#~ "\t-k --keycodes\tafiºeazã doar codurile de taste interpretate(implicit)\n"
-
-#, c-format
-#~ msgid "usage: getkeycodes\n"
-#~ msgstr "folosire: getkeycodes\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage:\n"
-#~ "\t%s [-s] [-C console]\n"
-#~ msgstr ""
-#~ "Folosire:\n"
-#~ "\t%s [-s]\n"
-
-#, fuzzy, c-format
-#~ msgid "Error: Unrecognized action: %s\n"
-#~ msgstr ""
-#~ "argument necunoscut: _%s_\n"
-#~ "\n"
-
-#, fuzzy, c-format
-#~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-f] [-C device]\n"
-#~ msgstr "folosire: kbd_mode [-a|-u|-k|-s]\n"
-
-#, c-format
-#~ msgid "%s: out of memory\n"
-#~ msgstr "%s: memorie plinã\n"
-
-#, fuzzy, c-format
-#~ msgid "Couldn't get a file descriptor referring to the console\n"
-#~ msgstr ""
-#~ "Nu am putut gãsi un descriptor de fiºier care sã se refere la aceastã "
-#~ "consolã\n"
-
-#, fuzzy, c-format
-#~ msgid "assuming iso-8859-15 %s"
-#~ msgstr "se presupune iso-8859-15 %s\n"
-
-#, fuzzy, c-format
-#~ msgid "assuming iso-8859-2 %s"
-#~ msgstr "se presupune iso-8859-2 %s\n"
-
-#, fuzzy, c-format
-#~ msgid "assuming iso-8859-3 %s"
-#~ msgstr "se presupune iso-8859-3 %s\n"
-
-#, fuzzy, c-format
-#~ msgid "assuming iso-8859-4 %s"
-#~ msgstr "se presupune iso-8859-4 %s\n"
-
-#, fuzzy, c-format
-#~ msgid "Cannot find %s\n"
-#~ msgstr "Nu se poate gãsi fontul %s\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage:\n"
-#~ "\t%s [-C console] [-o map.orig]\n"
-#~ msgstr "folosire: %s [-v] [-o map.orig] fiºier-mapare\n"
-
-#, c-format
-#~ msgid "Bad input line: %s\n"
-#~ msgstr "Linie de intrare(input) greºitã: %s\n"
-
-#, c-format
-#~ msgid ""
-#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-#~ msgstr ""
-#~ "%s: Interval Unicode greºit corespunzãtor intervalului de pozişie font 0x"
-#~ "%x-0x%x\n"
-
-#, c-format
-#~ msgid "%s: %s: Warning: line too long\n"
-#~ msgstr "%s: %s: Avertisment: linie prea lungã\n"
-
-#~ msgid "entries"
-#~ msgstr "intrãri"
-
-#, fuzzy, c-format
-#~ msgid "usage: %s [-V] [-v] [-o map.orig] map-file\n"
-#~ msgstr "folosire: %s [-v] [-o map.orig] fiºier-mapare\n"
-
-#, c-format
-#~ msgid "mapscrn: cannot open map file _%s_\n"
-#~ msgstr "mapscrn: nu se poate deschide fiºierul de mapare _%s_\n"
-
-#, c-format
-#~ msgid "Cannot stat map file"
-#~ msgstr "Nu se poate gãsi starea(stat) fiºierului de mapare"
-
-#, c-format
-#~ msgid "Error writing map to file\n"
-#~ msgstr "Eroare în scrierea mapãrii în fiºier\n"
-
-#, c-format
-#~ msgid "%s: Bad input line: %s\n"
-#~ msgstr "%s: Linie de intrare(input) greºitã: %s\n"
-
-#, c-format
-#~ msgid "%s: Glyph number (0x%lx) past end of font\n"
-#~ msgstr ""
-#~ "%s: Numãrul reprezentãrii(glyph) (0x%lx) a depãºit sfârºitul fontului\n"
-
-#, c-format
-#~ msgid "%s: Bad end of range (0x%lx)\n"
-#~ msgstr "%s: Sfârºit de domeniu(range) eronat (0x%lx)\n"
-
-#, c-format
-#~ msgid ""
-#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
-#~ "range\n"
-#~ msgstr ""
-#~ "%s: Corespunzãtor unui interval de pozişii de fonturi, ar trebui sã fie "
-#~ "un interval (range) Unicode\n"
-
-#, c-format
-#~ msgid "couldn't read %s, and cannot ioctl dump\n"
-#~ msgstr "nu s-a putut citi %s, ºi nu se poate face dump ioctl\n"
-
-#, c-format
-#~ msgid "Cannot open font file %s\n"
-#~ msgstr "Nu se poate deschide fiºierul de font %s\n"
-
-#, c-format
-#~ msgid "Cannot find %s font\n"
-#~ msgstr "Nu se poate gãsi fontul %s\n"
-
-#~ msgid "even number of arguments expected"
-#~ msgstr "numãr par de argumente aºteptat"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error reading current flags setting. Maybe you are not on the console?: "
-#~ "ioctl KDGKBLED"
-#~ msgstr ""
-#~ "Eroare în citirea setãrilor marcajelor(flags) curente. Poate nu sunteşi "
-#~ "în consolã?\n"
-
-#, fuzzy
-#~ msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
-#~ msgstr "Eroare în citirea setãrii curente a ledului din /dev/kbd.\n"
-
-#~ msgid "KIOCSLED unavailable?\n"
-#~ msgstr "KIOCSLED indisponibil?\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-#~ msgstr ""
-#~ "Eroare în citirea setãrii curente. E posibil ca stdin sã nu fie un VT?\n"
-
-#, c-format
-#~ msgid "usage: %s\n"
-#~ msgstr "folosire: %s\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "showkey version %s\n"
-#~ "\n"
-#~ "usage: showkey [options...]\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  -a, --ascii           display the decimal/octal/hex values of the "
-#~ "keys;\n"
-#~ "  -s, --scancodes       display only the raw scan-codes;\n"
-#~ "  -k, --keycodes        display only the interpreted keycodes (default);\n"
-#~ "  -h, --help            print this usage message;\n"
-#~ "  -V, --version         print version number.\n"
-#~ msgstr ""
-#~ "showkey versiunea %s\n"
-#~ "\n"
-#~ "folosire: showkey [opşiune ...]\n"
-#~ "\n"
-#~ "opşiuni valide:\n"
-#~ "\n"
-#~ "\t-h --help\tafiºeazã acest text de ajutor\n"
-#~ "\t-a --ascii\tafiºeazã valorile zecimale/octale/hexazecimale ale "
-#~ "tastelor\n"
-#~ "\t-s --scancodes\tafiºeazã doar codurile de scanare brute(raw)\n"
-#~ "\t-k --keycodes\tafiºeazã doar codurile de taste interpretate(implicit)\n"
-
-#, fuzzy
-#~ msgid "usage: totextmode\n"
-#~ msgstr "folosire: getkeycodes\n"
-
-#~ msgid "usage: chvt N\n"
-#~ msgstr "folosire: chvt N\n"
-
-#, fuzzy
-#~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-#~ msgstr "Folosire: kbdrate [-V] [-s] [-r ratã] [-d întârziere]\n"
-
-#~ msgid ""
-#~ "Usage:\n"
-#~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
-#~ "Each vt has his own copy of this bit. Use\n"
-#~ "\tsetmetamode [arg] < /dev/ttyn\n"
-#~ "to change the settings of another vt.\n"
-#~ "The setting before and after the change are reported.\n"
-#~ msgstr ""
-#~ "Folosire:\n"
-#~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
-#~ "Fiecare vt are propria copie a acestui bit. Folosişi\n"
-#~ "\tsetmetamode [arg] < /dev/ttyn\n"
-#~ "pentru a schimba setãrile altui vt.\n"
-#~ "Setãrile de dinainte ºi de dupã schimbãri sunt raportate.\n"
-
-#~ msgid "        use `openvt -f' to force.\n"
-#~ msgstr "        folosişi `openvt -f' pentru a forşa.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "openvt: could not open %s R/W (%s)\n"
-#~ msgstr ""
-#~ "\n"
-#~ "openvt: nu se poate deschide %s R/W (%s)\n"
-
-#~ msgid "openvt: could not deallocate console %d\n"
-#~ msgstr "openvt: nu se poate derepartiza(deallocate) consola %d\n"
-
-#~ msgid "%s: deallocating all unused consoles failed\n"
-#~ msgstr "%s: dealocarea tuturor consolelor nefolosite a eºuat\n"
-
-#~ msgid "KDGKBENT error at index 0 in table %d: "
-#~ msgstr "eroare KDGKBENT la indexul 0 din tabelul %d: "
-
-#~ msgid "%s: cannot find any keymaps?\n"
-#~ msgstr "%s: nu pot gãsi nici o mapare de taste?\n"
-
-#~ msgid "%s: plain map not allocated? very strange ...\n"
-#~ msgstr "%s: maparea simplã(plain) nealocatã? foarte ciudat ...\n"
-
-#~ msgid "# not alt_is_meta: on keymap %d key %d is bound to"
-#~ msgstr ""
-#~ "# diferit de alt_is_meta: în maparea de taste %d tasta %d este legatã de"
-
-#~ msgid "KDGKBSENT failed at index %d: "
-#~ msgstr "eroare KDGKBSENT la indexul %d: "
-
-#~ msgid "error executing  %s\n"
-#~ msgstr "eroare în executarea  %s\n"
-
-#~ msgid "plus before %s ignored\n"
-#~ msgstr "plus înainte de %s ignorat\n"
-
-#~ msgid "Error opening /dev/kbd.\n"
-#~ msgstr "Eroare în deschiderea /dev/kbd.\n"
-
-#~ msgid "%s: out of memory?\n"
-#~ msgstr "%s: memorie plinã?\n"
+msgstr "Nu poate fi blocat Ã®ntregul afiÈ™aj al consolei.\n"
