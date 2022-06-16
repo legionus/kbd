@@ -153,7 +153,7 @@ AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/us.map.bin" \
 	expout
-AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_top_srcdir/data/keymaps/i386/qwerty/us.map"],
+AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i386/qwerty/us.map"],
 	[0], [expout])
 AT_CLEANUP
 
@@ -163,7 +163,7 @@ AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/pt-latin9.map.bin" \
 	expout
-AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_top_srcdir/data/keymaps/i386/qwerty/pt-latin9.map"],
+AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i386/qwerty/pt-latin9.map"],
 	[0], [expout])
 AT_CLEANUP
 
@@ -173,6 +173,6 @@ AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
 	"$abs_srcdir/data/bkeymap-2.0.4/cz.map.bin" \
 	expout
-AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_top_srcdir/data/keymaps/i386/qwerty/cz.map"],
+AT_CHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"],
 	[0], [expout])
 AT_CLEANUP

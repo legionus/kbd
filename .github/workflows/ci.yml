@@ -83,7 +83,7 @@ jobs:
     - name: "Configure"
       run: |
         ./autogen.sh
-        ./configure --datadir="$PWD/data" --enable-optional-progs ${{ matrix.configure }}
+        ./configure --datadir="$PWD/tests/data" --enable-optional-progs ${{ matrix.configure }}
     - name: "Build"
       run: |
         make V=1

@@ -8,13 +8,13 @@ AT_CLEANUP
 AT_SETUP([setvtrgbt (vtrgb.ubuntu)])
 AT_KEYWORDS([e2e setvtrgb])
 AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
-E2E_CHECK(["$abs_top_builddir/src/setvtrgb" "$abs_top_srcdir/contrib/vtrgb.ubuntu"])
+E2E_CHECK(["$abs_top_builddir/src/setvtrgb" "$abs_srcdir/data/setvtrgb/vtrgb.ubuntu"])
 E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/setvtrgb-test02.calls])
 AT_CLEANUP
 
 AT_SETUP([setvtrgbt (vtrgb.ubuntu.hex)])
 AT_KEYWORDS([e2e setvtrgb])
 AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
-E2E_CHECK(["$abs_top_builddir/src/setvtrgb" "$abs_top_srcdir/contrib/vtrgb.ubuntu.hex"])
+E2E_CHECK(["$abs_top_builddir/src/setvtrgb" "$abs_srcdir/data/setvtrgb/vtrgb.ubuntu.hex"])
 E2E_COMPARE_SYSCALLS([cat $abs_srcdir/data/e2e/setvtrgb-test02.calls])
 AT_CLEANUP

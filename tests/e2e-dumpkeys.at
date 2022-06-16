@@ -4,7 +4,7 @@ AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
 PREV_LANG="$LANG"
 export LANG=en_US.UTF-8
 kbd_mode -u -f
-"loadkeys" -c -s "$abs_srcdir/data/VoidSymbol.map"
+"loadkeys" -c -s "$abs_srcdir/data/keymaps/VoidSymbol.map"
 E2E_CHECK(["$abs_top_builddir/src/loadkeys" -v us], [loadkeys us])
 E2E_CHECK(["$abs_top_builddir/src/dumpkeys" -k])
 cp -f -- stdout dumpkeys.map
