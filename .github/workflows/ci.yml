@@ -12,9 +12,38 @@ on:
       - master
       - for-master
 jobs:
+  check_commits_job:
+    name: "Check commits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "env"
+        run: env
+      - name: "Developer's Certificate of Origin"
+        run: |
+          echo
+          echo 'Commits to check:'
+          git log --pretty='%H%x09%s%x09%ce%x09-%(trailers:key=Signed-off-by,valueonly,separator=%x00)' origin/$GITHUB_REF_NAME..HEAD |
+             tee /tmp/commits |
+             cut -f1,2
+          echo ''
+          if grep -e '-$' /tmp/commits | cut -f1,2 | grep -e '^' > /tmp/bad-commits; then
+             echo 'Сommits that fail verification:'
+             cat /tmp/bad-commits
+             echo ''
+             echo 'The DCO Signoff Check for all commits has FAILED.'
+             echo 'See https://github.com/legionus/kbd/blob/master/docs/process/howto-contribute.md#patches='
+             echo ''
+             exit 1
+          fi
+
+
   distcheck_job:
     name: "Distcheck"
     runs-on: ubuntu-20.04
+    needs: [ check_commits_job ]
     steps:
     - name: "Check out repository"
       uses: actions/checkout@v2
