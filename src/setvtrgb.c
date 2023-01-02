@@ -144,13 +144,17 @@ parse_hex_file(FILE *fd, const char *filename)
 static void
 parse_file(FILE *fd, const char *filename)
 {
-	if (fgetc(fd) == '#') {
-		rewind(fd);
+	int c = fgetc(fd);
+
+	if (c == EOF)
+		kbd_error(EXIT_FAILURE, 0, _("Error: %s: File ended unexpectedly."),
+		          filename);
+	ungetc(c, fd);
+
+	if (c == '#')
 		parse_hex_file(fd, filename);
-	} else {
-		rewind(fd);
+	else
 		parse_dec_file(fd, filename);
-	}
 }
 
 int main(int argc, char **argv)
