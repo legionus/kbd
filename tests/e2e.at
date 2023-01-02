@@ -1,3 +1,13 @@
+m4_define([E2E_RUN_PIPE],[[
+$1 | \
+env \
+	LIBTSWRAP_OUTPUT="syscalls" \
+	LD_PRELOAD="$abs_builddir/libtswrap/.libs/libtswrap.so" \
+	$2 \
+	1>stdout \
+	2>stderr ;
+]])
+
 m4_define([E2E_RUN],[[
 env \
 	LIBTSWRAP_OUTPUT="syscalls" \
@@ -6,6 +16,10 @@ env \
 	1>stdout \
 	2>stderr ;
 ]])
+
+m4_define([E2E_CHECK_PIPE],[
+AT_CHECK([E2E_RUN_PIPE([$1], [$2])], [0], [], [], [$3], [$4])
+])
 
 m4_define([E2E_CHECK],[
 AT_CHECK([E2E_RUN([$1])], [0], [], [], [$2], [$3])
