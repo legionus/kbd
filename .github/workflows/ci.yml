@@ -20,12 +20,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: "env"
-        run: env
+        run: env | sort
       - name: "Developer's Certificate of Origin"
         run: |
           echo
           echo 'Commits to check:'
-          git log --pretty='%H%x09%s%x09%ce%x09-%(trailers:key=Signed-off-by,valueonly,separator=%x00)' origin/$GITHUB_REF_NAME..HEAD |
+          git log --pretty='%H%x09%s%x09%ce%x09-%(trailers:key=Signed-off-by,valueonly,separator=%x00)' origin/master.. |
              tee /tmp/commits |
              cut -f1,2
           echo ''
@@ -42,11 +42,11 @@ jobs:
 
   distcheck_job:
     name: "Distcheck"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: [ check_commits_job ]
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: "Install dependencies"
@@ -69,19 +69,19 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             cc: gcc
             compiler: gcc
             libc: glibc
             configure: --enable-libkeymap --enable-libkfont
             check: unittest e2e
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             cc: clang
             compiler: clang
             libc: glibc
             configure: --enable-libkeymap --enable-libkfont
             check: unittest e2e
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             cc: musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
             compiler: gcc
             libc: musl
@@ -96,7 +96,7 @@ jobs:
       TTY: /dev/tty60
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: "Install dependencies"
