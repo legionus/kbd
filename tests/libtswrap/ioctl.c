@@ -93,6 +93,12 @@ static struct translate_names kd_font_op[] = {
 	{ KD_FONT_OP_GET, "KD_FONT_OP_GET" },
 	{ KD_FONT_OP_SET_DEFAULT, "KD_FONT_OP_SET_DEFAULT" },
 	{ KD_FONT_OP_COPY, "KD_FONT_OP_COPY" },
+#ifdef KD_FONT_OP_SET_TALL
+	{ KD_FONT_OP_SET_TALL, "KD_FONT_OP_SET_TALL" },
+#endif
+#ifdef KD_FONT_OP_GET_TALL
+	{ KD_FONT_OP_GET_TALL, "KD_FONT_OP_GET_TALL" },
+#endif
 	{ 0, NULL }
 };
 

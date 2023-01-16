@@ -205,7 +205,7 @@ int main(int argc, char **argv)
 	if (info) {
 		nr = rows = cols = 0;
 
-		ret = kfont_get_font(kfont, fd, NULL, &nr, &rows, &cols);
+		ret = kfont_get_font(kfont, fd, NULL, &nr, &rows, &cols, NULL);
 		if (ret != 0)
 			leave(kfont, EXIT_FAILURE);
 

@@ -90,7 +90,8 @@ struct console_font_op {
 	unsigned int flags; /* KD_FONT_FLAG_* */
 	unsigned int width, height;
 	unsigned int charcount;
-	unsigned char *data; /* font data with height fixed to 32 */
+	unsigned char *data; /* font data with vpitch fixed to 32 for
+                              * KD_FONT_OP_SET/GET */
 };
 
 #define KD_FONT_OP_SET 0         /* Set font */
@@ -98,6 +99,8 @@ struct console_font_op {
 #define KD_FONT_OP_SET_DEFAULT 2 /* Set font to default, \
                                     data points to name / NULL */
 #define KD_FONT_OP_COPY 3        /* Copy from another console */
+#define KD_FONT_OP_SET_TALL 4    /* Set font with arbitrary vpitch */
+#define KD_FONT_OP_GET_TALL 5    /* Get font with arbitrary vpitch */
 
 #define KD_FONT_FLAG_OLD 0x80000000 /* Invoked via old interface */
 #define KD_FONT_FLAG_DONT_RECALC 1  /* Don't call adjust_height() */

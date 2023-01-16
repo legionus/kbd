@@ -171,7 +171,8 @@ int kfont_load_unicodemap(struct kfont_context *ctx, int consolefd,
  * Sets number of glyphs in COUNT, glyph size in WIDTH and HEIGHT.
  */
 int kfont_get_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
-		unsigned int *count, unsigned int *width, unsigned int *height)
+		unsigned int *count, unsigned int *width, unsigned int *height,
+		unsigned int *vpitch)
 	__attribute__((nonnull(1)));
 
 /*
@@ -180,7 +181,8 @@ int kfont_get_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
  * Return 0 on success, -1 on failure.
  */
 int kfont_put_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
-		unsigned int count, unsigned int width, unsigned int height)
+		unsigned int count, unsigned int width, unsigned int height,
+		unsigned int vpitch)
 	__attribute__((nonnull(1)));
 
 /*
@@ -239,7 +241,7 @@ void kfont_disactivatemap(int fd);
 #include <stdio.h>
 
 /* Maximum font size that we try to handle */
-#define MAXFONTSIZE 65536
+#define MAXFONTSIZE (512*64*128)
 
 /**
  * readpsffont reads a PSF font.

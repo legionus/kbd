@@ -51,19 +51,33 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 		unsigned char *buf,
 		unsigned int *count,
 		unsigned int *width,
-		unsigned int *height)
+		unsigned int *height,
+		unsigned int *vpitch)
 {
 	struct console_font_op cfo;
 
+#ifdef KD_FONT_OP_GET_TALL
+	cfo.op = KD_FONT_OP_GET_TALL;
+#else
 	cfo.op = KD_FONT_OP_GET;
+#endif
 	cfo.flags = 0;
-	cfo.width = cfo.height = 32;
+	cfo.width = 64;
+	cfo.height = 128;
 	cfo.charcount = *count;
 	cfo.data = buf;
 
+retry:
 	errno = 0;
 
 	if (ioctl(consolefd, KDFONTOP, &cfo)) {
+#ifdef KD_FONT_OP_GET_TALL
+		if (errno == ENOSYS && cfo.op == KD_FONT_OP_GET_TALL) {
+			/* Kernel before 6.2.  */
+			cfo.op = KD_FONT_OP_GET;
+			goto retry;
+		}
+#endif
 		if (errno != ENOSYS && errno != EINVAL) {
 			KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
 			return -1;
@@ -76,6 +90,14 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 		*height = cfo.height;
 	if (width)
 		*width = cfo.width;
+	if (vpitch) {
+#ifdef KD_FONT_OP_GET_TALL
+		if (cfo.op == KD_FONT_OP_GET_TALL)
+			*vpitch = cfo.height;
+		else
+#endif
+			*vpitch = 32;
+	}
 	return 0;
 }
 
@@ -88,16 +110,17 @@ int
 kfont_get_font(struct kfont_context *ctx, int fd, unsigned char *buf,
 		unsigned int *count,
 		unsigned int *width,
-		unsigned int *height)
+		unsigned int *height,
+		unsigned int *vpitch)
 {
-	return get_font_kdfontop(ctx, fd, buf, count, width, height);
+	return get_font_kdfontop(ctx, fd, buf, count, width, height, vpitch);
 }
 
 int unsigned
 kfont_get_fontsize(struct kfont_context *ctx, int fd)
 {
 	unsigned int count = 0;
-	if (!kfont_get_font(ctx, fd, NULL, &count, NULL, NULL))
+	if (!kfont_get_font(ctx, fd, NULL, &count, NULL, NULL, NULL))
 		return count;
 	return 256;
 }
@@ -106,11 +129,20 @@ static int
 put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int count,
 		unsigned int width,
-		unsigned int height)
+		unsigned int height,
+		unsigned int vpitch)
 {
 	struct console_font_op cfo;
 
-	cfo.op        = KD_FONT_OP_SET;
+	if (vpitch == 32 && width <= 32)
+		cfo.op        = KD_FONT_OP_SET;
+	else {
+#ifdef KD_FONT_OP_SET_TALL
+		cfo.op        = KD_FONT_OP_SET_TALL;
+#else
+		return 0;
+#endif
+	}
 	cfo.flags     = 0;
 	cfo.width     = width;
 	cfo.height    = height;
@@ -122,8 +154,14 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 	if (!ioctl(consolefd, KDFONTOP, &cfo))
 		return 0;
 
-	if (errno == ENOSYS)
+	if (errno == ENOSYS) {
+#ifdef KD_FONT_OP_SET_TALL
+		if (cfo.op == KD_FONT_OP_SET_TALL)
+			/* Let user know that we can't load such font with such kernel version */
+			return 0;
+#endif
 		return 1;
+	}
 
 	int ret = -1;
 
@@ -154,7 +192,7 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 
 int
 kfont_put_font(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned int count,
-        unsigned int width, unsigned int height)
+        unsigned int width, unsigned int height, unsigned int vpitch)
 {
 	if (!width)
 		width = 8;
@@ -162,5 +200,5 @@ kfont_put_font(struct kfont_context *ctx, int fd, unsigned char *buf, unsigned i
 	if (!height)
 		height = font_charheight(buf, count, width);
 
-	return put_font_kdfontop(ctx, fd, buf, count, width, height);
+	return put_font_kdfontop(ctx, fd, buf, count, width, height, vpitch);
 }

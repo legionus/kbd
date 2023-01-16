@@ -45,8 +45,9 @@ findpartialfont(struct kfont_context *ctx, const char *fnam, struct kbdfile *fp)
 static int erase_mode = 1;
 
 static int
-do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
-		unsigned int width, unsigned int height, unsigned int hwunit,
+try_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
+		unsigned int width, unsigned int height, unsigned int vpitch,
+		unsigned int hwunit,
 		unsigned int fontsize, const char *filename)
 {
 	unsigned char *buf = NULL;
@@ -54,13 +55,13 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 	int bad_video_erase_char = 0;
 	int ret;
 
-	if (height < 1 || height > 32) {
-		KFONT_ERR(ctx, _("Bad character height %d"), height);
+	if (height < 1 || height > 128) {
+		KFONT_ERR(ctx, _("Bad character height %d (limit is 128)"), height);
 		return -EX_DATAERR;
 	}
 
-	if (width < 1 || width > 32) {
-		KFONT_ERR(ctx, _("Bad character width %d"), width);
+	if (width < 1 || width > 64) {
+		KFONT_ERR(ctx, _("Bad character width %d (limit is 64)"), width);
 		return -EX_DATAERR;
 	}
 
@@ -68,8 +69,8 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		hwunit = height;
 
 	if ((ctx->options & (1 << kfont_double_size)) &&
-	    (height > 16 || width > 16)) {
-		KFONT_ERR(ctx, _("Cannot double %dx%d font (limit is 16x16)"), width, height);
+	    (height > 64 || width > 32)) {
+		KFONT_ERR(ctx, _("Cannot double %dx%d font (limit is 32x64)"), width, height);
 		kfont_unset_option(ctx, kfont_double_size);
 	}
 
@@ -78,7 +79,7 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		unsigned int kbytewidth = (2 * width + 7) / 8;
 		unsigned int charsize   = height * bytewidth;
 
-		kcharsize = 32 * kbytewidth;
+		kcharsize = vpitch * kbytewidth;
 		buflen    = kcharsize * ((fontsize < 128) ? 128 : fontsize);
 
 		buf = calloc(1, buflen);
@@ -112,7 +113,7 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		unsigned int bytewidth = (width + 7) / 8;
 		unsigned int charsize  = height * bytewidth;
 
-		kcharsize = 32 * bytewidth;
+		kcharsize = vpitch * bytewidth;
 		buflen    = kcharsize * ((fontsize < 128) ? 128 : fontsize);
 
 		buf = calloc(1, buflen);
@@ -169,7 +170,7 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		KFONT_INFO(ctx, _("Loading %d-char %dx%d (%d) font"),
 		       fontsize, width, height, hwunit);
 
-	if (kfont_put_font(ctx, fd, buf, fontsize, width, hwunit) < 0) {
+	if (kfont_put_font(ctx, fd, buf, fontsize, width, hwunit, vpitch) < 1) {
 		ret = -EX_OSERR;
 		goto err;
 	}
@@ -178,6 +179,20 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 err:
 	free(buf);
 	return ret;
+}
+
+static int
+do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
+		unsigned int width, unsigned int height, unsigned int hwunit,
+		unsigned int fontsize, const char *filename)
+{
+	int ret;
+
+	if (height <= 32 && width <= 32)
+		/* This can work with pre-6.2 kernels and its size and vpitch limitations */
+		return try_loadfont(ctx, fd, inbuf, width, height, 32, hwunit, fontsize, filename);
+	else
+		return try_loadfont(ctx, fd, inbuf, width, height, height, hwunit, fontsize, filename);
 }
 
 static int
@@ -585,19 +600,19 @@ save_font(struct kfont_context *ctx, int consolefd, const char *filename,
 /* this is the max font size the kernel is willing to handle */
 	unsigned char buf[MAXFONTSIZE];
 
-	unsigned int i, ct, width, height, bytewidth, charsize, kcharsize;
+	unsigned int i, ct, width, height, bytewidth, charsize, kcharsize, vpitch;
 	int ret;
 
-	ct = sizeof(buf) / (32 * 32 / 8); /* max size 32x32, 8 bits/byte */
+	ct = sizeof(buf) / (64 * 128 / 8); /* max size 64x128, 8 bits/byte */
 
-	if (kfont_get_font(ctx, consolefd, buf, &ct, &width, &height) < 0)
+	if (kfont_get_font(ctx, consolefd, buf, &ct, &width, &height, &vpitch) < 0)
 		return -EX_OSERR;
 
 	/* save as efficiently as possible */
 	bytewidth = (width + 7) / 8;
 	height    = font_charheight(buf, ct, width);
 	charsize  = height * bytewidth;
-	kcharsize = 32 * bytewidth;
+	kcharsize = vpitch * bytewidth;
 
 /* Do we need a psf header? */
 /* Yes if ct==512 - otherwise we cannot distinguish
