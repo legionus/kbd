@@ -152,14 +152,15 @@ kfont_load_consolemap(struct kfont_context *ctx, int fd, const char *mfil)
 {
 	unsigned short ubuf[E_TABSZ];
 	unsigned char buf[E_TABSZ];
-	unsigned int i;
+	unsigned char i = 0;
 	int u = 0;
 
 	/* default: trivial straight-to-font */
-	for (i = 0; i < E_TABSZ; i++) {
-		buf[i]  = i;
+	do {
+		buf[i] = i;
 		ubuf[i] = (0xf000 + i);
-	}
+	} while (++i != 0);
+
 
 	if (mfil)
 		u = readnewmapfromfile(ctx, mfil, buf, ubuf);
