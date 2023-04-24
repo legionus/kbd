@@ -170,7 +170,7 @@ try_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		KFONT_INFO(ctx, _("Loading %d-char %dx%d (%d) font"),
 		       fontsize, width, height, hwunit);
 
-	if (kfont_put_font(ctx, fd, buf, fontsize, width, hwunit, vpitch) < 1) {
+	if (kfont_put_font(ctx, fd, buf, fontsize, width, hwunit, vpitch) < 0) {
 		ret = -EX_OSERR;
 		goto err;
 	}
