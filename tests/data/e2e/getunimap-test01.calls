@@ -1,7 +1,2 @@
-ioctl(?, KDGKBTYPE, 0x0002) = 0;
-	(descriptor ? is console)
-ioctl(?, GIO_UNIMAP, struct unimapdesc *arg) = 0;
-	struct unimapdesc *arg {
-		unsigned short entry_ct = 0
-		struct unipair *entries = NULL
-	};
+ioctl(<fd>, KDGKBTYPE, [KB_101])           = 0
+ioctl(<fd>, GIO_UNIMAP, {entry_ct=0 => 0, entries=NULL}) = 0

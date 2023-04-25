@@ -1,5 +1,2 @@
-ioctl(?, KDGKBTYPE, 0x0002) = 0;
-	(descriptor ? is console)
-ioctl(?, KDGKBLED, 0x0000) = 0;
-	def: LED_NUM:0 LED_CAP:0 LED_SCR:0
-	val: LED_NUM:0 LED_CAP:0 LED_SCR:0
+ioctl(<fd>, KDGKBTYPE, [KB_101])           = 0
+ioctl(<fd>, KDGKBLED, [0])                 = 0

@@ -55,8 +55,7 @@ jobs:
         sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libpam0g-dev bison flex gettext
     - name: "Configure"
       run: |
-        ./autogen.sh
-        ./configure --datadir="$PWD/data" --enable-optional-progs --enable-libkeymap --enable-libkfont
+        tests/configure.sh --datadir="$PWD/data"
     - name: "Build"
       run: |
         make V=1
@@ -73,20 +72,21 @@ jobs:
             cc: gcc
             compiler: gcc
             libc: glibc
-            configure: --enable-libkeymap --enable-libkfont
+            configure:
             check: unittest e2e
           - os: ubuntu-latest
             cc: clang
             compiler: clang
             libc: glibc
-            configure: --enable-libkeymap --enable-libkfont
+            configure:
             check: unittest e2e
           - os: ubuntu-latest
             cc: musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
             compiler: gcc
             libc: musl
             configure: --disable-libkeymap --disable-vlock
-            check: unittest
+            check: unittest e2e
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     needs: [ distcheck_job ]
     env:
@@ -99,31 +99,27 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Install dependencies"
-      run: |
-        sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq autoconf automake autopoint libtool libpam0g-dev bison flex gettext kbd
-        sudo apt-get install -y -qq gcc clang musl musl-dev musl-tools
-    - name: "Prepare TTY"
-      run: |
-        TTY=/dev/tty60
-        sudo chmod 666 $TTY
-        sudo kbd_mode -f -u -C $TTY
+    - run: sudo apt-get update  -y -qq
+    - run: sudo apt-get install -y -qq autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext kbd strace
+    - run: sudo apt-get install -y -qq gcc clang musl musl-dev musl-tools
     - name: "Configure"
       run: |
-        ./autogen.sh
-        ./configure --datadir="$PWD/tests/data" --enable-optional-progs ${{ matrix.configure }}
+        tests/configure.sh --datadir="$PWD/tests/data" ${{ matrix.configure }}
     - name: "Build"
       run: |
         make V=1
     - name: "Check"
       run: |
-        sudo -E make check < $TTY
+        sudo -E tests/check.sh
     - name: "Upload artifacts"
       if: failure()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: test-logs
+        name: artifact-${{ matrix.compiler }}-${{ matrix.libc }}
         path: |
           config.log
+          tests/testsuite.dir
           tests/testsuite.log
+        if-no-files-found: ignore
+        retention-days: 1
+

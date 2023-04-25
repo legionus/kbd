@@ -4,7 +4,6 @@ SUBDIRS = \
 	helpers    \
 	libkbdfile \
 	libkeymap  \
-	libtswrap  \
 	$(NULL)
 
 AUTOM4TE = $(SHELL) $(top_srcdir)/config/missing --run autom4te

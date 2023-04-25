@@ -1,8 +1,2 @@
-ioctl(?, KDGKBTYPE, 0x0002) = 0;
-	(descriptor ? is console)
-ioctl(?, PIO_UNIMAPCLR, struct unimapinit *arg) = 0;
-	struct unimapinit *arg {
-		unsigned short advised_hashsize = 0
-		unsigned short advised_hashstep = 0
-		unsigned short advised_hashlevel = 0
-	};
+ioctl(<fd>, KDGKBTYPE, [KB_101])           = 0
+ioctl(<fd>, PIO_UNIMAPCLR, {advised_hashsize=0, advised_hashstep=0, advised_hashlevel=0}) = 0
