@@ -75,6 +75,7 @@ else
 noinst_LTLIBRARIES = libkeymap.la
 endif
 
+AM_YFLAGS = -Wno-yacc
 AM_LFLAGS = --header-file=$(CURDIR)/analyze.h
 BUILT_SOURCES = parser.c analyze.c parser.h analyze.h $(ksyms_gen_headers)
 CLEANFILES += $(BUILT_SOURCES)

@@ -36,10 +36,9 @@ struct strdata {
 }
 
 %language "C"
-%yacc
 %defines
 %debug
-%error-verbose
+%define parse.error verbose
 
 /* Pure yylex.  */
 %define api.pure
