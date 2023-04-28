@@ -371,7 +371,7 @@ int main(int argc, char **argv)
 }
 
 static void __attribute__((noreturn))
-usage()
+usage(void)
 {
 	fprintf(stderr,
 	        _("resizecons:\n"
@@ -409,7 +409,7 @@ static inline int my_inb(int port)
 
 static int crtcport;
 
-static void vga_init_io()
+static void vga_init_io(void)
 {
 	if (iopl(3) < 0) {
 		fprintf(stderr,
@@ -427,7 +427,7 @@ static void vga_set_fontheight(int h)
 	my_outb(crtcport + 1, (my_inb(crtcport + 1) & 0xe0) | (h - 1));
 }
 
-static int vga_get_fontheight()
+static int vga_get_fontheight(void)
 {
 	my_outb(crtcport, 0x09);
 	return (my_inb(crtcport + 1) & 0x1f) + 1;
@@ -449,7 +449,7 @@ static void vga_set_verticaldisplayend_lowbyte(int byte)
 	my_outb(crtcport + 1, byte);
 }
 
-static void vga_480_scanlines()
+static void vga_480_scanlines(void)
 {
 	/* CRTC register 0x11 */
 	/* vertical sync end (also unlocks CR0-7) */
@@ -491,7 +491,7 @@ static void vga_480_scanlines()
 	my_outb(0x3c2, (my_inb(0x3cc) & 0x0d) | 0xe2);
 }
 
-static void vga_400_scanlines()
+static void vga_400_scanlines(void)
 {
 	/* CRTC register 0x11 */
 	/* vertical sync end (also unlocks CR0-7) */
