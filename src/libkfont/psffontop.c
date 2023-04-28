@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sysexits.h>
+#include <limits.h>
 
 #include "libcommon.h"
 #include "kfontP.h"
@@ -450,7 +451,7 @@ writepsffontheader(struct kfont_context *ctx,
 			h.mode |= PSF1_MODEHASSEQ;
 		else if (flags & WPSFH_HASTAB)
 			h.mode |= PSF1_MODEHASTAB;
-		h.charsize = charsize;
+		h.charsize = (unsigned char) (charsize <= UCHAR_MAX ? charsize : UCHAR_MAX);
 		ret = fwrite(&h, sizeof(h), 1, ofil);
 	}
 

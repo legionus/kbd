@@ -186,8 +186,6 @@ do_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		unsigned int width, unsigned int height, unsigned int hwunit,
 		unsigned int fontsize, const char *filename)
 {
-	int ret;
-
 	if (height <= 32 && width <= 32)
 		/* This can work with pre-6.2 kernels and its size and vpitch limitations */
 		return try_loadfont(ctx, fd, inbuf, width, height, 32, hwunit, fontsize, filename);
@@ -230,8 +228,8 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 		while (ul) {
 			us = ul->seq;
 			if (us && !us->next) {
-				up[ct].unicode = us->uc;
-				up[ct].fontpos = i;
+				up[ct].unicode = (unsigned short) us->uc;
+				up[ct].fontpos = (unsigned short) i;
 				ct++;
 				if (ctx->verbose > 1)
 					printf(" %04x", us->uc);
@@ -251,7 +249,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 			printf("\n");
 	}
 
-	if (ct != maxct) {
+	if (ct > USHRT_MAX || ct != maxct) {
 		KFONT_ERR(ctx, _("bug in do_loadtable"));
 		ret = -EX_SOFTWARE;
 		goto err;
@@ -259,7 +257,7 @@ do_loadtable(struct kfont_context *ctx, int fd, struct unicode_list *uclistheads
 
 	KFONT_INFO(ctx, _("Loading Unicode mapping table..."));
 
-	ud.entry_ct = ct;
+	ud.entry_ct = (unsigned short) ct;
 	ud.entries  = up;
 
 	if (kfont_put_unicodemap(ctx, fd, NULL, &ud) < 0) {

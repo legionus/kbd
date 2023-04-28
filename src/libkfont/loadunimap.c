@@ -217,7 +217,8 @@ parseline(struct kfont_context *ctx, char *buffer, const char *tblname,
 		}
 
 		for (i = fp0; i <= fp1; i++) {
-			if ((ret = add_unipair(ctx, i, un0 - fp0 + i, list, listsz, listct)) < 0)
+			unsigned short un = un0 - fp0;
+			if ((ret = add_unipair(ctx, i, un + i, list, listsz, listct)) < 0)
 				return ret;
 		}
 
