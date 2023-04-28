@@ -67,23 +67,26 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 	cfo.charcount = *count;
 	cfo.data = buf;
 
-retry:
-	errno = 0;
+	while (1) {
+		errno = 0;
 
-	if (ioctl(consolefd, KDFONTOP, &cfo)) {
+		if (ioctl(consolefd, KDFONTOP, &cfo)) {
 #ifdef KD_FONT_OP_GET_TALL
-		if (errno == ENOSYS && cfo.op == KD_FONT_OP_GET_TALL) {
-			/* Kernel before 6.2.  */
-			cfo.op = KD_FONT_OP_GET;
-			goto retry;
-		}
+			if (errno == ENOSYS && cfo.op == KD_FONT_OP_GET_TALL) {
+				/* Kernel before 6.2.  */
+				cfo.op = KD_FONT_OP_GET;
+				continue;
+			}
 #endif
-		if (errno != ENOSYS && errno != EINVAL) {
-			KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
-			return -1;
+			if (errno != ENOSYS && errno != EINVAL) {
+				KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
+				return -1;
+			}
+			return 1;
 		}
-		return 1;
+		break;
 	}
+
 
 	*count = cfo.charcount;
 	if (height)
