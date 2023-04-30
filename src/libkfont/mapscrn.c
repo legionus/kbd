@@ -46,7 +46,7 @@ parsemap(FILE *fp, unsigned char *buf, unsigned short *ubuf, int *u, unsigned in
 	char buffer[256];
 	unsigned int ln = 0;
 	int in, on, ret = 0;
-	char *p, *q;
+	char *p, *q, *save;
 
 	while (fgets(buffer, sizeof(buffer) - 1, fp)) {
 		ln++;
@@ -54,9 +54,9 @@ parsemap(FILE *fp, unsigned char *buf, unsigned short *ubuf, int *u, unsigned in
 		if (!*u && strstr(buffer, "U+"))
 			*u = 1;
 
-		p = strtok(buffer, " \t\n");
+		p = strtok_r(buffer, " \t\n", &save);
 		if (p && *p != '#') {
-			q = strtok(NULL, " \t\n#");
+			q = strtok_r(NULL, " \t\n#", &save);
 			if (q) {
 				in = ctoi(p);
 				on = ctoi(q);
