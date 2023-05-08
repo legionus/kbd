@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.10\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2022-03-23 14:43+0100\n"
+"POT-Creation-Date: 2023-05-08 14:43+0200\n"
 "PO-Revision-Date: 2004-01-21 06:15+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -43,7 +43,7 @@ msgstr ""
 #: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
 #: src/kbdrate.c:376 src/loadkeys.c:127 src/loadunimap.c:78 src/mapscrn.c:76
 #: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
-#: src/setmetamode.c:115 src/setvtrgb.c:177 src/showconsolefont.c:158
+#: src/setmetamode.c:115 src/setvtrgb.c:181 src/showconsolefont.c:158
 #: src/showkey.c:145
 msgid "print this usage message."
 msgstr ""
@@ -52,7 +52,7 @@ msgstr ""
 #: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
 #: src/kbdrate.c:375 src/loadkeys.c:126 src/loadunimap.c:77 src/mapscrn.c:75
 #: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
-#: src/setmetamode.c:114 src/setvtrgb.c:176 src/showconsolefont.c:157
+#: src/setmetamode.c:114 src/setvtrgb.c:180 src/showconsolefont.c:157
 #: src/showkey.c:146
 msgid "print version number."
 msgstr ""
@@ -67,10 +67,9 @@ msgstr ""
 #: src/loadkeys.c:204 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
 #: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
 #: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:220 src/showconsolefont.c:194
+#: src/setvesablank.c:32 src/setvtrgb.c:224 src/showconsolefont.c:194
 #: src/showkey.c:211 src/totextmode.c:32
 #, fuzzy, c-format
-#| msgid "Couldnt get a file descriptor referring to the console\n"
 msgid "Couldn't get a file descriptor referring to the console."
 msgstr "Konsolu hedef alan bir dosya betimleyici (fd) alinamadi\n"
 
@@ -99,9 +98,6 @@ msgstr ""
 #: src/deallocvt.c:88 src/kbdinfo.c:188 src/setleds.c:285 src/setleds.c:293
 #: src/setmetamode.c:156
 #, fuzzy, c-format
-#| msgid ""
-#| "unrecognized argument: _%s_\n"
-#| "\n"
 msgid "Unrecognized argument: %s"
 msgstr ""
 "bilinmeyen arguman: _%s_\n"
@@ -109,24 +105,21 @@ msgstr ""
 
 #: src/deallocvt.c:105
 #, fuzzy
-#| msgid "%s: 0: illegal VT number\n"
 msgid "0: illegal VT number"
 msgstr "%s: 0: VT numarasi uygun degil\n"
 
 #: src/deallocvt.c:107
 #, fuzzy
-#| msgid "%s: VT 1 is the console and cannot be deallocated\n"
 msgid "VT 1 is the console and cannot be deallocated"
 msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 
 #: src/deallocvt.c:109
 #, fuzzy, c-format
-#| msgid "%s: could not deallocate console %d\n"
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "%s: %d konsolu kaldirilamadi\n"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
-#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
+#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -181,10 +174,8 @@ msgstr ""
 
 #: src/dumpkeys.c:117
 #, fuzzy
-#| msgid ""
-#| "\t\t\t    interpret character action codes to be from the\n"
-#| "\t\t\t    specified character set\n"
-msgid "interpret character action codes to be from the specified character set."
+msgid ""
+"interpret character action codes to be from the specified character set."
 msgstr ""
 "                       eylem kodalrini belirtilen karakter kumesine\n"
 "                       gore yorumlar\n"
@@ -192,7 +183,7 @@ msgstr ""
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
 #: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
 #: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
-#: src/setvtrgb.c:175 src/showconsolefont.c:154
+#: src/setvtrgb.c:179 src/showconsolefont.c:154
 msgid "the console device to be used."
 msgstr ""
 
@@ -201,7 +192,7 @@ msgstr ""
 msgid "be more verbose."
 msgstr ""
 
-#: src/dumpkeys.c:165 parser.y:195
+#: src/dumpkeys.c:165 src/libkeymap/parser.y:194
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "%s karakter seti bilinmiyor - istek yoksayildi\n"
@@ -209,7 +200,6 @@ msgstr "%s karakter seti bilinmiyor - istek yoksayildi\n"
 #: src/dumpkeys.c:194 src/kbdinfo.c:139 src/kbd_mode.c:161 src/kbd_mode.c:170
 #: src/loadkeys.c:208 src/showconsolefont.c:197 src/showkey.c:35
 #, fuzzy
-#| msgid "kbd_mode: error reading keyboard mode\n"
 msgid "Unable to read keyboard mode"
 msgstr "kbd_mode: klavye kipi okunurken hata\n"
 
@@ -230,7 +220,6 @@ msgstr ""
 
 #: src/fgconsole.c:100
 #, fuzzy
-#| msgid "couldn't read %s\n"
 msgid "Couldn't read VTNO: "
 msgstr "%s okunamadi\n"
 
@@ -242,20 +231,19 @@ msgstr "Tu$ kodlarina (onluk) kar$i du$en basit tarama kodlari (onaltilik)\n"
 #: src/getkeycodes.c:105
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
-msgstr "0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu icin\n"
+msgstr ""
+"0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu "
+"icin\n"
 
 #: src/getkeycodes.c:108
 #, fuzzy, c-format
-#| msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu icin\n"
+msgstr ""
+"0 bir hatadir; 1-88 (0x01-0x58) tarama kodlari tu$ kodlariyla ayni oldugu "
+"icin\n"
 
 #: src/getkeycodes.c:115
 #, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Escaped scancodes e0 xx (hex)\n"
 msgid "Escaped scancodes e0 xx (hex)\n"
 msgstr ""
 "\n"
@@ -264,7 +252,6 @@ msgstr ""
 
 #: src/getkeycodes.c:139
 #, fuzzy, c-format
-#| msgid "failed to get keycode for scancode 0x%x\n"
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr "0x%x tarama kodu icin tu$ kodu alinamadi\n"
 
@@ -290,7 +277,6 @@ msgstr ""
 
 #: src/kbdinfo.c:126 src/loadkeys.c:210
 #, fuzzy
-#| msgid "Cannot read console map\n"
 msgid "Unable to read console mode"
 msgstr "konsol e$lemi okunamiyor\n"
 
@@ -304,37 +290,31 @@ msgstr ""
 
 #: src/kbd_mode.c:28 src/loadunimap.c:29
 #, fuzzy, c-format
-#| msgid "%s: error setting keyboard mode\n"
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr "%s: klavye kipi ayarlanirken hata\n"
 
 #: src/kbd_mode.c:60
 #, fuzzy, c-format
-#| msgid "The keyboard is in raw (scancode) mode\n"
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "Klavye tarama kodlari (temel) kipinde\n"
 
 #: src/kbd_mode.c:63
 #, fuzzy, c-format
-#| msgid "The keyboard is in mediumraw (keycode) mode\n"
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "Klavye tu$ kodlari (temelustu) kipinde\n"
 
 #: src/kbd_mode.c:66
 #, fuzzy, c-format
-#| msgid "The keyboard is in the default (ASCII) mode\n"
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "Klavye ontanimli (ASCII) kipte\n"
 
 #: src/kbd_mode.c:69
 #, fuzzy, c-format
-#| msgid "The keyboard is in Unicode (UTF-8) mode\n"
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "Klavye Unicode (UTF-8) kipinde\n"
 
 #: src/kbd_mode.c:72
 #, fuzzy, c-format
-#| msgid "The keyboard is in some unknown mode\n"
 msgid "The keyboard is in some unknown mode"
 msgstr "Klavye bilinmeyen bir kipte\n"
 
@@ -360,12 +340,13 @@ msgstr ""
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
+msgid ""
+"Changing to the requested mode may make your keyboard unusable, please use -"
+"f to force the change.\n"
 msgstr ""
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, fuzzy, c-format
-#| msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgid "Typematic Rate is %.1f cps\n"
 msgstr "Yineleme hizi %.1f cps (gecikme = %d ms)\n"
 
@@ -403,7 +384,9 @@ msgid "set the rate in characters per second."
 msgstr ""
 
 #: src/kbdrate.c:372
-msgid "set the amount of time the key must remain depressed before it will start to repeat."
+msgid ""
+"set the amount of time the key must remain depressed before it will start to "
+"repeat."
 msgstr ""
 
 #: src/kbdrate.c:373
@@ -416,7 +399,6 @@ msgstr ""
 
 #: src/libcommon/getfd.c:70
 #, fuzzy, c-format
-#| msgid "Couldnt open %s\n"
 msgid "Couldn't open %s"
 msgstr "%s acilamadi\n"
 
@@ -425,62 +407,62 @@ msgstr "%s acilamadi\n"
 msgid "%s from %s\n"
 msgstr "%s (%s den)\n"
 
-#: analyze.l:43
+#: src/libkeymap/analyze.l:43
 msgid "includes are nested too deeply"
 msgstr ""
 
-#: analyze.l:161 analyze.l:263 analyze.l:357 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:161 src/libkeymap/analyze.l:263
+#: src/libkeymap/analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
-#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
-#: src/screendump.c:121 src/screendump.c:151
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
+#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
+#: src/screendump.c:151
 #, fuzzy
-#| msgid "%s: out of memory\n"
 msgid "out of memory"
 msgstr "%s: bellek yetersiz\n"
 
-#: analyze.l:259
+#: src/libkeymap/analyze.l:259
 #, c-format
 msgid "switching to %s"
 msgstr ""
 
-#: analyze.l:269
+#: src/libkeymap/analyze.l:269
 #, fuzzy, c-format
-#| msgid "Cannot open font file %s\n"
 msgid "cannot open include file %s"
 msgstr "%s yazitipi dosyasi acilamiyor\n"
 
-#: analyze.l:291
+#: src/libkeymap/analyze.l:291
 #, c-format
 msgid "unable to parse number: %s"
 msgstr ""
 
-#: analyze.l:296
+#: src/libkeymap/analyze.l:296
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr ""
 
-#: analyze.l:301
+#: src/libkeymap/analyze.l:301
 #, c-format
 msgid "value must be less than %d: %s"
 msgstr ""
 
-#: analyze.l:369
+#: src/libkeymap/analyze.l:369
 msgid "expected filename between quotes"
 msgstr ""
 
-#: analyze.l:408
+#: src/libkeymap/analyze.l:408
 #, c-format
 msgid "unicode keysym out of range: %s"
 msgstr ""
 
-#: analyze.l:468 analyze.l:492 analyze.l:499 analyze.l:506 analyze.l:515
+#: src/libkeymap/analyze.l:468 src/libkeymap/analyze.l:492
+#: src/libkeymap/analyze.l:499 src/libkeymap/analyze.l:506
+#: src/libkeymap/analyze.l:515
 #, fuzzy
-#| msgid "%s: Warning: line too long\n"
 msgid "string too long"
 msgstr "%s: Uyari: satir cok uzun\n"
 
-#: analyze.l:484
+#: src/libkeymap/analyze.l:484
 msgid "octal number too big"
 msgstr ""
 
@@ -503,10 +485,9 @@ msgstr ""
 msgid "can not bind key %d to value %d because it is too large"
 msgstr ""
 
-#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:254
-#: src/libkfont/mapscrn.c:259
+#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:255
+#: src/libkfont/mapscrn.c:260
 #, fuzzy
-#| msgid "Error writing map to file\n"
 msgid "Error writing map to file"
 msgstr "E$lem dosyaya yazilirken hata\n"
 
@@ -517,7 +498,6 @@ msgstr "imkansiz: meta degil?\n"
 
 #: src/libkeymap/func.c:30
 #, fuzzy, c-format
-#| msgid "of which %d dynamically allocated\n"
 msgid "func %d not allocated"
 msgstr "/ %d etkin olarak tahsis edildi\n"
 
@@ -537,7 +517,6 @@ msgstr ""
 
 #: src/libkeymap/kernel.c:40
 #, fuzzy, c-format
-#| msgid "KDGKBENT error at index %d in table %d\n"
 msgid "KDGKBENT: %s: error at index %d in table %d"
 msgstr "%2$d. tablonun %1$d. indisinde KDGKBENT hatasi\n"
 
@@ -563,7 +542,6 @@ msgstr ""
 
 #: src/libkeymap/kmap.c:109
 #, fuzzy, c-format
-#| msgid "failed to get keycode for scancode 0x%x\n"
 msgid "unable to unset key %d for table %d"
 msgstr "0x%x tarama kodu icin tu$ kodu alinamadi\n"
 
@@ -579,7 +557,6 @@ msgstr ""
 
 #: src/libkeymap/kmap.c:148
 #, fuzzy, c-format
-#| msgid "failed to get keycode for scancode 0x%x\n"
 msgid "unable to set key %d for table %d"
 msgstr "0x%x tarama kodu icin tu$ kodu alinamadi\n"
 
@@ -601,13 +578,11 @@ msgstr ""
 #: src/libkeymap/ksyms.c:353 src/libkeymap/ksyms.c:359
 #: src/libkeymap/ksyms.c:365
 #, fuzzy, c-format
-#| msgid "assuming iso-8859-1 %s\n"
 msgid "assuming %s %s"
 msgstr "iso-8859-1'deki  %s oldugu varsayildi\n"
 
 #: src/libkeymap/ksyms.c:370
 #, fuzzy, c-format
-#| msgid "unknown keysym '%s'\n"
 msgid "unknown keysym '%s'"
 msgstr "'%s' sembolu bilinmiyor\n"
 
@@ -623,7 +598,6 @@ msgstr ""
 
 #: src/libkeymap/loadkeys.c:64
 #, fuzzy, c-format
-#| msgid "keycode %3d %s\n"
 msgid "keycode %d, table %d = %d%s"
 msgstr "tu$ kodu %3d %s\n"
 
@@ -633,7 +607,6 @@ msgstr ""
 
 #: src/libkeymap/loadkeys.c:68
 #, fuzzy, c-format
-#| msgid "failed to set scancode %x to keycode %d\n"
 msgid "failed to bind key %d to value %d"
 msgstr "tarama kodu %x tu$ kodu %d ile e$le$tirilirken hata olu$tu\n"
 
@@ -644,7 +617,6 @@ msgstr ""
 
 #: src/libkeymap/loadkeys.c:82
 #, fuzzy, c-format
-#| msgid "%s: could not deallocate console %d\n"
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "%s: %d konsolu kaldirilamadi\n"
 
@@ -670,7 +642,6 @@ msgstr ""
 
 #: src/libkeymap/loadkeys.c:198
 #, fuzzy
-#| msgid "max nr of compose definitions: %d\n"
 msgid "too many compose definitions"
 msgstr "en fazla dizgi tanimi sayisi: %d\n"
 
@@ -698,7 +669,6 @@ msgstr[1] ""
 
 #: src/libkeymap/loadkeys.c:276
 #, fuzzy, c-format
-#| msgid "max nr of compose definitions: %d\n"
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "en fazla dizgi tanimi sayisi: %d\n"
@@ -706,29 +676,26 @@ msgstr[1] "en fazla dizgi tanimi sayisi: %d\n"
 
 #: src/libkeymap/loadkeys.c:281
 #, fuzzy
-#| msgid "max nr of compose definitions: %d\n"
 msgid "(No change in compose definitions)"
 msgstr "en fazla dizgi tanimi sayisi: %d\n"
 
-#: parser.y:117
+#: src/libkeymap/parser.y:116
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr ""
 
-#: parser.y:258
+#: src/libkeymap/parser.y:257
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr ""
 
-#: parser.y:345
+#: src/libkeymap/parser.y:344
 #, fuzzy, c-format
-#| msgid "Too many files to combine\n"
 msgid "too many (%ld) entries on one line"
 msgstr "Birle$tirilecek dosya sayisi cok fazla\n"
 
-#: parser.y:415
+#: src/libkeymap/parser.y:414
 #, fuzzy, c-format
-#| msgid "Error reading %s\n"
 msgid "Loading %s"
 msgstr "%s okunurken hata\n"
 
@@ -744,13 +711,11 @@ msgstr "Bir tu$a atanabilecek en fazla eylem sayisi:     %d\n"
 
 #: src/libkeymap/summary.c:96
 #, fuzzy, c-format
-#| msgid "number of keymaps in actual use:                 %d\n"
 msgid "number of keymaps in actual use:                 %u\n"
 msgstr "kullanimda olan tu$e$lem sayisi:                 %d\n"
 
 #: src/libkeymap/summary.c:99
 #, fuzzy, c-format
-#| msgid "of which %d dynamically allocated\n"
 msgid "of which %u dynamically allocated\n"
 msgstr "/ %d etkin olarak tahsis edildi\n"
 
@@ -771,7 +736,6 @@ msgstr "en fazla dizgi tanimi sayisi: %d\n"
 
 #: src/libkeymap/summary.c:112
 #, fuzzy, c-format
-#| msgid "nr of compose definitions in actual use: %d\n"
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr "kullanimdaki dizgi tanimi sayisi: %d\n"
 
@@ -813,7 +777,6 @@ msgstr ""
 
 #: src/libkfont/loadunimap.c:168
 #, fuzzy, c-format
-#| msgid "%s: Glyph number (0x%x) larger than font length\n"
 msgid "%s: Glyph number (0x%x) larger than font length"
 msgstr "%s: (0x%x) karakter numarasi yazitipi uzunlugundan fazla\n"
 
@@ -824,36 +787,31 @@ msgstr "%s: aralik sonu hatali (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
 #, fuzzy, c-format
-#| msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x\n"
-msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
+msgid ""
+"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
+"%x-0x%x"
 msgstr ""
 "%s: Unicode araligi U+%x-U+%x,\n"
 "yazitipi konumlari araligi 0x%x-0x%x\n"
 "ile ayni uzunlukta degil\n"
 
-#: src/libkfont/loadunimap.c:237
+#: src/libkfont/loadunimap.c:238
 #, fuzzy, c-format
-#| msgid "%s: trailing junk (%s) ignored\n"
 msgid "%s: trailing junk (%s) ignored"
 msgstr "%s: geri kalan (%s) yoksayildi\n"
 
-#: src/libkfont/loadunimap.c:266
+#: src/libkfont/loadunimap.c:267
 #, fuzzy, c-format
-#| msgid "Loading unicode map from file %s\n"
 msgid "Loading unicode map from file %s"
 msgstr "%s dosyasindan Unicode e$lem yukleniyor\n"
 
-#: src/libkfont/loadunimap.c:272
+#: src/libkfont/loadunimap.c:273
 #, fuzzy, c-format
-#| msgid "%s: Warning: line too long\n"
 msgid "%s: Warning: line too long"
 msgstr "%s: Uyari: satir cok uzun\n"
 
-#: src/libkfont/loadunimap.c:280
+#: src/libkfont/loadunimap.c:281
 #, fuzzy
-#| msgid ""
-#| "%s: not loading empty unimap\n"
-#| "(if you insist: use option -f to override)\n"
 msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
@@ -861,312 +819,266 @@ msgstr ""
 "%s: bo$ Unicode e$lem yuklenmez\n"
 "(israr ediyorsaniz: -f secenegi ile a$abilirsiniz)\n"
 
-#: src/libkfont/loadunimap.c:302
+#: src/libkfont/loadunimap.c:303
 #, fuzzy, c-format
-#| msgid "entry"
 msgid "# %d entry"
 msgid_plural "# %d entries"
 msgstr[0] "girdi"
 msgstr[1] "girdi"
 
-#: src/libkfont/loadunimap.c:317 src/libkfont/mapscrn.c:102
-#: src/libkfont/mapscrn.c:231 src/loadkeys.c:277 src/openvt.c:437
+#: src/libkfont/loadunimap.c:318 src/libkfont/mapscrn.c:102
+#: src/libkfont/mapscrn.c:232 src/loadkeys.c:277 src/openvt.c:437
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, fuzzy, c-format
-#| msgid "openvt: Unable to open %s: %s\n"
 msgid "Unable to open file: %s: %m"
 msgstr "openvt: %s acilamiyor: %s\n"
 
-#: src/libkfont/loadunimap.c:329
+#: src/libkfont/loadunimap.c:330
 #, fuzzy, c-format
-#| msgid "Saved unicode map on `%s'\n"
 msgid "Saved unicode map on `%s'"
 msgstr "`%s'dosyasina Unicode e$lem kaydedildi\n"
 
-#: src/libkfont/loadunimap.c:378
+#: src/libkfont/loadunimap.c:379
 #, fuzzy
-#| msgid "Appended Unicode map\n"
 msgid "Appended Unicode map"
 msgstr "Unicode e$lem eklendi\n"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:298
-#: src/libkfont/setfont.c:410 src/libkfont/setfont.c:417 src/loadkeys.c:245
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
+#: src/libkfont/setfont.c:423 src/libkfont/setfont.c:430 src/loadkeys.c:245
 #, fuzzy, c-format
-#| msgid "openvt: Unable to open %s: %s\n"
 msgid "Unable to find file: %s"
 msgstr "openvt: %s acilamiyor: %s\n"
 
 #: src/libkfont/mapscrn.c:109
 #, fuzzy, c-format
-#| msgid "Loading binary direct-to-font screen map from file %s\n"
 msgid "Loading binary direct-to-font screen map from file %s"
 msgstr "ikilik dogrudan yazitipine ekran e$lem dosyasi %s yukleniyor\n"
 
 #: src/libkfont/mapscrn.c:113 src/libkfont/mapscrn.c:125
 #, fuzzy, c-format
-#| msgid "Error reading map from file `%s'\n"
 msgid "Error reading map from file `%s'"
 msgstr "`%s' dosyasindan e$lem okunurken hata\n"
 
 #: src/libkfont/mapscrn.c:120
 #, fuzzy, c-format
-#| msgid "Loading binary unicode screen map from file %s\n"
 msgid "Loading binary unicode screen map from file %s"
 msgstr "ikilik unicode ekran e$lem dosyasi %s yukleniyor\n"
 
 #: src/libkfont/mapscrn.c:132
 #, fuzzy, c-format
-#| msgid "Loading symbolic screen map from file %s\n"
 msgid "Loading symbolic screen map from file %s"
 msgstr "Sembolik ekran e$lemi %s dosyasindan yukleniyor\n"
 
 #: src/libkfont/mapscrn.c:137
 #, fuzzy, c-format
-#| msgid "Error parsing symbolic map from `%s', line %d\n"
 msgid "Error parsing symbolic map from `%s', line %d"
 msgstr "Sembolik e$lem `%s' dosyasindan cozumlenirken %d. satirda hata\n"
 
-#: src/libkfont/mapscrn.c:263
+#: src/libkfont/mapscrn.c:264
 #, fuzzy
-#| msgid "Cannot read console map\n"
 msgid "Cannot read console map"
 msgstr "konsol e$lemi okunamiyor\n"
 
-#: src/libkfont/mapscrn.c:268
+#: src/libkfont/mapscrn.c:269
 #, fuzzy, c-format
-#| msgid "Saved screen map in `%s'\n"
 msgid "Saved screen map in `%s'"
 msgstr "Ekran e$lemi `%s' dosyasina kaydedildi\n"
 
-#: src/libkfont/psffontop.c:46
+#: src/libkfont/psffontop.c:47
 #, fuzzy
-#| msgid "%s: short ucs2 unicode table\n"
 msgid "short ucs2 unicode table"
 msgstr "%s: kisa ucs2 unicode tablosu\n"
 
-#: src/libkfont/psffontop.c:67
+#: src/libkfont/psffontop.c:68
 #, fuzzy
-#| msgid "%s: short utf8 unicode table\n"
 msgid "short utf8 unicode table"
 msgstr "%s: kisa utf8 unicode tablosu\n"
 
-#: src/libkfont/psffontop.c:70
+#: src/libkfont/psffontop.c:71
 #, fuzzy
-#| msgid "%s: bad utf8\n"
 msgid "bad utf8"
 msgstr "%s: hatali utf8\n"
 
-#: src/libkfont/psffontop.c:73
+#: src/libkfont/psffontop.c:74
 #, fuzzy
-#| msgid "%s: unknown utf8 error\n"
 msgid "unknown utf8 error"
 msgstr "%s: bilinmeyen utf8 hatasi\n"
 
-#: src/libkfont/psffontop.c:98
+#: src/libkfont/psffontop.c:99
 #, fuzzy
-#| msgid "%s: short unicode table\n"
 msgid "short unicode table"
 msgstr "%s: kisa unicode tablosu\n"
 
-#: src/libkfont/psffontop.c:173
+#: src/libkfont/psffontop.c:174
 #, fuzzy
-#| msgid "%s: Error reading input font"
 msgid "Error reading input font"
 msgstr "%s: giri$ yazitipi okunurken hata"
 
-#: src/libkfont/psffontop.c:179
+#: src/libkfont/psffontop.c:180
 msgid "Font is too big"
 msgstr ""
 
-#: src/libkfont/psffontop.c:221
+#: src/libkfont/psffontop.c:222
 #, fuzzy
-#| msgid "%s: Bad call of readpsffont\n"
 msgid "Bad call of readpsffont"
 msgstr "%s: readpsffont cagrisi hatali\n"
 
-#: src/libkfont/psffontop.c:237
+#: src/libkfont/psffontop.c:238
 #, fuzzy, c-format
-#| msgid "%s: Unsupported psf file mode (%d)\n"
 msgid "Unsupported psf file mode (%d)"
 msgstr "%s: Desteklenmeyen psf dosya kipi (%d)\n"
 
-#: src/libkfont/psffontop.c:253
+#: src/libkfont/psffontop.c:254
 #, fuzzy, c-format
-#| msgid "%s: Unsupported psf version (%d)\n"
 msgid "Unsupported psf version (%d)"
 msgstr "%s: Desteklenmeyen psf surumu (%d)\n"
 
-#: src/libkfont/psffontop.c:268
+#: src/libkfont/psffontop.c:269
 #, fuzzy
-#| msgid "%s: zero input font length?\n"
 msgid "zero input font length?"
 msgstr "%s: sifir giri$ yazitipi uzunlugu?\n"
 
-#: src/libkfont/psffontop.c:272
+#: src/libkfont/psffontop.c:273
 #, fuzzy
-#| msgid "%s: zero input character size?\n"
 msgid "zero input character size?"
 msgstr "%s: sifir giri$ karakteri uzunlugu?\n"
 
-#: src/libkfont/psffontop.c:279
+#: src/libkfont/psffontop.c:280
 #, fuzzy, c-format
-#| msgid "%s: Input file: bad input length (%d)\n"
 msgid "Input file: bad input length (%d)"
 msgstr "%s: Girdi dosyasi: girdi uzunlugu (%d) hatali\n"
 
-#: src/libkfont/psffontop.c:317
+#: src/libkfont/psffontop.c:318
 #, fuzzy
-#| msgid "%s: Input file: trailing garbage\n"
 msgid "Input file: trailing garbage"
 msgstr "%s: Girdi dosyasi: kalan bozuk\n"
 
-#: src/libkfont/psffontop.c:354
+#: src/libkfont/psffontop.c:355
 #, fuzzy, c-format
-#| msgid "appendunicode: illegal unicode %u\n"
 msgid "illegal unicode %d"
 msgstr "appendunicode: kuraldi$i unicode %u\n"
 
-#: src/libkfont/psffontop.c:458
+#: src/libkfont/psffontop.c:459
 msgid "Cannot write font file header"
 msgstr "Yazitipi dosyasinin basligi yazilamiyor"
 
-#: src/libkfont/psffontop.c:491
+#: src/libkfont/psffontop.c:492
 msgid "Cannot write font file"
 msgstr "Yazitipi dosyasi yazilamiyor"
 
-#: src/libkfont/setfont.c:58
+#: src/libkfont/setfont.c:59
 #, fuzzy, c-format
-#| msgid "Bad character height %d\n"
-msgid "Bad character height %d"
+msgid "Bad character height %d (limit is 128)"
 msgstr "Karakter yuksekligi %d hatali\n"
 
-#: src/libkfont/setfont.c:63
+#: src/libkfont/setfont.c:64
 #, fuzzy, c-format
-#| msgid "Bad character width %d\n"
-msgid "Bad character width %d"
+msgid "Bad character width %d (limit is 64)"
 msgstr "Karakter geni$ligi %d hatali\n"
 
-#: src/libkfont/setfont.c:72
+#: src/libkfont/setfont.c:73
 #, c-format
-msgid "Cannot double %dx%d font (limit is 16x16)"
+msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr ""
 
-#: src/libkfont/setfont.c:140
+#: src/libkfont/setfont.c:141
 #, fuzzy
-#| msgid "%s: font position 32 is nonblank\n"
 msgid "font position 32 is nonblank"
 msgstr "%s: 32. yazitipi konumu bo$luk degil\n"
 
-#: src/libkfont/setfont.c:149
+#: src/libkfont/setfont.c:150
 #, fuzzy
-#| msgid "%s: wiped it\n"
 msgid "wiped it"
 msgstr "%s: o silindi\n"
 
-#: src/libkfont/setfont.c:152
+#: src/libkfont/setfont.c:153
 #, fuzzy
-#| msgid "%s: background will look funny\n"
 msgid "background will look funny"
 msgstr "%s: artalan tuhaf gorunecek\n"
 
-#: src/libkfont/setfont.c:160
+#: src/libkfont/setfont.c:161
 #, fuzzy, c-format
-#| msgid "Loading %d-char %dx%d font from file %s\n"
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "%d karakterlik %dx%d yazitipi %s dosyasindan yukleniyor\n"
 
-#: src/libkfont/setfont.c:163
+#: src/libkfont/setfont.c:164
 #, fuzzy, c-format
-#| msgid "Loading %d-char %dx%d font\n"
 msgid "Loading %d-char %dx%d font"
 msgstr "%d karakterlik %dx%d yazitipi yukleniyor\n"
 
-#: src/libkfont/setfont.c:166
+#: src/libkfont/setfont.c:167
 #, fuzzy, c-format
-#| msgid "Loading %d-char %dx%d (%d) font from file %s\n"
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "%d karakterlik %dx%d (%d) yazitipi %s dosyasindan yukleniyor\n"
 
-#: src/libkfont/setfont.c:169
+#: src/libkfont/setfont.c:170
 #, fuzzy, c-format
-#| msgid "Loading %d-char %dx%d (%d) font\n"
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "%d karakterlik %dx%d (%d) yazitipi yukleniyor\n"
 
-#: src/libkfont/setfont.c:240
+#: src/libkfont/setfont.c:253
 #, fuzzy
-#| msgid "%s: bug in do_loadtable\n"
 msgid "bug in do_loadtable"
 msgstr "%s: do_loadtable'da yazilim hatasi\n"
 
-#: src/libkfont/setfont.c:245
+#: src/libkfont/setfont.c:258
 #, fuzzy
-#| msgid "Loading Unicode mapping table...\n"
 msgid "Loading Unicode mapping table..."
 msgstr "Unicode e$le$me tablosu yukleniyor...\n"
 
-#: src/libkfont/setfont.c:310
+#: src/libkfont/setfont.c:323
 #, fuzzy, c-format
-#| msgid "When loading several fonts, all must be psf fonts - %s isn't\n"
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
-msgstr "Ayri ayri yazitipleri yuklenirken tumu psf yazitipi olmali - %s degil\n"
+msgstr ""
+"Ayri ayri yazitipleri yuklenirken tumu psf yazitipi olmali - %s degil\n"
 
-#: src/libkfont/setfont.c:319
+#: src/libkfont/setfont.c:332
 #, fuzzy, c-format
-#| msgid "Read %d-char %dx%d font from file %s\n"
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "%d karakterlik %dx%d yazitipi %s dosyasindan okundu\n"
 
-#: src/libkfont/setfont.c:328
+#: src/libkfont/setfont.c:341
 #, fuzzy
-#| msgid "When loading several fonts, all must have the same height\n"
 msgid "When loading several fonts, all must have the same height"
 msgstr "Ayri ayri yazitipleri yuklenirken hepsi ayni yukseklikte olmali\n"
 
-#: src/libkfont/setfont.c:336
+#: src/libkfont/setfont.c:349
 #, fuzzy
-#| msgid "When loading several fonts, all must have the same width\n"
 msgid "When loading several fonts, all must have the same width"
 msgstr "Ayri ayri yazitipleri yuklenirken hepsi ayni geni$likte olmali\n"
 
-#: src/libkfont/setfont.c:402
+#: src/libkfont/setfont.c:415
 #, fuzzy
-#| msgid "Cannot find default font\n"
 msgid "Cannot find default font"
 msgstr "\"default.cp[gz]\" yazitipi dosyasi bulunamiyor\n"
 
-#: src/libkfont/setfont.c:424
+#: src/libkfont/setfont.c:437
 #, fuzzy, c-format
-#| msgid "Reading font file %s\n"
 msgid "Reading font file %s"
 msgstr "%s yazitipi dosyasi okunuyor\n"
 
-#: src/libkfont/setfont.c:474
+#: src/libkfont/setfont.c:487
 #, fuzzy
-#| msgid "No final newline in combine file\n"
 msgid "No final newline in combine file"
 msgstr "Birle$ik dosya icinde son satirsonu imi yok\n"
 
-#: src/libkfont/setfont.c:480
+#: src/libkfont/setfont.c:493
 #, fuzzy
-#| msgid "Too many files to combine\n"
 msgid "Too many files to combine"
 msgstr "Birle$tirilecek dosya sayisi cok fazla\n"
 
-#: src/libkfont/setfont.c:508
+#: src/libkfont/setfont.c:521
 #, fuzzy
-#| msgid "Hmm - a font from restorefont? Using the first half.\n"
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hmm - restorefont'tan bir yazitipi? ilk yarisi kullaniliyor.\n"
 
-#: src/libkfont/setfont.c:527
+#: src/libkfont/setfont.c:540
 #, fuzzy
-#| msgid "Bad input file size\n"
 msgid "Bad input file size"
 msgstr "Girdi dosyasi uzunlugu hatali\n"
 
-#: src/libkfont/setfont.c:555
+#: src/libkfont/setfont.c:568
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1175,34 +1087,30 @@ msgstr ""
 "Bu dosya 3 yazitipi icerir: 8x8, 8x14 ve 8x16.  istediginiz birini\n"
 "-8, -14 veya -16 seceneklerinden biri ile belirtebilirsiniz.\n"
 
-#: src/libkfont/setfont.c:572
+#: src/libkfont/setfont.c:585
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Yazitipi yuksekligini %d belirttiniz ama burada sadece 8, 14, 16\n"
 "degerleri mumkun.\n"
 
-#: src/libkfont/setfont.c:623
+#: src/libkfont/setfont.c:636
 #, fuzzy
-#| msgid "Found nothing to save\n"
 msgid "Found nothing to save"
 msgstr "Kaydedilecek hicbir sey yok\n"
 
-#: src/libkfont/setfont.c:627
+#: src/libkfont/setfont.c:640
 #, fuzzy, c-format
-#| msgid "Cannot write font file"
 msgid "Cannot write font file: %m"
 msgstr "Yazitipi dosyasi yazilamiyor"
 
-#: src/libkfont/setfont.c:632
+#: src/libkfont/setfont.c:645
 #, fuzzy, c-format
-#| msgid "Saved %d-char %dx%d font file on %s\n"
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "%d karakterlik %dx%d yazitipi %s dosyasina kaydedildi\n"
 
 #: src/loadkeys.c:46
 #, fuzzy, c-format
-#| msgid "usage: %s [-o map.orig] [map-file]\n"
 msgid "Usage: %s [option...] [mapfile...]\n"
 msgstr "kullanimi: %s [-o e$lem.ozgun] [e$lem-dosyasi]\n"
 
@@ -1275,7 +1183,6 @@ msgstr ""
 
 #: src/mapscrn.c:25
 #, fuzzy, c-format
-#| msgid "usage: %s [-o map.orig] [map-file]\n"
 msgid "Usage: %s [option...] [map-file]\n"
 msgstr "kullanimi: %s [-o e$lem.ozgun] [e$lem-dosyasi]\n"
 
@@ -1286,7 +1193,8 @@ msgstr ""
 
 #: src/openvt.c:54
 #, c-format
-msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgid ""
+"This utility helps you to start a program on a new virtual terminal (VT).\n"
 msgstr ""
 
 #: src/openvt.c:153
@@ -1322,31 +1230,26 @@ msgstr ""
 # Turkce'ye ozgu karakterlerden kacinilmi$tir.
 #: src/openvt.c:303
 #, fuzzy, c-format
-#| msgid "openvt: %s: illegal vt number\n"
 msgid "%s: Illegal vt number"
 msgstr "openvt: %s: kuraldisi sanal terminal (vt) numarasi\n"
 
 #: src/openvt.c:330
 #, fuzzy
-#| msgid "openvt: only root can use the -u flag.\n"
 msgid "Only root can use the -u flag."
 msgstr "openvt: -u bayragini sadece root kullanabilir.\n"
 
 #: src/openvt.c:359
 #, fuzzy
-#| msgid "openvt: cannot find a free vt\n"
 msgid "Cannot find a free vt"
 msgstr "openvt: serbest bir sanal terminal (vt) bulunamiyor\n"
 
 #: src/openvt.c:363
 #, fuzzy, c-format
-#| msgid "openvt: cannot check whether vt %d is free\n"
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "openvt: sanal terminal (vt) %d serbest mi denetlenemiyor\n"
 
 #: src/openvt.c:367
 #, fuzzy, c-format
-#| msgid "openvt: vt %d is in use; command aborted\n"
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "openvt: sanal terminal (vt) %d kullanimda; komut iptal edildi\n"
 
@@ -1356,33 +1259,26 @@ msgstr ""
 
 #: src/openvt.c:412
 #, fuzzy
-#| msgid "openvt: Unable to set new session (%s)\n"
 msgid "Unable to set new session"
 msgstr "openvt: yeni oturum (%s) ayarlanamiyor\n"
 
 #: src/openvt.c:441
 #, fuzzy, c-format
-#| msgid "openvt: using VT %s\n"
 msgid "Using VT %s"
 msgstr "openvt: VT %s kullanarak\n"
 
 #: src/openvt.c:447
 #, fuzzy, c-format
-#| msgid "openvt: Cannot open %s read/write (%s)\n"
 msgid "Cannot open %s read/write"
 msgstr "openvt: %s oku/yaz kipinde acilamiyor (%s)\n"
 
 #: src/openvt.c:494
 #, fuzzy, c-format
-#| msgid "%s: could not deallocate console %d\n"
 msgid "Couldn't deallocate console %d"
 msgstr "%s: %d konsolu kaldirilamadi\n"
 
 #: src/psfxtable.c:66
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage:\n"
-#| "\t%s infont intable outfont\n"
 msgid "Usage: %s infont intable outfont\n"
 msgstr ""
 "Kullanimi:\n"
@@ -1390,9 +1286,6 @@ msgstr ""
 
 #: src/psfxtable.c:75
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage:\n"
-#| "\t%s infont [outtable]\n"
 msgid "Usage: %s infont [outtable]\n"
 msgstr ""
 "Kullanimi:\n"
@@ -1400,9 +1293,6 @@ msgstr ""
 
 #: src/psfxtable.c:84
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage:\n"
-#| "\t%s infont outfont\n"
 msgid "Usage: %s infont outfont\n"
 msgstr ""
 "Kullanimi:\n"
@@ -1410,9 +1300,6 @@ msgstr ""
 
 #: src/psfxtable.c:107
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage:\n"
-#| "\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
 "Kullanimi:\n"
@@ -1421,19 +1308,16 @@ msgstr ""
 
 #: src/psfxtable.c:148
 #, fuzzy, c-format
-#| msgid "%s: Bad magic number on %s\n"
 msgid "Bad magic number on %s"
 msgstr "%s: %s uzerindeki dosya betimleyici hatali\n"
 
 #: src/psfxtable.c:167
 #, fuzzy
-#| msgid "%s: psf file with unknown magic\n"
 msgid "psf file with unknown magic"
 msgstr "%s: psf dosyasindaki dosya betimleyici bilinmiyor\n"
 
 #: src/psfxtable.c:178
 #, fuzzy
-#| msgid "%s: input font does not have an index\n"
 msgid "input font does not have an index"
 msgstr "%s: girdi yazitipi bir indekse sahip degil\n"
 
@@ -1449,13 +1333,11 @@ msgstr ""
 
 #: src/resizecons.c:165
 #, fuzzy, c-format
-#| msgid "resizecons: cannot find videomode file %s\n"
 msgid "resizecons: cannot find videomode file %s"
 msgstr "resizecons: %s video kipi dosyasi bulunamiyor\n"
 
 #: src/resizecons.c:182
 #, fuzzy
-#| msgid "Invalid number of lines\n"
 msgid "Invalid number of lines"
 msgstr "Satir sayisi gecersiz\n"
 
@@ -1479,7 +1361,8 @@ msgstr "resizecons: komut `%s' ba$arisiz\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgid ""
+"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
 "resizecons: TERM cevre degi$kenini degi$tirmeyi unutmayin\n"
 "(con%dx%d veya linux-%dx%d olabilir)\n"
@@ -1489,7 +1372,8 @@ msgstr ""
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
+"60\n"
 msgstr ""
 "resizecons:\n"
 "kullanimi:  resizecons SUTUN-SAYISIxSATIR-SAYISI\n"
@@ -1509,56 +1393,29 @@ msgstr "Kullanimi: screendump [n]\n"
 
 #: src/screendump.c:82
 #, fuzzy, c-format
-#| msgid "Error reading %s\n"
 msgid "Error reading %s"
 msgstr "%s okunurken hata\n"
 
 #: src/screendump.c:136
 #, fuzzy, c-format
-#| msgid "couldn't read %s\n"
 msgid "Couldn't read %s"
 msgstr "%s okunamadi\n"
 
 #: src/screendump.c:145
 #, fuzzy, c-format
-#| msgid "Strange ... screen is both %dx%d and %dx%d ??\n"
 msgid "Strange ... screen is both %dx%d and %dx%d ?"
 msgstr "Tuhaf ... %dx%d ve %dx%d her ikisi de ekran mi??\n"
 
 #: src/screendump.c:166
 #, fuzzy
-#| msgid "Error writing screendump\n"
 msgid "Error writing screendump"
 msgstr "screendump yazmada ba$arisiz\n"
 
 #: src/setfont.c:28
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
-#| "  write-options (take place before file loading):\n"
-#| "    -o  <filename>  Write current font to <filename>\n"
-#| "    -O  <filename>  Write current font and unicode map to <filename>\n"
-#| "    -om <filename>  Write current consolemap to <filename>\n"
-#| "    -ou <filename>  Write current unicodemap to <filename>\n"
-#| "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-#| "a default font is loaded:\n"
-#| "    setfont         Load font \"default[.gz]\"\n"
-#| "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-#| "The -<N> option selects a font from a codepage that contains three fonts:\n"
-#| "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n"
-#| "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
-#| "will be loaded and, in the case of consolemaps, activated.\n"
-#| "    -h<N>      (no space) Override font height.\n"
-#| "    -m <fn>    Load console screen map.\n"
-#| "    -u <fn>    Load font unicode map.\n"
-#| "    -m none    Suppress loading and activation of a screen map.\n"
-#| "    -u none    Suppress loading of a unicode map.\n"
-#| "    -v         Be verbose.\n"
-#| "    -C <cons>  Indicate console device to be used.\n"
-#| "    -V         Print version and exit.\n"
-#| "Files are loaded from the current directory or /usr/lib/kbd/*/.\n"
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+"unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1595,8 +1452,10 @@ msgstr ""
 "    setfont             \"default[.gz]\" yazitipi yuklenir\n"
 "    setfont -<N>        \"default8x<N>[.gz]\" yazitipi yuklenir\n"
 "-<N> ile uc yazitipi iceren bir karakter kumesinden bir yazitipi secilir:\n"
-"   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi yuklenir\n"
-"Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) verilen\n"
+"   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi "
+"yuklenir\n"
+"Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) "
+"verilen\n"
 "e$lemler yuklenir ve konsol e$lemi kapsaminda etkinle$tirilir.\n"
 "    -h<N>      (bo$luk birakmadan) <N> yazitipi yuksekligine zorlar.\n"
 "    -m DOSYA   belirtilen konsol ekran e$lemini yukler.\n"
@@ -1610,15 +1469,15 @@ msgstr ""
 
 #: src/setfont.c:138
 #, fuzzy
-#| msgid "setfont: too many input files\n"
 msgid "Too many input files."
 msgstr "setfont: cok fazla girdi dosyasi\n"
 
 #: src/setfont.c:144
 #, fuzzy
-#| msgid "setfont: cannot both restore from character ROM and from file. Font unchanged.\n"
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
-msgstr "setfont: hem ekran kartindan hem de dosyadan yuklenemez. Yazitipi degi$medi.\n"
+msgstr ""
+"setfont: hem ekran kartindan hem de dosyadan yuklenemez. Yazitipi degi"
+"$medi.\n"
 
 #: src/setkeycodes.c:28
 #, c-format
@@ -1627,10 +1486,6 @@ msgstr ""
 
 #: src/setkeycodes.c:30
 #, fuzzy, c-format
-#| msgid ""
-#| "usage: setkeycode scancode keycode ...\n"
-#| " (where scancode is either xx or e0xx, given in hexadecimal,\n"
-#| "  and keycode is given in decimal)\n"
 msgid ""
 "(where scancode is either xx or e0xx, given in hexadecimal,\n"
 "and keycode is given in decimal)\n"
@@ -1659,7 +1514,6 @@ msgstr "kod kabul edilen sinirin di$inda"
 
 #: src/setkeycodes.c:164
 #, fuzzy, c-format
-#| msgid "failed to set scancode %x to keycode %d\n"
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "tarama kodu %x tu$ kodu %d ile e$le$tirilirken hata olu$tu\n"
 
@@ -1670,19 +1524,6 @@ msgstr ""
 
 #: src/setleds.c:41
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage:\n"
-#| "\tsetleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
-#| "Thus,\n"
-#| "\tsetleds +caps -num\n"
-#| "will set CapsLock, clear NumLock and leave ScrollLock unchanged.\n"
-#| "The settings before and after the change (if any) are reported\n"
-#| "when the -v option is given or when no change is requested.\n"
-#| "Normally, setleds influences the vt flag settings\n"
-#| "(and these are usually reflected in the leds).\n"
-#| "With -L, setleds only sets the leds, and leaves the flags alone.\n"
-#| "With -D, setleds sets both the flags and the default flags, so\n"
-#| "that a subsequent reset will not change the flags.\n"
 msgid ""
 "Thus,\n"
 "\tsetleds +caps -num\n"
@@ -1718,19 +1559,19 @@ msgstr "kapali"
 
 #: src/setleds.c:121
 #, fuzzy
-#| msgid "Error reading current led setting. Maybe stdin is not a VT?\n"
-msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr "$u anki led durumlari okunurken hata olu$tu. Standard girdi bir VT olmayabilir mi?\n"
+msgid ""
+"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgstr ""
+"$u anki led durumlari okunurken hata olu$tu. Standard girdi bir VT "
+"olmayabilir mi?\n"
 
 #: src/setleds.c:157 src/setleds.c:176
 #, fuzzy, c-format
-#| msgid "Error reading current led setting from /dev/kbd.\n"
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr "Mevcut led durumlari /dev/kbd'den okunurken hata olu$tu.\n"
 
 #: src/setleds.c:161 src/setleds.c:180
 #, fuzzy, c-format
-#| msgid "KIOCGLED unavailable?\n"
 msgid "ioctl %s unavailable?"
 msgstr "KIOCGLED kullanimdi$i mi?\n"
 
@@ -1748,7 +1589,6 @@ msgstr ""
 
 #: src/setleds.c:323
 #, fuzzy
-#| msgid "Error resetting ledmode\n"
 msgid "Error resetting ledmode"
 msgstr "Ledler ba$langictaki durumuna alinirken hata\n"
 
@@ -1814,19 +1654,16 @@ msgstr ""
 
 #: src/setmetamode.c:69
 #, fuzzy
-#| msgid "Meta key sets high order bit\n"
 msgid "Meta key sets high order bit"
 msgstr "Meta tu$u yuksek biti 1 yapar\n"
 
 #: src/setmetamode.c:72
 #, fuzzy
-#| msgid "Meta key gives Esc prefix\n"
 msgid "Meta key gives Esc prefix"
 msgstr "Meta tu$u Esc onekini verir\n"
 
 #: src/setmetamode.c:75
 #, fuzzy
-#| msgid "Strange mode for Meta key?\n"
 msgid "Strange mode for Meta key?"
 msgstr "Meta tu$u icin tuhaf kip??\n"
 
@@ -1842,9 +1679,6 @@ msgstr "yeni durum:    "
 
 #: src/setvesablank.c:27
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage:\n"
-#| "\t%s infont outfont\n"
 msgid "Usage: %s ON|on|off\n"
 msgstr ""
 "Kullanimi:\n"
@@ -1892,7 +1726,6 @@ msgstr ""
 
 #: src/setvtrgb.c:117
 #, fuzzy, c-format
-#| msgid "%s: %s: Warning: line too long\n"
 msgid "Error: %s: Line %u is too long."
 msgstr "%s: %s: Uyari: satir cok uzun\n"
 
@@ -1906,33 +1739,33 @@ msgstr ""
 msgid "Error: %s: Invalid value in line %u."
 msgstr ""
 
+#: src/setvtrgb.c:150
+#, c-format
+msgid "Error: %s: File ended unexpectedly."
+msgstr ""
+
 #: src/showconsolefont.c:35
 #, fuzzy
-#| msgid "failed to restore original translation table\n"
 msgid "failed to restore original translation table"
 msgstr "ozgun ceviri tablosu yerine konurken hata olu$tu\n"
 
 #: src/showconsolefont.c:39
 #, fuzzy
-#| msgid "failed to restore original unimap\n"
 msgid "failed to restore original unimap"
 msgstr "ozgun unicode e$lem yerine konamadi\n"
 
 #: src/showconsolefont.c:58
 #, fuzzy
-#| msgid "cannot change translation table\n"
 msgid "cannot change translation table"
 msgstr "ceviri tablosu degistirilemiyor\n"
 
 #: src/showconsolefont.c:104
 #, fuzzy, c-format
-#| msgid ""
-#| "usage: showconsolefont [-v|-V]\n"
-#| "(probably after loading a font with `setfont font')\n"
 msgid "(probably after loading a font with `setfont font')\n"
 msgstr ""
 "kullanimi: showconsolefont [-v|-V]\n"
-"(Genelde `setfont yazitipi' ile bir yazitipini yukledikten sonra kullanilir)\n"
+"(Genelde `setfont yazitipi' ile bir yazitipini yukledikten sonra "
+"kullanilir)\n"
 
 #: src/showconsolefont.c:155
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
@@ -1940,7 +1773,6 @@ msgstr ""
 
 #: src/showconsolefont.c:213
 #, fuzzy, c-format
-#| msgid "Bad character width %d\n"
 msgid "Character count: %u\n"
 msgstr "Karakter geni$ligi %d hatali\n"
 
@@ -1956,7 +1788,6 @@ msgstr ""
 
 #: src/showconsolefont.c:226
 #, fuzzy, c-format
-#| msgid "Loading %d-char %dx%d font\n"
 msgid ""
 "Showing %d-char font\n"
 "\n"
@@ -2070,9 +1901,6 @@ msgstr ""
 
 #: src/vlock/username.c:57
 #, fuzzy
-#| msgid ""
-#| "unrecognized argument: _%s_\n"
-#| "\n"
 msgid "unrecognized user"
 msgstr ""
 "bilinmeyen arguman: _%s_\n"
@@ -2089,7 +1917,6 @@ msgstr ""
 
 #: src/vlock/vt.c:154
 #, fuzzy, c-format
-#| msgid "%s: VT 1 is the console and cannot be deallocated\n"
 msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 
@@ -2143,7 +1970,8 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "\t-i --short-info\t    display information about keyboard driver\n"
 #~ "\t-l --long-info\t    display above and symbols known to loadkeys\n"
 #~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
-#~ "\t-f --full-table\t    don't use short-hand notations, one row per keycode\n"
+#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
+#~ "keycode\n"
 #~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
 #~ "\t   --funcs-only\t    display only the function key strings\n"
 #~ "\t   --keys-only\t    display only key bindings\n"
@@ -2159,7 +1987,8 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "  -i --short-info      klavye surucusu hakkinda bilgi verilir\n"
 #~ "  -l --long-info       usttkine ek olarak loadkeys destekli semboller\n"
 #~ "  -n --numeric         onaltilik gosterimle tu$ tablosu\n"
-#~ "  -f --full-table      kisa gosterimler olmaksizin her satirda bir tu$ kodu\n"
+#~ "  -f --full-table      kisa gosterimler olmaksizin her satirda bir tu$ "
+#~ "kodu\n"
 #~ "  -1 --separate-lines  her (degi$tirici, tu$kodu) cifti icin bir satir\n"
 #~ "     --funcs-only      sadece i$lev tu$larinin dizgeleri gosterilir\n"
 #~ "     --keys-only       sadece tu$ baglantilari gosterilir\n"
@@ -2213,8 +2042,11 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "girdi satiri hatali: %s\n"
 
-#~ msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-#~ msgstr "%s: Unicode araliginin 0x%x-0x%x yazitipi konumlari araligi ile ili$kilendirilmesi hatali\n"
+#~ msgid ""
+#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr ""
+#~ "%s: Unicode araliginin 0x%x-0x%x yazitipi konumlari araligi ile ili"
+#~ "$kilendirilmesi hatali\n"
 
 #~ msgid "entries"
 #~ msgstr "girdi"
@@ -2237,7 +2069,9 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: Aralik sonu hatali (0x%lx)\n"
 
-#~ msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+#~ msgid ""
+#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
+#~ "range\n"
 #~ msgstr ""
 #~ "%s: Bir yazitipi konumlari araligi ile ili$kilendirilen\n"
 #~ "bir Unicode araligi olmaliydi.\n"
@@ -2251,8 +2085,10 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ msgid "even number of arguments expected"
 #~ msgstr "arguman sayisinin cift-sayi olmasi gerekli"
 
-#~ msgid "Error reading current flags setting. Maybe you are not on the console?\n"
-#~ msgstr "Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
+#~ msgid ""
+#~ "Error reading current flags setting. Maybe you are not on the console?\n"
+#~ msgstr ""
+#~ "Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
 
 #~ msgid "KIOCSLED unavailable?\n"
 #~ msgstr "KIOCSLED kullanimdi$i mi?\n"
@@ -2278,11 +2114,13 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "Ayardan once ve sonra degi$iklik raporlanacaktir.\n"
 #~ "\n"
 #~ "Not: Bu pakete ozgu olarak, iletileri hem utf-8 hem de iso8859 kipte\n"
-#~ "karakter kaybina ugramadan okuyabilmeniz icin Turkceye ozgu karakterlerden\n"
+#~ "karakter kaybina ugramadan okuyabilmeniz icin Turkceye ozgu "
+#~ "karakterlerden\n"
 #~ "kacinilmistir.\n"
 
 #~ msgid "Error reading current setting. Maybe stdin is not a VT?\n"
-#~ msgstr "$u anki ayarlar okunurken hata olustu. StdG bir VT olmayabilir mi?\n"
+#~ msgstr ""
+#~ "$u anki ayarlar okunurken hata olustu. StdG bir VT olmayabilir mi?\n"
 
 #~ msgid "usage: %s\n"
 #~ msgstr "kullanimi: %s\n"
@@ -2314,5 +2152,6 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "\t-k --keycodes   yorumlanmi$ tus kodlarini gosterir (ontanimli)\n"
 #~ "\n"
 #~ "Not: Bu pakete ozgu olarak, iletileri hem utf-8 hem de iso8859 kipte\n"
-#~ "karakter kaybina ugramadan okuyabilmeniz icin Turkceye ozgu karakterlerden\n"
+#~ "karakter kaybina ugramadan okuyabilmeniz icin Turkceye ozgu "
+#~ "karakterlerden\n"
 #~ "kacinilmistir.\n"
