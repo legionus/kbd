@@ -19,7 +19,7 @@ LDADD = \
 	$(top_builddir)/src/libcommon/libcommon.a \
 	$(CODE_COVERAGE_LIBS)
 
-KFONT_CURRENT  = 1
+KFONT_CURRENT  = 2
 KFONT_REVISION = 0
 KFONT_AGE      = 0
 
