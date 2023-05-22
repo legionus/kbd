@@ -57,6 +57,15 @@ defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
 						j = NR_KEYS;
 						continue;
 					}
+					if (errno == EIO) {
+						/*
+						 * Such an error can be returned
+						 * if the tty has been hungup
+						 * while loadkeys is running.
+						 */
+						ERR(ctx, "%s", strerror(errno));
+						goto fail;
+					}
 					ERR(ctx, "%s", strerror(errno));
 				} else
 					ct++;
