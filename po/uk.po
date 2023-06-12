@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the kbd package.
 #
 # Maxim V. Dziumanenko <dziumanenko@gmail.com>, 2006.
-# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015, 2016, 2020, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015, 2016, 2020, 2022, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.5-rc2\n"
+"Project-Id-Version: kbd 2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2023-05-08 14:43+0200\n"
-"PO-Revision-Date: 2022-03-24 12:05+0200\n"
+"PO-Revision-Date: 2023-05-08 19:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17,8 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "X-Generator: Lokalize 20.12.0\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: src/chvt.c:25
 #, c-format
@@ -120,8 +119,8 @@ msgstr "ВТ 1 є системною консоллю та не може бут�
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "не вдалося звільнити консоль %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
-#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
+#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -180,8 +179,7 @@ msgid "display only compose key combinations."
 msgstr "вивести лише комбінації із клавішею композиції."
 
 #: src/dumpkeys.c:117
-msgid ""
-"interpret character action codes to be from the specified character set."
+msgid "interpret character action codes to be from the specified character set."
 msgstr "інтерпретувати коди дій у символах як у вказаному наборі символів."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
@@ -248,9 +246,7 @@ msgstr "Екрановані скан-коди e0 xx (hex)\n"
 #: src/getkeycodes.c:139
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr ""
-"не вдалося знайти код клавіші, що відповідає скан-коду 0x%x: ioctl "
-"KDGETKEYCODE"
+msgstr "не вдалося знайти код клавіші, що відповідає скан-коду 0x%x: ioctl KDGETKEYCODE"
 
 #: src/getunimap.c:82
 msgid "sort and merge elements."
@@ -342,13 +338,8 @@ msgstr "Перемкнути режим, навіть якщо це зробит
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
-msgstr ""
-"Зміна до вказаного режиму може зробити вашу клавіатуру непридатною до "
-"користування. Будь ласка, скористайтеся параметром -f, щоб виконати цю зміну "
-"у примусовому режимі.\n"
+msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
+msgstr "Зміна до вказаного режиму може зробити вашу клавіатуру непридатною до користування. Будь ласка, скористайтеся параметром -f, щоб виконати цю зміну у примусовому режимі.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
@@ -382,21 +373,15 @@ msgstr "Не вдалося відкрити /dev/port"
 #: src/kbdrate.c:325
 #, c-format
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
-msgstr ""
-"Програма встановлює частоту повторення і затримку клавіатури у "
-"користувацькому режимі.\n"
+msgstr "Програма встановлює частоту повторення і затримку клавіатури у користувацькому режимі.\n"
 
 #: src/kbdrate.c:371
 msgid "set the rate in characters per second."
 msgstr "встановити швидкість у символах за секунду."
 
 #: src/kbdrate.c:372
-msgid ""
-"set the amount of time the key must remain depressed before it will start to "
-"repeat."
-msgstr ""
-"встановити час, протягом якого клавішу має бути натиснуто, перш ніж "
-"почнеться повторення."
+msgid "set the amount of time the key must remain depressed before it will start to repeat."
+msgstr "встановити час, протягом якого клавішу має бути натиснуто, перш ніж почнеться повторення."
 
 #: src/kbdrate.c:373
 msgid "do not set new values, but only display the current ones."
@@ -423,9 +408,9 @@ msgstr "занадто високий рівень вкладеності вкл
 #: src/libkeymap/analyze.l:161 src/libkeymap/analyze.l:263
 #: src/libkeymap/analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
-#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
-#: src/screendump.c:151
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
+#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
+#: src/screendump.c:121 src/screendump.c:151
 msgid "out of memory"
 msgstr "недостатньо пам'яті"
 
@@ -490,9 +475,7 @@ msgstr "Не вдалося вилучити запис із таблиці ді
 #: src/libkeymap/dump.c:78 src/libkeymap/loadkeys.c:44
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
-msgstr ""
-"не вдалося прив’язати клавішу %d до значення %d, оскільки воно є надто "
-"великим"
+msgstr "не вдалося прив’язати клавішу %d до значення %d, оскільки воно є надто великим"
 
 #: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:255
 #: src/libkfont/mapscrn.c:260
@@ -636,8 +619,7 @@ msgstr "KDSKBENT: %s: не вдалося вилучити або спорожн
 #: src/libkeymap/loadkeys.c:107
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr ""
-"KDSKBMODE: %s: не вдалося повернутися до початкового режиму роботи клавіатури"
+msgstr "KDSKBMODE: %s: не вдалося повернутися до початкового режиму роботи клавіатури"
 
 #: src/libkeymap/loadkeys.c:170
 #, c-format
@@ -655,9 +637,7 @@ msgstr "занадто багато визначень сполучень"
 
 #: src/libkeymap/loadkeys.c:238
 msgid "unable to load compose definitions because some of them are too large"
-msgstr ""
-"не вдалося завантажити визначення композицій, оскільки деякі з них є надто "
-"великими"
+msgstr "не вдалося завантажити визначення композицій, оскільки деякі з них є надто великими"
 
 #: src/libkeymap/loadkeys.c:267
 #, c-format
@@ -812,12 +792,8 @@ msgstr "%s: Неправильний кінець діапазону (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x"
-msgstr ""
-"%s: Довжина Unicode-діапазону U+%x-U+%x відрізняється від довжини діапазону "
-"шрифту 0x%x-0x%x"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
+msgstr "%s: Довжина Unicode-діапазону U+%x-U+%x відрізняється від довжини діапазону шрифту 0x%x-0x%x"
 
 #: src/libkfont/loadunimap.c:238
 #, c-format
@@ -981,19 +957,19 @@ msgid "Cannot write font file"
 msgstr "Не вдалося записати файл шрифту"
 
 #: src/libkfont/setfont.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "Bad character height %d (limit is 128)"
-msgstr "Неприпустима висота символу %d"
+msgstr "Неприпустима висота символу %d (обмежено 128)"
 
 #: src/libkfont/setfont.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "Bad character width %d (limit is 64)"
-msgstr "Неприпустима ширина символу %d"
+msgstr "Неприпустима ширина символу %d (обмежено 64)"
 
 #: src/libkfont/setfont.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot double %dx%d font (limit is 32x64)"
-msgstr "Не можна дублювати шрифт %dx%d (обмеження — 16x16)"
+msgstr "Не можна дублювати шрифт %dx%d (обмеження — 32x64)"
 
 #: src/libkfont/setfont.c:141
 msgid "font position 32 is nonblank"
@@ -1038,8 +1014,7 @@ msgstr "Завантажується Unicode-таблиця..."
 #: src/libkfont/setfont.c:323
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
-msgstr ""
-"При завантаженні кількох шрифтів, усі мають бути psf-шрифтами - %s не є таким"
+msgstr "При завантаженні кількох шрифтів, усі мають бути psf-шрифтами - %s не є таким"
 
 #: src/libkfont/setfont.c:332
 #, c-format
@@ -1052,8 +1027,7 @@ msgstr "При завантаженні кількох шрифтів, усі м
 
 #: src/libkfont/setfont.c:349
 msgid "When loading several fonts, all must have the same width"
-msgstr ""
-"При завантаженні кількох шрифті, усі повинні мати однакову ширину символів"
+msgstr "При завантаженні кількох шрифті, усі повинні мати однакову ширину символів"
 
 #: src/libkfont/setfont.c:415
 msgid "Cannot find default font"
@@ -1197,11 +1171,8 @@ msgstr "Користування: %s [параметр...] -- команда\n"
 
 #: src/openvt.c:54
 #, c-format
-msgid ""
-"This utility helps you to start a program on a new virtual terminal (VT).\n"
-msgstr ""
-"Ця програма допоможе вам запустити програму у новому віртуальному терміналі "
-"(ВТ).\n"
+msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr "Ця програма допоможе вам запустити програму у новому віртуальному терміналі (ВТ).\n"
 
 #: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
@@ -1247,16 +1218,12 @@ msgstr "не вдалося знайти вільний ВТ"
 #: src/openvt.c:363
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr ""
-"не вдалося перевірити, чи вільний ВТ %d; скористайтеся командою «%s -f» для "
-"встановлення у примусовому режимі."
+msgstr "не вдалося перевірити, чи вільний ВТ %d; скористайтеся командою «%s -f» для встановлення у примусовому режимі."
 
 #: src/openvt.c:367
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr ""
-"vt %d вже використовується; виконання команди перервано; скористайтеся "
-"командою «%s -f» для встановлення у примусовому режимі."
+msgstr "vt %d вже використовується; виконання команди перервано; скористайтеся командою «%s -f» для встановлення у примусовому режимі."
 
 #: src/openvt.c:377
 msgid "Unable to find command."
@@ -1299,9 +1266,7 @@ msgstr "Користування: %s вх_шрифт вих_шрифт\n"
 #: src/psfxtable.c:107
 #, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
-msgstr ""
-"Користування: %s [-i вх_шрифт] [-o вих_шрифт] [-it вх_таблиця] [-ot "
-"вих_таблиця] [-nt]\n"
+msgstr "Користування: %s [-i вх_шрифт] [-o вих_шрифт] [-it вх_таблиця] [-ot вих_таблиця] [-nt]\n"
 
 #: src/psfxtable.c:148
 #, c-format
@@ -1343,9 +1308,7 @@ msgstr "Попередній режим: %dx%d  Новий режим: %dx%d\n"
 #: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr ""
-"Рядків розгортки у попередньому режимі: %d    У новому: %d    Висота шрифту: "
-"%d\n"
+msgstr "Рядків розгортки у попередньому режимі: %d    У новому: %d    Висота шрифту: %d\n"
 
 #: src/resizecons.c:278
 #, c-format
@@ -1354,18 +1317,15 @@ msgstr "resizecons: помилка команди «%s»\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: не забудьте змінити TERM (можливо, на con%dx%d або linux-%dx%d)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: не забудьте змінити TERM (можливо, на con%dx%d або linux-%dx%d)\n"
 
 #: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
 "виклик: resizecons СТОВПЧИКІВxРЯДКІВ   або:  resizecons СТОВПЧИКІВ РЯДКІВ\n"
@@ -1404,8 +1364,7 @@ msgstr "Помилка запису екранного дампу"
 #: src/setfont.c:28
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1430,12 +1389,10 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Використання: setfont [параметри-запису] [-<N>] [новий_шрифт..] [-m "
-"consolemap] [-u unicodemap]\n"
+"Використання: setfont [параметри-запису] [-<N>] [новий_шрифт..] [-m consolemap] [-u unicodemap]\n"
 "  параметри запису (застосовуються перед завантаженням):\n"
 "    -o  <файл>      Записати поточний шрифт у <filename>\n"
-"    -O  <файл>      Записати поточний шрифт та схему відображення Unicode у "
-"<файл>\n"
+"    -O  <файл>      Записати поточний шрифт та схему відображення Unicode у <файл>\n"
 "    -om <файл>      Записати поточну схему показу консолі у <файл>\n"
 "    -ou <файл>      Записати поточну схему показу unicode у <файл>\n"
 "Якщо не вказано новий_шрифт та не вказано параметр -[o|O|om|ou|m|u],\n"
@@ -1443,8 +1400,7 @@ msgstr ""
 "    setfont         Завантажити шрифт \"default[.gz]\"\n"
 "    setfont -<N>    Завантажити шрифт \"default8x<N>[.gz]\"\n"
 "Параметр -<N> вибирає шрифт з кодової сторінки, яка містить три шрифти:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Завантажити шрифт 8x<N> з codepage."
-"cp\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Завантажити шрифт 8x<N> з codepage.cp\n"
 "Явно (використовуючи -m чи -u) або неявно (у fontfile) вказані схеми\n"
 "будуть завантажені та, у випадку consolemaps, активовані.\n"
 "    -h<N>      (без пробілу) Перевизначити висоту шрифту.\n"
@@ -1542,18 +1498,13 @@ msgid "off"
 msgstr "вимкн"
 
 #: src/setleds.c:121
-msgid ""
-"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr ""
-"Помилка читання поточного стану індикаторів. Можливо, stdin не є ВТ?: ioctl "
-"KDGETLED"
+msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgstr "Помилка читання поточного стану індикаторів. Можливо, stdin не є ВТ?: ioctl KDGETLED"
 
 #: src/setleds.c:157 src/setleds.c:176
 #, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
-msgstr ""
-"Помилка читання поточного стану індикаторів з /dev/kbd. Можливо stdin не є "
-"ВТ?: ioctl %s"
+msgstr "Помилка читання поточного стану індикаторів з /dev/kbd. Можливо stdin не є ВТ?: ioctl %s"
 
 #: src/setleds.c:161 src/setleds.c:180
 #, c-format
@@ -1741,9 +1692,9 @@ msgid "Error: %s: Invalid value in line %u."
 msgstr "Помилка: %s: некоректне значення у рядку %u."
 
 #: src/setvtrgb.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: File ended unexpectedly."
-msgstr "Помилка: %s: неочікуване завершення рядка %u."
+msgstr "Помилка: %s: неочікуване завершення файла."
 
 #: src/showconsolefont.c:35
 msgid "failed to restore original translation table"
@@ -1764,9 +1715,7 @@ msgstr "(можливо, після завантаження шрифту за �
 
 #: src/showconsolefont.c:155
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
-msgstr ""
-"не виводити таблицю шрифту, просто показати РЯДКИxСТОВПЧИКИxКІЛЬКІСТЬ і "
-"вийти."
+msgstr "не виводити таблицю шрифту, просто показати РЯДКИxСТОВПЧИКИxКІЛЬКІСТЬ і вийти."
 
 #: src/showconsolefont.c:213
 #, c-format
@@ -1841,9 +1790,7 @@ msgstr ""
 #: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr ""
-"натисніть будь-яку клавішу (програма завершиться через 10 секунд після "
-"останнього натискання клавіші)\n"
+msgstr "натисніть будь-яку клавішу (програма завершиться через 10 секунд після останнього натискання клавіші)\n"
 
 #: src/showkey.c:285
 msgid "release"
@@ -1880,9 +1827,7 @@ msgstr "%s тепер заблоковано %s.\n"
 
 #: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
-msgstr ""
-"Скористайтеся комбінацією Alt-функціональна клавіша для перемикання на інші "
-"віртуальні консолі."
+msgstr "Скористайтеся комбінацією Alt-функціональна клавіша для перемикання на інші віртуальні консолі."
 
 #: src/vlock/parse.c:52
 #, c-format
@@ -1930,8 +1875,7 @@ msgstr "Цей пристрій tty (%s) не є віртуальною конс
 msgid "The entire console display cannot be locked.\n"
 msgstr "Показ даних у консолі не може бути повністю заблоковано.\n"
 
-#~ msgid ""
-#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
+#~ msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
 #~ msgstr "GIO_FONTX: кількість символів у шрифті не може бути більшою за %d"
 
 #~ msgid "getfont called with count<256"

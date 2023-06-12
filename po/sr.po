@@ -1,21 +1,21 @@
 # Serbian translation of kbd.
 # Copyright © 2017 Alexey Gladkov <gladkov.alexey@gmail.com>
 # This file is distributed under the same license as the kbd package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016—2020.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016-2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-2.2.90\n"
+"Project-Id-Version: kbd-2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2023-05-08 14:43+0200\n"
-"PO-Revision-Date: 2020-11-05 15:08+0200\n"
+"PO-Revision-Date: 2023-05-18 13:11+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 
 #: src/chvt.c:25
@@ -116,8 +116,8 @@ msgstr "ВТ 1 је конзола и не може се преместити"
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "не могу да преместим конзолу %d: „ioctl VT_DISALLOCATE“"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
-#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
+#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24
+#: src/getunimap.c:35 src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
 #: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -176,8 +176,7 @@ msgid "display only compose key combinations."
 msgstr "приказује само комбинације саставног тастера."
 
 #: src/dumpkeys.c:117
-msgid ""
-"interpret character action codes to be from the specified character set."
+msgid "interpret character action codes to be from the specified character set."
 msgstr "тумачи да су кодови радње знака из наведеног скупа знакова."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
@@ -244,8 +243,7 @@ msgstr "Кодови прегледа завршетка реда „e0 xx“ (�
 #: src/getkeycodes.c:139
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
-msgstr ""
-"нисам успео да добавим тастер-код за код прегледа 0x%x: „ioctl KDGETKEYCODE“"
+msgstr "нисам успео да добавим тастер-код за код прегледа 0x%x: „ioctl KDGETKEYCODE“"
 
 #: src/getunimap.c:82
 msgid "sort and merge elements."
@@ -337,12 +335,8 @@ msgstr "пребацује режим чак и ако чини тастатур
 
 #: src/kbd_mode.c:179
 #, c-format
-msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
-msgstr ""
-"Прелазак на затражени режим може учинити вашу тастатуру неупотребљивом, "
-"користите „-f“ да присилите промену.\n"
+msgid "Changing to the requested mode may make your keyboard unusable, please use -f to force the change.\n"
+msgstr "Прелазак на затражени режим може учинити вашу тастатуру неупотребљивом, користите „-f“ да присилите промену.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
@@ -374,22 +368,17 @@ msgid "Cannot open /dev/port"
 msgstr "Не могу да отворим „/dev/port“"
 
 #: src/kbdrate.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
-msgstr ""
-"Програм подешава да тастатура понавља проток и кашњење у режиму корисника.\n"
+msgstr "Програм поставља брзину понављања и застајкивање тастатуре у режиму корисника.\n"
 
 #: src/kbdrate.c:371
 msgid "set the rate in characters per second."
 msgstr "поставља проток у знаковима у секунди."
 
 #: src/kbdrate.c:372
-msgid ""
-"set the amount of time the key must remain depressed before it will start to "
-"repeat."
-msgstr ""
-"поставља колико дуго тастер мора остати притиснут пре него ли почне да се "
-"понавља."
+msgid "set the amount of time the key must remain depressed before it will start to repeat."
+msgstr "поставља колико дуго тастер мора остати притиснут пре него ли почне да се понавља."
 
 #: src/kbdrate.c:373
 msgid "do not set new values, but only display the current ones."
@@ -416,9 +405,9 @@ msgstr "укључења су угнеждена превише дубоко"
 #: src/libkeymap/analyze.l:161 src/libkeymap/analyze.l:263
 #: src/libkeymap/analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
-#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
-#: src/screendump.c:151
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69
+#: src/libkeymap/loadkeys.c:126 src/screendump.c:76 src/screendump.c:79
+#: src/screendump.c:121 src/screendump.c:151
 msgid "out of memory"
 msgstr "нема више меморије"
 
@@ -795,12 +784,8 @@ msgstr "%s: Лош крај опсега (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:213
 #, c-format
-msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x"
-msgstr ""
-"%s: Опсег Јуникода U+%x-U+%x није исте дужине као опсег положаја словног "
-"лика 0x%x-0x%x"
+msgid "%s: Unicode range U+%x-U+%x not of the same length as font position range 0x%x-0x%x"
+msgstr "%s: Опсег Јуникода U+%x-U+%x није исте дужине као опсег положаја словног лика 0x%x-0x%x"
 
 #: src/libkfont/loadunimap.c:238
 #, c-format
@@ -963,19 +948,19 @@ msgid "Cannot write font file"
 msgstr "Не могу да запишем датотеку словног лика"
 
 #: src/libkfont/setfont.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "Bad character height %d (limit is 128)"
-msgstr "Лоша висина знака %d"
+msgstr "Лоша висина знака %d (ограничење је 128)"
 
 #: src/libkfont/setfont.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "Bad character width %d (limit is 64)"
-msgstr "Лоша ширина знака %d"
+msgstr "Лоша ширина знака %d (ограничење је 128)"
 
 #: src/libkfont/setfont.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot double %dx%d font (limit is 32x64)"
-msgstr "Не могу да удвостручим %dx%d словни лик (граница је 16x16)"
+msgstr "Не могу да удвостручим %dx%d словни лик (ограничење је 32x64)"
 
 #: src/libkfont/setfont.c:141
 msgid "font position 32 is nonblank"
@@ -1020,9 +1005,7 @@ msgstr "Учитавам табелу Јуникод мапирања..."
 #: src/libkfont/setfont.c:323
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
-msgstr ""
-"Приликом учитавања неколико словних ликова, сви морају бити псф словни "
-"ликови — „%s“ то није"
+msgstr "Приликом учитавања неколико словних ликова, сви морају бити псф словни ликови — „%s“ то није"
 
 #: src/libkfont/setfont.c:332
 #, c-format
@@ -1031,13 +1014,11 @@ msgstr "Читам %d-знак %dx%d словног лика из датотек
 
 #: src/libkfont/setfont.c:341
 msgid "When loading several fonts, all must have the same height"
-msgstr ""
-"Приликом учитавања неколико словних ликова, сви морају имати исту висину"
+msgstr "Приликом учитавања неколико словних ликова, сви морају имати исту висину"
 
 #: src/libkfont/setfont.c:349
 msgid "When loading several fonts, all must have the same width"
-msgstr ""
-"Приликом учитавања неколико словних ликова, сви морају имати исту ширину"
+msgstr "Приликом учитавања неколико словних ликова, сви морају имати исту ширину"
 
 #: src/libkfont/setfont.c:415
 msgid "Cannot find default font"
@@ -1076,8 +1057,7 @@ msgstr ""
 #: src/libkfont/setfont.c:585
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"Затражили сте величину словног лика %d, али су само 8, 14, 16 овде могући.\n"
+msgstr "Затражили сте величину словног лика %d, али су само 8, 14, 16 овде могући.\n"
 
 #: src/libkfont/setfont.c:636
 msgid "Found nothing to save"
@@ -1181,11 +1161,8 @@ msgstr "Коришћење: %s [опција...] – наредба\n"
 
 #: src/openvt.c:54
 #, c-format
-msgid ""
-"This utility helps you to start a program on a new virtual terminal (VT).\n"
-msgstr ""
-"Ово помагало вам помаже да покренете програм на новом виртуелном терминалу "
-"(ВТ).\n"
+msgid "This utility helps you to start a program on a new virtual terminal (VT).\n"
+msgstr "Ово помагало вам помаже да покренете програм на новом виртуелном терминалу (ВТ).\n"
 
 #: src/openvt.c:153
 msgid "Couldn't find owner of current tty!"
@@ -1231,15 +1208,12 @@ msgstr "Не могу да нађем слободан вт"
 #: src/openvt.c:363
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
-msgstr ""
-"Не могу да проверим да ли је вт %d слободан; користите „%s -f“ за "
-"приморавање."
+msgstr "Не могу да проверим да ли је вт %d слободан; користите „%s -f“ за приморавање."
 
 #: src/openvt.c:367
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
-msgstr ""
-"вт %d је у употреби; наредба је прекинута; користите „%s -f“ за приморавање."
+msgstr "вт %d је у употреби; наредба је прекинута; користите „%s -f“ за приморавање."
 
 #: src/openvt.c:377
 msgid "Unable to find command."
@@ -1282,9 +1256,7 @@ msgstr "Коришћење: %s ул_словлик изл_словлик\n"
 #: src/psfxtable.c:107
 #, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
-msgstr ""
-"Коришћење: %s [-i ул_словлик] [-o изл_словлик] [-it ул_табела] [-ot "
-"изл_табела] [-nt]\n"
+msgstr "Коришћење: %s [-i ул_словлик] [-o изл_словлик] [-it ул_табела] [-ot изл_табела] [-nt]\n"
 
 #: src/psfxtable.c:148
 #, c-format
@@ -1326,8 +1298,7 @@ msgstr "Стари режим: %dx%d  Нови режим: %dx%d\n"
 #: src/resizecons.c:267
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr ""
-"Стари #редова_прегледа: %d  Нови #редова_прегледа: %d  Висина знака: %d\n"
+msgstr "Стари #редова_прегледа: %d  Нови #редова_прегледа: %d  Висина знака: %d\n"
 
 #: src/resizecons.c:278
 #, c-format
@@ -1336,24 +1307,19 @@ msgstr "resizecons: наредба „%s“ није успела\n"
 
 #: src/resizecons.c:363
 #, c-format
-msgid ""
-"resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr ""
-"resizecons: не заборавите да измените ТЕРМ (можда у „con%dx%d“ или „linux-%dx"
-"%d“)\n"
+msgid "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
+msgstr "resizecons: не заборавите да измените ТЕРМ (можда у „con%dx%d“ или „linux-%dx%d“)\n"
 
 #: src/resizecons.c:377
 #, c-format
 msgid ""
 "resizecons:\n"
 "call is:  resizecons COLSxROWS  or:  resizecons COLS ROWS\n"
-"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
-"60\n"
+"or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 msgstr ""
 "resizecons:\n"
 "позив је:  „resizecons КОЛОНЕxРЕДОВИ“  или:  „resizecons КОЛОНЕ РЕДОВИ“\n"
-"или: »resizecons -lines РЕДОВИ“, где за РЕДОВЕ имамо 25, 28, 30, 34, 36, 40, "
-"44, 50, 60\n"
+"или: »resizecons -lines РЕДОВИ“, где за РЕДОВЕ имамо 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 
 #: src/resizecons.c:416
 #, c-format
@@ -1387,8 +1353,7 @@ msgstr "Грешка писања избачаја екрана"
 #: src/setfont.c:28
 #, c-format
 msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
+"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
 "  write-options (take place before file loading):\n"
 "    -o  <filename>  Write current font to <filename>\n"
 "    -O  <filename>  Write current font and unicode map to <filename>\n"
@@ -1413,8 +1378,7 @@ msgid ""
 "    -V         Print version and exit.\n"
 "Files are loaded from the current directory or %s/*/.\n"
 msgstr ""
-"Коришћење: setfont [опције_писања] [-<N>] [нови_словни_лик..] [-m "
-"конзолна_мапа] [-u јуникодна_мапа]\n"
+"Коришћење: setfont [опције_писања] [-<N>] [нови_словни_лик..] [-m конзолна_мапа] [-u јуникодна_мапа]\n"
 "  опције_писања (добија место пре учитавања датотеке):\n"
 "    -o  <датотека>  Уписује текући словни лик у <датотеку>\n"
 "    -O  <датотека>  Уписује текући словни лик и јуникодну мапу у <датотеку>\n"
@@ -1425,14 +1389,11 @@ msgstr ""
 "    setfont         Учитава словни лик „default[.gz]“\n"
 "    setfont -<N>    Учитава словни лик „default8x<N>[.gz]“\n"
 "Опција „-<N>“ бира словни лик из кодне странице који садржи тр словна лика:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Учитава 8x<N> словни лик из "
-"„codepage.cp“\n"
-"Изричито (са „-m“ или „-u“) или подразумевано (у датотеци словног лика) дата "
-"мапирања\n"
+"    setfont -{8|14|16} codepage.cp[.gz]   Учитава 8x<N> словни лик из „codepage.cp“\n"
+"Изричито (са „-m“ или „-u“) или подразумевано (у датотеци словног лика) дата мапирања\n"
 "биће учитана и, у случају конзолних мапа, активирана.\n"
 "    -h<N>      (без размака) Преписује висину словног лика.\n"
-"    -d         Удвостручава величину словног лика хоризонтално и "
-"вертикално.\n"
+"    -d         Удвостручава величину словног лика хоризонтално и вертикално.\n"
 "    -m <fn>    Учитава мапу екрана конзоле.\n"
 "    -u <fn>    Учитава јуникод мапу словног лика.\n"
 "    -m ништа   Потискује учитавање и активирање мапе екрана.\n"
@@ -1448,8 +1409,7 @@ msgstr "Превише улазних датотека."
 
 #: src/setfont.c:144
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
-msgstr ""
-"Не могу да вратим и из РОМ-а знака и из датотеке. Словни лик није измењен."
+msgstr "Не могу да вратим и из РОМ-а знака и из датотеке. Словни лик није измењен."
 
 #: src/setkeycodes.c:28
 #, c-format
@@ -1486,8 +1446,7 @@ msgstr "код је ван граница"
 #: src/setkeycodes.c:164
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
-msgstr ""
-"нисам успео да подесим код прегледа %x у тастер-код %d: „ioctl KDSETKEYCODE“"
+msgstr "нисам успео да подесим код прегледа %x у тастер-код %d: „ioctl KDSETKEYCODE“"
 
 #: src/setleds.c:32
 #, c-format
@@ -1510,8 +1469,7 @@ msgid ""
 msgstr ""
 "Стога,\n"
 "\t„setleds +caps -num“\n"
-"ће подесити Закључавање_слова, очистити Закључавање_бројева и оставити "
-"Закључавање_премицања непромењеним.\n"
+"ће подесити Закључавање_слова, очистити Закључавање_бројева и оставити Закључавање_премицања непромењеним.\n"
 "Подешавања пре и после промене (ако их има) се пријављују\n"
 "када је дата опција „-v“ или када се не тражи никаква промена.\n"
 "Обично, „setleds“ утиче на подешавања заставице „vt“\n"
@@ -1529,11 +1487,8 @@ msgid "off"
 msgstr "искљ"
 
 #: src/setleds.c:121
-msgid ""
-"Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
-msgstr ""
-"Грешка читања текућег подешавања лед-а. Можда стандардни улаз није ВТ?: "
-"„ioctl KDGETLED“"
+msgid "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
+msgstr "Грешка читања текућег подешавања лед-а. Можда стандардни улаз није ВТ?: „ioctl KDGETLED“"
 
 #: src/setleds.c:157 src/setleds.c:176
 #, c-format
@@ -1659,7 +1614,7 @@ msgid "Usage: %s [option...] [vga|FILE|-]\n"
 msgstr "Коришћење: %s [опција...] [вга|ДАТОТЕКА|-]\n"
 
 #: src/setvtrgb.c:47
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you use the FILE parameter, it can be either in decimal\n"
 "or hexadecimal format, and will be detected on runtime.\n"
@@ -1677,13 +1632,22 @@ msgid ""
 "   #00AA00\n"
 "And so on, for all the 16 colors.\n"
 msgstr ""
-"Ако користите параметар ДАТОТЕКА, ДАТОТЕКА треба бити од тачно 3 реда\n"
-"зарезом раздвојених децималних вредности за ЦРВЕНУ, ЗЕЛЕНУ и ПЛАВУ.\n"
+"Ако користите параметар ДАТОТЕКА, може бити или у децималном\n"
+"или у хексадецималном запису, а биће откривен у време рада.\n"
+"\n"
+"Децимални запис ДАТОТЕКА треба да буде од тачно 3 реда зарезом\n"
+"раздвојених децималних вредности за ЦРВЕНУ, ЗЕЛЕНУ и ПЛАВУ.\n"
 "\n"
 "Да посејете исправну ДАТОТЕКУ:\n"
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > ДАТОТЕКА\n"
 "\n"
-"а онда уредите вредности у ДАТОТЕЦИ.\n"
+"Хексадецимални запис ДАТОТЕКА треба да буде од тачно 16 редова хекс\n"
+"тројки за ЦРВЕНУ, ЗЕЛЕНУ и ПЛАВУ, са префиксом знака за број (#).\n"
+"На пример:\n"
+"   #000000\n"
+"   #AA0000\n"
+"   #00AA00\n"
+"И тако редом, за свих 16 боја.\n"
 
 #: src/setvtrgb.c:101
 #, c-format
@@ -1706,19 +1670,19 @@ msgid "Error: %s: Line %u is too long."
 msgstr "Грешка: %s: %u. ред је предуг."
 
 #: src/setvtrgb.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Insufficient number of colors/lines: %u"
-msgstr "Грешка: %s: Недовољан број поља у %u. реду."
+msgstr "Грешка: %s: Недовољан број боја/редова: %u"
 
 #: src/setvtrgb.c:134
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Invalid value in line %u."
-msgstr "Грешка: %s: Неисправна вредност у пољу „%u“ у %u. реду."
+msgstr "Грешка: %s: Неисправна вредност у %u. реду."
 
 #: src/setvtrgb.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: File ended unexpectedly."
-msgstr "Грешка: %s: %u. ред је завршио неочекивано."
+msgstr "Грешка: %s: Датотека је неочекивано завршила."
 
 #: src/showconsolefont.c:35
 msgid "failed to restore original translation table"
@@ -1739,8 +1703,7 @@ msgstr "(вероватно након учитавања словног лик�
 
 #: src/showconsolefont.c:155
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
-msgstr ""
-"не исписује табелу словног лика, само показује: РЕДОВ×СТУПЦИ×УКУПНО и излази."
+msgstr "не исписује табелу словног лика, само показује: РЕДОВ×СТУПЦИ×УКУПНО и излази."
 
 #: src/showconsolefont.c:213
 #, c-format
@@ -1815,9 +1778,7 @@ msgstr ""
 #: src/showkey.c:261
 #, c-format
 msgid "press any key (program terminates 10s after last keypress)...\n"
-msgstr ""
-"притисните неки тастер (програм ће завршити 10 сек. након последњег притиска "
-"тастера)...\n"
+msgstr "притисните неки тастер (програм ће завршити 10 сек. након последњег притиска тастера)...\n"
 
 #: src/showkey.c:285
 msgid "release"
@@ -1902,8 +1863,7 @@ msgstr "Ова конзола (%s) није виртуелна конзола.\n
 msgid "The entire console display cannot be locked.\n"
 msgstr "Приказ читаве конзоле се не може закључати.\n"
 
-#~ msgid ""
-#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
+#~ msgid "GIO_FONTX: the number of characters in the font cannot be more than %d"
 #~ msgstr "GIO_FONTX: број знакова у словном лику не може бити већи од %d"
 
 #~ msgid "getfont called with count<256"
@@ -1931,8 +1891,7 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ "\t-i --short-info\t    display information about keyboard driver\n"
 #~ "\t-l -s --long-info   display above and symbols known to loadkeys\n"
 #~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
-#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
-#~ "keycode\n"
+#~ "\t-f --full-table\t    don't use short-hand notations, one row per keycode\n"
 #~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
 #~ "\t-S --shape=\n"
 #~ "\t-t --funcs-only\t    display only the function key strings\n"
@@ -1946,13 +1905,10 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ "исправне опције су:\n"
 #~ "\n"
 #~ "\t-h --help\t    приказује овај текст помоћи\n"
-#~ "\t-i --short-info\t    приказује податке о управљачком програму "
-#~ "тастатуре\n"
-#~ "\t-l -s --long-info   приказује горње и симболе познате кључевима "
-#~ "учитавања\n"
+#~ "\t-i --short-info\t    приказује податке о управљачком програму тастатуре\n"
+#~ "\t-l -s --long-info   приказује горње и симболе познате кључевима учитавања\n"
 #~ "\t-n --numeric\t    приказује табелу тастера у хексадецималном запису\n"
-#~ "\t-f --full-table\t    не користи прибелешке пречица, један ред по коду "
-#~ "кључа\n"
+#~ "\t-f --full-table\t    не користи прибелешке пречица, један ред по коду кључа\n"
 #~ "\t-1 --separate-lines један ред по пару (измењивач,код_тастера)\n"
 #~ "\t-S --shape=\n"
 #~ "\t-t --funcs-only\t    приказује само ниске функцијских тастера\n"
@@ -2081,11 +2037,8 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "Лош улазни ред: %s\n"
 
-#~ msgid ""
-#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-#~ msgstr ""
-#~ "%s: Лош опсег Јуникода који одговара опсегу положаја словног лика 0x%x-0x"
-#~ "%x\n"
+#~ msgid "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr "%s: Лош опсег Јуникода који одговара опсегу положаја словног лика 0x%x-0x%x\n"
 
 #~ msgid "%s: %s: Warning: line too long\n"
 #~ msgstr "%s: %s: Упозорење: ред је предуг\n"
@@ -2149,12 +2102,8 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: Лош крај опсега (0x%lx)\n"
 
-#~ msgid ""
-#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
-#~ "range\n"
-#~ msgstr ""
-#~ "%s: Према опсегу положаја словног лика, овде би требао да буде опсег "
-#~ "Јуникода\n"
+#~ msgid "%s: Corresponding to a range of font positions, there should be a Unicode range\n"
+#~ msgstr "%s: Према опсегу положаја словног лика, овде би требао да буде опсег Јуникода\n"
 
 #~ msgid "couldn't read %s, and cannot ioctl dump\n"
 #~ msgstr "не могу да прочитам „%s“, и не могу да избацим „ioctl“\n"
@@ -2168,16 +2117,11 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ msgid "even number of arguments expected"
 #~ msgstr "очекиван је паран број аргумената"
 
-#~ msgid ""
-#~ "Error reading current flags setting. Maybe you are not on the console?: "
-#~ "ioctl KDGKBLED"
-#~ msgstr ""
-#~ "Грешка читања текућег подешавања заставица. Можда нисте на конзоли?: "
-#~ "„ioctl KDGKBLED“"
+#~ msgid "Error reading current flags setting. Maybe you are not on the console?: ioctl KDGKBLED"
+#~ msgstr "Грешка читања текућег подешавања заставица. Можда нисте на конзоли?: „ioctl KDGKBLED“"
 
 #~ msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
-#~ msgstr ""
-#~ "Грешка читања текућег подешавања лампице из „/dev/kbd“: „ioctl KIOCSLED“"
+#~ msgstr "Грешка читања текућег подешавања лампице из „/dev/kbd“: „ioctl KIOCSLED“"
 
 #~ msgid "KIOCSLED unavailable?\n"
 #~ msgstr "„KIOCSLED“ није доступно?\n"
@@ -2197,11 +2141,8 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ "за промену подешавања другог вт-а.\n"
 #~ "Подешавање пре и након измене се извештава.\n"
 
-#~ msgid ""
-#~ "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
-#~ msgstr ""
-#~ "Грешка читања текућег подешавања. Можда стандардни улаз није ВТ?: „ioctl "
-#~ "KDGKBMETA“"
+#~ msgid "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
+#~ msgstr "Грешка читања текућег подешавања. Можда стандардни улаз није ВТ?: „ioctl KDGKBMETA“"
 
 #~ msgid "usage: %s\n"
 #~ msgstr "употреба: %s\n"
@@ -2224,8 +2165,7 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ "\n"
 #~ "Исправне опције су:\n"
 #~ " -V --version    Исписује број издања и излази.\n"
-#~ " -C tty          Уређај из кога се чита словни лик. Основно: текућа "
-#~ "конзола.\n"
+#~ " -C tty          Уређај из кога се чита словни лик. Основно: текућа конзола.\n"
 #~ " -v              Бива опширнији.\n"
 #~ " -i              Не исписује табелу словних ликова, само приказује\n"
 #~ "                 РЕДОВИxКОЛОНЕxУКУПНО и излази.\n"
@@ -2250,8 +2190,7 @@ msgstr "Приказ читаве конзоле се не може закључ
 #~ "исправне опције су:\n"
 #~ "\n"
 #~ "\t-h --help\tприказује овај текст помоћи\n"
-#~ "\t-a --ascii\tприказује децималне/окталне/хексадецималне вредности "
-#~ "тастера\n"
+#~ "\t-a --ascii\tприказује децималне/окталне/хексадецималне вредности тастера\n"
 #~ "\t-s --scancodes\tприказује само сирове кодове прегледа\n"
 #~ "\t-k --keycodes\tисписује само преведене кодове тастера (осново)\n"
 #~ "\t-V --version\tисписује број издања\n"
