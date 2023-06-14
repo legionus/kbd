@@ -10,11 +10,11 @@
 # | s a| s = normal, a = AltGr             |  Ferme  | Mem/Reg/Ste | Halte |
 #  ¯¯¯¯                                     ¯¯¯¯¯¯¯¯¯ ¯¯¯¯¯¯¯¯¯¯¯¯¯ ¯¯¯¯¯¯¯
 #  ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ _______
-# | # «| 1 ·| 2 É| 3 ¸| 4 ´| 5 ¨| 6 ¦| 7 È| 8 ¯| 9 Ç| 0 À| ° ÿ| _ ¾| <--   |
+# | # «| 1 ·| 2 É| 3 ž| 4 Ž| 5 š| 6 Š| 7 È| 8 ¯| 9 Ç| 0 À| ° ÿ| _ Ÿ| <--   |
 # | @ »| & '| é ~| " #| ' {| ( [| - || è `| ! \| ç ^| à @| ) ]| - }|       |
 #  ========================================================================
 # | |<-  | A ä| Z Å| E ë| R Ç| T Þ| Y Ý| U ü| I ï| O ö| P '| " `| £ ê|   , |
-# |  ->| | a â| z å| e ¤| r ç| t þ| y ý| u û| i î| o ô| p ¶| ^ ~| $ ¢| <-' |
+# |  ->| | a â| z å| e €| r ç| t þ| y ý| u û| i î| o ô| p ¶| ^ ~| $ ¢| <-' |
 #  ===================================================================¬    |
 # |       | Q Ä| S Ø| D Ë| F ª| G Æ| H Ð| J Ü| K Ï| L Ö| M º| % Ù| µ ¥|    |
 # | MAJ   | q Â| s ø| d Ê| f ±| g æ| h ð| j Û| k Î| l Ô| m ¹| ù ²| * ³|    |
@@ -76,7 +76,7 @@
 #		AltGr (en dessous de la voyelle) : voyelle-majuscule ^
 #		AltGr + Shift (en dessous de la voyelle) : voyelle majuscule "
 #
-# Seule exception : AltGr (e) donnant l'euro ¤, AltGr + Shift ($) donne ê 
+# Seule exception : AltGr (e) donnant l'euro €, AltGr + Shift ($) donne ê 
 #
 #	* Si les dead_keys fonctionnent, utiliser les accents dits
 #	«morts», i.e. fonctionnant comme l'accent circonflexe & le
@@ -671,27 +671,27 @@ compose '"' 'r' to '®'
 compose '"' 'y' to 'ÿ'
 compose 'i' 'j' to 'ÿ'
 # Latin0 specific
-compose '"' 'Y' to '¾'
-compose 'I' 'J' to '¾'
-compose '-' 'e' to '¤'
-compose '-' 'E' to '¤'
-compose '=' 'e' to '¤'
-compose '=' 'c' to '¤'
-compose '=' 'E' to '¤'
-compose '=' 'C' to '¤'
-compose 'e' '=' to '¤'
-compose 'c' '=' to '¤'
-compose 'E' '=' to '¤'
-compose 'C' '=' to '¤'
-compose '^' 'S' to '¦'
-compose '^' 's' to '¨'
-compose '^' 'Z' to '´'
-compose '^' 'z' to '¸'
-compose 'v' 'S' to '¦'
-compose 'v' 's' to '¨'
-compose 'v' 'Z' to '´'
-compose 'v' 'z' to '¸'
-compose 'O' 'E' to '¼'
-compose 'O' 'e' to '¼'
-compose 'o' 'e' to '½'
-compose '"' 'Y' to '¾'
+compose '"' 'Y' to 'Ÿ'
+compose 'I' 'J' to 'Ÿ'
+compose '-' 'e' to '€'
+compose '-' 'E' to '€'
+compose '=' 'e' to '€'
+compose '=' 'c' to '€'
+compose '=' 'E' to '€'
+compose '=' 'C' to '€'
+compose 'e' '=' to '€'
+compose 'c' '=' to '€'
+compose 'E' '=' to '€'
+compose 'C' '=' to '€'
+compose '^' 'S' to 'Š'
+compose '^' 's' to 'š'
+compose '^' 'Z' to 'Ž'
+compose '^' 'z' to 'ž'
+compose 'v' 'S' to 'Š'
+compose 'v' 's' to 'š'
+compose 'v' 'Z' to 'Ž'
+compose 'v' 'z' to 'ž'
+compose 'O' 'E' to 'Œ'
+compose 'O' 'e' to 'Œ'
+compose 'o' 'e' to 'œ'
+compose '"' 'Y' to 'Ÿ'
