@@ -3,34 +3,34 @@
 # Copyright (c) 2023 Gabriel Bauer <gabeb1277@gmail.com>
 #
 # Les accents circonflexes des principales voyelles sont obtenus avec
-# la touche Alt_Gr, les trÃ©mas sont obtenus par Alt_Gr + Shift.
+# la touche Alt_Gr, les trémas sont obtenus par Alt_Gr + Shift.
 #
 #  ____                                     _________ _____________ _______
-# | S A| S = Shift,  A = AltGr + Shift     | Compose | ArrÃªt dÃ©fil | Pause |
+# | S A| S = Shift,  A = AltGr + Shift     | Compose | Arrêt défil | Pause |
 # | s a| s = normal, a = AltGr             |  Ferme  | Mem/Reg/Ste | Halte |
-#  Â¯Â¯Â¯Â¯                                     Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯Â¯
+#  ¯¯¯¯                                     ¯¯¯¯¯¯¯¯¯ ¯¯¯¯¯¯¯¯¯¯¯¯¯ ¯¯¯¯¯¯¯
 #  ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ _______
-# | # Â«| 1 Â·| 2 Ã‰| 3 Å¾| 4 Å½| 5 Å¡| 6 Å | 7 Ãˆ| 8 Â¯| 9 Ã‡| 0 Ã€| Â° Ã¿| _ Å¸| <--   |
-# | @ Â»| & '| Ã© ~| " #| ' {| ( [| - || Ã¨ `| ! \| Ã§ ^| Ã  @| ) ]| - }|       |
+# | # «| 1 ·| 2 É| 3 ¸| 4  | 5 [| 6 ¦| 7 »| 8 ¯| 9 Ç| 0 À| ° ]| _  | <--   |
+# | @ »| & '| é ~| " #| '  | ( {| § || è «| ! \| ç ^| à @| ) }| -  |       |
 #  ========================================================================
-# | |<-  | A Ã¤| Z Ã…| E Ã«| R Ã‡| T Ãž| Y Ã| U Ã¼| I Ã¯| O Ã¶| P '| " `| Â£ Ãª|   , |
-# |  ->| | a Ã¢| z Ã¥| e â‚¬| r Ã§| t Ã¾| y Ã½| u Ã»| i Ã®| o Ã´| p Â¶| ^ ~| $ Â¢| <-' |
-#  ===================================================================Â¬    |
-# |       | Q Ã„| S Ã˜| D Ã‹| F Âª| G Ã†| H Ã| J Ãœ| K Ã| L Ã–| M Âº| % Ã™| Âµ Â¥|    |
-# | MAJ   | q Ã‚| s Ã¸| d ÃŠ| f Â±| g Ã¦| h Ã°| j Ã›| k ÃŽ| l Ã”| m Â¹| Ã¹ Â²| * Â³|    |
+# | |<-  | A ä| Z Å| E ë| R Ç| T Þ| Y Ý| U ü| I ï| O ö| P '| " `| £ ê|   , |
+# |  ->| | a â| z å| e ¤| r ç| t þ| y ý| u û| i î| o ô| p ¶| ^ ~| $ ¢| <-' |
+#  ===================================================================¬    |
+# |       | Q Ä| S Ø| D Ë| F ª| G Æ| H Ð| J Ü| K Ï| L Ö| M º| % Ù| µ ¥|    |
+# | MAJ   | q Â| s ø| d Ê| f ±| g æ| h ð| j Û| k Î| l Ô| m ¹| ù ²| * ³|    |
 #  ========================================================================
 # | ^   | >  | W  | X  | C  | V  | B  | N  | ?  | .  | /  | +  |     ^     |
-# | |   | < || w Â«| x Â»| c Â©| v Â®| b ÃŸ| n Â¬| , Â¿| ; Ã—| : Ã·| = Â¡|     |     |
+# | |   | < || w «| x »| c ©| v ®| b ß| n ¬| , ¿| ; ×| : ÷| = ¡|     |     |
 #  ========================================================================
 # |      |      |      |                       |       |      |     |      |
 # | Ctrl | Con+ | Alt  | Space    Nobreakspace | AltGr | Con- | Con | Ctrl |
-#  Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯ Â¯Â¯Â¯Â¯Â¯Â¯
+#  ¯¯¯¯¯¯ ¯¯¯¯¯¯ ¯¯¯¯¯¯ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ ¯¯¯¯¯¯¯ ¯¯¯¯¯¯ ¯¯¯¯¯ ¯¯¯¯¯¯
 #
 # 1. Control & Alt
 #
-# Les dÃ©finitions de Alt & Control (touche) sont *NORMALEMENT* implicites ;
-# n'ont donc Ã©tÃ© redÃ©finis qu'Alt (nombre) & Alt + Shift (nombre) pour
-# inverser le comportement par dÃ©faut ainsi que les Alt(azqwm) pour coller
+# Les définitions de Alt & Control (touche) sont *NORMALEMENT* implicites ;
+# n'ont donc été redéfinis qu'Alt (nombre) & Alt + Shift (nombre) pour
+# inverser le comportement par défaut ainsi que les Alt(azqwm) pour coller
 # au clavier AZERTY au lieu de QWERTY :
 #
 # 		touche = signe
@@ -43,72 +43,72 @@
 #
 # Signalez-moi si cette correspondance n'est pas implicite chez vous !
 #
-# 2. HexadÃ©cimal :
+# 2. Hexadécimal :
 #
-# Shift (touche du pavÃ© numÃ©rique) permet de taper de l'hÃ©xadÃ©cimal.
+# Shift (touche du pavé numérique) permet de taper de l'héxadécimal.
 #
 # 3. Fonctions :
 #
-# RedÃ©marrer ou arrÃªter l'ordinateur, sont disponibles directement au clavier
+# Redémarrer ou arrêter l'ordinateur, sont disponibles directement au clavier
 #
-#		Control Alt Delete/Backspace : redÃ©marrer
-#		AltGr + Impr. Ã‰cran : arrÃªter
+#		Control Alt Delete/Backspace : redémarrer
+#		AltGr + Impr. Écran : arrêter
 #
-# Ajouter pour ces deux fonctions les lignes suivantes Ã  /etc/inittab :
+# Ajouter pour ces deux fonctions les lignes suivantes à /etc/inittab :
 #
 #		ca:12345:ctrlaltdel:/sbin/shutdown -t1 -r now
 #		kb:12345:kbrequest:/sbin/halt
 #
 # 4. Accentuations :
 #
-# Les touches Ã©, Ã¨, Ã§, Ã  & Ã¹, prÃ©sentes en mode minuscule (i.e. sans shift)
+# Les touches é, è, ç, à & ù, présentes en mode minuscule (i.e. sans shift)
 # ne sont pas disponibles en mode majuscule : elles sont respectivement
-# remplacÃ©es par 2, 7, 9, 0 & % ; donc pour obtenir les majuscules
-# accentuÃ©es Ã‰, Ãˆ, Ã‡, Ã€ & Ã™:
+# remplacées par 2, 7, 9, 0 & % ; donc pour obtenir les majuscules
+# accentuées É, È, Ç, À & Ù:
 #
 #	* Si les dead_keys ne fonctionnaient pas (certains programmes
 #	les refusent), vous pouvez toujours utiliser AltGr + Shift
-#	(minuscule accentuÃ©e) pour obtenir la majuscule ; pour
-#	l'accent circonflexe & le trÃ©ma :
+#	(minuscule accentuée) pour obtenir la majuscule ; pour
+#	l'accent circonflexe & le tréma :
 #
 #		AltGr (voyelle) : voyelle-minuscule ^
 #		AltGr + Shift (voyelle) : voyelle-minuscule "
 #		AltGr (en dessous de la voyelle) : voyelle-majuscule ^
 #		AltGr + Shift (en dessous de la voyelle) : voyelle majuscule "
 #
-# Seule exception : AltGr (e) donnant l'euro â‚¬, AltGr + Shift ($) donne Ãª 
+# Seule exception : AltGr (e) donnant l'euro ¤, AltGr + Shift ($) donne ê 
 #
 #	* Si les dead_keys fonctionnent, utiliser les accents dits
-#	Â«mortsÂ», i.e. fonctionnant comme l'accent circonflexe & le
-#	trÃ©ma des machines Ã  Ã©crire ; sont disponibles :
+#	«morts», i.e. fonctionnant comme l'accent circonflexe & le
+#	tréma des machines à écrire ; sont disponibles :
 #
 #		(^) : accent circonflexe,
-#		Shift+  (^) : trÃ©ma,
+#		Shift+  (^) : tréma,
 #		Shift + AltGr (^) : tilde,
-#		AltGr (1) : accent aigÃ¼,
+#		AltGr (1) : accent aigü,
 #		AltGr (7) : accent grave
 #
-# Pour s'en servir, procÃ©der comme avec l'accent circonflexe & le trÃ©ma
-# sur les vielles machines Ã  Ã©crire :
+# Pour s'en servir, procéder comme avec l'accent circonflexe & le tréma
+# sur les vielles machines à écrire :
 #
-#		AltGr (1) puis e : Ã©
-#		Shift+AltGr (1) puis e : Ã‰ ...
+#		AltGr (1) puis e : é
+#		Shift+AltGr (1) puis e : É ...
 #
-# 5. Les touches supplÃ©mentaires des claviers 105 touches
+# 5. Les touches supplémentaires des claviers 105 touches
 #
-# Celles-ci servent Ã  changer de console trÃ¨s facilement :
-#		Window Gauche : dÃ©crÃ©mente console
-#		Window Droite : incrÃ©mente console
-#		Souris sur menu : prÃ©cÃ©dente console
+# Celles-ci servent à changer de console très facilement :
+#		Window Gauche : décrémente console
+#		Window Droite : incrémente console
+#		Souris sur menu : précédente console
 #
 # 6. Mode majuscule (CapsLock)
 #
-# Celui-ci Ã  Ã©tÃ© refait pour correspondre Ã  celui par dÃ©faut des vieilles
-# machines Ã  Ã©crire ou PC sous d'autres systÃ¨mes d'exploitation :
+# Celui-ci à été refait pour correspondre à celui par défaut des vieilles
+# machines à écrire ou PC sous d'autres systèmes d'exploitation :
 #		CapsLock : passe toutes les touches en mode majuscule
-#		CapsLock Ã  nouveau : repasse toutes les touches en minuscules
+#		CapsLock à nouveau : repasse toutes les touches en minuscules
 #		Shift + touche : touche temporairement en majuscule
-#		Shift aprÃ¨s CapsLock : repasse toues les touches en minuscules
+#		Shift après CapsLock : repasse toues les touches en minuscules
 charset "iso-8859-15"
 
 keycode   0 =
@@ -127,17 +127,17 @@ keycode   4 = +quotedbl         +three            numbersign       cedilla
         alt     keycode   4 = Meta_three
         alt     shift   keycode   4 = Meta_quotedbl
 
-keycode   5 = +apostrophe       +four             braceleft        acute
-        alt     keycode   5 = Meta_four
-        alt     shift   keycode   5 = Meta_apostrophe
+keycode   5 = +apostrophe       +four             
+        #alt     keycode   5 = Meta_four
+        #alt     shift   keycode   5 = Meta_apostrophe
 
 keycode   6 = +parenleft        +five             bracketleft      diaeresis
-        alt     keycode   6 = Meta_five
-        alt     shift   keycode   6 = Meta_parenleft
+        alt     keycode   6 = Meta_braceleft
+        alt     shift   keycode   6 = bracketleft
 
-keycode   7 = +minus            +six              bar              brokenbar
-        alt     keycode   7 = Meta_six
-        alt     shift   keycode   7 = Meta_minus
+keycode   7 = +section            +six              bar              brokenbar
+        alt     keycode   7 = Meta_guillemotleft
+        alt     shift   keycode   7 = Meta_guillemotright
 
 keycode   8 = +egrave           +seven            dead_grave       Egrave
         alt     keycode   8 = Meta_seven
@@ -156,10 +156,10 @@ keycode  11 = +agrave           +zero             at               Agrave
         alt     shift   keycode  11 = Meta_at
 
 keycode  12 = +parenright       +degree           bracketright     ydiaeresis
-        alt     keycode  12 = Meta_parenright
+        alt     keycode  12 = Meta_braceright
         alt     shift   keycode  12 = Meta_bracketright
 
-keycode  13 = +minus            +underscore             braceright       threequarters
+keycode  13 = +minus            +underscore       threequarters
         alt     keycode  13 = Meta_equal
         alt     shift   keycode  13 = Meta_plus
 
@@ -231,7 +231,7 @@ keycode  39 = +m                +M		onesuperior     masculine
 
 keycode  40 = +ugrave           +percent	twosuperior     +Ugrave
 #
-# Les 2 solutions de l'ancien comportement sont remplacÃ©es pour la norme latin0
+# Les 2 solutions de l'ancien comportement sont remplacées pour la norme latin0
 #
 #keycode  41 = twosuperior      threesuperior	onesuperior	macron
 #keycode  41 = guillemotleft    guillemotright   twosuperior	threesuperior
@@ -262,7 +262,7 @@ keycode  51 = +semicolon        +period		multiply
 
 keycode  52 = +colon            +slash		division
 
-keycode  53 = +equal           +plus	exclamdown 
+keycode  53 = +equal            +plus	exclamdown 
 
 keycode  54 = CapsShift
 
@@ -370,7 +370,7 @@ keycode  83 = period           comma
         control alt     keycode  83 = Boot
 
 #
-# La touche AltGr+Â«Impr. Ã‰cranÂ» = Â«SysReqÂ» a un code pour elle-mÃªme
+# La touche AltGr+«Impr. Écran» = «SysReq» a un code pour elle-même
 #
 keycode  84 = SAK
 
@@ -408,7 +408,7 @@ keycode  97 = Control
 keycode  98 = slash
 
 #
-# La touche Â«Impr. Ã‰cranÂ» ne sert Ã  rien sous Linux, alors mettons-y Â«ComposeÂ»
+# La touche «Impr. Écran» ne sert à rien sous Linux, alors mettons-y «Compose»
 #
 keycode  99 = Compose
 
@@ -416,7 +416,7 @@ keycode 100 = AltGr
         alt     keycode 100 = Compose
 
 #
-# La touche Ctrl+Pause = Attn = 101 a un code pour elle-mÃªme
+# La touche Ctrl+Pause = Attn = 101 a un code pour elle-même
 #
 keycode 101 = Break
 
@@ -477,19 +477,19 @@ keycode 123 =
 keycode 124 =
 
 #
-# Touches supplÃ©mentaires des claviers 105 touches
+# Touches supplémentaires des claviers 105 touches
 #
 
 #
-# FenÃªtre gauche = Console prÃ©cÃ©dente
+# Fenêtre gauche = Console précédente
 #
 keycode 125 = Decr_Console
 #
-# FenÃªtre droite = Console suivante
+# Fenêtre droite = Console suivante
 #
 keycode 126 = Incr_Console
 #
-# Menu = DerniÃ¨re console
+# Menu = Dernière console
 #
 keycode 127 = Last_Console
 
@@ -538,160 +538,160 @@ string F34 = "\033[48~"
 string F35 = "\033[49~"
 
 # Latin1 compatible
-compose '`' 'A' to 'Ã€'
-compose '`' 'a' to 'Ã '
-compose '\'' 'A' to 'Ã'
-compose '\'' 'a' to 'Ã¡'
-compose '^' 'A' to 'Ã‚'
-compose '^' 'a' to 'Ã¢'
-compose '~' 'A' to 'Ãƒ'
-compose '~' 'a' to 'Ã£'
-compose '"' 'A' to 'Ã„'
-compose '"' 'a' to 'Ã¤'
-compose '-' 'a' to 'Âª'
-compose '-' 'A' to 'Âª'
-compose 'O' 'A' to 'Ã…'
-compose 'o' 'A' to 'Ã…'
-compose 'O' 'a' to 'Ã¥'
-compose 'o' 'a' to 'Ã¥'
-compose '0' 'A' to 'Ã…'
-compose '0' 'a' to 'Ã¥'
-compose 'Â°' 'A' to 'Ã…'
-compose 'Â°' 'a' to 'Ã¥'
-compose 'A' 'A' to 'Ã…'
-compose 'a' 'a' to 'Ã¥'
-compose 'A' 'E' to 'Ã†'
-compose 'A' 'e' to 'Ã†'
-compose 'a' 'e' to 'Ã¦'
-compose ',' 'C' to 'Ã‡'
-compose ',' 'c' to 'Ã§'
-compose '^' 'C' to 'Ã‡'
-compose '^' 'c' to 'Ã§'
-compose '`' 'E' to 'Ãˆ'
-compose '`' 'e' to 'Ã¨'
-compose '\'' 'E' to 'Ã‰'
-compose '\'' 'e' to 'Ã©'
-compose '^' 'E' to 'ÃŠ'
-compose '^' 'e' to 'Ãª'
-compose '"' 'E' to 'Ã‹'
-compose '"' 'e' to 'Ã«'
-compose '`' 'I' to 'ÃŒ'
-compose '`' 'i' to 'Ã¬'
-compose '\'' 'I' to 'Ã'
-compose '\'' 'i' to 'Ã­'
-compose '^' 'I' to 'ÃŽ'
-compose '^' 'i' to 'Ã®'
-compose '"' 'I' to 'Ã'
-compose '"' 'i' to 'Ã¯'
-compose '-' 'D' to 'Ã'
-compose '-' 'd' to 'Ã°'
-compose '^' 'D' to 'Ã'
-compose '^' 'd' to 'Ã°'
-compose '~' 'N' to 'Ã‘'
-compose '~' 'n' to 'Ã±'
-compose '^' 'N' to 'Ã‘'
-compose '^' 'n' to 'Ã±'
-compose 'n' 'n' to 'Ã±'
-compose 'n' 'h' to 'Ã±'
-compose 'N' 'Y' to 'Ã‘'
-compose 'N' 'N' to 'Ã‘'
-compose 'N' 'H' to 'Ã‘'
-compose 'N' 'y' to 'Ã‘'
-compose 'N' 'n' to 'Ã‘'
-compose 'N' 'h' to 'Ã‘'
-compose '`' 'O' to 'Ã’'
-compose '`' 'o' to 'Ã²'
-compose '\'' 'O' to 'Ã“'
-compose '\'' 'o' to 'Ã³'
-compose '^' 'O' to 'Ã”'
-compose '^' 'o' to 'Ã´'
-compose '~' 'O' to 'Ã•'
-compose '~' 'o' to 'Ãµ'
-compose '"' 'O' to 'Ã–'
-compose '"' 'o' to 'Ã¶'
-compose '/' 'O' to 'Ã˜'
-compose '/' 'o' to 'Ã¸'
-compose '-' 'o' to 'Âº'
-compose '-' 'O' to 'Âº'
-compose '`' 'U' to 'Ã™'
-compose '`' 'u' to 'Ã¹'
-compose '\'' 'U' to 'Ãš'
-compose '\'' 'u' to 'Ãº'
-compose '^' 'U' to 'Ã›'
-compose '^' 'u' to 'Ã»'
-compose '"' 'U' to 'Ãœ'
-compose '"' 'u' to 'Ã¼'
-compose '\'' 'Y' to 'Ã'
-compose '\'' 'y' to 'Ã½'
-compose 'T' 'H' to 'Ãž'
-compose 't' 'h' to 'Ã¾'
-compose 's' 's' to 'ÃŸ'
-compose 'S' 'S' to 'Â§'
-compose '+' '-' to 'Â±'
-compose '|' '-' to 'Â¬'
-compose '-' '|' to 'Â¬'
-compose '|' '_' to 'Â¬'
-compose '_' '|' to 'Â¬'
-compose 's' 'z' to 'ÃŸ'
-compose 's' 's' to 'ÃŸ'
-compose '^' '1' to 'Â¹'
-compose '^' '2' to 'Â²'
-compose '^' '3' to 'Â³'
-compose '<' '<' to 'Â«'
-compose '>' '>' to 'Â»'
-compose '?' '?' to 'Â¿'
-compose '^' '?' to 'Â¿'
-compose '!' '!' to 'Â¡'
-compose '^' '!' to 'Â¡'
-compose '-' 'y' to 'Â¥'
-compose '-' 'Y' to 'Â¥'
-compose '-' 'c' to 'Â¢'
-compose '-' 'C' to 'Â¢'
-compose '-' 'l' to 'Â£'
-compose '-' 'L' to 'Â£'
-compose '(' 'c' to 'Â©'
-compose '(' 'r' to 'Â®'
-compose 'm' 'u' to 'Âµ'
-compose '^' '!' to 'Â¡'
-compose '^' '?' to 'Â¿'
-compose '^' '-' to 'Â¯'
-compose '^' '_' to 'Â¯'
-compose '^' '.' to 'Â·'
-compose '^' 'x' to 'Ã—'
-compose '^' 'X' to 'Ã—'
-compose '^' '*' to 'Ã—'
-compose '^' 'x' to 'Ã—'
-compose '^' 'X' to 'Ã—'
-compose '^' '*' to 'Ã—'
-compose '^' '/' to 'Ã·'
-compose '<' '<' to 'Â«'
-compose '>' '>' to 'Â»'
-compose '"' 'c' to 'Â©'
-compose '"' 'r' to 'Â®'
-compose '"' 'y' to 'Ã¿'
-compose 'i' 'j' to 'Ã¿'
+compose '`' 'A' to 'À'
+compose '`' 'a' to 'à'
+compose '\'' 'A' to 'Á'
+compose '\'' 'a' to 'á'
+compose '^' 'A' to 'Â'
+compose '^' 'a' to 'â'
+compose '~' 'A' to 'Ã'
+compose '~' 'a' to 'ã'
+compose '"' 'A' to 'Ä'
+compose '"' 'a' to 'ä'
+compose '-' 'a' to 'ª'
+compose '-' 'A' to 'ª'
+compose 'O' 'A' to 'Å'
+compose 'o' 'A' to 'Å'
+compose 'O' 'a' to 'å'
+compose 'o' 'a' to 'å'
+compose '0' 'A' to 'Å'
+compose '0' 'a' to 'å'
+compose '°' 'A' to 'Å'
+compose '°' 'a' to 'å'
+compose 'A' 'A' to 'Å'
+compose 'a' 'a' to 'å'
+compose 'A' 'E' to 'Æ'
+compose 'A' 'e' to 'Æ'
+compose 'a' 'e' to 'æ'
+compose ',' 'C' to 'Ç'
+compose ',' 'c' to 'ç'
+compose '^' 'C' to 'Ç'
+compose '^' 'c' to 'ç'
+compose '`' 'E' to 'È'
+compose '`' 'e' to 'è'
+compose '\'' 'E' to 'É'
+compose '\'' 'e' to 'é'
+compose '^' 'E' to 'Ê'
+compose '^' 'e' to 'ê'
+compose '"' 'E' to 'Ë'
+compose '"' 'e' to 'ë'
+compose '`' 'I' to 'Ì'
+compose '`' 'i' to 'ì'
+compose '\'' 'I' to 'Í'
+compose '\'' 'i' to 'í'
+compose '^' 'I' to 'Î'
+compose '^' 'i' to 'î'
+compose '"' 'I' to 'Ï'
+compose '"' 'i' to 'ï'
+compose '-' 'D' to 'Ð'
+compose '-' 'd' to 'ð'
+compose '^' 'D' to 'Ð'
+compose '^' 'd' to 'ð'
+compose '~' 'N' to 'Ñ'
+compose '~' 'n' to 'ñ'
+compose '^' 'N' to 'Ñ'
+compose '^' 'n' to 'ñ'
+compose 'n' 'n' to 'ñ'
+compose 'n' 'h' to 'ñ'
+compose 'N' 'Y' to 'Ñ'
+compose 'N' 'N' to 'Ñ'
+compose 'N' 'H' to 'Ñ'
+compose 'N' 'y' to 'Ñ'
+compose 'N' 'n' to 'Ñ'
+compose 'N' 'h' to 'Ñ'
+compose '`' 'O' to 'Ò'
+compose '`' 'o' to 'ò'
+compose '\'' 'O' to 'Ó'
+compose '\'' 'o' to 'ó'
+compose '^' 'O' to 'Ô'
+compose '^' 'o' to 'ô'
+compose '~' 'O' to 'Õ'
+compose '~' 'o' to 'õ'
+compose '"' 'O' to 'Ö'
+compose '"' 'o' to 'ö'
+compose '/' 'O' to 'Ø'
+compose '/' 'o' to 'ø'
+compose '-' 'o' to 'º'
+compose '-' 'O' to 'º'
+compose '`' 'U' to 'Ù'
+compose '`' 'u' to 'ù'
+compose '\'' 'U' to 'Ú'
+compose '\'' 'u' to 'ú'
+compose '^' 'U' to 'Û'
+compose '^' 'u' to 'û'
+compose '"' 'U' to 'Ü'
+compose '"' 'u' to 'ü'
+compose '\'' 'Y' to 'Ý'
+compose '\'' 'y' to 'ý'
+compose 'T' 'H' to 'Þ'
+compose 't' 'h' to 'þ'
+compose 's' 's' to 'ß'
+compose 'S' 'S' to '§'
+compose '+' '-' to '±'
+compose '|' '-' to '¬'
+compose '-' '|' to '¬'
+compose '|' '_' to '¬'
+compose '_' '|' to '¬'
+compose 's' 'z' to 'ß'
+compose 's' 's' to 'ß'
+compose '^' '1' to '¹'
+compose '^' '2' to '²'
+compose '^' '3' to '³'
+compose '<' '<' to '«'
+compose '>' '>' to '»'
+compose '?' '?' to '¿'
+compose '^' '?' to '¿'
+compose '!' '!' to '¡'
+compose '^' '!' to '¡'
+compose '-' 'y' to '¥'
+compose '-' 'Y' to '¥'
+compose '-' 'c' to '¢'
+compose '-' 'C' to '¢'
+compose '-' 'l' to '£'
+compose '-' 'L' to '£'
+compose '(' 'c' to '©'
+compose '(' 'r' to '®'
+compose 'm' 'u' to 'µ'
+compose '^' '!' to '¡'
+compose '^' '?' to '¿'
+compose '^' '-' to '¯'
+compose '^' '_' to '¯'
+compose '^' '.' to '·'
+compose '^' 'x' to '×'
+compose '^' 'X' to '×'
+compose '^' '*' to '×'
+compose '^' 'x' to '×'
+compose '^' 'X' to '×'
+compose '^' '*' to '×'
+compose '^' '/' to '÷'
+compose '<' '<' to '«'
+compose '>' '>' to '»'
+compose '"' 'c' to '©'
+compose '"' 'r' to '®'
+compose '"' 'y' to 'ÿ'
+compose 'i' 'j' to 'ÿ'
 # Latin0 specific
-compose '"' 'Y' to 'Å¸'
-compose 'I' 'J' to 'Å¸'
-compose '-' 'e' to 'â‚¬'
-compose '-' 'E' to 'â‚¬'
-compose '=' 'e' to 'â‚¬'
-compose '=' 'c' to 'â‚¬'
-compose '=' 'E' to 'â‚¬'
-compose '=' 'C' to 'â‚¬'
-compose 'e' '=' to 'â‚¬'
-compose 'c' '=' to 'â‚¬'
-compose 'E' '=' to 'â‚¬'
-compose 'C' '=' to 'â‚¬'
-compose '^' 'S' to 'Å '
-compose '^' 's' to 'Å¡'
-compose '^' 'Z' to 'Å½'
-compose '^' 'z' to 'Å¾'
-compose 'v' 'S' to 'Å '
-compose 'v' 's' to 'Å¡'
-compose 'v' 'Z' to 'Å½'
-compose 'v' 'z' to 'Å¾'
-compose 'O' 'E' to 'Å’'
-compose 'O' 'e' to 'Å’'
-compose 'o' 'e' to 'Å“'
-compose '"' 'Y' to 'Å¸'
+compose '"' 'Y' to '¾'
+compose 'I' 'J' to '¾'
+compose '-' 'e' to '¤'
+compose '-' 'E' to '¤'
+compose '=' 'e' to '¤'
+compose '=' 'c' to '¤'
+compose '=' 'E' to '¤'
+compose '=' 'C' to '¤'
+compose 'e' '=' to '¤'
+compose 'c' '=' to '¤'
+compose 'E' '=' to '¤'
+compose 'C' '=' to '¤'
+compose '^' 'S' to '¦'
+compose '^' 's' to '¨'
+compose '^' 'Z' to '´'
+compose '^' 'z' to '¸'
+compose 'v' 'S' to '¦'
+compose 'v' 's' to '¨'
+compose 'v' 'Z' to '´'
+compose 'v' 'z' to '¸'
+compose 'O' 'E' to '¼'
+compose 'O' 'e' to '¼'
+compose 'o' 'e' to '½'
+compose '"' 'Y' to '¾'
