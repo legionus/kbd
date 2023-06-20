@@ -80,9 +80,8 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 #endif
 			if (errno != ENOSYS && errno != EINVAL) {
 				KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
-				return -1;
 			}
-			return 1;
+			return -1;
 		}
 		break;
 	}
@@ -158,12 +157,8 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		return 0;
 
 	if (errno == ENOSYS) {
-#ifdef KD_FONT_OP_SET_TALL
-		if (cfo.op == KD_FONT_OP_SET_TALL)
-			/* Let user know that we can't load such font with such kernel version */
-			return 0;
-#endif
-		return 1;
+		KFONT_ERR(ctx, _("Unable to load such font with such kernel version"));
+		return -1;
 	}
 
 	int ret = -1;
