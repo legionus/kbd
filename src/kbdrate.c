@@ -66,6 +66,9 @@ beats rebuilding the kernel!
   However, Linux/SPARC has its own ioctl for this (since 2.1.30),
   with yet another measurement system.  Thus, try for KIOCSRATE, too.
 
+  2023-06-20 grepsuzette
+  Add detection of atkbd.softrepeat=1 for faster typematic rate
+  (50cps vs 30cps)
 */
 #include "config.h"
 
@@ -100,12 +103,23 @@ struct my_kbd_repeat {
 
 #include "libcommon.h"
 
-static int valid_rates[] = { 500, 470, 435, 400, 370, 333,
-	                     300, 267, 240, 218, 200, 185, 171, 160, 150,
+/* 32 values, when not using atkbd.softrepeat
+   https://wiki.osdev.org/PS/2_Keyboard */
+static int valid_rates_default[] = { 300, 267, 240, 218, 200, 185, 171, 160, 150,
 	                     133, 120, 109, 100, 92, 86, 80, 75, 67,
 	                     60, 55, 50, 46, 43, 40, 37, 33, 30, 27,
 	                     25, 23, 21, 20 };
-#define RATE_COUNT (sizeof(valid_rates) / sizeof(int))
+
+/* 32 values, when using atkbd.softrepeat=1 (and ioport)
+   https://raw.githubusercontent.com/torvalds/linux/master/drivers/input/keyboard/atkbd.c
+   the rate will be capped at 50cps instead of 30cps in that case.
+ */
+ 
+static int valid_rates_atkbd_softrepeat[] = { 
+    500, 470, 435, 400, 370, 333, 303, 270, 250, 232, 217, 200, 182, 167, 149,
+    133, 125, 116, 109, 100, 92, 83, 75, 67, 63, 58, 54, 50, 46, 42, 37, 33 };
+
+#define RATE_COUNT (sizeof(valid_rates_default) / sizeof(int))
 
 static int valid_delays[] = { 250, 500, 750, 1000 };
 #define DELAY_COUNT (sizeof(valid_delays) / sizeof(int))
@@ -236,6 +250,23 @@ sigalrmhandler(int sig __attribute__((unused)))
 	raise(SIGINT);
 }
 
+/* whether our kernel uses atkbd.softrepeat=1 */
+static int
+is_softrepeat(void)
+{
+    FILE *fp;
+    char buffer[2048];
+    fp = fopen("/proc/cmdline", "r");
+    if (fp == NULL) {
+        return 0;
+    } else {
+        fread(buffer, sizeof(char), 2048, fp);
+        fclose(fp);
+        return (strstr(buffer, "atkbd.softrepeat=1") != NULL) ? 1 : 0;
+    }
+}
+    
+
 static int
 ioport_set(double rate, int delay, int silent)
 {
@@ -250,10 +281,16 @@ ioport_set(double rate, int delay, int silent)
 		return 0;
 	}
 
-	/* https://wiki.osdev.org/PS/2_Keyboard */
 
+    /* if atkbd.softrepeat is set, use valid_rates_atkbd_softrepeat rates */
+
+    static int (*valid_rates)[RATE_COUNT];
+    valid_rates = !is_softrepeat()
+        ? &valid_rates_default 
+        : &valid_rates_atkbd_softrepeat;
+    
 	for (i = 0; i < (int) RATE_COUNT; i++)
-		if (rate * 10 >= valid_rates[i]) {
+		if (rate * 10 >= *valid_rates[i]) {
 			value &= 0x60;
 			value |= i;
 			break;
@@ -302,7 +339,7 @@ ioport_set(double rate, int delay, int silent)
 
 	if (!silent)
 		printf(_("Typematic Rate set to %.1f cps (delay = %d ms)\n"),
-		       valid_rates[value & 0x1f] / 10.0,
+		       *valid_rates[value & 0x1f] / 10.0,
 		       valid_delays[(value & 0x60) >> 5]);
 
 	return 1;
