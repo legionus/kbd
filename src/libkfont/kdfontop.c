@@ -142,7 +142,8 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 #ifdef KD_FONT_OP_SET_TALL
 		cfo.op        = KD_FONT_OP_SET_TALL;
 #else
-		return 0;
+		KFONT_ERR(ctx, _("tall font not supported"));
+		return -1;
 #endif
 	}
 	cfo.flags     = 0;
