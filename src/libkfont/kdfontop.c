@@ -185,7 +185,8 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		free(mybuf);
 	}
 
-	KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
+	if (ret)
+		KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
 	return ret;
 }
 
