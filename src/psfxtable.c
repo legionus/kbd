@@ -143,7 +143,7 @@ int main(int argc, char **argv)
 		kbd_error(EX_CANTCREAT, 0, _("Unable to open file: %s: %m"), otname);
 
 	if (kfont_read_psffont(kfont, ifil, &inbuf, &inbuflth, &fontbuf,
-				&fontbuflth, &width, &fontlen, 0,
+				&fontbuflth, &width, &height, &fontlen, 0,
 				itab ? NULL : &uclistheads) < 0)
 		kbd_error(EX_DATAERR, 0, _("Bad magic number on %s"), ifname);
 
@@ -155,7 +155,8 @@ int main(int argc, char **argv)
 	if (!bytewidth)
 		bytewidth = 1;
 
-	height = charsize / bytewidth;
+	if (!height)
+		height = charsize / bytewidth;
 
 	hastable = (uclistheads != NULL);
 

@@ -278,7 +278,7 @@ kfont_load_fonts(struct kfont_context *ctx,
 {
 	const char *ifil;
 	unsigned char *inbuf, *fontbuf, *bigfontbuf;
-	unsigned int inputlth, fontbuflth, fontsize, height, width, bytewidth;
+	unsigned int inputlth, fontbuflth, fontsize, height, width;
 	unsigned int bigfontbuflth, bigfontsize, bigheight, bigwidth;
 	unsigned char *ptr;
 	struct unicode_list *uclistheads;
@@ -316,9 +316,10 @@ kfont_load_fonts(struct kfont_context *ctx,
 		inbuf = fontbuf = NULL;
 		inputlth = fontbuflth = 0;
 		fontsize = 0;
+		height = 0;
 
 		if (kfont_read_psffont(ctx, kbdfile_get_file(fp), &inbuf,
-			&inputlth, &fontbuf, &fontbuflth, &width, &fontsize,
+			&inputlth, &fontbuf, &fontbuflth, &width, &height, &fontsize,
 			bigfontsize, no_u ? NULL : &uclistheads)) {
 			KFONT_ERR(ctx, _("When loading several fonts, all must be psf fonts - %s isn't"),
 			    kbdfile_get_pathname(fp));
@@ -326,8 +327,11 @@ kfont_load_fonts(struct kfont_context *ctx,
 			goto end;
 		}
 
-		bytewidth = (width + 7) / 8;
-		height    = fontbuflth / (bytewidth * fontsize);
+		if (!height) {
+			unsigned int bytewidth;
+			bytewidth = (width + 7) / 8;
+			height = fontbuflth / (bytewidth * fontsize);
+		}
 
 		KFONT_INFO(ctx, _("Read %d-char %dx%d font from file %s"),
 		     fontsize, width, height, kbdfile_get_pathname(fp));
@@ -388,7 +392,7 @@ kfont_load_font(struct kfont_context *ctx, int fd, const char *ifil,
 	struct kbdfile *fp;
 
 	char defname[20];
-	unsigned int height, width, bytewidth;
+	unsigned int height, width;
 	int def = 0;
 	unsigned char *inbuf, *fontbuf;
 	unsigned int inputlth, fontbuflth, fontsize, offset;
@@ -439,14 +443,19 @@ kfont_load_font(struct kfont_context *ctx, int fd, const char *ifil,
 	inbuf = fontbuf = NULL;
 	inputlth = fontbuflth = fontsize = 0;
 	width = 8;
+	height = 0;
 	uclistheads = NULL;
 
 	if (!kfont_read_psffont(ctx, kbdfile_get_file(fp), &inbuf, &inputlth,
-		&fontbuf, &fontbuflth, &width, &fontsize, 0, no_u ? NULL : &uclistheads)) {
+		&fontbuf, &fontbuflth, &width, &height, &fontsize, 0,
+		no_u ? NULL : &uclistheads)) {
 
 		/* we've got a psf font */
-		bytewidth = (width + 7) / 8;
-		height    = fontbuflth / (bytewidth * fontsize);
+		if (!height) {
+			unsigned int bytewidth;
+			bytewidth = (width + 7) / 8;
+			height    = fontbuflth / (bytewidth * fontsize);
+		}
 
 		ret = do_loadfont(ctx, fd, fontbuf, width, height, hwunit,
 			fontsize, kbdfile_get_pathname(fp));
@@ -607,8 +616,10 @@ save_font(struct kfont_context *ctx, int consolefd, const char *filename,
 		return -EX_OSERR;
 
 	/* save as efficiently as possible */
+	if (!height)
+		height = font_charheight(buf, ct, width);
+
 	bytewidth = (width + 7) / 8;
-	height    = font_charheight(buf, ct, width);
 	charsize  = height * bytewidth;
 	kcharsize = vpitch * bytewidth;
 

@@ -196,8 +196,8 @@ int
 kfont_read_psffont(struct kfont_context *ctx,
 		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		unsigned char **fontbufp, unsigned int *fontszp,
-		unsigned int *fontwidthp, unsigned int *fontlenp,
-		unsigned int fontpos0,
+		unsigned int *fontwidthp, unsigned int *fontheightp,
+		unsigned int *fontlenp, unsigned int fontpos0,
 		struct unicode_list **uclistheadsp)
 {
 	unsigned char *inputbuf;
@@ -226,7 +226,7 @@ kfont_read_psffont(struct kfont_context *ctx,
 		inputlth = *allszp;
 	}
 
-	unsigned int fontlen, fontwidth, charsize, hastable, ftoffset;
+	unsigned int fontlen, fontwidth, fontheight, charsize, hastable, ftoffset;
 	int utf8;
 
 	if (inputlth >= sizeof(struct psf1_header) && PSF1_MAGIC_OK(inputbuf)) {
@@ -243,6 +243,7 @@ kfont_read_psffont(struct kfont_context *ctx,
 		hastable  = (psfhdr->mode & (PSF1_MODEHASTAB | PSF1_MODEHASSEQ));
 		ftoffset  = sizeof(struct psf1_header);
 		fontwidth = 8;
+		fontheight= 0;
 		utf8      = 0;
 	} else if (inputlth >= sizeof(struct psf2_header) && PSF2_MAGIC_OK(inputbuf)) {
 		struct psf2_header psfhdr;
@@ -260,6 +261,7 @@ kfont_read_psffont(struct kfont_context *ctx,
 		hastable  = (flags & PSF2_HAS_UNICODE_TABLE);
 		ftoffset  = assemble_uint32((unsigned char *)&psfhdr.headersize);
 		fontwidth = assemble_uint32((unsigned char *)&psfhdr.width);
+		fontheight= assemble_uint32((unsigned char *)&psfhdr.height);
 		utf8      = 1;
 	} else
 		return -EX_DATAERR; /* not psf */
@@ -272,6 +274,12 @@ kfont_read_psffont(struct kfont_context *ctx,
 	if (charsize == 0) {
 		KFONT_ERR(ctx, _("zero input character size?"));
 		return -EX_DATAERR;
+	}
+
+	if (!fontheight) {
+		unsigned int bytewidth;
+		bytewidth = (fontwidth + 7) / 8;
+		fontheight = (fontlen * charsize) / (bytewidth * fontlen);
 	}
 
 	unsigned int i = ftoffset + fontlen * charsize;
@@ -289,6 +297,8 @@ kfont_read_psffont(struct kfont_context *ctx,
 		*fontlenp = fontlen;
 	if (fontwidthp)
 		*fontwidthp = fontwidth;
+	if (fontheightp)
+		*fontheightp = fontheight;
 
 	if (!uclistheadsp)
 		return 0; /* got font, don't need unicode_list */
@@ -418,7 +428,7 @@ writepsffontheader(struct kfont_context *ctx,
 	bytewidth = (width + 7) / 8;
 	charsize  = bytewidth * height;
 
-	if ((fontlen != 256 && fontlen != 512) || width != 8)
+	if ((fontlen != 256 && fontlen != 512) || width != 8 || height > 32)
 		*psftype = 2;
 
 	if (*psftype == 2) {

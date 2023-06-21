@@ -270,7 +270,8 @@ void kfont_disactivatemap(int fd);
 int kfont_read_psffont(struct kfont_context *ctx,
 		FILE *fontf, unsigned char **allbufp, unsigned int *allszp,
 		unsigned char **fontbufp, unsigned int *fontszp,
-		unsigned int *fontwidthp, unsigned int *fontlenp, unsigned int fontpos0,
+		unsigned int *fontwidthp, unsigned int *fontheightp,
+		unsigned int *fontlenp, unsigned int fontpos0,
 		struct unicode_list **uclistheadsp)
 	__attribute__((nonnull(1)));
 
