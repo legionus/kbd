@@ -66,7 +66,7 @@ beats rebuilding the kernel!
   However, Linux/SPARC has its own ioctl for this (since 2.1.30),
   with yet another measurement system.  Thus, try for KIOCSRATE, too.
 
-  2023-06-20 Yang Ta <yangting201@protonmail.com>:
+  2023-06-20 Yang Ta <yangting201@protonmail.com>: 
   - Add detection of atkbd.softrepeat=1 for faster typematic rate
   (50cps vs 30cps)
 */
