@@ -26,7 +26,6 @@
 #include "keymap.h"
 
 static const char *const dirpath1[] = {
-	"",
 	DATADIR "/" KEYMAPDIR "/**",
 	KERNDIR "/",
 	NULL
