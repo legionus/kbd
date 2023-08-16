@@ -117,18 +117,20 @@ usage(int rc, const struct kbd_help *options)
 
 int main(int argc, char *argv[])
 {
-	const char *short_opts          = "haskV";
+	const char *short_opts          = "haskVt:";
 	const struct option long_opts[] = {
 		{ "help", no_argument, NULL, 'h' },
 		{ "ascii", no_argument, NULL, 'a' },
 		{ "scancodes", no_argument, NULL, 's' },
 		{ "keycodes", no_argument, NULL, 'k' },
+		{ "timeout", required_argument, NULL, 't' },
 		{ "version", no_argument, NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
 	};
 	int c;
 	int show_keycodes = 1;
 	int print_ascii   = 0;
+	int timeout = 10;
 
 	struct termios new = { 0 };
 	unsigned char buf[18]; /* divisible by 3 */
@@ -142,6 +144,7 @@ int main(int argc, char *argv[])
 		{ "-a, --ascii",     _("display the decimal/octal/hex values of the keys.") },
 		{ "-s, --scancodes", _("display only the raw scan-codes.") },
 		{ "-k, --keycodes",  _("display only the interpreted keycodes (default).") },
+		{ "-t, --timeout",   _("set timeout, default 10")     },
 		{ "-h, --help",      _("print this usage message.") },
 		{ "-V, --version",   _("print version number.")     },
 		{ NULL, NULL }
@@ -163,6 +166,12 @@ int main(int argc, char *argv[])
 				break;
 			case 'h':
 				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case 't':
+				timeout = atoi(optarg);
+				/*  in anycase if conversion wrong */
+				if (timeout < 1)
+					timeout = 10;
 				break;
 			case '?':
 				usage(EX_USAGE, opthelp);
@@ -258,12 +267,12 @@ int main(int argc, char *argv[])
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
 	}
 
-	printf(_("press any key (program terminates 10s after last keypress)...\n"));
+	printf(_("press any key (program terminates %ds after last keypress)...\n"), timeout);
 
 	/* show scancodes */
 	if (!show_keycodes) {
 		while (1) {
-			alarm(10);
+			alarm(timeout);
 			n = read(fd, buf, sizeof(buf));
 			for (i = 0; i < n; i++)
 				printf("0x%02x ", buf[i]);
@@ -275,7 +284,7 @@ int main(int argc, char *argv[])
 
 	/* show keycodes - 2.6 allows 3-byte reports */
 	while (1) {
-		alarm(10);
+		alarm(timeout);
 		n = read(fd, buf, sizeof(buf));
 		i = 0;
 		while (i < n) {
