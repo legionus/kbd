@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 				break;
 			case 't':
 				timeout = atoi(optarg);
-				/*  in anycase if conversion wrong... */
+				/*  in anycase if conversion wrong */
 				if (timeout < 1)
 					timeout = 10;
 				break;
