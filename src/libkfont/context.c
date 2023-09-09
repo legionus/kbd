@@ -12,7 +12,6 @@
 
 /* search for the map file in these directories (with trailing /) */
 static const char *const mapdirpath[]  = {
-	"",
 	DATADIR "/" TRANSDIR "/",
 	NULL
 };
@@ -27,7 +26,6 @@ static const char *const mapsuffixes[] = {
 
 /* search for the font in these directories (with trailing /) */
 static const char *const fontdirpath[]  = {
-	"",
 	DATADIR "/" FONTDIR "/",
 	NULL
 };
@@ -41,7 +39,6 @@ static char const *const fontsuffixes[] = {
 };
 
 static const char *const unidirpath[]  = {
-	"",
 	DATADIR "/" UNIMAPDIR "/",
 	NULL
 };
@@ -54,7 +51,6 @@ static const char *const unisuffixes[] = {
 
 /* hide partial fonts a bit - loading a single one is a bad idea */
 const char *const partfontdirpath[]  = {
-	"",
 	DATADIR "/" FONTDIR "/" PARTIALDIR "/",
 	NULL
 };
