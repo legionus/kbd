@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.2.90\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-05-08 14:43+0200\n"
+"POT-Creation-Date: 2023-09-19 13:21+0200\n"
 "PO-Revision-Date: 2020-12-24 13:15-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -27,7 +27,7 @@ msgstr "Uzmaniero: %s [opcio...] N\n"
 
 #: src/chvt.c:30 src/deallocvt.c:30 src/dumpkeys.c:38 src/fgconsole.c:29
 #: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
-#: src/kbdrate.c:331 src/loadkeys.c:52 src/loadunimap.c:35 src/mapscrn.c:31
+#: src/kbdrate.c:331 src/loadkeys.c:51 src/loadunimap.c:35 src/mapscrn.c:31
 #: src/openvt.c:60 src/setkeycodes.c:37 src/setleds.c:56 src/setmetamode.c:41
 #: src/setvtrgb.c:68 src/showconsolefont.c:110 src/showkey.c:97
 #, c-format
@@ -36,7 +36,7 @@ msgstr "Opcioj:"
 
 #: src/chvt.c:45 src/deallocvt.c:45 src/dumpkeys.c:64 src/fgconsole.c:44
 #: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
-#: src/kbdrate.c:346 src/loadkeys.c:69 src/loadunimap.c:50 src/mapscrn.c:46
+#: src/kbdrate.c:346 src/loadkeys.c:68 src/loadunimap.c:50 src/mapscrn.c:46
 #: src/openvt.c:75 src/setkeycodes.c:52 src/setleds.c:71 src/setmetamode.c:56
 #: src/setvtrgb.c:83 src/showconsolefont.c:125 src/showkey.c:112
 #, c-format
@@ -45,19 +45,19 @@ msgstr "Raportu erarojn al la aŭtoroj.\n"
 
 #: src/chvt.c:78 src/deallocvt.c:69 src/dumpkeys.c:121 src/fgconsole.c:71
 #: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
-#: src/kbdrate.c:376 src/loadkeys.c:127 src/loadunimap.c:78 src/mapscrn.c:76
+#: src/kbdrate.c:376 src/loadkeys.c:126 src/loadunimap.c:78 src/mapscrn.c:76
 #: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
 #: src/setmetamode.c:115 src/setvtrgb.c:181 src/showconsolefont.c:158
-#: src/showkey.c:145
+#: src/showkey.c:148
 msgid "print this usage message."
 msgstr "montri tiun ĉi help-mesaĝon."
 
 #: src/chvt.c:79 src/deallocvt.c:70 src/dumpkeys.c:120 src/fgconsole.c:70
 #: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
-#: src/kbdrate.c:375 src/loadkeys.c:126 src/loadunimap.c:77 src/mapscrn.c:75
+#: src/kbdrate.c:375 src/loadkeys.c:125 src/loadunimap.c:77 src/mapscrn.c:75
 #: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
 #: src/setmetamode.c:114 src/setvtrgb.c:180 src/showconsolefont.c:157
-#: src/showkey.c:146
+#: src/showkey.c:149
 msgid "print version number."
 msgstr "montri versi-numeron."
 
@@ -68,11 +68,11 @@ msgstr "Ne sufiĉe da argumentoj."
 #: src/chvt.c:103 src/clrunimap.c:29 src/deallocvt.c:94 src/dumpkeys.c:190
 #: src/fgconsole.c:96 src/getkeycodes.c:87 src/getunimap.c:113
 #: src/kbdinfo.c:122 src/kbd_mode.c:156 src/libcommon/getfd.c:88
-#: src/loadkeys.c:204 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
+#: src/loadkeys.c:203 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
 #: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
 #: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
 #: src/setvesablank.c:32 src/setvtrgb.c:224 src/showconsolefont.c:194
-#: src/showkey.c:211 src/totextmode.c:32
+#: src/showkey.c:220 src/totextmode.c:32
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console."
 msgstr "Ne eblis preni dosier-priskribilon rilata al la konzolo."
@@ -183,13 +183,13 @@ msgid ""
 msgstr "interpreti signajn ago-kodojn kvazaŭ ili estu el la specifita signaro."
 
 #: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
-#: src/kbd_mode.c:103 src/loadkeys.c:115 src/loadunimap.c:76 src/mapscrn.c:73
+#: src/kbd_mode.c:103 src/loadkeys.c:114 src/loadunimap.c:76 src/mapscrn.c:73
 #: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
 #: src/setvtrgb.c:179 src/showconsolefont.c:154
 msgid "the console device to be used."
 msgstr "la konzola aparoto uzota."
 
-#: src/dumpkeys.c:119 src/loadkeys.c:125 src/mapscrn.c:74 src/openvt.c:290
+#: src/dumpkeys.c:119 src/loadkeys.c:124 src/mapscrn.c:74 src/openvt.c:290
 #: src/setleds.c:248 src/showconsolefont.c:156
 msgid "be more verbose."
 msgstr "estu pli detalema."
@@ -200,7 +200,7 @@ msgid "unknown charset %s - ignoring charset request\n"
 msgstr "nekonata signaro %s - ni preteratentas peton de signaro\n"
 
 #: src/dumpkeys.c:194 src/kbdinfo.c:139 src/kbd_mode.c:161 src/kbd_mode.c:170
-#: src/loadkeys.c:208 src/showconsolefont.c:197 src/showkey.c:35
+#: src/loadkeys.c:207 src/showconsolefont.c:197 src/showkey.c:35
 msgid "Unable to read keyboard mode"
 msgstr "Ne eblas legi klavar-reĝimon"
 
@@ -274,7 +274,7 @@ msgstr ""
 "La aplikaĵo ebligas legi kaj kontroli plurajn parametrojn\n"
 "de la klavaro kaj virtuala konzolo.\n"
 
-#: src/kbdinfo.c:126 src/loadkeys.c:210
+#: src/kbdinfo.c:126 src/loadkeys.c:209
 msgid "Unable to read console mode"
 msgstr "Ne eblas legi konzolan reĝimon"
 
@@ -397,7 +397,7 @@ msgstr ""
 msgid "do not set new values, but only display the current ones."
 msgstr "ne difini novajn valorojn, sed simple montri la nunajn."
 
-#: src/kbdrate.c:374 src/loadkeys.c:124
+#: src/kbdrate.c:374 src/loadkeys.c:123
 msgid "suppress all normal output."
 msgstr "forigi ĉiun normalan eligon."
 
@@ -418,7 +418,7 @@ msgstr "inkluzivoj estas ingitaj tro profunde"
 #: src/libkeymap/analyze.l:161 src/libkeymap/analyze.l:263
 #: src/libkeymap/analyze.l:357 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:126
+#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
 #: src/screendump.c:151
 msgid "out of memory"
@@ -597,59 +597,59 @@ msgstr "KDSKBMODE: %s: ne eblis ŝalti al Unikoda reĝimo"
 msgid "Keymap %d: Permission denied"
 msgstr "Klavmapo %d: Permeso rifuzita"
 
-#: src/libkeymap/loadkeys.c:64
+#: src/libkeymap/loadkeys.c:73
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "klavkodo %d, tabelo %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:65
+#: src/libkeymap/loadkeys.c:74
 msgid "    FAILED"
 msgstr "    FIASKO"
 
-#: src/libkeymap/loadkeys.c:68
+#: src/libkeymap/loadkeys.c:77
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "fiasko ligi klavon %d al valoro %d"
 
-#: src/libkeymap/loadkeys.c:78
+#: src/libkeymap/loadkeys.c:87
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "liberigi klavmapon %d"
 
-#: src/libkeymap/loadkeys.c:82
+#: src/libkeymap/loadkeys.c:91
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: ne eblis liberigi klavmapon %d"
 
-#: src/libkeymap/loadkeys.c:97
+#: src/libkeymap/loadkeys.c:106
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: ne eblas liberigi aŭ forviŝi klavmapon"
 
-#: src/libkeymap/loadkeys.c:107
+#: src/libkeymap/loadkeys.c:116
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: ne eblis retroiri al la originala klavar-reĝimo"
 
-#: src/libkeymap/loadkeys.c:170
+#: src/libkeymap/loadkeys.c:179
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "fiasko ligi ĉenon '%s' al funkcio %s"
 
-#: src/libkeymap/loadkeys.c:180
+#: src/libkeymap/loadkeys.c:189
 #, c-format
 msgid "failed to clear string %s"
 msgstr "fiasko forviŝi ĉenon %s"
 
-#: src/libkeymap/loadkeys.c:198
+#: src/libkeymap/loadkeys.c:207
 msgid "too many compose definitions"
 msgstr "tro da komponaj difinoj"
 
-#: src/libkeymap/loadkeys.c:238
+#: src/libkeymap/loadkeys.c:247
 msgid "unable to load compose definitions because some of them are too large"
 msgstr "ne eblas ŝargi je komponaj difinoj ĉar kelkaj el ili tro larĝas"
 
-#: src/libkeymap/loadkeys.c:267
+#: src/libkeymap/loadkeys.c:276
 #, c-format
 msgid ""
 "\n"
@@ -664,21 +664,21 @@ msgstr[1] ""
 "\n"
 "Ni ŝanĝis %d ŝlosilojn"
 
-#: src/libkeymap/loadkeys.c:268
+#: src/libkeymap/loadkeys.c:277
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
 msgstr[0] "Ni ŝanĝis %d ĉenon"
 msgstr[1] "Ni ŝanĝis %d ĉenojn"
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:285
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "Ni ŝargis je %d kompona difino"
 msgstr[1] "Ni ŝargis je %d komponaj difinoj"
 
-#: src/libkeymap/loadkeys.c:281
+#: src/libkeymap/loadkeys.c:290
 msgid "(No change in compose definitions)"
 msgstr "(Neniu ŝanĝo en komponaj difinoj)"
 
@@ -767,6 +767,15 @@ msgstr ""
 "\n"
 "Rekoneblaj modif-nomoj kaj ties kolumno-numeroj:\n"
 
+#: src/libkfont/kdfontop.c:167
+#, fuzzy
+msgid "tall font not supported"
+msgstr "Ne subtenata\n"
+
+#: src/libkfont/kdfontop.c:183
+msgid "Unable to load such font with such kernel version"
+msgstr ""
+
 #: src/libkfont/kdmapop.c:173
 #, c-format
 msgid "strange... ct changed from %d to %d"
@@ -829,7 +838,7 @@ msgstr[0] "# %d enigo"
 msgstr[1] "# %d enigoj"
 
 #: src/libkfont/loadunimap.c:318 src/libkfont/mapscrn.c:102
-#: src/libkfont/mapscrn.c:232 src/loadkeys.c:277 src/openvt.c:437
+#: src/libkfont/mapscrn.c:232 src/loadkeys.c:276 src/openvt.c:437
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
@@ -846,7 +855,7 @@ msgid "Appended Unicode map"
 msgstr "Postmetita Unikoda mapo"
 
 #: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
-#: src/libkfont/setfont.c:423 src/libkfont/setfont.c:430 src/loadkeys.c:245
+#: src/libkfont/setfont.c:427 src/libkfont/setfont.c:434 src/loadkeys.c:244
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Ne eblas trovi dosieron: %s"
@@ -922,38 +931,38 @@ msgstr "Malĝusta voko al readpsffont"
 msgid "Unsupported psf file mode (%d)"
 msgstr "Nesubtenata dosiera reĝimo psf (%d)"
 
-#: src/libkfont/psffontop.c:254
+#: src/libkfont/psffontop.c:255
 #, c-format
 msgid "Unsupported psf version (%d)"
 msgstr "Nesubtenata versio psf (%d)"
 
-#: src/libkfont/psffontop.c:269
+#: src/libkfont/psffontop.c:271
 msgid "zero input font length?"
 msgstr "ĉu nula eniga tipar-longo?"
 
-#: src/libkfont/psffontop.c:273
+#: src/libkfont/psffontop.c:275
 msgid "zero input character size?"
 msgstr "ĉu nula eniga signo-grando?"
 
-#: src/libkfont/psffontop.c:280
+#: src/libkfont/psffontop.c:288
 #, c-format
 msgid "Input file: bad input length (%d)"
 msgstr "Enig-dosiero: malĝusta eniga longo (%d)"
 
-#: src/libkfont/psffontop.c:318
+#: src/libkfont/psffontop.c:328
 msgid "Input file: trailing garbage"
 msgstr "Enig-dosiero: vosta rubaĵo"
 
-#: src/libkfont/psffontop.c:355
+#: src/libkfont/psffontop.c:365
 #, c-format
 msgid "illegal unicode %d"
 msgstr "malpermesata unikodo %d"
 
-#: src/libkfont/psffontop.c:459
+#: src/libkfont/psffontop.c:469
 msgid "Cannot write font file header"
 msgstr "Ne eblas skribi tiparan dosier-kapon"
 
-#: src/libkfont/psffontop.c:492
+#: src/libkfont/psffontop.c:502
 msgid "Cannot write font file"
 msgstr "Ne eblas skribi tipar-dosieron"
 
@@ -1012,50 +1021,50 @@ msgstr "miso en do_loadtable"
 msgid "Loading Unicode mapping table..."
 msgstr "Ŝargado je Unikoda mapiga tabelo..."
 
-#: src/libkfont/setfont.c:323
+#: src/libkfont/setfont.c:324
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr "Dum ŝargado je pluraj tiparoj, ĉiuj devas esti psf - %s ne estas"
 
-#: src/libkfont/setfont.c:332
+#: src/libkfont/setfont.c:336
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Legi tiparon %d-char %dx%d el dosiero %s"
 
-#: src/libkfont/setfont.c:341
+#: src/libkfont/setfont.c:345
 msgid "When loading several fonts, all must have the same height"
 msgstr "Dum ŝargado je pluraj tiparoj, ĉiuj devas havi la saman alton"
 
-#: src/libkfont/setfont.c:349
+#: src/libkfont/setfont.c:353
 msgid "When loading several fonts, all must have the same width"
 msgstr "Dum ŝargado je pluraj tiparoj, ĉiuj devas havi la saman larĝon"
 
-#: src/libkfont/setfont.c:415
+#: src/libkfont/setfont.c:419
 msgid "Cannot find default font"
 msgstr "Ne eblas trovi aprioran tiparon"
 
-#: src/libkfont/setfont.c:437
+#: src/libkfont/setfont.c:441
 #, c-format
 msgid "Reading font file %s"
 msgstr "Legado de tipar-dosiero %s"
 
-#: src/libkfont/setfont.c:487
+#: src/libkfont/setfont.c:496
 msgid "No final newline in combine file"
 msgstr "Neniu fina novlinio en kunmeta dosiero"
 
-#: src/libkfont/setfont.c:493
+#: src/libkfont/setfont.c:502
 msgid "Too many files to combine"
 msgstr "Tro da dosieroj por kunmeti"
 
-#: src/libkfont/setfont.c:521
+#: src/libkfont/setfont.c:530
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hmm - ĉu tiparo el restorefont? Ni uzas la unuan duonon."
 
-#: src/libkfont/setfont.c:540
+#: src/libkfont/setfont.c:549
 msgid "Bad input file size"
 msgstr "Malĝusta grando de enig-dosiero"
 
-#: src/libkfont/setfont.c:568
+#: src/libkfont/setfont.c:577
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1064,77 +1073,77 @@ msgstr ""
 "Tiu ĉi dosiero enhavas 3 tiparojn: 8x8, 8x14 kaj 8x16. Bonvolu indiki\n"
 "uzante opcion -8 aŭ -14 aŭ -16 je kiu el ili vi volas ŝargi.\n"
 
-#: src/libkfont/setfont.c:585
+#: src/libkfont/setfont.c:594
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Vi petis tipar-grandon %d, sed nur 8, 14 kaj 16 eblas ĉi tie.\n"
 
-#: src/libkfont/setfont.c:636
+#: src/libkfont/setfont.c:647
 msgid "Found nothing to save"
 msgstr "Nenio trovita por konservi"
 
-#: src/libkfont/setfont.c:640
+#: src/libkfont/setfont.c:651
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "Ne eblas skribi tipar-dosieron:%m"
 
-#: src/libkfont/setfont.c:645
+#: src/libkfont/setfont.c:656
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Konservita tipar-dosiero %d-char %dx%d en %s"
 
-#: src/loadkeys.c:46
+#: src/loadkeys.c:45
 #, c-format
 msgid "Usage: %s [option...] [mapfile...]\n"
 msgstr "Uzmaniero: %s [opcio...] [mapdosiero...]\n"
 
-#: src/loadkeys.c:67
+#: src/loadkeys.c:66
 #, c-format
 msgid "Default keymap: %s\n"
 msgstr "Apriora klavmapon: %s\n"
 
-#: src/loadkeys.c:116
+#: src/loadkeys.c:115
 msgid "force conversion to ASCII."
 msgstr "perforti konverto al ASCII."
 
-#: src/loadkeys.c:117
+#: src/loadkeys.c:116
 msgid "output a binary keymap to stdout."
 msgstr "eligi duuman klavmapon al stdout."
 
-#: src/loadkeys.c:118
+#: src/loadkeys.c:117
 msgid "clear kernel compose table."
 msgstr "viŝi kernan kunmetan tabelon."
 
-#: src/loadkeys.c:119
+#: src/loadkeys.c:118
 msgid "load default."
 msgstr "ŝargi je apriora."
 
-#: src/loadkeys.c:120
+#: src/loadkeys.c:119
 msgid "output a 'defkeymap.c' to stdout."
 msgstr "eligi 'defkeymap.c' al stdout."
 
-#: src/loadkeys.c:121
+#: src/loadkeys.c:120
 msgid "search and parse keymap without action."
 msgstr "serĉi kaj analizi klavmapon sen iu ajn ago."
 
-#: src/loadkeys.c:122
+#: src/loadkeys.c:121
 msgid "clear kernel string table."
 msgstr "viŝi kernan ĉenan tabelon."
 
-#: src/loadkeys.c:123
+#: src/loadkeys.c:122
 msgid "force conversion to Unicode."
 msgstr "perforti konverton al unikodo."
 
-#: src/loadkeys.c:146
+#: src/loadkeys.c:145
 msgid "Unable to create kbdfile context"
 msgstr "Ne eblas krei kuntekston kbdfile"
 
-#: src/loadkeys.c:198
+#: src/loadkeys.c:197
 #, c-format
 msgid "Options %s and %s are mutually exclusive."
 msgstr "Opcioj %s kaj %s estas reciproke malkunigeblaj."
 
-#: src/loadkeys.c:215
+#: src/loadkeys.c:214
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
@@ -1142,7 +1151,7 @@ msgstr ""
 "Averto: ŝargado je ne-Unikoda klavmapo ĉe Unikoda konzolo\n"
 "    (eble vi volas fari `kbd_mode -a'?)"
 
-#: src/loadkeys.c:226
+#: src/loadkeys.c:225
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
@@ -1150,7 +1159,7 @@ msgstr ""
 "Averto: ŝargado je Unikoda klavmapo al ne-Unikoda konzolo\n"
 "    (eble vi volas fari `kbd_mode -u'?)"
 
-#: src/loadkeys.c:241 src/loadkeys.c:255 src/loadkeys.c:269
+#: src/loadkeys.c:240 src/loadkeys.c:254 src/loadkeys.c:268
 #, c-format
 msgid "Unable to create kbdfile instance: %m"
 msgstr "Ne eblas krei ekzemplo de kbdfile: %m"
@@ -1277,11 +1286,11 @@ msgstr ""
 msgid "Bad magic number on %s"
 msgstr "Malĝusta magi-numero en %s"
 
-#: src/psfxtable.c:167
+#: src/psfxtable.c:168
 msgid "psf file with unknown magic"
 msgstr "dosiero psf kun nekota magi-numero"
 
-#: src/psfxtable.c:178
+#: src/psfxtable.c:179
 msgid "input font does not have an index"
 msgstr "eniga tiparo ne havas indicon"
 
@@ -1769,19 +1778,23 @@ msgstr ""
 msgid "caught signal %d, cleaning up...\n"
 msgstr "kaptinte la signalon %d, ni forviŝadas...\n"
 
-#: src/showkey.c:142
+#: src/showkey.c:144
 msgid "display the decimal/octal/hex values of the keys."
 msgstr "montri la dekum/okum/deksesumajn valorojn de la klavoj."
 
-#: src/showkey.c:143
+#: src/showkey.c:145
 msgid "display only the raw scan-codes."
 msgstr "montri nur la krudajn skan-kodojn."
 
-#: src/showkey.c:144
+#: src/showkey.c:146
 msgid "display only the interpreted keycodes (default)."
 msgstr "montri nur la interpretitajn klavkodojn (apriore)."
 
-#: src/showkey.c:193
+#: src/showkey.c:147
+msgid "set timeout, default 10"
+msgstr ""
+
+#: src/showkey.c:202
 #, c-format
 msgid ""
 "\n"
@@ -1792,20 +1805,20 @@ msgstr ""
 "Premu iujn ajn klavojn - Ctrl-D ĉesigos tiun ĉi programon\n"
 "\n"
 
-#: src/showkey.c:261
-#, c-format
-msgid "press any key (program terminates 10s after last keypress)...\n"
+#: src/showkey.c:270
+#, fuzzy, c-format
+msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr "premu iun ajn klavon (la programo ĉesos 10s post lasta klavpremo)...\n"
 
-#: src/showkey.c:285
+#: src/showkey.c:294
 msgid "release"
 msgstr "lasite"
 
-#: src/showkey.c:285
+#: src/showkey.c:294
 msgid "press"
 msgstr "premite"
 
-#: src/showkey.c:295
+#: src/showkey.c:304
 #, c-format
 msgid "keycode %3d %s\n"
 msgstr "klavkodo %3d %s\n"
