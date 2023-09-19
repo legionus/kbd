@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT([kbd],[2.6.2],[gladkov.alexey@gmail.com],[],[https://kbd-project.org/])
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.71])
 
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
@@ -21,10 +21,9 @@ AM_SILENT_RULES([yes])
 CFLAGS="${CFLAGS:-}"
 
 AC_PROG_CC
-AC_PROG_CC_C99
 AM_PROG_CC_C_O
 AC_PROG_YACC
-AC_PROG_LEX
+AC_PROG_LEX([noyywrap])
 AC_PROG_SED
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -41,7 +40,6 @@ ALL_LINGUAS=`cd $srcdir/po > /dev/null && echo *.po | sed 's/\.po//g'`
 
 # Checks for header files.
 AC_HEADER_DIRENT
-AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([fcntl.h libintl.h locale.h memory.h stdlib.h string.h \
 sys/file.h sys/ioctl.h termios.h unistd.h])
