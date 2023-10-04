@@ -65,11 +65,12 @@ AC_SEARCH_LIBS([timer_create], [rt])
 
 # Optimization level
 CC_O_LEVEL="-O2"
-FORTIFY_SOURCE="-D_FORTIFY_SOURCE=2"
+
+AX_ADD_FORTIFY_SOURCE
 
 if test "$enable_code_coverage" = yes; then
 	CC_O_LEVEL="-O0"
-	FORTIFY_SOURCE=
+	FORTIFY_SOURCE="-U_FORTIFY_SOURCE"
 fi
 
 case "$GCC,$ac_cv_prog_cc_g" in
@@ -100,12 +101,9 @@ AC_ARG_ENABLE(werror,
 	[AS_HELP_STRING([--enable-werror], [turn on -Werror for some kind of warnings])],
 	[use_werror=$enableval], [use_werror=no])
 
-if test "$use_werror" = yes; then
-	CC_CHECK_CFLAGS_APPEND([ \
-		-Werror=incompatible-pointer-types \
-		-Werror=discarded-qualifiers \
-	])
-fi
+AS_IF([test "$use_werror" = yes], [
+	CC_CHECK_CFLAGS_APPEND([-Werror=incompatible-pointer-types -Werror=discarded-qualifiers])
+], [])
 
 case $host_cpu in
 	m68*) KEYCODES_PROGS=no ;;
