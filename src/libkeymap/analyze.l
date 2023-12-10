@@ -103,7 +103,6 @@ static const char *const include_dirpath0[] = {
 	NULL
 };
 static const char *const include_dirpath1[] = {
-	"",
 	"../include/",
 	"../../include/",
 	NULL
