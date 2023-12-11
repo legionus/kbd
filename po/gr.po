@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.08\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-09-19 13:23+0200\n"
+"POT-Creation-Date: 2023-12-11 13:31+0000\n"
 "PO-Revision-Date: 2003-02-16 20:56+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -421,8 +421,8 @@ msgstr "%s από %s\n"
 msgid "includes are nested too deeply"
 msgstr ""
 
-#: src/libkeymap/analyze.l:161 src/libkeymap/analyze.l:263
-#: src/libkeymap/analyze.l:357 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -431,48 +431,48 @@ msgstr ""
 msgid "out of memory"
 msgstr "%s: η μνήμη εξαντλήθηκε\n"
 
-#: src/libkeymap/analyze.l:259
+#: src/libkeymap/analyze.l:258
 #, fuzzy, c-format
 msgid "switching to %s"
 msgstr "openvt: χρησιμοποίηση VT %s\n"
 
-#: src/libkeymap/analyze.l:269
+#: src/libkeymap/analyze.l:268
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "Αδύνατο το άνοιγμα του αρχείου γραμματοσειράς %s\n"
 
-#: src/libkeymap/analyze.l:291
+#: src/libkeymap/analyze.l:290
 #, fuzzy, c-format
 msgid "unable to parse number: %s"
 msgstr "openvt: Δε μπορώ ν' ανοίξω το %s: %s\n"
 
-#: src/libkeymap/analyze.l:296
+#: src/libkeymap/analyze.l:295
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:301
+#: src/libkeymap/analyze.l:300
 #, c-format
 msgid "value must be less than %d: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:369
+#: src/libkeymap/analyze.l:368
 msgid "expected filename between quotes"
 msgstr ""
 
-#: src/libkeymap/analyze.l:408
+#: src/libkeymap/analyze.l:407
 #, c-format
 msgid "unicode keysym out of range: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:468 src/libkeymap/analyze.l:492
-#: src/libkeymap/analyze.l:499 src/libkeymap/analyze.l:506
-#: src/libkeymap/analyze.l:515
+#: src/libkeymap/analyze.l:467 src/libkeymap/analyze.l:491
+#: src/libkeymap/analyze.l:498 src/libkeymap/analyze.l:505
+#: src/libkeymap/analyze.l:514
 #, fuzzy
 msgid "string too long"
 msgstr "%s: Προειδοποίηση: πολύ μεγάλη γραμμή\n"
 
-#: src/libkeymap/analyze.l:484
+#: src/libkeymap/analyze.l:483
 msgid "octal number too big"
 msgstr ""
 
@@ -808,11 +808,11 @@ msgstr "%s: Εσφαλμένο πέρας περιοχής (0x%x)\n"
 #: src/libkfont/loadunimap.c:213
 #, fuzzy, c-format
 msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x"
+"%s: Unicode range U+%x-U+%x not of the same length as font position range "
+"0x%x-0x%x"
 msgstr ""
-"%s: Unicode περιοχή U+%x-U+%x όχι του ιδίου μήκους με την περιοχή θέσεων 0x"
-"%x-0x%x της γραμματοσειράς\n"
+"%s: Unicode περιοχή U+%x-U+%x όχι του ιδίου μήκους με την περιοχή θέσεων "
+"0x%x-0x%x της γραμματοσειράς\n"
 
 #: src/libkfont/loadunimap.c:238
 #, fuzzy, c-format
@@ -895,8 +895,8 @@ msgstr "Φόρτωση της συμβολικής απεικόνισης της
 #, fuzzy, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
 msgstr ""
-"Σφάλμα κατά τη γραμματοσυντακτική ανάλυσητης συμβολικής απεικόνισης από `"
-"%s', γραμμή %d\n"
+"Σφάλμα κατά τη γραμματοσυντακτική ανάλυσητης συμβολικής απεικόνισης από "
+"`%s', γραμμή %d\n"
 
 #: src/libkfont/mapscrn.c:264
 #, fuzzy
@@ -2150,8 +2150,8 @@ msgstr "%s: VT 1 είναι η κονσόλα και δε μπορεί ν' απ�
 #~ msgid ""
 #~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 #~ msgstr ""
-#~ "%s: Εσφαλμένη Unicode περιοχή που αντιστοιχεί στην περιοχή θέσεων 0x%x-0x"
-#~ "%xτης γραμματοσειράς.\n"
+#~ "%s: Εσφαλμένη Unicode περιοχή που αντιστοιχεί στην περιοχή θέσεων "
+#~ "0x%x-0x%xτης γραμματοσειράς.\n"
 
 #, c-format
 #~ msgid "%s: %s: Warning: line too long\n"

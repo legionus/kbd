@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-09-19 13:23+0200\n"
+"POT-Creation-Date: 2023-12-11 13:31+0000\n"
 "PO-Revision-Date: 2023-05-20 11:36+0300\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <gnu@d07.ru>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 22.12.3\n"
 
 #: src/chvt.c:25
@@ -419,8 +419,8 @@ msgstr "%s из %s\n"
 msgid "includes are nested too deeply"
 msgstr "включения вложены одно в другое слишком глубоко"
 
-#: src/libkeymap/analyze.l:161 src/libkeymap/analyze.l:263
-#: src/libkeymap/analyze.l:357 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -428,47 +428,47 @@ msgstr "включения вложены одно в другое слишко�
 msgid "out of memory"
 msgstr "недостаточно памяти"
 
-#: src/libkeymap/analyze.l:259
+#: src/libkeymap/analyze.l:258
 #, c-format
 msgid "switching to %s"
 msgstr "переключение на %s"
 
-#: src/libkeymap/analyze.l:269
+#: src/libkeymap/analyze.l:268
 #, c-format
 msgid "cannot open include file %s"
 msgstr "не удалось открыть включаемый файл %s"
 
-#: src/libkeymap/analyze.l:291
+#: src/libkeymap/analyze.l:290
 #, c-format
 msgid "unable to parse number: %s"
 msgstr "не удалось разобрать число: %s"
 
-#: src/libkeymap/analyze.l:296
+#: src/libkeymap/analyze.l:295
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr "значением должно быть положительное число: %s"
 
-#: src/libkeymap/analyze.l:301
+#: src/libkeymap/analyze.l:300
 #, c-format
 msgid "value must be less than %d: %s"
 msgstr "значение должно быть меньше %d: %s"
 
-#: src/libkeymap/analyze.l:369
+#: src/libkeymap/analyze.l:368
 msgid "expected filename between quotes"
 msgstr "ожидается имя файла в кавычках"
 
-#: src/libkeymap/analyze.l:408
+#: src/libkeymap/analyze.l:407
 #, c-format
 msgid "unicode keysym out of range: %s"
 msgstr "юникодный keysym вне диапазона: %s"
 
-#: src/libkeymap/analyze.l:468 src/libkeymap/analyze.l:492
-#: src/libkeymap/analyze.l:499 src/libkeymap/analyze.l:506
-#: src/libkeymap/analyze.l:515
+#: src/libkeymap/analyze.l:467 src/libkeymap/analyze.l:491
+#: src/libkeymap/analyze.l:498 src/libkeymap/analyze.l:505
+#: src/libkeymap/analyze.l:514
 msgid "string too long"
 msgstr "слишком длинная строка"
 
-#: src/libkeymap/analyze.l:484
+#: src/libkeymap/analyze.l:483
 msgid "octal number too big"
 msgstr "слишком большое восьмеричное число"
 
@@ -815,11 +815,11 @@ msgstr "%s: Некорректный конец диапазона (0x%x)\n"
 #: src/libkfont/loadunimap.c:213
 #, c-format
 msgid ""
-"%s: Unicode range U+%x-U+%x not of the same length as font position range 0x"
-"%x-0x%x"
+"%s: Unicode range U+%x-U+%x not of the same length as font position range "
+"0x%x-0x%x"
 msgstr ""
-"%s: Диапазон Юникода U+%x-U+%x отличается длиной от диапазона шрифта 0x%x-0x"
-"%x"
+"%s: Диапазон Юникода U+%x-U+%x отличается длиной от диапазона шрифта "
+"0x%x-0x%x"
 
 #: src/libkfont/loadunimap.c:238
 #, c-format
@@ -1359,8 +1359,8 @@ msgstr "resizecons: команда «%s» завершилась неудачн�
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
-"resizecons: не забудьте сменить TERM (возможно, на con%dx%d или linux-%dx"
-"%d)\n"
+"resizecons: не забудьте сменить TERM (возможно, на con%dx%d или linux-"
+"%dx%d)\n"
 
 #: src/resizecons.c:377
 #, c-format
@@ -2122,8 +2122,8 @@ msgstr "Экран консоли не может быть быть заблок
 #~ msgid ""
 #~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 #~ msgstr ""
-#~ "%s: Недопустимый диапазон Юникода, соответствующий диапазону шрифта 0x"
-#~ "%x-0x%x\n"
+#~ "%s: Недопустимый диапазон Юникода, соответствующий диапазону шрифта "
+#~ "0x%x-0x%x\n"
 
 #~ msgid "%s: %s: Warning: line too long\n"
 #~ msgstr "%s: %s: Предупреждение: слишком длинная строка\n"
