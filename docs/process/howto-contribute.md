@@ -8,16 +8,16 @@ Here are some important resources:
 
 ## Mailing list
 
-* E-mail:  kbd@lists.altlinux.org
-* URL:     https://lists.altlinux.org/mailman/listinfo/kbd
-* Archive: https://lore.altlinux.org/kbd/
+* E-mail:  kbd@lists.linux.dev
+* URL:     https://subspace.kernel.org/lists.linux.dev.html
+* Archive: https://lore.kernel.org/kbd/
 
 To protect subscribers from spam, the mailing list requires a subscription.
 
 
 ## Bug reporting
 
-* E-mail: kbd@lists.altlinux.org
+* E-mail: kbd@lists.linux.dev
 * Web:    https://github.com/legionus/kbd/issues
 
 Report problems with this package to the mailing list or
