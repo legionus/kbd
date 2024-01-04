@@ -40,11 +40,17 @@ static const unsigned int layouts[NR_LAYOUTS][NR_LAYOUTS] = {
 	{ 0, 1, 3, 2 },
 };
 
+struct sym_pair {
+	char *xkb_sym;
+	char *krn_sym;
+};
+
 struct xkeymap {
 	struct xkb_context *xkb;
 	struct xkb_keymap *keymap;
 	struct lk_ctx *ctx;
 	void *used_codes;
+	void *syms_map;
 };
 
 /*
@@ -128,6 +134,7 @@ static struct modifier_mapping modifier_mapping[] = {
 	{ NULL,			NULL,		0			},
 };
 
+
 static struct modifier_mapping *convert_modifier(const char *xkb_name)
 {
 	struct modifier_mapping *map = modifier_mapping;
@@ -141,82 +148,32 @@ static struct modifier_mapping *convert_modifier(const char *xkb_name)
 	return NULL;
 }
 
-struct symbols_mapping {
-	const char *xkb_sym;
-	const char *krn_sym;
-};
-
-static struct symbols_mapping symbols_mapping[] = {
-	{ "0", "zero" },
-	{ "1", "one" },
-	{ "2", "two" },
-	{ "3", "three" },
-	{ "4", "four" },
-	{ "5", "five" },
-	{ "6", "six" },
-	{ "7", "seven" },
-	{ "8", "eight" },
-	{ "9", "nine" },
-	{ "KP_Insert", "KP_0" },
-	{ "KP_End", "KP_1" },
-	{ "KP_Down", "KP_2" },
-	{ "KP_Next", "KP_3" },
-	{ "KP_Left", "KP_4" },
-	{ "KP_Right", "KP_6" },
-	{ "KP_Home", "KP_7" },
-	{ "KP_Up", "KP_8" },
-	{ "KP_Prior", "KP_9" },
-	{ "KP_Begin", "VoidSymbol" },
-	{ "KP_Delete", "VoidSymbol" },
-	{ "Alt_R", "Alt" },
-	{ "Alt_L", "Alt" },
-	{ "Control_R", "Control" },
-	{ "Control_L", "Control" },
-	{ "Super_R", "Alt" },
-	{ "Super_L", "Alt" },
-	{ "Hyper_R", "Alt" },
-	{ "Hyper_L", "Alt" },
-	{ "Mode_switch", "AltGr" },
-	{ "ISO_Group_Shift", "AltGr" },
-	{ "ISO_Group_Latch", "AltGr" },
-	{ "ISO_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Next_Group", "AltGr_Lock" },
-	{ "ISO_Next_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Prev_Group", "AltGr_Lock" },
-	{ "ISO_Prev_Group_Lock", "AltGr_Lock" },
-	{ "ISO_First_Group", "AltGr_Lock" },
-	{ "ISO_First_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Last_Group", "AltGr_Lock" },
-	{ "ISO_Last_Group_Lock", "AltGr_Lock" },
-	{ "ISO_Level3_Shift", "AltGr" },
-	{ "ISO_Left_Tab", "Meta_Tab" },
-	{ "XF86Switch_VT_1", "Console_1" },
-	{ "XF86Switch_VT_2", "Console_2" },
-	{ "XF86Switch_VT_3", "Console_3" },
-	{ "XF86Switch_VT_4", "Console_4" },
-	{ "XF86Switch_VT_5", "Console_5" },
-	{ "XF86Switch_VT_6", "Console_6" },
-	{ "XF86Switch_VT_7", "Console_7" },
-	{ "XF86Switch_VT_8", "Console_8" },
-	{ "XF86Switch_VT_9", "Console_9" },
-	{ "XF86Switch_VT_10", "Console_10" },
-	{ "XF86Switch_VT_11", "Console_11" },
-	{ "XF86Switch_VT_12", "Console_12" },
-	{ "Sys_Req", "Last_Console" },
-	{ "Print", "Control_backslash" },
-	{ NULL, NULL },
-};
-
-static const char *map_xkbsym_to_ksym(const char *xkb_sym)
+static void xkeymap_pair_free(void *pa)
 {
-	struct symbols_mapping *map = symbols_mapping;
+	struct sym_pair *pair = pa;
+	if (!pair)
+		return;
+	free(pair->xkb_sym);
+	free(pair->krn_sym);
+	free(pair);
+}
 
-	while (map->xkb_sym) {
-		if (!strcmp(map->xkb_sym, xkb_sym))
-			return map->krn_sym;
-		map++;
-	}
+static int compare_by_xkbsym(const void *pa, const void *pb)
+{
+	return strcmp(((struct sym_pair *)pa)->xkb_sym,
+		      ((struct sym_pair *)pb)->xkb_sym);
+}
 
+static const char *map_xkbsym_to_ksym(struct xkeymap *xkeymap, char *xkb_sym)
+{
+	struct sym_pair **val;
+	struct sym_pair pair = {
+		.xkb_sym = xkb_sym,
+	};
+
+	val = tfind(&pair, &xkeymap->syms_map, compare_by_xkbsym);
+	if (val)
+		return ((struct sym_pair *) *val)->krn_sym;
 	return NULL;
 }
 
@@ -290,7 +247,7 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 	return 0;
 }
 
-static int xkeymap_get_code(struct lk_ctx *ctx, xkb_keysym_t symbol)
+static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	uint32_t xkb_unicode;
 	int ret;
@@ -309,16 +266,16 @@ static int xkeymap_get_code(struct lk_ctx *ctx, xkb_keysym_t symbol)
 	/*
 	 * First. Let's try to translate the xkb name into the kbd name.
 	 */
-	if ((symname = map_xkbsym_to_ksym(symbuf)) != NULL &&
-	    lk_valid_ksym(ctx, symname, TO_UNICODE))
-		ret = lk_ksym_to_unicode(ctx, symname);
+	if ((symname = map_xkbsym_to_ksym(xkeymap, symbuf)) != NULL &&
+	    lk_valid_ksym(xkeymap->ctx, symname, TO_UNICODE))
+		ret = lk_ksym_to_unicode(xkeymap->ctx, symname);
 
 	/*
 	 * Second. If the symbol name is known to us, that is, it matches
 	 * the kbd being used, then we use it.
 	 */
-	else if (lk_valid_ksym(ctx, symbuf, TO_UNICODE))
-		ret = lk_ksym_to_unicode(ctx, symbuf);
+	else if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_UNICODE))
+		ret = lk_ksym_to_unicode(xkeymap->ctx, symbuf);
 
 	/*
 	 * Third. Let's try to use utf32 code.
@@ -330,7 +287,7 @@ static int xkeymap_get_code(struct lk_ctx *ctx, xkb_keysym_t symbol)
 	 * Last chance.
 	 */
 	else
-		ret = parse_hexcode(ctx, symbuf);
+		ret = parse_hexcode(xkeymap->ctx, symbuf);
 
 	/*
 	 * The kbentry.kb_value is unsigned short.
@@ -380,12 +337,12 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 	if (lk_valid_ksym(xkeymap->ctx, s, TO_UNICODE))
 		symname = s;
 	else
-		symname = map_xkbsym_to_ksym(s);
+		symname = map_xkbsym_to_ksym(xkeymap, s);
 
 	if (!symname)
 		symname = "-";
 
-	value = xkeymap_get_code(xkeymap->ctx, sym);
+	value = xkeymap_get_code(xkeymap, sym);
 
 	printf(" kbd:code= U+%04x kbd:symname= %-32s", value, symname);
 
@@ -412,7 +369,6 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 	fflush(stdout);
 	fflush(stderr);
 }
-
 
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 		xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
@@ -588,7 +544,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					goto process_keycode;
 				}
 
-				if ((value = xkeymap_get_code(xkeymap->ctx, sym)) < 0)
+				if ((value = xkeymap_get_code(xkeymap, sym)) < 0)
 					continue;
 
 				/*
@@ -626,10 +582,99 @@ err:
 	return -1;
 }
 
+static int parsemap(struct xkeymap *xkeymap, FILE *fp, const char *filename)
+{
+	char buffer[BUFSIZ];
+	char *p, *q, *xkb_sym = NULL, *krn_sym = NULL;
+	struct sym_pair **val, *pair = NULL;
+	int line_nr = 0;
+
+	while (fgets(buffer, sizeof(buffer) - 1, fp)) {
+		line_nr++;
+
+		buffer[BUFSIZ - 1] = '\0';
+
+		if (!(p = strchr(buffer, '\n'))) {
+			kbd_warning(0, "%s:%d: The line does not end with a newline. Looks like the line is too long.",
+			            filename, line_nr);
+			goto err;
+		}
+		*p = '\0';
+
+		for (p = buffer; isspace(*p); p++);
+
+		if (*p == '#' || *p == '\0')
+			continue;
+
+		for (q = p; *q != '\0' && !isspace(*q); q++);
+		*q = '\0';
+
+		xkb_sym = p;
+
+		if (p != q)
+			for(p = ++q; isspace(*p); p++);
+
+		for (q = p; *q != '\0' && !isspace(*q); q++);
+		*q = '\0';
+
+		krn_sym = p;
+
+		pair = calloc(1, sizeof(*pair));
+		if (!pair)
+			goto err;
+
+		pair->xkb_sym = strdup(xkb_sym);
+		pair->krn_sym = strdup(krn_sym);
+
+		if (!pair->xkb_sym || !pair->krn_sym)
+			goto err;
+
+		val = tsearch(pair, &xkeymap->syms_map, compare_by_xkbsym);
+		if (!val)
+			goto err;
+
+		if (*val != pair)
+			xkeymap_pair_free(pair);
+
+		pair = NULL;
+	}
+	return 0;
+err:
+	xkeymap_pair_free(pair);
+	return -1;
+}
+
+static int load_translation_table(struct xkeymap *xkeymap)
+{
+	const char *filename = DATADIR "/xkbtrans/names";
+	FILE *fp;
+
+	fp = fopen(filename, "r");
+	if (!fp) {
+		filename = getenv("LK_XKB_TRANSLATION_TABLE");
+
+		if (filename)
+			fp = fopen(filename, "r");
+
+		if (!fp) {
+			kbd_warning(0, "%s: translation table not found. Use the LK_XKB_TRANSLATION_TABLE environment variable to specify this file.",
+			            filename);
+			return -1;
+		}
+	}
+
+	if (parsemap(xkeymap, fp, filename) < 0) {
+		kbd_warning(0, "unable to parse xkb translation names");
+		return -1;
+	}
+	fclose(fp);
+
+	return 0;
+}
 
 int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 {
-	struct xkeymap xkeymap;
+	struct xkeymap xkeymap = { 0 };
 	int ret = -1;
 
 	struct xkb_rule_names names = {
@@ -661,6 +706,9 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 		goto end;
 	}
 
+	if (load_translation_table(&xkeymap) < 0)
+		 goto end;
+
 	if (xkeymap_walk(&xkeymap) < 0)
 		goto end;
 
@@ -668,6 +716,9 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 end:
 	if (xkeymap.used_codes)
 		tdestroy(xkeymap.used_codes, free);
+
+	if (xkeymap.syms_map)
+		tdestroy(xkeymap.syms_map, xkeymap_pair_free);
 
 	xkb_keymap_unref(xkeymap.keymap);
 	xkb_context_unref(xkeymap.xkb);
