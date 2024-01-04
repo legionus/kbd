@@ -46,8 +46,10 @@ struct sym_pair {
 };
 
 struct xkeymap {
+	const char *debug;
 	struct xkb_context *xkb;
 	struct xkb_keymap *keymap;
+	struct xkb_compose_table *compose;
 	struct lk_ctx *ctx;
 	void *used_codes;
 	void *syms_map;
@@ -134,6 +136,12 @@ static struct modifier_mapping modifier_mapping[] = {
 	{ NULL,			NULL,		0			},
 };
 
+static int is_debug(struct xkeymap *xkeymap, const char *val)
+{
+	if (!xkeymap->debug || (val && strcmp(xkeymap->debug, val)))
+		return 0;
+	return 1;
+}
 
 static struct modifier_mapping *convert_modifier(const char *xkb_name)
 {
@@ -527,10 +535,8 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				else if (ret < 0)
 					goto err;
 
-				if (getenv("LK_XKB_DEBUG")) {
+				if (is_debug(xkeymap, NULL))
 					xkeymap_walk_printer(xkeymap, layout, level, keycode, sym);
-					continue;
-				}
 
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
 				modifier = get_kernel_modifier(xkeymap, &keycode_mask);
@@ -644,6 +650,107 @@ err:
 	return -1;
 }
 
+static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
+{
+	char buf[128];
+	int offset = 20;
+	size_t seqlen = 0;
+	const xkb_keysym_t *syms = xkb_compose_table_entry_sequence(entry, &seqlen);
+	const char *chr = xkb_compose_table_entry_utf8(entry);
+	xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
+
+	printf("Compose: \"%s\" (chars=%ld) ", chr, strlen(chr));
+
+	if (xkb_keysym_get_name(keysym, buf, sizeof(buf)) > 0)
+		offset -= printf("<%s>", buf);
+	else
+		offset -= printf("<?>");
+
+	for (; offset > 0; offset--)
+		printf(" ");
+
+	printf(" -> sequence[%ld] = { ", seqlen);
+	for (size_t i = 0; i < seqlen; i++) {
+		if (xkb_keysym_get_name(syms[i], buf, sizeof(buf)) > 0)
+			printf("<%s> ", buf);
+		else
+			printf("<?> ");
+	}
+	printf("}\n");
+}
+
+static int xkeymap_compose(struct xkeymap *xkeymap)
+{
+	int count, ret;
+	struct xkb_compose_table_entry *entry;
+	struct xkb_compose_table_iterator *iter = xkb_compose_table_iterator_new(xkeymap->compose);
+
+	if (!iter) {
+		kbd_warning(0, "xkb_compose_table_iterator_new failed");
+		return -1;
+	}
+
+	count = ret = 0;
+
+	while ((entry = xkb_compose_table_iterator_next(iter))) {
+		size_t seqlen = 0;
+		const xkb_keysym_t *syms = xkb_compose_table_entry_sequence(entry, &seqlen);
+		xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
+
+		if (is_debug(xkeymap, "1")) {
+			xkeymap_compose_printer(entry);
+			continue;
+		}
+
+		if (keysym == XKB_KEY_NoSymbol)
+			continue;
+
+		if (seqlen == 2) {
+			struct lk_kbdiacr ptr;
+			int code;
+
+			if ((code = xkeymap_get_code(xkeymap, syms[0])) < 0 ||
+			    !used_code(xkeymap, code))
+				continue;
+
+			ptr.diacr = (unsigned int) code;
+
+			if ((code = xkeymap_get_code(xkeymap, syms[1])) < 0 ||
+			    !used_code(xkeymap, code))
+				continue;
+
+			ptr.base = (unsigned int) code;
+
+			if ((code = xkeymap_get_code(xkeymap, keysym)) < 0 ||
+			    used_code(xkeymap, code))
+				continue;
+
+			ptr.result = (unsigned int) code;
+
+			if (++count >= MAX_DIACR)
+				continue;
+
+			if (is_debug(xkeymap, "2")) {
+				xkeymap_compose_printer(entry);
+				continue;
+			}
+
+			ret = lk_append_diacr(xkeymap->ctx, &ptr);
+
+			if (ret == -1)
+				break;
+		}
+	}
+
+	xkb_compose_table_iterator_free(iter);
+
+	if (count >= MAX_DIACR)
+		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb specified %d.",
+		            MAX_DIACR, count);
+
+	return ret;
+}
+
 static int load_translation_table(struct xkeymap *xkeymap)
 {
 	const char *filename = DATADIR "/xkbtrans/names";
@@ -686,6 +793,7 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 	};
 
 	xkeymap.ctx = ctx;
+	xkeymap.debug = getenv("LK_XKB_DEBUG");
 
 	lk_set_keywords(ctx, LK_KEYWORD_ALTISMETA | LK_KEYWORD_STRASUSUAL);
 
@@ -706,10 +814,21 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 		goto end;
 	}
 
+	if (params->locale) {
+		xkeymap.compose = xkb_compose_table_new_from_locale(xkeymap.xkb, params->locale, XKB_COMPOSE_COMPILE_NO_FLAGS);
+		if (!xkeymap.compose) {
+			kbd_warning(0, "xkb_compose_table_new_from_locale failed");
+			goto end;
+		}
+	}
+
 	if (load_translation_table(&xkeymap) < 0)
 		 goto end;
 
 	if (xkeymap_walk(&xkeymap) < 0)
+		goto end;
+
+	if (xkeymap.compose && xkeymap_compose(&xkeymap) < 0)
 		goto end;
 
 	ret = 0;
@@ -719,6 +838,9 @@ end:
 
 	if (xkeymap.syms_map)
 		tdestroy(xkeymap.syms_map, xkeymap_pair_free);
+
+	if (xkeymap.compose)
+		xkb_compose_table_unref(xkeymap.compose);
 
 	xkb_keymap_unref(xkeymap.keymap);
 	xkb_context_unref(xkeymap.xkb);
