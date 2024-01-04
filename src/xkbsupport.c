@@ -1,3 +1,6 @@
+#define _GNU_SOURCE
+#include <search.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -41,6 +44,7 @@ struct xkeymap {
 	struct xkb_context *xkb;
 	struct xkb_keymap *keymap;
 	struct lk_ctx *ctx;
+	void *used_codes;
 };
 
 /*
@@ -214,6 +218,15 @@ static const char *map_xkbsym_to_ksym(const char *xkb_sym)
 	}
 
 	return NULL;
+}
+
+static int compare_codes(const void *pa, const void *pb)
+{
+	if (*(int *) pa < *(int *) pb)
+		return -1;
+	if (*(int *) pa > *(int *) pb)
+		return 1;
+	return 0;
 }
 
 static void print_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask)
@@ -420,6 +433,32 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 	return 1;
 }
 
+static int used_code(struct xkeymap *xkeymap, int code)
+{
+	return tfind(&code, &xkeymap->used_codes, compare_codes) != NULL;
+}
+
+static void remember_code(struct xkeymap *xkeymap, int code)
+{
+	int *ptr, **val;
+
+	if (used_code(xkeymap, code))
+		return;
+
+	ptr = malloc(sizeof(code));
+	if (!ptr)
+		kbd_error(1, errno, "out of memory");
+
+	*ptr = code;
+
+	val = tsearch(ptr, &xkeymap->used_codes, compare_codes);
+	if (!val)
+		kbd_error(1, errno, "out of memory");
+
+	if (*val != ptr)
+		free(ptr);
+}
+
 static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code, int keyvalue[MAX_NR_KEYMAPS])
 {
 	if (!modifier || (modifier & (1 << KG_SHIFT)))
@@ -572,15 +611,13 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 			}
 		}
 
-		if (getenv("LK_XKB_DEBUG"))
-			continue;
-
 process_keycode:
 		for (unsigned short i = 0; i < ARRAY_SIZE(keyvalue); i++) {
 			if (!keyvalue[i])
 				continue;
 			if (lk_add_key(xkeymap->ctx, i, (int) KERN_KEYCODE(keycode), keyvalue[i]) < 0)
 				goto err;
+			remember_code(xkeymap, keyvalue[i]);
 		}
 	}
 
@@ -629,6 +666,9 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 
 	ret = 0;
 end:
+	if (xkeymap.used_codes)
+		tdestroy(xkeymap.used_codes, free);
+
 	xkb_keymap_unref(xkeymap.keymap);
 	xkb_context_unref(xkeymap.xkb);
 
