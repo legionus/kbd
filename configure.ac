@@ -242,6 +242,15 @@ AM_CONDITIONAL(TESTS_MEMCHECK, test "x$VALGRIND_PROG" != "x")
 AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
 AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
 
+AC_ARG_ENABLE([xkb],
+	[AS_HELP_STRING([--enable-xkb],
+			[allow to generate kernel keymaps based on xkb database @<:@default=yes@:>@])],
+	[USE_XKB=$enableval],[USE_XKB=yes])
+AS_IF([test "x$USE_XKB" != xno],
+	[PKG_CHECK_MODULES(XKBCOMMON, xkbcommon, [HAVE_XKBCOMMON=yes], [HAVE_XKBCOMMON=no])],
+	[USE_XKB=no])
+AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
+
 AC_CONFIG_FILES([Makefile
 		data/Makefile
 		docs/Makefile
@@ -289,4 +298,5 @@ AC_MSG_RESULT([
 	libkbdfile:             ${BUILD_LIBKBDFILE}
 	libkeymap:              ${BUILD_LIBKEYMAP}
 	libkfont:               ${BUILD_LIBKFONT}
+	xkb support:            ${USE_XKB}
 ])
