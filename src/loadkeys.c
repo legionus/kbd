@@ -88,7 +88,8 @@ int main(int argc, char *argv[])
 		.model = "pc104",
 		.layout = NULL,
 		.variant = NULL,
-		.options = NULL
+		.options = NULL,
+		.locale = NULL,
 	};
 	int use_xkb = 0;
 #endif
@@ -117,6 +118,7 @@ int main(int argc, char *argv[])
 		{ "xkb-layout", required_argument, NULL, 3 },
 		{ "xkb-variant", required_argument, NULL, 4 },
 		{ "xkb-options", required_argument, NULL, 5 },
+		{ "xkb-locale", required_argument, NULL, 6 },
 #endif
 		{ NULL, 0, NULL, 0 }
 	};
@@ -126,6 +128,7 @@ int main(int argc, char *argv[])
 		{ "--xkb-layout=STR",      _("Specifies layout used to choose component names.") },
 		{ "--xkb-variant=STR",     _("Specifies layout variant used to choose component names.") },
 		{ "--xkb-options=STR",     _("Adds an option used to choose component names.") },
+		{ "--xkb-locale=LOCALE",   _("Use LOCALE to search an appropriate compose file.") },
 #endif
 		{ "-C, --console=DEV",     _("the console device to be used.") },
 		{ "-a, --ascii",           _("force conversion to ASCII.") },
@@ -179,6 +182,10 @@ int main(int argc, char *argv[])
 				break;
 			case 5:
 				xkeymap_params.options = optarg;
+				use_xkb = 1;
+				break;
+			case 6:
+				xkeymap_params.locale = optarg;
 				use_xkb = 1;
 				break;
 #endif
@@ -293,8 +300,16 @@ int main(int argc, char *argv[])
 
 #ifdef USE_XKB
 	} else if (use_xkb) {
-		rc = convert_xkb_keymap(ctx, &xkeymap_params);
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = getenv("LC_ALL");
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = getenv("LC_CTYPE");
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = getenv("LANG");
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = "C";
 
+		rc = convert_xkb_keymap(ctx, &xkeymap_params);
 		if (rc == -1)
 			goto fail;
 
