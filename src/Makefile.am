@@ -77,6 +77,12 @@ showconsolefont_LDADD = libkfont/libkfont.la $(COMMON_LIBS)
 dumpkeys_LDADD        = libkeymap/libkeymap.la libkbdfile/libkbdfile.la $(COMMON_LIBS)
 loadkeys_LDADD        = libkeymap/libkeymap.la libkbdfile/libkbdfile.la $(COMMON_LIBS)
 
+if USE_XKB
+loadkeys_SOURCES += xkbsupport.c
+loadkeys_CFLAGS = -DUSE_XKB @XKBCOMMON_CFLAGS@
+loadkeys_LDADD += @XKBCOMMON_LIBS@
+endif
+
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \
 		rm -f $(DESTDIR)$(bindir)/$$i; \
