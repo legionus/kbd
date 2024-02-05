@@ -79,6 +79,9 @@ try_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 		unsigned int kbytewidth = (2 * width + 7) / 8;
 		unsigned int charsize   = height * bytewidth;
 
+		if (2*height > vpitch)
+			vpitch = 2*height;
+
 		kcharsize = vpitch * kbytewidth;
 		buflen    = kcharsize * ((fontsize < 128) ? 128 : fontsize);
 
