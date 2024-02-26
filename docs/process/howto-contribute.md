@@ -52,7 +52,7 @@ To summarize, the stable release is `2.1.0` while `2.0.9x` is a pre-releases.
 
 Git repository:
 * Primary: git://git.kernel.org/pub/scm/linux/kernel/git/legion/kbd.git
-* Mirror:  git://github.com/legionus/kbd.git
+* Mirror:  https://github.com/legionus/kbd.git
 
 Git Branches: `git branch -a`
 
