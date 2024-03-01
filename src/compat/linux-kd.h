@@ -1,3 +1,6 @@
+/* 0x4B is 'K', to avoid collision with termios and vt */
+#define KD_IOCTL_BASE 'K'
+
 /*
  * Linux pre-0.96 introduced, and 1.1.63 removed the defines
  * #define GIO_FONT8x8     0x4B28
@@ -106,6 +109,20 @@ struct console_font_op {
 #define KD_FONT_FLAG_DONT_RECALC 1  /* Don't call adjust_height() */
                                     /* (Used internally for PIO_FONT support) */
 #endif                              /* KDFONTOP */
+
+#ifndef KDFONTINFO
+#define KD_FONT_INFO_FLAG_LOW_SIZE     (1U << 0) /* 256 */
+#define KD_FONT_INFO_FLAG_HIGH_SIZE    (1U << 1) /* 512 */
+
+struct console_font_info {
+       __s32 flags;                     /* KD_FONT_INFO_FLAG_* */
+       __s32 min_width, min_height;     /* minimal font size */
+       __s32 max_width, max_height;     /* maximum font size */
+       __s32 reserved[5];
+};
+
+#define KDFONTINFO	_IOR(KD_IOCTL_BASE, 0x73, struct console_font_info)
+#endif /* KDFONTINFO */
 
 #ifndef KDKBDREP
 /* usually defined in <linux/kd.h> */
