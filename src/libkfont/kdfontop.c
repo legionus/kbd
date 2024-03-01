@@ -21,6 +21,38 @@
 #include "compat/linux-kd.h"
 #endif
 
+static int is_valid_font(struct kfont_context *ctx, int consolefd,
+		unsigned int count, unsigned int width, unsigned int height)
+{
+#ifdef KDFONTINFO
+	struct console_font_info info = { 0 };
+
+	errno = 0;
+	if (ioctl(consolefd, KDFONTINFO, &info)) {
+		if (errno != ENOSYS)
+			KFONT_ERR(ctx, "ioctl(KDFONTINFO): %m");
+		return 0;
+	}
+
+	if ((width < info.min_width) || (height < info.min_height)) {
+		KFONT_ERR(ctx, _("font is too small (minimal size %dx%d)"), info.min_width, info.min_height);
+		return 0;
+	}
+
+	if ((width > info.max_width) || (height > info.max_height)) {
+		KFONT_ERR(ctx, _("font is too big (maximum size %dx%d)"), info.max_width, info.max_height);
+		return 0;
+	}
+
+	if ((count > 512) ||
+	    ((count > 256) && !(info.flags & KD_FONT_INFO_FLAG_HIGH_SIZE))) {
+		KFONT_ERR(ctx, _("There are too many glyphs in the font."));
+		return 0;
+	}
+#endif
+	return 1;
+}
+
 int
 kfont_restore_font(struct kfont_context *ctx, int fd)
 {
@@ -157,6 +189,9 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int vpitch)
 {
 	struct console_font_op cfo;
+
+	if (!is_valid_font(ctx, consolefd, count, width, height))
+		return -1;
 
 	if (vpitch == 32 && width <= 32)
 		cfo.op        = KD_FONT_OP_SET;

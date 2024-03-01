@@ -107,6 +107,19 @@ struct console_font_op {
                                     /* (Used internally for PIO_FONT support) */
 #endif                              /* KDFONTOP */
 
+#ifndef KDFONTINFO
+#define KDFONTINFO 0x4B73
+
+#define KD_FONT_INFO_FLAG_LOW_SIZE     (1U << 0) /* 256 */
+#define KD_FONT_INFO_FLAG_HIGH_SIZE    (1U << 1) /* 512 */
+
+struct console_font_info {
+       unsigned int min_width, min_height;     /* minimal font size */
+       unsigned int max_width, max_height;     /* maximum font size */
+       unsigned int flags;                     /* KD_FONT_INFO_FLAG_* */
+};
+#endif /* KDFONTINFO */
+
 #ifndef KDKBDREP
 /* usually defined in <linux/kd.h> */
 /* set keyboard delay/repeat rate;
