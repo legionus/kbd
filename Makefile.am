@@ -15,7 +15,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
 	CREDITS \
-	contrib docs rc
+	contrib docs
 
 SUBDIRS = src data po docs
 if BUILD_TESTS
