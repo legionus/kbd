@@ -16,7 +16,7 @@ jobs:
     name: "Check commits"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: "env"
@@ -46,7 +46,7 @@ jobs:
     needs: [ check_commits_job ]
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: "Install dependencies"
@@ -96,7 +96,7 @@ jobs:
       TTY: /dev/tty60
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - run: sudo apt-get update  -y -qq
@@ -113,7 +113,7 @@ jobs:
         sudo -E tests/check.sh
     - name: "Upload artifacts"
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact-${{ matrix.compiler }}-${{ matrix.libc }}
         path: |
