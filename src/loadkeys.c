@@ -305,7 +305,7 @@ int main(int argc, char *argv[])
 		if (!xkeymap_params.locale || !*xkeymap_params.locale)
 			xkeymap_params.locale = "C";
 
-		rc = convert_xkb_keymap(ctx, &xkeymap_params, options);
+		rc = convert_xkb_keymap(ctx, &xkeymap_params);
 
 		if (rc == -1)
 			goto fail;
@@ -355,6 +355,12 @@ int main(int argc, char *argv[])
 			rc = lk_load_keymap(ctx, fd, kbd_mode);
 		}
 	}
+#ifdef USE_XKB
+	else if (use_xkb && getenv("LK_XKB_DUMPKEYS")) {
+		lk_dump_keymap(ctx, stdout, LK_SHAPE_SEPARATE_LINES, 0);
+		lk_dump_diacs(ctx, stdout);
+	}
+#endif
 
 fail:
 	lk_free(ctx);

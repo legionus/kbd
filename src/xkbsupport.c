@@ -684,10 +684,8 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 			if (count >= MAX_DIACR)
 				continue;
 
-			if (is_debug(xkeymap, "2")) {
+			if (is_debug(xkeymap, "2"))
 				xkeymap_compose_printer(entry);
-				continue;
-			}
 
 			ret = lk_append_compose(xkeymap->ctx, &ptr);
 
@@ -730,7 +728,7 @@ static int load_translation_table(struct xkeymap *xkeymap)
 	return 0;
 }
 
-int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params, int options)
+int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 {
 	struct xkeymap xkeymap = { 0 };
 	int ret = -1;
@@ -776,19 +774,13 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params, int op
 	if (load_translation_table(&xkeymap) < 0)
 		 goto end;
 
-	if (!(ret = xkeymap_walk(&xkeymap))) {
-		if (!is_debug(&xkeymap, NULL) && (options & OPT_P))
-			lk_dump_keymap(ctx, stdout, LK_SHAPE_SEPARATE_LINES, 0);
-	}
+	if (xkeymap_walk(&xkeymap) < 0)
+		goto end;
 
-	if (xkeymap.compose) {
-		if (xkeymap_compose(&xkeymap) < 0) {
-			ret = -1;
-			goto end;
-		}
-		if (!is_debug(&xkeymap, NULL) && (options & OPT_P))
-			lk_dump_diacs(ctx, stdout);
-	}
+	if (xkeymap.compose && xkeymap_compose(&xkeymap) < 0)
+		goto end;
+
+	ret = 0;
 end:
 	if (xkeymap.used_codes)
 		tdestroy(xkeymap.used_codes, free);

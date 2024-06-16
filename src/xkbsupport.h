@@ -13,6 +13,6 @@ struct xkeymap_params {
 	const char *locale;
 };
 
-int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params, int options);
+int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params);
 
 #endif /* _XKB_SUPPORT_H_ */
