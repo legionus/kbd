@@ -126,6 +126,9 @@ char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index)
 int lk_ksym_to_unicode(struct lk_ctx *ctx, const char *code)
 	KBD_ATTR_NONNULL(1, 2);
 
+int lk_valid_ksym(struct lk_ctx *ctx, const char *s, int direction)
+	KBD_ATTR_NONNULL(1, 2);
+
 int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
 	KBD_ATTR_NONNULL(1, 2);
 
