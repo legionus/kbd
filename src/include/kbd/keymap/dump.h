@@ -138,4 +138,7 @@ void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 void lk_dump_symbols(struct lk_ctx *ctx, FILE *fd)
 	KBD_ATTR_NONNULL(1, 2);
 
+int lk_valid_ksym(struct lk_ctx *ctx, const char *s, int direction)
+	KBD_ATTR_NONNULL(1, 2);
+
 #endif /* _KBD_LIBKEYMAP_DUMP_H_ */
