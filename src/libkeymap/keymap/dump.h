@@ -118,6 +118,8 @@ char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index) __attribute__((nonnul
  */
 int lk_ksym_to_unicode(struct lk_ctx *ctx, const char *code) __attribute__((nonnull(1, 2)));
 
+int lk_valid_ksym(struct lk_ctx *ctx, const char *s, int direction) __attribute__((nonnull(1, 2)));
+
 int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res) __attribute__((nonnull(1, 2)));
 void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console) __attribute__((nonnull(1, 2)));
 void lk_dump_symbols(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
