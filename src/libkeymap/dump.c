@@ -429,7 +429,7 @@ void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numer
 		if (!(j != ja && lk_map_exists(ctx, j) && lk_map_exists(ctx, ja)))
 			continue;
 
-		for (i = 1; i < NR_KEYS; i++) {
+		for (i = 0; i < NR_KEYS; i++) {
 			int buf0, buf1, type;
 
 			buf0 = lk_get_key(ctx, j, i);
@@ -455,7 +455,7 @@ void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numer
 not_alt_is_meta:
 no_shorthands:
 
-	for (i = 1; i < NR_KEYS; i++) {
+	for (i = 0; i < NR_KEYS; i++) {
 		all_holes = 1;
 
 		for (j = 0; j < keymapnr; j++) {

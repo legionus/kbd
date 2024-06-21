@@ -147,6 +147,15 @@ AT_CHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dumpkeys-ful
 	[0], [expout])
 AT_CLEANUP
 
+AT_SETUP([test 25 (keycode 0)])
+AT_KEYWORDS([libkeymap unittest])
+cp -f -- \
+	"$abs_srcdir/data/dumpkeys-fulltable/mac-qwerty-layout.map" \
+	expout
+AT_CHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dumpkeys-fulltable/mac-qwerty-layout.map DEFAULT FALSE],
+	[0], [expout])
+AT_CLEANUP
+
 AT_SETUP([binary keymap (us.map)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
