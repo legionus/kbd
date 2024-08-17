@@ -281,7 +281,11 @@ int handle_codepage(int more_to_come)
 
 	fonts = (unsigned char *)malloc(CPInfoHeader.size);
 
-	fread(fonts, CPInfoHeader.size, 1, in);
+	j = fread(fonts, CPInfoHeader.size, 1, in);
+	if (j != CPInfoHeader.size) {
+		printf("error reading fonts - got %d chars\n", j);
+		exit(1);
+	}
 	fwrite(&CPEntryHeader, sizeof(CPEntryHeader), 1, out);
 	fwrite(&CPInfoHeader, sizeof(CPInfoHeader), 1, out);
 	j = fwrite(fonts, 1, CPInfoHeader.size, out);
