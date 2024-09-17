@@ -20,6 +20,7 @@ AM_SILENT_RULES([yes])
 # Checks for programs.
 CFLAGS="${CFLAGS:-}"
 
+# Checks for programs.
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_YACC
@@ -39,24 +40,34 @@ AM_GNU_GETTEXT([external])
 ALL_LINGUAS=`cd $srcdir/po > /dev/null && echo *.po | sed 's/\.po//g'`
 
 # Checks for header files.
-AC_HEADER_DIRENT
-AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([fcntl.h libintl.h locale.h memory.h stdlib.h string.h \
-sys/file.h sys/ioctl.h termios.h unistd.h])
+AC_CHECK_HEADERS([fcntl.h inttypes.h libintl.h locale.h malloc.h stdint.h \
+		  sys/file.h sys/ioctl.h sys/param.h \
+		  syslog.h termios.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_C_INLINE
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT8_T
 AC_TYPE_SIZE_T
-AC_STRUCT_TM
+AC_TYPE_SSIZE_T
 AC_TYPE_UID_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT8_T
+AC_CHECK_MEMBERS([struct stat.st_rdev])
+AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
-AC_PROG_CC
 AC_FUNC_CHOWN
-AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
 AC_FUNC_STAT
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_FUNC_STRERROR_R
+AC_CHECK_FUNCS([alarm dup2 endpwent memset setlocale strcasecmp strerror \
+		strdup strndup strchr strrchr strspn strstr strtol])
 
 m4_ifndef([PKG_PROG_PKG_CONFIG],
   [m4_fatal([Could not locate the pkg-config autoconf
@@ -65,9 +76,6 @@ m4_ifndef([PKG_PROG_PKG_CONFIG],
     environment variable AL_OPTS="-I/other/macro/dir" before running
     ./autogen.sh or autoreconf again. Make sure pkg-config is installed.])])
 PKG_PROG_PKG_CONFIG
-
-AC_CHECK_FUNCS([alarm memset setlocale strcasecmp strchr strdup strerror \
-strspn strstr strtol strtoul setpgrp malloc realloc])
 
 AC_SEARCH_LIBS([timer_create], [rt])
 
