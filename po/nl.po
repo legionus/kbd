@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-12-11 13:31+0000\n"
+"POT-Creation-Date: 2024-09-17 12:47+0200\n"
 "PO-Revision-Date: 2017-01-07 15:02+0100\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -433,7 +433,7 @@ msgid "includes are nested too deeply"
 msgstr "invoegingen zijn te diep genest"
 
 #: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
-#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:168
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -485,7 +485,7 @@ msgstr "tekenreeks is te lang"
 msgid "octal number too big"
 msgstr ""
 
-#: src/libkeymap/common.c:141
+#: src/libkeymap/common.c:174
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "kan array niet initialiseren: %s"
@@ -876,8 +876,8 @@ msgstr "Unicodekaart is opgeslagen in '%s'\n"
 msgid "Appended Unicode map"
 msgstr "Unicodekaart is achteraan toegevoegd\n"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
-#: src/libkfont/setfont.c:427 src/libkfont/setfont.c:434 src/loadkeys.c:244
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:314
+#: src/libkfont/setfont.c:430 src/libkfont/setfont.c:437 src/loadkeys.c:244
 #, fuzzy, c-format
 msgid "Unable to find file: %s"
 msgstr "Kan %s niet openen"
@@ -1014,110 +1014,110 @@ msgstr "Ongeldige tekenbreedte %d\n"
 msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr ""
 
-#: src/libkfont/setfont.c:141
+#: src/libkfont/setfont.c:144
 #, fuzzy
 msgid "font position 32 is nonblank"
 msgstr "%s: lettertype-positie 32 is niet blanco\n"
 
-#: src/libkfont/setfont.c:150
+#: src/libkfont/setfont.c:153
 #, fuzzy
 msgid "wiped it"
 msgstr "%s: gewist\n"
 
-#: src/libkfont/setfont.c:153
+#: src/libkfont/setfont.c:156
 #, fuzzy
 msgid "background will look funny"
 msgstr "%s: achtergrond zal er raar uitzien\n"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:164
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Laden van %d-teken %dx%d-lettertype uit bestand %s\n"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:167
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Laden van %d-teken %dx%d-lettertype\n"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:170
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Laden van %d-teken %dx%d (%d) lettertype uit bestand %s\n"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:173
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Laden van %d-teken %dx%d (%d) lettertype\n"
 
-#: src/libkfont/setfont.c:253
+#: src/libkfont/setfont.c:256
 #, fuzzy
 msgid "bug in do_loadtable"
 msgstr "%s: *interne programmafout* in 'do_loadtable'\n"
 
-#: src/libkfont/setfont.c:258
+#: src/libkfont/setfont.c:261
 #, fuzzy
 msgid "Loading Unicode mapping table..."
 msgstr "Laden van Unicode-afbeeldingstabel...\n"
 
-#: src/libkfont/setfont.c:324
+#: src/libkfont/setfont.c:327
 #, fuzzy, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
 "Bij het laden van meerdere lettertypen moeten ze allemaal psf-lettertypen "
 "zijn -- %s is dat niet\n"
 
-#: src/libkfont/setfont.c:336
+#: src/libkfont/setfont.c:339
 #, fuzzy, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Het %d-tekens %dx%d lettertype is gelezen uit bestand %s\n"
 
-#: src/libkfont/setfont.c:345
+#: src/libkfont/setfont.c:348
 #, fuzzy
 msgid "When loading several fonts, all must have the same height"
 msgstr ""
 "Bij het laden van meerdere lettertypen moeten ze allemaal dezelfde hoogte "
 "hebben\n"
 
-#: src/libkfont/setfont.c:353
+#: src/libkfont/setfont.c:356
 #, fuzzy
 msgid "When loading several fonts, all must have the same width"
 msgstr ""
 "Bij het laden van meerdere lettertypen moeten ze allemaal dezelfde breedte "
 "hebben\n"
 
-#: src/libkfont/setfont.c:419
+#: src/libkfont/setfont.c:422
 #, fuzzy
 msgid "Cannot find default font"
 msgstr "Kan standaardlettertype niet vinden\n"
 
-#: src/libkfont/setfont.c:441
+#: src/libkfont/setfont.c:444
 #, fuzzy, c-format
 msgid "Reading font file %s"
 msgstr "Lezen van lettertypebestand %s...\n"
 
-#: src/libkfont/setfont.c:496
+#: src/libkfont/setfont.c:499
 #, fuzzy
 msgid "No final newline in combine file"
 msgstr "Geen afsluitend regeleinde in combinatiebestand\n"
 
-#: src/libkfont/setfont.c:502
+#: src/libkfont/setfont.c:505
 #, fuzzy
 msgid "Too many files to combine"
 msgstr "Te veel bestanden om te combineren\n"
 
-#: src/libkfont/setfont.c:530
+#: src/libkfont/setfont.c:533
 #, fuzzy
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr ""
 "Hmm... een lettertype van 'restorefont'?  Alleen eerste helft wordt "
 "gebruikt.\n"
 
-#: src/libkfont/setfont.c:549
+#: src/libkfont/setfont.c:552
 #, fuzzy
 msgid "Bad input file size"
 msgstr "Ongeldige grootte van invoerbestand\n"
 
-#: src/libkfont/setfont.c:577
+#: src/libkfont/setfont.c:580
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1126,23 +1126,23 @@ msgstr ""
 "Dit bestand bevat drie lettertypen: 8x8, 8x14 en 8x16.\n"
 "Geef met optie '-8', '-14' of '-16' aan welke u wilt laden.\n"
 
-#: src/libkfont/setfont.c:594
+#: src/libkfont/setfont.c:597
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "U vroeg om lettergrootte %d, maar alleen 8, 14 en 16 zijn hier mogelijk.\n"
 
-#: src/libkfont/setfont.c:647
+#: src/libkfont/setfont.c:650
 #, fuzzy
 msgid "Found nothing to save"
 msgstr "Niets gevonden om op te slaan\n"
 
-#: src/libkfont/setfont.c:651
+#: src/libkfont/setfont.c:654
 #, fuzzy, c-format
 msgid "Cannot write font file: %m"
 msgstr "Kan lettertypebestand niet schrijven"
 
-#: src/libkfont/setfont.c:656
+#: src/libkfont/setfont.c:659
 #, fuzzy, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Het %d-tekens %dx%d lettertypebestand is opgeslagen als %s\n"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-12-11 13:31+0000\n"
+"POT-Creation-Date: 2024-09-17 12:47+0200\n"
 "PO-Revision-Date: 2023-05-08 22:01+02:00\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -416,7 +416,7 @@ msgid "includes are nested too deeply"
 msgstr "vložení jsou zanořena příliš hluboko"
 
 #: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
-#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:168
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -468,7 +468,7 @@ msgstr "řetězec je příliš dlouhý"
 msgid "octal number too big"
 msgstr "osmičkové číslo je příliš veliké"
 
-#: src/libkeymap/common.c:141
+#: src/libkeymap/common.c:174
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "nelze inicializovat pole: %s"
@@ -863,8 +863,8 @@ msgstr "Mapa Unicode uložena do „%s“"
 msgid "Appended Unicode map"
 msgstr "Připojena mapa Unicode"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
-#: src/libkfont/setfont.c:427 src/libkfont/setfont.c:434 src/loadkeys.c:244
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:314
+#: src/libkfont/setfont.c:430 src/libkfont/setfont.c:437 src/loadkeys.c:244
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Soubor nelze nalézt: %s"
@@ -990,90 +990,90 @@ msgstr "Špatná šířka znaku %d (hranice je 64)"
 msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr "Písmo %d×%d nelze zdvojnásobit (hranice je 32×64)"
 
-#: src/libkfont/setfont.c:141
+#: src/libkfont/setfont.c:144
 msgid "font position 32 is nonblank"
 msgstr "pozice písma 32 je neprázdná"
 
-#: src/libkfont/setfont.c:150
+#: src/libkfont/setfont.c:153
 msgid "wiped it"
 msgstr "vymazáno"
 
-#: src/libkfont/setfont.c:153
+#: src/libkfont/setfont.c:156
 msgid "background will look funny"
 msgstr "pozadí bude vypadat divně"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:164
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Načítá se %d-znakové písmo %d×%d ze souboru %s"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:167
 #, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Načítá se %d-znakové písmo %d×%d"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:170
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Načítá se %d-znakové písmo %d×%d (%d) ze souboru %s"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:173
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Načítá se %d-znakové písmo %d×%d (%d)"
 
-#: src/libkfont/setfont.c:253
+#: src/libkfont/setfont.c:256
 msgid "bug in do_loadtable"
 msgstr "chyba v do_loadtable"
 
-#: src/libkfont/setfont.c:258
+#: src/libkfont/setfont.c:261
 msgid "Loading Unicode mapping table..."
 msgstr "Načítá se mapovací tabulku Unicode…"
 
-#: src/libkfont/setfont.c:324
+#: src/libkfont/setfont.c:327
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr "Při načítání více písem musí všechna být ve formátu psf - %s není"
 
-#: src/libkfont/setfont.c:336
+#: src/libkfont/setfont.c:339
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Načteno %d-znakové písmo %d×%d ze souboru %s"
 
-#: src/libkfont/setfont.c:345
+#: src/libkfont/setfont.c:348
 msgid "When loading several fonts, all must have the same height"
 msgstr "Při načítání více písem musí všechna míst stejnou výšku"
 
-#: src/libkfont/setfont.c:353
+#: src/libkfont/setfont.c:356
 msgid "When loading several fonts, all must have the same width"
 msgstr "Při načítání více písem musí všechna míst stejnou šířku"
 
-#: src/libkfont/setfont.c:419
+#: src/libkfont/setfont.c:422
 msgid "Cannot find default font"
 msgstr "Nelze nalézt výchozí písmo"
 
-#: src/libkfont/setfont.c:441
+#: src/libkfont/setfont.c:444
 #, c-format
 msgid "Reading font file %s"
 msgstr "Čte se soubor s písmem %s"
 
-#: src/libkfont/setfont.c:496
+#: src/libkfont/setfont.c:499
 msgid "No final newline in combine file"
 msgstr "Chybí závěrečný konec řádku v kombinovaném souboru"
 
-#: src/libkfont/setfont.c:502
+#: src/libkfont/setfont.c:505
 msgid "Too many files to combine"
 msgstr "Příliš mnoho souborů pro kombinování"
 
-#: src/libkfont/setfont.c:530
+#: src/libkfont/setfont.c:533
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hmm - písmo z restorefont? Použije se první polovina."
 
-#: src/libkfont/setfont.c:549
+#: src/libkfont/setfont.c:552
 msgid "Bad input file size"
 msgstr "Chybná velikost vstupního souboru"
 
-#: src/libkfont/setfont.c:577
+#: src/libkfont/setfont.c:580
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1082,21 +1082,21 @@ msgstr ""
 "Tento soubor obsahuje tři písma: 8×8, 8×14 a 8×16. Naznačte prosím\n"
 "pomocí přepínače -8 nebo -14 nebo -16, které chcete načíst.\n"
 
-#: src/libkfont/setfont.c:594
+#: src/libkfont/setfont.c:597
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Požádali jste o velikost písma %d, ale tady je možné jen 8, 14, 16.\n"
 
-#: src/libkfont/setfont.c:647
+#: src/libkfont/setfont.c:650
 msgid "Found nothing to save"
 msgstr "Nenalezeno nic k uložení"
 
-#: src/libkfont/setfont.c:651
+#: src/libkfont/setfont.c:654
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "Nelze zapsat soubor písma: %m"
 
-#: src/libkfont/setfont.c:656
+#: src/libkfont/setfont.c:659
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Uložen %d-znakový soubor písma %d×%d do %s"

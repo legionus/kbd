@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-12-11 13:31+0000\n"
+"POT-Creation-Date: 2024-09-17 12:47+0200\n"
 "PO-Revision-Date: 2023-05-08 09:26-0600\n"
 "Last-Translator: Cristian Othón Martínez Vera <cfuga@cfuga.mx>\n"
 "Language-Team: Spanish <es@tp.org.es>\n"
@@ -425,7 +425,7 @@ msgid "includes are nested too deeply"
 msgstr "los incluídos están anidados muy profundamente"
 
 #: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
-#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:168
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -477,7 +477,7 @@ msgstr "cadena demasiado larga"
 msgid "octal number too big"
 msgstr "número octal demasiado grande"
 
-#: src/libkeymap/common.c:141
+#: src/libkeymap/common.c:174
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "no se pudo inicializar la matriz: %s"
@@ -867,8 +867,8 @@ msgstr "Se ha guardado la tabla asociativa unicode en `%s'"
 msgid "Appended Unicode map"
 msgstr "Se ha añadido una tabla asociativa Unicode"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
-#: src/libkfont/setfont.c:427 src/libkfont/setfont.c:434 src/loadkeys.c:244
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:314
+#: src/libkfont/setfont.c:430 src/libkfont/setfont.c:437 src/loadkeys.c:244
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "No se pudo abrir el fichero: %s"
@@ -996,92 +996,92 @@ msgstr "Anchura de carácter %d incorrecta (el límite es 64)"
 msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr "No se puede duplicar el tipo de letra %dx%d (el límite es 32x64)"
 
-#: src/libkfont/setfont.c:141
+#: src/libkfont/setfont.c:144
 msgid "font position 32 is nonblank"
 msgstr "la posición 32 en el tipo no es un blanco"
 
-#: src/libkfont/setfont.c:150
+#: src/libkfont/setfont.c:153
 msgid "wiped it"
 msgstr "eliminado"
 
-#: src/libkfont/setfont.c:153
+#: src/libkfont/setfont.c:156
 msgid "background will look funny"
 msgstr "el fondo va a tener un aspecto extraño"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:164
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Cargando el tipo %2$dx%3$d de %1$d caract. desde el fichero %4$s"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:167
 #, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Cargando el tipo %2$dx%3$d de %1$d caract."
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:170
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr ""
 "Cargando el tipo %2$dx%3$d (%4$d) de %1$d caract. desde el fichero %5$s"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:173
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Cargando el tipo %2$dx%3$d de %1$d caract. (%4$d)"
 
-#: src/libkfont/setfont.c:253
+#: src/libkfont/setfont.c:256
 msgid "bug in do_loadtable"
 msgstr "error en do_loadtable()"
 
-#: src/libkfont/setfont.c:258
+#: src/libkfont/setfont.c:261
 msgid "Loading Unicode mapping table..."
 msgstr "Cargando la tabla asociativa Unicode..."
 
-#: src/libkfont/setfont.c:324
+#: src/libkfont/setfont.c:327
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
 "Cuando se cargan varios tipos, todos deben ser ficheros psf - %s no lo es"
 
-#: src/libkfont/setfont.c:336
+#: src/libkfont/setfont.c:339
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Leer el tipo %2$dx%3$d de %1$d caract. a partir del fichero %4$s"
 
-#: src/libkfont/setfont.c:345
+#: src/libkfont/setfont.c:348
 msgid "When loading several fonts, all must have the same height"
 msgstr "Cuando se cargan varios tipos, todos deben tener la misma altura"
 
-#: src/libkfont/setfont.c:353
+#: src/libkfont/setfont.c:356
 msgid "When loading several fonts, all must have the same width"
 msgstr "Cuando se cargan varios tipos, todos deben tener la misma anchura"
 
-#: src/libkfont/setfont.c:419
+#: src/libkfont/setfont.c:422
 msgid "Cannot find default font"
 msgstr "No se encontró el tipo predefinido"
 
-#: src/libkfont/setfont.c:441
+#: src/libkfont/setfont.c:444
 #, c-format
 msgid "Reading font file %s"
 msgstr "Leyendo el fichero de tipo de letra %s"
 
-#: src/libkfont/setfont.c:496
+#: src/libkfont/setfont.c:499
 msgid "No final newline in combine file"
 msgstr "Falta Nueva Línea final en el fichero combinado"
 
-#: src/libkfont/setfont.c:502
+#: src/libkfont/setfont.c:505
 msgid "Too many files to combine"
 msgstr "Demasiados ficheros que combinar"
 
-#: src/libkfont/setfont.c:530
+#: src/libkfont/setfont.c:533
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hmm - ¿un tipo derivado de un restorefont? Usaremos la primera mitad."
 
-#: src/libkfont/setfont.c:549
+#: src/libkfont/setfont.c:552
 msgid "Bad input file size"
 msgstr "Tamaño de fichero de entrada incorrecto"
 
-#: src/libkfont/setfont.c:577
+#: src/libkfont/setfont.c:580
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1090,21 +1090,21 @@ msgstr ""
 "Este fichero contiene tres tipos: 8x8, 8x14 y 8x16. Por favor indique\n"
 "cuál quiere cargar mediante una opción -8, -14 ó -16.\n"
 
-#: src/libkfont/setfont.c:594
+#: src/libkfont/setfont.c:597
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Ha pedido un tipo de %d puntos, pero sólo son posibles 8, 14 ó 16.\n"
 
-#: src/libkfont/setfont.c:647
+#: src/libkfont/setfont.c:650
 msgid "Found nothing to save"
 msgstr "No se encontró nada que guardar"
 
-#: src/libkfont/setfont.c:651
+#: src/libkfont/setfont.c:654
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "No se pudo escribir el fichero de tipo de letra: %m"
 
-#: src/libkfont/setfont.c:656
+#: src/libkfont/setfont.c:659
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Se guardó el fichero de tipo %2$dx%3$d de %1$d caracteres en %4$s"

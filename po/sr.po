@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-12-11 13:31+0000\n"
+"POT-Creation-Date: 2024-09-17 12:47+0200\n"
 "PO-Revision-Date: 2023-05-18 13:11+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
@@ -416,7 +416,7 @@ msgid "includes are nested too deeply"
 msgstr "укључења су угнеждена превише дубоко"
 
 #: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
-#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:168
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -468,7 +468,7 @@ msgstr "ниска је предуга"
 msgid "octal number too big"
 msgstr "октални број је превелик"
 
-#: src/libkeymap/common.c:141
+#: src/libkeymap/common.c:174
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "не могу да покренем низ: %s"
@@ -861,8 +861,8 @@ msgstr "Сачувао сам јуникод мапу у „%s“"
 msgid "Appended Unicode map"
 msgstr "Приложена Јуникод мапа"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
-#: src/libkfont/setfont.c:427 src/libkfont/setfont.c:434 src/loadkeys.c:244
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:314
+#: src/libkfont/setfont.c:430 src/libkfont/setfont.c:437 src/loadkeys.c:244
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Не могу да нађем датотеку: %s"
@@ -988,94 +988,94 @@ msgstr "Лоша ширина знака %d (ограничење је 128)"
 msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr "Не могу да удвостручим %dx%d словни лик (ограничење је 32x64)"
 
-#: src/libkfont/setfont.c:141
+#: src/libkfont/setfont.c:144
 msgid "font position 32 is nonblank"
 msgstr "положај словног лика 32 није празан"
 
-#: src/libkfont/setfont.c:150
+#: src/libkfont/setfont.c:153
 msgid "wiped it"
 msgstr "очистио сам га"
 
-#: src/libkfont/setfont.c:153
+#: src/libkfont/setfont.c:156
 msgid "background will look funny"
 msgstr "позадина ће изгледати смешно"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:164
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Учитавам %d-знак %dx%d словног лика из датотеке „%s“"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:167
 #, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Учитавам %d-знак %dx%d словног лика"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:170
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Учитавам %d-знак %dx%d (%d) словног лика из датотеке „%s“"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:173
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Учитавам %d-знак %dx%d (%d) словног лика"
 
-#: src/libkfont/setfont.c:253
+#: src/libkfont/setfont.c:256
 msgid "bug in do_loadtable"
 msgstr "грешка у „do_loadtable“"
 
-#: src/libkfont/setfont.c:258
+#: src/libkfont/setfont.c:261
 msgid "Loading Unicode mapping table..."
 msgstr "Учитавам табелу Јуникод мапирања..."
 
-#: src/libkfont/setfont.c:324
+#: src/libkfont/setfont.c:327
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
 "Приликом учитавања неколико словних ликова, сви морају бити псф словни "
 "ликови — „%s“ то није"
 
-#: src/libkfont/setfont.c:336
+#: src/libkfont/setfont.c:339
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Читам %d-знак %dx%d словног лика из датотеке „%s“"
 
-#: src/libkfont/setfont.c:345
+#: src/libkfont/setfont.c:348
 msgid "When loading several fonts, all must have the same height"
 msgstr ""
 "Приликом учитавања неколико словних ликова, сви морају имати исту висину"
 
-#: src/libkfont/setfont.c:353
+#: src/libkfont/setfont.c:356
 msgid "When loading several fonts, all must have the same width"
 msgstr ""
 "Приликом учитавања неколико словних ликова, сви морају имати исту ширину"
 
-#: src/libkfont/setfont.c:419
+#: src/libkfont/setfont.c:422
 msgid "Cannot find default font"
 msgstr "Не могу да нађем основни словни лик"
 
-#: src/libkfont/setfont.c:441
+#: src/libkfont/setfont.c:444
 #, c-format
 msgid "Reading font file %s"
 msgstr "Читам датотеку словног лика „%s“"
 
-#: src/libkfont/setfont.c:496
+#: src/libkfont/setfont.c:499
 msgid "No final newline in combine file"
 msgstr "Нема крајњег новог реда у датотеци обједињавања"
 
-#: src/libkfont/setfont.c:502
+#: src/libkfont/setfont.c:505
 msgid "Too many files to combine"
 msgstr "Превише датотека за комбиновање"
 
-#: src/libkfont/setfont.c:530
+#: src/libkfont/setfont.c:533
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Хмм — словни лик из „поврати_словни_лик“? Користим прву половину."
 
-#: src/libkfont/setfont.c:549
+#: src/libkfont/setfont.c:552
 msgid "Bad input file size"
 msgstr "Лоша величина улазне датотеке"
 
-#: src/libkfont/setfont.c:577
+#: src/libkfont/setfont.c:580
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1084,22 +1084,22 @@ msgstr ""
 "Ова датотека садржи 3 словна лика: 8x8, 8x14 и 8x16. Назначите\n"
 "користећи опцију -8 или -14 или -16 који од њих желите да учитате.\n"
 
-#: src/libkfont/setfont.c:594
+#: src/libkfont/setfont.c:597
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Затражили сте величину словног лика %d, али су само 8, 14, 16 овде могући.\n"
 
-#: src/libkfont/setfont.c:647
+#: src/libkfont/setfont.c:650
 msgid "Found nothing to save"
 msgstr "Нисам нашао ништа за чување"
 
-#: src/libkfont/setfont.c:651
+#: src/libkfont/setfont.c:654
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "Не могу да запишем датотеку словног лика: %m"
 
-#: src/libkfont/setfont.c:656
+#: src/libkfont/setfont.c:659
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Сачувах %d-знак %dx%d словног лика из датотеке на „%s“"

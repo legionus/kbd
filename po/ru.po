@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2023-12-11 13:31+0000\n"
+"POT-Creation-Date: 2024-09-17 12:47+0200\n"
 "PO-Revision-Date: 2023-05-20 11:36+0300\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <gnu@d07.ru>\n"
@@ -420,7 +420,7 @@ msgid "includes are nested too deeply"
 msgstr "включения вложены одно в другое слишком глубоко"
 
 #: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
-#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:135
+#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:168
 #: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
 #: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
 #: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
@@ -472,7 +472,7 @@ msgstr "слишком длинная строка"
 msgid "octal number too big"
 msgstr "слишком большое восьмеричное число"
 
-#: src/libkeymap/common.c:141
+#: src/libkeymap/common.c:174
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "не удалось инициализировать массив: %s"
@@ -869,8 +869,8 @@ msgstr "Юникодная карта записана в «%s»"
 msgid "Appended Unicode map"
 msgstr "Юникодная карта добавлена"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:311
-#: src/libkfont/setfont.c:427 src/libkfont/setfont.c:434 src/loadkeys.c:244
+#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:314
+#: src/libkfont/setfont.c:430 src/libkfont/setfont.c:437 src/loadkeys.c:244
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Невозможно найти файл: %s"
@@ -997,92 +997,92 @@ msgstr "Некорректная ширина символа %d (максиму�
 msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr "Невозможно удвоить шрифт %dx%d (максимум 32x64)"
 
-#: src/libkfont/setfont.c:141
+#: src/libkfont/setfont.c:144
 msgid "font position 32 is nonblank"
 msgstr "позиция 32 в шрифте не пробельная"
 
-#: src/libkfont/setfont.c:150
+#: src/libkfont/setfont.c:153
 msgid "wiped it"
 msgstr "стереть его"
 
-#: src/libkfont/setfont.c:153
+#: src/libkfont/setfont.c:156
 msgid "background will look funny"
 msgstr "фон будет выглядеть забавно"
 
-#: src/libkfont/setfont.c:161
+#: src/libkfont/setfont.c:164
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Загружается %d-символ шрифта %dx%d из файла %s"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:167
 #, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Загружается %d-символ шрифта %dx%d"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:170
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Загружается %d-символ шрифта %dx%d (%d) из файла %s"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:173
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Загружается %d-символ шрифта %dx%d (%d)"
 
-#: src/libkfont/setfont.c:253
+#: src/libkfont/setfont.c:256
 msgid "bug in do_loadtable"
 msgstr "дефект в do_loadtable"
 
-#: src/libkfont/setfont.c:258
+#: src/libkfont/setfont.c:261
 msgid "Loading Unicode mapping table..."
 msgstr "Загружается юникодная таблица отображения…"
 
-#: src/libkfont/setfont.c:324
+#: src/libkfont/setfont.c:327
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
 "При загрузке нескольких шрифтов все должны быть в формате psf: %s таковым не "
 "является"
 
-#: src/libkfont/setfont.c:336
+#: src/libkfont/setfont.c:339
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Читается %d-символ шрифта %dx%d из файла %s"
 
-#: src/libkfont/setfont.c:345
+#: src/libkfont/setfont.c:348
 msgid "When loading several fonts, all must have the same height"
 msgstr "При загрузке нескольких шрифтов все должны быть одинаковой высоты"
 
-#: src/libkfont/setfont.c:353
+#: src/libkfont/setfont.c:356
 msgid "When loading several fonts, all must have the same width"
 msgstr "При загрузке нескольких шрифтов все должны быть одинаковой ширины"
 
-#: src/libkfont/setfont.c:419
+#: src/libkfont/setfont.c:422
 msgid "Cannot find default font"
 msgstr "Не удалось найти шрифт по умолчанию"
 
-#: src/libkfont/setfont.c:441
+#: src/libkfont/setfont.c:444
 #, c-format
 msgid "Reading font file %s"
 msgstr "Читается файл шрифта %s"
 
-#: src/libkfont/setfont.c:496
+#: src/libkfont/setfont.c:499
 msgid "No final newline in combine file"
 msgstr "Отсутствует завершающий символ новой строки в объединённом файле"
 
-#: src/libkfont/setfont.c:502
+#: src/libkfont/setfont.c:505
 msgid "Too many files to combine"
 msgstr "Слишком много объединяемых файлов"
 
-#: src/libkfont/setfont.c:530
+#: src/libkfont/setfont.c:533
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Хм. Шрифт из restorefont? Используется первая половина."
 
-#: src/libkfont/setfont.c:549
+#: src/libkfont/setfont.c:552
 msgid "Bad input file size"
 msgstr "Некорректный размер входного файла"
 
-#: src/libkfont/setfont.c:577
+#: src/libkfont/setfont.c:580
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1092,21 +1092,21 @@ msgstr ""
 "Укажите, одним из параметров: -8, -14 или -16,\n"
 "какой именно нужно загрузить.\n"
 
-#: src/libkfont/setfont.c:594
+#: src/libkfont/setfont.c:597
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr "Вы просили шрифт размера %d, но возможны только 8, 14 или 16.\n"
 
-#: src/libkfont/setfont.c:647
+#: src/libkfont/setfont.c:650
 msgid "Found nothing to save"
 msgstr "Не найдено что записывать"
 
-#: src/libkfont/setfont.c:651
+#: src/libkfont/setfont.c:654
 #, c-format
 msgid "Cannot write font file: %m"
 msgstr "Не удалось записать файл шрифта: %m"
 
-#: src/libkfont/setfont.c:656
+#: src/libkfont/setfont.c:659
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Записывается %d-символ шрифта %dx%d файла в %s"
