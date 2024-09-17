@@ -177,7 +177,7 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 	i--;
 	pathname = kbdfile_get_pathname(ctx->stack[i]);
 
-	if (rc = kbdfile_find(s, include_dirpath1, include_suffixes, fp)) {
+	if ((rc = kbdfile_find(s, include_dirpath1, include_suffixes, fp))) {
 		if ((rc = find_incl_file_near_fn(ctx, s, pathname, fp)) == -1)
 			return rc;
 	}
