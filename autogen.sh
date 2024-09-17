@@ -79,7 +79,7 @@ execute()
 }
 
 register autopoint  "${AUTOPOINT:-autopoint}"   '' '' $OPT -f
-register libtoolize "${LIBTOOLIZE:-libtoolize}" '' '' $OPT --install --copy --automake
+register libtoolize "${LIBTOOLIZE:-libtoolize}" '' '' $OPT --install --copy --automake --force
 register aclocal    "${ACLOCAL:-aclocal}"       '' '' $OPT -I m4
 register autoconf   "${AUTOCONF:-autoconf}"     '' '' $OPT -I m4
 register autoheader "${AUTOHEADER:-autoheader}" '' '' $OPT -I m4
