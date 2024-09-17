@@ -272,7 +272,7 @@ int main(int argc, char *argv[])
 	/* show scancodes */
 	if (!show_keycodes) {
 		while (1) {
-			alarm(timeout);
+			alarm((unsigned int) timeout);
 			n = read(fd, buf, sizeof(buf));
 			for (i = 0; i < n; i++)
 				printf("0x%02x ", buf[i]);
@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
 
 	/* show keycodes - 2.6 allows 3-byte reports */
 	while (1) {
-		alarm(timeout);
+		alarm((unsigned int) timeout);
 		n = read(fd, buf, sizeof(buf));
 		i = 0;
 		while (i < n) {
