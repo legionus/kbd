@@ -11,7 +11,7 @@ main(int __attribute__((unused)) argc, char **argv)
 {
 	set_progname(argv[0]);
 
-	unsigned int i = 0;
+	int i = 0;
 	FILE *f = NULL;
 	struct kbdfile *fp = NULL;
 	struct kbdfile_ctx *kbdfile_ctx;

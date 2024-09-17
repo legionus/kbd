@@ -11,7 +11,7 @@ main(int __attribute__((unused)) argc, char **argv)
 {
 	set_progname(argv[0]);
 
-	unsigned int i;
+	int i;
 	char str[] = "qwertyuiopasdfghjklzxcvbnm";
 	FILE *f = NULL;
 	struct kbdfile *fp = NULL;
