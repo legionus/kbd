@@ -7,8 +7,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/libcommon \
 	-I$(top_srcdir)/src/libkbdfile \
-	-DDATADIR=\"$(datadir)\" \
-	-funit-at-a-time
+	-DDATADIR=\"$(datadir)\"
 
 AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 

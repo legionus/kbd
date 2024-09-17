@@ -3,8 +3,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
 	-I$(srcdir)/../libcommon -I$(builddir)/../libcommon \
 	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
-	-U_GNU_SOURCE \
-	-funit-at-a-time
+	-U_GNU_SOURCE
 
 AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 LDADD = \

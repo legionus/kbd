@@ -5,8 +5,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/libkeymap/keymap \
 	-I$(top_srcdir)/src/libkbdfile \
 	-I$(top_srcdir)/src/libkfont \
-	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
-	-funit-at-a-time
+	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
 
 AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 
