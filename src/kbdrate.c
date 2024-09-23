@@ -308,11 +308,11 @@ ioport_set(double rate, int delay, int silent)
 }
 
 #ifdef __sparc__
-double rate = 5.0; /* Default rate */
-int delay   = 200; /* Default delay */
+static double rate = 5.0; /* Default rate */
+static int delay   = 200; /* Default delay */
 #else
-double rate = 10.9; /* Default rate */
-int delay   = 250; /* Default delay */
+static double rate = 10.9; /* Default rate */
+static int delay   = 250; /* Default delay */
 #endif
 
 static void __attribute__((noreturn))

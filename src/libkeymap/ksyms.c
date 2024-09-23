@@ -36,7 +36,7 @@
 		x, sizeof(x) / sizeof(x[0]) \
 	}
 
-const syms_entry syms[] = {
+static const syms_entry syms[] = {
 	E(iso646_syms), /* KT_LATIN */
 	E(fn_syms),     /* KT_FN */
 	E(spec_syms),   /* KT_SPEC */
@@ -59,7 +59,7 @@ const syms_entry syms[] = {
 const int syms_size = sizeof(syms) / sizeof(syms_entry);
 const int syn_size  = sizeof(synonyms) / sizeof(synonyms[0]);
 
-const struct cs {
+static const struct cs {
 	const char *charset;
 	const sym *charnames;
 	const unsigned short start;

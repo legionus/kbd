@@ -102,12 +102,12 @@ static int vga_get_fontheight(void);
 static void vga_set_cursor(int, int);
 static void vga_set_verticaldisplayend_lowbyte(int);
 
-const char *const dirpath[]  = {
+static const char *const dirpath[]  = {
 	"",
 	DATADIR "/" VIDEOMODEDIR "/",
 	NULL
 };
-char const *const suffixes[] = {
+static char const *const suffixes[] = {
 	"",
 	NULL
 };

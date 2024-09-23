@@ -16,11 +16,9 @@
 
 #include "libcommon.h"
 
-int tmp; /* for debugging */
-
-int fd;
-int oldkbmode;
-struct termios old;
+static int fd;
+static int oldkbmode;
+static struct termios old;
 
 /*
  * version 0.81 of showkey would restore kbmode unconditially to XLATE,

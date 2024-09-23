@@ -17,7 +17,7 @@ static unsigned char cmap[3 * 16];
 /* Standard VGA terminal colors, matching those hardcoded in the Linux kernel's
  * drivers/char/vt.c
  */
-unsigned char vga_colors[] = {
+static unsigned char vga_colors[] = {
 	0x00, 0x00, 0x00,
 	0xaa, 0x00, 0x00,
 	0x00, 0xaa, 0x00,

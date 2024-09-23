@@ -101,7 +101,7 @@ report(int leds)
 	       onoff(leds & LED_SCR));
 }
 
-struct led {
+static struct led {
 	const char *name;
 	unsigned char bit;
 	unsigned char sunbit;

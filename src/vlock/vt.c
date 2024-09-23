@@ -37,7 +37,7 @@
 #include "libcommon.h"
 
 /* Saved VT mode. */
-struct vt_mode ovtm;
+static struct vt_mode ovtm;
 
 /* VT descriptor. */
 static int vfd = -1;

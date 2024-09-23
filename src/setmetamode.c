@@ -77,7 +77,7 @@ report(unsigned int meta)
 	printf("%s\n", s);
 }
 
-struct meta {
+static struct meta {
 	const char *name;
 	unsigned int val;
 } metas[] = {

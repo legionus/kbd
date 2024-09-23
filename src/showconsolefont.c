@@ -22,11 +22,11 @@
  * whether we are in utf8 mode.
  */
 
-unsigned short obuf[E_TABSZ], nbuf[E_TABSZ];
-struct unimapdesc ounimap, nunimap;
-int fd           = 0;
-int have_obuf    = 0;
-int have_ounimap = 0;
+static unsigned short obuf[E_TABSZ], nbuf[E_TABSZ];
+static struct unimapdesc ounimap, nunimap;
+static int fd           = 0;
+static int have_obuf    = 0;
+static int have_ounimap = 0;
 
 static void __attribute__((noreturn))
 leave(struct kfont_context *ctx, int n)
