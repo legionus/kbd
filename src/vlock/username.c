@@ -39,7 +39,7 @@ const char *
 get_username(void)
 {
 	const char *name;
-	struct passwd *pw = 0;
+	struct passwd *pw = NULL;
 	uid_t uid         = getuid();
 
 	char *logname = getenv("LOGNAME");
@@ -48,7 +48,7 @@ get_username(void)
 		pw = getpwnam(logname);
 		/* Ensure uid is same as current. */
 		if (pw && pw->pw_uid != uid)
-			pw = 0;
+			pw = NULL;
 	}
 	if (!pw)
 		pw = getpwuid(uid);

@@ -150,7 +150,7 @@ kfont_get_unicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 	unsigned int ct;
 
 	ud.entry_ct = 0;
-	ud.entries  = 0;
+	ud.entries  = NULL;
 	if (ioctl(fd, GIO_UNIMAP, &ud)) {
 		if (errno != ENOMEM || ud.entry_ct == 0) {
 			KFONT_ERR(ctx, "ioctl(GIO_UNIMAP): %m");

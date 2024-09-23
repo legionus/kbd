@@ -91,7 +91,7 @@ strings_as_usual(struct lk_ctx *ctx)
 		/* Find,    Insert,     Remove,     Select,     Prior */
 		"\033[1~",  "\033[2~",  "\033[3~",  "\033[4~",  "\033[5~",
 		/* Next,    Macro,      Help,       Do,         Pause */
-		"\033[6~",  0,          0,          0,          0
+		"\033[6~",  NULL,       NULL,       NULL,       NULL
 	};
 	unsigned char i;
 
@@ -223,7 +223,7 @@ usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
 			}
 		  | COMPOSE AS USUAL EOL
 			{
-				if (compose_as_usual(ctx, 0) == -1)
+				if (compose_as_usual(ctx, NULL) == -1)
 					YYERROR;
 			}
 		;

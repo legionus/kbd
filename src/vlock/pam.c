@@ -40,7 +40,7 @@ static struct pam_conv conv = {
 pam_handle_t *
 init_pam(const char *username, const char *tty, int log)
 {
-	pam_handle_t *pamh = 0;
+	pam_handle_t *pamh = NULL;
 	int rc             = pam_start("vlock", username, &conv, &pamh);
 
 	if (rc != PAM_SUCCESS) {
@@ -49,7 +49,7 @@ init_pam(const char *username, const char *tty, int log)
 			syslog(LOG_WARNING, "pam_start failed: %m");
 		else
 			kbd_warning(errno, "pam_start");
-		return 0;
+		return NULL;
 	}
 
 	rc = pam_set_item(pamh, PAM_TTY, tty);
@@ -61,7 +61,7 @@ init_pam(const char *username, const char *tty, int log)
 			kbd_warning(0, "pam_set_item: %s",
 			            pam_strerror(pamh, rc));
 		pam_end(pamh, rc);
-		return 0;
+		return NULL;
 	}
 
 	return pamh;

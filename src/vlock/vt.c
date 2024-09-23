@@ -86,36 +86,36 @@ mask_signals(void)
 	if (o_lock_all) {
 		/* handle SIGUSR{1,2}... */
 		sa.sa_handler = release_vt;
-		sigaction(SIGUSR1, &sa, 0);
+		sigaction(SIGUSR1, &sa, NULL);
 		sa.sa_handler = acquire_vt;
-		sigaction(SIGUSR2, &sa, 0);
+		sigaction(SIGUSR2, &sa, NULL);
 
 		/* ... and ensure they are unblocked. */
 		sigemptyset(&sig);
 		sigaddset(&sig, SIGUSR1);
 		sigaddset(&sig, SIGUSR2);
-		sigprocmask(SIG_UNBLOCK, &sig, 0);
+		sigprocmask(SIG_UNBLOCK, &sig, NULL);
 	}
 
 	/* Ignore all the rest. */
 	sa.sa_handler = SIG_IGN;
 	if (!o_lock_all) {
-		sigaction(SIGUSR1, &sa, 0);
-		sigaction(SIGUSR2, &sa, 0);
+		sigaction(SIGUSR1, &sa, NULL);
+		sigaction(SIGUSR2, &sa, NULL);
 	}
-	sigaction(SIGHUP, &sa, 0);
-	sigaction(SIGINT, &sa, 0);
-	sigaction(SIGQUIT, &sa, 0);
-	sigaction(SIGPIPE, &sa, 0);
-	sigaction(SIGALRM, &sa, 0);
-	sigaction(SIGTERM, &sa, 0);
-	sigaction(SIGTSTP, &sa, 0);
-	sigaction(SIGTTIN, &sa, 0);
-	sigaction(SIGTTOU, &sa, 0);
-	sigaction(SIGURG, &sa, 0);
-	sigaction(SIGVTALRM, &sa, 0);
-	sigaction(SIGIO, &sa, 0);
-	sigaction(SIGPWR, &sa, 0);
+	sigaction(SIGHUP, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGPIPE, &sa, NULL);
+	sigaction(SIGALRM, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
+	sigaction(SIGTSTP, &sa, NULL);
+	sigaction(SIGTTIN, &sa, NULL);
+	sigaction(SIGTTOU, &sa, NULL);
+	sigaction(SIGURG, &sa, NULL);
+	sigaction(SIGVTALRM, &sa, NULL);
+	sigaction(SIGIO, &sa, NULL);
+	sigaction(SIGPWR, &sa, NULL);
 
 	/*
 	 * Also block SIGCHLD.
@@ -123,7 +123,7 @@ mask_signals(void)
 	 */
 	sigemptyset(&sig);
 	sigaddset(&sig, SIGCHLD);
-	sigprocmask(SIG_BLOCK, &sig, 0);
+	sigprocmask(SIG_BLOCK, &sig, NULL);
 }
 
 int init_vt(const char *tty)

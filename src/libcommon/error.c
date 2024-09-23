@@ -8,8 +8,6 @@
 
 #include "libcommon.h"
 
-extern const char *progname;
-
 void
 kbd_warning(const int errnum, const char *fmt, ...)
 {

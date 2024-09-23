@@ -93,7 +93,7 @@ getunicode(struct kfont_context *ctx, char **p0, unsigned short *res)
 		return -1;
 	*p0 = p + 6;
 
-	return str_to_ushort(ctx, p + 2, 0, 16, res);
+	return str_to_ushort(ctx, p + 2, NULL, 16, res);
 }
 
 static int

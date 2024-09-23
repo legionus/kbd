@@ -50,11 +50,11 @@ static const char *const unisuffixes[] = {
 };
 
 /* hide partial fonts a bit - loading a single one is a bad idea */
-const char *const partfontdirpath[]  = {
+static const char *const partfontdirpath[]  = {
 	DATADIR "/" FONTDIR "/" PARTIALDIR "/",
 	NULL
 };
-char const *const partfontsuffixes[] = {
+static char const *const partfontsuffixes[] = {
 	"",
 	NULL
 };

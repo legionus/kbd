@@ -31,7 +31,7 @@
 #include "vlock.h"
 
 static unsigned char lines, columns;
-static void *screen_buf = 0;
+static void *screen_buf = NULL;
 static int vcs          = -1;
 
 void init_screen(void)

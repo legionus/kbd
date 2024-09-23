@@ -111,7 +111,7 @@ int get_password(pam_handle_t *pamh, const char *username, const char *tty)
 					       pam_strerror(pamh, rc));
 					fflush(stdout);
 					pam_end(pamh, rc);
-					pamh = 0;
+					pamh = NULL;
 					sleep(SHORT_DELAY);
 					break;
 				}
@@ -130,9 +130,9 @@ int get_password(pam_handle_t *pamh, const char *username, const char *tty)
 				syslog(LOG_WARNING, "%s", msg);
 				printf("%s.\n\n\n", msg);
 				fflush(stdout);
-				msg = 0;
+				msg = NULL;
 				pam_end(pamh, rc);
-				pamh = 0;
+				pamh = NULL;
 				sleep(LONG_DELAY);
 				break;
 

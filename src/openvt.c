@@ -266,17 +266,17 @@ int main(int argc, char *argv[])
 	setuplocale();
 
 	struct option long_options[] = {
-		{ "help", no_argument, 0, 'h' },
-		{ "version", no_argument, 0, 'V' },
-		{ "verbose", no_argument, 0, 'v' },
-		{ "exec", no_argument, 0, 'e' },
-		{ "force", no_argument, 0, 'f' },
-		{ "login", no_argument, 0, 'l' },
-		{ "user", no_argument, 0, 'u' },
-		{ "switch", no_argument, 0, 's' },
-		{ "wait", no_argument, 0, 'w' },
-		{ "console", required_argument, 0, 'c' },
-		{ 0, 0, 0, 0 }
+		{ "help", no_argument, NULL, 'h' },
+		{ "version", no_argument, NULL, 'V' },
+		{ "verbose", no_argument, NULL, 'v' },
+		{ "exec", no_argument, NULL, 'e' },
+		{ "force", no_argument, NULL, 'f' },
+		{ "login", no_argument, NULL, 'l' },
+		{ "user", no_argument, NULL, 'u' },
+		{ "switch", no_argument, NULL, 's' },
+		{ "wait", no_argument, NULL, 'w' },
+		{ "console", required_argument, NULL, 'c' },
+		{ NULL, 0, NULL, 0 }
 	};
 
 	const struct kbd_help opthelp[] = {

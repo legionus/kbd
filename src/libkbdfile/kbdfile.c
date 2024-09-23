@@ -24,7 +24,7 @@ static struct decompressor {
 	{ ".bz2", "bzip2 -d -c"   },
 	{ ".xz",  "xz -d -c"      },
 	{ ".zst", "zstd -d -q -c" },
-	{ 0, 0 }
+	{ NULL, NULL }
 };
 
 struct kbdfile *
@@ -174,7 +174,7 @@ findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfi
 	fnam_len = strlen(fnam);
 
 	for (i = 0; suffixes[i]; i++) {
-		if (suffixes[i] == 0)
+		if (suffixes[i] == NULL)
 			continue; /* we tried it already */
 
 		sp_len = strlen(suffixes[i]);

@@ -45,12 +45,12 @@ const syms_entry syms[] = {
 	E(cons_syms),   /* KT_CONS */
 	E(cur_syms),    /* KT_CUR */
 	E(shift_syms),  /* KT_SHIFT */
-	{ 0, 0 },       /* KT_META */
+	{ NULL, 0 },    /* KT_META */
 	E(ascii_syms),  /* KT_ASCII */
 	E(lock_syms),   /* KT_LOCK */
-	{ 0, 0 },       /* KT_LETTER */
+	{ NULL, 0 },    /* KT_LETTER */
 	E(sticky_syms), /* KT_SLOCK */
-	{ 0, 0 },       /*  */
+	{ NULL, 0 },    /*  */
 	E(brl_syms)     /* KT_BRL */
 };
 
