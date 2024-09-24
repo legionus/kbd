@@ -52,6 +52,9 @@ void
 __attribute__((noreturn))
 print_version_and_exit(void);
 
+void print_options(const struct kbd_help *options);
+void print_report_bugs(void);
+
 // error.c
 void
 __attribute__((format(printf, 2, 3)))

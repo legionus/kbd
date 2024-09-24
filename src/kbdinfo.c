@@ -18,8 +18,6 @@ static const char *value  = NULL;
 static void __attribute__((noreturn))
 usage(int rc, const struct kbd_help *options)
 {
-	const struct kbd_help *h;
-
 	fprintf(stderr,
 			_("Usage: %1$s [option...] getmode [text|graphics]\n"
 			  "   or: %1$s [option...] gkbmode [raw|xlate|mediumraw|unicode]\n"
@@ -31,27 +29,8 @@ usage(int rc, const struct kbd_help *options)
 				"The utility allows to read and check various parameters\n"
 				"of the keyboard and virtual console.\n"));
 
-	if (options) {
-		int max = 0;
-
-		fprintf(stderr, "\n");
-		fprintf(stderr, _("Options:"));
-		fprintf(stderr, "\n");
-
-		for (h = options; h && h->opts; h++) {
-			int len = (int) strlen(h->opts);
-			if (max < len)
-				max = len;
-		}
-		max += 2;
-
-		for (h = options; h && h->opts; h++)
-			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
-	}
-
-	fprintf(stderr, "\n");
-	fprintf(stderr, _("Report bugs to authors.\n"));
-	fprintf(stderr, "\n");
+	print_options(options);
+	print_report_bugs();
 
 	exit(rc);
 }

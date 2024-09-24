@@ -28,7 +28,6 @@
 static void __attribute__((noreturn))
 usage(int rc, const struct kbd_help *options)
 {
-	const struct kbd_help *h;
 	fprintf(stderr, _("Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"),
 			get_progname(),
 #ifdef __sparc__
@@ -49,27 +48,8 @@ usage(int rc, const struct kbd_help *options)
 	                  "With -D, setleds sets both the flags and the default flags, so\n"
 	                  "that a subsequent reset will not change the flags.\n"));
 
-	if (options) {
-		int max = 0;
-
-		fprintf(stderr, "\n");
-		fprintf(stderr, _("Options:"));
-		fprintf(stderr, "\n");
-
-		for (h = options; h && h->opts; h++) {
-			int len = (int) strlen(h->opts);
-			if (max < len)
-				max = len;
-		}
-		max += 2;
-
-		for (h = options; h && h->opts; h++)
-			fprintf(stderr, "  %-*s %s\n", max, h->opts, h->desc);
-	}
-
-	fprintf(stderr, "\n");
-	fprintf(stderr, _("Report bugs to authors.\n"));
-	fprintf(stderr, "\n");
+	print_options(options);
+	print_report_bugs();
 
 	exit(rc);
 }
