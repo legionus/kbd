@@ -63,11 +63,16 @@ setvesablank_SOURCES    = $(ALL_S) setvesablank.c
 showconsolefont_SOURCES = $(ALL_S) showconsolefont.c
 showkey_SOURCES         = $(ALL_S) showkey.c
 kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
-
 dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c
 loadkeys_SOURCES        = $(ALL_S) loadkeys.c
 
 getunimap_CFLAGS = -DUSE_LIBC
+
+spawn_console_SOURCES = spawn_command.c
+spawn_login_SOURCES   = spawn_command.c
+
+spawn_console_CFLAGS = -DSPAWN_CONSOLE
+spawn_login_CFLAGS   = -DSPAWN_LOGIN
 
 LDADD = \
 	libkfont/libkfont.la \
