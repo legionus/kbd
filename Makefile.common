@@ -5,7 +5,9 @@
 
 DEFINE_PATHS = \
 	-DDATADIR=\"$(datadir)\" \
-	-DLOCALEDIR=\"$(localedir)\"
+	-DLOCALEDIR=\"$(localedir)\" \
+	-DDEFMAP=\"$(DEFKEYMAP)\" \
+	-DKERNDIR=\"$(KERNELDIR)\"
 
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
@@ -29,6 +31,8 @@ V_GEN_SED_1 =
 %: %.gen Makefile
 	$(V_GEN_SED)$(SED) \
 	    -e 's|[@]DATADIR[@]|${datadir}|g' \
+	    -e 's|[@]DEFKEYMAP[@]|$(DEFKEYMAP)|g' \
+	    -e 's|[@]KERNELDIR[@]|$(KERNELDIR)|g' \
 	    -e 's|[@]VERSION[@]|$(VERSION)|g' \
 	    -e 's|[@]prefix[@]|$(prefix)|g' \
 	    -e 's|[@]exec_prefix[@]|$(exec_prefix)|g' \

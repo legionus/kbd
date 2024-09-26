@@ -121,18 +121,31 @@ AS_IF([test "$use_werror" = yes], [
 	CC_CHECK_CFLAGS_APPEND([-Werror=incompatible-pointer-types -Werror=discarded-qualifiers])
 ], [])
 
-case $host_cpu in
+case "$host_cpu" in
 	m68*) KEYCODES_PROGS=no ;;
 	*)    KEYCODES_PROGS=yes ;;
 esac
 AM_CONDITIONAL(KEYCODES_PROGS, test "$KEYCODES_PROGS" = "yes")
 
-case $host_cpu in
+case "$host_cpu" in
 	i?86*)   RESIZECONS_PROGS=yes ;;
 	x86_64*) RESIZECONS_PROGS=yes ;;
 	*)       RESIZECONS_PROGS=no  ;;
 esac
 AM_CONDITIONAL(RESIZECONS_PROGS, test "$RESIZECONS_PROGS" = "yes")
+
+case "$host_cpu" in
+	s390*)
+		defkeymap="defkeymap.map"
+		kerneldir="/usr/src/linux/drivers/s390/char"
+		;;
+	*)
+		defkeymap="defkeymap.map"
+		kerneldir="/usr/src/linux/drivers/tty/vt"
+		;;
+esac
+AC_SUBST(DEFKEYMAP, "$defkeymap")
+AC_SUBST(KERNELDIR, "$kerneldir")
 
 AC_ARG_ENABLE(optional-progs,
 	AS_HELP_STRING(--enable-optional-progs, [Build and install a optional programs]),
