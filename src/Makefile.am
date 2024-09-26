@@ -1,3 +1,5 @@
+include $(top_srcdir)/Makefile.common
+
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(top_srcdir)/src/libcommon \

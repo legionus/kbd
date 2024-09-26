@@ -1,3 +1,5 @@
+include $(top_srcdir)/Makefile.common
+
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
@@ -10,7 +12,7 @@ AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
 LDADD     = $(CODE_COVERAGE_LIBS)
 
 CLEANFILES = libkeymap.pc
-EXTRA_DIST = libkeymap.pc.in
+EXTRA_DIST = libkeymap.pc.gen
 
 LK_CURRENT  = 1
 LK_REVISION = 0
@@ -96,14 +98,3 @@ analyze.h: analyze.c ; @true
 
 syms.%.h:
 	$(V_GEN_SYMS)$(GEN_SYMS) -n $*_syms -s $(call charset_start,$*) <$(call charset_trans,$*) >$(builddir)/$@
-
-%.pc: %.pc.in Makefile
-	$(SED) \
-	    -e 's,[@]VERSION[@],$(VERSION),g' \
-	    -e 's,[@]prefix[@],$(prefix),g' \
-	    -e 's,[@]exec_prefix[@],$(exec_prefix),g' \
-	    -e 's,[@]libdir[@],$(libdir),g' \
-	    -e 's,[@]includedir[@],$(includedir),g' \
-	    <$< >$(builddir)/$@
-	touch -r $< $(builddir)/$@
-	chmod 644 $(builddir)/$@

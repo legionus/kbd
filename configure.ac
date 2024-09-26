@@ -192,14 +192,9 @@ AC_CONFIG_FILES([Makefile
 		docs/Makefile
 		docs/man/Makefile
 		docs/man/man1/Makefile
-		docs/man/man1/dumpkeys.1
-		docs/man/man1/loadkeys.1
 		docs/man/man1misc/Makefile
 		docs/man/man5/Makefile
 		docs/man/man8/Makefile
-		docs/man/man8/loadunimap.8
-		docs/man/man8/mapscrn.8
-		docs/man/man8/setfont.8
 		docs/man/man8misc/Makefile
 		docs/reference/Makefile
 		docs/reference/libkeymap/Makefile

@@ -1,3 +1,5 @@
+include $(top_srcdir)/Makefile.common
+
 AM_CPPFLAGS = \
 	-I$(srcdir)/.. -I$(builddir)/.. \
 	-I$(srcdir)/../libcommon -I$(builddir)/../libcommon \
