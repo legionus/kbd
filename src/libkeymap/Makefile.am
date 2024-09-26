@@ -1,16 +1,5 @@
 include $(top_srcdir)/Makefile.common
 
-AM_CPPFLAGS = \
-	$(CODE_COVERAGE_CPPFLAGS) \
-	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
-	-I$(srcdir)/../libcommon -I$(builddir)/../libcommon \
-	-I$(srcdir)/../libkbdfile -I$(builddir)/../libkbdfile \
-	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
-	-U_GNU_SOURCE
-
-AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
-LDADD     = $(CODE_COVERAGE_LIBS)
-
 CLEANFILES = libkeymap.pc
 EXTRA_DIST = libkeymap.pc.gen
 

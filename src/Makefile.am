@@ -1,16 +1,5 @@
 include $(top_srcdir)/Makefile.common
 
-AM_CPPFLAGS = \
-	$(CODE_COVERAGE_CPPFLAGS) \
-	-I$(top_srcdir)/src/libcommon \
-	-I$(top_srcdir)/src/libkeymap \
-	-I$(top_srcdir)/src/libkeymap/keymap \
-	-I$(top_srcdir)/src/libkbdfile \
-	-I$(top_srcdir)/src/libkfont \
-	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
-
-AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
-
 SUBDIRS = libcommon libkbdfile libkfont libkeymap vlock
 
 OLDPROGS = mapscrn loadunimap
@@ -76,13 +65,12 @@ spawn_login_SOURCES   = spawn_command.c
 spawn_console_CFLAGS = -DSPAWN_CONSOLE
 spawn_login_CFLAGS   = -DSPAWN_LOGIN
 
-LDADD = \
+LDADD += \
 	libkfont/libkfont.la \
 	libkeymap/libkeymap.la \
 	libkbdfile/libkbdfile.la \
 	libcommon/libcommon.a \
-	@LIBINTL@ \
-	$(CODE_COVERAGE_LIBS)
+	@LIBINTL@
 
 install-exec-hook:
 	for i in psfaddtable psfgettable psfstriptable; do \

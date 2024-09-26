@@ -4,21 +4,10 @@
 #
 include $(top_srcdir)/Makefile.common
 
-AM_CPPFLAGS = \
-	$(CODE_COVERAGE_CPPFLAGS) \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/libcommon \
-	-I$(top_srcdir)/src/libkbdfile \
-	-DDATADIR=\"$(datadir)\"
-
-AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
-
 CLEANFILES = libkfont.pc
 EXTRA_DIST = libkfont.pc.gen libkfont.map
 
-LDADD = \
-	$(top_builddir)/src/libcommon/libcommon.a \
-	$(CODE_COVERAGE_LIBS)
+LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 KFONT_CURRENT  = 2
 KFONT_REVISION = 0
