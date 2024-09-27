@@ -4,9 +4,7 @@ AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(top_srcdir)/src/libcommon \
 	-I$(top_srcdir)/src/libkeymap \
-	-I$(top_srcdir)/src/libkbdfile \
-	-DDATADIR=\"$(realpath $(top_srcdir))/tests\" \
-	-DBUILDDIR=\"$(realpath $(builddir))\"
+	-I$(top_srcdir)/src/libkbdfile
 
 AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
 

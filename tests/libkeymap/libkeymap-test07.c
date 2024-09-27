@@ -30,9 +30,9 @@ main(int __attribute__((unused)) argc, char **argv)
 
 	kbdfile_set_pathname(fp, "keymap2.map");
 
-	f = fopen(DATADIR "/data/libkeymap/keymap2.map", "r");
+	f = fopen(TESTDIR "/data/libkeymap/keymap2.map", "r");
 	if(!f)
-		kbd_error(EXIT_FAILURE, 0, "Unable to open: " DATADIR "/data/libkeymap/keymap2.map: %s", strerror(errno));
+		kbd_error(EXIT_FAILURE, 0, "Unable to open: " TESTDIR "/data/libkeymap/keymap2.map: %s", strerror(errno));
 
 	kbdfile_set_file(fp, f);
 
