@@ -30,32 +30,30 @@ EXTRA_DIST = \
 	totextmode.c README.cad README.init README.openvt \
 	cad
 
-ALL_S   = paths.h
-
-chvt_SOURCES            = $(ALL_S) chvt.c
-clrunimap_SOURCES       = $(ALL_S) clrunimap.c
-deallocvt_SOURCES       = $(ALL_S) deallocvt.c
-fgconsole_SOURCES       = $(ALL_S) fgconsole.c
-getkeycodes_SOURCES     = $(ALL_S) getkeycodes.c
-getunimap_SOURCES       = $(ALL_S) getunimap.c
-kbd_mode_SOURCES        = $(ALL_S) kbd_mode.c
-loadunimap_SOURCES      = $(ALL_S) loadunimap.c
-mapscrn_SOURCES         = $(ALL_S) mapscrn.c
-openvt_SOURCES          = $(ALL_S) openvt.c
-psfxtable_SOURCES       = $(ALL_S) psfxtable.c
-resizecons_SOURCES      = $(ALL_S) resizecons.c
-screendump_SOURCES      = $(ALL_S) screendump.c
-setfont_SOURCES         = $(ALL_S) setfont.c
-setkeycodes_SOURCES     = $(ALL_S) setkeycodes.c
-setvtrgb_SOURCES        = $(ALL_S) setvtrgb.c
-setlogcons_SOURCES      = $(ALL_S) setlogcons.c
-setpalette_SOURCES      = $(ALL_S) setpalette.c
-setvesablank_SOURCES    = $(ALL_S) setvesablank.c
-showconsolefont_SOURCES = $(ALL_S) showconsolefont.c
-showkey_SOURCES         = $(ALL_S) showkey.c
-kbdinfo_SOURCES         = $(ALL_S) kbdinfo.c
-dumpkeys_SOURCES        = $(ALL_S) dumpkeys.c
-loadkeys_SOURCES        = $(ALL_S) loadkeys.c
+chvt_SOURCES            = chvt.c
+clrunimap_SOURCES       = clrunimap.c
+deallocvt_SOURCES       = deallocvt.c
+fgconsole_SOURCES       = fgconsole.c
+getkeycodes_SOURCES     = getkeycodes.c
+getunimap_SOURCES       = getunimap.c
+kbd_mode_SOURCES        = kbd_mode.c
+loadunimap_SOURCES      = loadunimap.c
+mapscrn_SOURCES         = mapscrn.c
+openvt_SOURCES          = openvt.c
+psfxtable_SOURCES       = psfxtable.c
+resizecons_SOURCES      = resizecons.c
+screendump_SOURCES      = screendump.c
+setfont_SOURCES         = setfont.c
+setkeycodes_SOURCES     = setkeycodes.c
+setvtrgb_SOURCES        = setvtrgb.c
+setlogcons_SOURCES      = setlogcons.c
+setpalette_SOURCES      = setpalette.c
+setvesablank_SOURCES    = setvesablank.c
+showconsolefont_SOURCES = showconsolefont.c
+showkey_SOURCES         = showkey.c
+kbdinfo_SOURCES         = kbdinfo.c
+dumpkeys_SOURCES        = dumpkeys.c
+loadkeys_SOURCES        = loadkeys.c
 
 getunimap_CFLAGS = -DUSE_LIBC
 

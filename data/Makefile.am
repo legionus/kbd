@@ -1,14 +1,5 @@
 EXTRA_DIST = consolefonts consoletrans keymaps partialfonts unimaps
 
-# If you change the names of any of the following subdirs,
-# also change paths.h.
-OLDKEYMAPDIR = keytables
-KEYMAPDIR    = keymaps
-UNIMAPDIR    = unimaps
-FONTDIR      = consolefonts
-PARTIALDIR   = partialfonts
-TRANSDIR     = consoletrans
-
 KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
 	i386/fgGIod i386/qwerty i386/qwertz i386/include i386/olpc \
 	i386/colemak i386/carpalx i386/neo mac/include mac/all \

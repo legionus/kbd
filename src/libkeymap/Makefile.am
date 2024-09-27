@@ -49,8 +49,8 @@ libkeymap_la_SOURCES = \
 	contextP.h \
 	parser.y parser.h analyze.l analyze.h \
 	modifiers.c modifiers.h \
-	ksyms.c ksyms.h $(ksyms_headers) \
-	$(srcdir)/../paths.h
+	ksyms.c ksyms.h \
+	$(ksyms_headers)
 
 libkeymap_la_LIBADD = $(builddir)/../libkbdfile/libkbdfile.la
 

@@ -147,6 +147,19 @@ esac
 AC_SUBST(DEFKEYMAP, "$defkeymap")
 AC_SUBST(KERNELDIR, "$kerneldir")
 
+AC_DEFUN([KBD_SUBST_DEFINE], [
+	AC_SUBST([$1], [$2])
+	AC_DEFINE([$1], [$2], [$3])
+])
+
+KBD_SUBST_DEFINE([OLDKEYMAPDIR],  ["keytables"],    [Subdirectory of DATADIR])
+KBD_SUBST_DEFINE([KEYMAPDIR],     ["keymaps"],      [Subdirectory of DATADIR])
+KBD_SUBST_DEFINE([UNIMAPDIR],     ["unimaps"],      [Subdirectory of DATADIR])
+KBD_SUBST_DEFINE([TRANSDIR],      ["consoletrans"], [Subdirectory of DATADIR])
+KBD_SUBST_DEFINE([VIDEOMODEDIR],  ["videomodes"],   [Subdirectory of DATADIR])
+KBD_SUBST_DEFINE([FONTDIR],       ["consolefonts"], [Subdirectory of DATADIR])
+KBD_SUBST_DEFINE([PARTIALDIR],    ["partialfonts"], [Subdirectory of DATADIR])
+
 AC_ARG_ENABLE(optional-progs,
 	AS_HELP_STRING(--enable-optional-progs, [Build and install a optional programs]),
 	[OPTIONAL_PROGS=$enableval],[OPTIONAL_PROGS=no])

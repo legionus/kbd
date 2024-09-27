@@ -41,7 +41,7 @@ If the
 loads a default keymap, probably the file
 .I defkeymap.map
 either in
-.I @DATADIR@/keymaps
+.I @DATADIR@/@KEYMAPDIR@
 or in
 .IR @KERNELDIR@ .
 (Probably the former was user-defined, while the latter
@@ -199,7 +199,7 @@ outlive your session. This means that even at the login prompt the key
 bindings may not be what the user expects.
 .SH FILES
 .TP
-.I @DATADIR@/keymaps
+.I @DATADIR@/@KEYMAPDIR@
 default directory for keymaps.
 .LP
 .TP
