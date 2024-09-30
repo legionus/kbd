@@ -5,16 +5,27 @@ KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
 	i386/colemak i386/carpalx i386/neo mac/include mac/all \
 	pine
 
-# Do not use GZIP - it is interpreted by gzip
-MYGZIP = gzip -f -n -9
-MYGZIP_SUFFIX = .gz
+COMPRESS = $(COMPRESS_PROG) -f -9
+LOCAL_CLEANUPDIRS =
 
-install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
+if ENABLE_COMPRESS
+SRC_KEYMAPDIR  = $(KEYMAPDIR)_Z
+SRC_FONTDIR    = $(FONTDIR)_Z
+SRC_PARTIALDIR = $(PARTIALDIR)_Z
+
+LOCAL_CLEANUPDIRS += $(SRC_KEYMAPDIR) $(SRC_FONTDIR) $(SRC_PARTIALDIR)
+else
+SRC_KEYMAPDIR  = $(KEYMAPDIR)
+SRC_FONTDIR    = $(FONTDIR)
+SRC_PARTIALDIR = $(PARTIALDIR)
+endif
+
+install-data-hook: $(SRC_KEYMAPDIR) $(SRC_FONTDIR) $(SRC_PARTIALDIR)
 	install -d -m 755 $(DESTDIR)$(datadir)
 	install -d -m 755 $(DESTDIR)$(datadir)/$(FONTDIR)
-	install -m 644 $(FONTDIR)_Z/* $(DESTDIR)$(datadir)/$(FONTDIR)
+	install -m 644 $(SRC_FONTDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)
 	install -d -m 755 $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
-	install -m 644 $(PARTIALDIR)_Z/* $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
+	install -m 644 $(SRC_PARTIALDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
 	install -d -m 755 $(DESTDIR)$(datadir)/$(TRANSDIR)
 	install -m 644 $(srcdir)/$(TRANSDIR)/* $(DESTDIR)$(datadir)/$(TRANSDIR)
 	install -d -m 755 $(DESTDIR)$(datadir)/$(UNIMAPDIR)
@@ -24,7 +35,7 @@ install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 	install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)/mac
 	for i in $(KEYMAPSUBDIRS); do \
 		install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
-		install -m 644 $(KEYMAPDIR)_Z/$$i/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
+		install -m 644 $(SRC_KEYMAPDIR)/$$i/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
 	done
 	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc; $(LN_S) mac $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
 	@if [ -f $(DESTDIR)$(datadir)/$(OLDKEYMAPDIR) ]; then \
@@ -36,24 +47,37 @@ install-data-hook: $(KEYMAPDIR)_Z $(FONTDIR)_Z
 
 # compress data files - do not touch the distribution but copy first
 $(KEYMAPDIR)_Z:
-	cp -r $(srcdir)/$(KEYMAPDIR) $(KEYMAPDIR)_Z
-	chmod -R u+w $(KEYMAPDIR)_Z
-	cd $(KEYMAPDIR)_Z; \
-	for f in */*.map */*/*.map; do \
-	  $(MYGZIP) < "$$f" > "$$f$(MYGZIP_SUFFIX)"; \
-	done; \
-	rm -f -- */*.map */*/*.map;
+	cp -r $(srcdir)/$(KEYMAPDIR) $(SRC_KEYMAPDIR)
+	chmod -R u+w $(SRC_KEYMAPDIR)
+	for f in "$(SRC_KEYMAPDIR)"/*/*.map "$(SRC_KEYMAPDIR)"/*/*/*.map; do \
+	  test -L "$$f" && t="`readlink -m $$f`" && rm -f -- "$$f" && \
+	  cp -- "$$t" "$$f" ||:; \
+	done
+	for f in "$(SRC_KEYMAPDIR)"/*/*.map "$(SRC_KEYMAPDIR)"/*/*/*.map; do \
+	  test -f "$$f" && $(COMPRESS) "$$f" && rm -f -- "$$f"; \
+	done
 
 $(FONTDIR)_Z:
-	cp -r $(srcdir)/$(FONTDIR) $(FONTDIR)_Z
-	cp -r $(srcdir)/$(PARTIALDIR) $(PARTIALDIR)_Z
-	chmod -R u+w $(FONTDIR)_Z $(PARTIALDIR)_Z
-	cd $(FONTDIR)_Z && $(MYGZIP) * && gunzip ERRORS* README*
-	cd $(PARTIALDIR)_Z && $(MYGZIP) *
+	cp -r "$(srcdir)/$(FONTDIR)" "$(SRC_FONTDIR)"
+	chmod -R u+w $(SRC_FONTDIR)
+	for f in "$(SRC_FONTDIR)"/*; do \
+	  case "$$f" in (*/ERRORS*|*/README*) continue; ;; esac; \
+	  test -f "$$f" && $(COMPRESS) "$$f" && rm -f -- "$$f"; \
+	done
+
+$(PARTIALDIR)_Z:
+	cp -r "$(srcdir)/$(PARTIALDIR)" "$(SRC_PARTIALDIR)"
+	chmod -R u+w $(SRC_PARTIALDIR)
+	for f in "$(SRC_PARTIALDIR)"/*; do \
+	  test -f "$$f" && $(COMPRESS) "$$f" && rm -f -- "$$f"; \
+	done
+
 # (not yet screenmaps - some other time)
 
 clean-local:
-	rm -rf $(KEYMAPDIR)_Z $(FONTDIR)_Z $(PARTIALDIR)_Z
+	for d in $(LOCAL_CLEANUPDIRS); do \
+	  test -d "$$d" && rm -rf -- "$$d"; \
+	done
 
 uninstall-hook:
 	cd $(DESTDIR)$(datadir) && rm -rf $(FONTDIR) $(PARTIALDIR) $(TRANSDIR) $(UNIMAPDIR) $(KEYMAPDIR)

@@ -181,6 +181,16 @@ if test "$BUILD_LIBKFONT" = "yes" -o "$BUILD_LIBKEYMAP" = "yes"; then
 fi
 AM_CONDITIONAL(BUILD_LIBKBDFILE, test "$BUILD_LIBKBDFILE" = "yes")
 
+AC_ARG_ENABLE(compress,
+	[AS_HELP_STRING([--disable-compress], [Do not compress fonts and keymaps when they are installed.])],
+	[enable_compress=$enableval], [enable_compress=auto])
+
+AS_IF([test "x$enable_compress" = xno],   [],
+      [test "x$enable_compress" = xyes],  [AC_CHECK_PROGS([COMPRESS_PROG], [zstd xz bzip2 gzip])],
+      [test "x$enable_compress" = xauto], [AC_CHECK_PROGS([COMPRESS_PROG], [gzip])],
+      [AC_CHECK_PROGS([COMPRESS_PROG], ["$enable_compress"])])
+AM_CONDITIONAL(ENABLE_COMPRESS, test "x$COMPRESS_PROG" != "x")
+
 AC_ARG_ENABLE(vlock,
 	AS_HELP_STRING(--disable-vlock, [do not build vlock]),
 	[VLOCK_PROG=$enableval],[VLOCK_PROG=yes])
@@ -249,6 +259,8 @@ AC_MSG_RESULT([
 
 	compiler:               ${CC}
 	cflags:                 ${CFLAGS}
+
+	compress data:          ${COMPRESS_PROG}
 
 	{get,set}keycodes:      ${KEYCODES_PROGS}
 	resizecons:             ${RESIZECONS_PROGS}
