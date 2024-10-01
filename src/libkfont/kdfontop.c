@@ -24,8 +24,12 @@
 int
 kfont_restore_font(struct kfont_context *ctx, int fd)
 {
-	if (ioctl(fd, PIO_FONTRESET, 0)) {
-		KFONT_ERR(ctx, "ioctl(PIO_FONTRESET): %m");
+	struct console_font_op cfo;
+
+	cfo.op = KD_FONT_OP_SET_DEFAULT;
+
+	if (ioctl(fd, KDFONTOP, &cfo)) {
+		KFONT_ERR(ctx, "ioctl(KD_FONT_OP_SET_DEFAULT): %m");
 		return -1;
 	}
 	return 0;
