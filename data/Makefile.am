@@ -76,7 +76,7 @@ $(PARTIALDIR)_Z:
 
 clean-local:
 	for d in $(LOCAL_CLEANUPDIRS); do \
-	  test -d "$$d" && rm -rf -- "$$d"; \
+	  test -d "$$d" && rm -rf -- "$$d" ||:; \
 	done
 
 uninstall-hook:
