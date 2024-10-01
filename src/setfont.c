@@ -45,6 +45,7 @@ usage(void)
 	                    "    -u <fn>    Load font unicode map.\n"
 	                    "    -m none    Suppress loading and activation of a screen map.\n"
 	                    "    -u none    Suppress loading of a unicode map.\n"
+	                    "    -R         Reset the screen font, size, and Unicode mapping to the bootup defaults.\n"
 	                    "    -v         Be verbose.\n"
 	                    "    -C <cons>  Indicate console device to be used.\n"
 	                    "    -V         Print version and exit.\n"
