@@ -1,5 +1,4 @@
-AM_CPPFLAGS = \
-	$(CODE_COVERAGE_CPPFLAGS)
+include $(top_srcdir)/Makefile.common
 
 libcommon_a_SOURCES = \
 	getfd.c \

@@ -1,14 +1,6 @@
-AM_CPPFLAGS = \
-	$(CODE_COVERAGE_CPPFLAGS) \
-	-I$(srcdir) -I$(builddir) -I$(srcdir)/.. -I$(builddir)/.. \
-	-I$(srcdir)/../libcommon -I$(builddir)/../libcommon \
-	-DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" \
-	-U_GNU_SOURCE
+include $(top_srcdir)/Makefile.common
 
-AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
-LDADD = \
-	$(top_builddir)/src/libcommon/libcommon.a \
-	$(CODE_COVERAGE_LIBS)
+LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 headers = \
 	kbdfile.h

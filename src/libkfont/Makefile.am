@@ -2,21 +2,12 @@
 #
 # Copyright (C) 2020  Alexey Gladkov <gladkov.alexey@gmail.com>
 #
-AM_CPPFLAGS = \
-	$(CODE_COVERAGE_CPPFLAGS) \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/libcommon \
-	-I$(top_srcdir)/src/libkbdfile \
-	-DDATADIR=\"$(datadir)\"
-
-AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
+include $(top_srcdir)/Makefile.common
 
 CLEANFILES = libkfont.pc
-EXTRA_DIST = libkfont.pc.in libkfont.map
+EXTRA_DIST = libkfont.pc.gen libkfont.map
 
-LDADD = \
-	$(top_builddir)/src/libcommon/libcommon.a \
-	$(CODE_COVERAGE_LIBS)
+LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 KFONT_CURRENT  = 2
 KFONT_REVISION = 0
@@ -51,14 +42,3 @@ lib_LTLIBRARIES = libkfont.la
 else
 noinst_LTLIBRARIES = libkfont.la
 endif
-
-%.pc: %.pc.in Makefile
-	$(SED) \
-	    -e 's,[@]VERSION[@],$(VERSION),g' \
-	    -e 's,[@]prefix[@],$(prefix),g' \
-	    -e 's,[@]exec_prefix[@],$(exec_prefix),g' \
-	    -e 's,[@]libdir[@],$(libdir),g' \
-	    -e 's,[@]includedir[@],$(includedir),g' \
-	    <$< >$(builddir)/$@
-	touch -r $< $(builddir)/$@
-	chmod 644 $(builddir)/$@

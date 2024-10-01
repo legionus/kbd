@@ -41,14 +41,14 @@ If the
 loads a default keymap, probably the file
 .I defkeymap.map
 either in
-.I @DATADIR@/keymaps
+.I @DATADIR@/@KEYMAPDIR@
 or in
-.IR /usr/src/linux/drivers/char .
+.IR @KERNELDIR@ .
 (Probably the former was user-defined, while the latter
 is a qwerty keyboard map for PCs - maybe not what was desired.)
 Sometimes, with a strange keymap loaded (with the minus on
 some obscure unknown modifier combination) it is easier to
-type `loadkeys defkeymap'.
+type `loadkeys @DEFKEYMAP@'.
 .SH "LOAD KERNEL KEYMAP"
 The main function of
 .B loadkeys
@@ -120,7 +120,7 @@ If the
 ) option is given
 .B loadkeys
 prints to the standard output a file that may be used as
-.I /usr/src/linux\%/drivers\%/char\%/defkeymap.c,
+.I @KERNELDIR@/defkeymap.c,
 specifying the default key bindings for a kernel
 (and does not modify the current keymap).
 .SH "CREATE BINARY KEYMAP"
@@ -199,11 +199,11 @@ outlive your session. This means that even at the login prompt the key
 bindings may not be what the user expects.
 .SH FILES
 .TP
-.I @DATADIR@/keymaps
+.I @DATADIR@/@KEYMAPDIR@
 default directory for keymaps.
 .LP
 .TP
-.I /usr/src/linux/drivers/char/defkeymap.map
+.I @KERNELDIR@/@DEFKEYMAP@
 default kernel keymap.
 .LP
 .SH "SEE ALSO"

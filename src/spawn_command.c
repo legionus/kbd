@@ -3,24 +3,38 @@
  * (should not use signal; should not use sleep)
  * aeb - 941025
  *
+ * Note: this functionality will probably go away and become
+ * part of init. For the time being, be very careful when
+ * you use this - if you have this in /etc/rc.local you should
+ * start getty, not openvt, or anybody will have a root shell
+ * with a single keystroke.
  */
 #include "config.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <errno.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
 #include <linux/kd.h>
+#include <stdio.h>
+#include <stdlib.h>    /* system */
+#include <fcntl.h>     /* open */
+#include <sys/ioctl.h> /* ioctl */
+#include <unistd.h>    /* sleep */
 
 #include "libcommon.h"
+
+#ifdef SPAWN_CONSOLE
+  #define COMMAND "openvt -s -l bash"
+#elif  SPAWN_LOGIN
+  #define COMMAND "openvt -s -l -- login -h spawn"
+#else
+  #error "-DSPAWN_CONSOLE or -DSPAWN_LOGIN must be specified"
+#endif
 
 static void
 sighup(int n __attribute__((unused)))
 {
-	if (system("openvt -s -l -- login -h spawn") == -1) {
+	if (system(COMMAND) == -1) {
 		kbd_error(EXIT_FAILURE, errno, "system");
 	}
 	signal(SIGHUP, sighup);
@@ -43,8 +57,9 @@ int main(int argc __attribute__((unused)), char *argv[])
 
 	signal(SIGHUP, sighup);
 
-	if (ioctl(fd, KDSIGACCEPT, (long)SIGHUP))
+	if (ioctl(fd, KDSIGACCEPT, (long)SIGHUP)) {
 		kbd_error(EXIT_FAILURE, errno, "ioctl KDSIGACCEPT");
+	}
 
 	while (1)
 		sleep(3600);

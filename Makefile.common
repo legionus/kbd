@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: LGPL-2.0-or-later
+#
+# Copyright (C) 2024  Alexey Gladkov <gladkov.alexey@gmail.com>
+#
+
+DEFINE_PATHS = \
+	-DDATADIR=\"$(datadir)\" \
+	-DLOCALEDIR=\"$(localedir)\" \
+	-DDEFMAP=\"$(DEFKEYMAP)\" \
+	-DKERNDIR=\"$(KERNELDIR)\"
+
+AM_CPPFLAGS = \
+	$(CODE_COVERAGE_CPPFLAGS) \
+	$(DEFINE_PATHS) \
+	-I$(top_srcdir)/src/libcommon \
+	-I$(top_srcdir)/src/libkeymap \
+	-I$(top_srcdir)/src/libkbdfile \
+	-I$(top_srcdir)/src/libkfont
+
+AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
+LDADD     = $(CODE_COVERAGE_LIBS)
+
+SUFFIXES = .gen
+
+V_GEN_SED   = $(V_GEN_SED_$(V))
+V_GEN_SED_  = $(V_GEN_SED_$(AM_DEFAULT_VERBOSITY))
+V_GEN_SED_0 = @echo "  SED     " $@;
+V_GEN_SED_1 =
+
+%: %.gen Makefile
+	$(V_GEN_SED)$(SED) \
+	    -e 's|[@]DATADIR[@]|${datadir}|g' \
+	    -e 's|[@]DEFKEYMAP[@]|$(DEFKEYMAP)|g' \
+	    -e 's|[@]KERNELDIR[@]|$(KERNELDIR)|g' \
+	    -e 's|[@]VERSION[@]|$(VERSION)|g' \
+	    -e 's|[@]KEYMAPDIR[@]|$(KEYMAPDIR)|g' \
+	    -e 's|[@]UNIMAPDIR[@]|$(UNIMAPDIR)|g' \
+	    -e 's|[@]TRANSDIR[@]|$(TRANSDIR)|g' \
+	    -e 's|[@]VIDEOMODEDIR[@]|$(VIDEOMODEDIR)|g' \
+	    -e 's|[@]FONTDIR[@]|$(FONTDIR)|g' \
+	    -e 's|[@]PARTIALDIR[@]|$(PARTIALDIR)|g' \
+	    -e 's|[@]prefix[@]|$(prefix)|g' \
+	    -e 's|[@]exec_prefix[@]|$(exec_prefix)|g' \
+	    -e 's|[@]libdir[@]|$(libdir)|g' \
+	    -e 's|[@]includedir[@]|$(includedir)|g' \
+	    <$< >$@ && \
+	chmod --reference=$< $@;

@@ -84,8 +84,6 @@
 
 #include <kbdfile.h>
 
-#include "paths.h"
-
 #include "libcommon.h"
 
 #define MODE_RESTORETEXTMODE 0

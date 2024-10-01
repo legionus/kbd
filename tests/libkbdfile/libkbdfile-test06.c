@@ -15,10 +15,10 @@ main(int __attribute__((unused)) argc, char **argv)
 	if (!fp)
 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
 
-	const char *const dirpath[]  = { "", DATADIR "/data/findfile/test_0/keymaps/**", 0 };
+	const char *const dirpath[]  = { "", TESTDIR "/data/findfile/test_0/keymaps/**", 0 };
 	const char *const suffixes[] = { ".foo", ".bar", ".map", ".baz", "", 0 };
 
-	const char *expect = DATADIR "/data/findfile/test_0/keymaps/i386/qwertz/test2.map";
+	const char *expect = TESTDIR "/data/findfile/test_0/keymaps/i386/qwertz/test2.map";
 
 	int rc = kbdfile_find("test2", dirpath, suffixes, fp);
 

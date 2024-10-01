@@ -2,12 +2,13 @@
 /*
  * Copyright (C) 2020 Alexey Gladkov <gladkov.alexey@gmail.com>
  */
+#include "config.h"
+
 #include <sysexits.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <syslog.h>
 
-#include "paths.h"
 #include "kfontP.h"
 
 /* search for the map file in these directories (with trailing /) */

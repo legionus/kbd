@@ -17,7 +17,7 @@ main(int __attribute__((unused)) argc, char **argv)
 	struct kbdfile_ctx *kbdfile_ctx;
 	struct lk_ctx *ctx;
 
-	setenv("LOADKEYS_INCLUDE_PATH", DATADIR "/data/libkeymap", 1);
+	setenv("LOADKEYS_INCLUDE_PATH", TESTDIR "/data/libkeymap", 1);
 
 	kbdfile_ctx = kbdfile_context_new();
 	if (!kbdfile_ctx)
@@ -32,9 +32,9 @@ main(int __attribute__((unused)) argc, char **argv)
 
 	kbdfile_set_pathname(fp, "keymap4.map");
 
-	f = fopen(DATADIR "/data/libkeymap/keymap4.map", "r");
+	f = fopen(TESTDIR "/data/libkeymap/keymap4.map", "r");
 	if (!f)
-		kbd_error(EXIT_FAILURE, 0, "Unable to open: " DATADIR "/data/libkeymap/keymap4.map: %s", strerror(errno));
+		kbd_error(EXIT_FAILURE, 0, "Unable to open: " TESTDIR "/data/libkeymap/keymap4.map: %s", strerror(errno));
 
 	kbdfile_set_file(fp, f);
 

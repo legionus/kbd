@@ -22,7 +22,6 @@
 
 #include "libcommon.h"
 
-#include "paths.h"
 #include "keymap.h"
 
 static const char *const dirpath1[] = {
