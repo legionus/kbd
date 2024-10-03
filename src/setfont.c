@@ -1,13 +1,5 @@
 /*
  * setfont.c - Eugene Crosser & Andries Brouwer
- *
- * Version 1.05
- *
- * Loads the console font, and possibly the corresponding screen map(s).
- * We accept two kind of screen maps, one [-m] giving the correspondence
- * between some arbitrary 8-bit character set currently in use and the
- * font positions, and the second [-u] giving the correspondence between
- * font positions and Unicode values.
  */
 #include "config.h"
 
@@ -22,35 +14,34 @@
 #include "kfont.h"
 
 static void __attribute__((noreturn))
-usage(void)
+usage(const struct kbd_help *options)
 {
-	fprintf(stderr, _(
-	                    "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
-	                    "  write-options (take place before file loading):\n"
-	                    "    -o  <filename>  Write current font to <filename>\n"
-	                    "    -O  <filename>  Write current font and unicode map to <filename>\n"
-	                    "    -om <filename>  Write current consolemap to <filename>\n"
-	                    "    -ou <filename>  Write current unicodemap to <filename>\n"
-	                    "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-	                    "a default font is loaded:\n"
-	                    "    setfont         Load font \"default[.gz]\"\n"
-	                    "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-	                    "The -<N> option selects a font from a codepage that contains three fonts:\n"
-	                    "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n"
-	                    "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
-	                    "will be loaded and, in the case of consolemaps, activated.\n"
-	                    "    -h<N>      (no space) Override font height.\n"
-	                    "    -d         Double size of font horizontally and vertically.\n"
-	                    "    -m <fn>    Load console screen map.\n"
-	                    "    -u <fn>    Load font unicode map.\n"
-	                    "    -m none    Suppress loading and activation of a screen map.\n"
-	                    "    -u none    Suppress loading of a unicode map.\n"
-	                    "    -R         Reset the screen font, size, and Unicode mapping to the bootup defaults.\n"
-	                    "    -v         Be verbose.\n"
-	                    "    -C <cons>  Indicate console device to be used.\n"
-	                    "    -V         Print version and exit.\n"
-	                    "Files are loaded from the current directory or %s/*/.\n"),
-	        DATADIR);
+	fprintf(stderr, _("Usage: %s [option...] [newfont...]\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Loads the console font, and possibly the corresponding screen map(s).\n"));
+
+	print_options(options);
+	fprintf(stderr, "\n");
+
+	fprintf(stderr,
+		_("The options -[o|O|om|ou] are processed before the new font is uploaded.\n"
+		  "\n"
+		  "If no <newfont> and no -[o|O|om|ou|m|u] option is given, a default\n"
+		  "font is loaded.\n"
+		  "\n"
+		  "There are two kinds of screen maps, one [-m] giving the correspondence\n"
+		  "between some arbitrary 8-bit character set currently in use and the\n"
+		  "font positions, and the second [-u] giving the correspondence between\n"
+		  "font positions and Unicode values.\n"
+		  "\n"
+		  "Explicitly (with -m or -u) or implicitly (in the fontfile) given\n"
+		  "mappings will be loaded and, in the case of consolemaps, activated.\n"
+		  "\n"
+		  "Files are loaded from the %s/*/.\n"),
+		DATADIR);
+
+	print_report_bugs();
+
 	exit(EX_USAGE);
 }
 
@@ -63,10 +54,27 @@ int main(int argc, char *argv[])
 	int restore = 0;
 	int ret;
 
+	struct kfont_context *kfont;
+
+	const struct kbd_help opthelp[] = {
+		{ "-<N>",       _("load font \"default8x<N>\".") },
+		{ "-o <FILE>",  _("write current font to <FILE>.") },
+		{ "-O <FILE>",  _("write current font and unicode map to <FILE>.") },
+		{ "-om <FILE>", _("write current consolemap to <FILE>.") },
+		{ "-ou <FILE>", _("write current unicodemap to <FILE>.") },
+		{ "-h<N>",      _("override font height.") },
+		{ "-d",         _("double size of font horizontally and vertically.") },
+		{ "-m <FILE>",  _("load console screen map ('none' means don't load it).") },
+		{ "-u <FILE>",  _("load font unicode map ('none' means don't load it).") },
+		{ "-R",         _("reset the screen font, size, and unicode map to the bootup defaults.") },
+		{ "-C <DEV>",   _("the console device to be used.") },
+		{ "-v",         _("be more verbose.") },
+		{ "-V",         _("print version number.") },
+		{ NULL, NULL }
+	};
+
 	set_progname(argv[0]);
 	setuplocale();
-
-	struct kfont_context *kfont;
 
 	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
 		return -ret;
@@ -88,34 +96,34 @@ int main(int argc, char *argv[])
 			restore = 1;
 		} else if (!strcmp(argv[i], "-C")) {
 			if (++i == argc || console)
-				usage();
+				usage(opthelp);
 			console = argv[i];
 		} else if (!strcmp(argv[i], "-O")) {
 			if (++i == argc || Ofil)
-				usage();
+				usage(opthelp);
 			Ofil = argv[i];
 		} else if (!strcmp(argv[i], "-o")) {
 			if (++i == argc || ofil)
-				usage();
+				usage(opthelp);
 			ofil = argv[i];
 		} else if (!strcmp(argv[i], "-om")) {
 			if (++i == argc || omfil)
-				usage();
+				usage(opthelp);
 			omfil = argv[i];
 		} else if (!strcmp(argv[i], "-ou")) {
 			if (++i == argc || oufil)
-				usage();
+				usage(opthelp);
 			oufil = argv[i];
 		} else if (!strcmp(argv[i], "-m")) {
 			if (++i == argc || mfil)
-				usage();
+				usage(opthelp);
 			if (!strcmp(argv[i], "none"))
 				no_m = 1;
 			else
 				mfil = argv[i];
 		} else if (!strcmp(argv[i], "-u")) {
 			if (++i == argc || ufil)
-				usage();
+				usage(opthelp);
 			if (!strcmp(argv[i], "none"))
 				no_u = 1;
 			else
@@ -125,14 +133,14 @@ int main(int argc, char *argv[])
 		} else if (!strncmp(argv[i], "-h", 2)) {
 			int tmp = atoi(argv[i] + 2);
 			if (tmp <= 0 || tmp > 32)
-				usage();
+				usage(opthelp);
 			hwunit = (unsigned int)tmp;
 		} else if (!strcmp(argv[i], "-d")) {
 			kfont_set_option(kfont, kfont_double_size);
 		} else if (argv[i][0] == '-') {
 			int tmp = atoi(argv[i] + 1);
 			if (tmp <= 0 || tmp > 32)
-				usage();
+				usage(opthelp);
 			iunit = (unsigned int)tmp;
 		} else {
 			if (ifilct == MAXIFILES)
