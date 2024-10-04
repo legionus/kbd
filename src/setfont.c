@@ -170,19 +170,21 @@ int main(int argc, char *argv[])
 	struct kfont_context *kfont;
 
 	const struct kbd_help opthelp[] = {
-		{ "-<N>",       _("load font \"default8x<N>\".") },
-		{ "-o <FILE>",  _("write current font to <FILE>.") },
-		{ "-O <FILE>",  _("write current font and unicode map to <FILE>.") },
-		{ "-om <FILE>", _("write current consolemap to <FILE>.") },
-		{ "-ou <FILE>", _("write current unicodemap to <FILE>.") },
-		{ "-h<N>",      _("override font height.") },
-		{ "-d",         _("double size of font horizontally and vertically.") },
-		{ "-m <FILE>",  _("load console screen map ('none' means don't load it).") },
-		{ "-u <FILE>",  _("load font unicode map ('none' means don't load it).") },
-		{ "-R",         _("reset the screen font, size, and unicode map to the bootup defaults.") },
-		{ "-C <DEV>",   _("the console device to be used.") },
-		{ "-v",         _("be more verbose.") },
-		{ "-V",         _("print version number.") },
+		{ "-<N>, --default8x <N>",           _("load font \"default8x<N>\".") },
+		{ "-h<N>, --font-height <N>",        _("override font height (there shouldn't be a space in the short option).") },
+		{ "-o, --output-font <FILE>",        _("write current font to <FILE>.") },
+		{ "-om, --output-consolemap <FILE>", _("write current consolemap to <FILE>.") },
+		{ "-ou, --output-unicodemap <FILE>", _("write current unicodemap to <FILE>.") },
+		{ "-O, --output-fullfont <FILE>",    _("write current font and unicode map to <FILE>.") },
+		{ "-m, --consolemap <FILE>",         _("load console screen map ('none' means don't load it).") },
+		{ "-u, --unicodemap <FILE>",         _("load font unicode map ('none' means don't load it).") },
+		{ "-C, --console <DEV>",             _("the console device to be used.") },
+		{ "-d, --double",                    _("double size of font horizontally and vertically.") },
+		{ "-f, --force",                     _("force load unicode map.") },
+		{ "-R, --reset",                     _("reset the screen font, size, and unicode map to the bootup defaults.") },
+		{ "-v, --verbose",                   _("be more verbose.") },
+		{ "-V, --version",                   _("print version number.") },
+		{ "-h, --help",                      _("print this usage message.") },
 		{ NULL, NULL }
 	};
 
