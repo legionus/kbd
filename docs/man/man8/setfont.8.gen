@@ -193,55 +193,63 @@ One may add a Unicode mapping table to a psf font using
 
 .SH OPTIONS
 .TP
-.BI "\-h " H
-Override font height.
+\fB\-\fR\fI\,N\/\fR, \fB\-\-default8x\fR=\fI\,N\/\fR
+Load default font
+.RI (default8x N ).
 .TP
-.B \-d
+\fB\-h\fR\fI\,N\/\fR, \fB\-\-font-height\fR=\fI\,N\/\fR
+Override font height. The short option must not have a space between the prefix
+and the number.
+.TP
+\fB\-d\fR, \fB\-\-double\fR
 Doubles the size of the font, by replicating all of its pixels
 vertically and horizontally.  This is suitable for high pixel density
 (e.g. "4k") displays on which the standard fonts are too small to be
 easily legible.  Due to kernel limitations, this is suitable only for
 16x16 or smaller fonts.
 .TP
-.BI "\-m " file
-Load console map or Unicode console map from
-.IR file .
-.TP
-.BI "\-o " file
+\fB\-o\fR, \fB\-\-output-font\fR=\fI\,FILE\/\fR
 Save previous font in
-.IR file .
+.IR FILE .
 .TP
-.BI "\-O " file
-Save previous font and Unicode map in
-.IR file .
-.TP
-.BI "\-om " file
+\fB\-om\fR, \fB\-\-output-consolemap\fR=\fI\,FILE\/\fR
 Store console map in
-.IR file .
+.IR FILE .
 .TP
-.BI "\-ou " file
+\fB\-ou\fR, \fB\-\-output-unicodemap\fR=\fI\,FILE\/\fR
 Save previous Unicode map in
-.IR file .
+.IR FILE .
 .TP
-.BI "\-u " file
+\fB\-O\fR, \fB\-\-output-fullfont\fR=\fI\,FILE\/\fR
+Save previous font and Unicode map in
+.IR FILE .
+.TP
+\fB\-m\fR, \fB\-\-consolemap\fR=\fI\,FILE\/\fR
+Load console map or Unicode console map from
+.IR FILE .
+.TP
+\fB\-u\fR, \fB\-\-unicodemap\fR=\fI\,FILE\/\fR
 Load Unicode table describing the font from
-.IR file .
+.IR FILE .
 .TP
-.BI "\-C " console
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEVICE\/\fR
 Set the font for the indicated console. (May require root permissions.)
 .TP
-.B \-f
+\fB\-f\fR, \fB\-\-force\fR
 Force-load unicode map: Setfont`issues the system call to load the unicode
 map even if the specified map is empty.  This may be useful in unusual cases.
 .TP
-.B \-R
+\fB\-R\fR, \fB\-\-reset\fR
 Reset the screen font, size, and Unicode mapping to the bootup defaults.
 .TP
-.B \-v
+\fB\-v\fR, \fB\-\-verbose\fR
 Be verbose.
 .TP
-.B \-V
+\fB\-V\fR, \fB\-\-version\fR
 Print version and exit.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print a message describing the options and exit.
 
 .SH NOTE
 PC video hardware allows one to use the "intensity" bit
