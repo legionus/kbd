@@ -1,13 +1,5 @@
 /*
  * setfont.c - Eugene Crosser & Andries Brouwer
- *
- * Version 1.05
- *
- * Loads the console font, and possibly the corresponding screen map(s).
- * We accept two kind of screen maps, one [-m] giving the correspondence
- * between some arbitrary 8-bit character set currently in use and the
- * font positions, and the second [-u] giving the correspondence between
- * font positions and Unicode values.
  */
 #include "config.h"
 
@@ -22,51 +14,201 @@
 #include "kfont.h"
 
 static void __attribute__((noreturn))
-usage(void)
+usage(int retcode, const struct kbd_help *options)
 {
-	fprintf(stderr, _(
-	                    "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u unicodemap]\n"
-	                    "  write-options (take place before file loading):\n"
-	                    "    -o  <filename>  Write current font to <filename>\n"
-	                    "    -O  <filename>  Write current font and unicode map to <filename>\n"
-	                    "    -om <filename>  Write current consolemap to <filename>\n"
-	                    "    -ou <filename>  Write current unicodemap to <filename>\n"
-	                    "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-	                    "a default font is loaded:\n"
-	                    "    setfont         Load font \"default[.gz]\"\n"
-	                    "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-	                    "The -<N> option selects a font from a codepage that contains three fonts:\n"
-	                    "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n"
-	                    "Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
-	                    "will be loaded and, in the case of consolemaps, activated.\n"
-	                    "    -h<N>      (no space) Override font height.\n"
-	                    "    -d         Double size of font horizontally and vertically.\n"
-	                    "    -m <fn>    Load console screen map.\n"
-	                    "    -u <fn>    Load font unicode map.\n"
-	                    "    -m none    Suppress loading and activation of a screen map.\n"
-	                    "    -u none    Suppress loading of a unicode map.\n"
-	                    "    -R         Reset the screen font, size, and Unicode mapping to the bootup defaults.\n"
-	                    "    -v         Be verbose.\n"
-	                    "    -C <cons>  Indicate console device to be used.\n"
-	                    "    -V         Print version and exit.\n"
-	                    "Files are loaded from the current directory or %s/*/.\n"),
-	        DATADIR);
-	exit(EX_USAGE);
+	fprintf(stderr, _("Usage: %s [option...] [newfont...]\n"), get_progname());
+	fprintf(stderr, "\n");
+	fprintf(stderr, _("Loads the console font, and possibly the corresponding screen map(s).\n"));
+
+	print_options(options);
+	fprintf(stderr, "\n");
+
+	fprintf(stderr,
+		_("The options -[o|O|om|ou] are processed before the new font is uploaded.\n"
+		  "\n"
+		  "If no <newfont> and no -[o|O|om|ou|m|u] option is given, a default\n"
+		  "font is loaded.\n"
+		  "\n"
+		  "There are two kinds of screen maps, one [-m] giving the correspondence\n"
+		  "between some arbitrary 8-bit character set currently in use and the\n"
+		  "font positions, and the second [-u] giving the correspondence between\n"
+		  "font positions and Unicode values.\n"
+		  "\n"
+		  "Explicitly (with -m or -u) or implicitly (in the fontfile) given\n"
+		  "mappings will be loaded and, in the case of consolemaps, activated.\n"
+		  "\n"
+		  "Files are loaded from the %s/*/.\n"),
+		DATADIR);
+
+	print_report_bugs();
+
+	exit(retcode);
+}
+
+enum kbd_getopt_arg {
+	kbd_no_argument,
+	kbd_required_argument
+};
+
+struct kbd_option {
+	const char *short_name;
+	const char *long_name;
+	enum kbd_getopt_arg has_arg;
+	int val;
+};
+
+static int
+kbd_getopt(int argc, char **argv, const struct kbd_option *opts)
+{
+	const struct kbd_option *opt;
+	char *p, *o, *option;
+	const char *name;
+
+	optarg = NULL;
+
+	if (!optind)
+		optind = 1;
+
+	if (optind >= argc || !argv[optind] || argv[optind][0] != '-')
+		return -1;
+
+	option = argv[optind];
+
+	if (option[1] && option[1] != '-') {
+		// A short option that starts with "-" (not "--"). Unlike the
+		// standard getopt for historical reasons we have two character
+		// short options.
+		option += 1;
+
+		for (opt = opts; opt->val; opt++) {
+			name = opt->short_name + 1;
+
+			for (p = (char *) name, o = option; *p && *p == *o; p++, o++);
+
+			switch (opt->short_name[0]) {
+				// Case: full match option.
+				case '=':
+					if (*p == *o) {
+						optind++;
+
+						if (opt->has_arg) {
+							if (optind == argc)
+								goto required_argument;
+							optarg = argv[optind++];
+						}
+						return opt->val;
+					}
+					break;
+				// Case: prefix option.
+				case '+':
+					if (*p == '\0' && *o != '\0') {
+						optind++;
+
+						if (opt->has_arg)
+							optarg = o;
+						return opt->val;
+					}
+					break;
+			}
+		}
+	} else if (option[1] && option[1] == '-') {
+		// The special argument "--" forces an end of option-scanning
+		// regardless of the scanning mode.
+		if (!option[2]) {
+			optind++;
+			return -1;
+		}
+		option += 2;
+
+		for (opt = opts; opt->val; opt++) {
+			name = opt->long_name;
+
+			for (p = (char *) name, o = option; *p && *p == *o; p++, o++);
+
+			// Case: --arg param
+			if (*p == *o) {
+				optind++;
+
+				if (opt->has_arg) {
+					if (optind == argc)
+						goto required_argument;
+					optarg = argv[optind++];
+				}
+				return opt->val;
+			}
+
+			if (!opt->has_arg)
+				continue;
+
+			// Case: --arg=param
+			if (*p == '\0' && *o == '=') {
+				optind++;
+				optarg = ++o;
+
+				if (!optarg[0])
+					goto required_argument;
+				return opt->val;
+			}
+		}
+	}
+	return '?';
+
+required_argument:
+	kbd_warning(0, "option '%s' requires an argument", name);
+	return '?';
 }
 
 int main(int argc, char *argv[])
 {
 	const char *ifiles[MAXIFILES];
 	char *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil, *console;
-	int ifilct = 0, fd, i, no_m, no_u;
+	int ifilct = 0, fd, no_m, no_u;
 	unsigned int iunit, hwunit;
 	int restore = 0;
-	int ret;
+	int ret, c;
+
+	struct kfont_context *kfont;
+
+	const struct kbd_help opthelp[] = {
+		{ "-<N>, --default8x <N>",           _("load font \"default8x<N>\".") },
+		{ "-h<N>, --font-height <N>",        _("override font height (there shouldn't be a space in the short option).") },
+		{ "-o, --output-font <FILE>",        _("write current font to <FILE>.") },
+		{ "-om, --output-consolemap <FILE>", _("write current consolemap to <FILE>.") },
+		{ "-ou, --output-unicodemap <FILE>", _("write current unicodemap to <FILE>.") },
+		{ "-O, --output-fullfont <FILE>",    _("write current font and unicode map to <FILE>.") },
+		{ "-m, --consolemap <FILE>",         _("load console screen map ('none' means don't load it).") },
+		{ "-u, --unicodemap <FILE>",         _("load font unicode map ('none' means don't load it).") },
+		{ "-C, --console <DEV>",             _("the console device to be used.") },
+		{ "-d, --double",                    _("double size of font horizontally and vertically.") },
+		{ "-f, --force",                     _("force load unicode map.") },
+		{ "-R, --reset",                     _("reset the screen font, size, and unicode map to the bootup defaults.") },
+		{ "-v, --verbose",                   _("be more verbose.") },
+		{ "-V, --version",                   _("print version number.") },
+		{ "-h, --help",                      _("print this usage message.") },
+		{ NULL, NULL }
+	};
+
+	const struct kbd_option opts[] = {
+		{ "=d",  "double",            kbd_no_argument,       'd' },
+		{ "=f",  "force",             kbd_no_argument,       'f' },
+		{ "=R",  "reset",             kbd_no_argument,       'R' },
+		{ "=v",  "verbose",           kbd_no_argument,       'v' },
+		{ "=V",  "version",           kbd_no_argument,       'V' },
+		{ "=h",  "help",              kbd_no_argument,       'H' },
+		{ "+h",  "font-height",       kbd_required_argument, 'h' },
+		{ "=om", "output-consolemap", kbd_required_argument, 'M' },
+		{ "=ou", "output-unicodemap", kbd_required_argument, 'U' },
+		{ "=o",  "output-font",       kbd_required_argument, 'o' },
+		{ "=O",  "output-fullfont",   kbd_required_argument, 'O' },
+		{ "=m",  "consolemap",        kbd_required_argument, 'm' },
+		{ "=u",  "unicodemap",        kbd_required_argument, 'u' },
+		{ "=C",  "console",           kbd_required_argument, 'C' },
+		{ "+",   "default8x",         kbd_required_argument, 'N' },
+		{ NULL, NULL, 0, 0 },
+	};
 
 	set_progname(argv[0]);
 	setuplocale();
-
-	struct kfont_context *kfont;
 
 	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
 		return -ret;
@@ -76,69 +218,82 @@ int main(int argc, char *argv[])
 	no_m = no_u = 0;
 	console = NULL;
 
-	/*
-	 * No getopt() here because of the -om etc options.
-	 */
-	for (i = 1; i < argc; i++) {
-		if (!strcmp(argv[i], "-V")) {
-			print_version_and_exit();
-		} else if (!strcmp(argv[i], "-v")) {
-			kfont_inc_verbosity(kfont);
-		} else if (!strcmp(argv[i], "-R")) {
-			restore = 1;
-		} else if (!strcmp(argv[i], "-C")) {
-			if (++i == argc || console)
-				usage();
-			console = argv[i];
-		} else if (!strcmp(argv[i], "-O")) {
-			if (++i == argc || Ofil)
-				usage();
-			Ofil = argv[i];
-		} else if (!strcmp(argv[i], "-o")) {
-			if (++i == argc || ofil)
-				usage();
-			ofil = argv[i];
-		} else if (!strcmp(argv[i], "-om")) {
-			if (++i == argc || omfil)
-				usage();
-			omfil = argv[i];
-		} else if (!strcmp(argv[i], "-ou")) {
-			if (++i == argc || oufil)
-				usage();
-			oufil = argv[i];
-		} else if (!strcmp(argv[i], "-m")) {
-			if (++i == argc || mfil)
-				usage();
-			if (!strcmp(argv[i], "none"))
-				no_m = 1;
-			else
-				mfil = argv[i];
-		} else if (!strcmp(argv[i], "-u")) {
-			if (++i == argc || ufil)
-				usage();
-			if (!strcmp(argv[i], "none"))
-				no_u = 1;
-			else
-				ufil = argv[i];
-		} else if (!strcmp(argv[i], "-f")) {
-			kfont_set_option(kfont, kfont_force);
-		} else if (!strncmp(argv[i], "-h", 2)) {
-			int tmp = atoi(argv[i] + 2);
-			if (tmp <= 0 || tmp > 32)
-				usage();
-			hwunit = (unsigned int)tmp;
-		} else if (!strcmp(argv[i], "-d")) {
-			kfont_set_option(kfont, kfont_double_size);
-		} else if (argv[i][0] == '-') {
-			int tmp = atoi(argv[i] + 1);
-			if (tmp <= 0 || tmp > 32)
-				usage();
-			iunit = (unsigned int)tmp;
-		} else {
-			if (ifilct == MAXIFILES)
-				kbd_error(EX_USAGE, 0, _("Too many input files."));
-			ifiles[ifilct++] = argv[i];
+	while ((c = kbd_getopt(argc, argv, opts)) != -1) {
+		switch (c) {
+			case 'h': {
+					int num = atoi(optarg);
+					if (num <= 0 || num > 32) {
+						kbd_warning(0, "bad option '%s': not a number '%s'",
+							    argv[optind - 1], optarg);
+						usage(EX_USAGE, opthelp);
+					}
+					hwunit = (unsigned int) num;
+				}
+				break;
+			case 'N': {
+					int num = atoi(optarg);
+					if (num <= 0 || num > 32) {
+						kbd_warning(0, "unrecognized option '%s'",
+							    argv[optind - 1]);
+						usage(EX_USAGE, opthelp);
+					}
+					iunit = (unsigned int) num;
+				}
+				break;
+			case 'o':
+				ofil = optarg;
+				break;
+			case 'M':
+				omfil = optarg;
+				break;
+			case 'U':
+				oufil = optarg;
+				break;
+			case 'm':
+				no_m = !strcmp(optarg, "none");
+				if (!no_m)
+					mfil = optarg;
+				break;
+			case 'u':
+				no_u = !strcmp(optarg, "none");
+				if (!no_u)
+					ufil = optarg;
+				break;
+			case 'O':
+				Ofil = optarg;
+				break;
+			case 'C':
+				console = optarg;
+				break;
+			case 'R':
+				restore = 1;
+				break;
+			case 'd':
+				kfont_set_option(kfont, kfont_double_size);
+				break;
+			case 'f':
+				kfont_set_option(kfont, kfont_force);
+				break;
+			case 'v':
+				kfont_inc_verbosity(kfont);
+				break;
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'H':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				kbd_warning(0, "invalid option '%s'", argv[optind]);
+				usage(EX_USAGE, opthelp);
+				break;
 		}
+	}
+
+	for (; optind < argc; optind++) {
+		if (ifilct == MAXIFILES)
+			kbd_error(EX_USAGE, 0, _("Too many input files."));
+		ifiles[ifilct++] = argv[optind];
 	}
 
 	if (ifilct && restore)
