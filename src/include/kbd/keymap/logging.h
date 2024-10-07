@@ -6,7 +6,8 @@
 #define LK_LOGGING_H
 
 #include <syslog.h>
-#include <keymap/context.h>
+
+#include <kbd/keymap/context.h>
 
 #ifndef __GNUC__
 #undef  __attribute__

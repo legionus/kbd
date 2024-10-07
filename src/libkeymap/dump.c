@@ -22,7 +22,7 @@
 #include "ksyms.h"
 #include "modifiers.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 
 #define U(x) ((x) ^ 0xf000)
 

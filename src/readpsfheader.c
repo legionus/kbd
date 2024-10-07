@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h> /* exit */
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfont.h"
 
 static void __attribute__((noreturn))

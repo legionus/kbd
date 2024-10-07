@@ -14,7 +14,7 @@
 #include <sysexits.h>
 #include <limits.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfontP.h"
 #include "utf8.h"
 

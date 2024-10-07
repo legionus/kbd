@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 int main(int argc, char *argv[])
 {

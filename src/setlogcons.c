@@ -19,7 +19,7 @@
 #include <limits.h>
 #include <sysexits.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 int main(int argc, char **argv)
 {

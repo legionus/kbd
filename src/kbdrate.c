@@ -98,7 +98,7 @@ struct my_kbd_repeat {
 
 #include <signal.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static int valid_rates[] = { 300, 267, 240, 218, 200, 185, 171, 160, 150,
 	                     133, 120, 109, 100, 92, 86, 80, 75, 67,

@@ -10,7 +10,7 @@
 #include <getopt.h>
 #include <sysexits.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static const char *action = NULL;
 static const char *value  = NULL;

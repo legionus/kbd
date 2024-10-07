@@ -10,7 +10,7 @@
 #include <errno.h>
 #include <sysexits.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static unsigned char cmap[3 * 16];
 

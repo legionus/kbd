@@ -3,7 +3,7 @@
 #include <string.h>
 #include <keymap.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 int main(int __attribute__((unused)) argc, char **argv)
 {

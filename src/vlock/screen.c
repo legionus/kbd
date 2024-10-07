@@ -1,4 +1,3 @@
-
 /*
 
   Set and restore VC screen for vlock, the VT locking program for linux.

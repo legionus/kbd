@@ -1,4 +1,3 @@
-
 /*
 
   Parse command line options for vlock, the VT locking program for linux.
@@ -30,7 +29,7 @@
 
 #include "vlock.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 
 /*
  * This determines whether the default behavior is to lock only the

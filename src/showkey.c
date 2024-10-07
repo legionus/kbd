@@ -14,7 +14,7 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static int fd;
 static int oldkbmode;

@@ -20,7 +20,7 @@
 #include <sys/wait.h>
 #include <sys/file.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 #ifdef COMPAT_HEADERS
 #include "compat/linux-limits.h"

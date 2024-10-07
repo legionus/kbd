@@ -1,4 +1,3 @@
-
 /*
 
   Find out login name for vlock, the VT locking program for linux.
@@ -30,7 +29,7 @@
 
 #include "vlock.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 
 /*
  * Try to find out proper login name.

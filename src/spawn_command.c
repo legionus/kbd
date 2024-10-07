@@ -21,7 +21,7 @@
 #include <sys/ioctl.h> /* ioctl */
 #include <unistd.h>    /* sleep */
 
-#include "libcommon.h"
+#include "private/common.h"
 
 #ifdef SPAWN_CONSOLE
   #define COMMAND "openvt -s -l bash"

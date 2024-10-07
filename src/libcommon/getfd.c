@@ -8,7 +8,7 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static const char *conspath[] = {
 	"/proc/self/fd/0",

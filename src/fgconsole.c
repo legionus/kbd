@@ -13,7 +13,7 @@
 #include <linux/vt.h>
 #include <linux/serial.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static void __attribute__((noreturn))
 usage(int rc, const struct kbd_help *options)

@@ -2,8 +2,8 @@
  * @file kbdfile.h
  * @brief Functions for search, open and close a file objects.
  */
-#ifndef _KBDFILE_H_
-#define _KBDFILE_H_
+#ifndef _KBD_KBDFILE_H_
+#define _KBD_KBDFILE_H_
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -55,4 +55,4 @@ kbdfile_log(struct kbdfile_ctx *ctx, int priority,
             const char *file, int line, const char *fn,
             const char *fmt, ...);
 
-#endif /* _KBDFILE_H_ */
+#endif /* _KBD_KBDFILE_H_ */

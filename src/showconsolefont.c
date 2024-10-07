@@ -12,7 +12,7 @@
 #include <sysexits.h>
 #include <sys/ioctl.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfont.h"
 
 /*

@@ -12,7 +12,7 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 /**
  * BITWISE_NOT is the bitwise complement of x with cancelled out integer

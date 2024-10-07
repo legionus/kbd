@@ -1,4 +1,3 @@
-
 /*
 
   Main routine for vlock, the VT locking program for linux.
@@ -33,7 +32,7 @@
 #include "pam_auth.h"
 #include "vlock.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 
 int main(int ac, char *const av[])
 {

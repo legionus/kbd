@@ -17,7 +17,7 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 static void __attribute__((noreturn))
 usage(int rc, const struct kbd_help *options)

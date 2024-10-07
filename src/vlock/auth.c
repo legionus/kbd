@@ -1,4 +1,3 @@
-
 /*
 
   PAM authentication routine for vlock, the VT locking program for linux.
@@ -32,7 +31,7 @@
 #include "pam_auth.h"
 #include "vlock.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 
 /* Delay after fatal PAM errors, in seconds. */
 #define LONG_DELAY 10

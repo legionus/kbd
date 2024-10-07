@@ -8,8 +8,8 @@
 
 #include <stdarg.h>
 
-#include <keymap/context.h>
-#include <keymap/logging.h>
+#include <kbd/keymap/context.h>
+#include <kbd/keymap/logging.h>
 
 /** Initializes the structures necessary to read and/or parse keymap.
  *

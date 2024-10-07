@@ -1,5 +1,5 @@
-#ifndef _LIBCOMMON_H_
-#define _LIBCOMMON_H_
+#ifndef _PRIVATE_COMMON_H_
+#define _PRIVATE_COMMON_H_
 
 #ifndef __GNUC__
 #define __attribute__(x) /*NOTHING*/
@@ -65,4 +65,4 @@ __attribute__((noreturn))
 __attribute__((format(printf, 3, 4)))
 kbd_error(const int exitnum, const int errnum, const char *fmt, ...);
 
-#endif /* _LIBCOMMON_H_ */
+#endif /* _PRIVATE_COMMON_H_ */

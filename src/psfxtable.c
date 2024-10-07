@@ -20,7 +20,7 @@
 #include <sysexits.h>
 #include <errno.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfont.h"
 
 /*

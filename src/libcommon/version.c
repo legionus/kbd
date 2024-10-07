@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 const char *progname;
 

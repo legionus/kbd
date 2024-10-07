@@ -17,7 +17,7 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfont.h"
 
 static void __attribute__((noreturn))

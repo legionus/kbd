@@ -8,7 +8,8 @@
 
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <keymap/array.h>
+
+#include <kbd/keymap/array.h>
 
 /**
  * @brief Parser flags that are set outside the library.

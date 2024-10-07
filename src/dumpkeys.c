@@ -17,10 +17,10 @@
 #include <string.h>
 #include <errno.h>
 #include <sysexits.h>
-#include "ksyms.h"
-#include "modifiers.h"
 
-#include "libcommon.h"
+#include <keymap.h>
+
+#include "private/common.h"
 
 static int fd;
 

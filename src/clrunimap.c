@@ -11,7 +11,7 @@
 #include <string.h>
 #include <linux/kd.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfont.h"
 
 int main(int argc, char *argv[])

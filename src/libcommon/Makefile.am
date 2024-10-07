@@ -4,6 +4,6 @@ libcommon_a_SOURCES = \
 	getfd.c \
 	error.c \
 	version.c \
-	libcommon.h
+	../include/private/common.h
 
 noinst_LIBRARIES = libcommon.a

@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 void
 kbd_warning(const int errnum, const char *fmt, ...)

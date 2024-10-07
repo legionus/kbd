@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kbdfile.h"
 
 /**

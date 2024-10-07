@@ -13,7 +13,7 @@
 
 #include "keymap.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "contextP.h"
 
 int lk_func_exists(struct lk_ctx *ctx, int index)

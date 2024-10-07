@@ -1,4 +1,3 @@
-
 /*
 
   VT code and signal handling for vlock, the VT locking program for linux.
@@ -34,7 +33,7 @@
 #include <sys/wait.h>
 
 #include "vlock.h"
-#include "libcommon.h"
+#include "private/common.h"
 
 /* Saved VT mode. */
 static struct vt_mode ovtm;

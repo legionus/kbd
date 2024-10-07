@@ -84,7 +84,7 @@
 
 #include <kbdfile.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 #define MODE_RESTORETEXTMODE 0
 #define MODE_VGALINES 1

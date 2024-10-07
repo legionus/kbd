@@ -6,7 +6,7 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 int main(int argc, char **argv)
 {

@@ -5,7 +5,7 @@
 #ifndef LK_CHARSET_H
 #define LK_CHARSET_H
 
-#include <keymap/context.h>
+#include <kbd/keymap/context.h>
 
 /** Prints into the FILE a list of supported charsets.
  * @param fp is a stream.

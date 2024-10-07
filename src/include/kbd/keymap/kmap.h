@@ -5,7 +5,7 @@
 #ifndef LK_KMAP_H
 #define LK_KMAP_H
 
-#include <keymap/context.h>
+#include <kbd/keymap/context.h>
 
 #ifndef __GNUC__
 #undef  __attribute__

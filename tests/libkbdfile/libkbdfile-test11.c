@@ -4,7 +4,7 @@
 #include <errno.h>
 
 #include <kbdfile.h>
-#include "libcommon.h"
+#include "private/common.h"
 
 int
 main(int __attribute__((unused)) argc, char **argv)

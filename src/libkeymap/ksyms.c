@@ -9,7 +9,7 @@
 
 #include "contextP.h"
 #include "ksyms.h"
-#include "libcommon.h"
+#include "private/common.h"
 
 #include "syms.cp1250.h"
 #include "syms.ethiopic.h"

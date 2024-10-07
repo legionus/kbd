@@ -15,7 +15,7 @@
 #include <limits.h>
 #include <errno.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "kfontP.h"
 
 static int

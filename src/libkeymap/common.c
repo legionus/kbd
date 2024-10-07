@@ -6,7 +6,7 @@
 
 #include "keymap.h"
 
-#include "libcommon.h"
+#include "private/common.h"
 #include "contextP.h"
 
 void

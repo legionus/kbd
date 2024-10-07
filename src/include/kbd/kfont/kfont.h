@@ -4,8 +4,8 @@
  *
  * Originally written by Andries Brouwer
  */
-#ifndef _KFONT_H_
-#define _KFONT_H_
+#ifndef _KBD_KFONT_H_
+#define _KBD_KFONT_H_
 
 #ifndef __GNUC__
 #undef  __attribute__
@@ -293,4 +293,4 @@ int kfont_write_unicodetable(struct kfont_context *ctx, FILE *file,
 		struct unicode_list *uclistheads)
 	__attribute__((nonnull(1,2,4)));
 
-#endif /* _KFONT_H_ */
+#endif /* _KBD_KFONT_H_ */

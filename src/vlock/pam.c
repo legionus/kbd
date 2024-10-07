@@ -1,4 +1,3 @@
-
 /*
 
   PAM initialization routine for vlock, the VT locking program for linux.
@@ -30,7 +29,7 @@
 
 #include "pam_auth.h"
 #include "vlock.h"
-#include "libcommon.h"
+#include "private/common.h"
 
 static struct pam_conv conv = {
 	&misc_conv,

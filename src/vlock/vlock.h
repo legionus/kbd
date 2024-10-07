@@ -1,4 +1,3 @@
-
 /*
 
   Main header for vlock, the VT locking program for linux.

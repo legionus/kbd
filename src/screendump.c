@@ -26,7 +26,7 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 
-#include "libcommon.h"
+#include "private/common.h"
 
 int main(int argc, char **argv)
 {

@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-#include <keymap/context.h>
+#include <kbd/keymap/context.h>
 
 #ifndef __GNUC__
 #undef  __attribute__
