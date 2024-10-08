@@ -1,9 +1,7 @@
 #ifndef _LIBCOMMON_H_
 #define _LIBCOMMON_H_
 
-#ifndef __GNUC__
-#define __attribute__(x) /*NOTHING*/
-#endif
+#include <kbd/compiler_attributes.h>
 
 #ifndef LOCALEDIR
 #define LOCALEDIR "/usr/share/locale"
@@ -48,21 +46,19 @@ extern const char *progname;
 const char *get_progname(void);
 void set_progname(const char *name);
 
-void
-__attribute__((noreturn))
-print_version_and_exit(void);
+void print_version_and_exit(void)
+	KBD_ATTR_NORETURN;
 
 void print_options(const struct kbd_help *options);
 void print_report_bugs(void);
 
 // error.c
-void
-__attribute__((format(printf, 2, 3)))
-kbd_warning(const int errnum, const char *fmt, ...);
+void kbd_warning(const int errnum, const char *fmt, ...)
+	KBD_ATTR_PRINTF(2, 3);
 
 void
-__attribute__((noreturn))
-__attribute__((format(printf, 3, 4)))
-kbd_error(const int exitnum, const int errnum, const char *fmt, ...);
+kbd_error(const int exitnum, const int errnum, const char *fmt, ...)
+	KBD_ATTR_PRINTF(3, 4)
+	KBD_ATTR_NORETURN;
 
 #endif /* _LIBCOMMON_H_ */

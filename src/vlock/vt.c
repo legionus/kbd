@@ -50,7 +50,7 @@ int is_vt;
  * the VC (with a ALT-Fn key or via VT_ACTIVATE).
  */
 static void
-release_vt(__attribute__((unused)) int signo)
+release_vt(int signo KBD_ATTR_UNUSED)
 {
 	/*
 	 * Kernel is not allowed to switch.
@@ -61,7 +61,7 @@ release_vt(__attribute__((unused)) int signo)
 
 /* This is called whenever a user switches to that VC. */
 static void
-acquire_vt(__attribute__((unused)) int signo)
+acquire_vt(int signo KBD_ATTR_UNUSED)
 {
 	/*
 	 * This call is not currently required under Linux,

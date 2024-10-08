@@ -44,7 +44,7 @@
 #error vt device name must be defined
 #endif
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] -- command\n"), get_progname());
@@ -154,9 +154,7 @@ open_vt(char *vtname, int force)
 }
 
 static void
-sighandler(int sig __attribute__((unused)),
-           siginfo_t *si __attribute__((unused)),
-           void *uc __attribute__((unused)))
+sighandler(int sig KBD_ATTR_UNUSED, siginfo_t *si KBD_ATTR_UNUSED, void *uc KBD_ATTR_UNUSED)
 {
 	return;
 }

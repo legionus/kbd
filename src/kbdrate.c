@@ -229,7 +229,7 @@ KIOCSRATE_ioctl_ok(double rate, int delay, int silent)
 #endif /* KIOCSRATE */
 
 static void
-sigalrmhandler(int sig __attribute__((unused)))
+sigalrmhandler(int sig KBD_ATTR_UNUSED)
 {
 	kbd_warning(0, "Failed waiting for kbd controller!\n");
 	raise(SIGINT);
@@ -315,7 +315,7 @@ static double rate = 10.9; /* Default rate */
 static int delay   = 250; /* Default delay */
 #endif
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());

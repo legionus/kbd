@@ -89,7 +89,7 @@
 #define MODE_RESTORETEXTMODE 0
 #define MODE_VGALINES 1
 
-static void usage(void) __attribute__((noreturn));
+static void usage(void) KBD_ATTR_NORETURN;
 
 /* VGA textmode register tweaking. */
 static void vga_init_io(void);
@@ -368,7 +368,7 @@ int main(int argc, char **argv)
 	return EXIT_SUCCESS;
 }
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(void)
 {
 	fprintf(stderr,

@@ -68,7 +68,7 @@ struct strdata {
 
 %{
 static int
-yyerror(yyscan_t scanner __attribute__ ((unused)),
+yyerror(yyscan_t scanner KBD_ATTR_UNUSED,
         struct lk_ctx *ctx, const char *s)
 {
 	ERR(ctx, "%s", s);

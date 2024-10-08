@@ -68,7 +68,7 @@ clean_up(void)
 	close(fd);
 }
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 die(int x)
 {
 	printf(_("caught signal %d, cleaning up...\n"), x);
@@ -76,14 +76,14 @@ die(int x)
 	exit(EXIT_FAILURE);
 }
 
-static void __attribute__((noreturn))
-watch_dog(int x __attribute__((unused)))
+static void KBD_ATTR_NORETURN
+watch_dog(int x KBD_ATTR_UNUSED)
 {
 	clean_up();
 	exit(EXIT_SUCCESS);
 }
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
