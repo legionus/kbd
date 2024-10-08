@@ -29,7 +29,7 @@ ud_compar(const void *u1, const void *u2)
 	return (int)fp1 - (int)fp2;
 }
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());

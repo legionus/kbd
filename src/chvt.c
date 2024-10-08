@@ -18,7 +18,7 @@
 
 #include "libcommon.h"
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] N\n"), get_progname());
@@ -30,9 +30,7 @@ usage(int rc, const struct kbd_help *options)
 }
 
 static void
-sighandler(int sig __attribute__((unused)),
-           siginfo_t *si __attribute__((unused)),
-           void *uc __attribute__((unused)))
+sighandler(int sig KBD_ATTR_UNUSED, siginfo_t *si KBD_ATTR_UNUSED, void *uc KBD_ATTR_UNUSED)
 {
 	return;
 }

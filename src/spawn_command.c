@@ -32,7 +32,7 @@
 #endif
 
 static void
-sighup(int n __attribute__((unused)))
+sighup(int n KBD_ATTR_UNUSED)
 {
 	if (system(COMMAND) == -1) {
 		kbd_error(EXIT_FAILURE, errno, "system");
@@ -40,7 +40,7 @@ sighup(int n __attribute__((unused)))
 	signal(SIGHUP, sighup);
 }
 
-int main(int argc __attribute__((unused)), char *argv[])
+int main(int argc KBD_ATTR_UNUSED, char *argv[])
 {
 	int fd;
 

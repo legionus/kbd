@@ -5,7 +5,7 @@
 
 #include "libcommon.h"
 
-int main(int __attribute__((unused)) argc, char **argv)
+int main(int argc KBD_ATTR_UNUSED, char **argv)
 {
 	set_progname(argv[0]);
 

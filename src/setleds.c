@@ -25,7 +25,7 @@
 #define BITMASK_UNSET(x, mask) ((x) & BITWISE_NOT(mask))
 #define BITMASK_SET(x, mask) ((x) | (mask))
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"),
@@ -123,14 +123,8 @@ getflags(unsigned char *flags)
 
 static int sunkbdfd = -1;
 
-#ifndef KIOCGLED
-#define arg_state __attribute__((unused))
-#else
-#define arg_state
-#endif
-
 static void
-sungetleds(arg_state unsigned char *cur_leds)
+sungetleds(unsigned char *cur_leds KBD_ATTR_UNUSED)
 {
 #ifdef KIOCGLED
 	if (ioctl(sunkbdfd, KIOCGLED, cur_leds)) {
@@ -142,14 +136,8 @@ sungetleds(arg_state unsigned char *cur_leds)
 #endif
 }
 
-#ifndef KIOCSLED
-#define arg_state __attribute__((unused))
-#else
-#define arg_state
-#endif
-
 static void
-sunsetleds(arg_state unsigned char *cur_leds)
+sunsetleds(unsigned char *cur_leds KBD_ATTR_UNUSED)
 {
 #ifdef KIOCSLED
 	if (ioctl(sunkbdfd, KIOCSLED, cur_leds)) {

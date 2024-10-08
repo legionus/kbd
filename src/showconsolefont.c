@@ -29,7 +29,7 @@ static int fd           = 0;
 static int have_obuf    = 0;
 static int have_ounimap = 0;
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 leave(struct kfont_context *ctx, int n)
 {
 	if (have_obuf && kfont_put_uniscrnmap(ctx, fd, obuf)) {
@@ -96,7 +96,7 @@ setnewunicodemap(struct kfont_context *ctx, unsigned int *list, int cnt)
 		leave(ctx, EXIT_FAILURE);
 }
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());

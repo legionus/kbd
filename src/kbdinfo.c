@@ -15,7 +15,7 @@
 static const char *action = NULL;
 static const char *value  = NULL;
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr,

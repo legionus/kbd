@@ -14,7 +14,7 @@
 
 #include "libcommon.h"
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int retcode, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] [newfont...]\n"), get_progname());
