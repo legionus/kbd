@@ -12,10 +12,10 @@
  * @details The array is designed to store an arbitrary number of similar items.
  */
 struct lk_array {
-	char *array;   /**< Data pointer. */
-	ssize_t memb;  /**< One element size. */
-	ssize_t count; /**< Number of elements. */
-	ssize_t total; /**< Total number of allocated elements. */
+	char *array KBD_ATTR_NONSTRING;   /**< Data pointer. */
+	ssize_t memb;                     /**< One element size. */
+	ssize_t count;                    /**< Number of elements. */
+	ssize_t total;                    /**< Total number of allocated elements. */
 };
 
 int lk_array_init(struct lk_array *a, ssize_t memb, ssize_t size);

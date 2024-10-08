@@ -52,9 +52,9 @@
 #define PSF1_STARTSEQ 0xFFFE
 
 struct psf1_header {
-	unsigned char magic[2]; /* Magic number */
-	unsigned char mode;     /* PSF font mode */
-	unsigned char charsize; /* Character size */
+	unsigned char magic[2] KBD_ATTR_NONSTRING; /* Magic number */
+	unsigned char mode;                        /* PSF font mode */
+	unsigned char charsize;                    /* Character size */
 };
 
 /*
@@ -75,7 +75,7 @@ struct psf1_header {
 #define PSF2_MAGIC3 0x86
 
 struct psf2_header {
-	unsigned char magic[4];
+	unsigned char magic[4] KBD_ATTR_NONSTRING;
 	unsigned int version;
 	unsigned int headersize; /* offset of bitmaps in file */
 	unsigned int flags;
