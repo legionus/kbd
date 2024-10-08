@@ -10,8 +10,9 @@
 #include <sys/ioctl.h>
 #include <sysexits.h>
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 static void __attribute__((noreturn))
 usage(int retcode, const struct kbd_help *options)

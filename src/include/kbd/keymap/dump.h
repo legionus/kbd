@@ -1,13 +1,14 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file dump.h
  * @brief Functions for keymap output.
  */
-#ifndef LK_DUMP_H
-#define LK_DUMP_H
+#ifndef _KBD_LIBKEYMAP_DUMP_H_
+#define _KBD_LIBKEYMAP_DUMP_H_
 
 #include <stdio.h>
 
-#include <keymap/context.h>
+#include <kbd/keymap/context.h>
 
 #ifndef __GNUC__
 #undef  __attribute__
@@ -122,4 +123,4 @@ int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res) __attribute__((non
 void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console) __attribute__((nonnull(1, 2)));
 void lk_dump_symbols(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
 
-#endif /* LK_DUMP_H */
+#endif /* _KBD_LIBKEYMAP_DUMP_H_ */

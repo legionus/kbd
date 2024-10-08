@@ -5,7 +5,7 @@
 #ifndef _KFONT_PRIVATE_H_
 #define _KFONT_PRIVATE_H_
 
-#include "kfont.h"
+#include <kfont.h>
 
 struct kfont_context {
 	const char *progname;

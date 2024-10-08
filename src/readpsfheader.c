@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h> /* exit */
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 static void __attribute__((noreturn))
 usage(void)

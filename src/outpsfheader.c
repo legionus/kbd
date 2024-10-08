@@ -6,8 +6,9 @@
 #include <stdlib.h> /* exit */
 #include <limits.h>
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 static void __attribute__((noreturn))
 usage(void)

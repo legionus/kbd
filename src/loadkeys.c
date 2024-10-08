@@ -20,9 +20,9 @@
 #include <sysexits.h>
 #include <sys/ioctl.h>
 
-#include "libcommon.h"
+#include <keymap.h>
 
-#include "keymap.h"
+#include "libcommon.h"
 
 static const char *const dirpath1[] = {
 	DATADIR "/" KEYMAPDIR "/**",

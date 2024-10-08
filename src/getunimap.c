@@ -11,8 +11,9 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 #ifndef USE_LIBC
 /* There is such function in libc5 but it doesn't work for me [libc 5.4.13] */

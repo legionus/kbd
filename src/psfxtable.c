@@ -20,8 +20,9 @@
 #include <sysexits.h>
 #include <errno.h>
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 /*
  * call: psfxtable -i infont -o outfont -it intable -ot outtable

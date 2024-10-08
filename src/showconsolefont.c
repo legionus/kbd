@@ -12,8 +12,9 @@
 #include <sysexits.h>
 #include <sys/ioctl.h>
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 /*
  * Showing the font is nontrivial mostly because testing whether

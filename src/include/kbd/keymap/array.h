@@ -1,5 +1,6 @@
-#ifndef LK_ARRAY_H
-#define LK_ARRAY_H
+// SPDX-License-Identifier: LGPL-2.0-or-later
+#ifndef _KBD_LIBKEYMAP_ARRAY_H_
+#define _KBD_LIBKEYMAP_ARRAY_H_
 
 #include <sys/param.h>
 #include <sys/types.h>
@@ -29,4 +30,4 @@ void *lk_array_get_ptr(struct lk_array *a, ssize_t i);
 int lk_array_unset(struct lk_array *a, ssize_t i);
 int lk_array_exists(struct lk_array *a, ssize_t i);
 
-#endif /* LK_ARRAY_H */
+#endif /* _KBD_LIBKEYMAP_ARRAY_H_ */
