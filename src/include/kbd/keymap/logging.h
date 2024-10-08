@@ -1,12 +1,14 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file logging.h
  * @brief Functions for logging.
  */
-#ifndef LK_LOGGING_H
-#define LK_LOGGING_H
+#ifndef _KBD_LIBKEYMAP_LOGGING_H_
+#define _KBD_LIBKEYMAP_LOGGING_H_
 
 #include <syslog.h>
-#include <keymap/context.h>
+
+#include <kbd/keymap/context.h>
 
 #ifndef __GNUC__
 #undef  __attribute__
@@ -30,4 +32,4 @@ lk_log(struct lk_ctx *ctx, int priority,
        __attribute__((format(printf, 6, 7)))
        __attribute__((nonnull(1)));
 
-#endif /* LK_LOGGING_H */
+#endif /* _KBD_LIBKEYMAP_LOGGING_H_ */

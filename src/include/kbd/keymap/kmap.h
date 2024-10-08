@@ -1,11 +1,12 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file kmap.h
  * @brief Functions for keymaps manipulation (add/delete keys).
  */
-#ifndef LK_KMAP_H
-#define LK_KMAP_H
+#ifndef _KBD_LIBKEYMAP_KMAP_H_
+#define _KBD_LIBKEYMAP_KMAP_H_
 
-#include <keymap/context.h>
+#include <kbd/keymap/context.h>
 
 #ifndef __GNUC__
 #undef  __attribute__
@@ -43,4 +44,4 @@ int lk_add_constants(struct lk_ctx *ctx) __attribute__((nonnull(1)));
 int lk_parse_keymap(struct lk_ctx *ctx, struct kbdfile *f) __attribute__((nonnull(1, 2)));
 int lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode) __attribute__((nonnull(1)));
 
-#endif /* LK_KMAP_H */
+#endif /* _KBD_LIBKEYMAP_KMAP_H_ */

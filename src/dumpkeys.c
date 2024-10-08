@@ -17,8 +17,8 @@
 #include <string.h>
 #include <errno.h>
 #include <sysexits.h>
-#include "ksyms.h"
-#include "modifiers.h"
+
+#include <keymap.h>
 
 #include "libcommon.h"
 

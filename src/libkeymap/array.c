@@ -6,7 +6,7 @@
 #include <errno.h>
 #include <sys/types.h>
 
-#include <keymap/array.h>
+#include <kbd/keymap/array.h>
 
 int
 lk_array_init(struct lk_array *a, ssize_t memb, ssize_t size)

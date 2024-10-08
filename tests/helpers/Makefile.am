@@ -2,9 +2,9 @@ NULL =
 
 AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
+	-I$(top_srcdir)/src/include \
 	-I$(top_srcdir)/src/libcommon \
-	-I$(top_srcdir)/src/libkeymap \
-	-I$(top_srcdir)/src/libkbdfile
+	-I$(top_srcdir)/src/libkeymap
 
 AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
 
