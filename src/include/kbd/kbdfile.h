@@ -10,6 +10,8 @@
 #include <stdarg.h>
 #include <sys/param.h>
 
+#include <kbd/compiler_attributes.h>
+
 #ifndef __GNUC__
 #define __attribute__(x) /*NOTHING*/
 #endif

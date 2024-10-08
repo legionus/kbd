@@ -19,6 +19,7 @@ KFONT_SONAME    = $(KFONT_SHAREDLIB).$(KFONT_CURRENT)
 KFONT_MAPFILE   = $(top_srcdir)/src/libkfont/libkfont.map
 
 headers = \
+	../include/kbd/compiler_attributes.h \
 	../include/kfont.h \
 	../include/kbd/kfont.h
 

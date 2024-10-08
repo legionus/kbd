@@ -7,6 +7,8 @@
 #ifndef _KBD_LIBKFONT_KFONT_H_
 #define _KBD_LIBKFONT_KFONT_H_
 
+#include <kbd/compiler_attributes.h>
+
 #ifndef __GNUC__
 #undef  __attribute__
 #define __attribute__(x) /*NOTHING*/

@@ -5,6 +5,8 @@
 #include <sys/param.h>
 #include <sys/types.h>
 
+#include <kbd/compiler_attributes.h>
+
 /**
  * @brief Basic structure for array implementation.
  * @details The array is designed to store an arbitrary number of similar items.

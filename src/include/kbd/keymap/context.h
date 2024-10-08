@@ -9,6 +9,8 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 
+#include <kbd/compiler_attributes.h>
+
 #include <kbd/keymap/array.h>
 
 /**
