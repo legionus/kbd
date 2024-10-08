@@ -4,6 +4,7 @@ AM_CPPFLAGS += -I$(srcdir)
 LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 headers = \
+	../include/kbd/compiler_attributes.h \
 	../include/kbdfile.h \
 	../include/kbd/kbdfile.h
 

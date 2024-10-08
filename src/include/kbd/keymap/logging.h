@@ -8,6 +8,8 @@
 
 #include <syslog.h>
 
+#include <kbd/compiler_attributes.h>
+
 #include <kbd/keymap/context.h>
 
 #ifndef __GNUC__

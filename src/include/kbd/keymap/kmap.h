@@ -6,6 +6,8 @@
 #ifndef _KBD_LIBKEYMAP_KMAP_H_
 #define _KBD_LIBKEYMAP_KMAP_H_
 
+#include <kbd/compiler_attributes.h>
+
 #include <kbd/keymap/context.h>
 
 #ifndef __GNUC__

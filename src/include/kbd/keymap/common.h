@@ -9,6 +9,8 @@
 
 #include <stdarg.h>
 
+#include <kbd/compiler_attributes.h>
+
 #include <kbd/keymap/context.h>
 #include <kbd/keymap/logging.h>
 

@@ -6,6 +6,8 @@
 #ifndef _KBD_LIBKEYMAP_CHARSET_H_
 #define _KBD_LIBKEYMAP_CHARSET_H_
 
+#include <kbd/compiler_attributes.h>
+
 #include <kbd/keymap/context.h>
 
 /** Prints into the FILE a list of supported charsets.
