@@ -21,10 +21,30 @@
 #include "compat/linux-kd.h"
 #endif
 
+static int
+is_kd_text(struct kfont_context *ctx, int fd)
+{
+	unsigned int kd_mode;
+
+	if (ioctl(fd, KDGETMODE, &kd_mode)) {
+		KFONT_ERR(ctx, "ioctl(KDGETMODE): %m");
+		return 0;
+	}
+
+	if (kd_mode == KD_TEXT)
+		return 1;
+
+	KFONT_ERR(ctx, _("Console is not in text mode"));
+	return 0;
+}
+
 int
 kfont_restore_font(struct kfont_context *ctx, int fd)
 {
 	struct console_font_op cfo;
+
+	if (!is_kd_text(ctx, fd))
+		return -1;
 
 	cfo.op = KD_FONT_OP_SET_DEFAULT;
 
@@ -59,6 +79,9 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 		unsigned int *vpitch)
 {
 	struct console_font_op cfo;
+
+	if (!is_kd_text(ctx, consolefd))
+		return -1;
 
 	cfo.op = KD_FONT_OP_GET;
 	cfo.flags = 0;
@@ -161,6 +184,9 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int vpitch)
 {
 	struct console_font_op cfo;
+
+	if (!is_kd_text(ctx, consolefd))
+		return -1;
 
 	if (vpitch == 32 && width <= 32)
 		cfo.op        = KD_FONT_OP_SET;
