@@ -4,13 +4,10 @@
  *
  * Originally written by Andries Brouwer
  */
-#ifndef _KFONT_H_
-#define _KFONT_H_
+#ifndef _KBD_LIBKFONT_KFONT_H_
+#define _KBD_LIBKFONT_KFONT_H_
 
-#ifndef __GNUC__
-#undef  __attribute__
-#define __attribute__(x) /*NOTHING*/
-#endif
+#include <kbd/compiler_attributes.h>
 
 /*
  * Format of a psf font file:
@@ -55,9 +52,9 @@
 #define PSF1_STARTSEQ 0xFFFE
 
 struct psf1_header {
-	unsigned char magic[2]; /* Magic number */
-	unsigned char mode;     /* PSF font mode */
-	unsigned char charsize; /* Character size */
+	unsigned char magic[2] KBD_ATTR_NONSTRING; /* Magic number */
+	unsigned char mode;                        /* PSF font mode */
+	unsigned char charsize;                    /* Character size */
 };
 
 /*
@@ -78,7 +75,7 @@ struct psf1_header {
 #define PSF2_MAGIC3 0x86
 
 struct psf2_header {
-	unsigned char magic[4];
+	unsigned char magic[4] KBD_ATTR_NONSTRING;
 	unsigned int version;
 	unsigned int headersize; /* offset of bitmaps in file */
 	unsigned int flags;
@@ -119,8 +116,8 @@ void kfont_free(struct kfont_context *ctx);
 
 typedef void (*kfont_logger_t)(struct kfont_context *, int, const char *, int,
 		const char *, const char *, va_list)
-	__attribute__((nonnull(1)))
-	__attribute__((format(printf, 6, 0)));
+	KBD_ATTR_PRINTF(6, 0)
+	KBD_ATTR_NONNULL(1);
 
 enum kfont_option {
 	kfont_force,
@@ -128,40 +125,40 @@ enum kfont_option {
 };
 
 int kfont_get_verbosity(struct kfont_context *ctx)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 void kfont_inc_verbosity(struct kfont_context *ctx)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 void kfont_set_logger(struct kfont_context *ctx, kfont_logger_t fn)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 void kfont_set_option(struct kfont_context *ctx, enum kfont_option opt)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 void kfont_unset_option(struct kfont_context *ctx, enum kfont_option opt)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /* mapscrn.c */
 
 int kfont_load_consolemap(struct kfont_context *ctx, int consolefd,
 		const char *filename)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 int kfont_save_consolemap(struct kfont_context *ctx, int consolefd,
 		const char *filename)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 /* loadunimap.c */
 
 /* save humanly readable */
 int kfont_save_unicodemap(struct kfont_context *ctx, int consolefd,
 		const char *filename)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 int kfont_load_unicodemap(struct kfont_context *ctx, int consolefd,
 		const char *filename)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 /* kdfontop.c */
 
@@ -173,7 +170,7 @@ int kfont_load_unicodemap(struct kfont_context *ctx, int consolefd,
 int kfont_get_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int *count, unsigned int *width, unsigned int *height,
 		unsigned int *vpitch)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /*
  * Load kernel font of width WIDTH and pointsize HEIGHT from BUF
@@ -183,55 +180,55 @@ int kfont_get_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 int kfont_put_font(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		unsigned int count, unsigned int width, unsigned int height,
 		unsigned int vpitch)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /*
  * Find the size of the kernel font.
  */
 unsigned int kfont_get_fontsize(struct kfont_context *ctx, int consolefd)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /*
  * Restore font (doesn't work).
  */
 int kfont_restore_font(struct kfont_context *ctx, int fd)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /* kdmapop.c */
 
 int kfont_get_uniscrnmap(struct kfont_context *ctx, int consolefd,
 		unsigned short *map)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 int kfont_put_uniscrnmap(struct kfont_context *ctx, int consolefd,
 		unsigned short *map)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 #include <linux/kd.h>
 
 int kfont_get_unicodemap(struct kfont_context *ctx, int consolefd,
 		struct unimapdesc *ud)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 int kfont_put_unicodemap(struct kfont_context *ctx, int consolefd,
 		struct unimapinit *ui, struct unimapdesc *ud)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /* setfont.c */
 
 int kfont_save_font(struct kfont_context *ctx, int consolefd,
 		const char *filename, int with_unicodemap)
-	__attribute__((nonnull(1,3)));
+	KBD_ATTR_NONNULL(1, 3);
 
 int kfont_load_font(struct kfont_context *ctx,
 		int consolefd, const char *filename,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 int kfont_load_fonts(struct kfont_context *ctx,
 		int consolefd, const char *const *files, int filect,
 		unsigned int iunit, unsigned int hwunit, int no_m, int no_u)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 void kfont_activatemap(int fd);
 void kfont_disactivatemap(int fd);
@@ -273,24 +270,24 @@ int kfont_read_psffont(struct kfont_context *ctx,
 		unsigned int *fontwidthp, unsigned int *fontheightp,
 		unsigned int *fontlenp, unsigned int fontpos0,
 		struct unicode_list **uclistheadsp)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 int kfont_write_psffont(struct kfont_context *ctx,
 		FILE *ofil, unsigned char *fontbuf,
 		unsigned int width, unsigned int height, unsigned int fontlen,
 		int psftype, struct unicode_list *uclistheads)
-	__attribute__((nonnull(1,2,3)));
+	KBD_ATTR_NONNULL(1, 2, 3);
 
 /* psfxtable.c */
 
 int kfont_read_unicodetable(struct kfont_context *ctx, FILE *file,
 		unsigned int fontlen,
 		struct unicode_list **uclistheads)
-	__attribute__((nonnull(1,2,4)));
+	KBD_ATTR_NONNULL(1, 2, 4);
 
 int kfont_write_unicodetable(struct kfont_context *ctx, FILE *file,
 		unsigned int fontlen,
 		struct unicode_list *uclistheads)
-	__attribute__((nonnull(1,2,4)));
+	KBD_ATTR_NONNULL(1, 2, 4);
 
-#endif /* _KFONT_H_ */
+#endif /* _KBD_LIBKFONT_KFONT_H_ */

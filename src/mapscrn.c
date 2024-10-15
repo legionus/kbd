@@ -15,10 +15,11 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
-#include "libcommon.h"
-#include "kfont.h"
+#include <kfont.h>
 
-static void __attribute__((noreturn))
+#include "libcommon.h"
+
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] [map-file]\n"), get_progname());

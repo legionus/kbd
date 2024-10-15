@@ -1,21 +1,20 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file logging.h
  * @brief Functions for logging.
  */
-#ifndef LK_LOGGING_H
-#define LK_LOGGING_H
+#ifndef _KBD_LIBKEYMAP_LOGGING_H_
+#define _KBD_LIBKEYMAP_LOGGING_H_
 
 #include <syslog.h>
-#include <keymap/context.h>
 
-#ifndef __GNUC__
-#undef  __attribute__
-#define __attribute__(x) /*NOTHING*/
-#endif
+#include <kbd/compiler_attributes.h>
+
+#include <kbd/keymap/context.h>
 
 typedef void (*lk_logger_t)(void *, int, const char *, int, const char *, const char *, va_list)
-	__attribute__((nonnull(1)))
-	__attribute__((format(printf, 6, 0)));
+	KBD_ATTR_PRINTF(6, 0)
+	KBD_ATTR_NONNULL(1);
 
 /**
  * Logging function which uses @ref lk_ctx::log_fn "log_fn" and
@@ -25,9 +24,9 @@ typedef void (*lk_logger_t)(void *, int, const char *, int, const char *, const 
  */
 void
 lk_log(struct lk_ctx *ctx, int priority,
-       const char *file, int line, const char *fn,
-       const char *fmt, ...)
-       __attribute__((format(printf, 6, 7)))
-       __attribute__((nonnull(1)));
+		const char *file, int line, const char *fn,
+		const char *fmt, ...)
+	KBD_ATTR_PRINTF(6, 7)
+	KBD_ATTR_NONNULL(1);
 
-#endif /* LK_LOGGING_H */
+#endif /* _KBD_LIBKEYMAP_LOGGING_H_ */

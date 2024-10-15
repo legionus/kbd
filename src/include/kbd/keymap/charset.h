@@ -1,11 +1,14 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file charset.h
  * @brief Functions for charset manipulation.
  */
-#ifndef LK_CHARSET_H
-#define LK_CHARSET_H
+#ifndef _KBD_LIBKEYMAP_CHARSET_H_
+#define _KBD_LIBKEYMAP_CHARSET_H_
 
-#include <keymap/context.h>
+#include <kbd/compiler_attributes.h>
+
+#include <kbd/keymap/context.h>
 
 /** Prints into the FILE a list of supported charsets.
  * @param fp is a stream.
@@ -29,4 +32,4 @@ const char *lk_get_charset(struct lk_ctx *ctx);
  */
 int lk_set_charset(struct lk_ctx *ctx, const char *name);
 
-#endif /* LK_CHARSET_H */
+#endif /* _KBD_LIBKEYMAP_CHARSET_H_ */

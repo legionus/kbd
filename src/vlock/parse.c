@@ -45,7 +45,7 @@ locked_name(void)
 	return o_lock_all ? "console" : (is_vt ? "VC" : "tty");
 }
 
-static void __attribute__((__noreturn__))
+static void KBD_ATTR_NORETURN
 show_usage(void)
 {
 	fprintf(stderr,
@@ -54,7 +54,7 @@ show_usage(void)
 	exit(EX_USAGE);
 }
 
-static void __attribute__((__noreturn__))
+static void KBD_ATTR_NORETURN
 show_help(void)
 {
 	const char *name = get_progname();

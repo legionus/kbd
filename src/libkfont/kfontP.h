@@ -5,7 +5,7 @@
 #ifndef _KFONT_PRIVATE_H_
 #define _KFONT_PRIVATE_H_
 
-#include "kfont.h"
+#include <kfont.h>
 
 struct kfont_context {
 	const char *progname;
@@ -29,8 +29,8 @@ struct kfont_context {
 
 void logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn, const char *fmt, ...)
-	__attribute__((format(printf, 6, 7)))
-	__attribute__((nonnull(1)));
+	KBD_ATTR_PRINTF(6, 7)
+	KBD_ATTR_NONNULL(1);
 
 #include <syslog.h>
 
@@ -41,8 +41,8 @@ void logger(struct kfont_context *ctx, int priority, const char *file,
 
 void log_stderr(struct kfont_context *ctx, int priority, const char *file,
 		const int line, const char *fn, const char *format, va_list args)
-	__attribute__((format(printf, 6, 0)))
-	__attribute__((nonnull(1)));
+	KBD_ATTR_PRINTF(6, 0)
+	KBD_ATTR_NONNULL(1);
 
 /* unicode.c */
 
@@ -66,7 +66,7 @@ void clear_uni_entry(struct unicode_list *up);
 
 int appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
 		unsigned int ct, int utf8)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /* kdfontop.c */
 
@@ -77,7 +77,7 @@ int appendunicodemap(struct kfont_context *ctx, int fd, FILE *fp,
  */
 int getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
 		unsigned int *count, unsigned int *width, unsigned int *height)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /*
  * Load kernel font of width WIDTH and pointsize HEIGHT from BUF
@@ -86,7 +86,7 @@ int getfont(struct kfont_context *ctx, int fd, unsigned char *buf,
  */
 int putfont(struct kfont_context *ctx, int fd, unsigned char *buf,
 		unsigned int count, unsigned int width, unsigned int height)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /*
  * Find the maximum height of nonblank pixels
@@ -94,15 +94,15 @@ int putfont(struct kfont_context *ctx, int fd, unsigned char *buf,
  */
 unsigned int font_charheight(unsigned char *buf, unsigned int count,
 		unsigned int width)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /* kdmapop.c */
 
 int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
-	__attribute__((nonnull(1)));
+	KBD_ATTR_NONNULL(1);
 
 /* psffontop.c */
 

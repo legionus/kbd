@@ -20,7 +20,7 @@
 
 #include "libcommon.h"
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] scancode keycode ...\n"), get_progname());

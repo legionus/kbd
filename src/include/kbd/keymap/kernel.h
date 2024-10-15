@@ -1,16 +1,14 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file kernel.h
  * @brief Functions for loading objects into the kernel.
  */
-#ifndef LK_KERNEL_H
-#define LK_KERNEL_H
+#ifndef _KBD_LIBKEYMAP_KERNEL_H_
+#define _KBD_LIBKEYMAP_KERNEL_H_
 
-#include <keymap/context.h>
+#include <kbd/compiler_attributes.h>
 
-#ifndef __GNUC__
-#undef  __attribute__
-#define __attribute__(x) /*NOTHING*/
-#endif
+#include <kbd/keymap/context.h>
 
 /**
  * Loads keymap into the kernel. This is a high-level function that calls
@@ -20,7 +18,8 @@
  *
  * @return 0 on success, -1 on error.
  */
-int lk_kernel_keymap(struct lk_ctx *ctx, int console) __attribute__((nonnull(1)));
+int lk_kernel_keymap(struct lk_ctx *ctx, int console)
+	KBD_ATTR_NONNULL(1);
 
 /**
  * Loads keycodes into the kernel.
@@ -29,7 +28,8 @@ int lk_kernel_keymap(struct lk_ctx *ctx, int console) __attribute__((nonnull(1))
  *
  * @return 0 on success, -1 on error.
  */
-int lk_kernel_keys(struct lk_ctx *ctx, int console) __attribute__((nonnull(1)));
+int lk_kernel_keys(struct lk_ctx *ctx, int console)
+	KBD_ATTR_NONNULL(1);
 
 /**
  * Loads function keys into the kernel.
@@ -38,7 +38,8 @@ int lk_kernel_keys(struct lk_ctx *ctx, int console) __attribute__((nonnull(1)));
  *
  * @return 0 on success, -1 on error.
  */
-int lk_kernel_funcs(struct lk_ctx *ctx, int console) __attribute__((nonnull(1)));
+int lk_kernel_funcs(struct lk_ctx *ctx, int console)
+	KBD_ATTR_NONNULL(1);
 
 /**
  * Loads accent table into the kernel.
@@ -47,6 +48,7 @@ int lk_kernel_funcs(struct lk_ctx *ctx, int console) __attribute__((nonnull(1)))
  *
  * @return 0 on success, -1 on error.
  */
-int lk_kernel_diacrs(struct lk_ctx *ctx, int console) __attribute__((nonnull(1)));
+int lk_kernel_diacrs(struct lk_ctx *ctx, int console)
+	KBD_ATTR_NONNULL(1);
 
-#endif /* LK_KERNEL_H */
+#endif /* _KBD_LIBKEYMAP_KERNEL_H_ */

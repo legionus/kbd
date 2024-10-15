@@ -10,10 +10,11 @@
 #include <sys/ioctl.h>
 #include <sysexits.h>
 
-#include "libcommon.h"
-#include "kfont.h"
+#include <kfont.h>
 
-static void __attribute__((noreturn))
+#include "libcommon.h"
+
+static void KBD_ATTR_NORETURN
 usage(int retcode, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] [newfont...]\n"), get_progname());

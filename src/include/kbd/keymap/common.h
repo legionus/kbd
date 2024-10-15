@@ -1,15 +1,18 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file common.h
  * @brief Functions for initialization and release of resources as well
  * as functions to handle parameters.
  */
-#ifndef LK_COMMON_H
-#define LK_COMMON_H
+#ifndef _KBD_LIBKEYMAP_COMMON_H_
+#define _KBD_LIBKEYMAP_COMMON_H_
 
 #include <stdarg.h>
 
-#include <keymap/context.h>
-#include <keymap/logging.h>
+#include <kbd/compiler_attributes.h>
+
+#include <kbd/keymap/context.h>
+#include <kbd/keymap/logging.h>
 
 /** Initializes the structures necessary to read and/or parse keymap.
  *
@@ -71,4 +74,4 @@ void *lk_get_log_data(struct lk_ctx *ctx);
 lk_keywords lk_get_keywords(struct lk_ctx *ctx);
 int lk_set_keywords(struct lk_ctx *ctx, lk_keywords keywords);
 
-#endif /* LK_COMMON_H */
+#endif /* _KBD_LIBKEYMAP_COMMON_H_ */

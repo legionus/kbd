@@ -7,6 +7,7 @@ include $(top_srcdir)/Makefile.common
 CLEANFILES = libkfont.pc
 EXTRA_DIST = libkfont.pc.gen libkfont.map
 
+AM_CPPFLAGS += -I$(srcdir)
 LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 KFONT_CURRENT  = 2
@@ -17,8 +18,14 @@ KFONT_SHAREDLIB = libkfont.so
 KFONT_SONAME    = $(KFONT_SHAREDLIB).$(KFONT_CURRENT)
 KFONT_MAPFILE   = $(top_srcdir)/src/libkfont/libkfont.map
 
+headers = \
+	../include/kbd/compiler_attributes.h \
+	../include/kfont.h \
+	../include/kbd/kfont.h
+
 libkfont_la_SOURCES = \
-	kfont.h kfontP.h \
+	$(headers) \
+	kfontP.h \
 	psffontop.c \
 	psfxtable.c \
 	context.c \
@@ -37,7 +44,7 @@ if BUILD_LIBKFONT
 pkgconfigdir   = $(libdir)/pkgconfig
 pkgconfig_DATA = libkfont.pc
 
-nobase_include_HEADERS = kfont.h
+nobase_include_HEADERS = $(headers)
 lib_LTLIBRARIES = libkfont.la
 else
 noinst_LTLIBRARIES = libkfont.la

@@ -11,8 +11,9 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
+#include <kfont.h>
+
 #include "libcommon.h"
-#include "kfont.h"
 
 #ifndef USE_LIBC
 /* There is such function in libc5 but it doesn't work for me [libc 5.4.13] */
@@ -28,7 +29,7 @@ ud_compar(const void *u1, const void *u2)
 	return (int)fp1 - (int)fp2;
 }
 
-static void __attribute__((noreturn))
+static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());

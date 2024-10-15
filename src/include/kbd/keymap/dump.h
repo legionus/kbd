@@ -1,18 +1,16 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file dump.h
  * @brief Functions for keymap output.
  */
-#ifndef LK_DUMP_H
-#define LK_DUMP_H
+#ifndef _KBD_LIBKEYMAP_DUMP_H_
+#define _KBD_LIBKEYMAP_DUMP_H_
 
 #include <stdio.h>
 
-#include <keymap/context.h>
+#include <kbd/compiler_attributes.h>
 
-#ifndef __GNUC__
-#undef  __attribute__
-#define __attribute__(x) /*NOTHING*/
-#endif
+#include <kbd/keymap/context.h>
 
 /**
  * @brief Flags controlling the output keymap.
@@ -47,7 +45,8 @@ struct kmapinfo {
  *
  * @return 0 on success, -1 on error.
  */
-int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1)));
+int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd)
+	KBD_ATTR_NONNULL(1);
 
 /**
  * Outputs a keymap in C format.
@@ -56,7 +55,8 @@ int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1)));
  *
  * @return 0 on success, -1 on error.
  */
-int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
+int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
+	KBD_ATTR_NONNULL(1, 2);
 
 /**
  * Outputs whole keymap. This is a high-level function that calls @ref lk_dump_keys,
@@ -66,7 +66,8 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
  * @param table specifies the output format of the keycode table.
  * @param numeric indicates whether to output the keycodes in numerical form.
  */
-void lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric) __attribute__((nonnull(1, 2)));
+void lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
+	KBD_ATTR_NONNULL(1, 2);
 
 /**
  * Outputs keycodes.
@@ -75,28 +76,32 @@ void lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char num
  * @param table specifies the output format of the keycode table.
  * @param numeric indicates whether to output the keycodes in numerical form.
  */
-void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric) __attribute__((nonnull(1, 2)));
+void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
+	KBD_ATTR_NONNULL(1, 2);
 
 /**
  * Outputs 'keymaps' line.
  * @param ctx is a keymap library context.
  * @param fd is a FILE pointer for output.
  */
-void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
+void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
+	KBD_ATTR_NONNULL(1, 2);
 
 /**
  * Outputs function keys.
  * @param ctx is a keymap library context.
  * @param fd is a FILE pointer for output.
  */
-void lk_dump_funcs(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
+void lk_dump_funcs(struct lk_ctx *ctx, FILE *fd)
+	KBD_ATTR_NONNULL(1, 2);
 
 /**
  * Outputs accent table.
  * @param ctx is a keymap library context.
  * @param fd is a FILE pointer for output.
  */
-void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
+void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
+	KBD_ATTR_NONNULL(1, 2);
 
 /**
  * Converts a number to a string representation of the character.
@@ -105,9 +110,11 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
  *
  * @return a string representation of the code.
  */
-char *lk_code_to_ksym(struct lk_ctx *ctx, int code) __attribute__((nonnull(1)));
+char *lk_code_to_ksym(struct lk_ctx *ctx, int code)
+	KBD_ATTR_NONNULL(1);
 
-char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index) __attribute__((nonnull(1)));
+char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index)
+	KBD_ATTR_NONNULL(1);
 
 /**
  * Converts a string to a numeric representation of the character.
@@ -116,10 +123,16 @@ char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index) __attribute__((nonnul
  *
  * @return a unicode representation of the code.
  */
-int lk_ksym_to_unicode(struct lk_ctx *ctx, const char *code) __attribute__((nonnull(1, 2)));
+int lk_ksym_to_unicode(struct lk_ctx *ctx, const char *code)
+	KBD_ATTR_NONNULL(1, 2);
 
-int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res) __attribute__((nonnull(1, 2)));
-void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console) __attribute__((nonnull(1, 2)));
-void lk_dump_symbols(struct lk_ctx *ctx, FILE *fd) __attribute__((nonnull(1, 2)));
+int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
+	KBD_ATTR_NONNULL(1, 2);
 
-#endif /* LK_DUMP_H */
+void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
+	KBD_ATTR_NONNULL(1, 2);
+
+void lk_dump_symbols(struct lk_ctx *ctx, FILE *fd)
+	KBD_ATTR_NONNULL(1, 2);
+
+#endif /* _KBD_LIBKEYMAP_DUMP_H_ */

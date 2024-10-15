@@ -8,15 +8,18 @@ LK_REVISION = 0
 LK_AGE      = 0
 
 headers = \
-	keymap.h \
-	keymap/array.h \
-	keymap/context.h \
-	keymap/charset.h \
-	keymap/common.h \
-	keymap/dump.h \
-	keymap/kernel.h \
-	keymap/kmap.h \
-	keymap/logging.h
+	../include/kbd/compiler_attributes.h \
+	../include/keymap.h \
+	../include/kbd/keymap/array.h \
+	../include/kbd/keymap/context.h \
+	../include/kbd/keymap/charset.h \
+	../include/kbd/keymap/common.h \
+	../include/kbd/keymap/dump.h \
+	../include/kbd/keymap/kernel.h \
+	../include/kbd/keymap/kmap.h \
+	../include/kbd/keymap/logging.h
+
+AM_CPPFLAGS += -I$(srcdir)
 
 SYMS = \
   syms.latin1.h/8859-1/160 \

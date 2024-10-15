@@ -1,14 +1,17 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file context.h
  * @brief Header contains flags, keywords and context structure.
  */
-
-#ifndef LK_CONTEXT_H
-#define LK_CONTEXT_H
+#ifndef _KBD_LIBKEYMAP_CONTEXT_H_
+#define _KBD_LIBKEYMAP_CONTEXT_H_
 
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <keymap/array.h>
+
+#include <kbd/compiler_attributes.h>
+
+#include <kbd/keymap/array.h>
 
 /**
  * @brief Parser flags that are set outside the library.
@@ -53,4 +56,4 @@ struct lk_ctx;
 int lk_convert_code(struct lk_ctx *ctx, int code, int direction);
 int lk_add_capslock(struct lk_ctx *ctx, int code);
 
-#endif /* LK_CONTEXT_H */
+#endif /* _KBD_LIBKEYMAP_CONTEXT_H_ */

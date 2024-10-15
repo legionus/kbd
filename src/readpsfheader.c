@@ -4,10 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h> /* exit */
 
-#include "libcommon.h"
-#include "kfont.h"
+#include <kfont.h>
 
-static void __attribute__((noreturn))
+#include "libcommon.h"
+
+static void KBD_ATTR_NORETURN
 usage(void)
 {
 	fprintf(stderr, "usage: readpsfheader font.psf\n");

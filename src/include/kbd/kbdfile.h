@@ -1,19 +1,19 @@
+// SPDX-License-Identifier: LGPL-2.0-or-later
 /**
  * @file kbdfile.h
  * @brief Functions for search, open and close a file objects.
  */
-#ifndef _KBDFILE_H_
-#define _KBDFILE_H_
+#ifndef _KBD_LIBKBDFILE_KBDFILE_H_
+#define _KBD_LIBKBDFILE_KBDFILE_H_
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <sys/param.h>
 
-#ifndef __GNUC__
-#define __attribute__(x) /*NOTHING*/
-#endif
+#include <kbd/compiler_attributes.h>
 
-typedef void (*kbdfile_logger_t)(void *, int, const char *, int, const char *, const char *, va_list) __attribute__((format(printf, 6, 0)));
+typedef void (*kbdfile_logger_t)(void *, int, const char *, int, const char *, const char *, va_list)
+	KBD_ATTR_PRINTF(6, 0);
 
 struct kbdfile_ctx;
 
@@ -50,9 +50,9 @@ int kbdfile_is_compressed(struct kbdfile *fp);
 #include <syslog.h>
 
 void
-__attribute__((format(printf, 6, 7)))
 kbdfile_log(struct kbdfile_ctx *ctx, int priority,
-            const char *file, int line, const char *fn,
-            const char *fmt, ...);
+	    const char *file, int line, const char *fn,
+	    const char *fmt, ...)
+	KBD_ATTR_PRINTF(6, 7);
 
-#endif /* _KBDFILE_H_ */
+#endif /* _KBD_LIBKBDFILE_KBDFILE_H_ */
