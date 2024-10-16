@@ -42,7 +42,6 @@ int main(int ac, char *const av[])
 	const char *username, *tty;
 	pam_handle_t *pamh;
 
-	set_progname(av[0]);
 	setuplocale();
 
 	/* 1st, parse command line arguments. */

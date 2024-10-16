@@ -99,7 +99,7 @@ setnewunicodemap(struct kfont_context *ctx, unsigned int *list, int cnt)
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...]\n"), program_invocation_short_name);
 	fprintf(stderr, _("(probably after loading a font with `setfont font')\n"));
 
 	print_options(options);
@@ -118,7 +118,6 @@ int main(int argc, char **argv)
 	unsigned int list[64];
 	int lth, info = 0;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *const short_opts = "C:ivVh";
@@ -141,7 +140,7 @@ int main(int argc, char **argv)
 
 	struct kfont_context *kfont;
 
-	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+	if ((ret = kfont_init(program_invocation_short_name, &kfont)) < 0)
 		return -ret;
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {

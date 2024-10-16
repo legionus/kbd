@@ -28,14 +28,13 @@ int main(int argc, char **argv)
 		char fn, subarg;
 	} arg;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	cons = 0; /* current console */
 
 	if (argc == 2) {
 		if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
-			fprintf(stderr, "Usage: %s [N]\n", get_progname());
+			fprintf(stderr, "Usage: %s [N]\n", program_invocation_short_name);
 			fprintf(stderr, "Send kernel messages to the current console or to console N\n");
 			return EX_USAGE;
 		}

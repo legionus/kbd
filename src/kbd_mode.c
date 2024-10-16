@@ -22,7 +22,7 @@
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...]\n"), program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _("This utility reports or sets the keyboard mode.\n"));
 
@@ -59,7 +59,6 @@ int main(int argc, char *argv[])
 	int fd, mode, orig_mode, c, n = 0, force = 0;
 	char *console = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "auskfC:hV";

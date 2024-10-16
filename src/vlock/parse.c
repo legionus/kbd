@@ -57,7 +57,6 @@ show_usage(void)
 static void KBD_ATTR_NORETURN
 show_help(void)
 {
-	const char *name = get_progname();
 	printf(_("%s: locks virtual consoles, saving your current session.\n"
 	         "Usage: %s [options]\n"
 	         "       Where [options] are any of:\n"
@@ -67,7 +66,7 @@ show_help(void)
 	         "       from switching virtual consoles.\n"
 	         "-v or --version: Print the version number of vlock and exit.\n"
 	         "-h or --help: Print this help message and exit.\n"),
-	       name, name);
+	       program_invocation_short_name, program_invocation_short_name);
 	exit(0);
 }
 

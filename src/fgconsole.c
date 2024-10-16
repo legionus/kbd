@@ -18,7 +18,7 @@
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...]\n"), program_invocation_short_name);
 
 	print_options(options);
 	print_report_bugs();
@@ -33,7 +33,6 @@ int main(int argc, char **argv)
 	struct serial_struct sr;
 	char *console = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const struct option long_opts[] = {

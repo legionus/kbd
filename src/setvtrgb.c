@@ -39,7 +39,7 @@ static unsigned char vga_colors[] = {
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] [vga|FILE|-]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...] [vga|FILE|-]\n"), program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _(
 				"If you use the FILE parameter, it can be either in decimal\n"
@@ -144,7 +144,6 @@ int main(int argc, char **argv)
 	FILE *f;
 	const char *console = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "C:hV";

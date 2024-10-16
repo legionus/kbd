@@ -40,11 +40,10 @@ sighup(int n KBD_ATTR_UNUSED)
 	signal(SIGHUP, sighup);
 }
 
-int main(int argc KBD_ATTR_UNUSED, char *argv[])
+int main(int argc KBD_ATTR_UNUSED, char *argv[] KBD_ATTR_UNUSED)
 {
 	int fd;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	fd = open("/dev/tty0", 0);

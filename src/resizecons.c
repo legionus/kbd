@@ -121,7 +121,6 @@ int main(int argc, char **argv)
 	const char *defaultfont;
 	struct kbdfile *fp;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	if (argc < 2)

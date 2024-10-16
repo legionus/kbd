@@ -6,25 +6,10 @@
 
 #include "libcommon.h"
 
-const char *progname;
-
-void
-set_progname(const char *name)
-{
-	char *p = strrchr(name, '/');
-	progname = (p ? p + 1 : name);
-}
-
-const char *
-get_progname(void)
-{
-	return progname;
-}
-
 void
 print_version_and_exit(void)
 {
-	printf(_("%s from %s\n"), progname, PACKAGE_STRING);
+	printf(_("%s from %s\n"), program_invocation_short_name, PACKAGE_STRING);
 	exit(0);
 }
 

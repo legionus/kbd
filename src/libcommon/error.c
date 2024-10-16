@@ -15,7 +15,7 @@ kbd_warning(const int errnum, const char *fmt, ...)
 
 	va_start(ap, fmt);
 
-	fprintf(stderr, "%s: ", progname);
+	fprintf(stderr, "%s: ", program_invocation_short_name);
 	vfprintf(stderr, fmt, ap);
 
 	if (errnum > 0)
@@ -32,7 +32,7 @@ kbd_error(const int exitnum, const int errnum, const char *fmt, ...)
 	va_list ap;
 	va_start(ap, fmt);
 
-	fprintf(stderr, "%s: ", progname);
+	fprintf(stderr, "%s: ", program_invocation_short_name);
 	vfprintf(stderr, fmt, ap);
 
 	va_end(ap);

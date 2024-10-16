@@ -7,10 +7,8 @@
 #include "libcommon.h"
 
 int
-main(int argc KBD_ATTR_UNUSED, char **argv)
+main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
-	set_progname(argv[0]);
-
 	int i = MAX_DIACR + 10;
 	struct lk_ctx *ctx;
 	struct lk_kbdiacr ptr;

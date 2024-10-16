@@ -38,7 +38,6 @@ int main(int argc, char **argv)
 	unsigned int i, j;
 	char *inbuf, *outbuf, *p, *q;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	if (argc == 2 && !strcmp(argv[1], "-V"))

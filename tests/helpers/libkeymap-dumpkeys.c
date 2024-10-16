@@ -8,8 +8,6 @@
 
 int main(int argc KBD_ATTR_UNUSED, char **argv)
 {
-	set_progname(argv[0]);
-
 	lk_table_shape table;
 	char numeric;
 	struct lk_ctx *ctx;

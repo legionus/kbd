@@ -46,7 +46,6 @@ int main(int argc, char **argv)
 	unsigned int inbuflth, fontbuflth;
 	struct unicode_list *uclistheads = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	if (argc == 2 && !strcmp(argv[1], "-V"))
@@ -58,32 +57,32 @@ int main(int argc, char **argv)
 	notable                           = 0;
 
 	struct kfont_context *kfont;
-	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+	if ((ret = kfont_init(program_invocation_short_name, &kfont)) < 0)
 		return -ret;
 
-	if (!strcmp(get_progname(), "psfaddtable")) {
+	if (!strcmp(program_invocation_short_name, "psfaddtable")) {
 		/* Do not send binary data to stdout without explicit "-" */
 		if (argc != 4) {
 			const char *u = _("Usage: %s infont intable outfont\n");
-			fprintf(stderr, u, get_progname());
+			fprintf(stderr, u, program_invocation_short_name);
 			return EX_USAGE;
 		}
 		ifname = argv[1];
 		itname = argv[2];
 		ofname = argv[3];
-	} else if (!strcmp(get_progname(), "psfgettable")) {
+	} else if (!strcmp(program_invocation_short_name, "psfgettable")) {
 		if (argc < 2 || argc > 3) {
 			const char *u = _("Usage: %s infont [outtable]\n");
-			fprintf(stderr, u, get_progname());
+			fprintf(stderr, u, program_invocation_short_name);
 			return EX_USAGE;
 		}
 		ifname = argv[1];
 		otname = (argc == 3) ? argv[2] : "-";
-	} else if (!strcmp(get_progname(), "psfstriptable")) {
+	} else if (!strcmp(program_invocation_short_name, "psfstriptable")) {
 		/* Do not send binary data to stdout without explicit "-" */
 		if (argc != 3) {
 			const char *u = _("Usage: %s infont outfont\n");
-			fprintf(stderr, u, get_progname());
+			fprintf(stderr, u, program_invocation_short_name);
 			return EX_USAGE;
 		}
 		ifname  = argv[1];
@@ -107,7 +106,7 @@ int main(int argc, char **argv)
 		if (i < argc || argc <= 1) {
 			const char *u = _("Usage: %s [-i infont] [-o outfont] "
 			                  "[-it intable] [-ot outtable] [-nt]\n");
-			fprintf(stderr, u, get_progname());
+			fprintf(stderr, u, program_invocation_short_name);
 			return EX_USAGE;
 		}
 	}

@@ -23,7 +23,6 @@ int main(int argc, char **argv)
 	int inbuflth, fontbuflth;
 	struct unicode_list *uclistheads = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	if (argc != 2)
@@ -38,7 +37,7 @@ int main(int argc, char **argv)
 	int ret;
 	struct kfont_context *kfont;
 
-	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+	if ((ret = kfont_init(program_invocation_short_name, &kfont)) < 0)
 		return -ret;
 
 	if (kfont_read_psffont(kfont, f, &inbuf, &inbuflth, &fontbuf, &fontbuflth, &width, &fontlen, 0, &uclistheads) < 0)

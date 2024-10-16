@@ -20,11 +20,10 @@ int main(int argc, char *argv[])
 		char ten, onoff;
 	} arg;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	if (argc != 2) {
-		fprintf(stderr, _("Usage: %s ON|on|off\n"), get_progname());
+		fprintf(stderr, _("Usage: %s ON|on|off\n"), program_invocation_short_name);
 		return EXIT_FAILURE;
 	}
 

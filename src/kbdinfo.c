@@ -23,7 +23,7 @@ usage(int rc, const struct kbd_help *options)
 			  "   or: %1$s [option...] gkbmode [raw|xlate|mediumraw|unicode]\n"
 			  "   or: %1$s [option...] gkbmeta [metabit|escprefix]\n"
 			  "   or: %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"),
-			get_progname());
+			program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _(
 				"The utility allows to read and check various parameters\n"
@@ -52,7 +52,6 @@ int main(int argc, char **argv)
 	char flags;
 	const char *console = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "C:hV";
