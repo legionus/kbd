@@ -1,7 +1,5 @@
 include $(top_srcdir)/Makefile.common
 
-AM_CPPFLAGS += -D_GNU_SOURCE
-
 EXTRA_DIST = README.vlock vlock.pamd
 
 if VLOCK

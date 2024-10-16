@@ -27,7 +27,7 @@ static int fd;
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...]\n"), program_invocation_short_name);
 
 	print_options(options);
 
@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
 
 	struct lk_ctx *ctx;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "hilvsnf1tkdS:c:C:V";
@@ -186,7 +185,7 @@ int main(int argc, char *argv[])
 
 		if (long_info) {
 			printf(_("Symbols recognized by %s:\n(numeric value, symbol)\n\n"),
-			       get_progname());
+					program_invocation_short_name);
 			lk_dump_symbols(ctx, stdout);
 		}
 		exit(EXIT_SUCCESS);

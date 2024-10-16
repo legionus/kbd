@@ -318,7 +318,7 @@ static int delay   = 250; /* Default delay */
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...]\n"), program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _("The program sets the keyboard repeat rate and delay in user mode.\n"));
 
@@ -333,7 +333,6 @@ int main(int argc, char **argv)
 	int silent = 0;
 	int c;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "r:d:pshV";

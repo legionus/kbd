@@ -7,10 +7,8 @@
 #include "libcommon.h"
 
 int
-main(int argc KBD_ATTR_UNUSED, char **argv)
+main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
-	set_progname(argv[0]);
-
 	struct kbdfile *fp = kbdfile_new(NULL);
 	if (!fp)
 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");

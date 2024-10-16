@@ -47,7 +47,7 @@
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] -- command\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...] -- command\n"), program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _("This utility helps you to start a program on a new virtual terminal (VT).\n"));
 
@@ -239,7 +239,6 @@ int main(int argc, char *argv[])
 	char vtname[PATH_MAX+1];
 	char *cmd = NULL, *def_cmd = NULL, *username = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	struct option long_options[] = {
@@ -338,11 +337,11 @@ int main(int argc, char *argv[])
 	} else if (!force) {
 		if (vtno >= 16)
 			kbd_error(7, 0, _("Cannot check whether vt %d is free; use `%s -f' to force."),
-			          vtno, get_progname());
+			          vtno, program_invocation_short_name);
 
 		if (vtstat.v_state & (1 << vtno))
 			kbd_error(7, 0, _("vt %d is in use; command aborted; use `%s -f' to force."),
-			          vtno, get_progname());
+			          vtno, program_invocation_short_name);
 	}
 
 	if (as_user)

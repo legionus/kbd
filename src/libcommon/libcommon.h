@@ -1,6 +1,7 @@
 #ifndef _LIBCOMMON_H_
 #define _LIBCOMMON_H_
 
+#include <errno.h>
 #include <kbd/compiler_attributes.h>
 
 #include "nls.h"
@@ -14,11 +15,6 @@ struct kbd_help {
 int getfd(const char *fnam);
 
 // version.c
-extern const char *progname;
-
-const char *get_progname(void);
-void set_progname(const char *name);
-
 void print_version_and_exit(void)
 	KBD_ATTR_NORETURN;
 

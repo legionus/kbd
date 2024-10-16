@@ -7,10 +7,8 @@
 #include "libcommon.h"
 
 int
-main(int argc KBD_ATTR_UNUSED, char **argv)
+main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
-	set_progname(argv[0]);
-
 	const char *stringvalues[30] = {
 		/* F1 .. F20 */
 		"\033[[A", "\033[[B", "\033[[C", "\033[[D", "\033[[E",

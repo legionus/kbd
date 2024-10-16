@@ -39,7 +39,8 @@ static const char *const suffixes[] = {
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] [mapfile...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...] [mapfile...]\n"),
+			program_invocation_short_name);
 
 	print_options(options);
 
@@ -70,7 +71,6 @@ int main(int argc, char *argv[])
 	struct kbdfile_ctx *fctx;
 	struct kbdfile *fp = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *const short_opts = "abcC:dhmpsuqvV";

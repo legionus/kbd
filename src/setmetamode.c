@@ -22,7 +22,7 @@
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] [argument]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...] [argument]\n"), program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _(
 				"Arguments:\n"
@@ -78,7 +78,6 @@ int main(int argc, char **argv)
 	int fd = 0;
 	char *console = NULL;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "C:hV";

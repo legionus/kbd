@@ -29,7 +29,7 @@ static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"),
-			get_progname(),
+			program_invocation_short_name,
 #ifdef __sparc__
 	        "| compose "
 #else
@@ -196,7 +196,6 @@ int main(int argc, char **argv)
 	unsigned char nval, ndef;
 	unsigned char osunleds = 0, nsunleds, nsunval, nsundef;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const struct kbd_option opts[] = {

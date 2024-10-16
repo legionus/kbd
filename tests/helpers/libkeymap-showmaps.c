@@ -8,8 +8,6 @@
 
 int main(int argc KBD_ATTR_UNUSED, char **argv)
 {
-	set_progname(argv[0]);
-
 	int i;
 	struct lk_ctx *ctx;
 	struct kbdfile *fp;

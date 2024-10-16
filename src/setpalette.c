@@ -13,11 +13,10 @@ int main(int argc, char **argv)
 	int fd, indx, red, green, blue;
 	unsigned char cmap[48];
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	if (argc != 5) {
-		fprintf(stderr, "usage: %s index red green blue\n", get_progname());
+		fprintf(stderr, "usage: %s index red green blue\n", program_invocation_short_name);
 		exit(EXIT_FAILURE);
 	}
 

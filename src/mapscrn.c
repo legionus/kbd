@@ -22,7 +22,8 @@
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...] [map-file]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...] [map-file]\n"),
+			program_invocation_short_name);
 
 	print_options(options);
 	print_report_bugs();
@@ -37,7 +38,6 @@ int main(int argc, char *argv[])
 	char *outfnam = NULL;
 	struct kfont_context *kfont;
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "o:C:hV";
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 		{ NULL, NULL }
 	};
 
-	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+	if ((ret = kfont_init(program_invocation_short_name, &kfont)) < 0)
 		return -ret;
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {

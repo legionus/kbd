@@ -24,7 +24,7 @@
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
-	fprintf(stderr, _("Usage: %s [option...]\n"), get_progname());
+	fprintf(stderr, _("Usage: %s [option...]\n"), program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _("This utility reports or sets the keyboard mode.\n"));
 
@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
 	char *outfnam = NULL;
 	const char *infnam  = "def.uni";
 
-	set_progname(argv[0]);
 	setuplocale();
 
 	const char *short_opts = "o:C:hV";
@@ -90,7 +89,7 @@ int main(int argc, char *argv[])
 
 	struct kfont_context *kfont;
 
-	if ((ret = kfont_init(get_progname(), &kfont)) < 0)
+	if ((ret = kfont_init(program_invocation_short_name, &kfont)) < 0)
 		return -ret;
 
 	if (outfnam) {
