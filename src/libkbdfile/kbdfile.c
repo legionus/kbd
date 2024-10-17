@@ -13,7 +13,6 @@
 
 #include <kbdfile.h>
 
-#include "libcommon.h"
 #include "contextP.h"
 
 static struct decompressor {

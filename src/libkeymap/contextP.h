@@ -4,6 +4,17 @@
 #include <stdarg.h>
 #include <kbdfile.h>
 
+/*
+ * NLS -- the library has to be independent on main program, so define
+ * KBD_TEXTDOMAIN_EXPLICIT before you include nls.h.
+ *
+ * Now we use kbd.po (=PACKAGE), rather than maintain the texts
+ * in the separate libkeymap.po file.
+ */
+#define LIBKEYMAP_TEXTDOMAIN	PACKAGE
+#define KBD_TEXTDOMAIN_EXPLICIT	LIBKEYMAP_TEXTDOMAIN
+#include "nls.h"
+
 #include "keymap.h"
 
 /**

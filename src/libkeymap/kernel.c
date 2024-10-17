@@ -14,7 +14,6 @@
 
 #include "keymap.h"
 
-#include "libcommon.h"
 #include "contextP.h"
 
 int lk_kernel_keys(struct lk_ctx *ctx, int fd)

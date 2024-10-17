@@ -7,6 +7,17 @@
 
 #include <kfont.h>
 
+/*
+ * NLS -- the library has to be independent on main program, so define
+ * KBD_TEXTDOMAIN_EXPLICIT before you include nls.h.
+ *
+ * Now we use kbd.po (=PACKAGE), rather than maintain the texts
+ * in the separate libkfont.po file.
+ */
+#define LIBKFONT_TEXTDOMAIN	PACKAGE
+#define KBD_TEXTDOMAIN_EXPLICIT	LIBKFONT_TEXTDOMAIN
+#include "nls.h"
+
 struct kfont_context {
 	const char *progname;
 	int verbose;

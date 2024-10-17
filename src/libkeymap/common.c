@@ -5,8 +5,6 @@
 #include <stdarg.h>
 
 #include "keymap.h"
-
-#include "libcommon.h"
 #include "contextP.h"
 
 void

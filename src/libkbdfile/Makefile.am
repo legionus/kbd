@@ -1,7 +1,6 @@
 include $(top_srcdir)/Makefile.common
 
 AM_CPPFLAGS += -I$(srcdir)
-LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 headers = \
 	../include/kbd/compiler_attributes.h \

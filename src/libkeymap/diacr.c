@@ -13,7 +13,6 @@
 
 #include "keymap.h"
 
-#include "libcommon.h"
 #include "contextP.h"
 #include "ksyms.h"
 

@@ -14,7 +14,6 @@
 #include <sys/ioctl.h>
 #include <linux/kd.h>
 
-#include "libcommon.h"
 #include "kfontP.h"
 
 #ifdef COMPAT_HEADERS
