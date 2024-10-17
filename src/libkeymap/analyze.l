@@ -469,11 +469,7 @@ To                      to|To|TO
 				i = strtol(yytext + 1, NULL, 8);
 
 				if (i == LONG_MIN || i == LONG_MAX) {
-					char buf[200];
-
-					strerror_r(errno, buf, sizeof(buf));
-
-					ERR(yyextra, "%s", buf);
+					ERR(yyextra, "resulting octal value is out of range: %s", yytext + 1);
 					return(ERROR);
 				}
 
