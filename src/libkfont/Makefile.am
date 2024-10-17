@@ -8,7 +8,6 @@ CLEANFILES = libkfont.pc
 EXTRA_DIST = libkfont.pc.gen libkfont.map
 
 AM_CPPFLAGS += -I$(srcdir)
-LDADD += $(top_builddir)/src/libcommon/libcommon.a
 
 KFONT_CURRENT  = 2
 KFONT_REVISION = 0

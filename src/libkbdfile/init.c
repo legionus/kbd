@@ -6,7 +6,6 @@
 
 #include "kbdfile.h"
 
-#include "libcommon.h"
 #include "contextP.h"
 
 void

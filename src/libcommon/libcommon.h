@@ -3,34 +3,7 @@
 
 #include <kbd/compiler_attributes.h>
 
-#ifndef LOCALEDIR
-#define LOCALEDIR "/usr/share/locale"
-#endif
-
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
-
-#ifdef ENABLE_NLS
-  #include <libintl.h>
-
-  #define _(Text) gettext(Text)
-  #define P_(singular, plural, number) ngettext(singular, plural, number)
-#else
-  #undef bindtextdomain
-  #define bindtextdomain(Domain, Directory) /* empty */
-  #undef textdomain
-  #define textdomain(Domain) /* empty */
-  #define _(Text) (Text)
-  #define P_(singular, plural, number) (number == 1 ? singular : plural)
-#endif
-
-/* setup localization for a program */
-#define setuplocale() do { \
-    setlocale(LC_ALL, ""); \
-    bindtextdomain(PACKAGE, LOCALEDIR); \
-    textdomain(PACKAGE); \
-} while (0)
+#include "nls.h"
 
 struct kbd_help {
 	const char *opts;

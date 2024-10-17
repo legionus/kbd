@@ -20,7 +20,6 @@
 
 #include <kbdfile.h>
 
-#include "libcommon.h"
 #include "kfontP.h"
 #include "utf8.h"
 
