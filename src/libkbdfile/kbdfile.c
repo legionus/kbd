@@ -102,6 +102,23 @@ kbdfile_close(struct kbdfile *fp)
 	fp->pathname[0] = '\0';
 }
 
+static char *
+kbd_strerror(int errnum, char *buf, size_t buflen)
+{
+	*buf = '\0';
+
+#if defined(__GLIBC__) && defined(_GNU_SOURCE)
+	return strerror_r(errnum, buf, buflen);
+#else
+	int sv_errno = errno;
+	int ret = strerror_r(errnum, buf, buflen);
+	if (ret != 0)
+		snprintf(buf, buflen, "strerror_r: errno=%d", (ret == -1) ? errno : ret);
+	errno = sv_errno;
+#endif
+	return buf;
+}
+
 static int
 pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 {
@@ -118,8 +135,7 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 
 	if (!(fp->fd)) {
 		char buf[200];
-		strerror_r(errno, buf, sizeof(buf));
-		ERR(fp->ctx, "popen: %s: %s", pipe_cmd, buf);
+		ERR(fp->ctx, "popen: %s: %s", pipe_cmd, kbd_strerror(errno, buf, sizeof(buf)));
 		free(pipe_cmd);
 		return -1;
 	}
@@ -152,9 +168,7 @@ maybe_pipe_open(struct kbdfile *fp)
 
 	if ((fp->fd = fopen(fp->pathname, "r")) == NULL) {
 		char buf[200];
-		strerror_r(errno, buf, sizeof(buf));
-
-		ERR(fp->ctx, "fopen: %s: %s", fp->pathname, buf);
+		ERR(fp->ctx, "fopen: %s: %s", fp->pathname, kbd_strerror(errno, buf, sizeof(buf)));
 		return -1;
 	}
 
@@ -262,8 +276,7 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 		fdir = strndup(fnam, (size_t) (ff - fnam));
 
 		if (fdir == NULL) {
-			strerror_r(errno, errbuf, sizeof(errbuf));
-			ERR(fp->ctx, "strndup: %s", errbuf);
+			ERR(fp->ctx, "strndup: %s", kbd_strerror(errno, errbuf, sizeof(errbuf)));
 			return -1;
 		}
 	}
@@ -273,8 +286,7 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 	int dirents = scandir(dir, &namelist, NULL, alphasort);
 
 	if (dirents < 0) {
-		strerror_r(errno, errbuf, sizeof(errbuf));
-		DBG(fp->ctx, "scandir: %s: %s", dir, errbuf);
+		DBG(fp->ctx, "scandir: %s: %s", dir, kbd_strerror(errno, errbuf, sizeof(errbuf)));
 		rc = -1;
 		goto EndScan;
 	}
@@ -419,8 +431,7 @@ kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *su
 
 		if (dir == NULL) {
 			char buf[200];
-			strerror_r(errno, buf, sizeof(buf));
-			ERR(fp->ctx, "strdup: %s", buf);
+			ERR(fp->ctx, "strdup: %s", kbd_strerror(errno, buf, sizeof(buf)));
 			return -1;
 		}
 
