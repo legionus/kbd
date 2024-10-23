@@ -126,12 +126,12 @@ int main(int argc, char **argv)
 
 	nmeta = 0; /* make gcc happy */
 	for (mp = metas; (unsigned)(mp - metas) < SIZE(metas); mp++) {
-		if (!strcmp(argv[1], mp->name)) {
+		if (!strcmp(argv[optind], mp->name)) {
 			nmeta = mp->val;
 			goto end;
 		}
 	}
-	fprintf(stderr, _("Unrecognized argument: %s"), argv[1]);
+	fprintf(stderr, _("Unrecognized argument: %s"), argv[optind]);
 	fprintf(stderr, "\n\n");
 	usage(EXIT_FAILURE, opthelp);
 

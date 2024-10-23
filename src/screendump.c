@@ -18,15 +18,30 @@
  */
 #include "config.h"
 
+#include <sys/ioctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <sys/ioctl.h>
+#include <limits.h>
+#include <getopt.h>
+#include <sysexits.h>
 
 #include "libcommon.h"
+
+static void KBD_ATTR_NORETURN
+usage(int rc, const struct kbd_help *options)
+{
+	fprintf(stderr, "Usage: %s [option...] [N]\n",
+			program_invocation_short_name);
+
+	print_options(options);
+	print_report_bugs();
+
+	exit(rc);
+}
 
 int main(int argc, char **argv)
 {
@@ -34,21 +49,51 @@ int main(int argc, char **argv)
 	char infile[20];
 	unsigned char header[4];
 	unsigned int rows, cols;
-	int fd;
+	int c, fd;
 	unsigned int i, j;
 	char *inbuf, *outbuf, *p, *q;
 
+	const char *short_opts = "hV";
+	const struct option long_opts[] = {
+		{ "help",    no_argument,       NULL, 'h' },
+		{ "version", no_argument,       NULL, 'V' },
+		{ NULL,      0,                 NULL,  0  }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-V, --version",     _("print version number.")     },
+		{ "-h, --help",        _("print this usage message.") },
+		{ NULL, NULL }
+	};
+
 	setuplocale();
 
-	if (argc == 2 && !strcmp(argv[1], "-V"))
-		print_version_and_exit();
-
-	if (argc > 2) {
-		fprintf(stderr, _("usage: screendump [n]\n"));
-		exit(EXIT_FAILURE);
+	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
+		switch (c) {
+			case 'V':
+				print_version_and_exit();
+				break;
+			case 'h':
+				usage(EXIT_SUCCESS, opthelp);
+				break;
+			case '?':
+				usage(EX_USAGE, opthelp);
+				break;
+		}
 	}
 
-	cons = (argc == 2) ? atoi(argv[1]) : 0;
+	cons = 0;
+
+	if (optind < argc) {
+		cons = atoi(argv[optind]);
+
+		if (cons < 0)
+			kbd_error(EX_DATAERR, 0,
+				  "Argument must be positive: %s", argv[optind]);
+
+		if (cons > CHAR_MAX)
+			kbd_error(EX_DATAERR, 0,
+				  "Argument is too big: %s", argv[optind]);
+	}
 
 	sprintf(infile, "/dev/vcsa%d", cons);
 	fd = open(infile, O_RDONLY);

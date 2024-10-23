@@ -42,24 +42,31 @@ int main(int argc, char *argv[])
 	struct sigaction sa;
 	struct sigevent sev;
 	struct itimerspec its;
+	const char *console = NULL;
 
-	const char *const short_opts = "hV";
+	const char *const short_opts = "C:hV";
 	const struct option long_opts[] = {
-		{ "help",    no_argument, NULL, 'h' },
-		{ "version", no_argument, NULL, 'V' },
+		{ "console", required_argument, NULL, 'C' },
+		{ "help",    no_argument,       NULL, 'h' },
+		{ "version", no_argument,       NULL, 'V' },
 		{ NULL, 0, NULL, 0 }
+	};
+	const struct kbd_help opthelp[] = {
+		{ "-C, --console=DEV", _("the console device to be used.") },
+		{ "-h, --help",        _("print this usage message.") },
+		{ "-V, --version",     _("print version number.")     },
+		{ NULL, NULL }
 	};
 
 	setuplocale();
 
-	const struct kbd_help opthelp[] = {
-		{ "-h, --help",    _("print this usage message.") },
-		{ "-V, --version", _("print version number.")     },
-		{ NULL, NULL }
-	};
-
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+			case 'C':
+				if (optarg == NULL || optarg[0] == '\0')
+					usage(EX_USAGE, opthelp);
+				console = optarg;
+				break;
 			case 'V':
 				print_version_and_exit();
 				break;
@@ -77,7 +84,7 @@ int main(int argc, char *argv[])
 		usage(EX_USAGE, opthelp);
 	}
 
-	if ((fd = getfd(NULL)) < 0)
+	if ((fd = getfd(console)) < 0)
 		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 	num = atoi(argv[optind]);

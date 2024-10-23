@@ -61,6 +61,7 @@ setvtrgb_LDADD        = $(COMMON_LIBS)
 showkey_LDADD         = $(COMMON_LIBS)
 spawn_console_LDADD   = $(COMMON_LIBS)
 spawn_login_LDADD     = $(COMMON_LIBS)
+outpsfheader_LDADD    = $(COMMON_LIBS)
 
 resizecons_LDADD      = libkbdfile/libkbdfile.la $(COMMON_LIBS)
 
