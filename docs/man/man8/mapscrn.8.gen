@@ -1,10 +1,10 @@
 .\" @(#)man/man8/mapscrn.8	1.0 3/19/93 17:04:00
-.TH MAPSCRN 8 "20 March 1993" "kbd"
+.TH MAPSCRN 8 "24 October 2024" "kbd"
 .SH NAME
 mapscrn \- load screen output mapping table
 .SH SYNOPSIS
-.BR mapscrn " [" -V "] [" -v "] [" -o
-.IR map.orig ]
+.BR mapscrn
+[\fI\,options\/\fR]
 .I mapfile
 .SH DESCRIPTION
 The
@@ -96,13 +96,22 @@ Single (possibly multi-byte) UTF-8 character, enclosed in single quotes.
 Note that control characters (with codes < 32) cannot be re-mapped with
 .I mapscrn
 because they have special meaning for the driver.
-.SH OTHER OPTIONS
+.SH OPTIONS
 .TP
-.B \-V
-Prints version number and exits.
+\fB\-o\fR, \fB\-\-output\fR=\fI\,FILE\/\fR
+save the old map to the \fI\,FILE\/\fR.
 .TP
-.B \-v
-Be verbose.
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+be more verbose.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
 .SH FILES
 .TP
 .I @DATADIR@/@TRANSDIR@
