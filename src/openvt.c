@@ -256,16 +256,16 @@ int main(int argc, char *argv[])
 	};
 
 	const struct kbd_help opthelp[] = {
-		{ "-c, --console=DEV", _("the console device to be used.") },
-		{ "-e, --exec",        _("execute the command, without forking.") },
-		{ "-f, --force",       _("force opening a VT without checking.") },
-		{ "-l, --login",       _("make the command a login shell.") },
-		{ "-u, --user",        _("figure out the owner of the current VT.") },
-		{ "-s, --switch",      _("switch to the new VT.") },
-		{ "-w, --wait",        _("wait for command to complete") },
-		{ "-v, --verbose",     _("be more verbose.") },
-		{ "-V, --version",     _("print version number.")     },
-		{ "-h, --help",        _("print this usage message.") },
+		{ "-c, --console=VTNUMBER", _("use the given VT number and not the first available.") },
+		{ "-e, --exec",             _("execute the command, without forking.") },
+		{ "-f, --force",            _("force opening a VT without checking.") },
+		{ "-l, --login",            _("make the command a login shell.") },
+		{ "-u, --user",             _("figure out the owner of the current VT.") },
+		{ "-s, --switch",           _("switch to the new VT.") },
+		{ "-w, --wait",             _("wait for command to complete") },
+		{ "-v, --verbose",          _("be more verbose.") },
+		{ "-V, --version",          _("print version number.")     },
+		{ "-h, --help",             _("print this usage message.") },
 		{ NULL, NULL }
 	};
 
