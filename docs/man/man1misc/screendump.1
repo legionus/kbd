@@ -4,10 +4,9 @@
 screendump \- dump the contents of a virtual console to stdout
 
 .SH SYNOPSIS
-.B screendump 
-[
-.I N
-]
+.B screendump
+[\fI\,options\/\fR]
+[\fI\,N\/\fR]
 
 .SH DESCRIPTION
 The
@@ -22,6 +21,14 @@ Just saying
 cat /dev/vcsN
 .RE
 has a similar effect.
+
+.SH OPTIONS
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
 
 .SH NOTES
 For security reasons,
@@ -47,10 +54,10 @@ permissions, or run
 .B screendump
 as root.
 
+.SH AUTHORS
+Andries Brouwer <aeb@cwi.nl>
+.BR
+Manpage by Alastair McKinstry <mckinstry@computer.org>
+
 .SH SEE ALSO
 .BR setterm (1)
-
-.\" .SH AUTHORS
-.\" Andries Brouwer <aeb@cwi.nl>
-.\" .br
-.\" Manpage by Alastair McKinstry <mckinstry@computer.org>

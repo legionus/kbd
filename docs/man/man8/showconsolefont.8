@@ -1,34 +1,36 @@
-.TH  SHOWCONSOLEFONT 8 "2002-02-22" "kbd"
+.TH  SHOWCONSOLEFONT 8 "24 October 2024" "kbd"
 
 .SH NAME
 showconsolefont \- Show the current EGA/VGA console screen font
 
 .SH SYNOPSIS
 .B showconsolefont
-[
-.B \-V | \-\-version
-] [
-.B \-v
-] [
-.B \-i
-] [
-.B \-C
-.I console
-]
+[\fI\,options\/\fR]
 
 .SH DESCRIPTION
 The
 .B showconsolefont
-command outputs the current console font to stdout. The option
-.B \-v
-prints additional information, while the option
-.B \-V
-prints the program version number. The option
-.B \-i
-doesn't print out the font table, just shows ROWSxCOLSxCOUNT and exits.
+command outputs the current console font to stdout.
 On Linux 2.6.1 and later, the option
 .B \-C
 allows one to indicate the console involved. Its argument is a pathname.
+
+.SH OPTIONS
+.TP
+\fB\-i\fR, \fB\-\-info\fR
+don't print out the font table, just show: ROWSxCOLSxCOUNT and exit.
+.TP
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+be more verbose.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
 
 .SH "SEE ALSO"
 .BR setfont (8)

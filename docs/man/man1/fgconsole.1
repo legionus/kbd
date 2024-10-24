@@ -1,17 +1,11 @@
-.TH FGCONSOLE 1 "14 February 2002" "kbd"
+.TH FGCONSOLE 1 "24 October 2024" "kbd"
 
 .SH NAME
 fgconsole \- print the number of the active VT.
 
 .SH SYNOPSIS
 .B fgconsole
-[
-.B \-h \-\-help
-|
-.B \-V \-\-version
-|
-.B \-n \-\-next-available
-]
+[\fI\,options\/\fR]
 .SH DESCRIPTION
 If the active Virtual Terminal is
 .IR /dev/ttyN ,
@@ -22,17 +16,22 @@ on standard output.
 If the console is a serial console, then
 "serial"
 is printed instead.
+
+.SH OPTIONS
 .TP
-.I \-h \-\-help
-Prints short usage message and exits.
-.TP
-.I \-V \-\-version
-Prints version number and exits.
-.TP
-.I \-\-next\-available
+\fB\-n\fR, \fB\-\-next\-available\fR
 Will show the next unallocated virtual terminal. Normally 6 virtual
 terminals are allocated, with number 7 used for X; this will return
 "8" in this case.
+.TP
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
 
 .SH NOTES
 Under
@@ -41,10 +40,11 @@ the consoles are in
 .IR /dev/vc/N .
 .I devfsd
 may maintain symlinks for compatibility.
+.SH AUTHORS
+Andries Brouwer <aeb@cwi.nl>
+.br
+Manpage by Alastair McKinstry <mckinstry@computer.org>
 .SH "SEE ALSO"
-.BR chvt (1).
-.\" .SH "AUTHORS"
-.\" Andries Brouwer
-.\" .br
-.\" Manpage by Alastair McKinstry <mckinstry@computer.org>
-
+.BR chvt (1),
+.BR deallocvt (1),
+.BR openvt (1)

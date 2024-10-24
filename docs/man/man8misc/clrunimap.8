@@ -1,16 +1,28 @@
-.TH CLRUNIMAP 8 "2002-10-12" "kbd"
+.TH CLRUNIMAP 8 "24 October 2024" "kbd"
 
 .SH NAME
 clrunimap \- Clear the current console unicode map
 
 .SH SYNOPSIS
 .B clrunimap
+[\fI\,options\/\fR]
 
 .SH DESCRIPTION
 
 The command
 .B clrunimap
 clears the unicode map (also called "Screen Font Map") for the current console.
+
+.SH OPTIONS
+.TP
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
 
 .SH NOTES
 If you are not the maintainer of the kbd package, it is very unlikely

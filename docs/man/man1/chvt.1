@@ -1,11 +1,11 @@
 .\" @(#)chvt.1 1.0 970126 aeb
-.TH CHVT 1 "26 January 1997" "kbd"
+.TH CHVT 1 "24 October 2024" "kbd"
 .SH NAME
 chvt \- change foreground virtual terminal
 .SH SYNOPSIS
 .B chvt
 [\fI\,option\/\fR...]
-.I N
+[\fI\,N\/\fR]
 .SH DESCRIPTION
 The command
 .B chvt
@@ -24,8 +24,16 @@ The key combination
 in the range 1-12) usually has a similar effect.
 .SH OPTIONS
 .TP
-.I "\-V, \-\-version"
-print program version and exit.
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
 .TP
-.I "\-h, \-\-help"
-show this text and exit.
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
+.SH AUTHORS
+Andries Brouwer <aeb@cwi.nl>
+.SH "SEE ALSO"
+.BR deallocvt (1),
+.BR openvt (1)

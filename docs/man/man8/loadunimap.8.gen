@@ -1,18 +1,11 @@
 .\" @(#)loadunimap.8 1.0 970317 aeb
-.TH LOADUNIMAP 8 "2004-01-01" "kbd"
+.TH LOADUNIMAP 8 "24 October 2024" "kbd"
 .SH NAME
 loadunimap \- load the kernel unicode-to-font mapping table
 .SH SYNOPSIS
 .B loadunimap
-[
-.B \-C
-.I console
-] [
-.B \-o
-.I oldmap
-] [
-.I map
-]
+[\fI\,options\/\fR]
+[\fI\,map\/\fR]
 .SH DESCRIPTION
 The
 .B loadunimap
@@ -30,11 +23,6 @@ mapping table is assumed.
 The default extension (that can be omitted) is
 .IR .uni .
 .LP
-If the
-.B -o
-.I oldmap
-option is given, the old map is saved in the file specified.
-.LP
 On Linux 2.6.1 and later one can specify the console device using the
 .B \-C
 option.
@@ -43,6 +31,19 @@ Usually one does not call
 .B loadunimap
 directly - its function is also built into
 .BR setfont (8).
+.SH OPTIONS
+.TP
+\fB\-o\fR, \fB\-\-output\fR=\fI\,FILE\/\fR
+save the old map to the \fBFILE\fR.
+.TP
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
 .SH FILES
 .TP
 .I @DATADIR@/@UNIMAPDIR@
@@ -51,6 +52,9 @@ The default directory for unicode mappings.
 .TP
 .I @DATADIR@/@UNIMAPDIR@/def.uni
 The default mapping file.
+.LP
+.SH "AUTHORS"
+Andries Brouwer <aeb@cwi.nl>
 .LP
 .SH "SEE ALSO"
 .BR mapscrn (8),

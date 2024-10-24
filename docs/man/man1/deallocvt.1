@@ -1,5 +1,5 @@
 .\" @(#)deallocvt.1 1.0 970317 aeb
-.TH DEALLOCVT 1 "17 Mar 1997" "kbd"
+.TH DEALLOCVT 1 "24 October 2024" "kbd"
 .SH NAME
 deallocvt \- deallocate unused virtual consoles
 .SH SYNOPSIS
@@ -23,11 +23,16 @@ and no process has it open for reading or writing, and no text
 has been selected on its screen.
 .SH OPTIONS
 .TP
-.I "\-V, \-\-version"
-print program version and exit.
+\fB\-C\fR, \fB\-\-console\fR=\fI\,DEV\/\fR
+the console device to be used.
 .TP
-.I "\-h, \-\-help"
-show this text and exit.
+\fB\-V\fR, \fB\-\-version\fR
+print version number.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+print this usage message.
+.SH AUTHORS
+Andries Brouwer <aeb@cwi.nl>
 .SH "SEE ALSO"
 .BR chvt (1),
 .BR openvt (1)
