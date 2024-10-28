@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-09-17 12:47+0200\n"
+"POT-Creation-Date: 2024-10-28 16:19+0100\n"
 "PO-Revision-Date: 2016-12-28 13:46+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <translation-team-vi@lists.sourceforge.net>\n"
@@ -23,125 +23,117 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: src/chvt.c:25
+#: src/chvt.c:24
 #, c-format
 msgid "Usage: %s [option...] N\n"
 msgstr ""
 
-#: src/chvt.c:30 src/deallocvt.c:30 src/dumpkeys.c:38 src/fgconsole.c:29
-#: src/getkeycodes.c:29 src/getunimap.c:40 src/kbdinfo.c:38 src/kbd_mode.c:34
-#: src/kbdrate.c:331 src/loadkeys.c:51 src/loadunimap.c:35 src/mapscrn.c:31
-#: src/openvt.c:60 src/setkeycodes.c:37 src/setleds.c:56 src/setmetamode.c:41
-#: src/setvtrgb.c:68 src/showconsolefont.c:110 src/showkey.c:97
-#, c-format
-msgid "Options:"
+#: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
+#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
+#: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:182
+#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
+#: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
+msgid "the console device to be used."
 msgstr ""
 
-#: src/chvt.c:45 src/deallocvt.c:45 src/dumpkeys.c:64 src/fgconsole.c:44
-#: src/getkeycodes.c:44 src/getunimap.c:55 src/kbdinfo.c:53 src/kbd_mode.c:49
-#: src/kbdrate.c:346 src/loadkeys.c:68 src/loadunimap.c:50 src/mapscrn.c:46
-#: src/openvt.c:75 src/setkeycodes.c:52 src/setleds.c:71 src/setmetamode.c:56
-#: src/setvtrgb.c:83 src/showconsolefont.c:125 src/showkey.c:112
-#, c-format
-msgid "Report bugs to authors.\n"
-msgstr ""
-
-#: src/chvt.c:78 src/deallocvt.c:69 src/dumpkeys.c:121 src/fgconsole.c:71
-#: src/getkeycodes.c:67 src/getunimap.c:85 src/kbdinfo.c:89 src/kbd_mode.c:105
-#: src/kbdrate.c:376 src/loadkeys.c:126 src/loadunimap.c:78 src/mapscrn.c:76
-#: src/openvt.c:292 src/setkeycodes.c:110 src/setleds.c:249
-#: src/setmetamode.c:115 src/setvtrgb.c:181 src/showconsolefont.c:158
-#: src/showkey.c:148
+#: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
+#: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
+#: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
+#: src/setfont.c:188 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
+#: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
+#: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
 msgstr ""
 
-#: src/chvt.c:79 src/deallocvt.c:70 src/dumpkeys.c:120 src/fgconsole.c:70
-#: src/getkeycodes.c:68 src/getunimap.c:84 src/kbdinfo.c:88 src/kbd_mode.c:104
-#: src/kbdrate.c:375 src/loadkeys.c:125 src/loadunimap.c:77 src/mapscrn.c:75
-#: src/openvt.c:291 src/setkeycodes.c:109 src/setleds.c:247
-#: src/setmetamode.c:114 src/setvtrgb.c:180 src/showconsolefont.c:157
-#: src/showkey.c:149
+#: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
+#: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
+#: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
+#: src/setfont.c:187 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
+#: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
+#: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
 msgstr ""
 
-#: src/chvt.c:98 src/kbdinfo.c:113 src/setkeycodes.c:134
+#: src/chvt.c:83 src/kbdinfo.c:91 src/setkeycodes.c:112 src/setkeycodes.c:121
 #, fuzzy
 msgid "Not enough arguments."
 msgstr "Lỗi: không có đủ đối số.\n"
 
-#: src/chvt.c:103 src/clrunimap.c:29 src/deallocvt.c:94 src/dumpkeys.c:190
-#: src/fgconsole.c:96 src/getkeycodes.c:87 src/getunimap.c:113
-#: src/kbdinfo.c:122 src/kbd_mode.c:156 src/libcommon/getfd.c:88
-#: src/loadkeys.c:203 src/loadunimap.c:108 src/mapscrn.c:109 src/openvt.c:352
-#: src/resizecons.c:171 src/setfont.c:148 src/setkeycodes.c:139
-#: src/setlogcons.c:58 src/setmetamode.c:139 src/setpalette.c:36
-#: src/setvesablank.c:32 src/setvtrgb.c:224 src/showconsolefont.c:194
-#: src/showkey.c:220 src/totextmode.c:32
+#: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
+#: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
+#: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
+#: src/setfont.c:304 src/setkeycodes.c:117 src/setlogcons.c:96
+#: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
+#: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
+#: src/totextmode.c:31
 #, fuzzy, c-format
 msgid "Couldn't get a file descriptor referring to the console."
 msgstr "Không thể lấy mô tả tập tin mà chỉ đến thiết bị điều khiển"
 
-#: src/chvt.c:112 src/openvt.c:199
+#: src/chvt.c:97 src/openvt.c:176
 #, fuzzy
 msgid "Unable to set signal handler"
 msgstr "Không thể đặt phiên làm việc mới"
 
-#: src/chvt.c:119 src/openvt.c:208
+#: src/chvt.c:104 src/openvt.c:185
 #, fuzzy
 msgid "Unable to create timer"
 msgstr "Không thể đặt phiên làm việc mới"
 
-#: src/chvt.c:127 src/openvt.c:218
+#: src/chvt.c:112 src/openvt.c:195
 #, fuzzy
 msgid "Unable to set timer"
 msgstr "Không thể đặt phiên làm việc mới"
 
-#: src/chvt.c:133 src/openvt.c:226
+#: src/chvt.c:118 src/openvt.c:203
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "Không thể kích hoạt vt %d"
 
-#: src/deallocvt.c:25
+#: src/deallocvt.c:24
 #, c-format
 msgid "Usage: %s [option...] [N ...]\n"
 msgstr ""
 
-#: src/deallocvt.c:88 src/kbdinfo.c:188 src/setleds.c:285 src/setleds.c:293
-#: src/setmetamode.c:156
+#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
+#: src/setmetamode.c:134
 #, fuzzy, c-format
 msgid "Unrecognized argument: %s"
 msgstr ""
 "tham số không nhận ra: _%s_\n"
 "\n"
 
-#: src/deallocvt.c:105
+#: src/deallocvt.c:91
 #, fuzzy
 msgid "0: illegal VT number"
 msgstr "0: số VT không hợp lệ\n"
 
-#: src/deallocvt.c:107
+#: src/deallocvt.c:93
 #, fuzzy
 msgid "VT 1 is the console and cannot be deallocated"
 msgstr "VT 1 là một thiết bị điều khiển và không thể bị bỏ phân phối\n"
 
-#: src/deallocvt.c:109
+#: src/deallocvt.c:95
 #, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "không thể bỏ phân phối thiết bị điều khiển %d: ioctl VT_DISALLOCATE"
 
-#: src/dumpkeys.c:32 src/fgconsole.c:23 src/getkeycodes.c:24 src/getunimap.c:35
-#: src/kbd_mode.c:26 src/kbdrate.c:323 src/loadunimap.c:27
-#: src/showconsolefont.c:103 src/showkey.c:92 src/totextmode.c:28
+#: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
+#: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
+#: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
 msgstr ""
 
-#: src/dumpkeys.c:53
+#: src/dumpkeys.c:35
 #, c-format
 msgid "Available charsets: "
 msgstr ""
 
-#: src/dumpkeys.c:57
+#: src/dumpkeys.c:39
 #, c-format
 msgid ""
 "Available shapes:\n"
@@ -151,41 +143,41 @@ msgid ""
 "  16 - one line for each keycode until 1st hole.\n"
 msgstr ""
 
-#: src/dumpkeys.c:108
+#: src/dumpkeys.c:88
 msgid "display information about keyboard driver."
 msgstr ""
 
-#: src/dumpkeys.c:109
+#: src/dumpkeys.c:89
 msgid "display above and symbols known to loadkeys."
 msgstr ""
 
-#: src/dumpkeys.c:110
+#: src/dumpkeys.c:90
 msgid "display keytable in hexadecimal notation."
 msgstr ""
 
-#: src/dumpkeys.c:111
+#: src/dumpkeys.c:91
 msgid "don't use short-hand notations, one row per keycode."
 msgstr ""
 
-#: src/dumpkeys.c:112
+#: src/dumpkeys.c:92
 msgid "one line per (modifier,keycode) pair."
 msgstr ""
 
-#: src/dumpkeys.c:114
+#: src/dumpkeys.c:94
 #, fuzzy
 msgid "display only the function key strings."
 msgstr "KDGKBSENT: %s: Không thể lấy chuỗi khóa hàm"
 
-#: src/dumpkeys.c:115
+#: src/dumpkeys.c:95
 msgid "display only key bindings."
 msgstr ""
 
-#: src/dumpkeys.c:116
+#: src/dumpkeys.c:96
 #, fuzzy
 msgid "display only compose key combinations."
 msgstr "quá nhiều định nghĩa cấu tạo"
 
-#: src/dumpkeys.c:117
+#: src/dumpkeys.c:97
 #, fuzzy
 msgid ""
 "interpret character action codes to be from the specified character set."
@@ -193,30 +185,23 @@ msgstr ""
 "\t\t\t    dịch mã hoạt động của phím từ\n"
 "\t\t\t    bảng mã chỉ ra\n"
 
-#: src/dumpkeys.c:118 src/fgconsole.c:68 src/getunimap.c:83 src/kbdinfo.c:87
-#: src/kbd_mode.c:103 src/loadkeys.c:114 src/loadunimap.c:76 src/mapscrn.c:73
-#: src/openvt.c:283 src/setkeycodes.c:108 src/setmetamode.c:113
-#: src/setvtrgb.c:179 src/showconsolefont.c:154
-msgid "the console device to be used."
-msgstr ""
-
-#: src/dumpkeys.c:119 src/loadkeys.c:124 src/mapscrn.c:74 src/openvt.c:290
-#: src/setleds.c:248 src/showconsolefont.c:156
+#: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
+#: src/setfont.c:186 src/setleds.c:215 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr ""
 
-#: src/dumpkeys.c:165 src/libkeymap/parser.y:194
+#: src/dumpkeys.c:145 src/libkeymap/parser.y:193
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "không rõ bảng mã %s - lờ đi yêu cầu bảng mã\n"
 
-#: src/dumpkeys.c:194 src/kbdinfo.c:139 src/kbd_mode.c:161 src/kbd_mode.c:170
-#: src/loadkeys.c:207 src/showconsolefont.c:197 src/showkey.c:35
+#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
+#: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 #, fuzzy
 msgid "Unable to read keyboard mode"
 msgstr "kbd_mode: lỗi đọc chế độ bàn phím\n"
 
-#: src/dumpkeys.c:207
+#: src/dumpkeys.c:187
 #, c-format
 msgid ""
 "Symbols recognized by %s:\n"
@@ -227,33 +212,33 @@ msgstr ""
 "(giá trị số, ký hiệu)\n"
 "\n"
 
-#: src/fgconsole.c:69
+#: src/fgconsole.c:47
 msgid "print number of next unallocated VT."
 msgstr ""
 
-#: src/fgconsole.c:100
+#: src/fgconsole.c:78
 msgid "Couldn't read VTNO: "
 msgstr "Không thể đọc VTNO: "
 
-#: src/getkeycodes.c:102
+#: src/getkeycodes.c:82
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
 msgstr ""
 "Mã quét (scancode) đơn giản xx (hệ mười sáu) đối lập với mã phím (hệ mười)\n"
 
-#: src/getkeycodes.c:105
+#: src/getkeycodes.c:85
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
 "0 là một lỗi; đối với 1-88 (0x01-0x58) mã quét (scancode) bằng mã phím "
 "(keycode)\n"
 
-#: src/getkeycodes.c:108
+#: src/getkeycodes.c:88
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
 msgstr "đối với 1-%d (0x01-0x%02x) mã quét (scancode) bằng mã phím (keycode)\n"
 
-#: src/getkeycodes.c:115
+#: src/getkeycodes.c:95
 #, fuzzy, c-format
 msgid "Escaped scancodes e0 xx (hex)\n"
 msgstr ""
@@ -261,18 +246,18 @@ msgstr ""
 "\n"
 "Mã quét (scancode) thoát e0xx (hệ bát phân)\n"
 
-#: src/getkeycodes.c:139
+#: src/getkeycodes.c:119
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr ""
 "gặp lỗi khi lấy mã phím (keycode) cho mã quét (scancode) 0x%x: ioctl "
 "KDGETKEYCODE"
 
-#: src/getunimap.c:82
+#: src/getunimap.c:63
 msgid "sort and merge elements."
 msgstr ""
 
-#: src/kbdinfo.c:24
+#: src/kbdinfo.c:22
 #, fuzzy, c-format
 msgid ""
 "Usage: %1$s [option...] getmode [text|graphics]\n"
@@ -288,79 +273,79 @@ msgstr ""
 "   -h                   in cách dùng này\n"
 "   -V                   hiển thị số hiệu phiên bản\n"
 
-#: src/kbdinfo.c:31
+#: src/kbdinfo.c:29
 #, c-format
 msgid ""
 "The utility allows to read and check various parameters\n"
 "of the keyboard and virtual console.\n"
 msgstr ""
 
-#: src/kbdinfo.c:126 src/loadkeys.c:209
+#: src/kbdinfo.c:104 src/loadkeys.c:189
 #, fuzzy
 msgid "Unable to read console mode"
 msgstr "Không đọc được ánh xạ thiết bị điều khiển (console map)\n"
 
-#: src/kbdinfo.c:158 src/setmetamode.c:142
+#: src/kbdinfo.c:136 src/setmetamode.c:120
 #, fuzzy
 msgid "Unable to read meta key handling mode"
 msgstr "không thể lấy ánh xạ phím %d"
 
-#: src/kbdinfo.c:171 src/setleds.c:141
+#: src/kbdinfo.c:149 src/setleds.c:121
 #, fuzzy
 msgid "Unable to read keyboard flags"
 msgstr "không thể lấy ánh xạ phím %d"
 
-#: src/kbd_mode.c:28 src/loadunimap.c:29
+#: src/kbd_mode.c:27 src/loadunimap.c:29
 #, fuzzy, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr "%s: lỗi cài đặt chế độ bàn phím\n"
 
-#: src/kbd_mode.c:60
+#: src/kbd_mode.c:40
 #, fuzzy, c-format
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "Bàn phím ở trong chế độ thô (scancode)\n"
 
-#: src/kbd_mode.c:63
+#: src/kbd_mode.c:43
 #, fuzzy, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "Bàn phím ở trong chế độ thô trung bình (keycode)\n"
 
-#: src/kbd_mode.c:66
+#: src/kbd_mode.c:46
 #, fuzzy, c-format
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "Bàn phím ở trong chế độ mặc định (ASCII)\n"
 
-#: src/kbd_mode.c:69
+#: src/kbd_mode.c:49
 #, fuzzy, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "Bàn phím ở trong chế độ Unicode (UTF-8)\n"
 
-#: src/kbd_mode.c:72
+#: src/kbd_mode.c:52
 #, fuzzy, c-format
 msgid "The keyboard is in some unknown mode"
 msgstr "Bàn phím ở trong một chế độ chưa được biết đến\n"
 
-#: src/kbd_mode.c:98
+#: src/kbd_mode.c:77
 msgid "set ASCII mode."
 msgstr ""
 
-#: src/kbd_mode.c:99
+#: src/kbd_mode.c:78
 msgid "set keycode mode."
 msgstr ""
 
-#: src/kbd_mode.c:100
+#: src/kbd_mode.c:79
 msgid "set scancode mode."
 msgstr ""
 
-#: src/kbd_mode.c:101
+#: src/kbd_mode.c:80
 msgid "set UTF-8 mode."
 msgstr ""
 
-#: src/kbd_mode.c:102
+#: src/kbd_mode.c:81
 msgid "switch the mode even if it makes the keyboard unusable."
 msgstr ""
 
-#: src/kbd_mode.c:179
+#: src/kbd_mode.c:158
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use -"
@@ -396,26 +381,26 @@ msgstr ""
 msgid "Cannot open /dev/port"
 msgstr "Không thể mở /dev/port"
 
-#: src/kbdrate.c:325
+#: src/kbdrate.c:323
 #, c-format
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
 msgstr ""
 
-#: src/kbdrate.c:371
+#: src/kbdrate.c:349
 msgid "set the rate in characters per second."
 msgstr ""
 
-#: src/kbdrate.c:372
+#: src/kbdrate.c:350
 msgid ""
 "set the amount of time the key must remain depressed before it will start to "
 "repeat."
 msgstr ""
 
-#: src/kbdrate.c:373
+#: src/kbdrate.c:351
 msgid "do not set new values, but only display the current ones."
 msgstr ""
 
-#: src/kbdrate.c:374 src/loadkeys.c:123
+#: src/kbdrate.c:352 src/loadkeys.c:103
 msgid "suppress all normal output."
 msgstr ""
 
@@ -424,250 +409,260 @@ msgstr ""
 msgid "Couldn't open %s"
 msgstr "Không thể mở %s\n"
 
-#: src/libcommon/version.c:27
+#: src/libcommon/version.c:12
 #, c-format
 msgid "%s from %s\n"
 msgstr "%s từ %s\n"
 
-#: src/libkeymap/analyze.l:43
+#: src/libcommon/version.c:26
+#, c-format
+msgid "Options:"
+msgstr ""
+
+#: src/libcommon/version.c:44
+#, c-format
+msgid "Report bugs to authors.\n"
+msgstr ""
+
+#: src/libkeymap/analyze.l:41
 msgid "includes are nested too deeply"
 msgstr "những tập tin bao gồm lồng nhau quá sâu"
 
-#: src/libkeymap/analyze.l:160 src/libkeymap/analyze.l:262
-#: src/libkeymap/analyze.l:356 src/libkeymap/common.c:168
-#: src/libkeymap/diacr.c:48 src/libkeymap/diacr.c:67 src/libkeymap/func.c:52
-#: src/libkeymap/kmap.c:61 src/libkeymap/kmap.c:69 src/libkeymap/loadkeys.c:135
-#: src/screendump.c:76 src/screendump.c:79 src/screendump.c:121
-#: src/screendump.c:151
+#: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
+#: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
+#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:51
+#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:134
+#: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
+#: src/screendump.c:195
 msgid "out of memory"
 msgstr "hết bộ nhớ"
 
-#: src/libkeymap/analyze.l:258
+#: src/libkeymap/analyze.l:256
 #, fuzzy, c-format
 msgid "switching to %s"
 msgstr "đang chuyển đổi sang %s\n"
 
-#: src/libkeymap/analyze.l:268
+#: src/libkeymap/analyze.l:266
 #, c-format
 msgid "cannot open include file %s"
 msgstr "không thể mở tập tin bao gồm %s"
 
-#: src/libkeymap/analyze.l:290
+#: src/libkeymap/analyze.l:288
 #, fuzzy, c-format
 msgid "unable to parse number: %s"
 msgstr "Không thể mở %s"
 
-#: src/libkeymap/analyze.l:295
+#: src/libkeymap/analyze.l:293
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:300
+#: src/libkeymap/analyze.l:298
 #, c-format
 msgid "value must be less than %d: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:368
+#: src/libkeymap/analyze.l:366
 msgid "expected filename between quotes"
 msgstr "cần tên tập tin ở giữa cặp dấu nháy kép"
 
-#: src/libkeymap/analyze.l:407
+#: src/libkeymap/analyze.l:405
 #, c-format
 msgid "unicode keysym out of range: %s"
 msgstr "“unicode keysym” nằm ngoài phạm vi: %s"
 
-#: src/libkeymap/analyze.l:467 src/libkeymap/analyze.l:491
-#: src/libkeymap/analyze.l:498 src/libkeymap/analyze.l:505
-#: src/libkeymap/analyze.l:514
+#: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
+#: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
+#: src/libkeymap/analyze.l:508
 msgid "string too long"
 msgstr "chuỗi quá dài"
 
-#: src/libkeymap/analyze.l:483
+#: src/libkeymap/analyze.l:477
 msgid "octal number too big"
 msgstr ""
 
-#: src/libkeymap/common.c:174
+#: src/libkeymap/common.c:164
 #, c-format
 msgid "unable to initialize array: %s"
 msgstr "không thể khởi tạo mảng: %s"
 
-#: src/libkeymap/diacr.c:31
+#: src/libkeymap/diacr.c:30
 #, c-format
 msgid "Index %d in the accent table does not exist"
 msgstr ""
 
-#: src/libkeymap/diacr.c:85
+#: src/libkeymap/diacr.c:84
 msgid "Unable to remove item from the diacritical table"
 msgstr ""
 
-#: src/libkeymap/dump.c:78 src/libkeymap/loadkeys.c:44
+#: src/libkeymap/dump.c:76 src/libkeymap/loadkeys.c:43
 #, fuzzy, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr "gặp lỗi khi tổ hợp phím %d với giá trị %d"
 
-#: src/libkeymap/dump.c:90 src/libkfont/mapscrn.c:255
-#: src/libkfont/mapscrn.c:260
+#: src/libkeymap/dump.c:88 src/libkfont/mapscrn.c:253
+#: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "Lỗi ghi nhớ ánh xạ vào tập tin"
 
-#: src/libkeymap/dump.c:538
+#: src/libkeymap/dump.c:536
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "không thể: không phải meta?\n"
 
-#: src/libkeymap/func.c:30
+#: src/libkeymap/func.c:29
 #, c-format
 msgid "func %d not allocated"
 msgstr "hàm %d chưa được phân bổ"
 
-#: src/libkeymap/func.c:62
+#: src/libkeymap/func.c:61
 msgid "Unable to remove item from the list of functions"
 msgstr ""
 
-#: src/libkeymap/kernel.c:27
+#: src/libkeymap/kernel.c:26
 #, c-format
 msgid "table %d must be less than %d"
 msgstr ""
 
-#: src/libkeymap/kernel.c:32
+#: src/libkeymap/kernel.c:31
 #, c-format
 msgid "index %d must be less than %d"
 msgstr ""
 
-#: src/libkeymap/kernel.c:40
+#: src/libkeymap/kernel.c:39
 #, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
 msgstr "KDGKBENT: %s: có lỗi tại chỉ mục %d trong bảng %d"
 
-#: src/libkeymap/kernel.c:66
+#: src/libkeymap/kernel.c:65
 #, c-format
 msgid "function index %d must be less than %d"
 msgstr ""
 
-#: src/libkeymap/kernel.c:72
+#: src/libkeymap/kernel.c:71
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
 msgstr "KDGKBSENT: %s: Không thể lấy chuỗi khóa hàm"
 
-#: src/libkeymap/kernel.c:102
+#: src/libkeymap/kernel.c:101
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
 msgstr "KDGKBDIACR(UC): %s: Không thể lấy bảng trọng âm"
 
-#: src/libkeymap/kmap.c:83 src/libkeymap/kmap.c:101
+#: src/libkeymap/kmap.c:82 src/libkeymap/kmap.c:100
 #, c-format
 msgid "unable to get keymap %d"
 msgstr "không thể lấy ánh xạ phím %d"
 
-#: src/libkeymap/kmap.c:109
+#: src/libkeymap/kmap.c:108
 #, c-format
 msgid "unable to unset key %d for table %d"
 msgstr "không thể bỏ đặt phím %d cho bảng %d"
 
-#: src/libkeymap/kmap.c:125
+#: src/libkeymap/kmap.c:124
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
 msgstr "lk_add_key được gọi với mã phím sai %d"
 
-#: src/libkeymap/kmap.c:132
+#: src/libkeymap/kmap.c:131
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
 msgstr "việc thêm ánh xạ %d thì vi phạm dòng ánh xạ phím dứt khoát"
 
-#: src/libkeymap/kmap.c:148
+#: src/libkeymap/kmap.c:147
 #, c-format
 msgid "unable to set key %d for table %d"
 msgstr "không thể đặt phím %d cho bảng %d"
 
-#: src/libkeymap/kmap.c:239
+#: src/libkeymap/kmap.c:238
 msgid "impossible error in lk_add_constants"
 msgstr "gần như chắc chắn là lk_add_constans có chứa lỗi"
 
-#: src/libkeymap/ksyms.c:151
+#: src/libkeymap/ksyms.c:150
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "không thể lấy ký hiệu bằng kiểu sai: %d"
 
-#: src/libkeymap/ksyms.c:165
+#: src/libkeymap/ksyms.c:164
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "không thể lấy ký hiệu của kiểu %d bằng chỉ số sai: %d"
 
-#: src/libkeymap/ksyms.c:341 src/libkeymap/ksyms.c:347
-#: src/libkeymap/ksyms.c:353 src/libkeymap/ksyms.c:359
-#: src/libkeymap/ksyms.c:365
+#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
+#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
+#: src/libkeymap/ksyms.c:364
 #, fuzzy, c-format
 msgid "assuming %s %s"
 msgstr "coi là iso-8859-1 %s"
 
-#: src/libkeymap/ksyms.c:370
+#: src/libkeymap/ksyms.c:369
 #, fuzzy, c-format
 msgid "unknown keysym '%s'"
 msgstr "không rõ ký tự phím (keysym) “%s”\n"
 
-#: src/libkeymap/loadkeys.c:27
+#: src/libkeymap/loadkeys.c:26
 #, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
 msgstr "KDSKBMODE: %s: không thể chuyển đổi sang chế độ Unicode"
 
-#: src/libkeymap/loadkeys.c:56
+#: src/libkeymap/loadkeys.c:55
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "Ánh xạ phím %d: Không đủ quyền"
 
-#: src/libkeymap/loadkeys.c:73
+#: src/libkeymap/loadkeys.c:72
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "mã phím %d, bảng %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:74
+#: src/libkeymap/loadkeys.c:73
 msgid "    FAILED"
 msgstr "    GẶP-LỖI"
 
-#: src/libkeymap/loadkeys.c:77
+#: src/libkeymap/loadkeys.c:76
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "gặp lỗi khi tổ hợp phím %d với giá trị %d"
 
-#: src/libkeymap/loadkeys.c:87
+#: src/libkeymap/loadkeys.c:86
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "giải cấp phát ánh xạ phím %d"
 
-#: src/libkeymap/loadkeys.c:91
+#: src/libkeymap/loadkeys.c:90
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: không thể giải cấp phát ánh xạ phím %d"
 
-#: src/libkeymap/loadkeys.c:106
+#: src/libkeymap/loadkeys.c:105
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: không thể giải cấp phát hay xóa sạch ánh xạ phím"
 
-#: src/libkeymap/loadkeys.c:116
+#: src/libkeymap/loadkeys.c:115
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: không thể trở về chế độ bàn phím gốc"
 
-#: src/libkeymap/loadkeys.c:179
+#: src/libkeymap/loadkeys.c:178
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "gặp lỗi khi ràng buộc chuỗi “%s” với hàm %s"
 
-#: src/libkeymap/loadkeys.c:189
+#: src/libkeymap/loadkeys.c:188
 #, c-format
 msgid "failed to clear string %s"
 msgstr "gặp lỗi khi xóa sạch chuỗi %s"
 
-#: src/libkeymap/loadkeys.c:207
+#: src/libkeymap/loadkeys.c:206
 msgid "too many compose definitions"
 msgstr "quá nhiều định nghĩa cấu tạo"
 
-#: src/libkeymap/loadkeys.c:247
+#: src/libkeymap/loadkeys.c:246
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:275
 #, c-format
 msgid ""
 "\n"
@@ -679,83 +674,83 @@ msgstr[0] ""
 "\n"
 "Đã thay đổi %d chuỗi"
 
-#: src/libkeymap/loadkeys.c:277
+#: src/libkeymap/loadkeys.c:276
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
 msgstr[0] "Đã thay đổi %d chuỗi"
 
-#: src/libkeymap/loadkeys.c:285
+#: src/libkeymap/loadkeys.c:284
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "Đã tảo %d định nghĩa tổ hợp"
 
-#: src/libkeymap/loadkeys.c:290
+#: src/libkeymap/loadkeys.c:289
 msgid "(No change in compose definitions)"
 msgstr "(Chưa sửa đổi phần định nghĩa cấu tạo)"
 
-#: src/libkeymap/parser.y:116
+#: src/libkeymap/parser.y:115
 #, fuzzy, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr "loadkeys: không biết cách cấu tạo cho %s\n"
 
-#: src/libkeymap/parser.y:257
+#: src/libkeymap/parser.y:256
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr "“%s” không phải là một ký hiệu phím chức năng"
 
-#: src/libkeymap/parser.y:344
+#: src/libkeymap/parser.y:343
 #, fuzzy, c-format
 msgid "too many (%ld) entries on one line"
 msgstr "quá nhiều (%d) mục nhập trên cùng một dòng"
 
-#: src/libkeymap/parser.y:414
+#: src/libkeymap/parser.y:413
 #, fuzzy, c-format
 msgid "Loading %s"
 msgstr "Đang nạp %s\n"
 
-#: src/libkeymap/summary.c:92
+#: src/libkeymap/summary.c:91
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
 msgstr "vùng mã phím (keycode) được nhân hỗ trợ:      1 - %d\n"
 
-#: src/libkeymap/summary.c:94
+#: src/libkeymap/summary.c:93
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
 msgstr "số hành động lớn nhất mà một phím chấp nhận:     %d\n"
 
-#: src/libkeymap/summary.c:96
+#: src/libkeymap/summary.c:95
 #, c-format
 msgid "number of keymaps in actual use:                 %u\n"
 msgstr "số lượng ánh xạ phím (keymap) dùng trên thực tế: %u\n"
 
-#: src/libkeymap/summary.c:99
+#: src/libkeymap/summary.c:98
 #, c-format
 msgid "of which %u dynamically allocated\n"
 msgstr "cái mà %u được phân phối tự động\n"
 
-#: src/libkeymap/summary.c:102
+#: src/libkeymap/summary.c:101
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
 msgstr "phạm vi mã hành động được nhân hỗ trợ:\n"
 
-#: src/libkeymap/summary.c:108
+#: src/libkeymap/summary.c:107
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
 msgstr "số phím chức năng được nhân hỗ trợ: %d\n"
 
-#: src/libkeymap/summary.c:110
+#: src/libkeymap/summary.c:109
 #, c-format
 msgid "max nr of compose definitions: %d\n"
 msgstr "nr lớn nhất của định nghĩa cấu tạo: %d\n"
 
-#: src/libkeymap/summary.c:112
+#: src/libkeymap/summary.c:111
 #, c-format
 msgid "nr of compose definitions in actual use: %u\n"
 msgstr "nr của định nghĩa cấu tạo được dùng trên thực tế: %u\n"
 
-#: src/libkeymap/summary.c:136
+#: src/libkeymap/summary.c:135
 #, c-format
 msgid ""
 "\n"
@@ -766,12 +761,12 @@ msgstr ""
 "Những từ đồng nghĩa sau được nhận ra:\n"
 "\n"
 
-#: src/libkeymap/summary.c:139
+#: src/libkeymap/summary.c:138
 #, c-format
 msgid "%-15s for %s\n"
 msgstr "%-15s cho %s\n"
 
-#: src/libkeymap/summary.c:143
+#: src/libkeymap/summary.c:142
 #, c-format
 msgid ""
 "\n"
@@ -780,20 +775,24 @@ msgstr ""
 "\n"
 "Nhận ra tên bộ điều chỉnh và số cột của chúng:\n"
 
-#: src/libkfont/kdfontop.c:167
+#: src/libkfont/kdfontop.c:36
+msgid "Console is not in text mode"
+msgstr ""
+
+#: src/libkfont/kdfontop.c:196
 msgid "tall font not supported"
 msgstr ""
 
-#: src/libkfont/kdfontop.c:183
+#: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
 msgstr ""
 
-#: src/libkfont/kdmapop.c:173
+#: src/libkfont/kdmapop.c:172
 #, fuzzy, c-format
 msgid "strange... ct changed from %d to %d"
 msgstr "lạ thật… ct bị thay đổi từ %d thành %d\n"
 
-#: src/libkfont/kdmapop.c:199
+#: src/libkfont/kdmapop.c:198
 #, fuzzy
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
@@ -802,17 +801,17 @@ msgstr ""
 "Hình như là nhân (kernel) có phiên bản cũ hơn 1.1.92\n"
 "Không có bảng ánh xạ Unicode được tải lên.\n"
 
-#: src/libkfont/loadunimap.c:168
+#: src/libkfont/loadunimap.c:166
 #, fuzzy, c-format
 msgid "%s: Glyph number (0x%x) larger than font length"
 msgstr "%s: số glyph (0x%x) lớn hơn chiều dài phông chữ\n"
 
-#: src/libkfont/loadunimap.c:174
+#: src/libkfont/loadunimap.c:172
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
 msgstr "%s: Kết thúc của phạm vi sai (0x%x)\n"
 
-#: src/libkfont/loadunimap.c:213
+#: src/libkfont/loadunimap.c:211
 #, fuzzy, c-format
 msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range "
@@ -821,22 +820,22 @@ msgstr ""
 "%s: Phạm vi Unicode U+%x-U+%x không có cũng chiều dài với phạm vi vị trí "
 "phông chữ 0x%x-0x%x\n"
 
-#: src/libkfont/loadunimap.c:238
+#: src/libkfont/loadunimap.c:236
 #, fuzzy, c-format
 msgid "%s: trailing junk (%s) ignored"
 msgstr "%s: lờ đi khúc theo sau (%s)\n"
 
-#: src/libkfont/loadunimap.c:267
+#: src/libkfont/loadunimap.c:265
 #, fuzzy, c-format
 msgid "Loading unicode map from file %s"
 msgstr "Nạp ánh xạ unicode từ tập tin %s\n"
 
-#: src/libkfont/loadunimap.c:273
+#: src/libkfont/loadunimap.c:271
 #, fuzzy, c-format
 msgid "%s: Warning: line too long"
 msgstr "%s: Cảnh báo: dòng quá dài\n"
 
-#: src/libkfont/loadunimap.c:281
+#: src/libkfont/loadunimap.c:279
 #, fuzzy
 msgid ""
 "not loading empty unimap\n"
@@ -845,267 +844,267 @@ msgstr ""
 "%s: không nạp ánh xạ unicode (unimap) rỗng\n"
 "(nếu bạn nhất định muốn: hãy sử dụng tùy chọn -f để thỏa mãn)\n"
 
-#: src/libkfont/loadunimap.c:303
+#: src/libkfont/loadunimap.c:301
 #, fuzzy, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
 msgstr[0] "mục"
 
-#: src/libkfont/loadunimap.c:318 src/libkfont/mapscrn.c:102
-#: src/libkfont/mapscrn.c:232 src/loadkeys.c:276 src/openvt.c:437
+#: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:256 src/openvt.c:413
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, fuzzy, c-format
 msgid "Unable to open file: %s: %m"
 msgstr "Không thể mở %s"
 
-#: src/libkfont/loadunimap.c:330
+#: src/libkfont/loadunimap.c:328
 #, fuzzy, c-format
 msgid "Saved unicode map on `%s'"
 msgstr "Ghi ánh xạ unicode trên “%s”\n"
 
-#: src/libkfont/loadunimap.c:379
+#: src/libkfont/loadunimap.c:377
 #, fuzzy
 msgid "Appended Unicode map"
 msgstr "Nhập thêm ánh xạ Unicode\n"
 
-#: src/libkfont/mapscrn.c:96 src/libkfont/setfont.c:314
-#: src/libkfont/setfont.c:430 src/libkfont/setfont.c:437 src/loadkeys.c:244
+#: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
+#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
 #, fuzzy, c-format
 msgid "Unable to find file: %s"
 msgstr "Không thể mở %s"
 
-#: src/libkfont/mapscrn.c:109
+#: src/libkfont/mapscrn.c:107
 #, fuzzy, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
 msgstr ""
 "Nạp ánh xạ màn hình (screen map) nhị phân thẳng tới phông (direct-to-font) "
 "từ tập tin %s\n"
 
-#: src/libkfont/mapscrn.c:113 src/libkfont/mapscrn.c:125
+#: src/libkfont/mapscrn.c:111 src/libkfont/mapscrn.c:123
 #, fuzzy, c-format
 msgid "Error reading map from file `%s'"
 msgstr "Lỗi đọc ánh xạ từ tập tin “%s”\n"
 
-#: src/libkfont/mapscrn.c:120
+#: src/libkfont/mapscrn.c:118
 #, fuzzy, c-format
 msgid "Loading binary unicode screen map from file %s"
 msgstr "Nạp ánh xạ màn hình (screen map) unicode nhị phân từ tập tin %s\n"
 
-#: src/libkfont/mapscrn.c:132
+#: src/libkfont/mapscrn.c:130
 #, fuzzy, c-format
 msgid "Loading symbolic screen map from file %s"
 msgstr "Nạp ánh xạ màn hình (screen map) ký hiệu từ tập tin %s\n"
 
-#: src/libkfont/mapscrn.c:137
+#: src/libkfont/mapscrn.c:135
 #, fuzzy, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
 msgstr "Lỗi phân tích ánh xạ ký hiệu từ “%s”, dòng %d\n"
 
-#: src/libkfont/mapscrn.c:264
+#: src/libkfont/mapscrn.c:262
 #, fuzzy
 msgid "Cannot read console map"
 msgstr "Không đọc được ánh xạ thiết bị điều khiển (console map)\n"
 
-#: src/libkfont/mapscrn.c:269
+#: src/libkfont/mapscrn.c:267
 #, fuzzy, c-format
 msgid "Saved screen map in `%s'"
 msgstr "Ghi nhớ ánh xạ màn hình (screen map) trong “%s”\n"
 
-#: src/libkfont/psffontop.c:47
+#: src/libkfont/psffontop.c:46
 #, fuzzy
 msgid "short ucs2 unicode table"
 msgstr "%s: bảng unicode ucs2 ngắn\n"
 
-#: src/libkfont/psffontop.c:68
+#: src/libkfont/psffontop.c:67
 #, fuzzy
 msgid "short utf8 unicode table"
 msgstr "%s: bảng unicode utf8 ngắn\n"
 
-#: src/libkfont/psffontop.c:71
+#: src/libkfont/psffontop.c:70
 #, fuzzy
 msgid "bad utf8"
 msgstr "%s: utf8 sai\n"
 
-#: src/libkfont/psffontop.c:74
+#: src/libkfont/psffontop.c:73
 #, fuzzy
 msgid "unknown utf8 error"
 msgstr "%s: lỗi utf8 không rõ\n"
 
-#: src/libkfont/psffontop.c:99
+#: src/libkfont/psffontop.c:98
 #, fuzzy
 msgid "short unicode table"
 msgstr "%s: bảng unicode ngắn\n"
 
-#: src/libkfont/psffontop.c:174
+#: src/libkfont/psffontop.c:173
 #, fuzzy
 msgid "Error reading input font"
 msgstr "%s: Lỗi đọc phông chữ nhập vào"
 
-#: src/libkfont/psffontop.c:180
+#: src/libkfont/psffontop.c:179
 msgid "Font is too big"
 msgstr ""
 
-#: src/libkfont/psffontop.c:222
+#: src/libkfont/psffontop.c:221
 #, fuzzy
 msgid "Bad call of readpsffont"
 msgstr "%s: Lời gọi readpsffont sai\n"
 
-#: src/libkfont/psffontop.c:238
+#: src/libkfont/psffontop.c:237
 #, fuzzy, c-format
 msgid "Unsupported psf file mode (%d)"
 msgstr "%s: Chế độ tập tin psf (%d) không được hỗ trợ\n"
 
-#: src/libkfont/psffontop.c:255
+#: src/libkfont/psffontop.c:254
 #, fuzzy, c-format
 msgid "Unsupported psf version (%d)"
 msgstr "%s: phiên bản psf (%d) không được hỗ trợ\n"
 
-#: src/libkfont/psffontop.c:271
+#: src/libkfont/psffontop.c:270
 #, fuzzy
 msgid "zero input font length?"
 msgstr "%s: chiều dài phông chữ nhập vào bằng không?\n"
 
-#: src/libkfont/psffontop.c:275
+#: src/libkfont/psffontop.c:274
 #, fuzzy
 msgid "zero input character size?"
 msgstr "%s: kích thước ký tự nhập vào bằng không?\n"
 
-#: src/libkfont/psffontop.c:288
+#: src/libkfont/psffontop.c:287
 #, fuzzy, c-format
 msgid "Input file: bad input length (%d)"
 msgstr "%s: Tập tin nhập vào: chiều dài nhập vào sai (%d)\n"
 
-#: src/libkfont/psffontop.c:328
+#: src/libkfont/psffontop.c:327
 #, fuzzy
 msgid "Input file: trailing garbage"
 msgstr "%s: Tập tin nhập vào: vết rác\n"
 
-#: src/libkfont/psffontop.c:365
+#: src/libkfont/psffontop.c:364
 #, fuzzy, c-format
 msgid "illegal unicode %d"
 msgstr "appendunicode: unicode không đúng %u\n"
 
-#: src/libkfont/psffontop.c:469
+#: src/libkfont/psffontop.c:468
 msgid "Cannot write font file header"
 msgstr "Không thể ghi nhớ phần đầu (header) tập tin phông chữ"
 
-#: src/libkfont/psffontop.c:502
+#: src/libkfont/psffontop.c:501
 msgid "Cannot write font file"
 msgstr "Không thể ghi tập tin phông chữ"
 
-#: src/libkfont/setfont.c:59
+#: src/libkfont/setfont.c:57
 #, fuzzy, c-format
 msgid "Bad character height %d (limit is 128)"
 msgstr "Chiều cao ký tự %d sai\n"
 
-#: src/libkfont/setfont.c:64
+#: src/libkfont/setfont.c:62
 #, fuzzy, c-format
 msgid "Bad character width %d (limit is 64)"
 msgstr "Chiều rộng ký tự %d sai\n"
 
-#: src/libkfont/setfont.c:73
+#: src/libkfont/setfont.c:71
 #, c-format
 msgid "Cannot double %dx%d font (limit is 32x64)"
 msgstr ""
 
-#: src/libkfont/setfont.c:144
+#: src/libkfont/setfont.c:142
 #, fuzzy
 msgid "font position 32 is nonblank"
 msgstr "%s: vị trí phông chữ 32 không trống\n"
 
-#: src/libkfont/setfont.c:153
+#: src/libkfont/setfont.c:151
 #, fuzzy
 msgid "wiped it"
 msgstr "%s: tẩy nó\n"
 
-#: src/libkfont/setfont.c:156
+#: src/libkfont/setfont.c:154
 #, fuzzy
 msgid "background will look funny"
 msgstr "%s: phông nền trông buồn cười\n"
 
-#: src/libkfont/setfont.c:164
+#: src/libkfont/setfont.c:162
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d font from file %s"
 msgstr "Nạp %d-char %dx%d phông từ tập tin %s\n"
 
-#: src/libkfont/setfont.c:167
+#: src/libkfont/setfont.c:165
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d font"
 msgstr "Nạp %d-char %dx%d phông\n"
 
-#: src/libkfont/setfont.c:170
+#: src/libkfont/setfont.c:168
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
 msgstr "Nạp %d-char %dx%d (%d) phông từ tập tin %s\n"
 
-#: src/libkfont/setfont.c:173
+#: src/libkfont/setfont.c:171
 #, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font"
 msgstr "Nạp %d-char %dx%d (%d) phông\n"
 
-#: src/libkfont/setfont.c:256
+#: src/libkfont/setfont.c:254
 #, fuzzy
 msgid "bug in do_loadtable"
 msgstr "%s: lỗi (bug) trong do_loadtable\n"
 
-#: src/libkfont/setfont.c:261
+#: src/libkfont/setfont.c:259
 #, fuzzy
 msgid "Loading Unicode mapping table..."
 msgstr "Đang nạp bảng ánh xạ Unicode…\n"
 
-#: src/libkfont/setfont.c:327
+#: src/libkfont/setfont.c:325
 #, fuzzy, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
 "Khi nạp vài phông chữ, tất cả phải là phông psf - nhưng %s không phải\n"
 
-#: src/libkfont/setfont.c:339
+#: src/libkfont/setfont.c:337
 #, fuzzy, c-format
 msgid "Read %d-char %dx%d font from file %s"
 msgstr "Đọc %d-char %dx%d phông từ tập tin %s\n"
 
-#: src/libkfont/setfont.c:348
+#: src/libkfont/setfont.c:346
 #, fuzzy
 msgid "When loading several fonts, all must have the same height"
 msgstr "Khi nạp vài phông chữ, tất cả phải có cùng chiều cao\n"
 
-#: src/libkfont/setfont.c:356
+#: src/libkfont/setfont.c:354
 #, fuzzy
 msgid "When loading several fonts, all must have the same width"
 msgstr "Khi nạp vài phông chữ, tất cả phải có cùng chiều rộng\n"
 
-#: src/libkfont/setfont.c:422
+#: src/libkfont/setfont.c:420
 #, fuzzy
 msgid "Cannot find default font"
 msgstr "Không tìm thấy phông mặc định\n"
 
-#: src/libkfont/setfont.c:444
+#: src/libkfont/setfont.c:442
 #, fuzzy, c-format
 msgid "Reading font file %s"
 msgstr "Đang đọc tập tin phông chữ %s\n"
 
-#: src/libkfont/setfont.c:499
+#: src/libkfont/setfont.c:497
 #, fuzzy
 msgid "No final newline in combine file"
 msgstr "Không có dòng mới cuối cùng trong liên hợp tập tin\n"
 
-#: src/libkfont/setfont.c:505
+#: src/libkfont/setfont.c:503
 #, fuzzy
 msgid "Too many files to combine"
 msgstr "Quá nhiều tập tin trong liên hợp\n"
 
-#: src/libkfont/setfont.c:533
+#: src/libkfont/setfont.c:531
 #, fuzzy
 msgid "Hmm - a font from restorefont? Using the first half."
 msgstr "Hừm - một phông chữ từ phông phục hồi? Sử dụng nửa đầu tiên.\n"
 
-#: src/libkfont/setfont.c:552
+#: src/libkfont/setfont.c:550
 #, fuzzy
 msgid "Bad input file size"
 msgstr "Kích thước tập tin nhập vào sai\n"
 
-#: src/libkfont/setfont.c:580
+#: src/libkfont/setfont.c:578
 #, c-format
 msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
@@ -1114,80 +1113,80 @@ msgstr ""
 "Tập tin này chứa 3 phông chữ: 8x8, 8x14 và 8x16. Xin hãy cho biết\n"
 "phông bạn muốn nạp bằng một tùy chọn -8 hoặc -14 hoặc -16.\n"
 
-#: src/libkfont/setfont.c:597
+#: src/libkfont/setfont.c:595
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
 msgstr ""
 "Bạn yêu cầu kích thước phông chữ %d, nhưng chỉ có kích thước 8, 14 và 16.\n"
 
-#: src/libkfont/setfont.c:650
+#: src/libkfont/setfont.c:648
 #, fuzzy
 msgid "Found nothing to save"
 msgstr "Khôg tìm thấy gì để ghi nhớ\n"
 
-#: src/libkfont/setfont.c:654
+#: src/libkfont/setfont.c:652
 #, fuzzy, c-format
 msgid "Cannot write font file: %m"
 msgstr "Không thể ghi tập tin phông chữ"
 
-#: src/libkfont/setfont.c:659
+#: src/libkfont/setfont.c:657
 #, fuzzy, c-format
 msgid "Saved %d-char %dx%d font file on %s"
 msgstr "Ghi nhớ %d-char %dx%d tập tin phông chữ trên%s\n"
 
-#: src/loadkeys.c:45
+#: src/loadkeys.c:42
 #, c-format
 msgid "Usage: %s [option...] [mapfile...]\n"
 msgstr ""
 
-#: src/loadkeys.c:66
+#: src/loadkeys.c:48
 #, fuzzy, c-format
 msgid "Default keymap: %s\n"
 msgstr "giải cấp phát ánh xạ phím %d"
 
-#: src/loadkeys.c:115
+#: src/loadkeys.c:95
 msgid "force conversion to ASCII."
 msgstr ""
 
-#: src/loadkeys.c:116
+#: src/loadkeys.c:96
 msgid "output a binary keymap to stdout."
 msgstr ""
 
-#: src/loadkeys.c:117
+#: src/loadkeys.c:97
 msgid "clear kernel compose table."
 msgstr ""
 
-#: src/loadkeys.c:118
+#: src/loadkeys.c:98
 msgid "load default."
 msgstr ""
 
-#: src/loadkeys.c:119
+#: src/loadkeys.c:99
 msgid "output a 'defkeymap.c' to stdout."
 msgstr ""
 
-#: src/loadkeys.c:120
+#: src/loadkeys.c:100
 msgid "search and parse keymap without action."
 msgstr ""
 
-#: src/loadkeys.c:121
+#: src/loadkeys.c:101
 msgid "clear kernel string table."
 msgstr ""
 
-#: src/loadkeys.c:122
+#: src/loadkeys.c:102
 msgid "force conversion to Unicode."
 msgstr ""
 
-#: src/loadkeys.c:145
+#: src/loadkeys.c:125
 msgid "Unable to create kbdfile context"
 msgstr ""
 
-#: src/loadkeys.c:197
+#: src/loadkeys.c:177
 #, fuzzy, c-format
 msgid "Options %s and %s are mutually exclusive."
 msgstr ""
 "%s: Hai tùy chọn --unicode và --ascii xung đột với nhau, chỉ được dùng một\n"
 
-#: src/loadkeys.c:214
+#: src/loadkeys.c:194
 #, fuzzy
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
@@ -1197,7 +1196,7 @@ msgstr ""
 "khiển Unicode\n"
 "    (có lẽ bạn ý bạn muốn làm là “kbd_mode -a” phải không?)\n"
 
-#: src/loadkeys.c:225
+#: src/loadkeys.c:205
 #, fuzzy
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
@@ -1207,12 +1206,12 @@ msgstr ""
 "không phải Unicode\n"
 "    (có lẽ bạn muốn làm là “kbd_mode -u” phải không?)\n"
 
-#: src/loadkeys.c:240 src/loadkeys.c:254 src/loadkeys.c:268
+#: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
 #, fuzzy, c-format
 msgid "Unable to create kbdfile instance: %m"
 msgstr "không thể đặt phím %d cho bảng %d"
 
-#: src/loadunimap.c:75 src/mapscrn.c:72
+#: src/loadunimap.c:55 src/mapscrn.c:53
 msgid "save the old map to the FILE."
 msgstr ""
 
@@ -1221,91 +1220,95 @@ msgstr ""
 msgid "Usage: %s [option...] [map-file]\n"
 msgstr "Cách dùng: %s [-V] [-v] [-o ánh-xạ.gốc] tập-tin-ánh-xạ\n"
 
-#: src/openvt.c:52
+#: src/openvt.c:50
 #, c-format
 msgid "Usage: %s [option...] -- command\n"
 msgstr ""
 
-#: src/openvt.c:54
+#: src/openvt.c:52
 #, c-format
 msgid ""
 "This utility helps you to start a program on a new virtual terminal (VT).\n"
 msgstr ""
 
-#: src/openvt.c:153
+#: src/openvt.c:132
 msgid "Couldn't find owner of current tty!"
 msgstr "không tìm thấy người sở hữu tty đang dùng!"
 
-#: src/openvt.c:284
+#: src/openvt.c:259
+msgid "use the given VT number and not the first available."
+msgstr ""
+
+#: src/openvt.c:260
 msgid "execute the command, without forking."
 msgstr ""
 
-#: src/openvt.c:285
+#: src/openvt.c:261
 msgid "force opening a VT without checking."
 msgstr ""
 
-#: src/openvt.c:286
+#: src/openvt.c:262
 msgid "make the command a login shell."
 msgstr ""
 
-#: src/openvt.c:287
+#: src/openvt.c:263
 msgid "figure out the owner of the current VT."
 msgstr ""
 
-#: src/openvt.c:288
+#: src/openvt.c:264
 msgid "switch to the new VT."
 msgstr ""
 
-#: src/openvt.c:289
+#: src/openvt.c:265
 msgid "wait for command to complete"
 msgstr ""
 
-#: src/openvt.c:303
+#: src/openvt.c:279
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: Số vt không hợp lệ"
 
-#: src/openvt.c:330
+#: src/openvt.c:306
 msgid "Only root can use the -u flag."
 msgstr "Chỉ có siêu quản trị mới có thể dùng cờ -u."
 
-#: src/openvt.c:359
+#: src/openvt.c:335
 msgid "Cannot find a free vt"
 msgstr "Không tìm thấy vt nào còn rảnh rỗi"
 
-#: src/openvt.c:363
+#: src/openvt.c:339
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
 "Không thể kiểm tra xem vt %d là tự do hay không; sử dụng “%s -f” để ép buộc "
 "thực hiện."
 
-#: src/openvt.c:367
+#: src/openvt.c:343
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
 "vt %d đang được sử dụng; lệnh bị bãi bỏ; sử dụng “%s -f” để ép buộc thực "
 "hiện."
 
-#: src/openvt.c:377
+#: src/openvt.c:353
 msgid "Unable to find command."
 msgstr "Không thể tìm thấy lệnh."
 
-#: src/openvt.c:412
+#: src/openvt.c:388
 msgid "Unable to set new session"
 msgstr "Không thể đặt phiên làm việc mới"
 
-#: src/openvt.c:441
+#: src/openvt.c:417
 #, c-format
 msgid "Using VT %s"
 msgstr "Đang dùng VT %s"
 
-#: src/openvt.c:447
+#: src/openvt.c:423
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "không thể mở %s để đọc/ghi"
 
-#: src/openvt.c:494
+#: src/openvt.c:470
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "Không thể cấp phát lại console (thiết bị điều khiển) %d"
@@ -1353,42 +1356,42 @@ msgstr "%s: tập tin psf với số màu nhiệm không rõ\n"
 msgid "input font does not have an index"
 msgstr "%s: phông nhập vào không có một chỉ mục\n"
 
-#: src/resizecons.c:149
+#: src/resizecons.c:146
 #, c-format
 msgid "resizecons: invalid columns number %d"
 msgstr ""
 
-#: src/resizecons.c:154
+#: src/resizecons.c:151
 #, c-format
 msgid "resizecons: invalid rows number %d"
 msgstr ""
 
-#: src/resizecons.c:165
+#: src/resizecons.c:162
 #, fuzzy, c-format
 msgid "resizecons: cannot find videomode file %s"
 msgstr "resizecons: không tìm thấy tập tin chế độ video %s\n"
 
-#: src/resizecons.c:182
+#: src/resizecons.c:179
 #, fuzzy
 msgid "Invalid number of lines"
 msgstr "Số dòng không đúng\n"
 
-#: src/resizecons.c:265
+#: src/resizecons.c:262
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
 msgstr "Chế độ cũ: %dx%d  Chế độ mới: %dx%d\n"
 
-#: src/resizecons.c:267
+#: src/resizecons.c:264
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
 msgstr "#scanlines Cũ:  %d  #scanlines Mới: %d  Chiều cao ký tự : %d\n"
 
-#: src/resizecons.c:278
+#: src/resizecons.c:275
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
 msgstr "resizecons: câu lệnh “%s” bị lỗi\n"
 
-#: src/resizecons.c:363
+#: src/resizecons.c:360
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
@@ -1396,7 +1399,7 @@ msgstr ""
 "resizecons: đừng quên thay đổi TERM (có thể thành con%dx%d hoặc linux-"
 "%dx%d)\n"
 
-#: src/resizecons.c:377
+#: src/resizecons.c:374
 #, c-format
 msgid ""
 "resizecons:\n"
@@ -1409,110 +1412,123 @@ msgstr ""
 "hoặc: resizecons -lines ROWS, với ROWS là một trong số 25, 28, 30, 34, 36, "
 "40, 44, 50, 60\n"
 
-#: src/resizecons.c:416
+#: src/resizecons.c:413
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
 msgstr "resizecons: không lấy được quyền I/O.\n"
 
-#: src/screendump.c:48
-#, c-format
-msgid "usage: screendump [n]\n"
-msgstr "cách dùng: screendump [n]\n"
-
-#: src/screendump.c:82
+#: src/screendump.c:126
 #, c-format
 msgid "Error reading %s"
 msgstr "Lỗi đọc %s"
 
-#: src/screendump.c:136
+#: src/screendump.c:180
 #, fuzzy, c-format
 msgid "Couldn't read %s"
 msgstr "không thể đọc %s\n"
 
-#: src/screendump.c:145
+#: src/screendump.c:189
 #, fuzzy, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ?"
 msgstr "Kỳ lạ … màn hình là cả %dx%d và %dx%d ??\n"
 
-#: src/screendump.c:166
+#: src/screendump.c:210
 #, fuzzy
 msgid "Error writing screendump"
 msgstr "Gặp lỗi khi ghi đổ màn hình\n"
 
-#: src/setfont.c:28
+#: src/setfont.c:20
 #, fuzzy, c-format
-msgid ""
-"Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-"unicodemap]\n"
-"  write-options (take place before file loading):\n"
-"    -o  <filename>  Write current font to <filename>\n"
-"    -O  <filename>  Write current font and unicode map to <filename>\n"
-"    -om <filename>  Write current consolemap to <filename>\n"
-"    -ou <filename>  Write current unicodemap to <filename>\n"
-"If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-"a default font is loaded:\n"
-"    setfont         Load font \"default[.gz]\"\n"
-"    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-"The -<N> option selects a font from a codepage that contains three fonts:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage.cp\n"
-"Explicitly (with -m or -u) or implicitly (in the fontfile) given mappings\n"
-"will be loaded and, in the case of consolemaps, activated.\n"
-"    -h<N>      (no space) Override font height.\n"
-"    -d         Double size of font horizontally and vertically.\n"
-"    -m <fn>    Load console screen map.\n"
-"    -u <fn>    Load font unicode map.\n"
-"    -m none    Suppress loading and activation of a screen map.\n"
-"    -u none    Suppress loading of a unicode map.\n"
-"    -v         Be verbose.\n"
-"    -C <cons>  Indicate console device to be used.\n"
-"    -V         Print version and exit.\n"
-"Files are loaded from the current directory or %s/*/.\n"
-msgstr ""
-"Cách dùng: setfont [tùy-chọn-ghi] [-<N>] [phông-mới..] [-m sơ-đồ-bàn-giao-"
-"tiếp] [-u sơ-đồ-Unicode]\n"
-"  tùy chọn ghi nhớ (được đặt trước khi nạp tập tin):\n"
-"    -o  <tên-tập-tin>  Ghi nhớ phông hiện tại vào <tên-tập-tin>\n"
-"    -O  <tên-tập-tin>  Ghi nhớ phông hiện tại và ánh xạ unicode vào <tên-tập-"
-"tin>\n"
-"    -om <tên-tập-tin>  Ghi nhớ consolemap hiện tại vào <tên-tập-tin>\n"
-"    -ou <tên-tập-tin>  Ghi nhớ unicodemap hiện tại vào <tên-tập-tin>\n"
-"Nếu không đưa ra tùy chọn phông-mới và -[o|O|om|ou|m|u],\n"
-"còn phông chữ mặc định được nạp:\n"
-"    setfont         nạp phông chữ \"default[.gz]\"\n"
-"    setfont -<N>    nạp phông chữ \"default8x<N>[.gz]\"\n"
-"Tùy chọn -<N> chọn môjt phông chữ với trang mã (codepage) chứa ba phông "
-"chữ:\n"
-"    setfont -{8|14|16} codepage.cp[.gz]   Nạp phông 8x<N> từ codepage.cp\n"
-"Ánh xạ hiện (với -m hoặc -u) hoặc ẩn (trong tập tin phông) \n"
-"sẽ được nạp và trong trường hợp của consolemap, được kích hoạt.\n"
-"    -h<N>      (không có khoảng trắng) Ghi chèn lên chiều cao phông.\n"
-"    -m <fn>    Nạp ánh xạ màn hình thiết bị điều khiển.\n"
-"    -u <fn>    Nạp ánh xạ phông chữ unicode.\n"
-"    -m none    Chặn việc nạp và kích hoạt một ánh xạ màn hình.\n"
-"    -u none    Chặn việc nạp một ánh xạ unicode.\n"
-"    -v         Nhiều thông báo.\n"
-"    -C <cons>  Chỉ ra thiết bị thiết bị điều khiển sử dụng.\n"
-"    -V         In ra số hiệu phiên bản và thoát.\n"
-"Tập tin được nạp từ thư mục hiện tại hoặc từ %s/*/.\n"
+msgid "Usage: %s [option...] [newfont...]\n"
+msgstr "Cách dùng: %s [-V] [-v] [-o ánh-xạ.gốc] tập-tin-ánh-xạ\n"
 
-#: src/setfont.c:138
+#: src/setfont.c:22
+#, c-format
+msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
+msgstr ""
+
+#: src/setfont.c:28
+#, c-format
+msgid ""
+"The options -[o|O|om|ou] are processed before the new font is uploaded.\n"
+"\n"
+"If no <newfont> and no -[o|O|om|ou|m|u] option is given, a default\n"
+"font is loaded.\n"
+"\n"
+"There are two kinds of screen maps, one [-m] giving the correspondence\n"
+"between some arbitrary 8-bit character set currently in use and the\n"
+"font positions, and the second [-u] giving the correspondence between\n"
+"font positions and Unicode values.\n"
+"\n"
+"Explicitly (with -m or -u) or implicitly (in the fontfile) given\n"
+"mappings will be loaded and, in the case of consolemaps, activated.\n"
+"\n"
+"Files are loaded from the %s/*/.\n"
+msgstr ""
+
+#: src/setfont.c:174
+msgid "load font \"default8x<N>\"."
+msgstr ""
+
+#: src/setfont.c:175
+msgid "override font height (there shouldn't be a space in the short option)."
+msgstr ""
+
+#: src/setfont.c:176
+msgid "write current font to <FILE>."
+msgstr ""
+
+#: src/setfont.c:177
+msgid "write current consolemap to <FILE>."
+msgstr ""
+
+#: src/setfont.c:178
+msgid "write current unicodemap to <FILE>."
+msgstr ""
+
+#: src/setfont.c:179
+msgid "write current font and unicode map to <FILE>."
+msgstr ""
+
+#: src/setfont.c:180
+msgid "load console screen map ('none' means don't load it)."
+msgstr ""
+
+#: src/setfont.c:181
+msgid "load font unicode map ('none' means don't load it)."
+msgstr ""
+
+#: src/setfont.c:183
+msgid "double size of font horizontally and vertically."
+msgstr ""
+
+#: src/setfont.c:184
+#, fuzzy
+msgid "force load unicode map."
+msgstr "Nhập thêm ánh xạ Unicode\n"
+
+#: src/setfont.c:185
+msgid "reset the screen font, size, and unicode map to the bootup defaults."
+msgstr ""
+
+#: src/setfont.c:295
 #, fuzzy
 msgid "Too many input files."
 msgstr "setfont: quá nhiều tập tin đầu vào\n"
 
-#: src/setfont.c:144
+#: src/setfont.c:300
 #, fuzzy
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
 msgstr ""
 "setfont: không thể đồng thời phục hồi từ ký tự ROM và từ tập tin. Phông chữ "
 "không thay đổi.\n"
 
-#: src/setkeycodes.c:28
+#: src/setkeycodes.c:26
 #, c-format
 msgid "Usage: %s [option...] scancode keycode ...\n"
 msgstr ""
 
-#: src/setkeycodes.c:30
+#: src/setkeycodes.c:28
 #, fuzzy, c-format
 msgid ""
 "(where scancode is either xx or e0xx, given in hexadecimal,\n"
@@ -1522,37 +1538,37 @@ msgstr ""
 " (trong đó scancode là xx hoặc e0xx, ở dạng hệ mười sáu,\n"
 "  còn keycode ở dạng hệ mười)\n"
 
-#: src/setkeycodes.c:68
+#: src/setkeycodes.c:47
 msgid "error reading scancode"
 msgstr "lỗi đọc mã quét (scancode)"
 
-#: src/setkeycodes.c:73
+#: src/setkeycodes.c:52
 #, fuzzy, c-format
 msgid "Argument out of range: %s"
 msgstr "“unicode keysym” nằm ngoài phạm vi: %s"
 
-#: src/setkeycodes.c:78
+#: src/setkeycodes.c:57
 #, c-format
 msgid "Argument must be positive: %s"
 msgstr ""
 
-#: src/setkeycodes.c:155
+#: src/setkeycodes.c:136
 msgid "code outside bounds"
 msgstr "mã nằm ngoài khung giới hạn"
 
-#: src/setkeycodes.c:164
+#: src/setkeycodes.c:145
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
 "gặp lỗi khi đặt mã quét (scancode) %x cho mã phím (keycode) %d: ioctl "
 "KDSETKEYCODE"
 
-#: src/setleds.c:32
+#: src/setleds.c:31
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
 msgstr ""
 
-#: src/setleds.c:41
+#: src/setleds.c:40
 #, fuzzy, c-format
 msgid ""
 "Thus,\n"
@@ -1580,100 +1596,100 @@ msgstr ""
 "Với -D, setleds bật cả cờ và cờ mặc định, vì thế\n"
 "yêu cầu đặt lại theo sau sẽ không thay đổi các cờ.\n"
 
-#: src/setleds.c:77
+#: src/setleds.c:57
 msgid "on "
 msgstr "bật "
 
-#: src/setleds.c:77
+#: src/setleds.c:57
 msgid "off"
 msgstr "tắt"
 
-#: src/setleds.c:121
+#: src/setleds.c:101
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Lỗi đọc cài đặt đèn báo hiện tại. Có thể đầu vào tiêu chuẩn không phải là "
 "một VT?: ioctl KDGETLED"
 
-#: src/setleds.c:157 src/setleds.c:176
+#: src/setleds.c:131 src/setleds.c:144
 #, fuzzy, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr "Lỗi đọc cài đặt đèn báo hiện từ /dev/kbd: ioctl KIOCGLED"
 
-#: src/setleds.c:161 src/setleds.c:180
+#: src/setleds.c:135 src/setleds.c:148
 #, fuzzy, c-format
 msgid "ioctl %s unavailable?"
 msgstr "Không thể KIOCGLED?\n"
 
-#: src/setleds.c:244
+#: src/setleds.c:211
 msgid "change both the VT flags and their default settings."
 msgstr ""
 
-#: src/setleds.c:245
+#: src/setleds.c:212
 #, fuzzy
 msgid "change the VT flags."
 msgstr "Chỉ có siêu quản trị mới có thể dùng cờ -u."
 
-#: src/setleds.c:246
+#: src/setleds.c:213
 msgid "change only the leds."
 msgstr ""
 
-#: src/setleds.c:323
+#: src/setleds.c:290
 #, fuzzy
 msgid "Error resetting ledmode"
 msgstr "Lỗi đặt lại chế độ đèn\n"
 
-#: src/setleds.c:331
+#: src/setleds.c:298
 #, c-format
 msgid "Current default flags:  "
 msgstr "Cờ mặc định hiện tại:   "
 
-#: src/setleds.c:335
+#: src/setleds.c:302
 #, c-format
 msgid "Current flags:          "
 msgstr "Cờ hiện tại:            "
 
-#: src/setleds.c:339
+#: src/setleds.c:306
 #, c-format
 msgid "Current leds:           "
 msgstr "Đèn báo hiện tại:       "
 
-#: src/setleds.c:354
+#: src/setleds.c:321
 #, c-format
 msgid "Old default flags:    "
 msgstr "Cờ mặc định cũ:       "
 
-#: src/setleds.c:356
+#: src/setleds.c:323
 #, c-format
 msgid "New default flags:    "
 msgstr "Cờ mặc định mới:      "
 
-#: src/setleds.c:363
+#: src/setleds.c:330
 #, c-format
 msgid "Old flags:            "
 msgstr "Cờ cũ:                "
 
-#: src/setleds.c:365
+#: src/setleds.c:332
 #, c-format
 msgid "New flags:            "
 msgstr "Cờ mới:               "
 
-#: src/setleds.c:378 src/setleds.c:387
+#: src/setleds.c:345 src/setleds.c:354
 #, c-format
 msgid "Old leds:             "
 msgstr "Đèn báo cũ:           "
 
-#: src/setleds.c:380 src/setleds.c:389
+#: src/setleds.c:347 src/setleds.c:356
 #, c-format
 msgid "New leds:             "
 msgstr "Đèn báo mới:          "
 
-#: src/setmetamode.c:27
+#: src/setmetamode.c:25
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
 msgstr ""
 
-#: src/setmetamode.c:30
+#: src/setmetamode.c:28
 #, c-format
 msgid ""
 "Arguments:\n"
@@ -1683,44 +1699,44 @@ msgid ""
 "              the keysym.\n"
 msgstr ""
 
-#: src/setmetamode.c:69
+#: src/setmetamode.c:48
 #, fuzzy
 msgid "Meta key sets high order bit"
 msgstr "Phím Meta đặt bit thứ bậc cao\n"
 
-#: src/setmetamode.c:72
+#: src/setmetamode.c:51
 #, fuzzy
 msgid "Meta key gives Esc prefix"
 msgstr "Phím Meta đưa ra tiền tố Esc\n"
 
-#: src/setmetamode.c:75
+#: src/setmetamode.c:54
 #, fuzzy
 msgid "Strange mode for Meta key?"
 msgstr "Chế độ lạ cho phím Meta?\n"
 
-#: src/setmetamode.c:161
+#: src/setmetamode.c:139
 #, c-format
 msgid "old state:    "
 msgstr "trạng thái cũ: "
 
-#: src/setmetamode.c:166
+#: src/setmetamode.c:144
 #, c-format
 msgid "new state:    "
 msgstr "trạng thái mới: "
 
-#: src/setvesablank.c:27
+#: src/setvesablank.c:26
 #, fuzzy, c-format
 msgid "Usage: %s ON|on|off\n"
 msgstr ""
 "Cách dùng:\n"
 "\t%s infont outfont\n"
 
-#: src/setvtrgb.c:44
+#: src/setvtrgb.c:42
 #, c-format
 msgid "Usage: %s [option...] [vga|FILE|-]\n"
 msgstr ""
 
-#: src/setvtrgb.c:47
+#: src/setvtrgb.c:45
 #, fuzzy, c-format
 msgid ""
 "If you use the FILE parameter, it can be either in decimal\n"
@@ -1756,81 +1772,81 @@ msgstr ""
 "   -V     in số hiệu phiên bản\n"
 "\n"
 
-#: src/setvtrgb.c:101
+#: src/setvtrgb.c:80
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
 msgstr "Lỗi: %s: Giá trị không hợp lện trong trường %u tại dòng %u."
 
-#: src/setvtrgb.c:108
+#: src/setvtrgb.c:87
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
 msgstr "Lỗi: %s: Số lượng trường bị thiếu tại dòng %u."
 
-#: src/setvtrgb.c:113
+#: src/setvtrgb.c:92
 #, fuzzy, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
 msgstr "Lỗi: %s: Dòng %u bị chấm dứt bất ngờ.\n"
 
-#: src/setvtrgb.c:117
+#: src/setvtrgb.c:96
 #, fuzzy, c-format
 msgid "Error: %s: Line %u is too long."
 msgstr "Lỗi: %s: Dòng %u quá đài.\n"
 
-#: src/setvtrgb.c:131
+#: src/setvtrgb.c:110
 #, fuzzy, c-format
 msgid "Error: %s: Insufficient number of colors/lines: %u"
 msgstr "Lỗi: %s: Số lượng trường bị thiếu tại dòng %u."
 
-#: src/setvtrgb.c:134
+#: src/setvtrgb.c:113
 #, fuzzy, c-format
 msgid "Error: %s: Invalid value in line %u."
 msgstr "Lỗi: %s: Giá trị không hợp lện trong trường %u tại dòng %u."
 
-#: src/setvtrgb.c:150
+#: src/setvtrgb.c:129
 #, fuzzy, c-format
 msgid "Error: %s: File ended unexpectedly."
 msgstr "Lỗi: %s: Dòng %u bị chấm dứt bất ngờ.\n"
 
-#: src/showconsolefont.c:35
+#: src/showconsolefont.c:36
 #, fuzzy
 msgid "failed to restore original translation table"
 msgstr "phục hồi bảng dịch thuật gốc không thành công\n"
 
-#: src/showconsolefont.c:39
+#: src/showconsolefont.c:40
 #, fuzzy
 msgid "failed to restore original unimap"
 msgstr "phục hồi ánh xạ unicode (unimap) gốc không thành công\n"
 
-#: src/showconsolefont.c:58
+#: src/showconsolefont.c:59
 #, fuzzy
 msgid "cannot change translation table"
 msgstr "không thể thay đổi bảng dịch thuật\n"
 
-#: src/showconsolefont.c:104
+#: src/showconsolefont.c:103
 #, c-format
 msgid "(probably after loading a font with `setfont font')\n"
 msgstr ""
 
-#: src/showconsolefont.c:155
+#: src/showconsolefont.c:134
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
 msgstr ""
 
-#: src/showconsolefont.c:213
+#: src/showconsolefont.c:192
 #, fuzzy, c-format
 msgid "Character count: %u\n"
 msgstr "Số lượng ký tự   : %d\n"
 
-#: src/showconsolefont.c:214
+#: src/showconsolefont.c:193
 #, fuzzy, c-format
 msgid "Font width     : %u\n"
 msgstr "Độ rộng phông chữ: %d\n"
 
-#: src/showconsolefont.c:215
+#: src/showconsolefont.c:194
 #, fuzzy, c-format
 msgid "Font height    : %u\n"
 msgstr "Độ cao phông chữ : %d\n"
 
-#: src/showconsolefont.c:226
+#: src/showconsolefont.c:205
 #, c-format
 msgid ""
 "Showing %d-char font\n"
@@ -1839,16 +1855,16 @@ msgstr ""
 "Đang hiển thị phông chữ %d-ký-tự\n"
 "\n"
 
-#: src/showkey.c:51
+#: src/showkey.c:49
 msgid "?UNKNOWN?"
 msgstr "?KHÔNG RÕ?"
 
-#: src/showkey.c:54
+#: src/showkey.c:52
 #, c-format
 msgid "kb mode was %s\n"
 msgstr "chế độ bàn phím từng là %s\n"
 
-#: src/showkey.c:56
+#: src/showkey.c:54
 #, c-format
 msgid ""
 "[ if you are trying this under X, it might not work\n"
@@ -1857,28 +1873,28 @@ msgstr ""
 "[ nếu bạn chạy lệnh này dưới X, có thể nó không làm việc\n"
 "vì máy chủ X cũng đọc /dev/console ]\n"
 
-#: src/showkey.c:76
+#: src/showkey.c:74
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
 msgstr "nhận được tín hiệu %d, đang dọn dẹp…\n"
 
-#: src/showkey.c:144
+#: src/showkey.c:122
 msgid "display the decimal/octal/hex values of the keys."
 msgstr ""
 
-#: src/showkey.c:145
+#: src/showkey.c:123
 msgid "display only the raw scan-codes."
 msgstr ""
 
-#: src/showkey.c:146
+#: src/showkey.c:124
 msgid "display only the interpreted keycodes (default)."
 msgstr ""
 
-#: src/showkey.c:147
+#: src/showkey.c:125
 msgid "set timeout, default 10"
 msgstr ""
 
-#: src/showkey.c:202
+#: src/showkey.c:180
 #, c-format
 msgid ""
 "\n"
@@ -1889,21 +1905,21 @@ msgstr ""
 "Nhấn phím bất kỳ - Ctrl-D sẽ dừng chương trình này\n"
 "\n"
 
-#: src/showkey.c:270
+#: src/showkey.c:248
 #, fuzzy, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
 "nhấn phím bất kỳ (chương trình sẽ tự dừng sau 10 giây không nhấn phím)…\n"
 
-#: src/showkey.c:294
+#: src/showkey.c:272
 msgid "release"
 msgstr "nhả"
 
-#: src/showkey.c:294
+#: src/showkey.c:272
 msgid "press"
 msgstr "nhấn"
 
-#: src/showkey.c:304
+#: src/showkey.c:282
 #, c-format
 msgid "keycode %3d %s\n"
 msgstr "mã phím (keycode) %3d %s\n"
@@ -1938,7 +1954,7 @@ msgstr "Dùng các phím Alt-function để chuyển bảng điều khiển ảo
 msgid "Try `%s --help' for more information.\n"
 msgstr "Hãy gõ lệnh “%s --help” để xem thông tin thêm.\n"
 
-#: src/vlock/parse.c:61
+#: src/vlock/parse.c:60
 #, c-format
 msgid ""
 "%s: locks virtual consoles, saving your current session.\n"
@@ -1967,7 +1983,7 @@ msgstr ""
 msgid "unrecognized user"
 msgstr "không nhận ra người dùng"
 
-#: src/vlock/vlock.c:55
+#: src/vlock/vlock.c:54
 msgid "stdin is not a tty"
 msgstr "stdin không phải là một tty"
 
@@ -1980,6 +1996,68 @@ msgstr "tty này (%s) không phải là bảng điều khiển ảo.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị khóa.\n"
+
+#, c-format
+#~ msgid "usage: screendump [n]\n"
+#~ msgstr "cách dùng: screendump [n]\n"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+#~ "unicodemap]\n"
+#~ "  write-options (take place before file loading):\n"
+#~ "    -o  <filename>  Write current font to <filename>\n"
+#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
+#~ "    -om <filename>  Write current consolemap to <filename>\n"
+#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
+#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
+#~ "a default font is loaded:\n"
+#~ "    setfont         Load font \"default[.gz]\"\n"
+#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
+#~ "The -<N> option selects a font from a codepage that contains three "
+#~ "fonts:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
+#~ "cp\n"
+#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
+#~ "mappings\n"
+#~ "will be loaded and, in the case of consolemaps, activated.\n"
+#~ "    -h<N>      (no space) Override font height.\n"
+#~ "    -d         Double size of font horizontally and vertically.\n"
+#~ "    -m <fn>    Load console screen map.\n"
+#~ "    -u <fn>    Load font unicode map.\n"
+#~ "    -m none    Suppress loading and activation of a screen map.\n"
+#~ "    -u none    Suppress loading of a unicode map.\n"
+#~ "    -v         Be verbose.\n"
+#~ "    -C <cons>  Indicate console device to be used.\n"
+#~ "    -V         Print version and exit.\n"
+#~ "Files are loaded from the current directory or %s/*/.\n"
+#~ msgstr ""
+#~ "Cách dùng: setfont [tùy-chọn-ghi] [-<N>] [phông-mới..] [-m sơ-đồ-bàn-giao-"
+#~ "tiếp] [-u sơ-đồ-Unicode]\n"
+#~ "  tùy chọn ghi nhớ (được đặt trước khi nạp tập tin):\n"
+#~ "    -o  <tên-tập-tin>  Ghi nhớ phông hiện tại vào <tên-tập-tin>\n"
+#~ "    -O  <tên-tập-tin>  Ghi nhớ phông hiện tại và ánh xạ unicode vào <tên-"
+#~ "tập-tin>\n"
+#~ "    -om <tên-tập-tin>  Ghi nhớ consolemap hiện tại vào <tên-tập-tin>\n"
+#~ "    -ou <tên-tập-tin>  Ghi nhớ unicodemap hiện tại vào <tên-tập-tin>\n"
+#~ "Nếu không đưa ra tùy chọn phông-mới và -[o|O|om|ou|m|u],\n"
+#~ "còn phông chữ mặc định được nạp:\n"
+#~ "    setfont         nạp phông chữ \"default[.gz]\"\n"
+#~ "    setfont -<N>    nạp phông chữ \"default8x<N>[.gz]\"\n"
+#~ "Tùy chọn -<N> chọn môjt phông chữ với trang mã (codepage) chứa ba phông "
+#~ "chữ:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Nạp phông 8x<N> từ codepage.cp\n"
+#~ "Ánh xạ hiện (với -m hoặc -u) hoặc ẩn (trong tập tin phông) \n"
+#~ "sẽ được nạp và trong trường hợp của consolemap, được kích hoạt.\n"
+#~ "    -h<N>      (không có khoảng trắng) Ghi chèn lên chiều cao phông.\n"
+#~ "    -m <fn>    Nạp ánh xạ màn hình thiết bị điều khiển.\n"
+#~ "    -u <fn>    Nạp ánh xạ phông chữ unicode.\n"
+#~ "    -m none    Chặn việc nạp và kích hoạt một ánh xạ màn hình.\n"
+#~ "    -u none    Chặn việc nạp một ánh xạ unicode.\n"
+#~ "    -v         Nhiều thông báo.\n"
+#~ "    -C <cons>  Chỉ ra thiết bị thiết bị điều khiển sử dụng.\n"
+#~ "    -V         In ra số hiệu phiên bản và thoát.\n"
+#~ "Tập tin được nạp từ thư mục hiện tại hoặc từ %s/*/.\n"
 
 #~ msgid "usage: chvt N\n"
 #~ msgstr "cách dùng: chvt N\n"
