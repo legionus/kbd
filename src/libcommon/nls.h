@@ -20,7 +20,7 @@
    * KBD_TEXTDOMAIN_EXPLICIT before you include nls.h to your shared library
    * code.
    */
-  #ifdef kBD_TEXTDOMAIN_EXPLICIT
+  #ifdef KBD_TEXTDOMAIN_EXPLICIT
     #define _(Text) dgettext (KBD_TEXTDOMAIN_EXPLICIT, Text)
   #else
     #define _(Text) gettext (Text)
