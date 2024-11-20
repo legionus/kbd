@@ -1,0 +1,130 @@
+#!/usr/bin/env python3
+
+import json
+import os
+import subprocess
+import sys
+
+DATA_DIRNAME = ".lsp.data"
+SUFFIXES = [".c", ".cpp", ".cxx"]
+
+
+def get_topdir() -> str:
+    for name in ["TOPDIR", "KBUILD_ABS_SRCTREE"]:
+        if top_dir := os.getenv(name):
+            return os.path.realpath(top_dir)
+
+    dirname = os.getcwd()
+
+    while dirname != "/":
+        if os.path.isdir(os.path.join(dirname, ".git")):
+            return dirname
+        dirname = os.path.dirname(dirname)
+
+    return "/tmp"
+
+
+def main():
+    args = sys.argv[1:]
+    cwd = os.getcwd()
+    real_compiler = os.getenv("REAL_CC")
+
+    command = [real_compiler, *args]
+    file = None
+
+    for arg in reversed(args):
+        try:
+            for suffix in SUFFIXES:
+                if arg.endswith(suffix):
+                    file = os.path.realpath(arg, strict=True)
+                    break
+            if file is not None:
+                break
+        except FileNotFoundError:
+            pass
+
+    if file is not None:
+        data_dir = os.path.join(get_topdir(), DATA_DIRNAME)
+
+        if not os.path.isdir(data_dir):
+            os.mkdir(data_dir, 0o700)
+
+        entry = {
+            "arguments": command,
+            "directory": cwd,
+            "file": os.path.realpath(file),
+        }
+
+        cmd_file = os.path.join(data_dir, file.replace("/", "_") + ".json")
+
+        with open(cmd_file, "w") as fh:
+            fh.write(json.dumps(entry, indent=4))
+
+    ret = subprocess.run(command)
+    sys.exit(ret.returncode)
+
+
+def main_join():
+    top_dir = get_topdir()
+    out_file = os.path.join(top_dir, "compile_commands.json")
+
+    try:
+        outfh = open(out_file, "x+")
+    except FileExistsError:
+        outfh = open(out_file, "r+")
+
+    res = {}
+
+    if os.path.getsize(out_file) > 0:
+        try:
+            json_list = json.load(outfh)
+
+            if isinstance(json_list, list):
+                for ent in json_list:
+                    res[ent["file"]] = ent
+
+        except json.decoder.JSONDecodeError:
+            pass
+
+    try:
+        data_dir = os.path.join(top_dir, DATA_DIRNAME)
+
+        for name in os.listdir(data_dir):
+            with open(os.path.join(data_dir, name), "r") as fh:
+                try:
+                    data = json.load(fh)
+                    res[data["file"]] = data
+
+                except json.decoder.JSONDecodeError:
+                    pass
+
+    except FileNotFoundError:
+        outfh.close()
+        return
+
+    if res:
+        json_list = sorted(res.values(), key=lambda x: x["file"])
+
+        outfh.seek(0, os.SEEK_SET)
+        outfh.truncate(0)
+        outfh.write(json.dumps(json_list, indent=4))
+
+    outfh.close()
+    return
+
+
+if __name__ == '__main__':
+    if sys.argv[0].endswith("_join") or os.getenv("EXPORT_COMPILE_COMMANDS"):
+        main_join()
+    elif len(sys.argv) > 1:
+        main()
+    else:
+        prog = os.path.basename(sys.argv[0])
+        print(
+            f"Usage: {prog} [COMPILER OPTIONS]... [INPUT FILES]...",
+            "",
+            "Compiler wrapper to save compiler options before compiling",
+            "and after create compile_commands.json.",
+            "",
+            sep="\n"
+        )
