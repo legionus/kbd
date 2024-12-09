@@ -1,3 +1,4 @@
+# Romanian translation for kbd.
 # Mesajele în limba română pentru pachetul kbd.
 # Copyright © 2020, 2022, 2023, 2024 Alexey Gladkov <gladkov.alexey@gmail.com>
 # This file is distributed under the same license as the kbd package.
@@ -17,14 +18,15 @@
 # Actualizare completă la versiunea 2.5-rc2 (traducerea mesajelor 100%), făcută de R-GC, apr-2022.
 # Actualizare a traducerii pentru versiunea 2.6-rc1, făcută de R-GC, mai-2023.
 # Revizuire a traducerii pentru versiunea 2.6-rc1, făcută de R-GC, feb-2024.
+# Revizuire a traducerii pentru versiunea 2.7-rc1, făcută de R-GC, oct-2024.
 # Actualizare a traducerii pentru versiunea Y, făcută de X, Z(luna-anul).
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.6-rc1\n"
+"Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2024-02-13 18:21+0100\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2024-10-29 14:30+0100\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -34,7 +36,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=((n==1) ? 0 : (n==2) ? 1 : (n==0 || (n%100 "
 "> 0 && n%100 < 20)) ? 2 : 3);\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: src/chvt.c:24
 #, c-format
@@ -389,8 +391,8 @@ msgstr "comută modul chiar dacă asta face ca tastatura să fie inutilizabilă.
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 "Trecerea la modul solicitat poate face tastatura inutilizabilă, utilizați "
 "opțiunea „-f” pentru a forța schimbarea.\n"
@@ -420,7 +422,7 @@ msgstr ""
 #: src/kbdrate.c:248
 #, c-format
 msgid "Not supported\n"
-msgstr "Nesuportată\n"
+msgstr "Neacceptată\n"
 
 #: src/kbdrate.c:269
 msgid "Cannot open /dev/port"
@@ -866,16 +868,15 @@ msgstr ""
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
-msgstr ""
+msgstr "Consola nu este în modul text"
 
 #: src/libkfont/kdfontop.c:196
-#, fuzzy
 msgid "tall font not supported"
-msgstr "Nesuportată\n"
+msgstr "fontul înalt nu este acceptat"
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
-msgstr ""
+msgstr "Nu se poate încărca un astfel de font cu această versiune de nucleu"
 
 #: src/libkfont/kdmapop.c:172
 #, c-format
@@ -1312,7 +1313,7 @@ msgstr "Nu s-a putut găsi proprietarul actualului tty!"
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
-msgstr ""
+msgstr "utilizează numărul VT dat și nu primul disponibil."
 
 #: src/openvt.c:260
 msgid "execute the command, without forking."
@@ -1362,8 +1363,8 @@ msgstr ""
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
-"terminalul virtual(vt) %d este în uz; comanda a fost anulată; utilizați «%s -"
-"f» pentru a forța."
+"terminalul virtual(vt) %d este în uz; comanda a fost anulată; utilizați «%s "
+"-f» pentru a forța."
 
 #: src/openvt.c:353
 msgid "Unable to find command."
@@ -1511,14 +1512,16 @@ msgid "Error writing screendump"
 msgstr "Eroare la scrierea rezultatului(dump) pe ecran"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Utilizare: %s [opțiune...] [N ...]\n"
+msgstr "Utilizare: %s [opțiune...] [font-nou ...]\n"
 
 #: src/setfont.c:22
 #, c-format
 msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
 msgstr ""
+"Încarcă fontul consolei și, eventual, harta (hărțile) de ecran "
+"corespunzătoare.\n"
 
 #: src/setfont.c:28
 #, c-format
@@ -1538,52 +1541,71 @@ msgid ""
 "\n"
 "Files are loaded from the %s/*/.\n"
 msgstr ""
+"Opțiunile -[o|O|om|ou] sunt procesate înainte ca noul font să fie încărcat.\n"
+"\n"
+"Dacă nu este dat argumentul <font-nou> și nici opțiunea -[o|O|om|ou|m|u] nu\n"
+"este dată, este încărcat fontul implicit.\n"
+"\n"
+"Există două tipuri de hărți de ecran, una [-m] care oferă corespondența "
+"dintre\n"
+"un set arbitrar de caractere pe 8 biți utilizat în prezent și pozițiile\n"
+"fonturilor, iar a doua [-u] care oferă corespondența dintre pozițiile "
+"fonturilor\n"
+"și valorile Unicode.\n"
+"\n"
+"Hărțile date explicit (cu -m sau -u) sau implicit (în fișierul fonturilor) "
+"vor\n"
+"fi încărcate și, în cazul hărților de consolă, activate.\n"
+"\n"
+"Fișierele sunt încărcate din %s/*/.\n"
 
 #: src/setfont.c:174
-#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "încarcă valorile implicite."
+msgstr "încarcă fontul „default8x<N>”."
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
 msgstr ""
+"suprascrie înălțimea fontului (nu trebuie să existe un spațiu în opțiunea "
+"scurtă)."
 
 #: src/setfont.c:176
 msgid "write current font to <FILE>."
-msgstr ""
+msgstr "scrie fontul curent în <FIȘIER>."
 
 #: src/setfont.c:177
 msgid "write current consolemap to <FILE>."
-msgstr ""
+msgstr "scrie harta curentă a consolei în <FIȘIER>."
 
 #: src/setfont.c:178
 msgid "write current unicodemap to <FILE>."
-msgstr ""
+msgstr "scrie harta unicode curentă în <FIȘIER>."
 
 #: src/setfont.c:179
 msgid "write current font and unicode map to <FILE>."
-msgstr ""
+msgstr "scrie fontul curent și harta unicode în <FIȘIER>."
 
 #: src/setfont.c:180
 msgid "load console screen map ('none' means don't load it)."
-msgstr ""
+msgstr "încarcă harta ecranului consolei („none” înseamnă că nu o încarcă)."
 
 #: src/setfont.c:181
 msgid "load font unicode map ('none' means don't load it)."
-msgstr ""
+msgstr "încarcă harta unicode a fontului („none” înseamnă că nu o încarcă)."
 
 #: src/setfont.c:183
 msgid "double size of font horizontally and vertically."
-msgstr ""
+msgstr "dimensiune dublă a fontului pe orizontală și verticală."
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "S-a adăugat harta de caractere unicode"
+msgstr "forțează încărcarea hărții unicode."
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
+"restabilește fontul ecranului, dimensiunea și harta unicode la valorile "
+"implicite de la pornire."
 
 #: src/setfont.c:295
 msgid "Too many input files."
@@ -2002,7 +2024,7 @@ msgstr "afișează numai codurile de tastă interpretate (implicit)."
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
-msgstr ""
+msgstr "stabilește timpul de așteptare, implicit 10"
 
 # R-GC, scrie:
 # după revizarea fișierului, DȘ, spune:
@@ -2022,10 +2044,10 @@ msgstr ""
 "\n"
 
 #: src/showkey.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
-"apăsați orice tastă (programul se termină la 10s după ultima apăsare de "
+"apăsați orice tastă (programul termină la %ds după ultima apăsare de "
 "tastă)...\n"
 
 #: src/showkey.c:272
@@ -2131,8 +2153,8 @@ msgstr "Nu poate fi blocat întregul afișaj al consolei.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"

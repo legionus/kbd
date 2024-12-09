@@ -1,15 +1,15 @@
 # Esperanto translation
-# Copyright (C) 2010, 2011, 2012, 2014, 2016, 2017, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2010, 2011, 2012, 2014, 2016, 2017, 2020, 2023 Free Software Foundation, Inc.
 # This file is distributed under the same license as the kbd package.
 # Alexey Gladkov <gladkov.alexey@gmail.com>, 2010.
-# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2012, 2014, 2016, 2017, 2020.
+# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2012, 2014, 2016, 2017, 2020, 2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.2.90\n"
+"Project-Id-Version: kbd 2.5-rc2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2020-12-24 13:15-0300\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2023-01-08 15:14-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
 "Language: eo\n"
@@ -324,8 +324,8 @@ msgstr "ŝanĝi la reĝimon eĉ se ĝi igas la klavaron neuzebla."
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 "Ŝanĝo al petata reĝimo eble igos vian klavaron neuzebla, bonvole uzu -f por "
 "perforti la ŝanĝon.\n"
@@ -360,7 +360,7 @@ msgid "Cannot open /dev/port"
 msgstr "Ni ne povas malfermi /dev/port"
 
 #: src/kbdrate.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
 msgstr ""
 "La aplikaĵo difinas la klavaran ripet-rapidon kaj prokraston dum uzanta "
@@ -1664,7 +1664,7 @@ msgid "Usage: %s [option...] [vga|FILE|-]\n"
 msgstr "Uzmaniero: %s [opcio...] [vga|DOSIERO|-]\n"
 
 #: src/setvtrgb.c:45
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you use the FILE parameter, it can be either in decimal\n"
 "or hexadecimal format, and will be detected on runtime.\n"
@@ -1682,13 +1682,20 @@ msgid ""
 "   #00AA00\n"
 "And so on, for all the 16 colors.\n"
 msgstr ""
-"Se vi uzas la parametron DOSIERO, ĝi devos havi ĝuste 3 liniojn kun\n"
+"Se vi uzas la parametron DOSIERO, ĝi povas esti kaj laŭ dekuma\n"
+"kaj laŭ deksesuma formo, kaj tio estos detektata dum plenumiĝo.\n"
+"Dekuma forma por DOSIERO devos havi ĝuste 3 liniojn kun\n"
 "komo-apartitaj dekumaj valoroj por RUĜA, VERDA, kaj BLUA.\n"
-"\n"
 "Por semi validan DOSIERON:\n"
 "   cat /sys/module/vt/parameters/default_{red,grn,blu} > DOSIERO\n"
 "\n"
-"kaj tiam redaktu la valorojn en DOSIERO.\n"
+"Deksesuma formo por DOSIERO devos havi ĝuste 16 liniojn kun\n"
+"deksesumaj triopoj por RUĜA, VERDA kaj BLUA, prefiksita de numersigno ($).\n"
+"Ekzemple:\n"
+"   #000000\n"
+"   #AA0000\n"
+"   #00AA00\n"
+"Kaj tiel plu, por ĉiuj 16 koloroj.\n"
 
 #: src/setvtrgb.c:80
 #, c-format
@@ -1711,14 +1718,14 @@ msgid "Error: %s: Line %u is too long."
 msgstr "Eraro: %s: Linio %u tro longas."
 
 #: src/setvtrgb.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Insufficient number of colors/lines: %u"
-msgstr "Eraro: %s: Ne sufiĉa nombro da kampoj en linio %u."
+msgstr "Eraro: %s: Ne sufiĉe nombro da koloroj/linioj: %u"
 
 #: src/setvtrgb.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Error: %s: Invalid value in line %u."
-msgstr "Eraro: %s: Malvalida valoro en kampo %u en linio %u."
+msgstr "Eraro: %s: Malvalida valoro en linio %u."
 
 #: src/setvtrgb.c:129
 #, fuzzy, c-format
@@ -1929,8 +1936,8 @@ msgstr "La tuta konzola montrilo ne povas esti ŝlosita.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"

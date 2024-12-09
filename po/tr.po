@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 1.10\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
 "PO-Revision-Date: 2004-01-21 06:15+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -326,8 +326,8 @@ msgstr ""
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
@@ -1418,9 +1418,9 @@ msgid "Error writing screendump"
 msgstr "screendump yazmada ba$arisiz\n"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "kullanimi: %s [-o e$lem.ozgun] [e$lem-dosyasi]\n"
+msgstr ""
 
 #: src/setfont.c:22
 #, c-format
@@ -1483,9 +1483,8 @@ msgid "double size of font horizontally and vertically."
 msgstr ""
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Unicode e$lem eklendi\n"
+msgstr ""
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
@@ -1949,72 +1948,10 @@ msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 
 #, c-format
-#~ msgid "usage: screendump [n]\n"
-#~ msgstr "Kullanimi: screendump [n]\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-#~ "unicodemap]\n"
-#~ "  write-options (take place before file loading):\n"
-#~ "    -o  <filename>  Write current font to <filename>\n"
-#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
-#~ "    -om <filename>  Write current consolemap to <filename>\n"
-#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
-#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-#~ "a default font is loaded:\n"
-#~ "    setfont         Load font \"default[.gz]\"\n"
-#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-#~ "The -<N> option selects a font from a codepage that contains three "
-#~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
-#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
-#~ "mappings\n"
-#~ "will be loaded and, in the case of consolemaps, activated.\n"
-#~ "    -h<N>      (no space) Override font height.\n"
-#~ "    -d         Double size of font horizontally and vertically.\n"
-#~ "    -m <fn>    Load console screen map.\n"
-#~ "    -u <fn>    Load font unicode map.\n"
-#~ "    -m none    Suppress loading and activation of a screen map.\n"
-#~ "    -u none    Suppress loading of a unicode map.\n"
-#~ "    -v         Be verbose.\n"
-#~ "    -C <cons>  Indicate console device to be used.\n"
-#~ "    -V         Print version and exit.\n"
-#~ "Files are loaded from the current directory or %s/*/.\n"
-#~ msgstr ""
-#~ "Kullanimi: setfont [yazma-secenekleri] [-<N>] [yeniYazitipi..]\n"
-#~ "                     [-m konsolE$lem] [-u unicodeE$lem]\n"
-#~ "Yazma secenekleri: (dosya yuklemesinden once yer alir):\n"
-#~ "    -o  DOSYA    kullanimdaki yazitipi DOSYAya yazilir\n"
-#~ "    -O  DOSYA    kullanimdaki yazitipi ve unicode e$lem DOSYAya yazilir\n"
-#~ "    -om DOSYA    kullanimdaki konsol e$lem DOSYAya yazilir\n"
-#~ "    -ou DOSYA    kullanimdaki unicode e$lem DOSYAya yazilir\n"
-#~ "yeniYazitipi ve -[o|O|om|ou|m|u] secenekleri verilmemi$se\n"
-#~ "a$agidaki ontanimli yazitiplerinden biri yuklenir:\n"
-#~ "    setfont             \"default[.gz]\" yazitipi yuklenir\n"
-#~ "    setfont -<N>        \"default8x<N>[.gz]\" yazitipi yuklenir\n"
-#~ "-<N> ile uc yazitipi iceren bir karakter kumesinden bir yazitipi "
-#~ "secilir:\n"
-#~ "   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi "
-#~ "yuklenir\n"
-#~ "Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) "
-#~ "verilen\n"
-#~ "e$lemler yuklenir ve konsol e$lemi kapsaminda etkinle$tirilir.\n"
-#~ "    -h<N>      (bo$luk birakmadan) <N> yazitipi yuksekligine zorlar.\n"
-#~ "    -m DOSYA   belirtilen konsol ekran e$lemini yukler.\n"
-#~ "    -u DOSYA   belirtilen yazitipi unicode e$lemini yukler.\n"
-#~ "    -m         bir ekran e$lemin yuklenmesi ve etkinle$tirilmesini onler\n"
-#~ "    -u         bir unicode e$lemin yuklenmesi ve etkinle$tirilmesini "
-#~ "onler\n"
-#~ "    -v         cikti olarak daha fazla ayrinti verilir.\n"
-#~ "    -C <kons>  kullanilacak konsol aygiti belirtilir.\n"
-#~ "    -V         surum bilgilerini gosterir ve cikar\n"
-#~ "Dosyalar cali$ilan dizinden ya da /usr/lib/kbd/*/ dizininden yuklenir.\n"
-
 #~ msgid "        use `openvt -f' to force.\n"
 #~ msgstr "        sorunu a$mak icin `openvt -f' kullanin.\n"
 
+#, c-format
 #~ msgid ""
 #~ "\n"
 #~ "openvt: could not open %s R/W (%s)\n"
@@ -2022,36 +1959,47 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "\n"
 #~ "openvt: %s oku/yaz kipinde acilamadi (%s)\n"
 
+#, c-format
 #~ msgid "openvt: could not deallocate console %d\n"
 #~ msgstr "openvt: %d konsolu kaldirilamadi\n"
 
+#, c-format
 #~ msgid "usage: chvt N\n"
 #~ msgstr "kullanimi: chvt N\n"
 
+#, c-format
 #~ msgid "%s: unknown option\n"
 #~ msgstr "%s: bilinmeyen secenek\n"
 
+#, c-format
 #~ msgid "%s: deallocating all unused consoles failed\n"
 #~ msgstr "%s: kullanilmami$ tum konsollarin kaldirilmasi ba$arisiz\n"
 
+#, c-format
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "%d tablosu endeks 0 da KDGKBENT hatasi\n"
 
+#, c-format
 #~ msgid "%s: cannot find any keymaps?\n"
 #~ msgstr "%s: bir klavye e$le$me listesi bulunamayabilir mi?\n"
 
+#, c-format
 #~ msgid "%s: plain map not allocated? very strange ...\n"
 #~ msgstr "%s: basit e$le$me listesi tahsis edilemedi mi? cok tuhaf ...\n"
 
+#, c-format
 #~ msgid "# not alt_is_meta: on keymap %d key %d is bound to"
 #~ msgstr "# alt_is_meta degil: %d tu$e$lemindeki %d tu$u ile bagimli"
 
+#, c-format
 #~ msgid "KDGKBSENT failed at index %d: "
 #~ msgstr "KDGKBSENT %d endeksinde ba$arisiz: "
 
+#, c-format
 #~ msgid "dumpkeys version %s"
 #~ msgstr "dumpkeys %s surumu"
 
+#, c-format
 #~ msgid ""
 #~ "\n"
 #~ "usage: dumpkeys [options...]\n"
@@ -2087,12 +2035,15 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "     --compose-only    sadece tu$-dizgi ili$kileri gosterilir\n"
 #~ "  -c --charset=        "
 
+#, c-format
 #~ msgid "error executing  %s\n"
 #~ msgstr "%s icra edilirken hata\n"
 
+#, c-format
 #~ msgid "usage: getkeycodes\n"
 #~ msgstr "kullanimi: getkeycodes\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\t%s [-s] [-C console]\n"
@@ -2100,30 +2051,39 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "Kullanimi:\n"
 #~ "\t%s [-s] [-C konsol]\n"
 
+#, c-format
 #~ msgid "usage: kbd_mode [-a|-u|-k|-s]\n"
 #~ msgstr "kullanimi: kbd_mode [-a|-u|-k|-s]\n"
 
+#, c-format
 #~ msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 #~ msgstr "Kullanimi: kbdrate [-V] [-s] [-r hiz] [-d gecikme]\n"
 
+#, c-format
 #~ msgid "bug: getfont called with count<256\n"
 #~ msgstr "yazilim hatasi: getfont sayac<256 ile cagrildi\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-15 %s\n"
 #~ msgstr "iso-8859-15'deki  %s oldugu varsayildi\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-2 %s\n"
 #~ msgstr "iso-8859-2'deki  %s oldugu varsayildi\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-3 %s\n"
 #~ msgstr "iso-8859-3'deki %s oldugu varsayildi\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-4 %s\n"
 #~ msgstr "iso-8859-4'deki %s oldugu varsayildi\n"
 
+#, c-format
 #~ msgid "plus before %s ignored\n"
 #~ msgstr "arti %s oncesi yoksayildi\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\t%s [-C console] [-o map.orig]\n"
@@ -2131,9 +2091,11 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "Kullanimi:\n"
 #~ "\t%s [-C konsol] [-o eslem.orig]\n"
 
+#, c-format
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "girdi satiri hatali: %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 #~ msgstr ""
@@ -2143,24 +2105,31 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ msgid "entries"
 #~ msgstr "girdi"
 
+#, c-format
 #~ msgid "usage: %s [-v] [-o map.orig] map-file\n"
 #~ msgstr "kullanimi: %s [-v] [-o e$lem.ozgun] e$lem-dosyasi\n"
 
+#, c-format
 #~ msgid "mapscrn: cannot open map file _%s_\n"
 #~ msgstr "mapscrn: _%s_ e$lem dosyasi acilamadi\n"
 
+#, c-format
 #~ msgid "Cannot stat map file"
 #~ msgstr "e$lem dosyasi durum bilgileri alinamiyor"
 
+#, c-format
 #~ msgid "%s: Bad input line: %s\n"
 #~ msgstr "%s: girdi satiri hatali: %s\n"
 
+#, c-format
 #~ msgid "%s: Glyph number (0x%lx) past end of font\n"
 #~ msgstr "%s: Karakter numarasi (0x%lx) yazitipi sonunu a$iyor\n"
 
+#, c-format
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: Aralik sonu hatali (0x%lx)\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s: Corresponding to a range of font positions, there should be a Unicode "
 #~ "range\n"
@@ -2168,26 +2137,95 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "%s: Bir yazitipi konumlari araligi ile ili$kilendirilen\n"
 #~ "bir Unicode araligi olmaliydi.\n"
 
+#, c-format
+#~ msgid "usage: screendump [n]\n"
+#~ msgstr "Kullanimi: screendump [n]\n"
+
+#, c-format
 #~ msgid "couldn't read %s, and cannot ioctl dump\n"
 #~ msgstr "%s okunamadi, ve ioctl dokumlenemiyor\n"
 
+#, c-format
+#~ msgid ""
+#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+#~ "unicodemap]\n"
+#~ "  write-options (take place before file loading):\n"
+#~ "    -o  <filename>  Write current font to <filename>\n"
+#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
+#~ "    -om <filename>  Write current consolemap to <filename>\n"
+#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
+#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
+#~ "a default font is loaded:\n"
+#~ "    setfont         Load font \"default[.gz]\"\n"
+#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
+#~ "The -<N> option selects a font from a codepage that contains three "
+#~ "fonts:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
+#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
+#~ "mappings\n"
+#~ "will be loaded and, in the case of consolemaps, activated.\n"
+#~ "    -h<N>      (no space) Override font height.\n"
+#~ "    -m <fn>    Load console screen map.\n"
+#~ "    -u <fn>    Load font unicode map.\n"
+#~ "    -m none    Suppress loading and activation of a screen map.\n"
+#~ "    -u none    Suppress loading of a unicode map.\n"
+#~ "    -v         Be verbose.\n"
+#~ "    -C <cons>  Indicate console device to be used.\n"
+#~ "    -V         Print version and exit.\n"
+#~ "Files are loaded from the current directory or /usr/lib/kbd/*/.\n"
+#~ msgstr ""
+#~ "Kullanimi: setfont [yazma-secenekleri] [-<N>] [yeniYazitipi..]\n"
+#~ "                     [-m konsolE$lem] [-u unicodeE$lem]\n"
+#~ "Yazma secenekleri: (dosya yuklemesinden once yer alir):\n"
+#~ "    -o  DOSYA    kullanimdaki yazitipi DOSYAya yazilir\n"
+#~ "    -O  DOSYA    kullanimdaki yazitipi ve unicode e$lem DOSYAya yazilir\n"
+#~ "    -om DOSYA    kullanimdaki konsol e$lem DOSYAya yazilir\n"
+#~ "    -ou DOSYA    kullanimdaki unicode e$lem DOSYAya yazilir\n"
+#~ "yeniYazitipi ve -[o|O|om|ou|m|u] secenekleri verilmemi$se\n"
+#~ "a$agidaki ontanimli yazitiplerinden biri yuklenir:\n"
+#~ "    setfont             \"default[.gz]\" yazitipi yuklenir\n"
+#~ "    setfont -<N>        \"default8x<N>[.gz]\" yazitipi yuklenir\n"
+#~ "-<N> ile uc yazitipi iceren bir karakter kumesinden bir yazitipi "
+#~ "secilir:\n"
+#~ "   setfont -{8|14|16} codepage.cp[.gz] codepage.cp'den 8x<N> yazitipi "
+#~ "yuklenir\n"
+#~ "Dogrudan (-m veya -u ile) ya da dolayli olarak (yazitipi dosyasindaki) "
+#~ "verilen\n"
+#~ "e$lemler yuklenir ve konsol e$lemi kapsaminda etkinle$tirilir.\n"
+#~ "    -h<N>      (bo$luk birakmadan) <N> yazitipi yuksekligine zorlar.\n"
+#~ "    -m DOSYA   belirtilen konsol ekran e$lemini yukler.\n"
+#~ "    -u DOSYA   belirtilen yazitipi unicode e$lemini yukler.\n"
+#~ "    -m         bir ekran e$lemin yuklenmesi ve etkinle$tirilmesini onler\n"
+#~ "    -u         bir unicode e$lemin yuklenmesi ve etkinle$tirilmesini "
+#~ "onler\n"
+#~ "    -v         cikti olarak daha fazla ayrinti verilir.\n"
+#~ "    -C <kons>  kullanilacak konsol aygiti belirtilir.\n"
+#~ "    -V         surum bilgilerini gosterir ve cikar\n"
+#~ "Dosyalar cali$ilan dizinden ya da /usr/lib/kbd/*/ dizininden yuklenir.\n"
+
+#, c-format
 #~ msgid "Cannot find %s font\n"
 #~ msgstr "%s yazitipi bulunamiyor\n"
 
 #~ msgid "even number of arguments expected"
 #~ msgstr "arguman sayisinin cift-sayi olmasi gerekli"
 
+#, c-format
 #~ msgid ""
 #~ "Error reading current flags setting. Maybe you are not on the console?\n"
 #~ msgstr ""
 #~ "Mevcut bayraklar okunurken hata olu$tu. Konsolda olmayabilir misiniz?\n"
 
+#, c-format
 #~ msgid "KIOCSLED unavailable?\n"
 #~ msgstr "KIOCSLED kullanimdi$i mi?\n"
 
+#, c-format
 #~ msgid "Error opening /dev/kbd.\n"
 #~ msgstr "/dev/kbd acilirken hata olu$tu.\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
@@ -2210,16 +2248,20 @@ msgstr "%s: VT 1 konsolun kendisi ve kaldirilamaz\n"
 #~ "karakterlerden\n"
 #~ "kacinilmistir.\n"
 
+#, c-format
 #~ msgid "Error reading current setting. Maybe stdin is not a VT?\n"
 #~ msgstr ""
 #~ "$u anki ayarlar okunurken hata olustu. StdG bir VT olmayabilir mi?\n"
 
+#, c-format
 #~ msgid "usage: %s\n"
 #~ msgstr "kullanimi: %s\n"
 
+#, c-format
 #~ msgid "%s: out of memory?\n"
 #~ msgstr "%s: bellek yetersiz?\n"
 
+#, c-format
 #~ msgid ""
 #~ "showkey version %s\n"
 #~ "\n"

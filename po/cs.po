@@ -2,16 +2,17 @@
 # This file is distributed under the same license as the kbd package.
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2007, 2008.
 # Petr Pisar <petr.pisar@atlas.cz>, 2012, 2014, 2015, 2016, 2020, 2022, 2023.
+# Petr Pisar <petr.pisar@atlas.cz>, 2024.
 #
 # keymap → mapa kláves
 # key binding → mapování kláves
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.6-rc1\n"
+"Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2023-05-08 22:01+02:00\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2024-12-03 21:09+01:00\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -325,8 +326,8 @@ msgstr "přepne režim, i když to učiní klávesnici nepoužitelnou."
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 "Změna na požadovaný režim může učinit vaši klávesnici nepoužitelnou. Prosím, "
 "změnu vynuťte přepínačem -f.\n"
@@ -771,16 +772,15 @@ msgstr ""
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
-msgstr ""
+msgstr "Konzola není v textovém režimu"
 
 #: src/libkfont/kdfontop.c:196
-#, fuzzy
 msgid "tall font not supported"
-msgstr "Není podporováno\n"
+msgstr "vysoká font není podporován"
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
-msgstr ""
+msgstr "S touto verzí jádra nelze takový font zavést"
 
 #: src/libkfont/kdmapop.c:172
 #, c-format
@@ -1199,7 +1199,7 @@ msgstr "Vlastníka současného TTY nebylo možné zjistit!"
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
-msgstr ""
+msgstr "použije zadané číslo virtuálního terminálu místo prvního volného."
 
 #: src/openvt.c:260
 msgid "execute the command, without forking."
@@ -1386,14 +1386,14 @@ msgid "Error writing screendump"
 msgstr "Chyba při zápisu sejmuté obrazovky"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Použití: %s [PŘEPÍNAČ…] [N…]\n"
+msgstr "Použití: %s [PŘEPÍNAČ…] [NOVÉ_PÍSMO…]\n"
 
 #: src/setfont.c:22
 #, c-format
 msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
-msgstr ""
+msgstr "Zavede do konzoly font a odpovídající převodní mapy obrazovky.\n"
 
 #: src/setfont.c:28
 #, c-format
@@ -1413,52 +1413,64 @@ msgid ""
 "\n"
 "Files are loaded from the %s/*/.\n"
 msgstr ""
+"Přepínače -[o|O|om|ou] se zpracují před nahráním nového písma.\n"
+"\n"
+"Není-li uvedeno ani <NOVÉ_PÍSMO>, ani přepínače -[o|O|om|ou|m|u], zavede se\n"
+"výchozí písmo.\n"
+"\n"
+"Existují dva druhy map obrazovky. Jedna (-m) určuje vztah mezi\n"
+"aktuální 8bitovou znakovou sadou a pozicemi v písmu. Druhá (-u) určuje\n"
+"vztah mezi pozicemi v písmu a hodnotami Unicode.\n"
+"\n"
+"Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) dané mapy\n"
+"budou načteny a v případě mapy konzoly aktivována.\n"
+"\n"
+"Soubory jsou načítány z %s/*/.\n"
 
 #: src/setfont.c:174
-#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "zavede výchozí."
+msgstr "zavede písmo „default8x<N>“."
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
-msgstr ""
+msgstr "vnutí výšku písma (za krátkým přepínačem by neměla být mezera)."
 
 #: src/setfont.c:176
 msgid "write current font to <FILE>."
-msgstr ""
+msgstr "zapíše aktuální písmo do <SOUBORU>."
 
 #: src/setfont.c:177
 msgid "write current consolemap to <FILE>."
-msgstr ""
+msgstr "zapíše aktuální mapu konzoly do <SOUBORU>."
 
 #: src/setfont.c:178
 msgid "write current unicodemap to <FILE>."
-msgstr ""
+msgstr "zapíše aktuální mapu Unicode do <SOUBORU>."
 
 #: src/setfont.c:179
 msgid "write current font and unicode map to <FILE>."
-msgstr ""
+msgstr "zapíše aktuální písmo a mapu Unicode do <SOUBORU>."
 
 #: src/setfont.c:180
 msgid "load console screen map ('none' means don't load it)."
-msgstr ""
+msgstr "zavede mapu konzoly a obrazovky („none“ znamená nezavádět)."
 
 #: src/setfont.c:181
 msgid "load font unicode map ('none' means don't load it)."
-msgstr ""
+msgstr "zavede mapu Unicode a písma („none“ znamená nezavádět)."
 
 #: src/setfont.c:183
 msgid "double size of font horizontally and vertically."
-msgstr ""
+msgstr "zdvojnásobí velikost písma vodorovně i svisle."
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Připojena mapa Unicode"
+msgstr "vynutí zavedení mapy Unicode."
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
+"Obnoví písmo a velikost písma a mapu Unicode na výchozí po startu systému."
 
 #: src/setfont.c:295
 msgid "Too many input files."
@@ -1828,7 +1840,7 @@ msgstr "zobrazí pouze interpretované kódy kláves (výchozí)."
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
-msgstr ""
+msgstr "nastaví časový limit, výchozí je 10"
 
 #: src/showkey.c:180
 #, c-format
@@ -1842,11 +1854,11 @@ msgstr ""
 "\n"
 
 #: src/showkey.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
-"stiskněte libovolnou klávesu (program skončí 10 s po posledním stisku "
-"klávesy)...\n"
+"stiskněte libovolnou klávesu (program skončí %d s po posledním stisku "
+"klávesy)…\n"
 
 #: src/showkey.c:272
 msgid "release"
@@ -1951,8 +1963,8 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"
@@ -1981,8 +1993,8 @@ msgstr "Nelze uzamknout celý displej konzole.\n"
 #~ "    setfont              Zavede písmo „default[.gz]“\n"
 #~ "    setfont -<N>         Zavede písmo „default8x<N>[.gz]“\n"
 #~ "Přepínač -<N> vybírá písmo z codepage, která obsahuje tři písma:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Zavede písmo 8×<N> z codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Zavede písmo 8×<N> z "
+#~ "codepage.cp\n"
 #~ "Explicitně (pomocí -m nebo -u) nebo implicitně (v souboru písma) daná "
 #~ "mapování\n"
 #~ "budou načtena a v případě map konzoly aktivována.\n"

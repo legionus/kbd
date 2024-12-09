@@ -1,27 +1,28 @@
-# Polish translations for kbd.
+# Georgian translation for kbd.
+# Copyright (C) 2022 Alexey Gladkov <gladkov.alexey@gmail.com>
 # This file is distributed under the same license as the kbd package.
-# Jakub Bogusz <qboosh@pld-linux.org>, 2002-2024.
+# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.7-rc1\n"
+"Project-Id-Version: kbd 2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
 "POT-Creation-Date: 2024-12-09 15:37+0100\n"
-"PO-Revision-Date: 2024-10-30 19:07+0100\n"
-"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
-"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
-"Language: pl\n"
+"PO-Revision-Date: 2024-10-27 11:25+0100\n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
+"Language-Team: Georgian <(nothing)>\n"
+"Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Poedit 3.5\n"
 
 #: src/chvt.c:24
 #, c-format
 msgid "Usage: %s [option...] N\n"
-msgstr "Składnia: %s [opcja...] N\n"
+msgstr "გამოყენება: %s [პარამეტრი...] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
 #: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
@@ -29,7 +30,7 @@ msgstr "Składnia: %s [opcja...] N\n"
 #: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
-msgstr "urządzenie konsoli do użycia."
+msgstr "გამოსაყენებელი კონსოლის მოწყობილობა."
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
@@ -39,7 +40,7 @@ msgstr "urządzenie konsoli do użycia."
 #: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
-msgstr "wypisanie tego opisu składni."
+msgstr "გამოყენების ამ შეტყობინების გამოტანა და გამოსვლა."
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
@@ -49,11 +50,11 @@ msgstr "wypisanie tego opisu składni."
 #: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
-msgstr "wypisanie numeru wersji."
+msgstr "ვერსიის ნომერის გამოტანა."
 
 #: src/chvt.c:83 src/kbdinfo.c:91 src/setkeycodes.c:112 src/setkeycodes.c:121
 msgid "Not enough arguments."
-msgstr "Za mało argumentów."
+msgstr "არასაკმარისი არგუმენტები."
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
@@ -65,60 +66,60 @@ msgstr "Za mało argumentów."
 #: src/totextmode.c:31
 #, c-format
 msgid "Couldn't get a file descriptor referring to the console."
-msgstr "Nie udało się uzyskać deskryptora pliku wskazującego na konsolę."
+msgstr "კონსოლზე მიმართული ფაილის დესკრიპტორის მიღების შეცდომა."
 
 #: src/chvt.c:97 src/openvt.c:176
 msgid "Unable to set signal handler"
-msgstr "Nie udało się ustawić obsługi sygnału"
+msgstr "სიგნალის დამმუშავებლის დაყენების შეცდომა"
 
 #: src/chvt.c:104 src/openvt.c:185
 msgid "Unable to create timer"
-msgstr "Nie udało się utworzyć stopera"
+msgstr "ტაიმერის შექმნის შეცდომა"
 
 #: src/chvt.c:112 src/openvt.c:195
 msgid "Unable to set timer"
-msgstr "Nie udało się ustawić stopera"
+msgstr "ტაიმერის დაყენების შეცდომა"
 
 #: src/chvt.c:118 src/openvt.c:203
 #, c-format
 msgid "Couldn't activate vt %d"
-msgstr "Nie udało się uaktywnić vt %d"
+msgstr "VT %d-ის აქტივაციის შეცდომა"
 
 #: src/deallocvt.c:24
 #, c-format
 msgid "Usage: %s [option...] [N ...]\n"
-msgstr "Składnia: %s [opcja...] [N ...]\n"
+msgstr "გამოყენება: %s [პარამეტრი...] [N ...]\n"
 
 #: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
 #: src/setmetamode.c:134
 #, c-format
 msgid "Unrecognized argument: %s"
-msgstr "Nie rozpoznany argument: %s"
+msgstr "უცნობი არგუმენტი: %s"
 
 #: src/deallocvt.c:91
 msgid "0: illegal VT number"
-msgstr "0: błędny numer VT"
+msgstr "0: არასწორი VT ნომერი"
 
 #: src/deallocvt.c:93
 msgid "VT 1 is the console and cannot be deallocated"
-msgstr "VT 1 jest konsolą i nie może być zwolniony"
+msgstr "VT 1 კონსოლია და მისი გათავისუფლება შეუძლებელია"
 
 #: src/deallocvt.c:95
 #, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
-msgstr "nie można zwolnić konsoli %d: ioctl VT_DISALLOCATE"
+msgstr "კონსოლის (%d) გათავისუფლების შეცდომა: IOCtl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
 #: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
-msgstr "Składnia: %s [opcja...]\n"
+msgstr "გამოყენება: %s [პარამეტრი...]\n"
 
 #: src/dumpkeys.c:35
 #, c-format
 msgid "Available charsets: "
-msgstr "Dostępne zestawy znaków: "
+msgstr "ხელმისაწვდომი სიმბოლოთა ნაკრებები: "
 
 #: src/dumpkeys.c:39
 #, c-format
@@ -129,64 +130,64 @@ msgid ""
 "  8  - one line for each (modifier,keycode) pair;\n"
 "  16 - one line for each keycode until 1st hole.\n"
 msgstr ""
-"Dostępne formaty:\n"
-"  2  - domyślne wyjście;\n"
-"  4  - jeden wiersz dla każdego kodu klawisza;\n"
-"  8  - jeden wiersz dla każdej pary (modyfikator, kod);\n"
-"  16 - jeden wiersz dla każdego kodu klawisza do pierwszej dziury.\n"
+"ხელმისაწვდომი ფორმები:\n"
+"  2 - ნაგულისხმევი გამოტანა;\n"
+"  4 - ერთი ხაზი თითოეული ღილაკის კოდისთვის;\n"
+"  8 - ერთი ხაზი თითოეული (მოდიფიკატორი, ღილაკის კოდი) წყვილისთვის;\n"
+"  16 - ერთი ხაზი თითოეული საკვანძო კოდისთვის 1 ხვრელამდე.\n"
 
 #: src/dumpkeys.c:88
 msgid "display information about keyboard driver."
-msgstr "wyświetlenie informacji o sterowniku klawiatury."
+msgstr "ინფორმაციის ჩვენება კლავიატურის დრაივერის შესახებ."
 
 #: src/dumpkeys.c:89
 msgid "display above and symbols known to loadkeys."
-msgstr "wyświetlenie powyższego i symboli znanych loadkeys."
+msgstr "ჩვენება იმის, რაც ზემოთაა და loadkeys-სთვის ცნობილი სიმბოლოების."
 
 #: src/dumpkeys.c:90
 msgid "display keytable in hexadecimal notation."
-msgstr "wyświetlenie tablicy klawiszy w notacji szesnastkowej."
+msgstr "keytable-ის ჩვენება თექვსმეტობითში."
 
 #: src/dumpkeys.c:91
 msgid "don't use short-hand notations, one row per keycode."
-msgstr "bez używania notacji skróconych, jeden wiersz na kod klawisza."
+msgstr ""
+"მოკლე ნოტაციები გამოყენებული არ იქნება. ერთი ღილაკის კოდი ერთ მწკრივში."
 
 #: src/dumpkeys.c:92
 msgid "one line per (modifier,keycode) pair."
-msgstr "jeden wiersz na parę (modyfikator, kod klawisza)."
+msgstr "ერთი ხაზი თითოეული (მოდიფიკატორი, ღილაკის კოდი) წყვილისთვის."
 
 #: src/dumpkeys.c:94
 msgid "display only the function key strings."
-msgstr "wyświetlenie tylko łańcuchów klawiszy funkcyjnych."
+msgstr "აჩვენეთ მხოლოდ ფუნქციური ღილაკის სტრიქონები."
 
 #: src/dumpkeys.c:95
 msgid "display only key bindings."
-msgstr "wyświetlenie tylko dowiązań klawiszy."
+msgstr "მხოლოდ კლავიატურის კომბინაციების ჩვენება."
 
 #: src/dumpkeys.c:96
 msgid "display only compose key combinations."
-msgstr "wyświetlanie tylko kombinacji compose."
+msgstr ""
 
 #: src/dumpkeys.c:97
 msgid ""
 "interpret character action codes to be from the specified character set."
 msgstr ""
-"interpretowanie kodów znaków jako pochodzących z podanego zestawu znaków."
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
 #: src/setfont.c:186 src/setleds.c:215 src/showconsolefont.c:135
 msgid "be more verbose."
-msgstr "podawanie większej ilości informacji."
+msgstr "მეტი შეტყობინების გამოტანა."
 
 #: src/dumpkeys.c:145 src/libkeymap/parser.y:193
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
-msgstr "nieznany zestaw znaków %s - ignorowanie żądania zestawu znaków\n"
+msgstr ""
 
 #: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 msgid "Unable to read keyboard mode"
-msgstr "Nie udało się odczytać trybu klawiatury"
+msgstr "კლავიატურის რეჟიმის წაკითხვის შეცდომა"
 
 #: src/dumpkeys.c:187
 #, c-format
@@ -195,48 +196,43 @@ msgid ""
 "(numeric value, symbol)\n"
 "\n"
 msgstr ""
-"Symbole rozpoznawane przez %s:\n"
-"(wartość liczbowa, symbol)\n"
-"\n"
 
 #: src/fgconsole.c:47
 msgid "print number of next unallocated VT."
-msgstr "wypisanie numeru kolejnego nieprzydzielonego VT."
+msgstr ""
 
 #: src/fgconsole.c:78
 msgid "Couldn't read VTNO: "
-msgstr "Nie udało się odczytać VTNO: "
+msgstr "შეცდომა VTNO-ის წაკითხვისას: "
 
 #: src/getkeycodes.c:82
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
-msgstr "Zwykłe skankody xx (hex) a kody klawiszy (dec)\n"
+msgstr ""
 
 #: src/getkeycodes.c:85
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
-"0 jest błędem; dla 1-88 (0x01-0x58) skankod jest równy kodowi klawisza\n"
 
 #: src/getkeycodes.c:88
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "dla 1-%d (0x01-0x%02x) skankod jest równy kodowi klawisza\n"
+msgstr ""
 
 #: src/getkeycodes.c:95
 #, c-format
 msgid "Escaped scancodes e0 xx (hex)\n"
-msgstr "Specjalne skankody e0 xx (hex)\n"
+msgstr "სპეციალური სკანირებს კოდები e0 xx (hex)\n"
 
 #: src/getkeycodes.c:119
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr ""
-"nie udało się odczytać kodu klawisza dla skankodu 0x%x: ioctl KDGETKEYCODE"
 
 #: src/getunimap.c:63
 msgid "sort and merge elements."
-msgstr "sortowanie i łączenie elementów."
+msgstr "ელემენტების დალაგება და შერწყმა."
 
 #: src/kbdinfo.c:22
 #, c-format
@@ -246,10 +242,6 @@ msgid ""
 "   or: %1$s [option...] gkbmeta [metabit|escprefix]\n"
 "   or: %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
-"Składnia: %1$s [opcja...] getmode [text|graphics]\n"
-"     lub: %1$s [opcja...] gkbmode [raw|xlate|mediumraw|unicode]\n"
-"     lub: %1$s [opcja...] gkbmeta [metabit|escprefix]\n"
-"     lub: %1$s [opcja...] gkbled  [scrolllock|numlock|capslock]\n"
 
 #: src/kbdinfo.c:29
 #, c-format
@@ -257,70 +249,68 @@ msgid ""
 "The utility allows to read and check various parameters\n"
 "of the keyboard and virtual console.\n"
 msgstr ""
-"To narzędzie pozwala odczytywać i sprawdzać różne parametry\n"
-"klawiatury i konsoli wirtualnej.\n"
 
 #: src/kbdinfo.c:104 src/loadkeys.c:189
 msgid "Unable to read console mode"
-msgstr "Nie udało się odczytać trybu konsoli"
+msgstr "კონსოლის რეჟიმის წაკითხვის შეცდომა"
 
 #: src/kbdinfo.c:136 src/setmetamode.c:120
 msgid "Unable to read meta key handling mode"
-msgstr "Nie udało się odczytać trybu obsługi klawiszy meta"
+msgstr "მეტა ღილაკის დამუშავების რეჟიმის წაკითხვის შეცდომა"
 
 #: src/kbdinfo.c:149 src/setleds.c:121
 msgid "Unable to read keyboard flags"
-msgstr "Nie udało się odczytać flag klawiatury"
+msgstr "კლავიატურის ალმების წაკითხვის შეცდომა"
 
 #: src/kbd_mode.c:27 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
-msgstr "To narzędzie raportuje lub ustawia tryb klawiatury.\n"
+msgstr ""
 
 #: src/kbd_mode.c:40
 #, c-format
 msgid "The keyboard is in raw (scancode) mode"
-msgstr "Klawiatura jest w trybie surowym (skankodów)"
+msgstr ""
 
 #: src/kbd_mode.c:43
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
-msgstr "Klawiatura jest w trybie średnio surowym (kodów klawiszy)"
+msgstr ""
 
 #: src/kbd_mode.c:46
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode"
-msgstr "Klawiatura jest w trybie normalnym (ASCII)"
+msgstr ""
 
 #: src/kbd_mode.c:49
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
-msgstr "Klawiatura jest w trybie Unicode (UTF-8)"
+msgstr ""
 
 #: src/kbd_mode.c:52
 #, c-format
 msgid "The keyboard is in some unknown mode"
-msgstr "Klawiatura jest w nieznanym trybie"
+msgstr ""
 
 #: src/kbd_mode.c:77
 msgid "set ASCII mode."
-msgstr "ustawienie trybu ASCII."
+msgstr "ASCII რეჟიმის ჩართვა."
 
 #: src/kbd_mode.c:78
 msgid "set keycode mode."
-msgstr "ustawienie trybu kodów klawiszy."
+msgstr "ღილაკის კოდები რეჟიმის ჩართვა."
 
 #: src/kbd_mode.c:79
 msgid "set scancode mode."
-msgstr "ustawienie trybu skankodów."
+msgstr "სკანკოდების რეჟიმის ჩართვა."
 
 #: src/kbd_mode.c:80
 msgid "set UTF-8 mode."
-msgstr "ustawienie trybu UTF-8."
+msgstr "UTF-8 რეჟიმის ჩართვა."
 
 #: src/kbd_mode.c:81
 msgid "switch the mode even if it makes the keyboard unusable."
-msgstr "przełączenie trybu nawet jeśli uczyni to klawiaturę nieużywalną."
+msgstr ""
 
 #: src/kbd_mode.c:158
 #, c-format
@@ -328,87 +318,82 @@ msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use "
 "-f to force the change.\n"
 msgstr ""
-"Zmiana na żądany tryb może uczynić klawiaturę nieużywalną - proszę użyć -f, "
-"aby wymusić zmianę.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
 msgid "Typematic Rate is %.1f cps\n"
-msgstr "Częstotliwość powtarzania wynosi %.1f zn/s\n"
+msgstr ""
 
 #: src/kbdrate.c:140 src/kbdrate.c:205
 #, c-format
 msgid "Current keyboard delay %d ms\n"
-msgstr "Obecne opóźnienie klawiatury: %d ms\n"
+msgstr ""
 
 #: src/kbdrate.c:141
 #, c-format
 msgid "Current keyboard period %d ms\n"
-msgstr "Obecny okres klawiatury: %d ms\n"
+msgstr ""
 
 #: src/kbdrate.c:179 src/kbdrate.c:303
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
 msgstr ""
-"Częstotliwość powtarzania ustawiono na %.1f zn/s (opóźnienie = %d ms)\n"
 
 #: src/kbdrate.c:248
 #, c-format
 msgid "Not supported\n"
-msgstr "Nie obsługiwane\n"
+msgstr "მხარდაუჭერელია\n"
 
 #: src/kbdrate.c:269
 msgid "Cannot open /dev/port"
-msgstr "Nie można otworzyć /dev/port"
+msgstr "/dev/port-ის გახსნის შეცდომა"
 
 #: src/kbdrate.c:323
 #, c-format
 msgid "The program sets the keyboard repeat rate and delay in user mode.\n"
 msgstr ""
-"Ten program ustawia częstotliwość i opóźnienie powtarzania klawiatury w "
-"trybie użytkownika\n"
 
 #: src/kbdrate.c:349
 msgid "set the rate in characters per second."
-msgstr "ustawienie częstotliwości w znakach na sekundę."
+msgstr "დააყენეთ სიჩქარე სიმბოლოებში წამში."
 
 #: src/kbdrate.c:350
 msgid ""
 "set the amount of time the key must remain depressed before it will start to "
 "repeat."
-msgstr "ustawienie okresu wciśnięcia klawisza przed rozpoczęciem powtarzania."
+msgstr ""
 
 #: src/kbdrate.c:351
 msgid "do not set new values, but only display the current ones."
-msgstr "bez ustawiania nowych wartości, samo wyświetlenie bieżących."
+msgstr ""
 
 #: src/kbdrate.c:352 src/loadkeys.c:103
 msgid "suppress all normal output."
-msgstr "pominięcie całego zwykłego wyjścia."
+msgstr "ნორმალური გამოტანის სრულად ჩახშობა."
 
 #: src/libcommon/getfd.c:70
 #, c-format
 msgid "Couldn't open %s"
-msgstr "Nie udało się otworzyć %s"
+msgstr "%s-ის გახსნის შეცდომა"
 
 #: src/libcommon/version.c:12
 #, c-format
 msgid "%s from %s\n"
-msgstr "%s z %s\n"
+msgstr "%s -ი %s-სგან\n"
 
 #: src/libcommon/version.c:26
 #, c-format
 msgid "Options:"
-msgstr "Opcje:"
+msgstr "პარამეტრები:"
 
 #: src/libcommon/version.c:44
 #, c-format
 msgid "Report bugs to authors.\n"
-msgstr "Błędy prosimy zgłaszać do autorów.\n"
+msgstr "შეცდომების შესახებ ავტორებს შეატყობინეთ.\n"
 
 #: src/libkeymap/analyze.l:41
 msgid "includes are nested too deeply"
-msgstr "dołączenia zagnieżdżone zbyt głęboko"
+msgstr "ჩასმები მეტისმეტად ღრმადაა"
 
 #: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
 #: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
@@ -417,234 +402,232 @@ msgstr "dołączenia zagnieżdżone zbyt głęboko"
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
-msgstr "brak pamięci"
+msgstr "არასაკმარისი მეხსიერება"
 
 #: src/libkeymap/analyze.l:256
 #, c-format
 msgid "switching to %s"
-msgstr "przełączanie na %s"
+msgstr "%s-ზე გადართვა"
 
 #: src/libkeymap/analyze.l:266
 #, c-format
 msgid "cannot open include file %s"
-msgstr "nie można otworzyć pliku dołączanego %s"
+msgstr "გახსნის შეცდომა ჩასასმელი ფაილისთვის %s"
 
 #: src/libkeymap/analyze.l:288
 #, c-format
 msgid "unable to parse number: %s"
-msgstr "nie można odczytać liczby: %s"
+msgstr "დამუშავების შეცდომა რიცხვისთვის: %s"
 
 #: src/libkeymap/analyze.l:293
 #, c-format
 msgid "value must be a positive number: %s"
-msgstr "wartość musi być liczbą dodatnią: %s"
+msgstr ""
 
 #: src/libkeymap/analyze.l:298
 #, c-format
 msgid "value must be less than %d: %s"
-msgstr "wartość musi być mniejsza niż %d: %s"
+msgstr "მნიშვნელობა %d-ზე ნაკლები უნდა იყოს: %s"
 
 #: src/libkeymap/analyze.l:366
 msgid "expected filename between quotes"
-msgstr "oczekiwano nazwy pliku w cudzysłowach"
+msgstr "მოველოდი ფაილის სახელს ბრჭყალებს შორის"
 
 #: src/libkeymap/analyze.l:405
 #, c-format
 msgid "unicode keysym out of range: %s"
-msgstr "symbol unikodowy spoza zakresu: %s"
+msgstr ""
 
 #: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
 #: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
 #: src/libkeymap/analyze.l:508
 msgid "string too long"
-msgstr "łańcuch zbyt długi"
+msgstr "სტრიქონი მეტისმეტად გრძელია"
 
 #: src/libkeymap/analyze.l:477
 msgid "octal number too big"
-msgstr "liczba ósemkowa zbyt duża"
+msgstr "რვაობითი რიცხვი მეტისმეტად დიდია"
 
 #: src/libkeymap/common.c:164
 #, c-format
 msgid "unable to initialize array: %s"
-msgstr "nie udało się zainicjować tablicy: %s"
+msgstr "მასივის ინიციალიზაციის შეცდომა: %s"
 
 #: src/libkeymap/diacr.c:30
 #, c-format
 msgid "Index %d in the accent table does not exist"
-msgstr "Indeks %d w tablicy akcentów nie istnieje"
+msgstr ""
 
 #: src/libkeymap/diacr.c:84
 msgid "Unable to remove item from the diacritical table"
-msgstr "Nie udało się usunąć elementu z tablicy diakrytyków"
+msgstr ""
 
 #: src/libkeymap/dump.c:76 src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
-msgstr "nie można dowiązać klawisza %d do wartości %d, ponieważ jest zbyt duża"
+msgstr ""
 
 #: src/libkeymap/dump.c:88 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
-msgstr "Błąd podczas zapisu mapy do pliku"
+msgstr "რუკის ფაილში ჩაწერის შეცდომა"
 
 #: src/libkeymap/dump.c:536
 #, c-format
 msgid "impossible: not meta?\n"
-msgstr "niemożliwe: nie meta?\n"
+msgstr "შეუძლებელია: მეტა არაა?\n"
 
 #: src/libkeymap/func.c:29
 #, c-format
 msgid "func %d not allocated"
-msgstr "funkcja %d nie przydzielona"
+msgstr "ფუნქცია %d გამოყოფილი არაა"
 
 #: src/libkeymap/func.c:61
 msgid "Unable to remove item from the list of functions"
-msgstr "Nie udało się usunąć elementu z listy funkcji"
+msgstr ""
 
 #: src/libkeymap/kernel.c:26
 #, c-format
 msgid "table %d must be less than %d"
-msgstr "tablica %d musi być mniejsza niż %d"
+msgstr "ცხრილი %d %d-ზე ნაკლები უნდა იყოს"
 
 #: src/libkeymap/kernel.c:31
 #, c-format
 msgid "index %d must be less than %d"
-msgstr "indeks %d musi być mniejszy niż %d"
+msgstr "ინდექსი %d %d-ზე ნაკლები უნდა იყოს"
 
 #: src/libkeymap/kernel.c:39
 #, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
-msgstr "KDGKBENT: %s: błąd pod indeksem %d w tabeli %d"
+msgstr ""
 
 #: src/libkeymap/kernel.c:65
 #, c-format
 msgid "function index %d must be less than %d"
-msgstr "indeks funkcji %d musi być mniejszy niż %d"
+msgstr ""
 
 #: src/libkeymap/kernel.c:71
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
-msgstr "KDGKBSENT: %s: Nie udało się pobrać łańcucha klawisza funkcyjnego"
+msgstr "KDGKBSENT: %s: ფუნქციის გასაღების სტრიქონის მიღების შეცდომა"
 
 #: src/libkeymap/kernel.c:101
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
-msgstr "KDGKBDIACR(UC): %s: Nie udało się pobrać tabeli akcentów"
+msgstr "KDGKBDIACR(UC): %s: წვდომის ცხრილის მიღების შეცდომა"
 
 #: src/libkeymap/kmap.c:82 src/libkeymap/kmap.c:100
 #, c-format
 msgid "unable to get keymap %d"
-msgstr "nie udało się pobrać mapy klawiszy %d"
+msgstr ""
 
 #: src/libkeymap/kmap.c:108
 #, c-format
 msgid "unable to unset key %d for table %d"
-msgstr "nie udało się usunąć przypisania klawisza %d dla tabeli %d"
+msgstr ""
 
 #: src/libkeymap/kmap.c:124
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
-msgstr "lk_add_key wywołano z błędnym kodem klawisza %d"
+msgstr ""
 
 #: src/libkeymap/kmap.c:131
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
-msgstr "dodanie mapy %d narusza jawną linię mapy klawiszy"
+msgstr ""
 
 #: src/libkeymap/kmap.c:147
 #, c-format
 msgid "unable to set key %d for table %d"
-msgstr "nie udało się przypisać klawisza %d dla tabeli %d"
+msgstr ""
 
 #: src/libkeymap/kmap.c:238
 msgid "impossible error in lk_add_constants"
-msgstr "niemożliwy błąd w lk_add_constants"
+msgstr "შეუძლებელი შეცდომა lk_add_constants-ში"
 
 #: src/libkeymap/ksyms.c:150
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
-msgstr "nie udało się pobrać symbolu poprzez niewłaściwy typ: %d"
+msgstr ""
 
 #: src/libkeymap/ksyms.c:164
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
-msgstr "nie udało się pobrać symbolu typu %d poprzez niewłaściwy indeks: %d"
+msgstr ""
 
 #: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
 #: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
 #: src/libkeymap/ksyms.c:364
 #, c-format
 msgid "assuming %s %s"
-msgstr "przyjęto %s %s"
+msgstr "ივარაუდება %s %s"
 
 #: src/libkeymap/ksyms.c:369
 #, c-format
 msgid "unknown keysym '%s'"
-msgstr "nieznany symbol '%s'"
+msgstr "უცნობი keysym '%s'"
 
 #: src/libkeymap/loadkeys.c:26
 #, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE: %s: nie udało się przełączyć w tryb Unicode"
+msgstr "KDSKBMODE: %s: უნიკოდის რეჟიმში გადართვა შეუძლებელია"
 
 #: src/libkeymap/loadkeys.c:55
 #, c-format
 msgid "Keymap %d: Permission denied"
-msgstr "Mapa klawiszy %d: brak uprawnień"
+msgstr "განლაგება %d: წვდომა აკრძალულია"
 
 #: src/libkeymap/loadkeys.c:72
 #, c-format
 msgid "keycode %d, table %d = %d%s"
-msgstr "kod klawisza %d, tabela %d = %d%s"
+msgstr "ღილაკის კოდი %d, ცხრილი %d = %d%s"
 
 #: src/libkeymap/loadkeys.c:73
 msgid "    FAILED"
-msgstr "    BŁĄD"
+msgstr " შეცდომა"
 
 #: src/libkeymap/loadkeys.c:76
 #, c-format
 msgid "failed to bind key %d to value %d"
-msgstr "nie udało się przypisać klawisza %d do wartości %d"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:86
 #, c-format
 msgid "deallocate keymap %d"
-msgstr "zwalnianie mapy klawiszy %d"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:90
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "KDSKBENT: %s: nie udało się zwolnić mapy klawiszy %d"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:105
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr "KDSKBENT: %s: nie udało się zwolnić lub wyczyścić mapy klawiszy"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:115
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "KDSKBMODE: %s: nie udało się wrócić do pierwotnego trybu klawiatury"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:178
 #, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr "nie udało się przypisać łańcucha '%s' do funkcji %s"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:188
 #, c-format
 msgid "failed to clear string %s"
-msgstr "nie udało się wyczyścić łańcucha %s"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:206
 msgid "too many compose definitions"
-msgstr "zbyt dużo definicji compose"
+msgstr ""
 
 #: src/libkeymap/loadkeys.c:246
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
-"nie udało się załadować definicji compose, ponieważ niektóre z nich są zbyt "
-"duże"
 
 #: src/libkeymap/loadkeys.c:275
 #, c-format
@@ -656,93 +639,88 @@ msgid_plural ""
 "Changed %d keys"
 msgstr[0] ""
 "\n"
-"Zmieniono %d klawisz"
+"შეიცვალა %d ღილაკი"
 msgstr[1] ""
 "\n"
-"Zmieniono %d klawisze"
-msgstr[2] ""
-"\n"
-"Zmieniono %d klawiszy"
+"შეიცვალა %d ღილაკი"
 
 #: src/libkeymap/loadkeys.c:276
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
-msgstr[0] "Zmieniono %d łańcuch"
-msgstr[1] "Zmieniono %d łańcuchy"
-msgstr[2] "Zmieniono %d łańcuchów"
+msgstr[0] "შეიცვალა %d სტრიქონი"
+msgstr[1] "შეიცვალა %d სტრიქონი"
 
 #: src/libkeymap/loadkeys.c:284
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
-msgstr[0] "Wczytano %d definicję compose"
-msgstr[1] "Wczytano %d definicje compose"
-msgstr[2] "Wczytano %d definicji compose"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/libkeymap/loadkeys.c:289
 msgid "(No change in compose definitions)"
-msgstr "(Brak zmian w definicjach compose)"
+msgstr ""
 
 #: src/libkeymap/parser.y:115
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
-msgstr "loadkeys: nie wiem, jak wykonać compose dla %s"
+msgstr ""
 
 #: src/libkeymap/parser.y:256
 #, c-format
 msgid "'%s' is not a function key symbol"
-msgstr "'%s' nie jest symbolem klawisza funkcyjnego"
+msgstr ""
 
 #: src/libkeymap/parser.y:343
 #, c-format
 msgid "too many (%ld) entries on one line"
-msgstr "zbyt dużo (%ld) wpisów w jednym wierszu"
+msgstr ""
 
 #: src/libkeymap/parser.y:413
 #, c-format
 msgid "Loading %s"
-msgstr "Ładowanie %s"
+msgstr "%s-ის ჩატვირთვა"
 
 #: src/libkeymap/summary.c:91
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr "przedział kodów klawiszy obsł. przez jądro:  1 - %d\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:93
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
-msgstr "maks. liczba akcji do przypisania klawiszowi:    %d\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:95
 #, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "liczba aktualnie używanych map klawiatury:       %u\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:98
 #, c-format
 msgid "of which %u dynamically allocated\n"
-msgstr "z których %u przydzielono dynamicznie\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:101
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
-msgstr "przedziały kodów akcji obsługiwanych przez jądro:\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:107
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
-msgstr "liczba klawiszy funkcyjnych obsługiwanych przez jądro: %d\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:109
 #, c-format
 msgid "max nr of compose definitions: %d\n"
-msgstr "maksymalna liczba definicji compose: %d\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:111
 #, c-format
 msgid "nr of compose definitions in actual use: %u\n"
-msgstr "liczba aktualnie używanych definicji compose: %u\n"
+msgstr ""
 
 #: src/libkeymap/summary.c:135
 #, c-format
@@ -751,14 +729,11 @@ msgid ""
 "The following synonyms are recognized:\n"
 "\n"
 msgstr ""
-"\n"
-"Rozpoznawane są następujące synonimy:\n"
-"\n"
 
 #: src/libkeymap/summary.c:138
 #, c-format
 msgid "%-15s for %s\n"
-msgstr "%-15s dla %s\n"
+msgstr "%-15s %s-სთვის\n"
 
 #: src/libkeymap/summary.c:142
 #, c-format
@@ -766,43 +741,40 @@ msgid ""
 "\n"
 "Recognized modifier names and their column numbers:\n"
 msgstr ""
-"\n"
-"Rozpoznawane nazwy modyfikatorów i numery ich kolumn:\n"
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
-msgstr "Konsola nie jest w trybie tekstowym"
+msgstr ""
 
 #: src/libkfont/kdfontop.c:196
+#, fuzzy
 msgid "tall font not supported"
-msgstr "font wysoki nie jest obsługiwany"
+msgstr "მხარდაუჭერელია\n"
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
-msgstr "Nie można załadować takiego fontu pod tą wersją jądra"
+msgstr ""
 
 #: src/libkfont/kdmapop.c:172
 #, c-format
 msgid "strange... ct changed from %d to %d"
-msgstr "dziwne... ct zmieniło się z %d na %d"
+msgstr ""
 
 #: src/libkfont/kdmapop.c:198
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded."
 msgstr ""
-"Wygląda na to, że jądro jest starsze niż 1.1.92\n"
-"Nie wczytano tabeli mapy unikodowej."
 
 #: src/libkfont/loadunimap.c:166
 #, c-format
 msgid "%s: Glyph number (0x%x) larger than font length"
-msgstr "%s: numer znaku (0x%x) większy od długości fontu"
+msgstr ""
 
 #: src/libkfont/loadunimap.c:172
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
-msgstr "%s: Błędny koniec przedziału (0x%x)\n"
+msgstr ""
 
 #: src/libkfont/loadunimap.c:211
 #, c-format
@@ -810,39 +782,34 @@ msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range "
 "0x%x-0x%x"
 msgstr ""
-"%s: przedział Unicode U+%x-U+%x nie jest tej samej długości co 0x%x-0x%x w "
-"foncie"
 
 #: src/libkfont/loadunimap.c:236
 #, c-format
 msgid "%s: trailing junk (%s) ignored"
-msgstr "%s: zignorowano końcowe śmieci (%s)"
+msgstr ""
 
 #: src/libkfont/loadunimap.c:265
 #, c-format
 msgid "Loading unicode map from file %s"
-msgstr "Wczytywanie mapy unikodowej z pliku %s"
+msgstr ""
 
 #: src/libkfont/loadunimap.c:271
 #, c-format
 msgid "%s: Warning: line too long"
-msgstr "%s: Uwaga: linia zbyt długa"
+msgstr "%s: გაფრთხილება: ხაზი მეტისმეტად გრძელია"
 
 #: src/libkfont/loadunimap.c:279
 msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
 msgstr ""
-"niewczytywanie pustej unimapy\n"
-"(jeśli tak ma być: można wymusić opcją -f)"
 
 #: src/libkfont/loadunimap.c:301
 #, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
-msgstr[0] "# %d wpis"
-msgstr[1] "# %d wpisy"
-msgstr[2] "# %d wpisów"
+msgstr[0] "# %d ჩანაწერი"
+msgstr[1] "# %d ჩანაწერი"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
 #: src/libkfont/mapscrn.c:230 src/loadkeys.c:256 src/openvt.c:413
@@ -850,227 +817,226 @@ msgstr[2] "# %d wpisów"
 #: src/psfxtable.c:143
 #, c-format
 msgid "Unable to open file: %s: %m"
-msgstr "Nie udało się otworzyć pliku: %s: %m"
+msgstr "ფაილის გახსნის შეცდომა: %s: %m"
 
 #: src/libkfont/loadunimap.c:328
 #, c-format
 msgid "Saved unicode map on `%s'"
-msgstr "Zapisano mapę unikodową w `%s'"
+msgstr ""
 
 #: src/libkfont/loadunimap.c:377
 msgid "Appended Unicode map"
-msgstr "Dołączono mapę unikodową"
+msgstr ""
 
 #: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
 #: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
 #, c-format
 msgid "Unable to find file: %s"
-msgstr "Nie odnaleziono pliku: %s"
+msgstr "ვერ ვპოულობ ფაილს: %s"
 
 #: src/libkfont/mapscrn.c:107
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
-msgstr "Wczytywanie binarnej, bezpośredniej mapy ekranowej z pliku %s"
+msgstr ""
 
 #: src/libkfont/mapscrn.c:111 src/libkfont/mapscrn.c:123
 #, c-format
 msgid "Error reading map from file `%s'"
-msgstr "Błąd podczas czytania mapy z pliku `%s'"
+msgstr ""
 
 #: src/libkfont/mapscrn.c:118
 #, c-format
 msgid "Loading binary unicode screen map from file %s"
-msgstr "Wczytywanie binarnej, unikodowej mapy ekranowej z pliku %s"
+msgstr ""
 
 #: src/libkfont/mapscrn.c:130
 #, c-format
 msgid "Loading symbolic screen map from file %s"
-msgstr "Wczytywanie symbolicznej mapy ekranowej z pliku %s"
+msgstr ""
 
 #: src/libkfont/mapscrn.c:135
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
-msgstr "Błąd podczas analizy mapy symbolicznej z `%s' w linii %d"
+msgstr ""
 
 #: src/libkfont/mapscrn.c:262
 msgid "Cannot read console map"
-msgstr "Nie można odczytać mapy konsoli"
+msgstr "კონსოლის რუკის წაკითხვის შეცდომა"
 
 #: src/libkfont/mapscrn.c:267
 #, c-format
 msgid "Saved screen map in `%s'"
-msgstr "Zapisano mapę ekranową w `%s'"
+msgstr ""
 
 #: src/libkfont/psffontop.c:46
 msgid "short ucs2 unicode table"
-msgstr "krótka tablica unikodowa ucs2"
+msgstr "მოკლე ucs2 უნიკოდის ცხრილი"
 
 #: src/libkfont/psffontop.c:67
 msgid "short utf8 unicode table"
-msgstr "krótka tablica unikodowa utf8"
+msgstr "მოკლე utf8 უნიკოდის ცხრილი"
 
 #: src/libkfont/psffontop.c:70
 msgid "bad utf8"
-msgstr "błędne utf8"
+msgstr "ცუდი utf8"
 
 #: src/libkfont/psffontop.c:73
 msgid "unknown utf8 error"
-msgstr "nieznany błąd utf8"
+msgstr "utf8-ის უცნობი შეცდომა"
 
 #: src/libkfont/psffontop.c:98
 msgid "short unicode table"
-msgstr "krótka tablica unikodowa"
+msgstr "უნიკოდის მოკლე ცხრილი"
 
 #: src/libkfont/psffontop.c:173
 msgid "Error reading input font"
-msgstr "Błąd podczas odczytu fontu wejściowego"
+msgstr "შეყვანილი ფონტის წაკითხვის შეცდომა"
 
 #: src/libkfont/psffontop.c:179
 msgid "Font is too big"
-msgstr "Font zbyt duży"
+msgstr "ფონტი მეტისმეტად დიდია"
 
 #: src/libkfont/psffontop.c:221
 msgid "Bad call of readpsffont"
-msgstr "Błędne wywołanie readpsffont"
+msgstr "შეცდომა readpsffont-ის გამოძახებისას"
 
 #: src/libkfont/psffontop.c:237
 #, c-format
 msgid "Unsupported psf file mode (%d)"
-msgstr "Nie obsługiwany rodzaj pliku psf (%d)"
+msgstr "PSF ფაილის მხარდაუჭერელი რეჟიმი (%d)"
 
 #: src/libkfont/psffontop.c:254
 #, c-format
 msgid "Unsupported psf version (%d)"
-msgstr "Nie obsługiwana wersja psf (%d)"
+msgstr "PSF ფაილის მხარდაუჭერელი ვერსია (%d)"
 
 #: src/libkfont/psffontop.c:270
 msgid "zero input font length?"
-msgstr "font wejściowy zerowej długości?"
+msgstr "ნულოვანი შეყვანის ფონტის სიგრძე?"
 
 #: src/libkfont/psffontop.c:274
 msgid "zero input character size?"
-msgstr "znak wejściowy zerowego rozmiaru?"
+msgstr "ნულოვანი შეყვანის სიმბოლოს ზომა?"
 
 #: src/libkfont/psffontop.c:287
 #, c-format
 msgid "Input file: bad input length (%d)"
-msgstr "Plik wejściowy: błędna długość wejścia (%d)"
+msgstr "შეყვანის ფაილი: არასწორი შეყვანის სიგრძე (%d)"
 
 #: src/libkfont/psffontop.c:327
 msgid "Input file: trailing garbage"
-msgstr "Plik wejściowy: końcowe śmieci"
+msgstr "შეყვანის ფაილი: მორჩენილი ნაგავი"
 
 #: src/libkfont/psffontop.c:364
 #, c-format
 msgid "illegal unicode %d"
-msgstr "błędny unikod %d"
+msgstr "დაუშვებელი უნიკოდი %d"
 
 #: src/libkfont/psffontop.c:468
 msgid "Cannot write font file header"
-msgstr "Nie można zapisać nagłówka pliku fontu"
+msgstr "ფონტის ფაილის თავსართის ჩაწერის შეცდომა"
 
 #: src/libkfont/psffontop.c:501
 msgid "Cannot write font file"
-msgstr "Nie można zapisać pliku fontu"
+msgstr "ფონტის ფაილის ჩაწერის შეცდომა"
 
 #: src/libkfont/setfont.c:57
 #, c-format
 msgid "Bad character height %d (limit is 128)"
-msgstr "Błędna wysokość znaku %d (limit to 128)"
+msgstr "არასწორი სიმბოლოს სიმაღლე %d (მაქს. 128)"
 
 #: src/libkfont/setfont.c:62
 #, c-format
 msgid "Bad character width %d (limit is 64)"
-msgstr "Błędna szerokość znaku %d (limit to 64)"
+msgstr "არასწორი სიმბოლოს სიგანე %d (მაქს. 64)"
 
 #: src/libkfont/setfont.c:71
 #, c-format
 msgid "Cannot double %dx%d font (limit is 32x64)"
-msgstr "Nie można podwoić fontu %dx%d (limit to 32x64)"
+msgstr "%dx%d ფონტის გამეორება შეუძლებელია (მაქს. 32x64)"
 
 #: src/libkfont/setfont.c:142
 msgid "font position 32 is nonblank"
-msgstr "pozycja 32 w foncie nie jest pusta"
+msgstr "ფონტის 32-ე პოზიცია გამოტოვება არაა"
 
 #: src/libkfont/setfont.c:151
 msgid "wiped it"
-msgstr "wyczyszczono"
+msgstr "წაიშალა"
 
 #: src/libkfont/setfont.c:154
 msgid "background will look funny"
-msgstr "tło będzie wyglądać zabawnie"
+msgstr "ფონი სასაცილო იქნება"
 
 #: src/libkfont/setfont.c:162
 #, c-format
 msgid "Loading %d-char %dx%d font from file %s"
-msgstr "Wczytywanie %d-znakowego fontu %dx%d z pliku %s"
+msgstr ""
 
 #: src/libkfont/setfont.c:165
 #, c-format
 msgid "Loading %d-char %dx%d font"
-msgstr "Wczytywanie %d-znakowego fontu %dx%d"
+msgstr ""
 
 #: src/libkfont/setfont.c:168
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
-msgstr "Wczytywanie %d-znakowego fontu %dx%d (%d) z pliku %s"
+msgstr ""
 
 #: src/libkfont/setfont.c:171
 #, c-format
 msgid "Loading %d-char %dx%d (%d) font"
-msgstr "Wczytywanie %d-znakowego fontu %dx%d (%d)"
+msgstr ""
 
 #: src/libkfont/setfont.c:254
 msgid "bug in do_loadtable"
-msgstr "błąd w do_loadtable"
+msgstr "შეცდომა do_loadtable-ში"
 
 #: src/libkfont/setfont.c:259
 msgid "Loading Unicode mapping table..."
-msgstr "Wczytywanie tablicy odwzorowania Unicode..."
+msgstr ""
 
 #: src/libkfont/setfont.c:325
 #, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
-"Przy wczytywaniu kilku fontów, wszystkie muszą być fontami psf - %s nie jest"
 
 #: src/libkfont/setfont.c:337
 #, c-format
 msgid "Read %d-char %dx%d font from file %s"
-msgstr "Odczyt %d-znakowego fontu %dx%d z pliku %s"
+msgstr ""
 
 #: src/libkfont/setfont.c:346
 msgid "When loading several fonts, all must have the same height"
-msgstr "Przy wczytywaniu kilku fontów, wszystkie muszą mieć tę samą wysokość"
+msgstr ""
 
 #: src/libkfont/setfont.c:354
 msgid "When loading several fonts, all must have the same width"
-msgstr "Przy wczytywaniu kilku fontów, wszystkie muszą mieć tę samą szerokość"
+msgstr ""
 
 #: src/libkfont/setfont.c:420
 msgid "Cannot find default font"
-msgstr "Nie można odnaleźć domyślnego fontu"
+msgstr "ნაგულისხმევი ფონტი ვერ ვიპოვე"
 
 #: src/libkfont/setfont.c:442
 #, c-format
 msgid "Reading font file %s"
-msgstr "Czytanie pliku fontu %s"
+msgstr "ფონტის ფაილის (%s) წაკითხვა"
 
 #: src/libkfont/setfont.c:497
 msgid "No final newline in combine file"
-msgstr "Brak ostatniego znaku końca linii w pliku dołączanym"
+msgstr ""
 
 #: src/libkfont/setfont.c:503
 msgid "Too many files to combine"
-msgstr "Zbyt dużo plików do połączenia"
+msgstr "ძალიან ბევრი ფაილი გაერთიანებისთვის"
 
 #: src/libkfont/setfont.c:531
 msgid "Hmm - a font from restorefont? Using the first half."
-msgstr "Hmm - font z restorefont? Używanie pierwszej połowy."
+msgstr ""
 
 #: src/libkfont/setfont.c:550
 msgid "Bad input file size"
-msgstr "Błędny rozmiar pliku wejściowego"
+msgstr "არასწორი შეყვანის ფაილის ზომა"
 
 #: src/libkfont/setfont.c:578
 #, c-format
@@ -1078,276 +1044,264 @@ msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
 "using an option -8 or -14 or -16 which one you want loaded.\n"
 msgstr ""
-"Ten plik zawiera 3 fonty: 8x8, 8x14 i 8x16. Proszę podać przy\n"
-"użyciu opcji -8, -14 lub -16, który z nich ma być wczytany.\n"
 
 #: src/libkfont/setfont.c:595
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr "Wybrano rozmiar fontu %d, ale możliwe są tylko 8, 14, 16.\n"
+msgstr ""
 
 #: src/libkfont/setfont.c:648
 msgid "Found nothing to save"
-msgstr "Nie znaleziono nic do zapisania"
+msgstr "ჩასაწერად ვერაფერი ვიპოვე"
 
 #: src/libkfont/setfont.c:652
 #, c-format
 msgid "Cannot write font file: %m"
-msgstr "Nie można zapisać pliku fontu: %m"
+msgstr "ფონტის ფაილის ჩაწერის შეცდომა: %m"
 
 #: src/libkfont/setfont.c:657
 #, c-format
 msgid "Saved %d-char %dx%d font file on %s"
-msgstr "Zapisano %d-znakowy font %dx%d do pliku %s"
+msgstr ""
 
 #: src/loadkeys.c:42
 #, c-format
 msgid "Usage: %s [option...] [mapfile...]\n"
-msgstr "Składnia: %s [opcja...] [plik_mapy...]\n"
+msgstr "გამოყენება: %s [პარამეტრი...] [რუკისფაილი...]\n"
 
 #: src/loadkeys.c:48
 #, c-format
 msgid "Default keymap: %s\n"
-msgstr "Domyślna mapa klawiszy: %s\n"
+msgstr "ნაგულისხმევი keymap: %s\n"
 
 #: src/loadkeys.c:95
 msgid "force conversion to ASCII."
-msgstr "wymuszenie konwersji do ASCII."
+msgstr "ძალით გადაყვანა ASCII-ში."
 
 #: src/loadkeys.c:96
 msgid "output a binary keymap to stdout."
-msgstr "wypisanie binarnej mapy klawiszy na standardowe wyjście."
+msgstr ""
 
 #: src/loadkeys.c:97
 msgid "clear kernel compose table."
-msgstr "wyczyszczenie tablicy compose w jądrze."
+msgstr ""
 
 #: src/loadkeys.c:98
 msgid "load default."
-msgstr "załadowanie domyślej mapy."
+msgstr "ნაგულისხმევის ჩატვირთვა."
 
 #: src/loadkeys.c:99
 msgid "output a 'defkeymap.c' to stdout."
-msgstr "wypisanie 'defkeymap.c' na standardowe wyjście."
+msgstr ""
 
 #: src/loadkeys.c:100
 msgid "search and parse keymap without action."
-msgstr "odnalezienie i analiza mapy klawiszy bez użycia jej."
+msgstr ""
 
 #: src/loadkeys.c:101
 msgid "clear kernel string table."
-msgstr "wyczyszczenie tablicy łańcuchów w jądrze."
+msgstr ""
 
 #: src/loadkeys.c:102
 msgid "force conversion to Unicode."
-msgstr "wymuszenie konwersji do Unicode."
+msgstr ""
 
 #: src/loadkeys.c:125
 msgid "Unable to create kbdfile context"
-msgstr "Nie udało się utworzyć kontekstu kbdfile"
+msgstr ""
 
 #: src/loadkeys.c:177
 #, c-format
 msgid "Options %s and %s are mutually exclusive."
-msgstr "Opcje %s i %s wykluczają się wzajemnie."
+msgstr ""
 
 #: src/loadkeys.c:194
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
 msgstr ""
-"Uwaga: wczytywanie nieunikodowej mapy klawiszy na unikodowej konsoli\n"
-"    (może zabrakło wykonania `kbd_mode -a'?)"
 
 #: src/loadkeys.c:205
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
 msgstr ""
-"Uwaga: wczytywanie unikodowej mapy klawiszy na nieunikodowej konsoli\n"
-"    (może zabrakło wykonania `kbd_mode -u'?)"
 
 #: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
 #, c-format
 msgid "Unable to create kbdfile instance: %m"
-msgstr "Nie udało się utworzyć instancji kbdfile: %m"
+msgstr ""
 
 #: src/loadunimap.c:55 src/mapscrn.c:53
 msgid "save the old map to the FILE."
-msgstr "zapisanie starej mapy do PLIKU."
+msgstr ""
 
 #: src/mapscrn.c:25
 #, c-format
 msgid "Usage: %s [option...] [map-file]\n"
-msgstr "Składnia: %s [opcja...] [plik-mapy]\n"
+msgstr ""
 
 #: src/openvt.c:50
 #, c-format
 msgid "Usage: %s [option...] -- command\n"
-msgstr "Składnia: %s [opcja...] -- polecenie\n"
+msgstr ""
 
 #: src/openvt.c:52
 #, c-format
 msgid ""
 "This utility helps you to start a program on a new virtual terminal (VT).\n"
 msgstr ""
-"To narzędzie pozwala uruchomić program na nowym terminalu wirtualnym (VT).\n"
 
 #: src/openvt.c:132
 msgid "Couldn't find owner of current tty!"
-msgstr "Nie udało się odnaleźć właściciela bieżącego tty!"
+msgstr "მიმდინარე tty-ის მფლობელი ვერ ვიპოვე!"
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
-msgstr "użycie podanego numeru VT zamiast pierwszego dostępnego."
+msgstr ""
 
 #: src/openvt.c:260
 msgid "execute the command, without forking."
-msgstr "uruchomienie polecenia bez tworzenia nowego procesu."
+msgstr ""
 
 #: src/openvt.c:261
 msgid "force opening a VT without checking."
-msgstr "wymuszenie otwarcia VT bez sprawdzania."
+msgstr ""
 
 #: src/openvt.c:262
 msgid "make the command a login shell."
-msgstr "uczynienie polecenia powłoką logowania."
+msgstr ""
 
 #: src/openvt.c:263
 msgid "figure out the owner of the current VT."
-msgstr "sprawdzenie właściciela bieżącego VT."
+msgstr ""
 
 #: src/openvt.c:264
 msgid "switch to the new VT."
-msgstr "przełączenie na nowy VT."
+msgstr ""
 
 #: src/openvt.c:265
 msgid "wait for command to complete"
-msgstr "oczekiwanie na zakończenie polecenia"
+msgstr "დაელოდეთ ბრძანებას, დასრულდეს"
 
 #: src/openvt.c:279
 #, c-format
 msgid "%s: Illegal vt number"
-msgstr "%s: Błędny numer vt"
+msgstr "%s: vt -ის დაუშვებელი ნომერი"
 
 #: src/openvt.c:306
 msgid "Only root can use the -u flag."
-msgstr "Tylko root może użyć flagi -u."
+msgstr ""
 
 #: src/openvt.c:335
 msgid "Cannot find a free vt"
-msgstr "Nie można znaleźć wolnego vt"
+msgstr ""
 
 #: src/openvt.c:339
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
-"Nie można sprawdzić, czy vt %d jest wolny; można użyć `%s -f' w celu "
-"wymuszenia."
 
 #: src/openvt.c:343
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
-"vt %d jest używany, polecenie przerwano; można użyć `%s -f' w celu "
-"wymuszenia."
 
 #: src/openvt.c:353
 msgid "Unable to find command."
-msgstr "Nie udało się odnaleźć polecenia."
+msgstr "ბრძანება ვერ ვიპოვე."
 
 #: src/openvt.c:388
 msgid "Unable to set new session"
-msgstr "Nie można ustanowić nowej sesji"
+msgstr "ახალი სესიის დაყენების შეცდომა"
 
 #: src/openvt.c:417
 #, c-format
 msgid "Using VT %s"
-msgstr "Użycie VT %s"
+msgstr "გამოიყენება VT %s"
 
 #: src/openvt.c:423
 #, c-format
 msgid "Cannot open %s read/write"
-msgstr "Nie można otworzyć %s do odczytu i zapisu"
+msgstr "%s-ის წერაკითხვისთვის გახსნის შეცდომა"
 
 #: src/openvt.c:470
 #, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "Nie udało się zwolnić konsoli %d"
+msgstr "კონსოლის (%d) გამოყოფის გაუქმების შეცდომა)"
 
 #: src/psfxtable.c:66
 #, c-format
 msgid "Usage: %s infont intable outfont\n"
-msgstr "Składnia: %s font-wejściowy tablica-wejściowa font-wyjściowy\n"
+msgstr "გამოყენება: %s შემავალიფონტი შემავალიცხრილი გამომავალიფონტი\n"
 
 #: src/psfxtable.c:75
 #, c-format
 msgid "Usage: %s infont [outtable]\n"
-msgstr "Składnia: %s font-wejściowy [tablica-wyjściowa]\n"
+msgstr "გამოყენება: %s შემავალიფონტი [გამოსატანიცხრილი]\n"
 
 #: src/psfxtable.c:84
 #, c-format
 msgid "Usage: %s infont outfont\n"
-msgstr "Składnia: %s font-wejściowy font-wyjściowy\n"
+msgstr "გამოყენება: %s შემავალიფონტი გამომავალიფონტი\n"
 
 #: src/psfxtable.c:107
 #, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
-"Składnia: %s [-i font-wej] [-o font-wyj] [-it tab-wej] [-ot tab-wyj] [-nt]\n"
 
 #: src/psfxtable.c:148
 #, c-format
 msgid "Bad magic number on %s"
-msgstr "Błędna liczba magiczna w %s"
+msgstr ""
 
 #: src/psfxtable.c:168
 msgid "psf file with unknown magic"
-msgstr "plik psf z nieznanym znacznikiem"
+msgstr "psf ფაილი უცნობი საცნობი რიცხვით"
 
 #: src/psfxtable.c:179
 msgid "input font does not have an index"
-msgstr "font wejściowy nie ma indeksu"
+msgstr "შეყვანის ფონტს ინდექსი არ აქვს"
 
 #: src/resizecons.c:146
 #, c-format
 msgid "resizecons: invalid columns number %d"
-msgstr "resizecons: błędna liczba kolumn %d"
+msgstr "resizecons: არასწორი სვეტები რიცხვი %d"
 
 #: src/resizecons.c:151
 #, c-format
 msgid "resizecons: invalid rows number %d"
-msgstr "resizecons: błędna liczba wierszy %d"
+msgstr "resizecons: არასწორი მწკრივების რაოდენობა %d"
 
 #: src/resizecons.c:162
 #, c-format
 msgid "resizecons: cannot find videomode file %s"
-msgstr "resizecons: nie można odnaleźć pliku trybów graficznych %s"
+msgstr "ზომის შეცვლა: ვერ ვიპოვე ვიდეორეჟიმის ფაილი %s"
 
 #: src/resizecons.c:179
 msgid "Invalid number of lines"
-msgstr "Błędna liczba wierszy"
+msgstr "ხაზების არასწორი რაოდენობა"
 
 #: src/resizecons.c:262
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
-msgstr "Stary tryb: %dx%d  Nowy tryb: %dx%d\n"
+msgstr "ძველი რეჟიმი: %dx%d ახალი რეჟიმი: %dx%d\n"
 
 #: src/resizecons.c:264
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr "Stara l.skanlinii: %d  Nowa l.skanlinii: %d  Wysokość znaku: %d\n"
+msgstr ""
 
 #: src/resizecons.c:275
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
-msgstr "resizecons: polecenie `%s' nie powiodło się\n"
+msgstr "resizecons: ბრძანება `%s' ჩავარდა\n"
 
 #: src/resizecons.c:360
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
-msgstr "resizecons: trzeba zmienić TERM (może na con%dx%d lub linux-%dx%d)\n"
+msgstr ""
 
 #: src/resizecons.c:374
 #, c-format
@@ -1357,44 +1311,40 @@ msgid ""
 "or: resizecons -lines ROWS, with ROWS one of 25, 28, 30, 34, 36, 40, 44, 50, "
 "60\n"
 msgstr ""
-"resizecons:\n"
-"składnia:  resizecons KOLUMNYxWIERSZE  lub resizecons KOLUMNY WIERSZE\n"
-"lub: resizecons -lines WIERSZE\n"
-"gdzie WIERSZE mogą być liczbą jedną z: 25, 28, 30, 34, 36, 40, 44, 50, 60\n"
 
 #: src/resizecons.c:413
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
-msgstr "resizecons: nie można uzyskać uprawnień do wejścia/wyjścia\n"
+msgstr ""
 
 #: src/screendump.c:126
 #, c-format
 msgid "Error reading %s"
-msgstr "Błąd podczas czytania %s"
+msgstr "%s-ის კითხვის შეცდომა"
 
 #: src/screendump.c:180
 #, c-format
 msgid "Couldn't read %s"
-msgstr "Nie udało się odczytać %s"
+msgstr "%s-ის წაკითხვის შეცდომა"
 
 #: src/screendump.c:189
 #, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ?"
-msgstr "Dziwne... ekran jest jednocześnie %dx%d i %dx%d?"
+msgstr ""
 
 #: src/screendump.c:210
 msgid "Error writing screendump"
-msgstr "Błąd podczas zapisu zrzutu ekranu"
+msgstr "ეკრანის დამპის ჩაწერის შეცდომა"
 
 #: src/setfont.c:20
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Składnia: %s [opcja...] [nowy_font...]\n"
+msgstr "გამოყენება: %s [პარამეტრი...] [N ...]\n"
 
 #: src/setfont.c:22
 #, c-format
 msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
-msgstr "Ładowanie fontu konsolowego i ew. odpowiednich map ekranowych.\n"
+msgstr ""
 
 #: src/setfont.c:28
 #, c-format
@@ -1414,79 +1364,64 @@ msgid ""
 "\n"
 "Files are loaded from the %s/*/.\n"
 msgstr ""
-"Opcje -[o|O|om|ou] są przetwarzane przed przesłaniem nowego fontu.\n"
-"\n"
-"Jeśli nie podano <nowego_fontu> ani opcji -[o|O|om|ou|m|u], ładowany jest\n"
-"domyślny font.\n"
-"\n"
-"Istnieją dwa rodzaje map ekranowych; jeden [-m] zawiera relację między\n"
-"aktualnie ustawionym danym 8-bitowym zestawem znaków a pozycjami w foncie,\n"
-"a drugi [-u] zawiera relację między pozycjami w foncie a nazwami Unicode.\n"
-"\n"
-"Odwzorowania przekazane wprost (opcją -m lub -u), jak i domyślnie (w pliku\n"
-"fontu) zostaną załadowane i, w przypadku map konsolowych, uaktywnione.\n"
-"\n"
-"Pliki są ładowane z %s/*/.\n"
 
 #: src/setfont.c:174
+#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "załadowanie fontu \"default8x<N>\"."
+msgstr "ნაგულისხმევის ჩატვირთვა."
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
-msgstr "nadpisanie wysokości fontu (w opcji krótkiej nie powinno być opcji)."
+msgstr ""
 
 #: src/setfont.c:176
 msgid "write current font to <FILE>."
-msgstr "zapis bieżącego fontu do <PLIKU>."
+msgstr ""
 
 #: src/setfont.c:177
 msgid "write current consolemap to <FILE>."
-msgstr "zapis bieżącej mapy konsolowej do <PLIKU>."
+msgstr ""
 
 #: src/setfont.c:178
 msgid "write current unicodemap to <FILE>."
-msgstr "zapis bieżącej mapy unikodowej do <PLIKU>."
+msgstr ""
 
 #: src/setfont.c:179
 msgid "write current font and unicode map to <FILE>."
-msgstr "zapis bieżącego fontu i mapy unikodowej do <PLIKU>."
+msgstr ""
 
 #: src/setfont.c:180
 msgid "load console screen map ('none' means don't load it)."
-msgstr "załadowanie mapy ekranowej konsoli ('none' oznacza brak ładowania)."
+msgstr ""
 
 #: src/setfont.c:181
 msgid "load font unicode map ('none' means don't load it)."
-msgstr "załadowanie mapy unikodowej fontu ('none' oznacza brak ładowania)."
+msgstr ""
 
 #: src/setfont.c:183
 msgid "double size of font horizontally and vertically."
-msgstr "podwojenie rozmiaru fontu w poziomie i pionie."
+msgstr ""
 
 #: src/setfont.c:184
 msgid "force load unicode map."
-msgstr "wymuszenie załadowania mapy unikodowej."
+msgstr ""
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
-"przywrócenie fontu ekranowego, rozmiaru i mapy unikodowej do ustawień "
-"rozruchowych."
 
 #: src/setfont.c:295
 msgid "Too many input files."
-msgstr "Za dużo plików wejściowych."
+msgstr "მეტისმეტად ბევრი შეყვანის ფაილი."
 
 #: src/setfont.c:300
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
 msgstr ""
-"Nie można jednocześnie odtworzyć z ROM-u i z pliku. Font nie zmieniony."
 
 #: src/setkeycodes.c:26
 #, c-format
 msgid "Usage: %s [option...] scancode keycode ...\n"
-msgstr "Składnia: %s [opcja...] skankod kod-klawisza ...\n"
+msgstr ""
 
 #: src/setkeycodes.c:28
 #, c-format
@@ -1494,37 +1429,34 @@ msgid ""
 "(where scancode is either xx or e0xx, given in hexadecimal,\n"
 "and keycode is given in decimal)\n"
 msgstr ""
-"(gdzie skankod to xx lub e0xx, podany szesnastkowo,\n"
-"a kod klawisza jest podany dziesiętnie)\n"
 
 #: src/setkeycodes.c:47
 msgid "error reading scancode"
-msgstr "błąd podczas czytania skankodu"
+msgstr "სკანირების კოდის წაკითხვის შეცდომა"
 
 #: src/setkeycodes.c:52
 #, c-format
 msgid "Argument out of range: %s"
-msgstr "Argument spoza zakresu: %s"
+msgstr "არგუმენტი დასაშვებ შუალედს გარეთაა: %s"
 
 #: src/setkeycodes.c:57
 #, c-format
 msgid "Argument must be positive: %s"
-msgstr "Argument musi być dodatni: %s"
+msgstr "არგუმენტი დადებითი უნდა იყოს: %s"
 
 #: src/setkeycodes.c:136
 msgid "code outside bounds"
-msgstr "kod spoza zakresu"
+msgstr ""
 
 #: src/setkeycodes.c:145
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
-"nie udało się ustawić skankodu %x na kod klawisza %d: ioctl KDSETKEYCODE"
 
 #: src/setleds.c:31
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
-msgstr "Składnia: %s [opcja...] [[+|-][ num | caps | scroll %s]]\n"
+msgstr ""
 
 #: src/setleds.c:40
 #, c-format
@@ -1540,107 +1472,95 @@ msgid ""
 "With -D, setleds sets both the flags and the default flags, so\n"
 "that a subsequent reset will not change the flags.\n"
 msgstr ""
-"Czyli:\n"
-"\tsetleds +caps -num\n"
-"włączy CapsLock, wyłączy NumLock, a ScrollLock pozostawi nie zmieniony.\n"
-"Ustawienia przed i po zmianie (jeśli taka zachodzi) są raportowane,\n"
-"jeśli podano opcję -v lub nie zażądano zmiany.\n"
-"Normalnie setleds wpływa na ustawienia flag vt\n"
-"(a te zazwyczaj mają odzwierciedlenie w stanie diod).\n"
-"Przy -L, setleds ustawia tylko diody, pozostawiając stare flagi.\n"
-"Przy -D, setleds ustawia flagi i domyślne flagi, więc następujący\n"
-"potem reset nie zmieni flag.\n"
 
 #: src/setleds.c:57
 msgid "on "
-msgstr "wł. "
+msgstr ""
 
 #: src/setleds.c:57
 msgid "off"
-msgstr "wył."
+msgstr "გათიშვა"
 
 #: src/setleds.c:101
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
-"Błąd podczas odczytu aktualnych ustawień diod. Może stdin nie jest VT?: "
-"ioctl KDGETLED"
 
 #: src/setleds.c:131 src/setleds.c:144
 #, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
-msgstr "Błąd podczas odczytu aktualnych ustawień diod z /dev/kbd: ioctl %s"
+msgstr ""
 
 #: src/setleds.c:135 src/setleds.c:148
 #, c-format
 msgid "ioctl %s unavailable?"
-msgstr "ioctl %s niedostępny?"
+msgstr "ioctl %s მიუწვდომელი?"
 
 #: src/setleds.c:211
 msgid "change both the VT flags and their default settings."
-msgstr "zmiana jednocześnie flag VT oraz ich ustawień domyślnych."
+msgstr ""
 
 #: src/setleds.c:212
 msgid "change the VT flags."
-msgstr "zmiana tylko flag VT."
+msgstr "შეცვალეთ VT-ის ალმები."
 
 #: src/setleds.c:213
 msgid "change only the leds."
-msgstr "zmiana tylko diod."
+msgstr "მხოლოდ LED-ების შეცვლა."
 
 #: src/setleds.c:290
 msgid "Error resetting ledmode"
-msgstr "Błąd podczas resetowania trybu diod"
+msgstr ""
 
 #: src/setleds.c:298
 #, c-format
 msgid "Current default flags:  "
-msgstr "Aktualne flagi domyślne: "
+msgstr "მიმდინარე ნაგულისხმევი ალმები:  "
 
 #: src/setleds.c:302
 #, c-format
 msgid "Current flags:          "
-msgstr "Aktualne flagi:          "
+msgstr "მიმდინარე ალმები:            "
 
 #: src/setleds.c:306
 #, c-format
 msgid "Current leds:           "
-msgstr "Aktualne diody:          "
+msgstr "მიმდინარე LED-ები:       "
 
 #: src/setleds.c:321
 #, c-format
 msgid "Old default flags:    "
-msgstr "Stare domyślne flagi: "
+msgstr "ძველი ნაგულისხმები ალმები:   "
 
 #: src/setleds.c:323
 #, c-format
 msgid "New default flags:    "
-msgstr "Nowe domyślne flagi:  "
+msgstr "ახალი ნაგულისხმები ალმები:   "
 
 #: src/setleds.c:330
 #, c-format
 msgid "Old flags:            "
-msgstr "Stare flagi:          "
+msgstr "ძველი ალმები:              "
 
 #: src/setleds.c:332
 #, c-format
 msgid "New flags:            "
-msgstr "Nowe flagi:           "
+msgstr "ახალი ალმები:         "
 
 #: src/setleds.c:345 src/setleds.c:354
 #, c-format
 msgid "Old leds:             "
-msgstr "Stare diody:          "
+msgstr "ძველი LED-ები:            "
 
 #: src/setleds.c:347 src/setleds.c:356
 #, c-format
 msgid "New leds:             "
-msgstr "Nowe diody:           "
+msgstr "ახალი LED-ები:      "
 
 #: src/setmetamode.c:25
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
-msgstr "Składnia: %s [opcja...] [argument]\n"
+msgstr "გამოყენება: %s [პარამეტრი...] [არგუმენტი]\n"
 
 #: src/setmetamode.c:28
 #, c-format
@@ -1651,42 +1571,38 @@ msgid ""
 "              generates an ESC (\\033) prefix followed by\n"
 "              the keysym.\n"
 msgstr ""
-"Argumenty:\n"
-"  metabit     symbol oznaczony ustawionym najstarszym bitem.\n"
-"  escprefix   określenie, czy wciśnięcie klawisza meta (alt)\n"
-"              generuje przedrostek Esc (\\033), a następnie symbol.\n"
 
 #: src/setmetamode.c:48
 msgid "Meta key sets high order bit"
-msgstr "Klawisz Meta ustawia najbardziej znaczący bit"
+msgstr ""
 
 #: src/setmetamode.c:51
 msgid "Meta key gives Esc prefix"
-msgstr "Klawisz Meta daje przedrostek Esc"
+msgstr ""
 
 #: src/setmetamode.c:54
 msgid "Strange mode for Meta key?"
-msgstr "Dziwny tryb dla klawisza Meta?"
+msgstr ""
 
 #: src/setmetamode.c:139
 #, c-format
 msgid "old state:    "
-msgstr "stary stan:   "
+msgstr "ძველი მდგომარეობა:      "
 
 #: src/setmetamode.c:144
 #, c-format
 msgid "new state:    "
-msgstr "nowy stan:    "
+msgstr "ახალი მდგომარეობა:    "
 
 #: src/setvesablank.c:26
 #, c-format
 msgid "Usage: %s ON|on|off\n"
-msgstr "Składnia: %s ON|on|off\n"
+msgstr "გამოყენება: %s ON|on|off\n"
 
 #: src/setvtrgb.c:42
 #, c-format
 msgid "Usage: %s [option...] [vga|FILE|-]\n"
-msgstr "Składnia: %s [opcja...] [vga|PLIK|-]\n"
+msgstr "გამოყენება: %s [პარამეტრი...] [vga|ფაილი|-]\n"
 
 #: src/setvtrgb.c:45
 #, c-format
@@ -1707,94 +1623,77 @@ msgid ""
 "   #00AA00\n"
 "And so on, for all the 16 colors.\n"
 msgstr ""
-"W przypadku użycia parametru PLIK, może on być w formacie dziesiętnym\n"
-"lub szesnastkowym, zostanie to rozpoznane przy wczytywaniu.\n"
-"\n"
-"Format PLIKU dziesiętnego to dokładnie 3 linie rozdzielonych przecinkami\n"
-"wartości dziesiętnych CZERWIENI, ZIELENI i BŁĘKITU.\n"
-"Aby zapoczątkować poprawny PLIK, można wykonać:\n"
-"   cat /sys/module/vt/parameters/default_{red,grn,blu} > PLIK\n"
-"\n"
-"Format PLIKU szesnastkowego to dokładnie 16 linii trójek szesnastkowych\n"
-"dla CZERWIENI, ZIELENI i BŁĘKITU, poprzedzonych znakiem \"#\".\n"
-"Na przykład:\n"
-"   #000000\n"
-"   #AA0000\n"
-"   #00AA00\n"
-"i tak dalej, dla wszystkich 16 kolorów.\n"
 
 #: src/setvtrgb.c:80
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr "Błąd: %s: Błędna wartość w polu %u w linii %u."
+msgstr ""
 
 #: src/setvtrgb.c:87
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr "Błąd: %s: Zbyt mała liczba pól w linii %u."
+msgstr ""
 
 #: src/setvtrgb.c:92
 #, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
-msgstr "Błąd: %s: Nieoczekiwany koniec linii %u."
+msgstr ""
 
 #: src/setvtrgb.c:96
 #, c-format
 msgid "Error: %s: Line %u is too long."
-msgstr "Błąd: %s: Linia %u jest zbyt długa."
+msgstr "შეცდომა: %s: ხაზი %u ძალიან გრძელია."
 
 #: src/setvtrgb.c:110
 #, c-format
 msgid "Error: %s: Insufficient number of colors/lines: %u"
-msgstr "Błąd: %s: Zbyt mała liczba kolorów/linii: %u"
+msgstr "შეცდომა: %s: ფერების / ხაზების არასაკმარისი რაოდენობა: %u"
 
 #: src/setvtrgb.c:113
 #, c-format
 msgid "Error: %s: Invalid value in line %u."
-msgstr "Błąd: %s: Błędna wartość w linii %u."
+msgstr "შეცდომა: %s: არასწორი მნიშვნელობა ხაზზე %u."
 
 #: src/setvtrgb.c:129
 #, c-format
 msgid "Error: %s: File ended unexpectedly."
-msgstr "Błąd: %s: Nieoczekiwany koniec pliku."
+msgstr "შეცდომა: %s: ფაილი მოულოდნელად დასრულდა."
 
 #: src/showconsolefont.c:36
 msgid "failed to restore original translation table"
-msgstr "nie udało się odtworzyć oryginalnej tablicy translacji"
+msgstr ""
 
 #: src/showconsolefont.c:40
 msgid "failed to restore original unimap"
-msgstr "nie udało się odtworzyć oryginalnej unimapy"
+msgstr ""
 
 #: src/showconsolefont.c:59
 msgid "cannot change translation table"
-msgstr "nie można zmienić tablicy translacji"
+msgstr ""
 
 #: src/showconsolefont.c:103
 #, c-format
 msgid "(probably after loading a font with `setfont font')\n"
-msgstr "(prawdopodobnie po załadowaniu fontu przez `setfont font')\n"
+msgstr ""
 
 #: src/showconsolefont.c:134
 msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
 msgstr ""
-"bez wypisywania tablicy fontów, tylko wypisanie: WIERSZExKOLUMNYxLICZBA i "
-"zakończenie."
 
 #: src/showconsolefont.c:192
 #, c-format
 msgid "Character count: %u\n"
-msgstr "Liczba znakow  : %u\n"
+msgstr "სიმბოლოების რაოდენობა: %u\n"
 
 #: src/showconsolefont.c:193
 #, c-format
 msgid "Font width     : %u\n"
-msgstr "Szerokość fontu: %u\n"
+msgstr "ფონტის სიგანე    : %u\n"
 
 #: src/showconsolefont.c:194
 #, c-format
 msgid "Font height    : %u\n"
-msgstr "Wysokość fontu : %u\n"
+msgstr "ფონტის სიმაღლე   : %u\n"
 
 #: src/showconsolefont.c:205
 #, c-format
@@ -1802,17 +1701,15 @@ msgid ""
 "Showing %d-char font\n"
 "\n"
 msgstr ""
-"Wyświetlanie fontu %d-znakowego\n"
-"\n"
 
 #: src/showkey.c:49
 msgid "?UNKNOWN?"
-msgstr "?NIEZNANY?"
+msgstr "?უცნობი?"
 
 #: src/showkey.c:52
 #, c-format
 msgid "kb mode was %s\n"
-msgstr "tryb kb był %s\n"
+msgstr "kb-ის რეჟიმი იყო %s\n"
 
 #: src/showkey.c:54
 #, c-format
@@ -1820,29 +1717,27 @@ msgid ""
 "[ if you are trying this under X, it might not work\n"
 "since the X server is also reading /dev/console ]\n"
 msgstr ""
-"[ jeśli to jest wykonywane pod X, może nie działać\n"
-"ponieważ X serwer także czyta /dev/console ]\n"
 
 #: src/showkey.c:74
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
-msgstr "złapano sygnał %d, sprzątanie...\n"
+msgstr ""
 
 #: src/showkey.c:122
 msgid "display the decimal/octal/hex values of the keys."
-msgstr "wyświetlenie wartości dziesiętnych/ósemkowych/szesnastkowych klawiszy."
+msgstr ""
 
 #: src/showkey.c:123
 msgid "display only the raw scan-codes."
-msgstr "wyświetlenie tylko surowych skankodów."
+msgstr ""
 
 #: src/showkey.c:124
 msgid "display only the interpreted keycodes (default)."
-msgstr "wyświetlenie tylko zinterpretowanych kodów klawiszy (domyślne)."
+msgstr ""
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
-msgstr "ustawienie limitu czasu, domyślnie 10"
+msgstr ""
 
 #: src/showkey.c:180
 #, c-format
@@ -1851,28 +1746,24 @@ msgid ""
 "Press any keys - Ctrl-D will terminate this program\n"
 "\n"
 msgstr ""
-"\n"
-"Można naciskać dowolne klawisze - Ctrl-D przerwie ten program\n"
-"\n"
 
 #: src/showkey.c:248
 #, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
-"proszę nacisnąć dowolny klawisz (program zakończy się %ds po ostatnim)...\n"
 
 #: src/showkey.c:272
 msgid "release"
-msgstr "puszczenie"
+msgstr "გაშვება"
 
 #: src/showkey.c:272
 msgid "press"
-msgstr "naciśnięcie"
+msgstr "დაწოლა"
 
 #: src/showkey.c:282
 #, c-format
 msgid "keycode %3d %s\n"
-msgstr "kod klawisza %3d %s\n"
+msgstr "ღილაკის კოდი %3d %s\n"
 
 #: src/vlock/auth.c:76
 msgid ""
@@ -1880,30 +1771,28 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
-"Proszę spróbować później.\n"
+"მოგვიანებით სცადეთ.\n"
 "\n"
 "\n"
 
 #: src/vlock/auth.c:84
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
-msgstr "Całość konsoli jest całkowicie zablokowana przez użytkownika %s.\n"
+msgstr ""
 
 #: src/vlock/auth.c:87
 #, c-format
 msgid "The %s is now locked by %s.\n"
-msgstr "Terminal %s jest zablokowany przez użytkownika %s.\n"
+msgstr "%s ახლა ჩაკეტილია %s-ის მიერ.\n"
 
 #: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
-"Można użyć kombinacji Alt-klawisz funkcyjny do przełączenia na inne konsole "
-"wirtualne."
 
 #: src/vlock/parse.c:52
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr "Polecenie `%s --help' poda więcej informacji.\n"
+msgstr "მეტი ინფორმაციისთვის სცადეთ '%s --help'\n"
 
 #: src/vlock/parse.c:60
 #, c-format
@@ -1918,30 +1807,25 @@ msgid ""
 "-v or --version: Print the version number of vlock and exit.\n"
 "-h or --help: Print this help message and exit.\n"
 msgstr ""
-"%s: blokowanie konsol wirtualnych z zachowaniem bieżącej sesji.\n"
-"Składnia: %s [opcje]\n"
-"          gdzie [opcje] to dowolne z:\n"
-"-c lub --current: zablokowanie tylko tej konsoli wirtualnej,\n"
-"          pozwalając użytkownikowi przełączyć się na inne konsole.\n"
-"-a lub --all: zablokowanie wszystkich konsol wirtualnych,\n"
-"          uniemożliwiając przełączanie konsol.\n"
-"-v lub --version: wypisanie wersji vlocka i zakończenie.\n"
-"-h lub --help: wyświetlenie tego opisu i zakończenie.\n"
 
 #: src/vlock/username.c:57
 msgid "unrecognized user"
-msgstr "nieznany użytkownik"
+msgstr "უცნობი მომხმარებელი"
 
 #: src/vlock/vlock.c:54
 msgid "stdin is not a tty"
-msgstr "stdin nie jest terminalem"
+msgstr "stdin არ არის tty"
 
 #: src/vlock/vt.c:147
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
-msgstr "Ten terminal (%s) nie jest konsolą wirtualną.\n"
+msgstr "ეს tty (%s) არ არის ვირტუალური კონსოლი.\n"
 
 #: src/vlock/vt.c:154
 #, c-format
 msgid "The entire console display cannot be locked.\n"
-msgstr "Nie można zablokować całości konsoli.\n"
+msgstr "სრული კონსოლის ეკრანის ჩაკეტვა შეუძლებელია\n"
+
+#, c-format
+#~ msgid "usage: screendump [n]\n"
+#~ msgstr "გამოყენება: screendump [n]\n"

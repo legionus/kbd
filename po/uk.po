@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the kbd package.
 #
 # Maxim V. Dziumanenko <dziumanenko@gmail.com>, 2006.
-# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015, 2016, 2020, 2022, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2014, 2015, 2016, 2020, 2022, 2023, 2024.
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.6-rc1\n"
+"Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2023-05-08 19:23+0300\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2024-10-29 18:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -328,8 +328,8 @@ msgstr "Перемкнути режим, навіть якщо це зробит
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 "Зміна до вказаного режиму може зробити вашу клавіатуру непридатною до "
 "користування. Будь ласка, скористайтеся параметром -f, щоб виконати цю зміну "
@@ -784,16 +784,15 @@ msgstr ""
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
-msgstr ""
+msgstr "Консоль не перебуває у текстовому режимі"
 
 #: src/libkfont/kdfontop.c:196
-#, fuzzy
 msgid "tall font not supported"
-msgstr "Підтримки не передбачено\n"
+msgstr "підтримки високих шрифтів не передбачено"
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
-msgstr ""
+msgstr "Не вдалося завантажити такий шрифт із такою версією ядра"
 
 #: src/libkfont/kdmapop.c:172
 #, c-format
@@ -1217,7 +1216,7 @@ msgstr "Не вдалося визначити власника поточног
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
-msgstr ""
+msgstr "використати термінал із вказаним номером, а не перший доступний."
 
 #: src/openvt.c:260
 msgid "execute the command, without forking."
@@ -1409,14 +1408,15 @@ msgid "Error writing screendump"
 msgstr "Помилка запису екранного дампу"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Користування: %s [параметр...] [N ...]\n"
+msgstr "Користування: %s [параметр...] [новий_шрифт...]\n"
 
 #: src/setfont.c:22
 #, c-format
 msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
 msgstr ""
+"Завантажує консольний шрифт і, можливо, відповідні прив'язки до екрана.\n"
 
 #: src/setfont.c:28
 #, c-format
@@ -1436,52 +1436,69 @@ msgid ""
 "\n"
 "Files are loaded from the %s/*/.\n"
 msgstr ""
+"Параметри -[o|O|om|ou] буде оброблено до вивантаження нового шрифту.\n"
+"\n"
+"Якщо не вказано ні <newfont>, ні параметра -[o|O|om|ou|m|u], буде\n"
+"завантажено типовий шрифт.\n"
+"\n"
+"Передбачено два типи схем екрана: в одній [-m] задає відповідність\n"
+"між якимось поточним використаним довільним 8-бітовим набором\n"
+"символів і позиціями у шрифті, а у другій [-u] задає відповідність\n"
+"між позиціями у шрифті і значеннями Unicode.\n"
+"\n"
+"Буде завантажено задані явним (за допомогою -m або -u) або неявним\n"
+"чином (у fontfile) прив'язки і, у випадку схем консолі, активовано.\n"
+"\n"
+"Файли буде завантажено з %s/*/.\n"
 
 #: src/setfont.c:174
-#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "завантажити типове."
+msgstr "завантажити шрифт \"default8x<N>\"."
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
 msgstr ""
+"перевизначити висоту шрифту (у короткій версії параметра не повинно бути "
+"пробілів)."
 
 #: src/setfont.c:176
 msgid "write current font to <FILE>."
-msgstr ""
+msgstr "записати поточний шрифт до <ФАЙЛ>."
 
 #: src/setfont.c:177
 msgid "write current consolemap to <FILE>."
-msgstr ""
+msgstr "записати поточну схему консолі до файла <ФАЙЛ>."
 
 #: src/setfont.c:178
 msgid "write current unicodemap to <FILE>."
-msgstr ""
+msgstr "записати поточну схему unicode до файла <ФАЙЛ>."
 
 #: src/setfont.c:179
 msgid "write current font and unicode map to <FILE>."
-msgstr ""
+msgstr "записати поточний шрифт і схему unicode до файла <ФАЙЛ>."
 
 #: src/setfont.c:180
 msgid "load console screen map ('none' means don't load it)."
 msgstr ""
+"завантажити схему екрана для консолі ('none' означає «не завантажувати»)."
 
 #: src/setfont.c:181
 msgid "load font unicode map ('none' means don't load it)."
-msgstr ""
+msgstr "завантажити схему unicode шрифту ('none' означає «не завантажувати»)."
 
 #: src/setfont.c:183
 msgid "double size of font horizontally and vertically."
-msgstr ""
+msgstr "подвоїти розміри шрифту горизонтально і вертикально."
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Додано у Unicode-схему"
+msgstr "примусово завантажити схему unicode."
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
+"відновити типові значення під час завантаження для шрифту екрана, розміру та "
+"схеми unicode."
 
 #: src/setfont.c:295
 msgid "Too many input files."
@@ -1854,7 +1871,7 @@ msgstr "вивести лише оброблені коди клавіш (тип
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
-msgstr ""
+msgstr "встановити час очікування, типовий - 10"
 
 #: src/showkey.c:180
 #, c-format
@@ -1868,11 +1885,11 @@ msgstr ""
 "\n"
 
 #: src/showkey.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
-"натисніть будь-яку клавішу (програма завершиться через 10 секунд після "
-"останнього натискання клавіші)\n"
+"натисніть будь-яку клавішу (програма завершиться через %d секунд після "
+"останнього натискання клавіші)...\n"
 
 #: src/showkey.c:272
 msgid "release"
@@ -1978,8 +1995,8 @@ msgstr "Показ даних у консолі не може бути повн�
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.2.90\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
 "PO-Revision-Date: 2020-06-03 08:46+0100\n"
 "Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
 "Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
@@ -325,11 +325,11 @@ msgstr "trocar o modo, mesmo que torne o teclado inutilizável."
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
-"Mudar para o modo pedido pode tornar o teclado inutilizável, por favor use -"
-"f para forçar a alteração.\n"
+"Mudar para o modo pedido pode tornar o teclado inutilizável, por favor use "
+"-f para forçar a alteração.\n"
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
 #, c-format
@@ -1917,6 +1917,17 @@ msgid "The entire console display cannot be locked.\n"
 msgstr "Impossível bloquear todo o mostrador da consola.\n"
 
 #, c-format
+#~ msgid ""
+#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
+#~ msgstr "GIO_FONTX: o número de carácters na letra não pode ser maior que %d"
+
+#~ msgid "getfont called with count<256"
+#~ msgstr "getfont chamada com total<256"
+
+#~ msgid "getfont using GIO_FONT needs buf"
+#~ msgstr "getfont com GIO_FONT precisa de buf"
+
+#, c-format
 #~ msgid "usage: screendump [n]\n"
 #~ msgstr "uso: screendump [n]\n"
 
@@ -1935,8 +1946,8 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"
@@ -1980,16 +1991,6 @@ msgstr "Impossível bloquear todo o mostrador da consola.\n"
 #~ "    -C <cons>  indica o dispositivo de consola a usar\n"
 #~ "    -V         mostra a versão e sai\n"
 #~ "Os ficheiros são carregados da pasta actual ou de %s/*/.\n"
-
-#~ msgid ""
-#~ "GIO_FONTX: the number of characters in the font cannot be more than %d"
-#~ msgstr "GIO_FONTX: o número de carácters na letra não pode ser maior que %d"
-
-#~ msgid "getfont called with count<256"
-#~ msgstr "getfont chamada com total<256"
-
-#~ msgid "getfont using GIO_FONT needs buf"
-#~ msgstr "getfont com GIO_FONT precisa de buf"
 
 #~ msgid "usage: chvt N\n"
 #~ msgstr "uso: chvt N\n"

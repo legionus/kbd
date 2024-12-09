@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
 "PO-Revision-Date: 2017-01-07 15:02+0100\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -345,8 +345,8 @@ msgstr ""
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
@@ -1444,9 +1444,9 @@ msgid "Error writing screendump"
 msgstr "Fout bij schrijven van schermafdruk\n"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Gebruik:  %s [-V] [-v] [-o kaart.orig] kaartbestand\n"
+msgstr ""
 
 #: src/setfont.c:22
 #, c-format
@@ -1509,9 +1509,8 @@ msgid "double size of font horizontally and vertically."
 msgstr ""
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Unicodekaart is achteraan toegevoegd\n"
+msgstr ""
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
@@ -2005,10 +2004,302 @@ msgid "The entire console display cannot be locked.\n"
 msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 
 #, c-format
+#~ msgid "usage: chvt N\n"
+#~ msgstr "Gebruik:  chvt N\n"
+
+#, c-format
+#~ msgid "%s: unknown option\n"
+#~ msgstr "%s: onbekende optie\n"
+
+#, c-format
+#~ msgid "dumpkeys version %s"
+#~ msgstr "dumpkeys, versie %s"
+
+#, c-format
+#~ msgid ""
+#~ "\n"
+#~ "usage: dumpkeys [options...]\n"
+#~ "\n"
+#~ "valid options are:\n"
+#~ "\n"
+#~ "\t-h --help\t    display this help text\n"
+#~ "\t-i --short-info\t    display information about keyboard driver\n"
+#~ "\t-l -s --long-info   display above and symbols known to loadkeys\n"
+#~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
+#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
+#~ "keycode\n"
+#~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
+#~ "\t-S --shape=\n"
+#~ "\t-t --funcs-only\t    display only the function key strings\n"
+#~ "\t-k --keys-only\t    display only key bindings\n"
+#~ "\t-d --compose-only   display only compose key combinations\n"
+#~ "\t-c --charset="
+#~ msgstr ""
+#~ "\n"
+#~ "Gebruik:  dumpkeys [OPTIE...]\n"
+#~ "\n"
+#~ "  Geldige opties zijn:\n"
+#~ "\n"
+#~ "  -h, --help              deze hulptekst tonen\n"
+#~ "  -i, --short-info        informatie over toetsenbordstuurprogramma "
+#~ "tonen\n"
+#~ "  -l, --long-info         het bovenstaande plus de symbolen bekend bij "
+#~ "'loadkeys'\n"
+#~ "  -n, --numeric           toetsentabel in hexadecimale notatie weergeven\n"
+#~ "  -f, --full-table        geen korte notaties gebruiken, één regel per "
+#~ "toetscode\n"
+#~ "  -1, --separate-lines    één regel per (optietoets,toetscode)-paar\n"
+#~ "      --funcs-only        alleen de functietoetsteksten tonen\n"
+#~ "      --keys-only         alleen de toetsbindingen tonen\n"
+#~ "      --compose-only      alleen de samenstellingstoetscombinaties tonen\n"
+#~ "  -c, --charset="
+
+#, c-format
+#~ msgid ""
+#~ "\t-v --verbose\n"
+#~ "\t-V --version\t    print version number\n"
+#~ msgstr ""
+#~ "  -v, --verbose         uitgebreidere uitvoer produceren\n"
+#~ "  -V, --version         programmaversie tonen\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Usage: %s [options]\n"
+#~ "\n"
+#~ "Valid options are:\n"
+#~ "\n"
+#~ "\t-h --help            display this help text\n"
+#~ "\t-V --version         display program version\n"
+#~ "\t-n --next-available  display number of next unallocated VT\n"
+#~ msgstr ""
+#~ "%s, versie %s\n"
+#~ "\n"
+#~ "Gebruik:  %s [OPTIE...]\n"
+#~ "\n"
+#~ "  Geldige opties zijn:\n"
+#~ "\n"
+#~ "  -n, --next-available    nummer van eerste ongebruikte VT tonen\n"
+#~ "\n"
+#~ "  -h, --help              deze hulptekst tonen\n"
+#~ "  -V, --version           programmaversie tonen\n"
+
+#, c-format
+#~ msgid "Couldn't get a file descriptor referring to the console\n"
+#~ msgstr ""
+#~ "Kan geen bestandsdescriptor verkrijgen die verwijst naar de console\n"
+
+#, c-format
+#~ msgid "usage: getkeycodes\n"
+#~ msgstr "Gebruik:  getkeycodes\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\t%s [-s] [-C console]\n"
+#~ msgstr "Gebruik:  %s [-s] [-C console]\n"
+
+#, c-format
+#~ msgid "Error: Unrecognized action: %s\n"
+#~ msgstr "Fout: onbekende actie: %s\n"
+
+#, c-format
+#~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
+#~ msgstr "Gebruik:  kbd_mode [-a|-u|-k|-s] [-C apparaat]\n"
+
+#, c-format
+#~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
+#~ msgstr ""
+#~ "Gebruik:  kbdrate [-V|--version] [-s] [-r frequentie] [-d vertraging]\n"
+
+#, c-format
+#~ msgid "bug: getfont called with count<256\n"
+#~ msgstr "*interne programmafout*: getfont() is aangeroepen met count<256\n"
+
+#, c-format
+#~ msgid "bug: getfont using GIO_FONT needs buf.\n"
+#~ msgstr ""
+#~ "*interne programmafout*: getfont() met GIO_FONT heeft buffer nodig\n"
+
+#, c-format
+#~ msgid "%s: out of memory\n"
+#~ msgstr "%s: onvoldoende geheugen beschikbaar\n"
+
+#, c-format
+#~ msgid "assuming iso-8859-15 %s"
+#~ msgstr "iso-8859-15 '%s' wordt aangenomen"
+
+#, c-format
+#~ msgid "assuming iso-8859-2 %s"
+#~ msgstr "iso-8859-2 '%s' wordt aangenomen"
+
+#, c-format
+#~ msgid "assuming iso-8859-3 %s"
+#~ msgstr "iso-8859-3 '%s' wordt aangenomen"
+
+#, c-format
+#~ msgid "assuming iso-8859-4 %s"
+#~ msgstr "iso-8859-4 '%s' wordt aangenomen"
+
+#, c-format
+#~ msgid ""
+#~ "loadkeys version %s\n"
+#~ "\n"
+#~ "Usage: %s [option...] [mapfile...]\n"
+#~ "\n"
+#~ "Valid options are:\n"
+#~ "\n"
+#~ "  -a --ascii         force conversion to ASCII\n"
+#~ "  -b --bkeymap       output a binary keymap to stdout\n"
+#~ "  -c --clearcompose  clear kernel compose table\n"
+#~ "  -C --console=file\n"
+#~ "                     the console device to be used\n"
+#~ "  -d --default       load \"%s\"\n"
+#~ "  -h --help          display this help text\n"
+#~ "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+#~ "  -p --parse         search and parse keymap without action\n"
+#~ "  -q --quiet         suppress all normal output\n"
+#~ "  -s --clearstrings  clear kernel string table\n"
+#~ "  -u --unicode       force conversion to Unicode\n"
+#~ "  -v --verbose       report the changes\n"
+#~ "  -V --version       print version number\n"
+#~ msgstr ""
+#~ "loadkeys, versie %s\n"
+#~ "\n"
+#~ "Gebruik:  %s [OPTIE...] [KAARTBESTAND...]\n"
+#~ "\n"
+#~ "  Geldige opties zijn:\n"
+#~ "\n"
+#~ "  -a, --ascii         conversie naar ASCII afdwingen\n"
+#~ "  -b, --bkeymap       binaire toetsenbordkaart naar standaarduitvoer "
+#~ "schrijven\n"
+#~ "  -c, --clearcompose  de samenstellingentabel van de kernel leegmaken\n"
+#~ "  -C, --console=APPARAAT  te gebruiken console-apparaat\n"
+#~ "  -d, --default       '%s' laden\n"
+#~ "  -m, --mktable       een 'defkeymap.c' naar standaarduitvoer schrijven\n"
+#~ "  -p, --parse         toetsenkaart ontleden zonder actie te ondernemen\n"
+#~ "  -q, --quiet         alle gewone uitvoer onderdrukken\n"
+#~ "  -s, --clearstrings  functietoetstekenreeksentabel van kernel leegmaken\n"
+#~ "  -u, --unicode       conversie naar Unicode afdwingen\n"
+#~ "  -v, --verbose       de veranderingen tonen\n"
+#~ "\n"
+#~ "  -h, --help          deze hulptekst tonen\n"
+#~ "  -V, --version       programmaversie tonen\n"
+
+#, c-format
+#~ msgid "Cannot find %s\n"
+#~ msgstr "Kan %s niet vinden\n"
+
+#, c-format
+#~ msgid "cannot open file %s\n"
+#~ msgstr "Kan bestand %s niet openen\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\t%s [-C console] [-o map.orig]\n"
+#~ msgstr "Gebruik:  %s [-C console] [-o toetsenkaart.orig]\n"
+
+#, c-format
+#~ msgid "Bad input line: %s\n"
+#~ msgstr "Ongeldige invoerregel: %s\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr ""
+#~ "%s: Ongeldig Unicode-bereik corresponderend met lettertype-positiebereik "
+#~ "0x%x-0x%x\n"
+
+#, c-format
+#~ msgid "%s: %s: Warning: line too long\n"
+#~ msgstr "%s: %s: Waarschuwing: regel is te lang\n"
+
+#~ msgid "entries"
+#~ msgstr "items"
+
+#, c-format
+#~ msgid "mapscrn: cannot open map file _%s_\n"
+#~ msgstr "mapscrn: kan kaartbestand '%s' niet openen\n"
+
+#, c-format
+#~ msgid "Cannot stat map file"
+#~ msgstr "Kan status van kaartbestand niet opvragen"
+
+#, c-format
+#~ msgid "Error writing map to file\n"
+#~ msgstr "Fout tijdens schrijven van toetsenkaart naar bestand\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] -- command\n"
+#~ "\n"
+#~ "This utility help you to start a program on a new virtual terminal (VT).\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -c, --console=NUM   use the given VT number;\n"
+#~ "  -e, --exec          execute the command, without forking;\n"
+#~ "  -f, --force         force opening a VT without checking;\n"
+#~ "  -l, --login         make the command a login shell;\n"
+#~ "  -u, --user          figure out the owner of the current VT;\n"
+#~ "  -s, --switch        switch to the new VT;\n"
+#~ "  -w, --wait          wait for command to complete;\n"
+#~ "  -v, --verbose       print a message for each action;\n"
+#~ "  -V, --version       print program version and exit;\n"
+#~ "  -h, --help          output a brief help message.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Gebruik:  %s [OPTIE...] -- OPDRACHT\n"
+#~ "\n"
+#~ "Start het programma OPDRACHT op een nieuwe virtuele terminal (VT).\n"
+#~ "\n"
+#~ "Opties:\n"
+#~ "  -c, --console=NR    de VT met dit nummer gebruiken\n"
+#~ "  -e, --exec          OPDRACHT uitvoeren zonder nieuw proces te starten\n"
+#~ "  -f, --force         openen van VT afdwingen zonder controle\n"
+#~ "  -l, --login         van de gegeven opdracht een login shell maken\n"
+#~ "  -u, --user          de eigenaar van de huidige VT bepalen\n"
+#~ "  -s, --switch        naar de nieuwe VT overschakelen\n"
+#~ "  -w, --wait          wachten tot de gegeven opdracht beëindigd is\n"
+#~ "  -v, --verbose       een bericht tonen voor elke uitgevoerde actie\n"
+#~ "\n"
+#~ "  -h, --help          deze hulptekst tonen en stoppen\n"
+#~ "  -V, --version       de programmaversie tonen en stoppen\n"
+#~ "\n"
+
+#~ msgid "Activation interrupted?"
+#~ msgstr "Activatie onderbroken?"
+
+#, c-format
+#~ msgid "%s: Bad input line: %s\n"
+#~ msgstr "%s: Ongeldige invoerregel: %s\n"
+
+#, c-format
+#~ msgid "%s: Glyph number (0x%lx) past end of font\n"
+#~ msgstr "%s: Glyph-getal (0x%lx) na einde van lettertype\n"
+
+#, c-format
+#~ msgid "%s: Bad end of range (0x%lx)\n"
+#~ msgstr "%s: Ongeldig einde van bereik (0x%lx)\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
+#~ "range\n"
+#~ msgstr ""
+#~ "%s: Met het bereik van lettertype-posities dient een Unicodebereik te "
+#~ "corresponderen\n"
+
+#, c-format
 #~ msgid "usage: screendump [n]\n"
 #~ msgstr "Gebruik:  screendump [n]\n"
 
-#, fuzzy, c-format
+#, c-format
+#~ msgid "couldn't read %s, and cannot ioctl dump\n"
+#~ msgstr "kan %s niet lezen, en ioctl() voor meer informatie is mislukt\n"
+
+#, c-format
 #~ msgid ""
 #~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
 #~ "unicodemap]\n"
@@ -2023,13 +2314,12 @@ msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"
 #~ "    -h<N>      (no space) Override font height.\n"
-#~ "    -d         Double size of font horizontally and vertically.\n"
 #~ "    -m <fn>    Load console screen map.\n"
 #~ "    -u <fn>    Load font unicode map.\n"
 #~ "    -m none    Suppress loading and activation of a screen map.\n"
@@ -2075,266 +2365,11 @@ msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 #~ "\n"
 #~ "Bestanden worden geladen uit de huidige map of uit %s/*/.\n"
 
-#~ msgid "usage: chvt N\n"
-#~ msgstr "Gebruik:  chvt N\n"
-
-#~ msgid "%s: unknown option\n"
-#~ msgstr "%s: onbekende optie\n"
-
-#~ msgid "dumpkeys version %s"
-#~ msgstr "dumpkeys, versie %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "usage: dumpkeys [options...]\n"
-#~ "\n"
-#~ "valid options are:\n"
-#~ "\n"
-#~ "\t-h --help\t    display this help text\n"
-#~ "\t-i --short-info\t    display information about keyboard driver\n"
-#~ "\t-l -s --long-info   display above and symbols known to loadkeys\n"
-#~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
-#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
-#~ "keycode\n"
-#~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
-#~ "\t-S --shape=\n"
-#~ "\t-t --funcs-only\t    display only the function key strings\n"
-#~ "\t-k --keys-only\t    display only key bindings\n"
-#~ "\t-d --compose-only   display only compose key combinations\n"
-#~ "\t-c --charset="
-#~ msgstr ""
-#~ "\n"
-#~ "Gebruik:  dumpkeys [OPTIE...]\n"
-#~ "\n"
-#~ "  Geldige opties zijn:\n"
-#~ "\n"
-#~ "  -h, --help              deze hulptekst tonen\n"
-#~ "  -i, --short-info        informatie over toetsenbordstuurprogramma "
-#~ "tonen\n"
-#~ "  -l, --long-info         het bovenstaande plus de symbolen bekend bij "
-#~ "'loadkeys'\n"
-#~ "  -n, --numeric           toetsentabel in hexadecimale notatie weergeven\n"
-#~ "  -f, --full-table        geen korte notaties gebruiken, één regel per "
-#~ "toetscode\n"
-#~ "  -1, --separate-lines    één regel per (optietoets,toetscode)-paar\n"
-#~ "      --funcs-only        alleen de functietoetsteksten tonen\n"
-#~ "      --keys-only         alleen de toetsbindingen tonen\n"
-#~ "      --compose-only      alleen de samenstellingstoetscombinaties tonen\n"
-#~ "  -c, --charset="
-
-#~ msgid ""
-#~ "\t-v --verbose\n"
-#~ "\t-V --version\t    print version number\n"
-#~ msgstr ""
-#~ "  -v, --verbose         uitgebreidere uitvoer produceren\n"
-#~ "  -V, --version         programmaversie tonen\n"
-
-#~ msgid ""
-#~ "%s version %s\n"
-#~ "\n"
-#~ "Usage: %s [options]\n"
-#~ "\n"
-#~ "Valid options are:\n"
-#~ "\n"
-#~ "\t-h --help            display this help text\n"
-#~ "\t-V --version         display program version\n"
-#~ "\t-n --next-available  display number of next unallocated VT\n"
-#~ msgstr ""
-#~ "%s, versie %s\n"
-#~ "\n"
-#~ "Gebruik:  %s [OPTIE...]\n"
-#~ "\n"
-#~ "  Geldige opties zijn:\n"
-#~ "\n"
-#~ "  -n, --next-available    nummer van eerste ongebruikte VT tonen\n"
-#~ "\n"
-#~ "  -h, --help              deze hulptekst tonen\n"
-#~ "  -V, --version           programmaversie tonen\n"
-
-#~ msgid "Couldn't get a file descriptor referring to the console\n"
-#~ msgstr ""
-#~ "Kan geen bestandsdescriptor verkrijgen die verwijst naar de console\n"
-
-#~ msgid "usage: getkeycodes\n"
-#~ msgstr "Gebruik:  getkeycodes\n"
-
-#~ msgid ""
-#~ "Usage:\n"
-#~ "\t%s [-s] [-C console]\n"
-#~ msgstr "Gebruik:  %s [-s] [-C console]\n"
-
-#~ msgid "Error: Unrecognized action: %s\n"
-#~ msgstr "Fout: onbekende actie: %s\n"
-
-#~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
-#~ msgstr "Gebruik:  kbd_mode [-a|-u|-k|-s] [-C apparaat]\n"
-
-#~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
-#~ msgstr ""
-#~ "Gebruik:  kbdrate [-V|--version] [-s] [-r frequentie] [-d vertraging]\n"
-
-#~ msgid "bug: getfont called with count<256\n"
-#~ msgstr "*interne programmafout*: getfont() is aangeroepen met count<256\n"
-
-#~ msgid "bug: getfont using GIO_FONT needs buf.\n"
-#~ msgstr ""
-#~ "*interne programmafout*: getfont() met GIO_FONT heeft buffer nodig\n"
-
-#~ msgid "%s: out of memory\n"
-#~ msgstr "%s: onvoldoende geheugen beschikbaar\n"
-
-#~ msgid "assuming iso-8859-15 %s"
-#~ msgstr "iso-8859-15 '%s' wordt aangenomen"
-
-#~ msgid "assuming iso-8859-2 %s"
-#~ msgstr "iso-8859-2 '%s' wordt aangenomen"
-
-#~ msgid "assuming iso-8859-3 %s"
-#~ msgstr "iso-8859-3 '%s' wordt aangenomen"
-
-#~ msgid "assuming iso-8859-4 %s"
-#~ msgstr "iso-8859-4 '%s' wordt aangenomen"
-
-#~ msgid ""
-#~ "loadkeys version %s\n"
-#~ "\n"
-#~ "Usage: %s [option...] [mapfile...]\n"
-#~ "\n"
-#~ "Valid options are:\n"
-#~ "\n"
-#~ "  -a --ascii         force conversion to ASCII\n"
-#~ "  -b --bkeymap       output a binary keymap to stdout\n"
-#~ "  -c --clearcompose  clear kernel compose table\n"
-#~ "  -C --console=file\n"
-#~ "                     the console device to be used\n"
-#~ "  -d --default       load \"%s\"\n"
-#~ "  -h --help          display this help text\n"
-#~ "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
-#~ "  -p --parse         search and parse keymap without action\n"
-#~ "  -q --quiet         suppress all normal output\n"
-#~ "  -s --clearstrings  clear kernel string table\n"
-#~ "  -u --unicode       force conversion to Unicode\n"
-#~ "  -v --verbose       report the changes\n"
-#~ "  -V --version       print version number\n"
-#~ msgstr ""
-#~ "loadkeys, versie %s\n"
-#~ "\n"
-#~ "Gebruik:  %s [OPTIE...] [KAARTBESTAND...]\n"
-#~ "\n"
-#~ "  Geldige opties zijn:\n"
-#~ "\n"
-#~ "  -a, --ascii         conversie naar ASCII afdwingen\n"
-#~ "  -b, --bkeymap       binaire toetsenbordkaart naar standaarduitvoer "
-#~ "schrijven\n"
-#~ "  -c, --clearcompose  de samenstellingentabel van de kernel leegmaken\n"
-#~ "  -C, --console=APPARAAT  te gebruiken console-apparaat\n"
-#~ "  -d, --default       '%s' laden\n"
-#~ "  -m, --mktable       een 'defkeymap.c' naar standaarduitvoer schrijven\n"
-#~ "  -p, --parse         toetsenkaart ontleden zonder actie te ondernemen\n"
-#~ "  -q, --quiet         alle gewone uitvoer onderdrukken\n"
-#~ "  -s, --clearstrings  functietoetstekenreeksentabel van kernel leegmaken\n"
-#~ "  -u, --unicode       conversie naar Unicode afdwingen\n"
-#~ "  -v, --verbose       de veranderingen tonen\n"
-#~ "\n"
-#~ "  -h, --help          deze hulptekst tonen\n"
-#~ "  -V, --version       programmaversie tonen\n"
-
-#~ msgid "Cannot find %s\n"
-#~ msgstr "Kan %s niet vinden\n"
-
-#~ msgid "cannot open file %s\n"
-#~ msgstr "Kan bestand %s niet openen\n"
-
-#~ msgid ""
-#~ "Usage:\n"
-#~ "\t%s [-C console] [-o map.orig]\n"
-#~ msgstr "Gebruik:  %s [-C console] [-o toetsenkaart.orig]\n"
-
-#~ msgid "Bad input line: %s\n"
-#~ msgstr "Ongeldige invoerregel: %s\n"
-
-#~ msgid ""
-#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
-#~ msgstr ""
-#~ "%s: Ongeldig Unicode-bereik corresponderend met lettertype-positiebereik "
-#~ "0x%x-0x%x\n"
-
-#~ msgid "%s: %s: Warning: line too long\n"
-#~ msgstr "%s: %s: Waarschuwing: regel is te lang\n"
-
-#~ msgid "entries"
-#~ msgstr "items"
-
-#~ msgid "mapscrn: cannot open map file _%s_\n"
-#~ msgstr "mapscrn: kan kaartbestand '%s' niet openen\n"
-
-#~ msgid "Cannot stat map file"
-#~ msgstr "Kan status van kaartbestand niet opvragen"
-
-#~ msgid "Error writing map to file\n"
-#~ msgstr "Fout tijdens schrijven van toetsenkaart naar bestand\n"
-
-#~ msgid ""
-#~ "Usage: %s [OPTIONS] -- command\n"
-#~ "\n"
-#~ "This utility help you to start a program on a new virtual terminal (VT).\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  -c, --console=NUM   use the given VT number;\n"
-#~ "  -e, --exec          execute the command, without forking;\n"
-#~ "  -f, --force         force opening a VT without checking;\n"
-#~ "  -l, --login         make the command a login shell;\n"
-#~ "  -u, --user          figure out the owner of the current VT;\n"
-#~ "  -s, --switch        switch to the new VT;\n"
-#~ "  -w, --wait          wait for command to complete;\n"
-#~ "  -v, --verbose       print a message for each action;\n"
-#~ "  -V, --version       print program version and exit;\n"
-#~ "  -h, --help          output a brief help message.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Gebruik:  %s [OPTIE...] -- OPDRACHT\n"
-#~ "\n"
-#~ "Start het programma OPDRACHT op een nieuwe virtuele terminal (VT).\n"
-#~ "\n"
-#~ "Opties:\n"
-#~ "  -c, --console=NR    de VT met dit nummer gebruiken\n"
-#~ "  -e, --exec          OPDRACHT uitvoeren zonder nieuw proces te starten\n"
-#~ "  -f, --force         openen van VT afdwingen zonder controle\n"
-#~ "  -l, --login         van de gegeven opdracht een login shell maken\n"
-#~ "  -u, --user          de eigenaar van de huidige VT bepalen\n"
-#~ "  -s, --switch        naar de nieuwe VT overschakelen\n"
-#~ "  -w, --wait          wachten tot de gegeven opdracht beëindigd is\n"
-#~ "  -v, --verbose       een bericht tonen voor elke uitgevoerde actie\n"
-#~ "\n"
-#~ "  -h, --help          deze hulptekst tonen en stoppen\n"
-#~ "  -V, --version       de programmaversie tonen en stoppen\n"
-#~ "\n"
-
-#~ msgid "Activation interrupted?"
-#~ msgstr "Activatie onderbroken?"
-
-#~ msgid "%s: Bad input line: %s\n"
-#~ msgstr "%s: Ongeldige invoerregel: %s\n"
-
-#~ msgid "%s: Glyph number (0x%lx) past end of font\n"
-#~ msgstr "%s: Glyph-getal (0x%lx) na einde van lettertype\n"
-
-#~ msgid "%s: Bad end of range (0x%lx)\n"
-#~ msgstr "%s: Ongeldig einde van bereik (0x%lx)\n"
-
-#~ msgid ""
-#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
-#~ "range\n"
-#~ msgstr ""
-#~ "%s: Met het bereik van lettertype-posities dient een Unicodebereik te "
-#~ "corresponderen\n"
-
-#~ msgid "couldn't read %s, and cannot ioctl dump\n"
-#~ msgstr "kan %s niet lezen, en ioctl() voor meer informatie is mislukt\n"
-
+#, c-format
 #~ msgid "Cannot open font file %s\n"
 #~ msgstr "Kan lettertypebestand %s niet openen\n"
 
+#, c-format
 #~ msgid "Cannot find %s font\n"
 #~ msgstr "Kan lettertype %s niet vinden\n"
 
@@ -2356,6 +2391,7 @@ msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 #~ msgid "KIOCSLED unavailable?\n"
 #~ msgstr "KIOCSLED is onbeschikbaar?\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
@@ -2378,9 +2414,11 @@ msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 #~ "Fout tijdens lezen van huidige instelling: ioctl(KDGKBMETA).\n"
 #~ "Mogelijk is standaardinvoer geen VT?"
 
+#, c-format
 #~ msgid "usage: %s\n"
 #~ msgstr "Gebruik:  %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "usage: showconsolefont -V|--version\n"
 #~ "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -2407,6 +2445,7 @@ msgstr "Het gehele console-scherm kan niet vergrendeld worden.\n"
 #~ "  -v             uitgebreidere uitvoer produceren\n"
 #~ "  -V, --version  programmaversie tonen en stoppen\n"
 
+#, c-format
 #~ msgid ""
 #~ "showkey version %s\n"
 #~ "\n"

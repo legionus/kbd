@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
 "PO-Revision-Date: 2016-12-28 13:46+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <translation-team-vi@lists.sourceforge.net>\n"
@@ -348,8 +348,8 @@ msgstr ""
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
@@ -1438,9 +1438,9 @@ msgid "Error writing screendump"
 msgstr "Gặp lỗi khi ghi đổ màn hình\n"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Cách dùng: %s [-V] [-v] [-o ánh-xạ.gốc] tập-tin-ánh-xạ\n"
+msgstr ""
 
 #: src/setfont.c:22
 #, c-format
@@ -1503,9 +1503,8 @@ msgid "double size of font horizontally and vertically."
 msgstr ""
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Nhập thêm ánh xạ Unicode\n"
+msgstr ""
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
@@ -1998,76 +1997,18 @@ msgid "The entire console display cannot be locked.\n"
 msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị khóa.\n"
 
 #, c-format
-#~ msgid "usage: screendump [n]\n"
-#~ msgstr "cách dùng: screendump [n]\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-#~ "unicodemap]\n"
-#~ "  write-options (take place before file loading):\n"
-#~ "    -o  <filename>  Write current font to <filename>\n"
-#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
-#~ "    -om <filename>  Write current consolemap to <filename>\n"
-#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
-#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-#~ "a default font is loaded:\n"
-#~ "    setfont         Load font \"default[.gz]\"\n"
-#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-#~ "The -<N> option selects a font from a codepage that contains three "
-#~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
-#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
-#~ "mappings\n"
-#~ "will be loaded and, in the case of consolemaps, activated.\n"
-#~ "    -h<N>      (no space) Override font height.\n"
-#~ "    -d         Double size of font horizontally and vertically.\n"
-#~ "    -m <fn>    Load console screen map.\n"
-#~ "    -u <fn>    Load font unicode map.\n"
-#~ "    -m none    Suppress loading and activation of a screen map.\n"
-#~ "    -u none    Suppress loading of a unicode map.\n"
-#~ "    -v         Be verbose.\n"
-#~ "    -C <cons>  Indicate console device to be used.\n"
-#~ "    -V         Print version and exit.\n"
-#~ "Files are loaded from the current directory or %s/*/.\n"
-#~ msgstr ""
-#~ "Cách dùng: setfont [tùy-chọn-ghi] [-<N>] [phông-mới..] [-m sơ-đồ-bàn-giao-"
-#~ "tiếp] [-u sơ-đồ-Unicode]\n"
-#~ "  tùy chọn ghi nhớ (được đặt trước khi nạp tập tin):\n"
-#~ "    -o  <tên-tập-tin>  Ghi nhớ phông hiện tại vào <tên-tập-tin>\n"
-#~ "    -O  <tên-tập-tin>  Ghi nhớ phông hiện tại và ánh xạ unicode vào <tên-"
-#~ "tập-tin>\n"
-#~ "    -om <tên-tập-tin>  Ghi nhớ consolemap hiện tại vào <tên-tập-tin>\n"
-#~ "    -ou <tên-tập-tin>  Ghi nhớ unicodemap hiện tại vào <tên-tập-tin>\n"
-#~ "Nếu không đưa ra tùy chọn phông-mới và -[o|O|om|ou|m|u],\n"
-#~ "còn phông chữ mặc định được nạp:\n"
-#~ "    setfont         nạp phông chữ \"default[.gz]\"\n"
-#~ "    setfont -<N>    nạp phông chữ \"default8x<N>[.gz]\"\n"
-#~ "Tùy chọn -<N> chọn môjt phông chữ với trang mã (codepage) chứa ba phông "
-#~ "chữ:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Nạp phông 8x<N> từ codepage.cp\n"
-#~ "Ánh xạ hiện (với -m hoặc -u) hoặc ẩn (trong tập tin phông) \n"
-#~ "sẽ được nạp và trong trường hợp của consolemap, được kích hoạt.\n"
-#~ "    -h<N>      (không có khoảng trắng) Ghi chèn lên chiều cao phông.\n"
-#~ "    -m <fn>    Nạp ánh xạ màn hình thiết bị điều khiển.\n"
-#~ "    -u <fn>    Nạp ánh xạ phông chữ unicode.\n"
-#~ "    -m none    Chặn việc nạp và kích hoạt một ánh xạ màn hình.\n"
-#~ "    -u none    Chặn việc nạp một ánh xạ unicode.\n"
-#~ "    -v         Nhiều thông báo.\n"
-#~ "    -C <cons>  Chỉ ra thiết bị thiết bị điều khiển sử dụng.\n"
-#~ "    -V         In ra số hiệu phiên bản và thoát.\n"
-#~ "Tập tin được nạp từ thư mục hiện tại hoặc từ %s/*/.\n"
-
 #~ msgid "usage: chvt N\n"
 #~ msgstr "cách dùng: chvt N\n"
 
+#, c-format
 #~ msgid "%s: unknown option\n"
 #~ msgstr "%s: không hiểu tùy chọn\n"
 
+#, c-format
 #~ msgid "dumpkeys version %s"
 #~ msgstr "phiên bản dumpkeys %s"
 
+#, c-format
 #~ msgid ""
 #~ "\n"
 #~ "usage: dumpkeys [options...]\n"
@@ -2106,6 +2047,7 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "\t-d --compose-only   chỉ hiện thị tổ hợp phím soạn thảo\n"
 #~ "\t-c --charset="
 
+#, c-format
 #~ msgid ""
 #~ "\t-v --verbose\n"
 #~ "\t-V --version\t    print version number\n"
@@ -2113,6 +2055,7 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "\t-v --verbose\n"
 #~ "\t-V --version\t    hiển thị số hiệu phiên bản\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s version %s\n"
 #~ "\n"
@@ -2134,12 +2077,15 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "\t-V --version         hiển thị phiên bản chương trình\n"
 #~ "\t-n --next-available  hiển thị số thứ tự của VT được cấp phát kế tiếp\n"
 
+#, c-format
 #~ msgid "Couldn't get a file descriptor referring to the console\n"
 #~ msgstr "Không thể lấy bộ mô tả tập tin mà nó chỉ đến thiết bị điều khiển\n"
 
+#, c-format
 #~ msgid "usage: getkeycodes\n"
 #~ msgstr "cách dùng: getkeycodes\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\t%s [-s] [-C console]\n"
@@ -2147,36 +2093,47 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "Cách dùng:\n"
 #~ "\t%s [-s] [-C thiết bị điều khiển]\n"
 
+#, c-format
 #~ msgid "Error: Unrecognized action: %s\n"
 #~ msgstr "Lỗi: Thao tác không được chấp nhận: %s\n"
 
+#, c-format
 #~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 #~ msgstr "cách dùng: kbd_mode [-a|-u|-k|-s] [-C thiết_bị]\n"
 
+#, c-format
 #~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
 #~ msgstr "Cách dùng: kbdrate [-V | --version] [-s] [-r tốc_độ] [-d độ_trễ]\n"
 
+#, c-format
 #~ msgid "bug: getfont called with count<256\n"
 #~ msgstr "lỗi (bug): getfont được gọi với số lượng <256\n"
 
+#, c-format
 #~ msgid "bug: getfont using GIO_FONT needs buf.\n"
 #~ msgstr "lỗi: getfont dùng GIO_FONT thì dùng buf.\n"
 
+#, c-format
 #~ msgid "%s: out of memory\n"
 #~ msgstr "%s: hết bộ nhớ\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-15 %s"
 #~ msgstr "coi là iso-8859-15 %s"
 
+#, c-format
 #~ msgid "assuming iso-8859-2 %s"
 #~ msgstr "coi là iso-8859-2 %s"
 
+#, c-format
 #~ msgid "assuming iso-8859-3 %s"
 #~ msgstr "coi là iso-8859-3 %s"
 
+#, c-format
 #~ msgid "assuming iso-8859-4 %s"
 #~ msgstr "coi là iso-8859-4 %s"
 
+#, c-format
 #~ msgid ""
 #~ "loadkeys version %s\n"
 #~ "\n"
@@ -2220,12 +2177,15 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "  -v --verbose       thông báo các thay đổi\n"
 #~ "  -V --version       hiển thị số hiệu phiên bản\n"
 
+#, c-format
 #~ msgid "Cannot find %s\n"
 #~ msgstr "Không tìm thấy %s\n"
 
+#, c-format
 #~ msgid "cannot open file %s\n"
 #~ msgstr "không mở được tập tin %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\t%s [-C console] [-o map.orig]\n"
@@ -2233,29 +2193,36 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "Cách dùng:\n"
 #~ "\t%s [-C thiết bị điều khiển] [-o ánh-xạ.gốc]\n"
 
+#, c-format
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "Dòng nhập vào sai: %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 #~ msgstr ""
 #~ "%s: Phạm vi Unicode tương ứng với phạm vi vị trí phông chữ 0x%x-0x%x sai\n"
 
+#, c-format
 #~ msgid "%s: %s: Warning: line too long\n"
 #~ msgstr "%s: %s: Cảnh báo: dòng quá dài\n"
 
 #~ msgid "entries"
 #~ msgstr "các mục"
 
+#, c-format
 #~ msgid "mapscrn: cannot open map file _%s_\n"
 #~ msgstr "mapscrn: không thể mở tập tin ánh xạ _%s_\n"
 
+#, c-format
 #~ msgid "Cannot stat map file"
 #~ msgstr "Không thể lấy được trạng thái (stat) tập tin bản đồ (map)"
 
+#, c-format
 #~ msgid "Error writing map to file\n"
 #~ msgstr "Lỗi ghi nhớ ánh xạ vào tập tin\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage: %s [OPTIONS] -- command\n"
 #~ "\n"
@@ -2295,15 +2262,19 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ msgid "Activation interrupted?"
 #~ msgstr "Kích hoạt bị ngắt phải không?"
 
+#, c-format
 #~ msgid "%s: Bad input line: %s\n"
 #~ msgstr "%s: Dòng nhập vào sai: %s\n"
 
+#, c-format
 #~ msgid "%s: Glyph number (0x%lx) past end of font\n"
 #~ msgstr "%s: Số Glyph (0x%lx) vượt quá kết thúc phông chữ\n"
 
+#, c-format
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: Kết thúc của phạm vi (0x%lx) sai\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s: Corresponding to a range of font positions, there should be a Unicode "
 #~ "range\n"
@@ -2311,12 +2282,76 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "%s: Để tương ứng với một phạm vi của vị trí phông chữ, phải có một phạm "
 #~ "vi Unicode\n"
 
+#, c-format
+#~ msgid "usage: screendump [n]\n"
+#~ msgstr "cách dùng: screendump [n]\n"
+
+#, c-format
 #~ msgid "couldn't read %s, and cannot ioctl dump\n"
 #~ msgstr "không thể đọc %s, và không thể ioctl dump\n"
 
+#, c-format
+#~ msgid ""
+#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+#~ "unicodemap]\n"
+#~ "  write-options (take place before file loading):\n"
+#~ "    -o  <filename>  Write current font to <filename>\n"
+#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
+#~ "    -om <filename>  Write current consolemap to <filename>\n"
+#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
+#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
+#~ "a default font is loaded:\n"
+#~ "    setfont         Load font \"default[.gz]\"\n"
+#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
+#~ "The -<N> option selects a font from a codepage that contains three "
+#~ "fonts:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
+#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
+#~ "mappings\n"
+#~ "will be loaded and, in the case of consolemaps, activated.\n"
+#~ "    -h<N>      (no space) Override font height.\n"
+#~ "    -m <fn>    Load console screen map.\n"
+#~ "    -u <fn>    Load font unicode map.\n"
+#~ "    -m none    Suppress loading and activation of a screen map.\n"
+#~ "    -u none    Suppress loading of a unicode map.\n"
+#~ "    -v         Be verbose.\n"
+#~ "    -C <cons>  Indicate console device to be used.\n"
+#~ "    -V         Print version and exit.\n"
+#~ "Files are loaded from the current directory or %s/*/.\n"
+#~ msgstr ""
+#~ "Cách dùng: setfont [tùy-chọn-ghi] [-<N>] [phông-mới..] [-m sơ-đồ-bàn-giao-"
+#~ "tiếp] [-u sơ-đồ-Unicode]\n"
+#~ "  tùy chọn ghi nhớ (được đặt trước khi nạp tập tin):\n"
+#~ "    -o  <tên-tập-tin>  Ghi nhớ phông hiện tại vào <tên-tập-tin>\n"
+#~ "    -O  <tên-tập-tin>  Ghi nhớ phông hiện tại và ánh xạ unicode vào <tên-"
+#~ "tập-tin>\n"
+#~ "    -om <tên-tập-tin>  Ghi nhớ consolemap hiện tại vào <tên-tập-tin>\n"
+#~ "    -ou <tên-tập-tin>  Ghi nhớ unicodemap hiện tại vào <tên-tập-tin>\n"
+#~ "Nếu không đưa ra tùy chọn phông-mới và -[o|O|om|ou|m|u],\n"
+#~ "còn phông chữ mặc định được nạp:\n"
+#~ "    setfont         nạp phông chữ \"default[.gz]\"\n"
+#~ "    setfont -<N>    nạp phông chữ \"default8x<N>[.gz]\"\n"
+#~ "Tùy chọn -<N> chọn môjt phông chữ với trang mã (codepage) chứa ba phông "
+#~ "chữ:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Nạp phông 8x<N> từ codepage.cp\n"
+#~ "Ánh xạ hiện (với -m hoặc -u) hoặc ẩn (trong tập tin phông) \n"
+#~ "sẽ được nạp và trong trường hợp của consolemap, được kích hoạt.\n"
+#~ "    -h<N>      (không có khoảng trắng) Ghi chèn lên chiều cao phông.\n"
+#~ "    -m <fn>    Nạp ánh xạ màn hình thiết bị điều khiển.\n"
+#~ "    -u <fn>    Nạp ánh xạ phông chữ unicode.\n"
+#~ "    -m none    Chặn việc nạp và kích hoạt một ánh xạ màn hình.\n"
+#~ "    -u none    Chặn việc nạp một ánh xạ unicode.\n"
+#~ "    -v         Nhiều thông báo.\n"
+#~ "    -C <cons>  Chỉ ra thiết bị thiết bị điều khiển sử dụng.\n"
+#~ "    -V         In ra số hiệu phiên bản và thoát.\n"
+#~ "Tập tin được nạp từ thư mục hiện tại hoặc từ %s/*/.\n"
+
+#, c-format
 #~ msgid "Cannot open font file %s\n"
 #~ msgstr "Không mở được tập tin phông chữ %s\n"
 
+#, c-format
 #~ msgid "Cannot find %s font\n"
 #~ msgstr "Không tìm thấy phông %s\n"
 
@@ -2336,6 +2371,7 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ msgid "KIOCSLED unavailable?\n"
 #~ msgstr "Không thể KIOCSLED?\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
@@ -2357,9 +2393,11 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ "Lỗi đọc cài đặt hiện tại. Có thể đầu vào tiêu chuẩn không phải là một "
 #~ "VT?: ioctl KDGKBMETA"
 
+#, c-format
 #~ msgid "usage: %s\n"
 #~ msgstr "cách dùng: %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "usage: showconsolefont -V|--version\n"
 #~ "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -2383,6 +2421,7 @@ msgstr "Toàn bộ phần trình bày bảng điều khiển không thể bị k
 #~ " -i              Đừng in ra bảng phông, chỉ hiển thị\n"
 #~ "                 HÀNG×CỘT×SỐ_LƯỢNG rồi thoát.\n"
 
+#, c-format
 #~ msgid ""
 #~ "showkey version %s\n"
 #~ "\n"

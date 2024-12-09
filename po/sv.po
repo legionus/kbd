@@ -1,18 +1,18 @@
 # Swedish message file for kbd.
-# Copyright © 2016, 2020, 2022, 2023 Free Software Foundation, Inc.
+# Copyright © 2016, 2020, 2022, 2023, 2024 Free Software Foundation, Inc.
 # This file is distributed under the same license as the kbd package.
 #
 # Martin Sjögren <md9ms@mdstud.chalmers.se>, 2001.
 # Christer Andersson <klamm@comhem.se>, 2007.
-# Göran Uddeborg <goeran@uddeborg.se>, 2016, 2020, 2022, 2023.
+# Göran Uddeborg <goeran@uddeborg.se>, 2016, 2020, 2022, 2023, 2024.
 #
-# $Revision: 1.20 $
+# $Revision: 1.22 $
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.6-rc1\n"
+"Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2023-05-09 10:24+0200\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2024-10-30 22:24+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -330,8 +330,8 @@ msgstr "byt läget även om det gör tangentbordet oanvändbart."
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 "Att ändra till det begärda läget kan göra ditt tangentbord oanvändbart, "
 "använd -f för att framtvinga ändringen.\n"
@@ -494,7 +494,7 @@ msgstr ""
 #: src/libkeymap/dump.c:88 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
-msgstr "Fel vid skrivning av tabell till fil"
+msgstr "Fel vid skrivning av avbildningen till en fil"
 
 #: src/libkeymap/dump.c:536
 #, c-format
@@ -543,7 +543,7 @@ msgstr "KDGKBDIACR(UC): %s: Kan inte hämta accenttabell"
 #: src/libkeymap/kmap.c:82 src/libkeymap/kmap.c:100
 #, c-format
 msgid "unable to get keymap %d"
-msgstr "kan inte hämta tangenttabell %d"
+msgstr "kan inte hämta tangentavbildning %d"
 
 #: src/libkeymap/kmap.c:108
 #, c-format
@@ -558,7 +558,7 @@ msgstr "lk_add_key anropad med felaktig tangentkod %d"
 #: src/libkeymap/kmap.c:131
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
-msgstr "att lägga till tabell %d bryter mot explicit tangenttabellrad"
+msgstr "att lägga till avbildning %d bryter mot explicit keymaps-rad"
 
 #: src/libkeymap/kmap.c:147
 #, c-format
@@ -599,7 +599,7 @@ msgstr "KDSKBMODE: %s: kunde inte byta till Unicode-läge"
 #: src/libkeymap/loadkeys.c:55
 #, c-format
 msgid "Keymap %d: Permission denied"
-msgstr "Tangenttabell %d: Åtkomst nekas"
+msgstr "Tangentavbildning %d: Åtkomst nekas"
 
 #: src/libkeymap/loadkeys.c:72
 #, c-format
@@ -618,17 +618,17 @@ msgstr "misslyckades att binda tangent %d till värdet %d"
 #: src/libkeymap/loadkeys.c:86
 #, c-format
 msgid "deallocate keymap %d"
-msgstr "avallokera tangenttabell %d"
+msgstr "avallokera tangentavbildning %d"
 
 #: src/libkeymap/loadkeys.c:90
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "KDSKBENT: %s: kunde inte avallokera tangenttabell %d"
+msgstr "KDSKBENT: %s: kunde inte avallokera tangentavbildning %d"
 
 #: src/libkeymap/loadkeys.c:105
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
-msgstr "KDSKBENT: %s: kan inte avallokera eller tömma tangenttabell"
+msgstr "KDSKBENT: %s: kan inte avallokera eller tömma tangentavbildningen"
 
 #: src/libkeymap/loadkeys.c:115
 #, c-format
@@ -720,7 +720,7 @@ msgstr "största antal handlingar bindbara till en tangent:   %d\n"
 #: src/libkeymap/summary.c:95
 #, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr "antal tangentbordstabeller som faktiskt används:     %u\n"
+msgstr "antal tangentavbildningar som faktiskt används:  %u\n"
 
 #: src/libkeymap/summary.c:98
 #, c-format
@@ -774,16 +774,15 @@ msgstr ""
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
-msgstr ""
+msgstr "Konsolen är inte i textläge"
 
 #: src/libkfont/kdfontop.c:196
-#, fuzzy
 msgid "tall font not supported"
-msgstr "Stödjs ej\n"
+msgstr "höga typsnitt stödjs ej"
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
-msgstr ""
+msgstr "Kan inte ladda ett sådant typsnitt med en sådan kärnversion"
 
 #: src/libkfont/kdmapop.c:172
 #, c-format
@@ -796,7 +795,7 @@ msgid ""
 "No Unicode mapping table loaded."
 msgstr ""
 "Det verkar som att denna kärna är äldre än 1.1.92\n"
-"Ingen Unicode-konverteringstabell inläst."
+"Ingen Unicode-avbildningstabell laddad."
 
 #: src/libkfont/loadunimap.c:166
 #, c-format
@@ -825,7 +824,7 @@ msgstr "%s: efterföljande skräp (%s) ignorerat"
 #: src/libkfont/loadunimap.c:265
 #, c-format
 msgid "Loading unicode map from file %s"
-msgstr "Läser in Unicode-tabell från fil %s"
+msgstr "Läser in Unicode-avbildningen från filen %s"
 
 #: src/libkfont/loadunimap.c:271
 #, c-format
@@ -837,7 +836,7 @@ msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
 msgstr ""
-"läser inte in tom unitabell\n"
+"läser inte in tom uniavbildning\n"
 "(om du insisterar: använd flaggan -f för att åsidosätta)"
 
 #: src/libkfont/loadunimap.c:301
@@ -858,11 +857,11 @@ msgstr "Kan inte öppna filen %s: %m"
 #: src/libkfont/loadunimap.c:328
 #, c-format
 msgid "Saved unicode map on `%s'"
-msgstr "Sparade Unicode-tabell till ”%s”"
+msgstr "Sparade unicode-avbildningen till ”%s”"
 
 #: src/libkfont/loadunimap.c:377
 msgid "Appended Unicode map"
-msgstr "Lade till Unicode-tabell"
+msgstr "Lade till Unicode-avbildningen"
 
 #: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
 #: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
@@ -873,12 +872,12 @@ msgstr "Kan inte hitta filen: %s"
 #: src/libkfont/mapscrn.c:107
 #, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
-msgstr "Läser in binär direkt-till-typsnitt-skärmtabell från fil %s"
+msgstr "Läser in binär direkt-till-typsnitt-skärmavbildning från filen %s"
 
 #: src/libkfont/mapscrn.c:111 src/libkfont/mapscrn.c:123
 #, c-format
 msgid "Error reading map from file `%s'"
-msgstr "Fel vid läsning av tabell från fil ”%s”"
+msgstr "Fel vid läsning av avbildningen från filen ”%s”"
 
 #: src/libkfont/mapscrn.c:118
 #, c-format
@@ -888,21 +887,21 @@ msgstr "Läser in binär Unicode-skärmfil från fil %s"
 #: src/libkfont/mapscrn.c:130
 #, c-format
 msgid "Loading symbolic screen map from file %s"
-msgstr "Läser in symbolisk skärmtabell från fil %s"
+msgstr "Läser in symbolisk skärmavbildning från filen %s"
 
 #: src/libkfont/mapscrn.c:135
 #, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
-msgstr "Fel vid tolkning av symbolisk tabell från ”%s”, rad %d"
+msgstr "Fel vid tolkning av symbolisk avbildning från ”%s”, rad %d"
 
 #: src/libkfont/mapscrn.c:262
 msgid "Cannot read console map"
-msgstr "Kan inte läsa konsoltabell"
+msgstr "Kan inte läsa konsolavbildningen"
 
 #: src/libkfont/mapscrn.c:267
 #, c-format
 msgid "Saved screen map in `%s'"
-msgstr "Sparade skärmtabell i ”%s”"
+msgstr "Sparade skärmavbildningen i ”%s”"
 
 #: src/libkfont/psffontop.c:46
 msgid "short ucs2 unicode table"
@@ -1107,12 +1106,12 @@ msgstr "Sparade %d-teckens %d×%d-typsnittsfil till %s"
 #: src/loadkeys.c:42
 #, c-format
 msgid "Usage: %s [option...] [mapfile...]\n"
-msgstr "Användning: %s [flagga …] [tabellfil …]\n"
+msgstr "Användning: %s [flagga …] [avbildningsfil …]\n"
 
 #: src/loadkeys.c:48
 #, c-format
 msgid "Default keymap: %s\n"
-msgstr "Standardtangenttabell: %s\n"
+msgstr "Standardtangentavbildning: %s\n"
 
 #: src/loadkeys.c:95
 msgid "force conversion to ASCII."
@@ -1120,7 +1119,7 @@ msgstr "framtvinga konvertering till ASCII."
 
 #: src/loadkeys.c:96
 msgid "output a binary keymap to stdout."
-msgstr "skriv ut en binär teckentabell till standard ut."
+msgstr "skriv ut en binär teckenavbildning till standard ut."
 
 #: src/loadkeys.c:97
 msgid "clear kernel compose table."
@@ -1136,7 +1135,7 @@ msgstr "mata ut en ”defkeymap.c” till standard ut."
 
 #: src/loadkeys.c:100
 msgid "search and parse keymap without action."
-msgstr "sök och tolka en tangenttabell utan åtgärd."
+msgstr "sök och tolka en tangentavbildning utan åtgärd."
 
 #: src/loadkeys.c:101
 msgid "clear kernel string table."
@@ -1160,7 +1159,7 @@ msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
 msgstr ""
-"Varning: läser in en icke-Unicode-tangenttabell på en Unicode-konsol\n"
+"Varning: läser in en icke-Unicode-tangentavbildning på en Unicode-konsol\n"
 "    (kanske du vill göra ”kbd_mode -a”?)"
 
 #: src/loadkeys.c:205
@@ -1168,7 +1167,7 @@ msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
 msgstr ""
-"Varning: läser in en Unicode-tangenttabell på en icke-Unicode-konsol\n"
+"Varning: läser in en Unicode-tangentavbildning på en icke-Unicode-konsol\n"
 "    (kanske du vill göra ”kbd_mode -u”?)"
 
 #: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
@@ -1178,12 +1177,12 @@ msgstr "Det gick inte att skapa en instans av kbdfile: %m"
 
 #: src/loadunimap.c:55 src/mapscrn.c:53
 msgid "save the old map to the FILE."
-msgstr "spara den gamla tabellen i FIL."
+msgstr "spara den gamla avbildningen i FIL."
 
 #: src/mapscrn.c:25
 #, c-format
 msgid "Usage: %s [option...] [map-file]\n"
-msgstr "Användning: %s [flagga…] [tabellfil]\n"
+msgstr "Användning: %s [flagga…] [avbildningsfil]\n"
 
 #: src/openvt.c:50
 #, c-format
@@ -1204,7 +1203,7 @@ msgstr "Kunde inte hitta ägaren till den aktuella tty:n!"
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
-msgstr ""
+msgstr "använd det givna VT-numret och inte första tillgängliga."
 
 #: src/openvt.c:260
 msgid "execute the command, without forking."
@@ -1393,14 +1392,15 @@ msgid "Error writing screendump"
 msgstr "Fel vid skrivning av skärmdump"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Användning: %s [flagga…] [N …]\n"
+msgstr "Användning: %s [flagga…] [nyttypsnitt …]\n"
 
 #: src/setfont.c:22
 #, c-format
 msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
 msgstr ""
+"Ladda konsoltypsnittet, och eventuellt de motsvarande skärmavbildningarna.\n"
 
 #: src/setfont.c:28
 #, c-format
@@ -1420,52 +1420,68 @@ msgid ""
 "\n"
 "Files are loaded from the %s/*/.\n"
 msgstr ""
+"Flaggorna -[o|O|om|ou] bearbetas före det nya typsnittet laddas upp.\n"
+"\n"
+"Om inget <nyttypsnitt> och ingen flagga -[o|O|om|ou|m|u] anges laddas\n"
+"ett standardtypsnitt.\n"
+"\n"
+"Det finns två sorters skärmavbildningar, en [-m] ger motsvarigheten\n"
+"mellan några godtyckliga 8-bitsteckenuppsättningar som för närvarande\n"
+"används och typsnittspositioner, och den andra [-u] ger motsvarigheten\n"
+"mellan typsnittspositioner och Unicode-värden.\n"
+"\n"
+"Explicit (med -m eller -u) eller implicit (i typsnittsfilen) angivna\n"
+"avbildningar kommer laddas och, vid konsoleavbildningar, aktiveras.\n"
+"\n"
+"Filer laddas från %s/*/.\n"
 
 #: src/setfont.c:174
-#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "ladda standardvärden."
+msgstr "ladda typsnittet ”default8x<N>”."
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
 msgstr ""
+"åsidosätt typsnittshöjder (det skall inte vara ett mellanslag i den korta "
+"flaggan)."
 
 #: src/setfont.c:176
 msgid "write current font to <FILE>."
-msgstr ""
+msgstr "skriv det aktuella typsnittet till <FIL>."
 
 #: src/setfont.c:177
 msgid "write current consolemap to <FILE>."
-msgstr ""
+msgstr "skriv den aktuella konsolavbildningen till <FIL>."
 
 #: src/setfont.c:178
 msgid "write current unicodemap to <FILE>."
-msgstr ""
+msgstr "skriv den aktuella unicode-avbildningen till <FIL>."
 
 #: src/setfont.c:179
 msgid "write current font and unicode map to <FILE>."
-msgstr ""
+msgstr "skriv det aktuella typsnittet och unicode-avbildningen till <FIL>."
 
 #: src/setfont.c:180
 msgid "load console screen map ('none' means don't load it)."
-msgstr ""
+msgstr "ladda en konsolskärmavbildning (”none” betyder ladda den inte)."
 
 #: src/setfont.c:181
 msgid "load font unicode map ('none' means don't load it)."
-msgstr ""
+msgstr "ladda en unicode-avbildning (”none” betyder ladda den inte)."
 
 #: src/setfont.c:183
 msgid "double size of font horizontally and vertically."
-msgstr ""
+msgstr "dubbel storlek på typsnittet horisontellt och vertikalt."
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Lade till Unicode-tabell"
+msgstr "framtvinga laddning av unicode-avbildningen."
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
+"återställ skärmtypsnittet, storleken och unicode-avbildningen till "
+"startvärdena."
 
 #: src/setfont.c:295
 msgid "Too many input files."
@@ -1760,7 +1776,7 @@ msgstr "misslyckades med att återställa den ursprungliga översättningstabell
 
 #: src/showconsolefont.c:40
 msgid "failed to restore original unimap"
-msgstr "misslyckades med att återställa den ursprungliga uni-tabellen"
+msgstr "misslyckades med att återställa den ursprungliga uni-avbildningen"
 
 #: src/showconsolefont.c:59
 msgid "cannot change translation table"
@@ -1837,7 +1853,7 @@ msgstr "visa endast de tolkade teckenkoderna (standard)."
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
-msgstr ""
+msgstr "ange tidsgränsen, standard 10"
 
 #: src/showkey.c:180
 #, c-format
@@ -1851,11 +1867,11 @@ msgstr ""
 "\n"
 
 #: src/showkey.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
-"tryck någon tangent (programmet avslutas 10 s efter sista "
-"tangenttryckning)...\n"
+"tryck någon tangent (programmet avslutas %d s efter sista "
+"tangenttryckning)…\n"
 
 #: src/showkey.c:272
 msgid "release"
@@ -1941,67 +1957,3 @@ msgstr "Denna tty (%s) är inte en virtuell konsol.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Hela konsoldisplayen kan inte låsas.\n"
-
-#, c-format
-#~ msgid "usage: screendump [n]\n"
-#~ msgstr "användning: screendump [n]\n"
-
-#, c-format
-#~ msgid ""
-#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-#~ "unicodemap]\n"
-#~ "  write-options (take place before file loading):\n"
-#~ "    -o  <filename>  Write current font to <filename>\n"
-#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
-#~ "    -om <filename>  Write current consolemap to <filename>\n"
-#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
-#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-#~ "a default font is loaded:\n"
-#~ "    setfont         Load font \"default[.gz]\"\n"
-#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-#~ "The -<N> option selects a font from a codepage that contains three "
-#~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
-#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
-#~ "mappings\n"
-#~ "will be loaded and, in the case of consolemaps, activated.\n"
-#~ "    -h<N>      (no space) Override font height.\n"
-#~ "    -d         Double size of font horizontally and vertically.\n"
-#~ "    -m <fn>    Load console screen map.\n"
-#~ "    -u <fn>    Load font unicode map.\n"
-#~ "    -m none    Suppress loading and activation of a screen map.\n"
-#~ "    -u none    Suppress loading of a unicode map.\n"
-#~ "    -v         Be verbose.\n"
-#~ "    -C <cons>  Indicate console device to be used.\n"
-#~ "    -V         Print version and exit.\n"
-#~ "Files are loaded from the current directory or %s/*/.\n"
-#~ msgstr ""
-#~ "Användning: setfont [skrivflaggor] [-<N>] [nytt_typsnitt…] [-m "
-#~ "konsoltabell] [-u Unicode-tabell]\n"
-#~ "  skrivflaggor (händer före filer läses):\n"
-#~ "    -o  <filnamn> Skriv nuvarande typsnitt till <filnamn>\n"
-#~ "    -O  <filnamn> Skriv nuvarande typsnitt och Unicode-tabell till "
-#~ "<filnamn>\n"
-#~ "    -om <filnamn> Skriv nuvarande konsoltabell till <filnamn>\n"
-#~ "    -ou <filnamn> Skriv nuvarande Unicode-tabell till <filnamn>\n"
-#~ "Om inget \"nytt_typsnitt\" och ingen -[o|O|om|ou|m|u]-flagga är given,\n"
-#~ "läses ett standardtypsnitt in:\n"
-#~ "    setfont       Läs in typsnitt \"default[.gz]\"\n"
-#~ "    setfont -<N>  Läs in typsnitt \"default8x<N>[.gz]\"\n"
-#~ "-<N>-flaggan väljer ett typsnitt från en teckentabell som innehåller tre "
-#~ "typsnitt:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Läs in 8×<N>-typsnitt från "
-#~ "codepage.cp\n"
-#~ "Explicit (med -m eller -u) eller implicit (i typsnittsfilen) givna "
-#~ "tabeller\n"
-#~ "kommer läsas in och, om det gäller konsoltabeller, aktiveras.\n"
-#~ "    -h<N>      (inget blanktecken) åsidosätt typsnittshöjd.\n"
-#~ "    -d         Dubbel storlek på typsnittet horisontellt och vertikalt.\n"
-#~ "    -m <fn>    Läs in konsolskärmstabell.\n"
-#~ "    -u <fn>    Läs in Unicode-typsnittstabell.\n"
-#~ "    -m none    Låt bli att läsa in och aktivera skärmtabell.\n"
-#~ "    -u none    Låt bli att läsa in Unicode-tabell.\n"
-#~ "    -v         Var pratsam.\n"
-#~ "    -V         Skriv ut version och avsluta.\n"
-#~ "Filer läses in från den aktuella katalogen eller %s/*/.\n"

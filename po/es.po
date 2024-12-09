@@ -1,15 +1,15 @@
-# Spanish translations for kbd-2.6-rc1
+# Spanish translations for kbd-2.7-rc1
 # This file is distributed under the same license as the kbd package.
 #
 # Juan Rafael Fernandez Garcia <juanrafael.fernandez@hispalinux.es>, 2005, 2008.
 # Benno Schulenberg <benno@vertaalt.nl>, 2008.
-# Cristian Othón Martínez Vera <cfuga@cfuga.mx>, 2022, 2023
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx>, 2022, 2023, 2024
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-2.6-rc1\n"
+"Project-Id-Version: kbd-2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2023-05-08 09:26-0600\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2024-10-29 10:28-0600\n"
 "Last-Translator: Cristian Othón Martínez Vera <cfuga@cfuga.mx>\n"
 "Language-Team: Spanish <es@tp.org.es>\n"
 "Language: es\n"
@@ -331,8 +331,8 @@ msgstr "cambia el modo aún si esto no permite usar el teclado."
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 "Cambiar al modo solicitado puede hacer que no pueda usar su teclado, por "
 "favor use -f para forzar el cambio.\n"
@@ -775,16 +775,15 @@ msgstr ""
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
-msgstr ""
+msgstr "La consola no está en modo texto"
 
 #: src/libkfont/kdfontop.c:196
-#, fuzzy
 msgid "tall font not supported"
-msgstr "Sin soporte\n"
+msgstr "no se admiten tipos de letra altos"
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
-msgstr ""
+msgstr "No se puede cargar ese tipo de letra con esa versión de kernel"
 
 #: src/libkfont/kdmapop.c:172
 #, c-format
@@ -1208,7 +1207,7 @@ msgstr "¡No se pudo encontrar al propietario de la term. virt. actual!"
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
-msgstr ""
+msgstr "usa el número de VT dado y no el primero disponible."
 
 #: src/openvt.c:260
 msgid "execute the command, without forking."
@@ -1401,14 +1400,16 @@ msgid "Error writing screendump"
 msgstr "Error al escribir el volcado de pantalla"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Uso: %s [opción...] [N ...]\n"
+msgstr "Uso: %s [opción...] [nuevotipo ...]\n"
 
 #: src/setfont.c:22
 #, c-format
 msgid "Loads the console font, and possibly the corresponding screen map(s).\n"
 msgstr ""
+"Carga el tipo de letra de la consola, y posiblemente el o los mapas de "
+"pantalla correspondientes.\n"
 
 #: src/setfont.c:28
 #, c-format
@@ -1428,52 +1429,72 @@ msgid ""
 "\n"
 "Files are loaded from the %s/*/.\n"
 msgstr ""
+"Las opciones -[o|O|om|ou] se procesan antes que se cargue el nuevo\n"
+"tipo de letra.\n"
+"\n"
+"Si no hay un <nuevotipo> y no se proporciona una opción -[o|O|om|ou|m|u],\n"
+"se carga un tipo de letra por defecto.\n"
+"\n"
+"Hay dos tipos de mapas de pantalla, uno [-m] que hace la correspondencia\n"
+"entre dos conjuntos arbitrarios de caracteres de 8-bits actualmente en uso\n"
+"y las posiciones de los tipos de letra, y el segundo [-u] hace la\n"
+"correspondencia entre posiciones de tipo de letra y valores Unicode.\n"
+"\n"
+"Se cargan los mapeos proporcionados explícitamente (con -m o -u) o\n"
+"implícitamente (en el fichero de tipo de letra) y, en el caso de mapas\n"
+"de consola, se activan.\n"
+"\n"
+"Los ficheros se cargan de %s/*/.\n"
 
 #: src/setfont.c:174
-#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "carga por default."
+msgstr "carga tipo de letra \"default8x<N>\"."
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
 msgstr ""
+"sobreescribe la altura del tipo de letra (no debe haber un espacio en la "
+"opción corta)."
 
 #: src/setfont.c:176
 msgid "write current font to <FILE>."
-msgstr ""
+msgstr "escribe el tipo de letra actual al <FICHERO>."
 
 #: src/setfont.c:177
 msgid "write current consolemap to <FILE>."
-msgstr ""
+msgstr "escribe el mapa de consola actual al <FICHERO>."
 
 #: src/setfont.c:178
 msgid "write current unicodemap to <FILE>."
-msgstr ""
+msgstr "escribe el mapa unicode actual al <FICHERO>."
 
 #: src/setfont.c:179
 msgid "write current font and unicode map to <FILE>."
-msgstr ""
+msgstr "escribe el tipo de letra y el mapa unicode actual al <FICHERO>."
 
 #: src/setfont.c:180
 msgid "load console screen map ('none' means don't load it)."
 msgstr ""
+"carga el mapa de pantalla de consola ('none' significa que no lo carga)."
 
 #: src/setfont.c:181
 msgid "load font unicode map ('none' means don't load it)."
 msgstr ""
+"carga el mapa unicode de tipo de letra ('none' significa que no lo carga)."
 
 #: src/setfont.c:183
 msgid "double size of font horizontally and vertically."
-msgstr ""
+msgstr "duplica el tamaño del tipo de letra horizontal y verticalmente."
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Se ha añadido una tabla asociativa Unicode"
+msgstr "fuerza la carga del mapa unicode."
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
+"reinicia el tipo de letra de pantalla, tamaño y mapa unicode a los valores "
+"por defecto al arranque."
 
 #: src/setfont.c:295
 msgid "Too many input files."
@@ -1851,7 +1872,7 @@ msgstr "muestra sólo los códigos de tecla interpretados (predefinido)."
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
-msgstr ""
+msgstr "define el tiempo de expiración, por defecto 10"
 
 #: src/showkey.c:180
 #, c-format
@@ -1865,11 +1886,11 @@ msgstr ""
 "\n"
 
 #: src/showkey.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
 "pulse cualquier tecla...\n"
-"(el programa termina 10 segundos después de la última pulsación de tecla)\n"
+"(el programa termina %ds después de la última pulsación de tecla)\n"
 
 #: src/showkey.c:272
 msgid "release"
@@ -1973,8 +1994,8 @@ msgstr "Toda la pantalla de la consola no se puede bloquear.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"

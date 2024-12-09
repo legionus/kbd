@@ -1,30 +1,28 @@
-# French translation of GNU kbd.
+# Hungarian translation for kbd.
+# Copyright (C) 2014, 2015, 2017 Free Software Foundation, Inc.
 # This file is distributed under the same license as the kbd package.
 #
-# Michel Robitaille <robitail@iro.umontreal.ca>, 1996-2007.
-# Jean-Baka Domelevo Entfellner <domelevo@gmail.com>, 2008-2012.
-# Stéphane Aulery <lkppo@free.fr>, 2019-2021.
-#
+# Balázs Úr <urbalazs@gmail.com>, 2014, 2015, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU kbd 2.2.90\n"
+"Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
-"PO-Revision-Date: 2021-11-21 00:53+0100\n"
-"Last-Translator: Stéphane Aulery <lkppo@free.fr>\n"
-"Language-Team: French <traduc@traduc.org>\n"
-"Language: fr\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
+"PO-Revision-Date: 2017-05-05 20:38+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: src/chvt.c:24
 #, c-format
 msgid "Usage: %s [option...] N\n"
-msgstr "Usage : %s [option...] N\n"
+msgstr ""
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
 #: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
@@ -32,7 +30,7 @@ msgstr "Usage : %s [option...] N\n"
 #: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
-msgstr "console à utiliser."
+msgstr ""
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
@@ -42,7 +40,7 @@ msgstr "console à utiliser."
 #: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
-msgstr "affiche ce message d'aide."
+msgstr ""
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
@@ -52,11 +50,12 @@ msgstr "affiche ce message d'aide."
 #: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
-msgstr "affiche la version."
+msgstr ""
 
 #: src/chvt.c:83 src/kbdinfo.c:91 src/setkeycodes.c:112 src/setkeycodes.c:121
+#, fuzzy
 msgid "Not enough arguments."
-msgstr "Pas assez d'arguments."
+msgstr "Hiba: nincs elég argumentum.\n"
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
@@ -66,64 +65,69 @@ msgstr "Pas assez d'arguments."
 #: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
-#, c-format
+#, fuzzy, c-format
 msgid "Couldn't get a file descriptor referring to the console."
-msgstr ""
-"Impossible d'obtenir un descripteur de fichier faisant référence à la "
-"console."
+msgstr "Nem sikerült a konzolra hivatkozó fájlleíró beszerzése"
 
 #: src/chvt.c:97 src/openvt.c:176
+#, fuzzy
 msgid "Unable to set signal handler"
-msgstr "Impossible de mettre en place une gestionnaire de signal"
+msgstr "Nem állítható be új munkamenet"
 
 #: src/chvt.c:104 src/openvt.c:185
+#, fuzzy
 msgid "Unable to create timer"
-msgstr "Impossible de créer un timer"
+msgstr "Nem állítható be új munkamenet"
 
 #: src/chvt.c:112 src/openvt.c:195
+#, fuzzy
 msgid "Unable to set timer"
-msgstr "Impossible de définir un timer"
+msgstr "Nem állítható be új munkamenet"
 
 #: src/chvt.c:118 src/openvt.c:203
 #, c-format
 msgid "Couldn't activate vt %d"
-msgstr "Impossible d'activer le terminal virtuel %d"
+msgstr "Nem sikerült a(z) %d. vt aktiválása"
 
 #: src/deallocvt.c:24
 #, c-format
 msgid "Usage: %s [option...] [N ...]\n"
-msgstr "Usage : %s [option...] [N ...]\n"
+msgstr ""
 
 #: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
 #: src/setmetamode.c:134
-#, c-format
+#, fuzzy, c-format
 msgid "Unrecognized argument: %s"
-msgstr "Argument non reconnu : %s"
+msgstr ""
+"azonosítatlan argumentum: _%s_\n"
+"\n"
 
 #: src/deallocvt.c:91
+#, fuzzy
 msgid "0: illegal VT number"
-msgstr "0 est un numéro de terminal virtuel illégal"
+msgstr "0: szabálytalan VT szám\n"
 
 #: src/deallocvt.c:93
+#, fuzzy
 msgid "VT 1 is the console and cannot be deallocated"
-msgstr "le terminal virtuel 1 est la console et ne peut être désalloué"
+msgstr "VT 1 a konzol és nem sikerült felszabadítani\n"
 
 #: src/deallocvt.c:95
 #, c-format
 msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
-msgstr "impossible de désallouer la console %d : ioctl VT_DISALLOCATE"
+msgstr "nem sikerült felszabadítani a(z) %d. konzolt: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
 #: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
-msgstr "Usage : %s [option...]\n"
+msgstr ""
 
 #: src/dumpkeys.c:35
 #, c-format
 msgid "Available charsets: "
-msgstr "Encodages disponibles :"
+msgstr ""
 
 #: src/dumpkeys.c:39
 #, c-format
@@ -137,7 +141,7 @@ msgstr ""
 
 #: src/dumpkeys.c:88
 msgid "display information about keyboard driver."
-msgstr "afficher les informations sur le pilote de clavier."
+msgstr ""
 
 #: src/dumpkeys.c:89
 msgid "display above and symbols known to loadkeys."
@@ -145,7 +149,7 @@ msgstr ""
 
 #: src/dumpkeys.c:90
 msgid "display keytable in hexadecimal notation."
-msgstr "afficher la table de codes en hexadécimal."
+msgstr ""
 
 #: src/dumpkeys.c:91
 msgid "don't use short-hand notations, one row per keycode."
@@ -153,41 +157,45 @@ msgstr ""
 
 #: src/dumpkeys.c:92
 msgid "one line per (modifier,keycode) pair."
-msgstr "une ligne par paire (modifcateur, code clavier)."
+msgstr ""
 
 #: src/dumpkeys.c:94
+#, fuzzy
 msgid "display only the function key strings."
-msgstr "afficher seulement la chaîne de la touche de fonction"
+msgstr "KDGKBSENT: %s: nem sikerült lekérni a függvény kulcs szöveget"
 
 #: src/dumpkeys.c:95
 msgid "display only key bindings."
-msgstr "afficher seulement les raccourcis claviers."
+msgstr ""
 
 #: src/dumpkeys.c:96
+#, fuzzy
 msgid "display only compose key combinations."
-msgstr "afficher seulement les combinaisons de touche compose"
+msgstr "túl sok összeállítási meghatározás"
 
 #: src/dumpkeys.c:97
+#, fuzzy
 msgid ""
 "interpret character action codes to be from the specified character set."
 msgstr ""
-"interprète les codes d'action de caractère à partir du jeu de caractères "
-"spécifié."
+"\t\t\t    karakter műveleti kódok értelmezése a megadott\n"
+"\t\t\t    karakterkészletből\n"
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
 #: src/setfont.c:186 src/setleds.c:215 src/showconsolefont.c:135
 msgid "be more verbose."
-msgstr "mode verbeux."
+msgstr ""
 
 #: src/dumpkeys.c:145 src/libkeymap/parser.y:193
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
-msgstr "jeu de caractères inconnu %s - requête de jeu de caractères ignorée\n"
+msgstr "ismeretlen karakterkészlet: %s - a karakterkészlet-kérés mellőzése\n"
 
 #: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
+#, fuzzy
 msgid "Unable to read keyboard mode"
-msgstr "Impossible de lire le mode du clavier"
+msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
 
 #: src/dumpkeys.c:187
 #, c-format
@@ -196,8 +204,8 @@ msgid ""
 "(numeric value, symbol)\n"
 "\n"
 msgstr ""
-"Symboles reconnus par %s :\n"
-"(valeur numérique, symbole)\n"
+"A(z) %s által felismert szimbólumok:\n"
+"(számérték, szimbólum)\n"
 "\n"
 
 #: src/fgconsole.c:47
@@ -206,56 +214,58 @@ msgstr ""
 
 #: src/fgconsole.c:78
 msgid "Couldn't read VTNO: "
-msgstr "Impossible de lire le numéro de terminal virtuel :"
+msgstr "A VTNO olvasása nem sikerült: "
 
 #: src/getkeycodes.c:82
 #, c-format
 msgid "Plain scancodes xx (hex) versus keycodes (dec)\n"
-msgstr "scancodes bruts xx (hex) contre codes clavier (dec)\n"
+msgstr "Egyszerű xx (hex) vizsgálókód a (dec) billentyűkód ellen\n"
 
 #: src/getkeycodes.c:85
 #, c-format
 msgid "0 is an error; for 1-88 (0x01-0x58) scancode equals keycode\n"
 msgstr ""
-"0 est une erreur ; les scancodes de 1 à 88 (0x01-0x58) sont égaux aux codes "
-"clavier\n"
+"A 0 hiba; az 1-88 (0x01-0x58) vizsgálókódnál egyenlő a billentyűkóddal\n"
 
 #: src/getkeycodes.c:88
 #, c-format
 msgid "for 1-%d (0x01-0x%02x) scancode equals keycode\n"
-msgstr "pour 1-%d (0x01-0x%02x) les scancodes sont égaux aux codes clavier\n"
+msgstr "az 1-%d (0x01-0x%02x) vizsgálókódnál egyenlő a billentyűkóddal\n"
 
 #: src/getkeycodes.c:95
-#, c-format
+#, fuzzy, c-format
 msgid "Escaped scancodes e0 xx (hex)\n"
-msgstr "Scancodes d'échappement e0 xx (hex)\n"
+msgstr ""
+"\n"
+"\n"
+"Elfedett vizsgálókódok: e0 xx (hex)\n"
 
 #: src/getkeycodes.c:119
 #, c-format
 msgid "failed to get keycode for scancode 0x%x: ioctl KDGETKEYCODE"
 msgstr ""
-"échec lors de l'obtention du code clavier pour le scancode 0x%x : ioctl "
+"nem sikerült a billentyűkód lekérése a 0x%x vizsgálókódhoz: ioctl "
 "KDGETKEYCODE"
 
 #: src/getunimap.c:63
 msgid "sort and merge elements."
-msgstr "trie et fusionne les éléments."
+msgstr ""
 
 #: src/kbdinfo.c:22
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %1$s [option...] getmode [text|graphics]\n"
 "   or: %1$s [option...] gkbmode [raw|xlate|mediumraw|unicode]\n"
 "   or: %1$s [option...] gkbmeta [metabit|escprefix]\n"
 "   or: %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"
 msgstr ""
-"Usage : %1$s [option...] getmode [text|graphics]\n"
-"        %1$s [option...] gkbmode [raw|xlate|mediumraw|unicode]\n"
-"        %1$s [option...] gkbmeta [metabit|escprefix]\n"
-"        %1$s [option...] gkbled  [scrolllock|numlock|capslock]\n"
-"Autres options :\n"
-"   -h     affiche ce message\n"
-"   -V     affiche le numéro de version\n"
+"Használat: %1$s [-C ESZKÖZ] getmode [text|graphics]\n"
+"   vagy: %1$s [-C ESZKÖZ] gkbmode [raw|xlate|mediumraw|unicode]\n"
+"   vagy: %1$s [-C ESZKÖZ] gkbmeta [metabit|escprefix]\n"
+"   vagy: %1$s [-C ESZKÖZ] gkbled  [scrolllock|numlock|capslock]\n"
+"Egyéb kapcsolók:\n"
+"   -h                   ezen használati üzenet kiírása\n"
+"   -V                   verziószám kiírása\n"
 
 #: src/kbdinfo.c:29
 #, c-format
@@ -265,102 +275,107 @@ msgid ""
 msgstr ""
 
 #: src/kbdinfo.c:104 src/loadkeys.c:189
+#, fuzzy
 msgid "Unable to read console mode"
-msgstr "Impossible de lire le mode de la console"
+msgstr "Nem olvasható a konzol térkép\n"
 
 #: src/kbdinfo.c:136 src/setmetamode.c:120
+#, fuzzy
 msgid "Unable to read meta key handling mode"
-msgstr "Impossible de lire le mode de gestion de la touche méta"
+msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
 
 #: src/kbdinfo.c:149 src/setleds.c:121
+#, fuzzy
 msgid "Unable to read keyboard flags"
-msgstr "Impossible de lire les drapeaux du clavier"
+msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
 
 #: src/kbd_mode.c:27 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
-msgstr "Cet utilitaire affiche et modifie le mode du clavier.\n"
+msgstr ""
 
 #: src/kbd_mode.c:40
-#, c-format
+#, fuzzy, c-format
 msgid "The keyboard is in raw (scancode) mode"
-msgstr "Le clavier est en mode brut (scancode)"
+msgstr "A billentyűzet nyers (vizsgálómód) módban van\n"
 
 #: src/kbd_mode.c:43
-#, c-format
+#, fuzzy, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
-msgstr "Le clavier est en mode semi-brut (keycode)"
+msgstr "A billentyűzet közepes nyers (billentyűmód) módban van\n"
 
 #: src/kbd_mode.c:46
-#, c-format
+#, fuzzy, c-format
 msgid "The keyboard is in the default (ASCII) mode"
-msgstr "Le clavier est en mode par défaut (ASCII)"
+msgstr "A billentyűzet az alapértelmezett (ASCII) módban van\n"
 
 #: src/kbd_mode.c:49
-#, c-format
+#, fuzzy, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
-msgstr "Le clavier est en mode Unicode (UTF-8)"
+msgstr "A billentyűzet Unicode (UTF-8) módban van\n"
 
 #: src/kbd_mode.c:52
-#, c-format
+#, fuzzy, c-format
 msgid "The keyboard is in some unknown mode"
-msgstr "Le clavier est en mode inconnu"
+msgstr "A billentyűzet valamilyen ismeretlen módban van\n"
 
 #: src/kbd_mode.c:77
 msgid "set ASCII mode."
-msgstr "définit le mode ASCII."
+msgstr ""
 
 #: src/kbd_mode.c:78
 msgid "set keycode mode."
-msgstr "définit le mode keycode."
+msgstr ""
 
 #: src/kbd_mode.c:79
 msgid "set scancode mode."
-msgstr "définit le mode scancode."
+msgstr ""
 
 #: src/kbd_mode.c:80
 msgid "set UTF-8 mode."
-msgstr "définit le mode UTF-8."
+msgstr ""
 
 #: src/kbd_mode.c:81
 msgid "switch the mode even if it makes the keyboard unusable."
-msgstr "bascule le mode même s'il rend le clavier inutilisable."
+msgstr ""
 
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
-#, c-format
+#, fuzzy, c-format
 msgid "Typematic Rate is %.1f cps\n"
-msgstr "Le vitesse Typematic est %.1f cps\n"
+msgstr ""
+"A leütési gyakoriság beállítva %.1f cps értékre (késleltetés = %d ms)\n"
 
 #: src/kbdrate.c:140 src/kbdrate.c:205
-#, c-format
+#, fuzzy, c-format
 msgid "Current keyboard delay %d ms\n"
-msgstr "Délai courant du clavier : %d ms\n"
+msgstr "%s: hiba a billentyűzetmód olvasásakor: %m\n"
 
 #: src/kbdrate.c:141
-#, c-format
+#, fuzzy, c-format
 msgid "Current keyboard period %d ms\n"
-msgstr "Période courante du clavier : %d ms\n"
+msgstr "%s: hiba a billentyűzetmód olvasásakor: %m\n"
 
 #: src/kbdrate.c:179 src/kbdrate.c:303
 #, c-format
 msgid "Typematic Rate set to %.1f cps (delay = %d ms)\n"
-msgstr "Le vitesse Typematic est réglée à %.1f cps (délai = %d ms)\n"
+msgstr ""
+"A leütési gyakoriság beállítva %.1f cps értékre (késleltetés = %d ms)\n"
 
 #: src/kbdrate.c:248
 #, c-format
 msgid "Not supported\n"
-msgstr "Non pris en charge\n"
+msgstr ""
 
 #: src/kbdrate.c:269
 msgid "Cannot open /dev/port"
-msgstr "Ne peut ouvrir /dev/port"
+msgstr "Nem sikerült a /dev/port megnyitása"
 
 #: src/kbdrate.c:323
 #, c-format
@@ -369,7 +384,7 @@ msgstr ""
 
 #: src/kbdrate.c:349
 msgid "set the rate in characters per second."
-msgstr "définir le taux en caractères par seconde."
+msgstr ""
 
 #: src/kbdrate.c:350
 msgid ""
@@ -383,31 +398,31 @@ msgstr ""
 
 #: src/kbdrate.c:352 src/loadkeys.c:103
 msgid "suppress all normal output."
-msgstr "supprimer toutes les sorties normales."
+msgstr ""
 
 #: src/libcommon/getfd.c:70
-#, c-format
+#, fuzzy, c-format
 msgid "Couldn't open %s"
-msgstr "Impossible d'ouvrir %s"
+msgstr "A(z) %s megnyitása nem sikerült\n"
 
 #: src/libcommon/version.c:12
 #, c-format
 msgid "%s from %s\n"
-msgstr "%s à partir de %s\n"
+msgstr "%s innen: %s\n"
 
 #: src/libcommon/version.c:26
 #, c-format
 msgid "Options:"
-msgstr "Options :"
+msgstr ""
 
 #: src/libcommon/version.c:44
 #, c-format
 msgid "Report bugs to authors.\n"
-msgstr "Rapporter les bogues aux auteurs.\n"
+msgstr ""
 
 #: src/libkeymap/analyze.l:41
 msgid "includes are nested too deeply"
-msgstr "les inclusions sont trop imbriquées"
+msgstr ""
 
 #: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
 #: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
@@ -416,56 +431,57 @@ msgstr "les inclusions sont trop imbriquées"
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
-msgstr "mémoire épuisée"
+msgstr "nincs elég memória"
 
 #: src/libkeymap/analyze.l:256
-#, c-format
+#, fuzzy, c-format
 msgid "switching to %s"
-msgstr "bascule vers %s"
+msgstr "%s VT használata"
 
 #: src/libkeymap/analyze.l:266
-#, c-format
+#, fuzzy, c-format
 msgid "cannot open include file %s"
-msgstr "impossible d'ouvrir le fichier d'inclusion %s"
+msgstr "nem sikerült megnyitni a(z) %s fájlt\n"
 
 #: src/libkeymap/analyze.l:288
-#, c-format
+#, fuzzy, c-format
 msgid "unable to parse number: %s"
-msgstr "impossible d'analyser le nombre : %s"
+msgstr "A(z) „%s” nem nyitható meg"
 
 #: src/libkeymap/analyze.l:293
 #, c-format
 msgid "value must be a positive number: %s"
-msgstr "la valeur %s doit être un nombre positif"
+msgstr ""
 
 #: src/libkeymap/analyze.l:298
 #, c-format
 msgid "value must be less than %d: %s"
-msgstr "la valeur doit être inférieure à %d : %s"
+msgstr ""
 
 #: src/libkeymap/analyze.l:366
 msgid "expected filename between quotes"
-msgstr "le nom de fichier doit être entre guillements"
+msgstr ""
 
 #: src/libkeymap/analyze.l:405
 #, c-format
 msgid "unicode keysym out of range: %s"
-msgstr "symbole de touche unicode hors intervalle : %s"
+msgstr ""
 
 #: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
 #: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
 #: src/libkeymap/analyze.l:508
+#, fuzzy
 msgid "string too long"
-msgstr "chane trop longue"
+msgstr "%s: figyelmeztetés: a sor túl hosszú\n"
 
 #: src/libkeymap/analyze.l:477
 msgid "octal number too big"
-msgstr "nombre octal trop grand"
+msgstr ""
 
 #: src/libkeymap/common.c:164
 #, c-format
 msgid "unable to initialize array: %s"
-msgstr "Impossible d'initialiser le tableau : %s"
+msgstr "nem sikerült előkészíteni a tömböt: %s"
 
 #: src/libkeymap/diacr.c:30
 #, c-format
@@ -477,170 +493,169 @@ msgid "Unable to remove item from the diacritical table"
 msgstr ""
 
 #: src/libkeymap/dump.c:76 src/libkeymap/loadkeys.c:43
-#, c-format
+#, fuzzy, c-format
 msgid "can not bind key %d to value %d because it is too large"
-msgstr ""
-"impossible de lier la touche %d à la valeur %d car elle est trop grande"
+msgstr "nem sikerült a(z) %d billentyű kötése a(z) %d értékhez"
 
 #: src/libkeymap/dump.c:88 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
-msgstr "Erreur d'écriture de la mappe dans le fichier"
+msgstr "Hiba a térkép fájlba írásakor"
 
 #: src/libkeymap/dump.c:536
 #, c-format
 msgid "impossible: not meta?\n"
-msgstr "impossible: n'est pas meta ?\n"
+msgstr "lehetetlen: nem meta?\n"
 
 #: src/libkeymap/func.c:29
 #, c-format
 msgid "func %d not allocated"
-msgstr "function %d non allouée"
+msgstr ""
 
 #: src/libkeymap/func.c:61
 msgid "Unable to remove item from the list of functions"
-msgstr "Impossible de supprimer l'élément de la liste des fonctions"
+msgstr ""
 
 #: src/libkeymap/kernel.c:26
 #, c-format
 msgid "table %d must be less than %d"
-msgstr "la table %d doit être inférieure à %d"
+msgstr ""
 
 #: src/libkeymap/kernel.c:31
 #, c-format
 msgid "index %d must be less than %d"
-msgstr "l'index %d doit être inférieur à %d"
+msgstr ""
 
 #: src/libkeymap/kernel.c:39
 #, c-format
 msgid "KDGKBENT: %s: error at index %d in table %d"
-msgstr "Erreur KDGKBENT : %s : erreur à l'index %d dans la table %d"
+msgstr "KDGKBENT: %s: hiba a(z) %d indexnél a(z) %d táblázatban"
 
 #: src/libkeymap/kernel.c:65
 #, c-format
 msgid "function index %d must be less than %d"
-msgstr "l'index de fonction %d doit être inférieure à %d"
+msgstr ""
 
 #: src/libkeymap/kernel.c:71
 #, c-format
 msgid "KDGKBSENT: %s: Unable to get function key string"
-msgstr "KDGKBSENT: %s: Impossible d'obtenir la chaîne de la touche de fonction"
+msgstr "KDGKBSENT: %s: nem sikerült lekérni a függvény kulcs szöveget"
 
 #: src/libkeymap/kernel.c:101
 #, c-format
 msgid "KDGKBDIACR(UC): %s: Unable to get accent table"
-msgstr "KDGKBDIACR(UC): %s : Impossible d'obtenir la table des accents"
+msgstr "KDGKBDIACR(UC): %s: nem sikerült lekérni az ékezet táblázatot"
 
 #: src/libkeymap/kmap.c:82 src/libkeymap/kmap.c:100
 #, c-format
 msgid "unable to get keymap %d"
-msgstr "impossible d'obtenir la table de mappage %d"
+msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
 
 #: src/libkeymap/kmap.c:108
 #, c-format
 msgid "unable to unset key %d for table %d"
-msgstr "impossible de désaffecter la clef %d de la table %d"
+msgstr "nem sikerült felszabadítani a(z) %d billentyűt a(z) %d táblázatnál"
 
 #: src/libkeymap/kmap.c:124
 #, c-format
 msgid "lk_add_key called with bad keycode %d"
-msgstr "lk_add_key a été appelé avec le keycode erroné %d"
+msgstr "az lk_add_key rossz billentyűkóddal (%d) lett meghívva"
 
 #: src/libkeymap/kmap.c:131
 #, c-format
 msgid "adding map %d violates explicit keymaps line"
-msgstr "l'ajout de la mappe %d viole une ligne de keymaps explicite"
+msgstr "a(z) %d térkép hozzáadása megsérti az explicit billentyűtérképek sorát"
 
 #: src/libkeymap/kmap.c:147
 #, c-format
 msgid "unable to set key %d for table %d"
-msgstr "impossible d'affecter la clef %d à la table %d"
+msgstr "nem sikerült beállítani a(z) %d billentyűt a(z) %d táblázatnál"
 
 #: src/libkeymap/kmap.c:238
 msgid "impossible error in lk_add_constants"
-msgstr "erreur impossible dans lk_add_constants"
+msgstr "lehetetlen hiba ebben: lk_add_constants"
 
 #: src/libkeymap/ksyms.c:150
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
-msgstr "Impossible d'obtenir un symbole par un type faux : %d"
+msgstr "nem sikerült lekérni a szimbólumot a rossz típus alapján: %d"
 
 #: src/libkeymap/ksyms.c:164
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
-msgstr "Impossible d'obtenir le symbole de type %d par un index faux : %d"
+msgstr ""
+"nem sikerült lekérni a(z) %d típus szimbólumát a rossz index alapján: %d"
 
 #: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
 #: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
 #: src/libkeymap/ksyms.c:364
-#, c-format
+#, fuzzy, c-format
 msgid "assuming %s %s"
-msgstr "on suppose %s %s"
+msgstr "iso-8859-1 %s feltételezve"
 
 #: src/libkeymap/ksyms.c:369
-#, c-format
+#, fuzzy, c-format
 msgid "unknown keysym '%s'"
-msgstr "keysym inconnu « %s »"
+msgstr "ismeretlen billentyűszimbólum: „%s”\n"
 
 #: src/libkeymap/loadkeys.c:26
 #, c-format
 msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE : %s : impossible de basculer en mode Unicode"
+msgstr "KDSKBMODE: %s: nem sikerült átváltani Unicode módra"
 
 #: src/libkeymap/loadkeys.c:55
 #, c-format
 msgid "Keymap %d: Permission denied"
-msgstr "Mappe de clavier %d : permission refusée"
+msgstr "%d billentyűtérkép: hozzáférés megtagadva"
 
 #: src/libkeymap/loadkeys.c:72
 #, c-format
 msgid "keycode %d, table %d = %d%s"
-msgstr "code clavier %d, table %d = %d%s"
+msgstr "%d billentyűkód, %d táblázat = %d%s"
 
 #: src/libkeymap/loadkeys.c:73
 msgid "    FAILED"
-msgstr "    ÉCHEC"
+msgstr "    SIKERTELEN"
 
 #: src/libkeymap/loadkeys.c:76
 #, c-format
 msgid "failed to bind key %d to value %d"
-msgstr "échec lors de la liaison de la touche %d à la valeur %d"
+msgstr "nem sikerült a(z) %d billentyű kötése a(z) %d értékhez"
 
 #: src/libkeymap/loadkeys.c:86
 #, c-format
 msgid "deallocate keymap %d"
-msgstr "désalloue la mappe de clavier %d"
+msgstr "a(z) %d billentyűtérkép felszabadítása"
 
 #: src/libkeymap/loadkeys.c:90
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
-msgstr "KDSKBENT : %s : impossible de désallouer la mappe de clavier %d"
+msgstr "KDSKBENT: %s: nem sikerült felszabadítani a(z) %d billentyűtérképet"
 
 #: src/libkeymap/loadkeys.c:105
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr ""
-"KDSKBENT : %s : impossible de désallouer ou d'effacer la mappe de clavier"
+"KDSKBENT: %s: nem sikerült felszabadítani vagy törölni a billentyűtérképet"
 
 #: src/libkeymap/loadkeys.c:115
 #, c-format
 msgid "KDSKBMODE: %s: could not return to original keyboard mode"
-msgstr "KDSKBMODE : %s : impossible de revenir au mode d'origine du clavier"
+msgstr "KDSKBMODE: %s: nem sikerült visszatérni az eredeti billentyűzet módra"
 
 #: src/libkeymap/loadkeys.c:178
 #, c-format
 msgid "failed to bind string '%s' to function %s"
-msgstr ""
-"échec lors de la tentative de liaison de la chaîne « %s » à la fonction %s"
+msgstr "nem sikerült a(z) „%s” szöveg kötése a(z) %s függvényhez"
 
 #: src/libkeymap/loadkeys.c:188
 #, c-format
 msgid "failed to clear string %s"
-msgstr "échec lors de l'effacement de la chaîne %s"
+msgstr "nem sikerült a(z) %s szöveg törlése"
 
 #: src/libkeymap/loadkeys.c:206
 msgid "too many compose definitions"
-msgstr "trop de définitions de combinaisons de touches"
+msgstr "túl sok összeállítási meghatározás"
 
 #: src/libkeymap/loadkeys.c:246
 msgid "unable to load compose definitions because some of them are too large"
@@ -656,28 +671,28 @@ msgid_plural ""
 "Changed %d keys"
 msgstr[0] ""
 "\n"
-"%d touche modifiée"
+"%d billentyű változott"
 msgstr[1] ""
 "\n"
-"%d touches modifiées"
+"%d billentyű változott"
 
 #: src/libkeymap/loadkeys.c:276
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
-msgstr[0] "%d chaine changée"
-msgstr[1] "%d chaines changées"
+msgstr[0] "%d szöveg változott"
+msgstr[1] "%d szöveg változott"
 
 #: src/libkeymap/loadkeys.c:284
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
-msgstr[0] "%d définition de combinaisons de touches chargée"
-msgstr[1] "%d définitions de combinaisons de touches chargées"
+msgstr[0] "%d összeállítási meghatározás betöltve"
+msgstr[1] "%d összeállítási meghatározás betöltve"
 
 #: src/libkeymap/loadkeys.c:289
 msgid "(No change in compose definitions)"
-msgstr "(Aucun changement dans les définitions de combinaisons de touches.)"
+msgstr "(Nincs változás az összeállítási meghatározásokban)"
 
 #: src/libkeymap/parser.y:115
 #, c-format
@@ -687,62 +702,57 @@ msgstr ""
 #: src/libkeymap/parser.y:256
 #, c-format
 msgid "'%s' is not a function key symbol"
-msgstr "'%s' n'est pas un symbole de touche de fonction"
+msgstr ""
 
 #: src/libkeymap/parser.y:343
-#, c-format
+#, fuzzy, c-format
 msgid "too many (%ld) entries on one line"
-msgstr "trop d'entrées (%ld) sur une ligne"
+msgstr "Túl sok egyesítendő fájl\n"
 
 #: src/libkeymap/parser.y:413
-#, c-format
+#, fuzzy, c-format
 msgid "Loading %s"
-msgstr "Chargement de %s"
+msgstr "Hiba a(z) „%s” olvasásakor"
 
 #: src/libkeymap/summary.c:91
 #, c-format
 msgid "keycode range supported by kernel:           1 - %d\n"
-msgstr ""
-"étendue des codes clavier pris en charge par le noyau :           1 - %d\n"
+msgstr "kernel által támogatott billentyűkód tartomány: 1 - %d\n"
 
 #: src/libkeymap/summary.c:93
 #, c-format
 msgid "max number of actions bindable to a key:         %d\n"
-msgstr ""
-"nombre maximum d'actions pouvant être associées à une touche :         %d\n"
+msgstr "a billentyűhöz köthető műveletek legnagyobb száma: %d\n"
 
 #: src/libkeymap/summary.c:95
 #, c-format
 msgid "number of keymaps in actual use:                 %u\n"
-msgstr ""
-"nombre de configurations de clavier actuellement en usage :                 "
-"%u\n"
+msgstr "tényleges használatban lévő billentyűtérképek száma: %u\n"
 
 #: src/libkeymap/summary.c:98
 #, c-format
 msgid "of which %u dynamically allocated\n"
-msgstr "parmi lesquelles %u ont été allouées dynamiquement\n"
+msgstr "amelyből %u dinamikusan van lefoglalva\n"
 
 #: src/libkeymap/summary.c:101
 #, c-format
 msgid "ranges of action codes supported by kernel:\n"
-msgstr "étendue des codes d'action pris en charge par le noyau :\n"
+msgstr "a kernel által támogatott műveleti kódok tartományai:\n"
 
 #: src/libkeymap/summary.c:107
 #, c-format
 msgid "number of function keys supported by kernel: %d\n"
-msgstr "nombre de touches de fonction prises en charge par le noyau : %d\n"
+msgstr "a kernel által támogatott funkcióbillentyűk száma: %d\n"
 
 #: src/libkeymap/summary.c:109
 #, c-format
 msgid "max nr of compose definitions: %d\n"
-msgstr "nombre maximal de définitions de combinaisons de touches : %d\n"
+msgstr "az összeállítási meghatározások legnagyobb száma: %d\n"
 
 #: src/libkeymap/summary.c:111
 #, c-format
 msgid "nr of compose definitions in actual use: %u\n"
-msgstr ""
-"nombre de définitions de combinaisons de touches actuellement en usage : %u\n"
+msgstr "tényleges használatban lévő összeállítási meghatározások száma: %u\n"
 
 #: src/libkeymap/summary.c:135
 #, c-format
@@ -752,13 +762,13 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Les synonymes suivants sont reconnus :\n"
+"A következő szinonimák vannak felismerve:\n"
 "\n"
 
 #: src/libkeymap/summary.c:138
 #, c-format
 msgid "%-15s for %s\n"
-msgstr "%-15s pour %s\n"
+msgstr "%-15s ehhez: %s\n"
 
 #: src/libkeymap/summary.c:142
 #, c-format
@@ -767,326 +777,341 @@ msgid ""
 "Recognized modifier names and their column numbers:\n"
 msgstr ""
 "\n"
-"Nom des modifcateurs reconnus et leur numéro de colonne :\n"
+"Felismert módosító nevek és az oszlopszámaik:\n"
 
 #: src/libkfont/kdfontop.c:36
 msgid "Console is not in text mode"
 msgstr ""
 
 #: src/libkfont/kdfontop.c:196
-#, fuzzy
 msgid "tall font not supported"
-msgstr "Non pris en charge\n"
+msgstr ""
 
 #: src/libkfont/kdfontop.c:212
 msgid "Unable to load such font with such kernel version"
 msgstr ""
 
 #: src/libkfont/kdmapop.c:172
-#, c-format
+#, fuzzy, c-format
 msgid "strange... ct changed from %d to %d"
-msgstr "étrange... le terminal courant est passé de %d à %d"
+msgstr "furcsa… ct megváltozott: %d -> %d\n"
 
 #: src/libkfont/kdmapop.c:198
+#, fuzzy
 msgid ""
 "It seems this kernel is older than 1.1.92\n"
 "No Unicode mapping table loaded."
 msgstr ""
-"Ce noyau semble antérieur à la version 1.1.92\n"
-"Pas de table Unicode chargée."
+"Úgy tűnik, hogy ez a kernel 1.1.92-nél régebbi.\n"
+"Nincs betöltve Unicode leképezési táblázat.\n"
 
 #: src/libkfont/loadunimap.c:166
-#, c-format
+#, fuzzy, c-format
 msgid "%s: Glyph number (0x%x) larger than font length"
-msgstr ""
-"%s : le numéro de glyphe (0x%x) est plus grand que la longueur de la fonte"
+msgstr "%s: a szimbólum szám (0x%x) nagyobb mint a betűhossz\n"
 
 #: src/libkfont/loadunimap.c:172
 #, c-format
 msgid "%s: Bad end of range (0x%x)\n"
-msgstr "%s : borne supérieure erronée (0x%x)\n"
+msgstr "%s: a tartomány vége rossz (0x%x)\n"
 
 #: src/libkfont/loadunimap.c:211
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s: Unicode range U+%x-U+%x not of the same length as font position range "
 "0x%x-0x%x"
 msgstr ""
-"%s : la plage Unicode U+%x-U+%x n'a pas la même longueur que la plage des "
-"fontes allant de 0x%x à 0x%x"
+"%s: az U+%x-U+%x Unicode tartomány nem ugyanolyan hosszú mint a 0x%x-0x%x "
+"betűpozíció tartomány\n"
 
 #: src/libkfont/loadunimap.c:236
-#, c-format
+#, fuzzy, c-format
 msgid "%s: trailing junk (%s) ignored"
-msgstr "%s : caractères finaux (%s) ignorés"
+msgstr "%s: a záró szemét (%s) mellőzve\n"
 
 #: src/libkfont/loadunimap.c:265
-#, c-format
+#, fuzzy, c-format
 msgid "Loading unicode map from file %s"
-msgstr "Chargement de la carte unicode à partir du fichier %s"
+msgstr "Unicode térkép betöltése a(z) %s fájlból\n"
 
 #: src/libkfont/loadunimap.c:271
-#, c-format
+#, fuzzy, c-format
 msgid "%s: Warning: line too long"
-msgstr "%s : AVERTISSEMENT : ligne trop longue"
+msgstr "%s: figyelmeztetés: a sor túl hosszú\n"
 
 #: src/libkfont/loadunimap.c:279
+#, fuzzy
 msgid ""
 "not loading empty unimap\n"
 "(if you insist: use option -f to override)"
 msgstr ""
-"ne peut charger une unimap vide\n"
-"(utiliser l'option -f pour passer outre)"
+"%s: nincs betöltve üres unimap\n"
+"(ha ragaszkodik hozzá: használja a -f kapcsolót a felülbíráláshoz)\n"
 
 #: src/libkfont/loadunimap.c:301
-#, c-format
+#, fuzzy, c-format
 msgid "# %d entry"
 msgid_plural "# %d entries"
-msgstr[0] "# %d entrée"
-msgstr[1] "# %d entrées"
+msgstr[0] "bejegyzés"
+msgstr[1] "bejegyzés"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
 #: src/libkfont/mapscrn.c:230 src/loadkeys.c:256 src/openvt.c:413
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
-#, c-format
+#, fuzzy, c-format
 msgid "Unable to open file: %s: %m"
-msgstr "Impossible d'ouvrir le fichier : %s : %m"
+msgstr "A(z) „%s” nem nyitható meg"
 
 #: src/libkfont/loadunimap.c:328
-#, c-format
+#, fuzzy, c-format
 msgid "Saved unicode map on `%s'"
-msgstr "Mappe unicode sauvegardée dans « %s »"
+msgstr "Mentett Unicode térkép ezen: „%s”\n"
 
 #: src/libkfont/loadunimap.c:377
+#, fuzzy
 msgid "Appended Unicode map"
-msgstr "Mappe Unicode concaténée"
+msgstr "Hozzáfűzött Unicode térkép\n"
 
 #: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
 #: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
-#, c-format
+#, fuzzy, c-format
 msgid "Unable to find file: %s"
-msgstr "Impossible de trouver le fichier : %s"
+msgstr "A(z) „%s” nem nyitható meg"
 
 #: src/libkfont/mapscrn.c:107
-#, c-format
+#, fuzzy, c-format
 msgid "Loading binary direct-to-font screen map from file %s"
 msgstr ""
-"Chargement de la mappe d'écran direct-à-la-fonte à partir du fichier %s"
+"Bináris, közvetlenül betűbe képernyő térkép betöltése a(z) %s fájlból\n"
 
 #: src/libkfont/mapscrn.c:111 src/libkfont/mapscrn.c:123
-#, c-format
+#, fuzzy, c-format
 msgid "Error reading map from file `%s'"
-msgstr "Erreur de lecture de la mappe à partir du fichier « %s »"
+msgstr "Hiba a térkép olvasásakor a(z) „%s” fájlból\n"
 
 #: src/libkfont/mapscrn.c:118
-#, c-format
+#, fuzzy, c-format
 msgid "Loading binary unicode screen map from file %s"
-msgstr "Chargement de la mappe d'écran Unicode à partir du fichier %s"
+msgstr "Bináris Unicode képernyő térkép betöltése a(z) %s fájlból\n"
 
 #: src/libkfont/mapscrn.c:130
-#, c-format
+#, fuzzy, c-format
 msgid "Loading symbolic screen map from file %s"
-msgstr "Chargement de la mappe symbolique d'écran à partir du fichier %s"
+msgstr "Szimbolikus képernyő térkép betöltése a(z) %s fájlból\n"
 
 #: src/libkfont/mapscrn.c:135
-#, c-format
+#, fuzzy, c-format
 msgid "Error parsing symbolic map from `%s', line %d"
-msgstr ""
-"Erreur d'analyse syntaxique de la mappe symbolique à partir de « %s », ligne "
-"%d"
+msgstr "Hiba a szimbolikus térkép feldolgozásakor a(z) „%s” fájl %d. soránál\n"
 
 #: src/libkfont/mapscrn.c:262
+#, fuzzy
 msgid "Cannot read console map"
-msgstr "Ne peut lire la mappe de la console"
+msgstr "Nem olvasható a konzol térkép\n"
 
 #: src/libkfont/mapscrn.c:267
-#, c-format
+#, fuzzy, c-format
 msgid "Saved screen map in `%s'"
-msgstr "La mappe d'écran a été sauvegardée dans « %s »"
+msgstr "Mentett képernyő térkép ebbe: „%s”\n"
 
 #: src/libkfont/psffontop.c:46
+#, fuzzy
 msgid "short ucs2 unicode table"
-msgstr "table abrégée ucs2 unicode"
+msgstr "%s: rövid ucs2 unicode táblázat\n"
 
 #: src/libkfont/psffontop.c:67
+#, fuzzy
 msgid "short utf8 unicode table"
-msgstr "table abrégée utf8 unicode"
+msgstr "%s: rövid utf8 unicode táblázat\n"
 
 #: src/libkfont/psffontop.c:70
+#, fuzzy
 msgid "bad utf8"
-msgstr "utf8 erroné"
+msgstr "%s: rossz utf8\n"
 
 #: src/libkfont/psffontop.c:73
+#, fuzzy
 msgid "unknown utf8 error"
-msgstr "erreur utf8 inconnue"
+msgstr "%s: ismeretlen utf8 hiba\n"
 
 #: src/libkfont/psffontop.c:98
+#, fuzzy
 msgid "short unicode table"
-msgstr "table unicode abrégée"
+msgstr "%s: rövid unicode táblázat\n"
 
 #: src/libkfont/psffontop.c:173
+#, fuzzy
 msgid "Error reading input font"
-msgstr "Erreur de lecture de la police de caractères d'entrée"
+msgstr "%s: hiba a bemeneti betűkészlet olvasásakor"
 
 #: src/libkfont/psffontop.c:179
 msgid "Font is too big"
-msgstr "La police de caractères est trop grosse"
+msgstr ""
 
 #: src/libkfont/psffontop.c:221
+#, fuzzy
 msgid "Bad call of readpsffont"
-msgstr "Appel erroné à readpsffont"
+msgstr "%s: rossz readpsffont hívás\n"
 
 #: src/libkfont/psffontop.c:237
-#, c-format
+#, fuzzy, c-format
 msgid "Unsupported psf file mode (%d)"
-msgstr "Mode du fichier psf non pris en charge (%d)"
+msgstr "%s: nem támogatott psf fájl mód (%d)\n"
 
 #: src/libkfont/psffontop.c:254
-#, c-format
+#, fuzzy, c-format
 msgid "Unsupported psf version (%d)"
-msgstr "Version psf non prise en charge (%d)"
+msgstr "%s: nem támogatott psf verzió (%d)\n"
 
 #: src/libkfont/psffontop.c:270
+#, fuzzy
 msgid "zero input font length?"
-msgstr "longueur nulle pour la police de caractères d'entrée ?"
+msgstr "%s: nulla bemeneti betűkészlet hossz?\n"
 
 #: src/libkfont/psffontop.c:274
+#, fuzzy
 msgid "zero input character size?"
-msgstr "caractère entré de taille nulle ?"
+msgstr "%s: nulla bemeneti karakterméret?\n"
 
 #: src/libkfont/psffontop.c:287
-#, c-format
+#, fuzzy, c-format
 msgid "Input file: bad input length (%d)"
-msgstr "Fichier d'entrée : longueur erronée (%d)"
+msgstr "%s: bemeneti fájl: rossz bemeneti hossz (%d)\n"
 
 #: src/libkfont/psffontop.c:327
+#, fuzzy
 msgid "Input file: trailing garbage"
-msgstr "Fichier d'entrée : rebut à la fin"
+msgstr "%s: bemeneti fájl: záró szemét\n"
 
 #: src/libkfont/psffontop.c:364
-#, c-format
+#, fuzzy, c-format
 msgid "illegal unicode %d"
-msgstr "appendunicode : unicode illégal %d"
+msgstr "appendunicode: szabálytalan unicode: %u\n"
 
 #: src/libkfont/psffontop.c:468
 msgid "Cannot write font file header"
-msgstr "Ne peut écrire l'en-tête du fichier de fontes"
+msgstr "Nem sikerült a betűkészletfájl fejlécének írása"
 
 #: src/libkfont/psffontop.c:501
 msgid "Cannot write font file"
-msgstr "Ne peut écrire le fichier de fonte"
+msgstr "Nem sikerült a betűkészletfájl írása"
 
-# c-format
 #: src/libkfont/setfont.c:57
 #, fuzzy, c-format
 msgid "Bad character height %d (limit is 128)"
-msgstr "Hauteur de caractère erronée %d"
+msgstr "Rossz karaktermagasság: %d\n"
 
 #: src/libkfont/setfont.c:62
 #, fuzzy, c-format
 msgid "Bad character width %d (limit is 64)"
-msgstr "Largeur de caractère erronée %d"
+msgstr "Rossz karakterszélesség: %d\n"
 
 #: src/libkfont/setfont.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot double %dx%d font (limit is 32x64)"
-msgstr "Impossible de doubler la police %dx%d (limité à 16x16)"
+msgstr ""
 
 #: src/libkfont/setfont.c:142
+#, fuzzy
 msgid "font position 32 is nonblank"
-msgstr "la position 32 de la police de caractères n'est pas un blanc"
+msgstr "%s: a 32. betűkészlet pozíció nem üres\n"
 
 #: src/libkfont/setfont.c:151
+#, fuzzy
 msgid "wiped it"
-msgstr "a été effacé"
+msgstr "%s: letörölte\n"
 
 #: src/libkfont/setfont.c:154
+#, fuzzy
 msgid "background will look funny"
-msgstr "l'arrière-plan aura l'air bizarre"
+msgstr "%s: a háttér viccesen fog kinézni\n"
 
 #: src/libkfont/setfont.c:162
-#, c-format
+#, fuzzy, c-format
 msgid "Loading %d-char %dx%d font from file %s"
-msgstr ""
-"Chargement de %d carac. de la police de caractères %dx%d à partir du fichier "
-"%s"
+msgstr "%d-char %dx%d betűkészlet betöltése a(z) %s fájlból\n"
 
 #: src/libkfont/setfont.c:165
-#, c-format
+#, fuzzy, c-format
 msgid "Loading %d-char %dx%d font"
-msgstr "Chargement de %d carac. de la police de caractères %dx%d"
+msgstr "%d-char %dx%d betűkészlet betöltése\n"
 
 #: src/libkfont/setfont.c:168
-#, c-format
+#, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font from file %s"
-msgstr ""
-"Chargement de %d carac. de la police de caractères %dx%d (%d) à partir du "
-"fichier %s"
+msgstr "%d-char %dx%d (%d) betűkészlet betöltése a(z) %s fájlból\n"
 
 #: src/libkfont/setfont.c:171
-#, c-format
+#, fuzzy, c-format
 msgid "Loading %d-char %dx%d (%d) font"
-msgstr "Chargement de %d carac. de la police de caractères %dx%d (%d)"
+msgstr "%d-char %dx%d (%d) betűkészlet betöltése\n"
 
 #: src/libkfont/setfont.c:254
+#, fuzzy
 msgid "bug in do_loadtable"
-msgstr "bug dans do_loadtable"
+msgstr "%s: hiba ebben: do_loadtable\n"
 
 #: src/libkfont/setfont.c:259
+#, fuzzy
 msgid "Loading Unicode mapping table..."
-msgstr "Chargement de la table de mapping Unicode..."
+msgstr "Unicode leképezési táblázat betöltése…\n"
 
 #: src/libkfont/setfont.c:325
-#, c-format
+#, fuzzy, c-format
 msgid "When loading several fonts, all must be psf fonts - %s isn't"
 msgstr ""
-"Lors du chargement de plusieurs fontes, elles doivent toutes être des fontes "
-"psf - %s ne l'est pas"
+"Különböző betűkészletek betöltésekor mindegyiknek psf betűkészletnek kell "
+"lennie - %s nem az\n"
 
 #: src/libkfont/setfont.c:337
-#, c-format
+#, fuzzy, c-format
 msgid "Read %d-char %dx%d font from file %s"
-msgstr ""
-"Lecture de %d carac. de la police de caractères %dx%d à partir du fichier %s"
+msgstr "%d-char %dx%d betűkészlet beolvasása a(z) %s fájlból\n"
 
 #: src/libkfont/setfont.c:346
+#, fuzzy
 msgid "When loading several fonts, all must have the same height"
 msgstr ""
-"Lors du chargement de plusieurs fontes, elles doivent toutes avoir la même "
-"hauteur"
+"Különböző betűkészletek betöltésekor mindegyiknek ugyanolyan magasnak kell "
+"lennie\n"
 
 #: src/libkfont/setfont.c:354
+#, fuzzy
 msgid "When loading several fonts, all must have the same width"
 msgstr ""
-"Lors du chargement de plusieurs polices de caractères, elles doivent toutes "
-"avoir la même largeur"
+"Különböző betűkészletek betöltésekor mindegyiknek ugyanolyan szélesnek kell "
+"lennie\n"
 
 #: src/libkfont/setfont.c:420
+#, fuzzy
 msgid "Cannot find default font"
-msgstr "Ne peut repérer la police de caractères par défaut"
+msgstr "Nem található alapértelmezett betűkészlet\n"
 
 #: src/libkfont/setfont.c:442
-#, c-format
+#, fuzzy, c-format
 msgid "Reading font file %s"
-msgstr "Lecture du fichier de police de caractères %s"
+msgstr "A(z) %s betűkészletfájl olvasása\n"
 
 #: src/libkfont/setfont.c:497
+#, fuzzy
 msgid "No final newline in combine file"
-msgstr "Pas de ligne finale dans le fichir combiné"
+msgstr "Nincs végső új sor az egyesített fájlban\n"
 
 #: src/libkfont/setfont.c:503
+#, fuzzy
 msgid "Too many files to combine"
-msgstr "Trop de fichiers à combiner"
+msgstr "Túl sok egyesítendő fájl\n"
 
 #: src/libkfont/setfont.c:531
+#, fuzzy
 msgid "Hmm - a font from restorefont? Using the first half."
-msgstr ""
-"Euh - une police à partir d'un restorefont ? On utilisera la première moitié."
+msgstr "Hmm - egy betűkészlet ebből: restorefont? Az első fél használata.\n"
 
 #: src/libkfont/setfont.c:550
+#, fuzzy
 msgid "Bad input file size"
-msgstr "Taille erronée du fichier d'entrée"
+msgstr "Rossz bemeneti fájlméret\n"
 
 #: src/libkfont/setfont.c:578
 #, c-format
@@ -1094,43 +1119,42 @@ msgid ""
 "This file contains 3 fonts: 8x8, 8x14 and 8x16. Please indicate\n"
 "using an option -8 or -14 or -16 which one you want loaded.\n"
 msgstr ""
-"Ce fichier contient 3 fontes: 8x8, 8x14 et 8x16. SVP indiquer\n"
-"laquelle vous désirez charger à l'aide de l'option -8, -14 ou -16.\n"
+"Ez a fájl 3 betűkészletet tartalmaz: 8x8, 8x14 és 8x16. Jelölje meg a -8\n"
+"vagy -14 vagy -16 kapcsoló használatával, hogy melyiket szeretné betölteni.\n"
 
 #: src/libkfont/setfont.c:595
 #, c-format
 msgid "You asked for font size %d, but only 8, 14, 16 are possible here.\n"
-msgstr ""
-"Vous avez demandé une taille de fonte %d, mais seul 8, 14, 16 est possible "
-"ici.\n"
+msgstr "%d betűméretet kért, de csak 8, 14, 16 lehetséges itt.\n"
 
 #: src/libkfont/setfont.c:648
+#, fuzzy
 msgid "Found nothing to save"
-msgstr "Il n'y a rien à sauvegarder"
+msgstr "Nincs mit menteni\n"
 
 #: src/libkfont/setfont.c:652
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot write font file: %m"
-msgstr "Ne peut écrire le fichier de police de caractères : %m"
+msgstr "Nem sikerült a betűkészletfájl írása"
 
 #: src/libkfont/setfont.c:657
-#, c-format
+#, fuzzy, c-format
 msgid "Saved %d-char %dx%d font file on %s"
-msgstr "%d carac. de la fonte %dx%d sauvegardée dans le fichier %s"
+msgstr "A(z) %d-char %dx%d betűkészletfájl elmentve ekkor: %s\n"
 
 #: src/loadkeys.c:42
 #, c-format
 msgid "Usage: %s [option...] [mapfile...]\n"
-msgstr "Usage : %s [option...] [mapfile...]\n"
+msgstr ""
 
 #: src/loadkeys.c:48
-#, c-format
+#, fuzzy, c-format
 msgid "Default keymap: %s\n"
-msgstr "Disposition de clavier par défaut : %s\n"
+msgstr "a(z) %d billentyűtérkép felszabadítása"
 
 #: src/loadkeys.c:95
 msgid "force conversion to ASCII."
-msgstr "forcer la conversion en ASCII."
+msgstr ""
 
 #: src/loadkeys.c:96
 msgid "output a binary keymap to stdout."
@@ -1142,7 +1166,7 @@ msgstr ""
 
 #: src/loadkeys.c:98
 msgid "load default."
-msgstr "charger les valeurs par défaut."
+msgstr ""
 
 #: src/loadkeys.c:99
 msgid "output a 'defkeymap.c' to stdout."
@@ -1158,51 +1182,53 @@ msgstr ""
 
 #: src/loadkeys.c:102
 msgid "force conversion to Unicode."
-msgstr "forcer la conversion en Unicode."
+msgstr ""
 
 #: src/loadkeys.c:125
 msgid "Unable to create kbdfile context"
-msgstr "Impossible de créer le contexte kbdfile"
+msgstr ""
 
 #: src/loadkeys.c:177
-#, c-format
+#, fuzzy, c-format
 msgid "Options %s and %s are mutually exclusive."
-msgstr "Les options %s et %s s'excluent mutuellement."
+msgstr "%s: A --unicode és az --ascii kapcsolók kölcsönösen kizárják egymást\n"
 
 #: src/loadkeys.c:194
+#, fuzzy
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
 msgstr ""
-"Attention ! Chargement d'une mappe non Unicode sur une console Unicode\n"
-"    (peut-être voudrez-vous faire un `kbd_mode -a' ?)"
+"%s: figyelmeztetés: nem Unicode billentyűtérkép betöltése Unicode konzolon\n"
+"    (talán ezt akarta: „kbd_mode -a”?)\n"
 
 #: src/loadkeys.c:205
+#, fuzzy
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
 msgstr ""
-"Attention ! Chargement d'une mappe Unicode sur une console non Unicode\n"
-"    (peut-être voudrez-vous faire un `kbd_mode -u' ?)"
+"%s: figyelmeztetés: Unicode billentyűtérkép betöltése nem Unicode konzolon\n"
+"    (talán ezt akarta: „kbd_mode -u”?)\n"
 
 #: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
-#, c-format
+#, fuzzy, c-format
 msgid "Unable to create kbdfile instance: %m"
-msgstr "Impossible de créer l'instance kbdfile : %m"
+msgstr "nem sikerült beállítani a(z) %d billentyűt a(z) %d táblázatnál"
 
 #: src/loadunimap.c:55 src/mapscrn.c:53
 msgid "save the old map to the FILE."
-msgstr "sauvegarder l'ancienne map dans le FICHIER."
+msgstr ""
 
 #: src/mapscrn.c:25
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s [option...] [map-file]\n"
-msgstr "Usage : %s [option...] [mappe-fichier]\n"
+msgstr "használat: %s [-V] [-v] [-o map.orig] térképfájl\n"
 
 #: src/openvt.c:50
 #, c-format
 msgid "Usage: %s [option...] -- command\n"
-msgstr "Usage : %s [option...] -- commande\n"
+msgstr ""
 
 #: src/openvt.c:52
 #, c-format
@@ -1212,7 +1238,7 @@ msgstr ""
 
 #: src/openvt.c:132
 msgid "Couldn't find owner of current tty!"
-msgstr "Impossible de déterminer le propriétaire du terminal courant !"
+msgstr "Nem található a jelenlegi tty tulajdonosa!"
 
 #: src/openvt.c:259
 msgid "use the given VT number and not the first available."
@@ -1240,134 +1266,143 @@ msgstr ""
 
 #: src/openvt.c:265
 msgid "wait for command to complete"
-msgstr "en attente de la fin de la commande"
+msgstr ""
 
 #: src/openvt.c:279
 #, c-format
 msgid "%s: Illegal vt number"
-msgstr "%s : numéro de terminal virtuel invalide"
+msgstr "%s: szabálytalan vt szám"
 
 #: src/openvt.c:306
 msgid "Only root can use the -u flag."
-msgstr "Le commutateur -u est réservé à l'usage du superutilisateur."
+msgstr "Csak a rendszergazda használhatja a -u jelzőt."
 
 #: src/openvt.c:335
 msgid "Cannot find a free vt"
-msgstr "Pas de terminal virtuel libre"
+msgstr "Nem található szabad vt"
 
 #: src/openvt.c:339
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
-"Impossible de vérifier si le terminal virtuel %d est libre ; utiliser « %s -"
-"f » pour forcer."
+"Nem ellenőrizhető, hogy a(z) %d. vt szabad-e. Használja a „%s -f” parancsot "
+"a kényszerítéshez."
 
 #: src/openvt.c:343
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
-"Le terminal virtuel %d est déjà utilisé ; commande interrompue ; utiliser "
-"« %s -f » pour forcer."
+"A %d. vt használatban van. A parancs megszakítva. Használja a „%s -f” "
+"parancsot a kényszerítéshez."
 
 #: src/openvt.c:353
 msgid "Unable to find command."
-msgstr "Impossible de trouver la commande."
+msgstr "Nem található parancs."
 
 #: src/openvt.c:388
 msgid "Unable to set new session"
-msgstr "Impossible de mettre en place une nouvelle session"
+msgstr "Nem állítható be új munkamenet"
 
 #: src/openvt.c:417
 #, c-format
 msgid "Using VT %s"
-msgstr "Utilisation du terminal virtuel %s"
+msgstr "%s VT használata"
 
 #: src/openvt.c:423
 #, c-format
 msgid "Cannot open %s read/write"
-msgstr "Impossible d'ouvrir %s en lecture/écriture"
+msgstr "Nem sikerült a(z) %s megnyitása olvasásra/írásra"
 
 #: src/openvt.c:470
 #, c-format
 msgid "Couldn't deallocate console %d"
-msgstr "Impossible de désallouer la console %d"
+msgstr "Nem sikerült a(z) %d. konzol felszabadítása"
 
 #: src/psfxtable.c:66
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s infont intable outfont\n"
-msgstr "Usage : %s fonte_d_entree table_d_entree fonte_de_sortie\n"
+msgstr ""
+"Használat:\n"
+"\t%s infont intable outfont\n"
 
 #: src/psfxtable.c:75
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s infont [outtable]\n"
-msgstr "Usage : %s fonte_d_entree [table_de_sortie]\n"
+msgstr ""
+"Használat:\n"
+"\t%s infont [outtable]\n"
 
 #: src/psfxtable.c:84
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s infont outfont\n"
-msgstr "Usage : %s fonte_entree fonte_sortie\n"
+msgstr ""
+"Használat:\n"
+"\t%s infont outfont\n"
 
 #: src/psfxtable.c:107
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 msgstr ""
-"Usage : %s [-i fonte_entree] [-o fonte_sortie] [-it table_entree] [-ot "
-"table_sortie] [-nt]\n"
+"Használat:\n"
+"\t%s [-i infont] [-o outfont] [-it intable] [-ot outtable] [-nt]\n"
 
 #: src/psfxtable.c:148
-#, c-format
+#, fuzzy, c-format
 msgid "Bad magic number on %s"
-msgstr "Nombre magique incorrect pour %s"
+msgstr "%s: rossz varázsszám ezen: %s\n"
 
 #: src/psfxtable.c:168
+#, fuzzy
 msgid "psf file with unknown magic"
-msgstr "fichier psf avec un nombre magique inconnu"
+msgstr "%s: psf fájl ismeretlen varázslattal\n"
 
 #: src/psfxtable.c:179
+#, fuzzy
 msgid "input font does not have an index"
-msgstr "la police de caractères d'entrée n'a pas d'index"
+msgstr "%s: a bemeneti betűkészletnek nincs indexe\n"
 
 #: src/resizecons.c:146
 #, c-format
 msgid "resizecons: invalid columns number %d"
-msgstr "resizecons : numéro de colonne invalide %d"
+msgstr ""
 
 #: src/resizecons.c:151
 #, c-format
 msgid "resizecons: invalid rows number %d"
-msgstr "resizecons : numéro de ligne invalide %d"
+msgstr ""
 
 #: src/resizecons.c:162
-#, c-format
+#, fuzzy, c-format
 msgid "resizecons: cannot find videomode file %s"
-msgstr "resizecons : ne peut repérer le fichier videomode %s"
+msgstr "resizecons: nem található a videomód fájl: %s\n"
 
 #: src/resizecons.c:179
+#, fuzzy
 msgid "Invalid number of lines"
-msgstr "Nombre de lignes invalide"
+msgstr "A sorok száma érvénytelen\n"
 
 #: src/resizecons.c:262
 #, c-format
 msgid "Old mode: %dx%d  New mode: %dx%d\n"
-msgstr "Ancien mode : %dx%d  Nouveau mode: %dx%d\n"
+msgstr "Régi mód: %dx%d  Új mód: %dx%d\n"
 
 #: src/resizecons.c:264
 #, c-format
 msgid "Old #scanlines: %d  New #scanlines: %d  Character height: %d\n"
-msgstr ""
-"Ancien #scanlines: %d  Nouveau #scanlines: %d  Hauteur des caractères: %d\n"
+msgstr "Régi #scanlines: %d  Új #scanlines: %d  Karaktermagasság: %d\n"
 
 #: src/resizecons.c:275
 #, c-format
 msgid "resizecons: the command `%s' failed\n"
-msgstr "resizecons : échec de la commande « %s »\n"
+msgstr "resizecons: a(z) „%s” parancs meghiúsult\n"
 
 #: src/resizecons.c:360
 #, c-format
 msgid ""
 "resizecons: don't forget to change TERM (maybe to con%dx%d or linux-%dx%d)\n"
 msgstr ""
-"resizecons: ne pas oublier de changer TERM (soit con%dx%d ou linux-%dx%d)\n"
+"resizecons: ne felejtse el a TERM megváltoztatását (talán erre: con%dx%d "
+"vagy linux-%dx%d)\n"
 
 #: src/resizecons.c:374
 #, c-format
@@ -1378,38 +1413,39 @@ msgid ""
 "60\n"
 msgstr ""
 "resizecons:\n"
-"l'appel est resizecons COLSxLIGNES ou resizecons COLS LIGNES\n"
-"ou resizecons -lines LIGNES où LIGNES vaut 25, 28, 30, 34, 36, 40, 44, 50 ou "
-"60\n"
+"hívás:  resizecons OSZLOPxSOR  vagy:  resizecons OSZLOP SOR\n"
+"vagy: resizecons -lines SOR, a 25, 28, 30, 34, 36, 40, 44, 50, 60 SOR "
+"egyikével\n"
 
 #: src/resizecons.c:413
 #, c-format
 msgid "resizecons: cannot get I/O permissions.\n"
-msgstr "resizecons : ne peut obtenir les permissions d'entrée/sortie (I/O).\n"
+msgstr "resizecons: nem sikerült megszerezni az I/O jogosultságokat.\n"
 
 #: src/screendump.c:126
 #, c-format
 msgid "Error reading %s"
-msgstr "Erreur de lecture sur %s"
+msgstr "Hiba a(z) „%s” olvasásakor"
 
 #: src/screendump.c:180
-#, c-format
+#, fuzzy, c-format
 msgid "Couldn't read %s"
-msgstr "Impossible de lire %s"
+msgstr "nem sikerült a(z) %s olvasása\n"
 
 #: src/screendump.c:189
-#, c-format
+#, fuzzy, c-format
 msgid "Strange ... screen is both %dx%d and %dx%d ?"
-msgstr "Étrange... l'écran est à la fois %dx%d et %dx%d ?"
+msgstr "Különös… a képernyő %dx%d és %dx%d is?\n"
 
 #: src/screendump.c:210
+#, fuzzy
 msgid "Error writing screendump"
-msgstr "Erreur lors de la production de la vidange screendump"
+msgstr "Hiba a screendump írásakor\n"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "Usage : %s [option...] [N ...]\n"
+msgstr ""
 
 #: src/setfont.c:22
 #, c-format
@@ -1436,9 +1472,8 @@ msgid ""
 msgstr ""
 
 #: src/setfont.c:174
-#, fuzzy
 msgid "load font \"default8x<N>\"."
-msgstr "charger les valeurs par défaut."
+msgstr ""
 
 #: src/setfont.c:175
 msgid "override font height (there shouldn't be a space in the short option)."
@@ -1473,69 +1508,72 @@ msgid "double size of font horizontally and vertically."
 msgstr ""
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Mappe Unicode concaténée"
+msgstr ""
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
 
 #: src/setfont.c:295
+#, fuzzy
 msgid "Too many input files."
-msgstr "Trop de fichiers en entrée."
+msgstr "setfont: túl sok bemeneti fájl\n"
 
 #: src/setfont.c:300
+#, fuzzy
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
 msgstr ""
-"Impossible de restaurer les caractères de la ROM et du fichier. Fonte "
-"inchangée."
+"setfont: nem lehet karaktert visszaállítani ROM-ból és fájlból is. A "
+"betűkészlet nem változott.\n"
 
 #: src/setkeycodes.c:26
 #, c-format
 msgid "Usage: %s [option...] scancode keycode ...\n"
-msgstr "Usage : %s [option...] scancode keycode ...\n"
+msgstr ""
 
 #: src/setkeycodes.c:28
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "(where scancode is either xx or e0xx, given in hexadecimal,\n"
 "and keycode is given in decimal)\n"
 msgstr ""
-" (où le scancode est soit xx ou e0xx en hexadécimal,\n"
-"  et le keycode est en décimal)\n"
+"használat: setkeycode vizsgálókód billentyűkód …\n"
+" (ahol a vizsgálókód xx vagy e0xx hexadecimálisként megadva,\n"
+"  és a billentyűkód decimálisként megadva)\n"
 
 #: src/setkeycodes.c:47
 msgid "error reading scancode"
-msgstr "erreur lors de la lecture du scancode"
+msgstr "hiba a vizsgálókód olvasásakor"
 
 #: src/setkeycodes.c:52
 #, c-format
 msgid "Argument out of range: %s"
-msgstr "Argument hors intervalle : %s"
+msgstr ""
 
 #: src/setkeycodes.c:57
 #, c-format
 msgid "Argument must be positive: %s"
-msgstr "L'argument doit être positif : %s"
+msgstr ""
 
 #: src/setkeycodes.c:136
 msgid "code outside bounds"
-msgstr "code en dehors des bornes"
+msgstr "külső kódhatárok"
 
 #: src/setkeycodes.c:145
 #, c-format
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
-"échec d'initialisation du scancode %x au keycode %d : ioctl KDSETKEYCODE"
+"nem sikerült a(z) %x vizsgálókód beállítása a(z) %d billentyűkódra: ioctl "
+"KDSETKEYCODE"
 
 #: src/setleds.c:31
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
-msgstr "Usage : %s [option...] [[+|-][ num | caps | scroll %s]]\n"
+msgstr ""
 
 #: src/setleds.c:40
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Thus,\n"
 "\tsetleds +caps -num\n"
@@ -1548,112 +1586,114 @@ msgid ""
 "With -D, setleds sets both the flags and the default flags, so\n"
 "that a subsequent reset will not change the flags.\n"
 msgstr ""
-"Aussi,\n"
-"   setleds +caps -num\n"
-"initialisera CapsLock, libérera NumLock et laissera ScrollLock inchangé.\n"
-"Les paramètres avant et après modification (s'il y en a) seront rapportés\n"
-"lorsque l'option -v est fournie ou lorsque qu'aucune modification n'est "
-"demandée.\n"
-"Normalement, setleds a un effet sur le paramétrage des fanions du terminal "
-"virtuel\n"
-"(et ceux-ci sont habituellement équivalents à la luminosité des leds).\n"
-"Avec -L, les leds sont modifiées sans affecter les fanions.\n"
-"Avec -D, les fanions et les fanions par défaut sont affectés, de telle "
-"sorte\n"
-"qu'une réinitialisation subséquente n'affectera par les fanions.\n"
+"Használat:\n"
+"\tsetleds [-v] [-L] [-D] [-F] [[+|-][ num | caps | scroll %s]]\n"
+"Így a,\n"
+"\tsetleds +caps -num\n"
+"be fogja állítani CapsLock-ot, törli a NumLock-ot és változatlanul hagyja\n"
+"a ScrollLock-ot.\n"
+"A módosítás előtti és utáni beállítások (ha vannak) jelentve lesznek,\n"
+"amikor a -v kapcsoló meg van adva, vagy ha nem kértek módosítást.\n"
+"Normális esetben a setleds befolyásolja a vt jelző beállításokat\n"
+"(és ezek általában visszaköszönnek a LED-eken).\n"
+"A -L kapcsolóval csak beállítja a LED-eket, és békén hagyja a jelzőket.\n"
+"A -D kapcsolóval beállítja a jelzőket és az alapértelmezett jelzőket is, "
+"így\n"
+"a következő újraindításkor nem fogja módosítani a jelzőket.\n"
 
 #: src/setleds.c:57
 msgid "on "
-msgstr "on "
+msgstr "be "
 
 #: src/setleds.c:57
 msgid "off"
-msgstr "off"
+msgstr "ki "
 
 #: src/setleds.c:101
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
-"Erreur de lecture des paramètres courants des leds. Peut-être stdin n'est "
-"pas un terminal virtuel ? : ioctl KDGETLED"
+"Hiba a jelenlegi LED-beállítás olvasásakor. Talán a szabványos bemenet nem a "
+"VT?: ioctl KDGETLED"
 
 #: src/setleds.c:131 src/setleds.c:144
-#, c-format
+#, fuzzy, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr ""
-"Erreur de lecture des paramètres courants des leds à partir de /dev/kbd : "
-"ioctl %s"
+"Hiba a jelenlegi LED-beállítás olvasásakor a /dev/kbd fájlból: ioctl KIOCGLED"
 
 #: src/setleds.c:135 src/setleds.c:148
-#, c-format
+#, fuzzy, c-format
 msgid "ioctl %s unavailable?"
-msgstr "ioctl %s non disponible ?"
+msgstr "KIOCGLED nem érhető el?\n"
 
 #: src/setleds.c:211
 msgid "change both the VT flags and their default settings."
 msgstr ""
 
 #: src/setleds.c:212
+#, fuzzy
 msgid "change the VT flags."
-msgstr "modifier les drapeaux VT."
+msgstr "Csak a rendszergazda használhatja a -u jelzőt."
 
 #: src/setleds.c:213
 msgid "change only the leds."
-msgstr "modifier uniquement les voyants lumineux."
+msgstr ""
 
 #: src/setleds.c:290
+#, fuzzy
 msgid "Error resetting ledmode"
-msgstr "Erreur de réinitialisation du mode du ledsmode"
+msgstr "Hiba a LED-mód visszaállításakor\n"
 
 #: src/setleds.c:298
 #, c-format
 msgid "Current default flags:  "
-msgstr "Fanions courants par défaut :  "
+msgstr "Jelenlegi alapértelmezett jelzők: "
 
 #: src/setleds.c:302
 #, c-format
 msgid "Current flags:          "
-msgstr "Fanions courants :          "
+msgstr "Jelenlegi jelzők:                 "
 
 #: src/setleds.c:306
 #, c-format
 msgid "Current leds:           "
-msgstr "Leds courantes :           "
+msgstr "Jelenlegi LED-ek:                 "
 
 #: src/setleds.c:321
 #, c-format
 msgid "Old default flags:    "
-msgstr "Anciens fanions par défaut :    "
+msgstr "Régi alapértelmezett jelzők: "
 
 #: src/setleds.c:323
 #, c-format
 msgid "New default flags:    "
-msgstr "Nouveaux fanions par défaut :    "
+msgstr "Új alapértelmezett jelzők:   "
 
 #: src/setleds.c:330
 #, c-format
 msgid "Old flags:            "
-msgstr "Ancien fanions :            "
+msgstr "Régi jelzők:                 "
 
 #: src/setleds.c:332
 #, c-format
 msgid "New flags:            "
-msgstr "Nouveaux fanions :            "
+msgstr "Új jelzők:                   "
 
 #: src/setleds.c:345 src/setleds.c:354
 #, c-format
 msgid "Old leds:             "
-msgstr "Anciennes diodes électrolunimescentes :             "
+msgstr "Régi LED-ek:                 "
 
 #: src/setleds.c:347 src/setleds.c:356
 #, c-format
 msgid "New leds:             "
-msgstr "Nouvelles diodes électroluminescentes :             "
+msgstr "Új LED-ek:                   "
 
 #: src/setmetamode.c:25
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
-msgstr "Usage : %s [option...] [argument]\n"
+msgstr ""
 
 #: src/setmetamode.c:28
 #, c-format
@@ -1666,36 +1706,41 @@ msgid ""
 msgstr ""
 
 #: src/setmetamode.c:48
+#, fuzzy
 msgid "Meta key sets high order bit"
-msgstr "La touche Méta initialise le bit du haut"
+msgstr "A Meta billentyű magas sorrendbitet állít be\n"
 
 #: src/setmetamode.c:51
+#, fuzzy
 msgid "Meta key gives Esc prefix"
-msgstr "La touche Méta génère des préfixes Esc"
+msgstr "A Meta billentyű Esc előtagot ad\n"
 
 #: src/setmetamode.c:54
+#, fuzzy
 msgid "Strange mode for Meta key?"
-msgstr "Mode étrange pour une touche Méta ?"
+msgstr "Különös mód a Meta billentyűnél?\n"
 
 #: src/setmetamode.c:139
 #, c-format
 msgid "old state:    "
-msgstr "ancien état :    "
+msgstr "régi állapot: "
 
 #: src/setmetamode.c:144
 #, c-format
 msgid "new state:    "
-msgstr "nouvel état :    "
+msgstr "új állapot:   "
 
 #: src/setvesablank.c:26
-#, c-format
+#, fuzzy, c-format
 msgid "Usage: %s ON|on|off\n"
-msgstr "Usage : %s ON|on|off\n"
+msgstr ""
+"Használat:\n"
+"\t%s infont outfont\n"
 
 #: src/setvtrgb.c:42
 #, c-format
 msgid "Usage: %s [option...] [vga|FILE|-]\n"
-msgstr "Usage : %s [option...] [vga|FICHIER|-]\n"
+msgstr ""
 
 #: src/setvtrgb.c:45
 #, fuzzy, c-format
@@ -1716,62 +1761,72 @@ msgid ""
 "   #00AA00\n"
 "And so on, for all the 16 colors.\n"
 msgstr ""
-"Si vous utilisez le paramètre FICHIER, alors ce dernier doit contenir "
-"exactement 3 lignes de\n"
-"valeurs décimales séparées par des virgules pour le ROUGE, le VERT et le "
-"BLEU.\n"
+"Használat: %s [-h] [-V]\n"
+"           %s vga|FÁJL|-\n"
 "\n"
-"Pour voir un exemple de FICHIER valide :\n"
-"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FICHIER\n"
+"Ha a FÁJL paramétert használja, a FÁJLNAK pontosan 3 soros, vesszővel\n"
+"elválasztott decimális értékeknek kell lennie a VÖRÖS, ZÖLD és KÉK\n"
+"értékekhez.\n"
 "\n"
-"puis éditez les valeurs dans FICHIER.\n"
+"Egy érvényes FÁJL megszerzéséhez:\n"
+"   cat /sys/module/vt/parameters/default_{red,grn,blu} > FÁJL\n"
+"\n"
+"majd ezután szerkessze a FÁJLBAN lévő értékeket.\n"
+"\n"
+"Egyéb kapcsolók:\n"
+"   -h     ezen használati üzenet kiírása\n"
+"   -V     verziószám kiírása\n"
+"\n"
 
 #: src/setvtrgb.c:80
 #, c-format
 msgid "Error: %s: Invalid value in field %u in line %u."
-msgstr "Erreur : %s : valeur invalide dans le champ %u à la ligne %u."
+msgstr "Hiba: %s: érvénytelen érték a(z) %u mezőben a(z) %u sorban."
 
 #: src/setvtrgb.c:87
 #, c-format
 msgid "Error: %s: Insufficient number of fields in line %u."
-msgstr "Erreur : %s : pas assez de champs sur la ligne %u."
+msgstr "Hiba: %s: a mezők száma nem elegendő a(z) %u sorban."
 
 #: src/setvtrgb.c:92
-#, c-format
+#, fuzzy, c-format
 msgid "Error: %s: Line %u has ended unexpectedly."
-msgstr "Erreur : %s : la ligne %u se termine prématurément."
+msgstr "Hiba: %s: a(z) %u sor váratlanul befejeződött.\n"
 
 #: src/setvtrgb.c:96
-#, c-format
+#, fuzzy, c-format
 msgid "Error: %s: Line %u is too long."
-msgstr "Erreur ! %s : la ligne %u est trop longue."
+msgstr "Hiba: %s: a(z) %u sor túl hosszú.\n"
 
 #: src/setvtrgb.c:110
 #, fuzzy, c-format
 msgid "Error: %s: Insufficient number of colors/lines: %u"
-msgstr "Erreur : %s : pas assez de champs sur la ligne %u."
+msgstr "Hiba: %s: a mezők száma nem elegendő a(z) %u sorban."
 
 #: src/setvtrgb.c:113
 #, fuzzy, c-format
 msgid "Error: %s: Invalid value in line %u."
-msgstr "Erreur : %s : valeur invalide dans le champ %u à la ligne %u."
+msgstr "Hiba: %s: érvénytelen érték a(z) %u mezőben a(z) %u sorban."
 
 #: src/setvtrgb.c:129
 #, fuzzy, c-format
 msgid "Error: %s: File ended unexpectedly."
-msgstr "Erreur : %s : la ligne %u se termine prématurément."
+msgstr "Hiba: %s: a(z) %u sor váratlanul befejeződött.\n"
 
 #: src/showconsolefont.c:36
+#, fuzzy
 msgid "failed to restore original translation table"
-msgstr "échec de restauration de la table originale de traduction"
+msgstr "nem sikerült az eredeti fordítási táblázat visszaállítása\n"
 
 #: src/showconsolefont.c:40
+#, fuzzy
 msgid "failed to restore original unimap"
-msgstr "échec de restauration de la mappe unimap originale"
+msgstr "nem sikerült az eredeti unimap visszaállítása\n"
 
 #: src/showconsolefont.c:59
+#, fuzzy
 msgid "cannot change translation table"
-msgstr "ne peut modifier la table de traduction"
+msgstr "nem sikerült a fordítási táblázat módosítása\n"
 
 #: src/showconsolefont.c:103
 #, c-format
@@ -1783,19 +1838,19 @@ msgid "don't print out the font table, just show: ROWSxCOLSxCOUNT and exit."
 msgstr ""
 
 #: src/showconsolefont.c:192
-#, c-format
+#, fuzzy, c-format
 msgid "Character count: %u\n"
-msgstr "Décompte des caractères : %u\n"
+msgstr "Karakterszám:          %d\n"
 
 #: src/showconsolefont.c:193
-#, c-format
+#, fuzzy, c-format
 msgid "Font width     : %u\n"
-msgstr "Largeur de fonte : %u\n"
+msgstr "Betűkészlet szélesség: %d\n"
 
 #: src/showconsolefont.c:194
-#, c-format
+#, fuzzy, c-format
 msgid "Font height    : %u\n"
-msgstr "Hauteur de fonte : %u\n"
+msgstr "Betűkészlet magasság:  %d\n"
 
 #: src/showconsolefont.c:205
 #, c-format
@@ -1803,17 +1858,17 @@ msgid ""
 "Showing %d-char font\n"
 "\n"
 msgstr ""
-"Montre la fonte %d-char\n"
+"%d-char betűkészlet megjelenítése\n"
 "\n"
 
 #: src/showkey.c:49
 msgid "?UNKNOWN?"
-msgstr "?INCONNU?"
+msgstr "?ISMERETLEN?"
 
 #: src/showkey.c:52
 #, c-format
 msgid "kb mode was %s\n"
-msgstr "le mode clavier était %s\n"
+msgstr "a kb mód ez volt: %s\n"
 
 #: src/showkey.c:54
 #, c-format
@@ -1821,25 +1876,25 @@ msgid ""
 "[ if you are trying this under X, it might not work\n"
 "since the X server is also reading /dev/console ]\n"
 msgstr ""
-"[ si vous essayez cela sous X Window, cela peut ne pas fonctionner\n"
-"étant donné que le serveur X utilise également /dev/console ]\n"
+"[ ha ezt X alatt próbálja, előfordulhat, hogy nem működik,\n"
+"amióta az X-kiszolgáló is a /dev/console fájlt olvassa ]\n"
 
 #: src/showkey.c:74
 #, c-format
 msgid "caught signal %d, cleaning up...\n"
-msgstr "signal %d reçu, nettoyage en cours...\n"
+msgstr "%d szignál elkapva, tisztítás…\n"
 
 #: src/showkey.c:122
 msgid "display the decimal/octal/hex values of the keys."
-msgstr "affiche les valeurs décimal / octal / hex des touches."
+msgstr ""
 
 #: src/showkey.c:123
 msgid "display only the raw scan-codes."
-msgstr "affiche uniquement les codes scannés bruts."
+msgstr ""
 
 #: src/showkey.c:124
 msgid "display only the interpreted keycodes (default)."
-msgstr "affiche uniquement les codes de touche interprétés (par défaut)."
+msgstr ""
 
 #: src/showkey.c:125
 msgid "set timeout, default 10"
@@ -1853,55 +1908,58 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Appuyer sur n'importe quelle touche. Ctrl-D mettra fin au programme\n"
+"Nyomjon meg egy billentyűt - a Ctrl-D befejezi a programot\n"
 "\n"
 
 #: src/showkey.c:248
 #, fuzzy, c-format
 msgid "press any key (program terminates %ds after last keypress)...\n"
 msgstr ""
-"Appuyez sur n'importe quelle touche (le programme terminera 10s après la "
-"dernière touche enfoncée)...\n"
+"nyomjon meg egy billentyűt (a program befejeződik az utolsó "
+"billentyűlenyomás után 10 másodperccel)…\n"
 
 #: src/showkey.c:272
 msgid "release"
-msgstr "relâché"
+msgstr "elengedés"
 
 #: src/showkey.c:272
 msgid "press"
-msgstr "appuyé"
+msgstr "lenyomás"
 
 #: src/showkey.c:282
 #, c-format
 msgid "keycode %3d %s\n"
-msgstr "code clavier %3d %s\n"
+msgstr "billentyűkód: %3d %s\n"
 
 #: src/vlock/auth.c:76
 msgid ""
 "Please try again later.\n"
 "\n"
 "\n"
-msgstr "Merci de réessayer plus tard.\n"
+msgstr ""
+"Próbálja meg később.\n"
+"\n"
+"\n"
 
 #: src/vlock/auth.c:84
 #, c-format
 msgid "The entire console display is now completely locked by %s.\n"
-msgstr "L'affichage en mode console est entièrement verrouillé par %s.\n"
+msgstr "Az egész konzolkijelzőt most a(z) %s teljesen zárolta.\n"
 
 #: src/vlock/auth.c:87
 #, c-format
 msgid "The %s is now locked by %s.\n"
-msgstr "Le %s est désormais verrouillé par %s.\n"
+msgstr "A(z) %s most zárolva van a(z) %s által.\n"
 
 #: src/vlock/auth.c:90
 msgid "Use Alt-function keys to switch to other virtual consoles."
 msgstr ""
-"Utiliser Alt+F1, Alt+F2… pour basculer vers les autres consoles virtuelles."
+"Használja az Alt-funkcióbillentyűket egy másik virtuális konzolra váltáshoz."
 
 #: src/vlock/parse.c:52
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr "Essayer `%s --help' pour plus d'informations.\n"
+msgstr "További információkért próbálja a(z) „%s --help” parancsot.\n"
 
 #: src/vlock/parse.c:60
 #, c-format
@@ -1916,38 +1974,333 @@ msgid ""
 "-v or --version: Print the version number of vlock and exit.\n"
 "-h or --help: Print this help message and exit.\n"
 msgstr ""
-"%s : verrouiller les consoles virtuelles, en sauvegardant la session en "
-"cours.\n"
-"Syntaxe : %s [options]\n"
-"       Où les [options] sont choisies parmi :\n"
-"-c ou --current : verrouiller uniquement cette console virtuelle,\n"
-"       en permettant à l'utilisateur de basculer vers les autres.\n"
-"-a ou --all : verrouiller toutes les consoles virtuelles,\n"
-"       en empêchant tout basculement de la part des autres utilisateurs.\n"
-"-v ou --version : afficher le numéro de version puis quitter.\n"
-"-h ou --help : affiche ce message d'aide puis quitter.\n"
+"%s: lezárja a virtuális konzolokat, elmenti a jelenlegi munkamenetet.\n"
+"Használat: %s [kapcsolók]\n"
+"       Ahol a [kapcsolók] a következők lehetnek:\n"
+"-c vagy --current: csak ezen virtuális konzol zárolása, lehetővé téve a\n"
+"       felhasználónak másik virtuális konzolra váltást.\n"
+"-a vagy --all: minden virtuális konzol zárolása, megakadályozva más\n"
+"       felhasználóknak a virtuális konzolra váltást.\n"
+"-v vagy --version: A vlock verziószámának kiírása és kilépés.\n"
+"-h vagy --help: Ezen súgószöveg kiírása és kilépés.\n"
 
 #: src/vlock/username.c:57
 msgid "unrecognized user"
-msgstr "utilisateur non reconnu"
+msgstr "azonosítatlan felhasználó"
 
 #: src/vlock/vlock.c:54
 msgid "stdin is not a tty"
-msgstr "stdin n'est pas un terminal (tty)"
+msgstr "a szabványos bemenet nem tty"
 
 #: src/vlock/vt.c:147
 #, c-format
 msgid "This tty (%s) is not a virtual console.\n"
-msgstr "Ce terminal (%s) n'est pas une console virtuelle.\n"
+msgstr "Ez a tty (%s) nem egy virtuális konzol.\n"
 
 #: src/vlock/vt.c:154
 #, c-format
 msgid "The entire console display cannot be locked.\n"
-msgstr "L'affichage en mode console ne peut être intégralement verrouillé.\n"
+msgstr "Az egész konzolkijelzőt nem sikerült zárolni.\n"
+
+#, c-format
+#~ msgid "usage: chvt N\n"
+#~ msgstr "használat: chvt N\n"
+
+#, c-format
+#~ msgid "%s: unknown option\n"
+#~ msgstr "%s: ismeretlen kapcsoló\n"
+
+#, c-format
+#~ msgid "dumpkeys version %s"
+#~ msgstr "dumpkeys verzió: %s"
+
+#, c-format
+#~ msgid ""
+#~ "\n"
+#~ "usage: dumpkeys [options...]\n"
+#~ "\n"
+#~ "valid options are:\n"
+#~ "\n"
+#~ "\t-h --help\t    display this help text\n"
+#~ "\t-i --short-info\t    display information about keyboard driver\n"
+#~ "\t-l -s --long-info   display above and symbols known to loadkeys\n"
+#~ "\t-n --numeric\t    display keytable in hexadecimal notation\n"
+#~ "\t-f --full-table\t    don't use short-hand notations, one row per "
+#~ "keycode\n"
+#~ "\t-1 --separate-lines one line per (modifier,keycode) pair\n"
+#~ "\t-S --shape=\n"
+#~ "\t-t --funcs-only\t    display only the function key strings\n"
+#~ "\t-k --keys-only\t    display only key bindings\n"
+#~ "\t-d --compose-only   display only compose key combinations\n"
+#~ "\t-c --charset="
+#~ msgstr ""
+#~ "\n"
+#~ "használat: dumpkeys [kapcsolók…]\n"
+#~ "\n"
+#~ "az érvényes kapcsolók:\n"
+#~ "\n"
+#~ "\t-h --help\t    ezen súgószöveg megjelenítése\n"
+#~ "\t-i --short-info\t    információk megjelenítése a billentyűzet-"
+#~ "meghajtóról\n"
+#~ "\t-l -s --long-info   a fenti és a loadkeys ismert szimbólumai "
+#~ "megjelenítése\n"
+#~ "\t-n --numeric\t    billentyűtáblázat megjelenítése hexadecimális "
+#~ "jelöléssel\n"
+#~ "\t-f --full-table\t    ne használjon gyorsírás jelölést, egy sor\n"
+#~ "\t\t\tbillentyűkódonként\n"
+#~ "\t-1 --separate-lines egy sor (módosító, billentyűkód) páronként\n"
+#~ "\t-S --shape=\n"
+#~ "\t-t --funcs-only\t    csak a funkcióbillentyű szövegek megjelenítése\n"
+#~ "\t-k --keys-only\t    csak a billentyűkötések megjelenítése\n"
+#~ "\t-d --compose-only   csak az összeállító billentyűkombinációk "
+#~ "megjelenítése\n"
+#~ "\t-c --charset="
+
+#, c-format
+#~ msgid ""
+#~ "\t-v --verbose\n"
+#~ "\t-V --version\t    print version number\n"
+#~ msgstr ""
+#~ "\t-v --verbose\n"
+#~ "\t-V --version\t    verziószám kiírása\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s version %s\n"
+#~ "\n"
+#~ "Usage: %s [options]\n"
+#~ "\n"
+#~ "Valid options are:\n"
+#~ "\n"
+#~ "\t-h --help            display this help text\n"
+#~ "\t-V --version         display program version\n"
+#~ "\t-n --next-available  display number of next unallocated VT\n"
+#~ msgstr ""
+#~ "%s verzió: %s\n"
+#~ "\n"
+#~ "Használat: %s [kapcsolók]\n"
+#~ "\n"
+#~ "Az érvényes kapcsolók:\n"
+#~ "\n"
+#~ "\t-h --help            ezen súgószöveg megjelenítése\n"
+#~ "\t-V --version         programverzió megjelenítése\n"
+#~ "\t-n --next-available  a következő nem lefoglalt VT számának "
+#~ "megjelenítése\n"
+
+#, c-format
+#~ msgid "Couldn't get a file descriptor referring to the console\n"
+#~ msgstr "Nem sikerült a konzolra hivatkozó fájlleíró beszerzése\n"
+
+#, c-format
+#~ msgid "usage: getkeycodes\n"
+#~ msgstr "használat: getkeycodes\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\t%s [-s] [-C console]\n"
+#~ msgstr ""
+#~ "Használat:\n"
+#~ "\t%s [-s] [-C konzol]\n"
+
+#, c-format
+#~ msgid "Error: Unrecognized action: %s\n"
+#~ msgstr "Hiba: azonosítatlan művelet: %s\n"
+
+#, c-format
+#~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
+#~ msgstr "használat: kbd_mode [-a|-u|-k|-s] [-C eszköz]\n"
+
+#, c-format
+#~ msgid "Usage: kbdrate [-V | --version] [-s] [-r rate] [-d delay]\n"
+#~ msgstr ""
+#~ "Használat: kbdrate [-V | --version] [-s] [-r gyakoriság] [-d "
+#~ "késleltetés]\n"
+
+#, c-format
+#~ msgid "bug: getfont called with count<256\n"
+#~ msgstr "hiba: a getfont szám<256 értékkel lett meghívva\n"
+
+#, c-format
+#~ msgid "bug: getfont using GIO_FONT needs buf.\n"
+#~ msgstr "hiba: a GIO_FONT-ot használó getfont ezt igényli: buf.\n"
+
+#, c-format
+#~ msgid "%s: out of memory\n"
+#~ msgstr "%s: nincs elég memória\n"
+
+#, c-format
+#~ msgid "assuming iso-8859-15 %s"
+#~ msgstr "iso-8859-15 %s feltételezve"
+
+#, c-format
+#~ msgid "assuming iso-8859-2 %s"
+#~ msgstr "iso-8859-2 %s feltételezve"
+
+#, c-format
+#~ msgid "assuming iso-8859-3 %s"
+#~ msgstr "iso-8859-3 %s feltételezve"
+
+#, c-format
+#~ msgid "assuming iso-8859-4 %s"
+#~ msgstr "iso-8859-4 %s feltételezve"
+
+#, c-format
+#~ msgid ""
+#~ "loadkeys version %s\n"
+#~ "\n"
+#~ "Usage: %s [option...] [mapfile...]\n"
+#~ "\n"
+#~ "Valid options are:\n"
+#~ "\n"
+#~ "  -a --ascii         force conversion to ASCII\n"
+#~ "  -b --bkeymap       output a binary keymap to stdout\n"
+#~ "  -c --clearcompose  clear kernel compose table\n"
+#~ "  -C --console=file\n"
+#~ "                     the console device to be used\n"
+#~ "  -d --default       load \"%s\"\n"
+#~ "  -h --help          display this help text\n"
+#~ "  -m --mktable       output a \"defkeymap.c\" to stdout\n"
+#~ "  -p --parse         search and parse keymap without action\n"
+#~ "  -q --quiet         suppress all normal output\n"
+#~ "  -s --clearstrings  clear kernel string table\n"
+#~ "  -u --unicode       force conversion to Unicode\n"
+#~ "  -v --verbose       report the changes\n"
+#~ "  -V --version       print version number\n"
+#~ msgstr ""
+#~ "loadkeys %s verzió\n"
+#~ "\n"
+#~ "Használat: %s [kapcsoló…] [térképfájl…]\n"
+#~ "\n"
+#~ "Az érvényes kapcsolók:\n"
+#~ "\n"
+#~ "  -a --ascii         átalakítás kényszerítése ASCII-ra\n"
+#~ "  -b --bkeymap       bináris billentyűtérkép kiírása a szabványos "
+#~ "kimenetre\n"
+#~ "  -c --clearcompose  a kernel összeállítási táblázat törlése\n"
+#~ "  -C --console=file\n"
+#~ "                     a használandó konzoleszköz\n"
+#~ "  -d --default       „%s” betöltése\n"
+#~ "  -h --help          ezen súgószöveg megjelenítése\n"
+#~ "  -m --mktable       egy „defkeymap.c” fájl kiírása a szabványos "
+#~ "kimenetre\n"
+#~ "  -p --parse         billentyűtérkép keresése és feldolgozása művelet "
+#~ "nélkül\n"
+#~ "  -q --quiet         minden normál kimenet elnyomása\n"
+#~ "  -s --clearstrings  kernel szövegtáblázat törlése\n"
+#~ "  -u --unicode       átalakítás kényszerítése Unicode-ra\n"
+#~ "  -v --verbose       módosítások jelentése\n"
+#~ "  -V --version       verziószám kiírása\n"
+
+#, c-format
+#~ msgid "Cannot find %s\n"
+#~ msgstr "Nem található: %s\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\t%s [-C console] [-o map.orig]\n"
+#~ msgstr ""
+#~ "Használat:\n"
+#~ "\t%s [-C konzol] [-o map.orig]\n"
+
+#, c-format
+#~ msgid "Bad input line: %s\n"
+#~ msgstr "Rossz bemeneti sor: %s\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
+#~ msgstr ""
+#~ "%s: rossz Unicode tartomány a megfelelő 0x%x-0x%x betűpozíció "
+#~ "tartományhoz\n"
+
+#, c-format
+#~ msgid "%s: %s: Warning: line too long\n"
+#~ msgstr "%s: %s: Figyelmeztetés: a sor túl hosszú\n"
+
+#~ msgid "entries"
+#~ msgstr "bejegyzések"
+
+#, c-format
+#~ msgid "mapscrn: cannot open map file _%s_\n"
+#~ msgstr "mapscrn: nem sikerült megnyitni a(z) _%s_ térképfájlt\n"
+
+#, c-format
+#~ msgid "Cannot stat map file"
+#~ msgstr "Nem sikerült elérni a térképfájlt"
+
+#, c-format
+#~ msgid "Error writing map to file\n"
+#~ msgstr "Hiba a térkép fájlba írásakor\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] -- command\n"
+#~ "\n"
+#~ "This utility help you to start a program on a new virtual terminal (VT).\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -c, --console=NUM   use the given VT number;\n"
+#~ "  -e, --exec          execute the command, without forking;\n"
+#~ "  -f, --force         force opening a VT without checking;\n"
+#~ "  -l, --login         make the command a login shell;\n"
+#~ "  -u, --user          figure out the owner of the current VT;\n"
+#~ "  -s, --switch        switch to the new VT;\n"
+#~ "  -w, --wait          wait for command to complete;\n"
+#~ "  -v, --verbose       print a message for each action;\n"
+#~ "  -V, --version       print program version and exit;\n"
+#~ "  -h, --help          output a brief help message.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Használat: %s [KAPCSOLÓK] -- parancs\n"
+#~ "\n"
+#~ "Ez a segédprogram segít egy program indításában egy új\n"
+#~ "virtuális terminálon (VT).\n"
+#~ "\n"
+#~ "Kapcsolók:\n"
+#~ "  -c, --console=NUM   a megadott VT szám használata;\n"
+#~ "  -e, --exec          a parancs végrehajtása elágazás nélkül;\n"
+#~ "  -f, --force         egy VT nyitásának erőltetése ellenőrzés nélkül;\n"
+#~ "  -l, --login         bejelentkező parancsértelmezővé teszi a programot;\n"
+#~ "  -u, --user          a jelenlegi VT tulajdonosának kitalálása;\n"
+#~ "  -s, --switch        átváltás egy új VT-re;\n"
+#~ "  -w, --wait          várakozás a program befejeződésére;\n"
+#~ "  -v, --verbose       üzenet kiírása minden művelethez;\n"
+#~ "  -V, --version       programverzió kiírása és kilépés;\n"
+#~ "  -h, --help          rövid súgóüzenet kiírása.\n"
+#~ "\n"
+
+#~ msgid "Activation interrupted?"
+#~ msgstr "Aktiválás megszakítva?"
+
+#, c-format
+#~ msgid "%s: Bad input line: %s\n"
+#~ msgstr "%s: rossz bemeneti sor: %s\n"
+
+#, c-format
+#~ msgid "%s: Glyph number (0x%lx) past end of font\n"
+#~ msgstr "%s: a szimbólum szám (0x%lx) a betűkészlet vége után\n"
+
+#, c-format
+#~ msgid "%s: Bad end of range (0x%lx)\n"
+#~ msgstr "%s: rossz tartományvég (0x%lx)\n"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Corresponding to a range of font positions, there should be a Unicode "
+#~ "range\n"
+#~ msgstr ""
+#~ "%s: a betűkészlet pozíciói tartományának megfelelően Unicode tartománynak "
+#~ "kellene lennie\n"
 
 #, c-format
 #~ msgid "usage: screendump [n]\n"
-#~ msgstr "syntaxe : screendump [n]\n"
+#~ msgstr "használat: screendump [n]\n"
+
+#, c-format
+#~ msgid "couldn't read %s, and cannot ioctl dump\n"
+#~ msgstr "nem sikerült a(z) %s olvasása, és az ioctl kiírás sikertelen\n"
 
 #, c-format
 #~ msgid ""
@@ -1964,13 +2317,12 @@ msgstr "L'affichage en mode console ne peut être intégralement verrouillé.\n"
 #~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
 #~ "The -<N> option selects a font from a codepage that contains three "
 #~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
 #~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
 #~ "mappings\n"
 #~ "will be loaded and, in the case of consolemaps, activated.\n"
 #~ "    -h<N>      (no space) Override font height.\n"
-#~ "    -d         Double size of font horizontally and vertically.\n"
 #~ "    -m <fn>    Load console screen map.\n"
 #~ "    -u <fn>    Load font unicode map.\n"
 #~ "    -m none    Suppress loading and activation of a screen map.\n"
@@ -1980,43 +2332,140 @@ msgstr "L'affichage en mode console ne peut être intégralement verrouillé.\n"
 #~ "    -V         Print version and exit.\n"
 #~ "Files are loaded from the current directory or %s/*/.\n"
 #~ msgstr ""
-#~ "Usage : setfont [options-d-écriture] [-<N>] [nouvelle-fonte..] [-m mappe-"
-#~ "de-console] [-u mappe-unicode]\n"
-#~ "Options d'écriture (elles sont prises en compte avant tout chargement de "
-#~ "fichiers) :\n"
-#~ "    -o  <fichier>       écrire la fonte courante dans <fichier>\n"
-#~ "    -O  <fichier>       écrire la fonte courante et la mappe unicode dans "
-#~ "<fichier>\n"
-#~ "    -om <fichier>       écrire la mappe de console courante dans "
-#~ "<fichier>\n"
-#~ "    -ou <fichier>       écrire la mappe unicode courante dans <fichier>\n"
-#~ "Si aucune nouvelle fonte et si aucune des options -[o|O|om|ou|m|u] n'est "
-#~ "fournie, la fonte par défaut est chargée:\n"
-#~ "    setfont             charger la fonte \"default[.gz]\"\n"
-#~ "    setfont -<N>        charger la fonte \"default8x<N>[.gz]\"\n"
-#~ "L'option -<N> sélectionne une fonte à partir d'un codepage qui contient 3 "
-#~ "fontes:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]\n"
-#~ "                        charger la fonte 8x<N> à partir du codepage.cp\n"
-#~ "Explicitement (avec -m ou -u) ou implicitement (dans le fichier de fonte) "
-#~ "la map donnée\n"
-#~ "sera chargée et, dans le cas d'une mappe de console, sera activée.\n"
-#~ "    -h<N>              (sans espace) écrase la hauteur de fonte.\n"
-#~ "    -d                 Double la taille de police horizontalement et "
-#~ "verticalement.\n"
-#~ "    -m <fn>            charge la mappe d'écran de la console.\n"
-#~ "    -u <fn>            charge la mappe de fonte unicode.\n"
-#~ "    -m none            supprime le chargement et l'activation de la mappe "
-#~ "d'écran.\n"
-#~ "    -u none            supprime le chargement de la mappe unicode.\n"
-#~ "    -v                 travaille en mode verbeux.\n"
-#~ "    -C <cons>          indique la console à utiliser.\n"
-#~ "    -V                 affiche la version et quitter.\n"
-#~ "Les fichiers sont chargés à partir du répertoire courant ou de %s/*/.\n"
+#~ "Használat: setfont [írási-kapcsolók] [-<N>] [új-betű…] [-m konzoltérkép] "
+#~ "[-u unicode-térkép]\n"
+#~ "  írási kapcsolók (a fájlbetöltés előtt történik):\n"
+#~ "    -o  <fájlnév>  Jelenlegi betűkészlet írása <fájlnévbe>\n"
+#~ "    -O  <fájlnév>  Jelenlegi betűkészlet és Unicode térkép írása "
+#~ "<fájlnévbe>\n"
+#~ "    -om <fájlnév>  Jelenlegi konzoltérkép írása <fájlnévbe>\n"
+#~ "    -ou <fájlnév>  Jelenlegi Unicode térkép írása <fájlnévbe>\n"
+#~ "Ha nincs új-betű és nincs megadva -[o|O|om|ou|m|u] kapcsoló,\n"
+#~ "akkor az alapértelmezett betűkészlet lesz betöltve:\n"
+#~ "    setfont         „default[.gz]” betűkészlet betöltése\n"
+#~ "    setfont -<N>    „default8x<N>[.gz]” betűkészlet betöltése\n"
+#~ "A -<N> kapcsoló kiválaszt egy betűkészletet a kódlapról, amely három\n"
+#~ "betűkészletet tartalmaz:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   a codepage.cp 8x<N> betű "
+#~ "betöltése\n"
+#~ "Explicit (-m vagy -u kapcsolóval) vagy implicit (a betűfájlban) megadott\n"
+#~ "leképezések lesznek betöltve, és - a konzoltérképek esetében - "
+#~ "alkalmazva.\n"
+#~ "    -h<N>      (nincs szóköz) Betűkészlet magasságának felülbírálása.\n"
+#~ "    -m <fn>    Konzolképernyő térkép betöltése.\n"
+#~ "    -u <fn>    Betűkészlet Unicode térkép betöltése.\n"
+#~ "    -m none    A képernyőtérkép betöltésének és aktiválásának elnyomása.\n"
+#~ "    -u none    Egy Unicode térkép betöltésének elnyomása.\n"
+#~ "    -v         Legyen bőbeszédű.\n"
+#~ "    -C <cons>  A használandó konzoleszköz jelzése.\n"
+#~ "    -V         Verzió kiírása és kilépés.\n"
+#~ "A fájlok az aktuális könyvtárból vagy a(z) %s/*/ helyről vannak "
+#~ "betöltve.\n"
 
-#~ msgid "getfont called with count<256"
-#~ msgstr "getfont a été appelée avec un compteur < 256"
+#, c-format
+#~ msgid "Cannot open font file %s\n"
+#~ msgstr "Nem sikerült megnyitni a(z) %s betűkészletfájlt\n"
 
-#~ msgid "getfont using GIO_FONT needs buf"
+#, c-format
+#~ msgid "Cannot find %s font\n"
+#~ msgstr "Nem található %s betűkészlet\n"
+
+#~ msgid "even number of arguments expected"
+#~ msgstr "páros számú argumentumot kell megadni"
+
+#~ msgid ""
+#~ "Error reading current flags setting. Maybe you are not on the console?: "
+#~ "ioctl KDGKBLED"
 #~ msgstr ""
-#~ "l'utilisation de GIO_FONT avec getfont nécessite la mise en mémoire tampon"
+#~ "Hiba a jelenlegi jelzőbeállítások olvasásakor. Talán nem a konzolon van?: "
+#~ "ioctl KDGKBLED"
+
+#~ msgid "Error reading current led setting from /dev/kbd: ioctl KIOCSLED"
+#~ msgstr ""
+#~ "Hiba a jelenlegi LED-beállítás olvasásakor a /dev/kbd fájlból: ioctl "
+#~ "KIOCSLED"
+
+#~ msgid "KIOCSLED unavailable?\n"
+#~ msgstr "KIOCSLED nem érhető el?\n"
+
+#, c-format
+#~ msgid ""
+#~ "Usage:\n"
+#~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
+#~ "Each vt has his own copy of this bit. Use\n"
+#~ "\tsetmetamode [arg] < /dev/ttyn\n"
+#~ "to change the settings of another vt.\n"
+#~ "The setting before and after the change are reported.\n"
+#~ msgstr ""
+#~ "Használat:\n"
+#~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
+#~ "Minden vt saját másolattal rendelkezik erről a bitről. Így használja:\n"
+#~ "\tsetmetamode [arg] < /dev/ttyn\n"
+#~ "egy másik vt beállításainak módosításához.\n"
+#~ "A módosítás előtti és utáni beállítás jelentve lesz.\n"
+
+#~ msgid ""
+#~ "Error reading current setting. Maybe stdin is not a VT?: ioctl KDGKBMETA"
+#~ msgstr ""
+#~ "Hiba a jelenlegi beállítás olvasásakor. Talán a szabványos bemenet nem a "
+#~ "VT?: ioctl KDGKBMETA"
+
+#, c-format
+#~ msgid "usage: %s\n"
+#~ msgstr "használat: %s\n"
+
+#, c-format
+#~ msgid ""
+#~ "usage: showconsolefont -V|--version\n"
+#~ "       showconsolefont [-C tty] [-v] [-i]\n"
+#~ "(probably after loading a font with `setfont font')\n"
+#~ "\n"
+#~ "Valid options are:\n"
+#~ " -V --version    Print version number and exit.\n"
+#~ " -C tty          Device to read the font from. Default: current tty.\n"
+#~ " -v              Be more verbose.\n"
+#~ " -i              Don't print out the font table, just show\n"
+#~ "                 ROWSxCOLSxCOUNT and exit.\n"
+#~ msgstr ""
+#~ "használat: showconsolefont -V|--version\n"
+#~ "           showconsolefont [-C tty] [-v] [-i]\n"
+#~ "(valószínűleg egy betűkészlet betöltése után a „setfont font” "
+#~ "használatával)\n"
+#~ "\n"
+#~ "Az érvényes kapcsolók:\n"
+#~ " -V --version  Verziószám kiírása és kilépés.\n"
+#~ " -C tty        A betű beolvasásának eszköze. Alapértelmezett: jelenlegi "
+#~ "tty.\n"
+#~ " -v            Legyen bőbeszédűbb.\n"
+#~ " -i            Ne írja ki a betűkészlet táblázatot, csak jelenítse meg a\n"
+#~ "               SORxOSZLOPxSZÁM értékét, és lépjen ki.\n"
+
+#, c-format
+#~ msgid ""
+#~ "showkey version %s\n"
+#~ "\n"
+#~ "usage: showkey [options...]\n"
+#~ "\n"
+#~ "valid options are:\n"
+#~ "\n"
+#~ "\t-h --help\tdisplay this help text\n"
+#~ "\t-a --ascii\tdisplay the decimal/octal/hex values of the keys\n"
+#~ "\t-s --scancodes\tdisplay only the raw scan-codes\n"
+#~ "\t-k --keycodes\tdisplay only the interpreted keycodes (default)\n"
+#~ "\t-V --version\tprint version number\n"
+#~ msgstr ""
+#~ "showkey %s verzió\n"
+#~ "\n"
+#~ "használat: showkey [kapcsolók…]\n"
+#~ "\n"
+#~ "az érvényes kapcsolók:\n"
+#~ "\n"
+#~ "\t-h --help\tezen súgószöveg megjelenítése\n"
+#~ "\t-a --ascii\ta billentyűk decimális/oktális/hexa értékeinek "
+#~ "megjelenítése\n"
+#~ "\t-s --scancodes\tcsak a nyers vizsgálókódok megjelenítése\n"
+#~ "\t-k --keycodes\tcsak az értelmezett billentyűkódok megjelenítése (alap)\n"
+#~ "\t-V --version\tverziószám kiírása\n"
+
+#~ msgid "usage: totextmode\n"
+#~ msgstr "használat: totextmode\n"

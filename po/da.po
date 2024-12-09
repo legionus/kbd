@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-10-28 16:19+0100\n"
+"POT-Creation-Date: 2024-12-09 15:37+0100\n"
 "PO-Revision-Date: 2011-06-03 22:01+0200\n"
 "Last-Translator: Keld Simonsen <keld@keldix.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -333,8 +333,8 @@ msgstr ""
 #: src/kbd_mode.c:158
 #, c-format
 msgid ""
-"Changing to the requested mode may make your keyboard unusable, please use -"
-"f to force the change.\n"
+"Changing to the requested mode may make your keyboard unusable, please use "
+"-f to force the change.\n"
 msgstr ""
 
 #: src/kbdrate.c:139 src/kbdrate.c:204
@@ -1427,9 +1427,9 @@ msgid "Error writing screendump"
 msgstr "Fejl ved skrivning af skærmdump\n"
 
 #: src/setfont.c:20
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [option...] [newfont...]\n"
-msgstr "brug: %s [-v] [-o originaltabel] tabelfil\n"
+msgstr ""
 
 #: src/setfont.c:22
 #, c-format
@@ -1492,9 +1492,8 @@ msgid "double size of font horizontally and vertically."
 msgstr ""
 
 #: src/setfont.c:184
-#, fuzzy
 msgid "force load unicode map."
-msgstr "Tilføjede UCS-tabel\n"
+msgstr ""
 
 #: src/setfont.c:185
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
@@ -1957,95 +1956,42 @@ msgid "The entire console display cannot be locked.\n"
 msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 
 #, c-format
-#~ msgid "usage: screendump [n]\n"
-#~ msgstr "brug: screendump [n]\n"
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
-#~ "unicodemap]\n"
-#~ "  write-options (take place before file loading):\n"
-#~ "    -o  <filename>  Write current font to <filename>\n"
-#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
-#~ "    -om <filename>  Write current consolemap to <filename>\n"
-#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
-#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
-#~ "a default font is loaded:\n"
-#~ "    setfont         Load font \"default[.gz]\"\n"
-#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
-#~ "The -<N> option selects a font from a codepage that contains three "
-#~ "fonts:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from codepage."
-#~ "cp\n"
-#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
-#~ "mappings\n"
-#~ "will be loaded and, in the case of consolemaps, activated.\n"
-#~ "    -h<N>      (no space) Override font height.\n"
-#~ "    -d         Double size of font horizontally and vertically.\n"
-#~ "    -m <fn>    Load console screen map.\n"
-#~ "    -u <fn>    Load font unicode map.\n"
-#~ "    -m none    Suppress loading and activation of a screen map.\n"
-#~ "    -u none    Suppress loading of a unicode map.\n"
-#~ "    -v         Be verbose.\n"
-#~ "    -C <cons>  Indicate console device to be used.\n"
-#~ "    -V         Print version and exit.\n"
-#~ "Files are loaded from the current directory or %s/*/.\n"
-#~ msgstr ""
-#~ "Brug: setfont [skriveflag] [-<N>] [nyskrifttype..] [-m konsoltabel] [-u "
-#~ "UCS-tabel]\n"
-#~ "  skriveflag (sker før filer læses):\n"
-#~ "    -o  <filnavn>\tSkriv nuværende skrifttype til <filnavn>\n"
-#~ "    -O  <filnavn>\tSkriv nuværende skrifttype og UCS-tabel til <filnavn>\n"
-#~ "    -om <filnavn>\tSkriv nuværende konsoltabel til <filnavn>\n"
-#~ "    -ou <filnavn>\tSkriv nuværende UCS-tabel til <filnavn>\n"
-#~ "Hvis ingen \"nyskrifttype\" og ingen -[o|O|om|ou|m|u]-flag er givet,\n"
-#~ "indlæses en standardskrifttype:\n"
-#~ "    setfont             Indlæs skrifttype \"default[.gz]\"\n"
-#~ "    setfont -<N>        Indlæs skrifttype \"default8x<N>[.gz]\"\n"
-#~ "-<N>-flaget vælger en skrifttype fra en tegntabel som indeholder tre "
-#~ "skrifttyper:\n"
-#~ "    setfont -{8|14|16} codepage.cp[.gz]   Indlæs 8×<N>-skrifttypen fra "
-#~ "codepage.cp\n"
-#~ "Eksplicit (med -m eller -u) eller implicit (i skrifttypefilen) givne "
-#~ "tabeller\n"
-#~ "vil blive læst ind og, hvis det er konsoltabeller, aktiveres.\n"
-#~ "    -h<N>      (intet blanktegn) tilsidesæt skrifttypehøjde.\n"
-#~ "    -m <fn>    Indlæs konsolskærmstabel.\n"
-#~ "    -u <fn>    Indlæs UCS-skrifttypetabel.\n"
-#~ "    -m none    Lad være med at indlæse og aktivere skærmtabel.\n"
-#~ "    -u none    Lad være med at indlæse en UCS-tabel.\n"
-#~ "    -v         Vær snaksalig.\n"
-#~ "    -C <cons>  Angiv konsolenhed der skal bruges\n"
-#~ "    -V         Udskriv version og afslut.\n"
-#~ "Filer indlæses fra det aktuelle katalog eller %s/*/.\n"
-
 #~ msgid "usage: chvt N\n"
 #~ msgstr "brug: chvt N\n"
 
+#, c-format
 #~ msgid "%s: unknown option\n"
 #~ msgstr "%s: ukendt flag\n"
 
+#, c-format
 #~ msgid "%s: deallocating all unused consoles failed\n"
 #~ msgstr "%s: deallokering af alle ubrugte konsoller mislykkedes\n"
 
+#, c-format
 #~ msgid "KDGKBENT error at index 0 in table %d\n"
 #~ msgstr "KDGKBENT-fejl ved indeks 0 i tabel %d:\n"
 
+#, c-format
 #~ msgid "%s: cannot find any keymaps?\n"
 #~ msgstr "%s: kan ikke finde nogen tastetabeller?\n"
 
+#, c-format
 #~ msgid "%s: plain map not allocated? very strange ...\n"
 #~ msgstr "%s: simpel tabel ikke allokeret? meget mystisk ...\n"
 
+#, c-format
 #~ msgid "# not alt_is_meta: on keymap %d key %d is bound to"
 #~ msgstr "# ikke alt_is_meta: i tastetabel %d er tast %d bundet til"
 
+#, c-format
 #~ msgid "KDGKBSENT failed at index %d: "
 #~ msgstr "KDGKBSENT mislykkedes ved indeks %d: "
 
+#, c-format
 #~ msgid "dumpkeys version %s"
 #~ msgstr "dumpkeys version %s"
 
+#, c-format
 #~ msgid ""
 #~ "\n"
 #~ "usage: dumpkeys [options...]\n"
@@ -2080,6 +2026,7 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "\t   --compose­only   vis kun \"compose\"-tastekombinationer\n"
 #~ "\t-c --charset="
 
+#, c-format
 #~ msgid ""
 #~ "%s version %s\n"
 #~ "\n"
@@ -2101,18 +2048,23 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "\t-V --version         vis versionsnummer\n"
 #~ "\t-n --next-available  vis nummer på næste utildelte VT\n"
 
+#, c-format
 #~ msgid "error executing  %s\n"
 #~ msgstr "fejl ved eksekvering af %s\n"
 
+#, c-format
 #~ msgid "Warning: path too long: %s/%s\n"
 #~ msgstr "Advarsel: stien er for lang: %s/%s\n"
 
+#, c-format
 #~ msgid "Couldn't get a file descriptor referring to the console\n"
 #~ msgstr "Kunne ikke få en filidentifikator der referere til konsollen\n"
 
+#, c-format
 #~ msgid "usage: getkeycodes\n"
 #~ msgstr "brug: getkeycodes\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\t%s [-s] [-C console]\n"
@@ -2120,36 +2072,47 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "Brug:\n"
 #~ "\t%s [-s] [-C console]\n"
 
+#, c-format
 #~ msgid "Error: Unrecognized action: %s\n"
 #~ msgstr "Fejl: Ukendt handling: %s\n"
 
+#, c-format
 #~ msgid "usage: kbd_mode [-a|-u|-k|-s] [-C device]\n"
 #~ msgstr "brug: kbd_mode [-a|-u|-k|-s] [-C enhed]\n"
 
+#, c-format
 #~ msgid "kbd_mode: error reading keyboard mode\n"
 #~ msgstr "kbd_mode: fejl ved læsning af tastaturstilstand\n"
 
+#, c-format
 #~ msgid "Usage: kbdrate [-V] [-s] [-r rate] [-d delay]\n"
 #~ msgstr "Brug: kbdrate [-V] [-s] [-r frekvens] [-d forsinkelse]\n"
 
+#, c-format
 #~ msgid "bug: getfont called with count<256\n"
 #~ msgstr "fejl: getfont kaldt med count<256\n"
 
+#, c-format
 #~ msgid "bug: getfont using GIO_FONT needs buf.\n"
 #~ msgstr "fejl: getfont med GIO_FONT behøver buf.\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-15 %s\n"
 #~ msgstr "antager iso-8859-15 %s\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-2 %s\n"
 #~ msgstr "antager iso-8859-2 %s\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-3 %s\n"
 #~ msgstr "antager iso-8859-3 %s\n"
 
+#, c-format
 #~ msgid "assuming iso-8859-4 %s\n"
 #~ msgstr "antager iso-8859-4 %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "loadkeys version %s\n"
 #~ "\n"
@@ -2189,27 +2152,35 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "  -u --unicode       gennemtving konvertering til UCS\n"
 #~ "  -v --verbose       udskriv ændringerne\n"
 
+#, c-format
 #~ msgid "addmap called with bad index %d"
 #~ msgstr "addmap kaldt ,ed dårligt indeks %d"
 
+#, c-format
 #~ msgid "killkey called with bad index %d"
 #~ msgstr "killkey kaldt med dårligt indeks %d"
 
+#, c-format
 #~ msgid "killkey called with bad table %d"
 #~ msgstr "killkey kaldt med dårlig tabel %d"
 
+#, c-format
 #~ msgid "addkey called with bad index %d"
 #~ msgstr "addkey kaldt med dårligt indeks %d"
 
+#, c-format
 #~ msgid "addkey called with bad table %d"
 #~ msgstr "addkey kaldt med dårlig tabel %d"
 
+#, c-format
 #~ msgid "%s: addfunc called with bad func %d\n"
 #~ msgstr "%s: addfunc kaldt med dårlig func %d\n"
 
+#, c-format
 #~ msgid "%s: addfunc: func_buf overflow\n"
 #~ msgstr "%s: addfunc: overløb i func_buf\n"
 
+#, c-format
 #~ msgid "compose table overflow\n"
 #~ msgstr "overløb i kompositionstabel\n"
 
@@ -2225,6 +2196,7 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "strings"
 #~ msgstr "strenge"
 
+#, c-format
 #~ msgid "Loaded %d compose %s.\n"
 #~ msgstr "Indlæste %d kompositionér %s\n"
 
@@ -2237,21 +2209,27 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "too many key definitions on one line"
 #~ msgstr "for mane definitioner for taster på én linje"
 
+#, c-format
 #~ msgid "Searching in %s\n"
 #~ msgstr "Søger i %s\n"
 
+#, c-format
 #~ msgid "Cannot find %s\n"
 #~ msgstr "Kan ikke finde %s\n"
 
+#, c-format
 #~ msgid "cannot open file %s\n"
 #~ msgstr "Kan ikke åbne fil %s\n"
 
+#, c-format
 #~ msgid "syntax error in map file\n"
 #~ msgstr "Syntaksfejl i tabelfil\n"
 
+#, c-format
 #~ msgid "key bindings not changed\n"
 #~ msgstr "tastebininger ikke ændret\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\t%s [-C console] [-o map.orig]\n"
@@ -2259,27 +2237,33 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "Brug:\n"
 #~ "\t%s [-C konsol] [-o map.orig]\n"
 
+#, c-format
 #~ msgid "Bad input line: %s\n"
 #~ msgstr "Fejlagtig inddatalinje: %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s: Bad Unicode range corresponding to font position range 0x%x-0x%x\n"
 #~ msgstr ""
 #~ "%s: Fejlagtigt UCS-interval som modsvarer skrifttypepositionsinterval "
 #~ "0x%x-0x%x\n"
 
+#, c-format
 #~ msgid "%s: %s: Warning: line too long\n"
 #~ msgstr "%s: %s: Advarsel: linjen er for lang\n"
 
 #~ msgid "entries"
 #~ msgstr "poster"
 
+#, c-format
 #~ msgid "mapscrn: cannot open map file _%s_\n"
 #~ msgstr "mapscrn: kan ikke åbne tabelfil _%s_\n"
 
+#, c-format
 #~ msgid "Cannot stat map file"
 #~ msgstr "Kan ikke tage status på tabelfil"
 
+#, c-format
 #~ msgid ""
 #~ "Usage: %s [OPTIONS] -- command\n"
 #~ "\n"
@@ -2317,15 +2301,19 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ msgid "Activation interrupted?"
 #~ msgstr "Aktivering afbrudt?"
 
+#, c-format
 #~ msgid "%s: Bad input line: %s\n"
 #~ msgstr "%s: Fejlagtig inddatalinje: %s\n"
 
+#, c-format
 #~ msgid "%s: Glyph number (0x%lx) past end of font\n"
 #~ msgstr "%s: Glyfnummer (0x%lx) forbi slutningen af skrifttypen\n"
 
+#, c-format
 #~ msgid "%s: Bad end of range (0x%lx)\n"
 #~ msgstr "%s: Fejlagtigt slut på interval (0x%lx)\n"
 
+#, c-format
 #~ msgid ""
 #~ "%s: Corresponding to a range of font positions, there should be a Unicode "
 #~ "range\n"
@@ -2333,30 +2321,99 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "%s: Til et modsvarende interval af skrifttypespositioner burde der findes "
 #~ "et UCS-interval\n"
 
+#, c-format
+#~ msgid "usage: screendump [n]\n"
+#~ msgstr "brug: screendump [n]\n"
+
+#, c-format
 #~ msgid "couldn't read %s, and cannot ioctl dump\n"
 #~ msgstr "kunne ikke læse %s, og kan ikke køre \"ioctl dump\"\n"
 
+#, c-format
+#~ msgid ""
+#~ "Usage: setfont [write-options] [-<N>] [newfont..] [-m consolemap] [-u "
+#~ "unicodemap]\n"
+#~ "  write-options (take place before file loading):\n"
+#~ "    -o  <filename>  Write current font to <filename>\n"
+#~ "    -O  <filename>  Write current font and unicode map to <filename>\n"
+#~ "    -om <filename>  Write current consolemap to <filename>\n"
+#~ "    -ou <filename>  Write current unicodemap to <filename>\n"
+#~ "If no newfont and no -[o|O|om|ou|m|u] option is given,\n"
+#~ "a default font is loaded:\n"
+#~ "    setfont         Load font \"default[.gz]\"\n"
+#~ "    setfont -<N>    Load font \"default8x<N>[.gz]\"\n"
+#~ "The -<N> option selects a font from a codepage that contains three "
+#~ "fonts:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Load 8x<N> font from "
+#~ "codepage.cp\n"
+#~ "Explicitly (with -m or -u) or implicitly (in the fontfile) given "
+#~ "mappings\n"
+#~ "will be loaded and, in the case of consolemaps, activated.\n"
+#~ "    -h<N>      (no space) Override font height.\n"
+#~ "    -m <fn>    Load console screen map.\n"
+#~ "    -u <fn>    Load font unicode map.\n"
+#~ "    -m none    Suppress loading and activation of a screen map.\n"
+#~ "    -u none    Suppress loading of a unicode map.\n"
+#~ "    -v         Be verbose.\n"
+#~ "    -C <cons>  Indicate console device to be used.\n"
+#~ "    -V         Print version and exit.\n"
+#~ "Files are loaded from the current directory or %s/*/.\n"
+#~ msgstr ""
+#~ "Brug: setfont [skriveflag] [-<N>] [nyskrifttype..] [-m konsoltabel] [-u "
+#~ "UCS-tabel]\n"
+#~ "  skriveflag (sker før filer læses):\n"
+#~ "    -o  <filnavn>\tSkriv nuværende skrifttype til <filnavn>\n"
+#~ "    -O  <filnavn>\tSkriv nuværende skrifttype og UCS-tabel til <filnavn>\n"
+#~ "    -om <filnavn>\tSkriv nuværende konsoltabel til <filnavn>\n"
+#~ "    -ou <filnavn>\tSkriv nuværende UCS-tabel til <filnavn>\n"
+#~ "Hvis ingen \"nyskrifttype\" og ingen -[o|O|om|ou|m|u]-flag er givet,\n"
+#~ "indlæses en standardskrifttype:\n"
+#~ "    setfont             Indlæs skrifttype \"default[.gz]\"\n"
+#~ "    setfont -<N>        Indlæs skrifttype \"default8x<N>[.gz]\"\n"
+#~ "-<N>-flaget vælger en skrifttype fra en tegntabel som indeholder tre "
+#~ "skrifttyper:\n"
+#~ "    setfont -{8|14|16} codepage.cp[.gz]   Indlæs 8×<N>-skrifttypen fra "
+#~ "codepage.cp\n"
+#~ "Eksplicit (med -m eller -u) eller implicit (i skrifttypefilen) givne "
+#~ "tabeller\n"
+#~ "vil blive læst ind og, hvis det er konsoltabeller, aktiveres.\n"
+#~ "    -h<N>      (intet blanktegn) tilsidesæt skrifttypehøjde.\n"
+#~ "    -m <fn>    Indlæs konsolskærmstabel.\n"
+#~ "    -u <fn>    Indlæs UCS-skrifttypetabel.\n"
+#~ "    -m none    Lad være med at indlæse og aktivere skærmtabel.\n"
+#~ "    -u none    Lad være med at indlæse en UCS-tabel.\n"
+#~ "    -v         Vær snaksalig.\n"
+#~ "    -C <cons>  Angiv konsolenhed der skal bruges\n"
+#~ "    -V         Udskriv version og afslut.\n"
+#~ "Filer indlæses fra det aktuelle katalog eller %s/*/.\n"
+
+#, c-format
 #~ msgid "Cannot open font file %s\n"
 #~ msgstr "Kan ikke åbne skrifttypefilen %s\n"
 
+#, c-format
 #~ msgid "Cannot find %s font\n"
 #~ msgstr "Kan ikke finde skrifttypen %s\n"
 
 #~ msgid "even number of arguments expected"
 #~ msgstr "lige antal argumenter forventedes"
 
+#, c-format
 #~ msgid ""
 #~ "Error reading current flags setting. Maybe you are not on the console?\n"
 #~ msgstr ""
 #~ "Fejl ved læsning af nuværende flagindstilling. Du er måske ikke på "
 #~ "konsollen?\n"
 
+#, c-format
 #~ msgid "KIOCSLED unavailable?\n"
 #~ msgstr "KIOCSLED ikke tilgængelig?\n"
 
+#, c-format
 #~ msgid "Error opening /dev/kbd.\n"
 #~ msgstr "Fejl ved åbning af /dev/kbd.\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage:\n"
 #~ "\tsetmetamode [ metabit | meta | bit | escprefix | esc | prefix ]\n"
@@ -2372,14 +2429,17 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "for at ændre indstillingen for en anden vt.\n"
 #~ "Indstillingen for og efter ændringen rapporteres.\n"
 
+#, c-format
 #~ msgid "Error reading current setting. Maybe stdin is not a VT?\n"
 #~ msgstr ""
 #~ "Fejl ved læsning af nuværende indstilling. Standard ind er måske ikke en "
 #~ "VT?\n"
 
+#, c-format
 #~ msgid "usage: %s\n"
 #~ msgstr "brug: %s\n"
 
+#, c-format
 #~ msgid ""
 #~ "Usage: %s vga|FILE|-\n"
 #~ "\n"
@@ -2403,9 +2463,11 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "og redigér så værdierne i FIL.\n"
 #~ "\n"
 
+#, c-format
 #~ msgid "%s: out of memory?\n"
 #~ msgstr "%s: slut på hukommelsen?\n"
 
+#, c-format
 #~ msgid ""
 #~ "usage: showconsolefont -V|--version\n"
 #~ "       showconsolefont [-C tty] [-v] [-i]\n"
@@ -2428,6 +2490,7 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ " -i       Udskriv ikke skrifttypetabellen, bare vis\n"
 #~ "          RÆKKERxKOLONNExANTAL og afslut.\n"
 
+#, c-format
 #~ msgid ""
 #~ "showkey version %s\n"
 #~ "\n"
@@ -2451,5 +2514,6 @@ msgstr "%s: VT 1 er konsollen og kan ikke deallokeres\n"
 #~ "\t-s --scancodes\tvis kun de rå skankoder\n"
 #~ "\t-k --keycodes\tvis kun de tolkede tastekoder (standard)\n"
 
+#, c-format
 #~ msgid "usage: totextmode\n"
 #~ msgstr "brug: totextmode\n"
