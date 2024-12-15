@@ -70,8 +70,11 @@ kbd_getopt(int argc, char **argv, const struct kbd_option *opts)
 	if (!optind)
 		optind = 1;
 
-	if (optind >= argc || !argv[optind] || argv[optind][0] != '-')
+	if (optind >= argc || !argv[optind])
 		return -1;
+
+	if (argv[optind][0] != '-')
+		return '?';
 
 	option = argv[optind];
 
@@ -284,8 +287,14 @@ int main(int argc, char *argv[])
 				usage(EXIT_SUCCESS, opthelp);
 				break;
 			case '?':
-				kbd_warning(0, "invalid option '%s'", argv[optind]);
-				usage(EX_USAGE, opthelp);
+				if (argv[optind][0] == '-') {
+					kbd_warning(0, "invalid option '%s'", argv[optind]);
+					usage(EX_USAGE, opthelp);
+				}
+
+				if (ifilct == MAXIFILES)
+					kbd_error(EX_USAGE, 0, _("Too many input files."));
+				ifiles[ifilct++] = argv[optind++];
 				break;
 		}
 	}
