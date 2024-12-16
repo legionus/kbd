@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.6-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-12-09 15:49+0100\n"
+"POT-Creation-Date: 2024-12-16 18:11+0100\n"
 "PO-Revision-Date: 2024-10-26 18:56+0300\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <translation-team-sq@lists.sourceforge.net>\n"
@@ -26,7 +26,7 @@ msgstr "Përdorimi: %s [mundësi…] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
 #: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
-#: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:182
+#: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
 #: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
@@ -36,7 +36,7 @@ msgstr "pajisja konsolë për t’u përdorur."
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
 #: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
-#: src/setfont.c:188 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
+#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
 #: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
@@ -46,7 +46,7 @@ msgstr "shtyp këtë mesazh përdorimi."
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
 #: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
-#: src/setfont.c:187 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
+#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
 #: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
@@ -60,7 +60,7 @@ msgstr "S’ka argumente të mjaftueshëm."
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
 #: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
-#: src/setfont.c:304 src/setkeycodes.c:117 src/setlogcons.c:96
+#: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
 #: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
@@ -169,7 +169,7 @@ msgid ""
 msgstr ""
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
-#: src/setfont.c:186 src/setleds.c:215 src/showconsolefont.c:135
+#: src/setfont.c:189 src/setleds.c:215 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "ji më fjalaman."
 
@@ -465,17 +465,17 @@ msgstr ""
 msgid "Unable to remove item from the diacritical table"
 msgstr "S’arrihet të hiqet objekt nga tabelë diakritikësh"
 
-#: src/libkeymap/dump.c:76 src/libkeymap/loadkeys.c:43
+#: src/libkeymap/dump.c:87 src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr ""
 
-#: src/libkeymap/dump.c:88 src/libkfont/mapscrn.c:253
+#: src/libkeymap/dump.c:99 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "Gabim në shkrimin tabele te kartela"
 
-#: src/libkeymap/dump.c:536
+#: src/libkeymap/dump.c:547
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr ""
@@ -1386,56 +1386,56 @@ msgid ""
 "Files are loaded from the %s/*/.\n"
 msgstr ""
 
-#: src/setfont.c:174
+#: src/setfont.c:177
 #, fuzzy
 msgid "load font \"default8x<N>\"."
 msgstr "ngarko parazgjedhjeN."
 
-#: src/setfont.c:175
+#: src/setfont.c:178
 msgid "override font height (there shouldn't be a space in the short option)."
 msgstr ""
 
-#: src/setfont.c:176
+#: src/setfont.c:179
 msgid "write current font to <FILE>."
 msgstr ""
 
-#: src/setfont.c:177
+#: src/setfont.c:180
 msgid "write current consolemap to <FILE>."
 msgstr ""
 
-#: src/setfont.c:178
+#: src/setfont.c:181
 msgid "write current unicodemap to <FILE>."
 msgstr ""
 
-#: src/setfont.c:179
+#: src/setfont.c:182
 msgid "write current font and unicode map to <FILE>."
 msgstr ""
 
-#: src/setfont.c:180
+#: src/setfont.c:183
 msgid "load console screen map ('none' means don't load it)."
 msgstr ""
 
-#: src/setfont.c:181
+#: src/setfont.c:184
 msgid "load font unicode map ('none' means don't load it)."
 msgstr ""
 
-#: src/setfont.c:183
+#: src/setfont.c:186
 msgid "double size of font horizontally and vertically."
 msgstr ""
 
-#: src/setfont.c:184
+#: src/setfont.c:187
 msgid "force load unicode map."
 msgstr ""
 
-#: src/setfont.c:185
+#: src/setfont.c:188
 msgid "reset the screen font, size, and unicode map to the bootup defaults."
 msgstr ""
 
-#: src/setfont.c:295
+#: src/setfont.c:296 src/setfont.c:304
 msgid "Too many input files."
 msgstr "Shumë kartela dhënie."
 
-#: src/setfont.c:300
+#: src/setfont.c:309
 msgid "Cannot both restore from character ROM and from file. Font unchanged."
 msgstr ""
 
