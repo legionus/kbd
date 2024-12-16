@@ -24,6 +24,17 @@
 
 #define U(x) ((x) ^ 0xf000)
 
+/*
+ * ++Geert: non-PC keyboards may generate keycode zero
+ *
+ * See https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/vt/keyboard.c#n1968
+ */
+#if !defined(__mc68000__) && !defined(__powerpc__)
+#  define MIN_KEYCODE 1
+#else
+#  define MIN_KEYCODE 0
+#endif
+
 static void
 outchar(FILE *fd, unsigned int c, int comma)
 {
@@ -427,7 +438,7 @@ void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numer
 		if (!(j != ja && lk_map_exists(ctx, j) && lk_map_exists(ctx, ja)))
 			continue;
 
-		for (i = 0; i < NR_KEYS; i++) {
+		for (i = MIN_KEYCODE; i < NR_KEYS; i++) {
 			int buf0, buf1, type;
 
 			buf0 = lk_get_key(ctx, j, i);
@@ -453,7 +464,7 @@ void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numer
 not_alt_is_meta:
 no_shorthands:
 
-	for (i = 0; i < NR_KEYS; i++) {
+	for (i = MIN_KEYCODE; i < NR_KEYS; i++) {
 		all_holes = 1;
 
 		for (j = 0; j < keymapnr; j++) {
