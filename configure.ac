@@ -188,8 +188,8 @@ AC_ARG_ENABLE(compress,
 	[enable_compress=$enableval], [enable_compress=auto])
 
 AS_IF([test "x$enable_compress" = xno],   [],
-      [test "x$enable_compress" = xyes],  [AC_CHECK_PROGS([COMPRESS_PROG], [zstd xz bzip2 gzip])],
-      [test "x$enable_compress" = xauto], [AC_CHECK_PROGS([COMPRESS_PROG], [gzip])],
+      [test "x$enable_compress" = xyes],  [AC_CHECK_PROGS([COMPRESS_PROG], [zstd xz bzip2 "gzip -n"])],
+      [test "x$enable_compress" = xauto], [AC_CHECK_PROGS([COMPRESS_PROG], ["gzip -n"])],
       [AC_CHECK_PROGS([COMPRESS_PROG], ["$enable_compress"])])
 AM_CONDITIONAL(ENABLE_COMPRESS, test "x$COMPRESS_PROG" != "x")
 
