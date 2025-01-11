@@ -120,8 +120,14 @@ AT_CLEANUP
 
 AT_SETUP([test 22 (fulltable numeric=1 ts=FULL_TABLE)])
 AT_KEYWORDS([libkeymap unittest])
+suffix=
+case "$(arch)" in
+	ppc|ppc32|ppc32le|ppc64|ppc64le|ppc64*series)
+		suffix=".ppc"
+		;;
+esac
 cp -f -- \
-	"$abs_srcdir/data/dumpkeys-fulltable/ruwin_cplk-UTF-8.map" \
+	"$abs_srcdir/data/dumpkeys-fulltable/ruwin_cplk-UTF-8.map$suffix" \
 	expout
 AT_CHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dumpkeys-fulltable/ruwin_cplk-UTF-8.map FULL_TABLE TRUE],
 	[0], [expout])
