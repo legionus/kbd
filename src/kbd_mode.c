@@ -16,8 +16,13 @@
 #include <sysexits.h>
 #include <sys/ioctl.h>
 #include <linux/kd.h>
+#include <linux/version.h>
 
 #include "libcommon.h"
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 39)
+#define HAS_K_OFF
+#endif
 
 static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
@@ -48,6 +53,11 @@ fprint_mode(FILE *stream, int  mode)
 		case K_UNICODE:
 			fprintf(stream, _("The keyboard is in Unicode (UTF-8) mode"));
 			break;
+#ifdef HAS_K_OFF
+		case K_OFF:
+			fprintf(stream, _("The keyboard is in Disabled mode, perhaps you are using a graphical environment?"));
+			break;
+#endif
 		default:
 			fprintf(stream, _("The keyboard is in some unknown mode"));
 	}
