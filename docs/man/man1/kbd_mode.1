@@ -5,7 +5,7 @@ kbd_mode \- report or set the keyboard mode
 .SH SYNOPSIS
 .B kbd_mode
 [
-.I -a | -u | -k | -s 
+.I -a | -u | -k | -s | -d 
 ] [
 .I -f
 ] [
@@ -16,17 +16,34 @@ kbd_mode \- report or set the keyboard mode
 .LP
 Without argument,
 .B kbd_mode
-prints the current keyboard mode (RAW, MEDIUMRAW or XLATE).
-With argument, it sets the keyboard mode as indicated:
+prints the current keyboard mode (RAW, MEDIUMRAW or XLATE). Using the options
+it is possible to switch the keyboard mode of the current console or
+the specified console.
+
+.SH OPTIONS
+.TP
+.B -a, --ascii
+set ASCII mode (XLATE).
+.TP
+.B -k, --keycode
+set keycode mode (MEDIUMRAW).
+.TP
+.B -s, --scancode
+set scancode mode (RAW).
+.TP
+.B -u, --unicode
+set UTF-8 mode (UNICODE).
+.TP
+.B -d, --disable
+set Disable mode (OFF).
+.TP
+.B -f, --force
+switch the mode even if it makes the keyboard unusable.
+.TP
+.B -C, --console=DEV
+the console device to be used.
 .LP
-\-s: scancode mode (RAW),
-.LP
-\-k: keycode mode (MEDIUMRAW),
-.LP
-\-a: ASCII mode (XLATE),
-.LP
-\-u: UTF-8 mode (UNICODE).
-.LP
+
 Of course the "\-a" is only traditional, and the code used can be any
 8-bit character set.  With "\-u" a 16-bit character set is expected,
 and these chars are transmitted to the kernel as 1, 2, or 3 bytes
@@ -34,6 +51,11 @@ and these chars are transmitted to the kernel as 1, 2, or 3 bytes
 In these latter two modes the key mapping defined by
 .BR loadkeys (1)
 is used.
+
+The Didable mode for the virtual console keyboard OFF to compliment RAW
+in which all key events are ignored. The mode prevents vt input
+buffers from overflowing when a program opens but doesn't read from a
+tty, like Xorg using only evdev for input.
 
 kbd_mode operates on the console specified by the "\-C" option; if there
 is none, the console associated with stdin is used.
