@@ -401,7 +401,7 @@ To                      to|To|TO
 				if (parse_int(yyextra, yytext, yytext + 1, 16, &(yylval->num)) < 0)
 					return(ERROR);
 
-				if (yylval->num >= 0xf000) {
+				if (yylval->num >= UNICODE_MASK) {
 					ERR(yyextra, _("unicode keysym out of range: %s"),
 						yytext);
 					return(ERROR);

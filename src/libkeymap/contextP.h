@@ -17,6 +17,9 @@
 
 #include "keymap.h"
 
+#define UNICODE_MASK 0xf000
+#define U(x) ((x) ^ UNICODE_MASK)
+
 /**
  * @brief The maximum number of include levels.
  */

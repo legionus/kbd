@@ -22,8 +22,6 @@
 #include "ksyms.h"
 #include "modifiers.h"
 
-#define U(x) ((x) ^ 0xf000)
-
 /*
  * ++Geert: non-PC keyboards may generate keycode zero
  *
@@ -291,7 +289,7 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 		dumpchar(fd, ptr->base, 0);
 #ifdef KDGKBDIACRUC
 		if (ctx->flags & LK_FLAG_PREFER_UNICODE) {
-			ksym = codetoksym(ctx, (int) ptr->result ^ 0xf000);
+			ksym = codetoksym(ctx, (int) U(ptr->result));
 			if (ksym) {
 				fprintf(fd, " to %s\n", ksym);
 			} else {
@@ -381,7 +379,7 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 		if (!numeric && (p = codetoksym(ctx, code)) != NULL)
 			fprintf(fd, "%-16s", p);
 		else
-			fprintf(fd, "U+%04x          ", code ^ 0xf000);
+			fprintf(fd, "U+%04x          ", U(code));
 		return;
 	}
 	plus = 0;
