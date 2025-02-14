@@ -208,7 +208,7 @@ codetoksym(struct lk_ctx *ctx, int code)
 	}
 
 	else { /* Unicode keysym */
-		code ^= 0xf000;
+		code = U(code);
 
 		if (code < 0x80)
 			return get_sym(ctx, KT_LATIN, code);
@@ -311,7 +311,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 		if (p) {
 			for (j = charsets[i].start; j < 256; j++, p++) {
 				if (!strcmp(s, p->name))
-					return (p->uni ^ 0xf000);
+					return U(p->uni);
 			}
 		}
 
@@ -324,7 +324,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 			if (p) {
 				for (j = charsets[i].start; j < 256; j++, p++) {
 					if (!strcmp(s, p->name))
-						return (p->uni ^ 0xf000);
+						return U(p->uni);
 				}
 			}
 		}
@@ -393,31 +393,31 @@ int convert_code(struct lk_ctx *ctx, int code, int direction)
 	else if (!input_is_unicode && code < 0x80)
 		/* basic ASCII is fine in every situation */
 		return code;
-	else if (input_is_unicode && (code ^ 0xf000) < 0x80)
+	else if (input_is_unicode && U(code) < 0x80)
 		/* so is Unicode "Basic Latin" */
-		return code ^ 0xf000;
+		return U(code);
 	else if ((input_is_unicode && direction == TO_UNICODE) ||
 	         (!input_is_unicode && direction == TO_8BIT))
 		/* no conversion necessary */
 		result = code;
 	else {
 		/* depending on direction, this will give us either an 8-bit
-		 * K(KTYP, KVAL) or a Unicode keysym xor 0xf000 */
+		 * K(KTYP, KVAL) or a Unicode keysym xor UNICODE_MASK */
 		ksym = codetoksym(ctx, code);
 		if (ksym)
 			result = ksymtocode(ctx, ksym, direction);
 		else
 			result = code;
-		if (direction == TO_UNICODE && KTYP(code) == KT_LETTER && (result ^ 0xf000) < 0x100) {
+		if (direction == TO_UNICODE && KTYP(code) == KT_LETTER && U(result) < 0x100) {
 			/* Unicode Latin-1 Supplement */
-			result = K(KT_LETTER, result ^ 0xf000);
+			result = K(KT_LETTER, U(result));
 		}
 	}
 
 	/* if direction was TO_UNICODE from the beginning, we return the true
-	 * Unicode value (without the 0xf000 mask) */
+	 * Unicode value (without the UNICODE_MASK) */
 	if (unicode_forced && result >= 0x1000)
-		return result ^ 0xf000;
+		return U(result);
 	else
 		return result;
 }
@@ -426,10 +426,10 @@ int add_capslock(struct lk_ctx *ctx, int code)
 {
 	if (KTYP(code) == KT_LATIN && (!(ctx->flags & LK_FLAG_PREFER_UNICODE) || code < 0x80))
 		return K(KT_LETTER, KVAL(code));
-	else if ((code ^ 0xf000) < 0x100)
+	else if (U(code) < 0x100)
 		/* Unicode Latin-1 Supplement */
 		/* a bit dirty to use KT_LETTER here, but it should work */
-		return K(KT_LETTER, code ^ 0xf000);
+		return K(KT_LETTER, U(code));
 	else
 		return convert_code(ctx, code, TO_AUTO);
 }

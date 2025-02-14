@@ -291,8 +291,8 @@ compline        : COMPOSE compsym compsym TO CCHAR EOL
 					YYERROR;
 			}
                 ;
-compsym		: CCHAR		{	$$ = $1;		}
-		| UNUMBER	{	$$ = $1 ^ 0xf000;	}
+compsym		: CCHAR		{	$$ = $1;	}
+		| UNUMBER	{	$$ = U($1);	}
 		;
 singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
@@ -393,8 +393,8 @@ rvalue1		: rvalue
 		;
 rvalue		: NUMBER	{ $$ = convert_code(ctx, $1, TO_AUTO);		}
                 | PLUS NUMBER	{ $$ = add_capslock(ctx, $2);			}
-		| UNUMBER	{ $$ = convert_code(ctx, $1^0xf000, TO_AUTO);	}
-		| PLUS UNUMBER	{ $$ = add_capslock(ctx, $2^0xf000);		}
+		| UNUMBER	{ $$ = convert_code(ctx, U($1), TO_AUTO);	}
+		| PLUS UNUMBER	{ $$ = add_capslock(ctx, U($2));		}
 		| LITERAL	{ $$ = $1;					}
                 | PLUS LITERAL	{ $$ = add_capslock(ctx, $2);			}
 		;
