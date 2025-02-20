@@ -116,9 +116,7 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 		return -1;
 
 	} else {
-		struct ccc {
-			unsigned char c1, c2, c3;
-		} def_latin1_composes[68] = {
+		struct lk_kbdiacr def_latin1_composes[68] = {
 			{ '`', 'A', 0300 }, { '`', 'a', 0340 },
 			{ '\'', 'A', 0301 }, { '\'', 'a', 0341 },
 			{ '^', 'A', 0302 }, { '^', 'a', 0342 },
@@ -156,14 +154,7 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 		};
 		int i;
 		for (i = 0; i < 68; i++) {
-			struct lk_kbdiacr ptr;
-			struct ccc c = def_latin1_composes[i];
-
-			ptr.diacr  = c.c1;
-			ptr.base   = c.c2;
-			ptr.result = c.c3;
-
-			if (lk_append_compose(ctx, &ptr) == -1)
+			if (lk_append_compose(ctx, &def_latin1_composes[i]) == -1)
 				return -1;
 		}
 	}
