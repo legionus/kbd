@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "array_size.h"
 #include "keymap.h"
 
 #include "contextP.h"
@@ -30,10 +31,7 @@
 
 #include "syms.ktyp.h"
 
-#define E(x)                                \
-	{                                   \
-		x, sizeof(x) / sizeof(x[0]) \
-	}
+#define E(x) { x, ARRAY_SIZE(x) }
 
 static const syms_entry syms[] = {
 	E(iso646_syms), /* KT_LATIN */
@@ -55,8 +53,8 @@ static const syms_entry syms[] = {
 
 #undef E
 
-const int syms_size = sizeof(syms) / sizeof(syms_entry);
-const int syn_size  = sizeof(synonyms) / sizeof(synonyms[0]);
+const int syms_size = ARRAY_SIZE(syms);
+const int syn_size  = ARRAY_SIZE(synonyms);
 
 static const struct cs {
 	const char *charset;
@@ -83,7 +81,7 @@ static const struct cs {
 	{ "iso-ir-209", iso_ir_209_syms, 160 },    /* sami */
 };
 
-static const unsigned int charsets_size = sizeof(charsets) / sizeof(charsets[0]);
+static const unsigned int charsets_size = ARRAY_SIZE(charsets);
 
 /* Functions for both dumpkeys and loadkeys. */
 
@@ -94,7 +92,7 @@ void lk_list_charsets(FILE *f)
 	unsigned int i, j;
 	const char *mm[] = { "iso-8859-", "koi8-" };
 
-	for (j = 0; j < sizeof(mm) / sizeof(mm[0]); j++) {
+	for (j = 0; j < ARRAY_SIZE(mm); j++) {
 		if (j)
 			fprintf(f, ",");
 		fprintf(f, "%s{", mm[j]);
@@ -110,7 +108,7 @@ void lk_list_charsets(FILE *f)
 		fprintf(f, "}");
 	}
 	for (i = 0; i < charsets_size; i++) {
-		for (j = 0; j < sizeof(mm) / sizeof(mm[0]); j++) {
+		for (j = 0; j < ARRAY_SIZE(mm); j++) {
 			lth = strlen(mm[j]);
 			if (!strncmp(charsets[i].charset, mm[j], lth))
 				goto nxti;

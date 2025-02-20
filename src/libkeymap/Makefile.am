@@ -9,6 +9,7 @@ LK_AGE      = 0
 
 headers = \
 	../include/kbd/compiler_attributes.h \
+	../include/array_size.h \
 	../include/keymap.h \
 	../include/kbd/keymap/array.h \
 	../include/kbd/keymap/context.h \

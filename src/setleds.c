@@ -12,6 +12,7 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 
+#include "array_size.h"
 #include "libcommon.h"
 
 /**
@@ -167,7 +168,7 @@ parse_let_option(char *ap, unsigned char *nval, unsigned char *ndef,
 			break;
 	}
 
-	for (lp = leds; (unsigned)(lp - leds) < sizeof(leds) / sizeof(leds[0]); lp++) {
+	for (lp = leds; (unsigned)(lp - leds) < ARRAY_SIZE(leds); lp++) {
 		if (!strcmp(ap, lp->name)) {
 			if (sign) {
 				*nval |= lp->bit;
