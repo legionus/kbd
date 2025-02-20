@@ -17,6 +17,7 @@
 #include <linux/kd.h>
 #include <sys/ioctl.h>
 
+#include "array_size.h"
 #include "libcommon.h"
 
 static void KBD_ATTR_NORETURN
@@ -67,8 +68,6 @@ static struct meta {
 	{ "esc", K_ESCPREFIX },
 	{ "prefix", K_ESCPREFIX }
 };
-
-#define SIZE(a) (sizeof(a) / sizeof(a[0]))
 
 int main(int argc, char **argv)
 {
@@ -125,7 +124,7 @@ int main(int argc, char **argv)
 	}
 
 	nmeta = 0; /* make gcc happy */
-	for (mp = metas; (unsigned)(mp - metas) < SIZE(metas); mp++) {
+	for (mp = metas; (unsigned)(mp - metas) < ARRAY_SIZE(metas); mp++) {
 		if (!strcmp(argv[optind], mp->name)) {
 			nmeta = mp->val;
 			goto end;

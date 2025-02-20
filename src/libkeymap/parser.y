@@ -11,6 +11,7 @@
  */
 %{
 #include "config.h"
+#include "array_size.h"
 
 #include "contextP.h"
 #include "ksyms.h"
@@ -80,7 +81,7 @@ strings_as_usual(struct lk_ctx *ctx)
 	/*
 	 * 26 strings, mostly inspired by the VT100 family
 	 */
-	const char *stringvalues[30] = {
+	const char *stringvalues[] = {
 		/* F1 .. F20 */
 		"\033[[A",  "\033[[B",  "\033[[C",  "\033[[D",  "\033[[E",
 		"\033[17~", "\033[18~", "\033[19~", "\033[20~", "\033[21~",
@@ -94,7 +95,7 @@ strings_as_usual(struct lk_ctx *ctx)
 	};
 	unsigned char i;
 
-	for (i = 0; i < 30; i++) {
+	for (i = 0; i < ARRAY_SIZE(stringvalues); i++) {
 		if (stringvalues[i]) {
 			struct kbsentry ke;
 			ke.kb_func = i;
@@ -116,7 +117,7 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 		return -1;
 
 	} else {
-		struct lk_kbdiacr def_latin1_composes[68] = {
+		struct lk_kbdiacr def_latin1_composes[] = {
 			{ '`', 'A', 0300 }, { '`', 'a', 0340 },
 			{ '\'', 'A', 0301 }, { '\'', 'a', 0341 },
 			{ '^', 'A', 0302 }, { '^', 'a', 0342 },
@@ -152,8 +153,8 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 			{ 's', 's', 0337 }, { '"', 'y', 0377 },
 			{ 's', 'z', 0337 }, { 'i', 'j', 0377 }
 		};
-		int i;
-		for (i = 0; i < 68; i++) {
+		unsigned int i;
+		for (i = 0; i < ARRAY_SIZE(def_latin1_composes); i++) {
 			if (lk_append_compose(ctx, &def_latin1_composes[i]) == -1)
 				return -1;
 		}
