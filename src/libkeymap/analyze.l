@@ -276,8 +276,8 @@ open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
 	return stack_push(ctx, fp, scanner);
 }
 
-static int
-parse_int(struct lk_ctx *ctx, char *text, char *value, int base, int *res)
+static int parse_positive_long(struct lk_ctx *ctx, char *text, char *value,
+		int base, long long max, long *res)
 {
 	long v;
 
@@ -285,6 +285,10 @@ parse_int(struct lk_ctx *ctx, char *text, char *value, int base, int *res)
 	v = strtol(value, NULL, base);
 
 	if (errno) {
+		if (errno == ERANGE && (v == LONG_MIN || v == LONG_MAX)) {
+			ERR(ctx, "resulting value is out of range: %s", text);
+			return -1;
+		}
 		ERR(ctx, _("unable to parse number: %s"), text);
 		return -1;
 	}
@@ -294,13 +298,32 @@ parse_int(struct lk_ctx *ctx, char *text, char *value, int base, int *res)
 		return -1;
 	}
 
-	if (v > INT_MAX) {
-		ERR(ctx, _("value must be less than %d: %s"), INT_MAX, text);
+	if (v > max) {
+		ERR(ctx, _("value must be less than %lld: %s"), max, text);
 		return -1;
 	}
 
-	*res = (int) v;
+	*res = v;
+	return 0;
+}
 
+static int parse_int(struct lk_ctx *ctx, char *text, char *value, int base, int *res)
+{
+	long v;
+
+	if (!res || parse_positive_long(ctx, text, value, base, INT_MAX, &v) < 0)
+		return -1;
+	*res = (int) v;
+	return 0;
+}
+
+static int parse_uchar(struct lk_ctx *ctx, char *text, char *value, int base, unsigned char *res)
+{
+	long v;
+
+	if (!res || parse_positive_long(ctx, text, value, base, UCHAR_MAX, &v) < 0)
+		return -1;
+	*res = (unsigned char) v;
 	return 0;
 }
 
@@ -460,25 +483,17 @@ To                      to|To|TO
 				yy_push_state(STR, yyscanner);
 			}
 <STR>\\{Octa}		{
-				long int i;
+				unsigned char ch;
+
 				if (yylval->str.len == MAX_PARSER_STRING) {
 					ERR(yyextra, _("string too long"));
 					return(ERROR);
 				}
 
-				i = strtol(yytext + 1, NULL, 8);
-
-				if (i == LONG_MIN || i == LONG_MAX) {
-					ERR(yyextra, "resulting octal value is out of range: %s", yytext + 1);
+				if (parse_uchar(yyextra, yytext, yytext + 1, 8, &ch) < 0)
 					return(ERROR);
-				}
 
-				if (i > UCHAR_MAX) {
-					ERR(yyextra, _("octal number too big"));
-					return(ERROR);
-				}
-
-				yylval->str.data[yylval->str.len++] = (unsigned char) i;
+				yylval->str.data[yylval->str.len++] = ch;
 			}
 <STR>\\\"               {
 				if (yylval->str.len == MAX_PARSER_STRING) {
