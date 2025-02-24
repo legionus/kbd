@@ -39,7 +39,6 @@ jobs:
              exit 1
           fi
 
-
   distcheck_job:
     name: "Distcheck"
     runs-on: ubuntu-latest
@@ -63,8 +62,8 @@ jobs:
       run: |
         sudo -E make distcheck
 
-  build_job:
-    name: "Check with ${{ matrix.compiler }} / ${{ matrix.libc }}"
+  local_build_job:
+    name: "Check with ${{ matrix.compiler }} / ${{ matrix.libc }} on x86_64"
     strategy:
       matrix:
         include:
@@ -123,3 +122,68 @@ jobs:
         if-no-files-found: ignore
         retention-days: 1
 
+  qemu_build_job:
+    name: "Check on ${{ matrix.arch }}"
+    strategy:
+      matrix:
+        include:
+          - arch: x86_64
+          - arch: s390x
+          - arch: ppc64el
+      fail-fast: false
+    runs-on: ubuntu-latest
+    needs: [ check_commits_job, distcheck_job ]
+    env:
+      CI_ARCH: ${{ matrix.arch }}
+      CI_UBUNTU_VERSION: "24.10"
+
+    steps:
+    - name: "Check out repository"
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: "Prepare Node"
+      run: |
+        for m in kvm kvm-amd kvm-intel; do sudo modprobe -v "$m" ||:; done
+        test -c /dev/kvm && sudo chmod -v 666 /dev/kvm ||:
+
+    - name: "Install dependencies"
+      run: |
+        sudo apt-get update  -y -qq
+        sudo apt-get install -y -qq qemu-system ssh cloud-image-utils
+
+    - name: "Prepare cloud image for VM"
+      run: tests/ci/create-cloud-image.sh
+
+    - name: "Start VM"
+      run: |
+        tests/ci/start-qemu-vm.sh "$PWD"
+        while ! tests/ci/vm-ssh.sh ubuntu@localhost /bin/true; do sleep 1; done
+      timeout-minutes: 30
+
+    - name: "Install dependencies into VM"
+      run: tests/ci/vm-ssh.sh ubuntu@localhost /opt/tests/ci/qemu-install-dependencies.sh
+
+    - name: "Copy sources into VM"
+      run: |
+        tests/ci/vm-ssh.sh ubuntu@localhost mkdir /tmp/kbd
+        tests/ci/vm-scp.sh -r . ubuntu@localhost:/tmp/kbd/
+
+    - name: "Build project in the VM"
+      run: |
+        rc=0
+        tests/ci/vm-ssh.sh ubuntu@localhost /opt/tests/ci/qemu-run-build-and-tests.sh ${{ matrix.arch }} || rc=1
+        tests/ci/vm-scp.sh ubuntu@localhost:artifacts.tar /tmp/${{ matrix.arch }}/ ||:
+        exit $rc
+
+    - name: "Upload artifacts"
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-on-${{ matrix.arch }}-artifacts
+        path: |
+          /tmp/${{ matrix.arch }}/qemu.log
+          /tmp/${{ matrix.arch }}/artifacts.tar
+        if-no-files-found: ignore
+        retention-days: 1
