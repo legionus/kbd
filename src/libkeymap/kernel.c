@@ -87,15 +87,15 @@ int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 {
 #ifdef KDGKBDIACRUC
 	unsigned long request = KDGKBDIACRUC;
-	struct kbdiacrsuc kd;
+	struct kbdiacrsuc kd = { 0 };
 	struct kbdiacruc *ar = kd.kbdiacruc;
 #else
 	unsigned long request = KDGKBDIACR;
-	struct kbdiacrs kd;
+	struct kbdiacrs kd = { 0 };
 	struct kbdiacr *ar = kd.kbdiacr;
 #endif
 	int i;
-	struct lk_kbdiacr dcr;
+	struct lk_kbdiacr dcr = { 0 };
 
 	if (ioctl(fd, request, (unsigned long)&kd)) {
 		ERR(ctx, _("KDGKBDIACR(UC): %s: Unable to get accent table"),
