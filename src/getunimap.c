@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 		return -ret;
 
 	if (kfont_get_unicodemap(kfont, fd, &ud))
-		return EXIT_FAILURE;
+		goto kfont_fail;
 
 	if (sortflag) {
 		printf("# sorted kernel unimap - count=%d\n", ud.entry_ct);
@@ -131,5 +131,12 @@ int main(int argc, char **argv)
 		}
 	}
 
+	free(ud.entries);
+	kfont_free(kfont);
+
 	return EXIT_SUCCESS;
+
+kfont_fail:
+	kfont_free(kfont);
+	return EXIT_FAILURE;
 }

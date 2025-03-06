@@ -36,7 +36,7 @@ usage(int rc, const struct kbd_help *options)
 
 int main(int argc, char *argv[])
 {
-	int fd, c, ret;
+	int fd, c, ret, rc;
 	char *console = NULL;
 	char *outfnam = NULL;
 	const char *infnam  = "def.uni";
@@ -92,17 +92,25 @@ int main(int argc, char *argv[])
 	if ((ret = kfont_init(program_invocation_short_name, &kfont)) < 0)
 		return -ret;
 
+	rc = EX_OK;
+
 	if (outfnam) {
-		if ((ret = kfont_save_unicodemap(kfont, fd, outfnam)) < 0)
-			return -ret;
+		if ((ret = kfont_save_unicodemap(kfont, fd, outfnam)) < 0) {
+			rc = -ret;
+			goto kfont_exit;
+		}
 		if (argc == optind)
-			return EX_OK;
+			goto kfont_exit;
 	}
 
 	if (argc == optind + 1)
 		infnam = argv[optind];
-	if ((ret = kfont_load_unicodemap(kfont, fd, infnam)) < 0)
-		return -ret;
 
-	return EX_OK;
+	if ((ret = kfont_load_unicodemap(kfont, fd, infnam)) < 0)
+		rc = -ret;
+
+kfont_exit:
+	kfont_free(kfont);
+
+	return rc;
 }

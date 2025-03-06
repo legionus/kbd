@@ -77,8 +77,12 @@ int main(int argc, char *argv[])
 	if ((ret = kfont_init(program_invocation_short_name, &ctx)) < 0)
 		return -ret;
 
-	if (kfont_put_unicodemap(ctx, fd, NULL, NULL) < 0)
-		return EXIT_FAILURE;
+	ret = EXIT_SUCCESS;
 
-	return EXIT_SUCCESS;
+	if (kfont_put_unicodemap(ctx, fd, NULL, NULL) < 0)
+		ret = EXIT_FAILURE;
+
+	kfont_free(ctx);
+
+	return ret;
 }
