@@ -1,0 +1,6 @@
+AT_SETUP([loadunimap (cp866)])
+AT_KEYWORDS([e2e loadunimap memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+clrunimap || "$abs_top_builddir/src/clrunimap"
+E2E_MEMCHECK(["$abs_top_builddir/src/loadunimap" cp866])
+AT_CLEANUP

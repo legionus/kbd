@@ -1,0 +1,9 @@
+AT_SETUP([dumpkeys (path/ruwin_cplk-UTF-8.map)])
+AT_KEYWORDS([e2e dumpkeys memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+export LANG=en_US.UTF-8
+kbd_mode -u -f
+"$abs_top_builddir/src/loadkeys" -c -s "$abs_srcdir/data/keymaps/VoidSymbol.map"
+"$abs_top_builddir/src/loadkeys" "$abs_srcdir/data/keymaps/i386/qwerty/ruwin_cplk-UTF-8.map"
+E2E_MEMCHECK(["$abs_top_builddir/src/dumpkeys"])
+AT_CLEANUP

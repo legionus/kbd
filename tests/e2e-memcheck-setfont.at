@@ -1,0 +1,6 @@
+AT_SETUP([setfont (path/UniCyrExt_8x16.psf)])
+AT_KEYWORDS([e2e setfont memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+AT_SKIP_IF([ test -z "$HAVE_VGA" ])
+E2E_CHECK(["$abs_top_builddir/src/setfont" -v "$abs_srcdir/data/consolefonts/UniCyrExt_8x16.psf"])
+AT_CLEANUP

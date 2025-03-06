@@ -93,20 +93,21 @@ jobs:
       CHECK_KEYWORDS: ${{ matrix.check }}
       SANDBOX: priviliged
       TTY: /dev/tty60
+      HAVE_VGA: 1
     steps:
     - name: "Check out repository"
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - run: sudo apt-get update  -y -qq
-    - run: sudo apt-get install -y -qq autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext kbd strace
+    - run: sudo apt-get install -y -qq autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext kbd strace valgrind
     - run: sudo apt-get install -y -qq gcc clang musl musl-dev musl-tools
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/tests/data" ${{ matrix.configure }}
     - name: "Build"
       run: |
-        make V=1
+        make V=1 CFLAGS+="-g -O0"
     - name: "Check"
       run: |
         sudo -E tests/check.sh

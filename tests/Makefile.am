@@ -16,21 +16,10 @@ ATPACKAGE = $(abs_builddir)/atpackage
 TESTSUITE = $(abs_builddir)/testsuite
 
 EXTRA_DIST = \
-	data                   \
-	e2e-clrunimap.at       \
-	e2e-dumpkeys.at        \
-	e2e-getunimap.at       \
-	e2e-kbdinfo.at         \
-	e2e-kbd_mode.at        \
-	e2e-loadkeys.at        \
-	e2e-loadunimap.at      \
-	e2e-psfxtable.at       \
-	e2e-setfont.at         \
-	e2e-setvtrgb.at        \
-	e2e.at                 \
-	libkbdfile.at          \
-	libkeymap.at           \
-	testsuite.at           \
+	data             \
+	$(wildcard *.at) \
+	$(wildcard *.sh) \
+	syscall-filter.sed \
 	$(NULL)
 
 CLEANFILES = \

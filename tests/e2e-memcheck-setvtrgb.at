@@ -1,0 +1,17 @@
+AT_SETUP([setvtrgb (vga)])
+AT_KEYWORDS([e2e setvtrgb memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+E2E_MEMCHECK(["$abs_top_builddir/src/setvtrgb" vga])
+AT_CLEANUP
+
+AT_SETUP([setvtrgb (vtrgb.ubuntu)])
+AT_KEYWORDS([e2e setvtrgb memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+E2E_MEMCHECK(["$abs_top_builddir/src/setvtrgb" "$abs_srcdir/data/setvtrgb/vtrgb.ubuntu"])
+AT_CLEANUP
+
+AT_SETUP([setvtrgb (vtrgb.ubuntu.hex)])
+AT_KEYWORDS([e2e setvtrgb memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+E2E_MEMCHECK(["$abs_top_builddir/src/setvtrgb" "$abs_srcdir/data/setvtrgb/vtrgb.ubuntu.hex"])
+AT_CLEANUP

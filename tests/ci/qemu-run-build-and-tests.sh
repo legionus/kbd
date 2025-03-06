@@ -27,7 +27,7 @@ cd "/tmp/kbd"
 tests/configure.sh --datadir="$PWD/tests/data" ||
 	fail_with_artifacts
 
-make -j$nproc V=1
+make -j$nproc V=1 CFLAGS+="-g -O0"
 
 export CHECK_KEYWORDS="unittest e2e"
 export SANDBOX="priviliged"

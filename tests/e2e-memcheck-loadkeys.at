@@ -1,0 +1,15 @@
+AT_SETUP([loadkeys (path/us.map)])
+AT_KEYWORDS([e2e loadkeys memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+kbd_mode -u -f
+"loadkeys" -c -s "$abs_srcdir/data/keymaps/VoidSymbol.map"
+E2E_MEMCHECK(["$abs_top_builddir/src/loadkeys" "$abs_srcdir/data/keymaps/i386/qwerty/us.map"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys (path/ruwin_cplk-UTF-8.map)])
+AT_KEYWORDS([e2e loadkeys memcheck])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+kbd_mode -u -f
+"loadkeys" -c -s "$abs_srcdir/data/keymaps/VoidSymbol.map"
+E2E_MEMCHECK(["$abs_top_builddir/src/loadkeys" "$abs_srcdir/data/keymaps/i386/qwerty/ruwin_cplk-UTF-8.map"])
+AT_CLEANUP
