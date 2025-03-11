@@ -118,52 +118,46 @@ static const char *const include_suffixes[] = {
 	NULL
 };
 
-static int
-find_incl_file_near_fn(struct lk_ctx *ctx, char *s, char *fn, struct kbdfile *fp)
-{
-	const char *include_dirpath2[] = { NULL, NULL, NULL, NULL };
-	char *t, *te, *t1 = NULL, *t2 = NULL;
-	size_t len;
-	int rc = 1;
+#define INCL_1_LEVEL_UPPER "../include/"
+#define INCL_2_LEVEL_UPPER "../../include/"
 
-	if (!fn)
+static int find_incl_file_near_fn(struct lk_ctx *ctx, char *filename, char *path,
+		struct kbdfile *fp)
+{
+	char *slash, *t0, *t1, *t2;
+	size_t len;
+	int rc;
+
+	if (!path || !(slash = strrchr(path, '/')))
 		return 1;
 
-	t = strdup(fn);
-	if (t == NULL)
-		goto nomem;
+	len = (size_t) (slash - path + 1);
 
-	te = strrchr(t, '/');
-	if (te) {
-		te[1] = 0;
-		len = strlen(t);
-		include_dirpath2[0] = t;
-		include_dirpath2[1] = t1 = malloc(len + 12);
-		include_dirpath2[2] = t2 = malloc(len + 15);
+	t0 = strndup(path, len);
+	t1 = malloc(len + sizeof(INCL_1_LEVEL_UPPER));
+	t2 = malloc(len + sizeof(INCL_2_LEVEL_UPPER));
 
-		if (t1 == NULL || t2 == NULL)
-			goto nomem;
+	if (t0 && t1 && t2) {
+		const char *include_dirpath2[] = { t0, t1, t2, NULL };
 
-		strcpy(t1, t);
-		strcat(t1, "../include/");
-		strcpy(t2, t);
-		strcat(t2, "../../include/");
-		rc = kbdfile_find(s, include_dirpath2, include_suffixes, fp);
-		free(t1);
-		free(t2);
+		snprintf(t1, len + sizeof(INCL_1_LEVEL_UPPER), "%s%s", t0, INCL_1_LEVEL_UPPER);
+		snprintf(t2, len + sizeof(INCL_2_LEVEL_UPPER), "%s%s", t0, INCL_2_LEVEL_UPPER);
+
+		rc = kbdfile_find(filename, include_dirpath2, include_suffixes, fp);
+	} else {
+		ERR(ctx, _("out of memory"));
+		rc = -1;
 	}
-	free(t);
-	return rc;
 
-nomem:	ERR(ctx, _("out of memory"));
-	if (t1) free(t1);
-	if (t2) free(t2);
-	if (t)  free(t);
-	return -1;
+	free(t0);
+	free(t1);
+	free(t2);
+
+	return rc;
 }
 
-static int
-find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
+static int find_standard_incl_file(struct lk_ctx *ctx, char *filename,
+		struct kbdfile *fp)
 {
 	char *pathname;
 	int rc = 1;
@@ -175,8 +169,10 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 	i--;
 	pathname = kbdfile_get_pathname(ctx->stack[i]);
 
-	if ((rc = kbdfile_find(s, include_dirpath1, include_suffixes, fp))) {
-		if ((rc = find_incl_file_near_fn(ctx, s, pathname, fp)) == -1)
+	rc = kbdfile_find(filename, include_dirpath1, include_suffixes, fp);
+	if (rc) {
+		rc = find_incl_file_near_fn(ctx, filename, pathname, fp);
+		if (rc == -1)
 			return rc;
 	}
 
@@ -189,7 +185,7 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 		if (n > 0 && n < (ssize_t) sizeof(buf)) {
 			buf[n] = 0;
 			if (buf[0] == '/') {
-				rc = find_incl_file_near_fn(ctx, s, buf, fp);
+				rc = find_incl_file_near_fn(ctx, filename, buf, fp);
 
 			} else if (strlen(pathname) + (size_t) n < sizeof(path)) {
 				strcpy(path, pathname);
@@ -198,26 +194,26 @@ find_standard_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 				if (ptr)
 					ptr[1] = 0;
 				strcat(path, buf);
-				rc = find_incl_file_near_fn(ctx, s, path, fp);
+				rc = find_incl_file_near_fn(ctx, filename, path, fp);
 			}
 		}
 	}
 
 	if (rc)
-		rc = kbdfile_find(s, include_dirpath3, include_suffixes, fp);
+		rc = kbdfile_find(filename, include_dirpath3, include_suffixes, fp);
+
 	return rc;
 }
 
-static int
-find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
+static int find_incl_file(struct lk_ctx *ctx, char *filename, struct kbdfile *fp)
 {
 	char *ev;
 
-	if (!s || !*s)
+	if (!filename || !*filename)
 		return 1;
 
-	if (*s == '/')		/* no path required */
-		return (kbdfile_find(s, include_dirpath0, include_suffixes, fp));
+	if (*filename == '/')		/* no path required */
+		return kbdfile_find(filename, include_dirpath0, include_suffixes, fp);
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
@@ -232,9 +228,9 @@ find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 			}
 			user_dir[0] = ev;
 			if (*ev)
-				rc = kbdfile_find(s, user_dir, include_suffixes, fp);
+				rc = kbdfile_find(filename, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
-				rc = find_standard_incl_file(ctx, s, fp);
+				rc = find_standard_incl_file(ctx, filename, fp);
 
 			if (rc <= 0)
 				return rc;
@@ -244,16 +240,15 @@ find_incl_file(struct lk_ctx *ctx, char *s, struct kbdfile *fp)
 		}
 		return 1;
 	}
-	return find_standard_incl_file(ctx, s, fp);
+	return find_standard_incl_file(ctx, filename, fp);
 }
 
-static int
-open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
+static int open_include(struct lk_ctx *ctx, char *filename, yyscan_t scanner)
 {
 	int rc;
 	struct kbdfile *fp;
 
-	INFO(ctx, _("switching to %s"), s);
+	INFO(ctx, _("switching to %s"), filename);
 
 	fp = kbdfile_new(ctx->kbdfile_ctx);
 	if (!fp) {
@@ -261,17 +256,15 @@ open_include(struct lk_ctx *ctx, char *s, yyscan_t scanner)
 		return -1;
 	}
 
-	rc = find_incl_file(ctx, s, fp);
-	if (rc > 0) {
-		ERR(ctx, _("cannot open include file %s"), s);
-		free(s);
-		return -1;
-	} else if (rc == -1) {
-		free(s);
+	rc = find_incl_file(ctx, filename, fp);
+	if (rc) {
+		if (rc > 0)
+			ERR(ctx, _("cannot open include file %s"), filename);
+		free(filename);
 		return -1;
 	}
 
-	free(s);
+	free(filename);
 
 	return stack_push(ctx, fp, scanner);
 }
@@ -372,13 +365,13 @@ To                      to|To|TO
 				yy_push_state(INCLSTR, yyscanner);
 			}
 <INCLSTR>\"[^\"\n]+\"	{
-				char *s = strndup(yytext+1, strlen(yytext)-2);
-				if (s == NULL) {
+				char *filename = strndup(yytext + 1, strlen(yytext) - 2);
+				if (filename == NULL) {
 					ERR(yyextra, _("out of memory"));
 					return(ERROR);
 				}
 
-				if (open_include(yyextra, s, yyscanner) == -1)
+				if (open_include(yyextra, filename, yyscanner) == -1)
 					return(ERROR);
 
 				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
