@@ -243,7 +243,7 @@ static int find_incl_file(struct lk_ctx *ctx, char *filename, struct kbdfile *fp
 	return find_standard_incl_file(ctx, filename, fp);
 }
 
-static int open_include(struct lk_ctx *ctx, char *filename, yyscan_t scanner)
+static struct kbdfile *open_include(struct lk_ctx *ctx, char *filename)
 {
 	int rc;
 	struct kbdfile *fp;
@@ -253,20 +253,17 @@ static int open_include(struct lk_ctx *ctx, char *filename, yyscan_t scanner)
 	fp = kbdfile_new(ctx->kbdfile_ctx);
 	if (!fp) {
 		ERR(ctx, _("out of memory"));
-		return -1;
+		return NULL;
 	}
 
 	rc = find_incl_file(ctx, filename, fp);
 	if (rc) {
 		if (rc > 0)
 			ERR(ctx, _("cannot open include file %s"), filename);
-		free(filename);
-		return -1;
+		return NULL;
 	}
 
-	free(filename);
-
-	return stack_push(ctx, fp, scanner);
+	return fp;
 }
 
 static int parse_positive_long(struct lk_ctx *ctx, char *text, char *value,
@@ -365,14 +362,21 @@ To                      to|To|TO
 				yy_push_state(INCLSTR, yyscanner);
 			}
 <INCLSTR>\"[^\"\n]+\"	{
+				struct kbdfile *fp;
+
 				char *filename = strndup(yytext + 1, strlen(yytext) - 2);
 				if (filename == NULL) {
 					ERR(yyextra, _("out of memory"));
 					return(ERROR);
 				}
 
-				if (open_include(yyextra, filename, yyscanner) == -1)
+				fp = open_include(yyextra, filename);
+				free(filename);
+
+				if (!fp)
 					return(ERROR);
+
+				stack_push(yyextra, fp, yyscanner);
 
 				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
 					yy_pop_state(yyscanner);
