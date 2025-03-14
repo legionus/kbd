@@ -108,15 +108,15 @@ mk_mapname(char modifier)
 	int i;
 
 	if (!modifier) {
-		strcpy(buf, "plain");
+		strlcpy(buf, "plain", sizeof(buf));
 		return buf;
 	}
 	buf[0] = 0;
 	for (i = 0; i < 8; i++)
 		if (modifier & (1 << i)) {
 			if (buf[0])
-				strcat(buf, "_");
-			strcat(buf, mods[i]);
+				strlcat(buf, "_", sizeof(buf));
+			strlcat(buf, mods[i], sizeof(buf));
 		}
 	return buf;
 }

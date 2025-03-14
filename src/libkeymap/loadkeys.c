@@ -170,7 +170,8 @@ deffuncs(struct lk_ctx *ctx, int fd)
 		ptr = lk_array_get_ptr(ctx->func_table, i);
 
 		if (ptr) {
-			strcpy((char *)kbs.kb_string, ptr);
+			strlcpy((char *)kbs.kb_string, ptr, sizeof(kbs.kb_string));
+
 			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
 				s = ostr(ctx, (char *)kbs.kb_string);
 				if (s == NULL)

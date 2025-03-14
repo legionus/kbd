@@ -98,9 +98,9 @@ strings_as_usual(struct lk_ctx *ctx)
 	for (i = 0; i < ARRAY_SIZE(stringvalues); i++) {
 		if (stringvalues[i]) {
 			struct kbsentry ke;
+
 			ke.kb_func = i;
-			strncpy((char *)ke.kb_string, stringvalues[i], sizeof(ke.kb_string));
-			ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
+			strlcpy((char *)ke.kb_string, stringvalues[i], sizeof(ke.kb_string));
 
 			if (lk_add_func(ctx, &ke) == -1)
 				return -1;
@@ -252,11 +252,9 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 
 				ke.kb_func = (unsigned char) KVAL($2);
 
-				strncpy((char *) ke.kb_string,
+				strlcpy((char *) ke.kb_string,
 				        (char *) $4.data,
 				        sizeof(ke.kb_string));
-
-				ke.kb_string[sizeof(ke.kb_string) - 1] = 0;
 
 				if (lk_add_func(ctx, &ke) == -1)
 					YYERROR;

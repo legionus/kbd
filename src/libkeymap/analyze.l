@@ -188,12 +188,12 @@ static int find_standard_incl_file(struct lk_ctx *ctx, char *filename,
 				rc = find_incl_file_near_fn(ctx, filename, buf, fp);
 
 			} else if (strlen(pathname) + (size_t) n < sizeof(path)) {
-				strcpy(path, pathname);
-				path[sizeof(path) - 1] = 0;
+				strlcpy(path, pathname, sizeof(path));
 				ptr = strrchr(path, '/');
 				if (ptr)
 					ptr[1] = 0;
-				strcat(path, buf);
+				strlcat(path, buf, sizeof(path));
+
 				rc = find_incl_file_near_fn(ctx, filename, path, fp);
 			}
 		}

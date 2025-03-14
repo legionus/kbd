@@ -30,8 +30,7 @@ int lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 		return -1;
 	}
 
-	strncpy((char *)kbs->kb_string, s, sizeof(kbs->kb_string));
-	kbs->kb_string[sizeof(kbs->kb_string) - 1] = 0;
+	strlcpy((char *)kbs->kb_string, s, sizeof(kbs->kb_string));
 
 	return 0;
 }
