@@ -27,7 +27,7 @@
 
 #ifndef STRDATA_STRUCT
 #define STRDATA_STRUCT
-#define MAX_PARSER_STRING 512
+#define MAX_PARSER_STRING 512 // Maximum length of kbsentry.kb_string
 struct strdata {
 	unsigned long len;
 	unsigned char data[MAX_PARSER_STRING];

@@ -317,6 +317,28 @@ static int parse_uchar(struct lk_ctx *ctx, char *text, char *value, int base, un
 	return 0;
 }
 
+static int strdata_append(struct lk_ctx *ctx, struct strdata *strdata,
+		const char *partstr, unsigned long partlen)
+{
+	char *tail;
+
+	if ((strdata->len + partlen) >= sizeof(strdata->data)) {
+		ERR(ctx, _("string too long"));
+		return -1;
+	}
+
+	tail = (char *) strdata->data + strdata->len;
+
+	if (partlen > 1) {
+		strncpy(tail, partstr, partlen);
+	} else {
+		*tail = partstr[0];
+	}
+	strdata->len += partlen;
+
+	return 0;
+}
+
 %}
 %s RVALUE
 %x STR
@@ -482,50 +504,33 @@ To                      to|To|TO
 <STR>\\{Octa}		{
 				unsigned char ch;
 
-				if (yylval->str.len == MAX_PARSER_STRING) {
-					ERR(yyextra, _("string too long"));
-					return(ERROR);
-				}
-
 				if (parse_uchar(yyextra, yytext, yytext + 1, 8, &ch) < 0)
 					return(ERROR);
 
-				yylval->str.data[yylval->str.len++] = ch;
+				if (strdata_append(yyextra, &yylval->str, (char *) &ch, 1) < 0)
+					return(ERROR);
 			}
 <STR>\\\"               {
-				if (yylval->str.len == MAX_PARSER_STRING) {
-					ERR(yyextra, _("string too long"));
+				if (strdata_append(yyextra, &yylval->str, "\"", 1) < 0)
 					return(ERROR);
-				}
-				yylval->str.data[yylval->str.len++] = '"';
 			}
 <STR>\\\\               {
-				if (yylval->str.len == MAX_PARSER_STRING) {
-					ERR(yyextra, _("string too long"));
+				if (strdata_append(yyextra, &yylval->str, "\\", 1) < 0)
 					return(ERROR);
-				}
-				yylval->str.data[yylval->str.len++] = '\\';
 			}
 <STR>\\n		{
-				if (yylval->str.len == MAX_PARSER_STRING) {
-					ERR(yyextra, _("string too long"));
+				if (strdata_append(yyextra, &yylval->str, "\n", 1) < 0)
 					return(ERROR);
-				}
-				yylval->str.data[yylval->str.len++] = '\n';
 			}
 <STR>[^\"\\]*		{
 				size_t len = strlen(yytext);
 
-				if (yylval->str.len + len >= MAX_PARSER_STRING) {
-					ERR(yyextra, _("string too long"));
+				if (strdata_append(yyextra, &yylval->str, yytext, len) < 0)
 					return(ERROR);
-				}
-
-				strcpy((char *) yylval->str.data + yylval->str.len, yytext);
-				yylval->str.len += len;
 			}
 <STR>\"			{
-				yylval->str.data[yylval->str.len] = '\0';
+				strdata_append(yyextra, &yylval->str, "\0", 0);
+
 				while (((struct yyguts_t*)yyscanner)->yy_start_stack_ptr) {
 					yy_pop_state(yyscanner);
 				}
