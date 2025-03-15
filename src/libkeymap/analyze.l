@@ -317,24 +317,24 @@ static int parse_uchar(struct lk_ctx *ctx, char *text, char *value, int base, un
 	return 0;
 }
 
-static int strdata_append(struct lk_ctx *ctx, struct strdata *strdata,
+static int strdata_append(struct lk_ctx *ctx, struct string *string,
 		const char *partstr, size_t partlen)
 {
 	char *tail;
 
-	if ((strdata->len + partlen) >= sizeof(strdata->data)) {
+	if ((string->str_len + partlen) >= sizeof(string->str_data)) {
 		ERR(ctx, _("string too long"));
 		return -1;
 	}
 
-	tail = strdata->data + strdata->len;
+	tail = string->str_data + string->str_len;
 
 	if (partlen > 1) {
 		strncpy(tail, partstr, partlen);
 	} else {
 		*tail = partstr[0];
 	}
-	strdata->len += partlen;
+	string->str_len += partlen;
 
 	return 0;
 }
@@ -496,8 +496,8 @@ To                      to|To|TO
 				return(CCHAR);
 			}
 \"			{
-				yylval->str.data[0] = '\0';
-				yylval->str.len = 0;
+				yylval->str.str_data[0] = '\0';
+				yylval->str.str_len = 0;
 
 				yy_push_state(STR, yyscanner);
 			}

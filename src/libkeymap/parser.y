@@ -28,9 +28,9 @@
 #ifndef STRDATA_STRUCT
 #define STRDATA_STRUCT
 #define MAX_PARSER_STRING 512 // Maximum length of kbsentry.kb_string
-struct strdata {
-	size_t len;
-	char data[MAX_PARSER_STRING];
+struct string {
+	size_t str_len;
+	char   str_data[MAX_PARSER_STRING];
 };
 #endif
 }
@@ -55,7 +55,7 @@ struct strdata {
 
 %union {
 	int num;
-	struct strdata str;
+	struct string str;
 }
 
 %type <str>  STRLITERAL
@@ -180,10 +180,10 @@ line		: EOL
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
-				if (lk_set_charset(ctx, $2.data)) {
+				if (lk_set_charset(ctx, $2.str_data)) {
 					ERR(ctx,
 						_("unknown charset %s - ignoring charset request\n"),
-						$2.data);
+						$2.str_data);
 					YYERROR;
 				}
 				ctx->keywords |= LK_KEYWORD_CHARSET;
@@ -191,7 +191,7 @@ charsetline	: CHARSET STRLITERAL EOL
 				/* Unicode: The first 256 code points were made
 				   identical to the content of ISO 8859-1 */
 				if (ctx->flags & LK_FLAG_PREFER_UNICODE &&
-				    !strcasecmp($2.data, "iso-8859-1"))
+				    !strcasecmp($2.str_data, "iso-8859-1"))
 					ctx->flags ^= LK_FLAG_PREFER_UNICODE;
 			}
 		;
@@ -209,7 +209,7 @@ usualstringsline: STRINGS AS USUAL EOL
 		;
 usualcomposeline: COMPOSE AS USUAL FOR STRLITERAL EOL
 			{
-				if (compose_as_usual(ctx, $5.data) == -1)
+				if (compose_as_usual(ctx, $5.str_data) == -1)
 					YYERROR;
 			}
 		  | COMPOSE AS USUAL EOL
@@ -253,7 +253,7 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 				ke.kb_func = (unsigned char) KVAL($2);
 
 				strlcpy((char *) ke.kb_string,
-				        $4.data,
+				        $4.str_data,
 				        sizeof(ke.kb_string));
 
 				if (lk_add_func(ctx, &ke) == -1)
