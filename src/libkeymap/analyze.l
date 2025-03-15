@@ -318,7 +318,7 @@ static int parse_uchar(struct lk_ctx *ctx, char *text, char *value, int base, un
 }
 
 static int strdata_append(struct lk_ctx *ctx, struct strdata *strdata,
-		const char *partstr, unsigned long partlen)
+		const char *partstr, size_t partlen)
 {
 	char *tail;
 
@@ -327,7 +327,7 @@ static int strdata_append(struct lk_ctx *ctx, struct strdata *strdata,
 		return -1;
 	}
 
-	tail = (char *) strdata->data + strdata->len;
+	tail = strdata->data + strdata->len;
 
 	if (partlen > 1) {
 		strncpy(tail, partstr, partlen);
