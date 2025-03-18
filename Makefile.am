@@ -26,7 +26,7 @@ endif
 compile_commands.json:
 	@make -C src $(MAKEFLAGS) REAL_CC="$(CC)" CC=$(CURDIR)/contrib/gen_compile_commands
 	@EXPORT_COMPILE_COMMANDS=1 $(CURDIR)/contrib/gen_compile_commands
-	@rm -f -- .lsp.data
+	@rm -rf -- .lsp.data
 
 clean-local:
 	rm -rf -- .lsp.data compile_commands.json
