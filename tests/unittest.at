@@ -1,0 +1,8 @@
+m4_define([UNITTEST_RUN_MEMCHECK],[[
+libtool --mode=execute -- "$abs_srcdir"/valgrind.sh memcheck $1 || exit $?;
+cat stdout ||:;
+]])
+
+m4_define([UNITTEST_MEMCHECK],[
+AT_CHECK([UNITTEST_RUN_MEMCHECK([$1])],[$2],[$3],[$4],[$5],[$6])
+])

@@ -51,7 +51,7 @@ jobs:
     - name: "Install dependencies"
       run: |
         sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libpam0g-dev bison flex gettext
+        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/data"
@@ -61,6 +61,19 @@ jobs:
     - name: "Distcheck"
       run: |
         sudo -E make distcheck
+    - name: "Upload artifacts"
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifact-distcheck
+        path: |
+          config.log
+          tests/testsuite.dir
+          tests/testsuite.log
+          kbd-*/_build/sub/tests/testsuite.dir
+          kbd-*/_build/sub/tests/testsuite.log
+        if-no-files-found: ignore
+        retention-days: 1
 
   local_build_job:
     name: "Check with ${{ matrix.compiler }} / ${{ matrix.libc }} on x86_64"
