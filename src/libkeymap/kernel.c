@@ -117,9 +117,11 @@ int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 
 int lk_kernel_keymap(struct lk_ctx *ctx, int fd)
 {
-	if (lk_kernel_keys(ctx, fd) < 0 ||
-	    lk_kernel_funcs(ctx, fd) < 0 ||
-	    lk_kernel_diacrs(ctx, fd) < 0)
-		return -1;
-	return 0;
+	int ret = 0;
+
+	ret = ret ?: lk_kernel_keys(ctx, fd);
+	ret = ret ?: lk_kernel_funcs(ctx, fd);
+	ret = ret ?: lk_kernel_diacrs(ctx, fd);
+
+	return ret;
 }

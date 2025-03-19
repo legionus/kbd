@@ -185,11 +185,15 @@ lk_init(void)
 	lk_set_log_fn(ctx, log_file, stderr);
 	lk_set_log_priority(ctx, LOG_ERR);
 
-	if (init_array(ctx, &ctx->keymap, sizeof(void *)) < 0 ||
-	    init_array(ctx, &ctx->func_table, sizeof(void *)) < 0 ||
-	    init_array(ctx, &ctx->accent_table, sizeof(void *)) < 0 ||
-	    init_array(ctx, &ctx->key_constant, sizeof(char)) < 0 ||
-	    init_array(ctx, &ctx->key_line, sizeof(int)) < 0) {
+	int ret = 0;
+
+	ret = ret ?: init_array(ctx, &ctx->keymap, sizeof(void *));
+	ret = ret ?: init_array(ctx, &ctx->func_table, sizeof(void *));
+	ret = ret ?: init_array(ctx, &ctx->accent_table, sizeof(void *));
+	ret = ret ?: init_array(ctx, &ctx->key_constant, sizeof(char));
+	ret = ret ?: init_array(ctx, &ctx->key_line, sizeof(int));
+
+	if (ret) {
 		lk_free(ctx);
 		return NULL;
 	}
@@ -204,61 +208,49 @@ lk_init(void)
 	return ctx;
 }
 
+enum ctx_array_type {
+	FREE_CTX_KEYMAP,
+	FREE_CTX_FUNC_TABLE,
+	FREE_CTX_ACCENT_TABLE,
+};
+
+static void *free_ctx_array(struct lk_array *arr, enum ctx_array_type array_type)
+{
+	if (!arr)
+		return NULL;
+
+	for (int i = 0; i < arr->total; i++) {
+		void *ptr = lk_array_get_ptr(arr, i);
+
+		if (!ptr)
+			continue;
+
+		switch(array_type) {
+			case FREE_CTX_KEYMAP:
+				lk_array_free(ptr);
+				break;
+			case FREE_CTX_FUNC_TABLE:
+			case FREE_CTX_ACCENT_TABLE:
+				break;
+		}
+
+		free(ptr);
+	}
+
+	lk_array_free(arr);
+	free(arr);
+
+	return NULL;
+}
+
 int lk_free(struct lk_ctx *ctx)
 {
-	unsigned int i; //, j;
-
 	if (!ctx)
 		return -1;
 
-	if (ctx->keymap) {
-		for (i = 0; i < ctx->keymap->total; i++) {
-			struct lk_array *map;
-
-			map = lk_array_get_ptr(ctx->keymap, i);
-			if (!map)
-				continue;
-
-			lk_array_free(map);
-			free(map);
-		}
-		lk_array_free(ctx->keymap);
-		free(ctx->keymap);
-
-		ctx->keymap = NULL;
-	}
-
-	if (ctx->func_table) {
-		for (i = 0; i < ctx->func_table->total; i++) {
-			char *ptr;
-
-			ptr = lk_array_get_ptr(ctx->func_table, i);
-			if (!ptr)
-				continue;
-
-			free(ptr);
-		}
-		lk_array_free(ctx->func_table);
-		free(ctx->func_table);
-
-		ctx->func_table = NULL;
-	}
-
-	if (ctx->accent_table) {
-		for (i = 0; i < ctx->accent_table->total; i++) {
-			struct lk_array *ptr;
-
-			ptr = lk_array_get_ptr(ctx->accent_table, i);
-			if (!ptr)
-				continue;
-
-			free(ptr);
-		}
-		lk_array_free(ctx->accent_table);
-		free(ctx->accent_table);
-
-		ctx->accent_table = NULL;
-	}
+	ctx->keymap       = free_ctx_array(ctx->keymap, FREE_CTX_KEYMAP);
+	ctx->func_table   = free_ctx_array(ctx->func_table, FREE_CTX_FUNC_TABLE);
+	ctx->accent_table = free_ctx_array(ctx->accent_table, FREE_CTX_ACCENT_TABLE);
 
 	if (ctx->key_constant) {
 		lk_array_free(ctx->key_constant);
