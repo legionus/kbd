@@ -81,8 +81,6 @@ static const struct cs {
 	{ "iso-ir-209", iso_ir_209_syms, 160 },    /* sami */
 };
 
-static const unsigned int charsets_size = ARRAY_SIZE(charsets);
-
 /* Functions for both dumpkeys and loadkeys. */
 
 void lk_list_charsets(FILE *f)
@@ -98,7 +96,7 @@ void lk_list_charsets(FILE *f)
 		fprintf(f, "%s{", mm[j]);
 		ct  = 0;
 		lth = strlen(mm[j]);
-		for (i = 1; i < charsets_size; i++) {
+		for (i = 1; i < ARRAY_SIZE(charsets); i++) {
 			if (!strncmp(charsets[i].charset, mm[j], lth)) {
 				if (ct++)
 					fprintf(f, ",");
@@ -107,7 +105,7 @@ void lk_list_charsets(FILE *f)
 		}
 		fprintf(f, "}");
 	}
-	for (i = 0; i < charsets_size; i++) {
+	for (i = 0; i < ARRAY_SIZE(charsets); i++) {
 		for (j = 0; j < ARRAY_SIZE(mm); j++) {
 			lth = strlen(mm[j]);
 			if (!strncmp(charsets[i].charset, mm[j], lth))
@@ -122,7 +120,7 @@ void lk_list_charsets(FILE *f)
 const char *
 lk_get_charset(struct lk_ctx *ctx)
 {
-	if (!ctx || ctx->charset >= charsets_size)
+	if (!ctx || ctx->charset >= ARRAY_SIZE(charsets))
 		return NULL;
 
 	return charsets[ctx->charset].charset;
@@ -132,7 +130,7 @@ int lk_set_charset(struct lk_ctx *ctx, const char *charset)
 {
 	unsigned short i;
 
-	for (i = 0; i < charsets_size; i++) {
+	for (i = 0; i < ARRAY_SIZE(charsets); i++) {
 		if (!strcasecmp(charsets[i].charset, charset)) {
 			ctx->charset = i;
 			return 0;
@@ -211,7 +209,7 @@ codetoksym(struct lk_ctx *ctx, int code)
 		if (code < 0x80)
 			return get_sym(ctx, KT_LATIN, code);
 
-		for (i = 0; i < charsets_size; i++) {
+		for (i = 0; i < ARRAY_SIZE(charsets); i++) {
 			p = (sym *)charsets[i].charnames;
 			if (p) {
 				for (j = charsets[i].start; j < 256; j++, p++) {
@@ -322,7 +320,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 		}
 
 		/* not found in the current charset, maybe we'll have good luck in others? */
-		for (i = 0; i < charsets_size; i++) {
+		for (i = 0; i < ARRAY_SIZE(charsets); i++) {
 			if (i == ctx->charset) {
 				continue;
 			}
