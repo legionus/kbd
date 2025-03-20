@@ -176,7 +176,7 @@ codetoksym(struct lk_ctx *ctx, int code)
 {
 	unsigned int i;
 	int j;
-	sym *p;
+	const sym *p;
 
 	if (code < 0)
 		return NULL;
@@ -195,9 +195,11 @@ codetoksym(struct lk_ctx *ctx, int code)
 			return get_sym(ctx, KTYP(code), KVAL(code));
 
 		i = ctx->charset;
-		p = (sym *)charsets[i].charnames;
-		if (p && (KVAL(code) >= charsets[i].start)) {
+
+		if (KVAL(code) >= charsets[i].start) {
+			p = charsets[i].charnames;
 			p += KVAL(code) - charsets[i].start;
+
 			if (p->name[0])
 				return p->name;
 		}
@@ -210,12 +212,11 @@ codetoksym(struct lk_ctx *ctx, int code)
 			return get_sym(ctx, KT_LATIN, code);
 
 		for (i = 0; i < ARRAY_SIZE(charsets); i++) {
-			p = (sym *)charsets[i].charnames;
-			if (p) {
-				for (j = charsets[i].start; j < 256; j++, p++) {
-					if (p->uni == code && p->name[0])
-						return p->name;
-				}
+			p = charsets[i].charnames;
+
+			for (j = charsets[i].start; j < 256; j++, p++) {
+				if (p->uni == code && p->name[0])
+					return p->name;
 			}
 		}
 	}
@@ -241,8 +242,9 @@ static int
 kt_latin(struct lk_ctx *ctx, const char *s, int direction)
 {
 	unsigned short i, max;
+	const sym *p;
 
-	sym *p = (sym *)charsets[ctx->charset].charnames;
+	p = charsets[ctx->charset].charnames;
 
 	max = (direction == TO_UNICODE ? 128 : 256); // TODO(dmage): is 256 valid for ethiopic charset?
 
@@ -266,7 +268,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 	unsigned short i, j;
 	int n;
 	int keycode;
-	sym *p;
+	const sym *p;
 
 	if (direction == TO_AUTO)
 		direction = (ctx->flags & LK_FLAG_PREFER_UNICODE)
@@ -311,12 +313,11 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 
 	if (direction == TO_UNICODE) {
 		i = ctx->charset;
-		p = (sym *)charsets[i].charnames;
-		if (p) {
-			for (j = charsets[i].start; j < 256; j++, p++) {
-				if (!strcmp(s, p->name))
-					return U(p->uni);
-			}
+		p = charsets[i].charnames;
+
+		for (j = charsets[i].start; j < 256; j++, p++) {
+			if (!strcmp(s, p->name))
+				return U(p->uni);
 		}
 
 		/* not found in the current charset, maybe we'll have good luck in others? */
@@ -324,12 +325,11 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 			if (i == ctx->charset) {
 				continue;
 			}
-			p = (sym *)charsets[i].charnames;
-			if (p) {
-				for (j = charsets[i].start; j < 256; j++, p++) {
-					if (!strcmp(s, p->name))
-						return U(p->uni);
-				}
+			p = charsets[i].charnames;
+
+			for (j = charsets[i].start; j < 256; j++, p++) {
+				if (!strcmp(s, p->name))
+					return U(p->uni);
 			}
 		}
 	} else /* if (!chosen_charset[0]) */ {
