@@ -31,6 +31,10 @@
 
 #include "syms.ktyp.h"
 
+#ifndef MIN
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#endif
+
 #define E(x) { x, ARRAY_SIZE(x) }
 
 static const syms_entry syms[] = {
@@ -56,30 +60,58 @@ static const syms_entry syms[] = {
 const int syms_size = ARRAY_SIZE(syms);
 const int syn_size  = ARRAY_SIZE(synonyms);
 
+typedef enum {
+	CHARSET_ISO_8859_1,
+	CHARSET_ISO_8859_2,
+	CHARSET_ISO_8859_3,
+	CHARSET_ISO_8859_4,
+	CHARSET_ISO_8859_5,
+	CHARSET_ISO_8859_7,
+	CHARSET_ISO_8859_8,
+	CHARSET_ISO_8859_9,
+	CHARSET_ISO_8859_10,
+	CHARSET_ISO_8859_15,
+	CHARSET_MAZOVIA,
+	CHARSET_CP_1250,
+	CHARSET_KOI8_R,
+	CHARSET_KOI8_U,
+	CHARSET_TIS_620,
+	CHARSET_ISO_10646_18,
+	CHARSET_ISO_IR_197,
+	CHARSET_ISO_IR_209,
+	CHARSET_COUNTS,
+} charset_index_t;
+
+#define ENTRY(index, name, syms, start) \
+	[index] = { name, syms, ARRAY_SIZE(syms), start }
+
 static const struct cs {
 	const char *charset;
 	const sym *charnames;
+	const int size;
 	const unsigned short start;
-} charsets[] = {
-	{ "iso-8859-1", latin1_syms, 160 },
-	{ "iso-8859-2", latin2_syms, 160 },
-	{ "iso-8859-3", latin3_syms, 160 },
-	{ "iso-8859-4", latin4_syms, 160 },
-	{ "iso-8859-5", iso8859_5_syms, 160 },
-	{ "iso-8859-7", iso8859_7_syms, 160 },
-	{ "iso-8859-8", iso8859_8_syms, 160 },
-	{ "iso-8859-9", iso8859_9_syms, 160 },
-	{ "iso-8859-10", latin6_syms, 160 },
-	{ "iso-8859-15", iso8859_15_syms, 160 },
-	{ "mazovia", mazovia_syms, 128 },
-	{ "cp-1250", cp1250_syms, 128 },
-	{ "koi8-r", koi8_syms, 128 },
-	{ "koi8-u", koi8_syms, 128 },
-	{ "tis-620", tis_620_syms, 160 },          /* thai */
-	{ "iso-10646-18", iso10646_18_syms, 159 }, /* ethiopic */
-	{ "iso-ir-197", iso_ir_197_syms, 160 },    /* sami */
-	{ "iso-ir-209", iso_ir_209_syms, 160 },    /* sami */
+} charsets[CHARSET_COUNTS] = {
+	ENTRY(CHARSET_ISO_8859_1,   "iso-8859-1",   latin1_syms,      160),
+	ENTRY(CHARSET_ISO_8859_2,   "iso-8859-2",   latin2_syms,      160),
+	ENTRY(CHARSET_ISO_8859_3,   "iso-8859-3",   latin3_syms,      160),
+	ENTRY(CHARSET_ISO_8859_4,   "iso-8859-4",   latin4_syms,      160),
+	ENTRY(CHARSET_ISO_8859_5,   "iso-8859-5",   iso8859_5_syms,   160),
+	ENTRY(CHARSET_ISO_8859_7,   "iso-8859-7",   iso8859_7_syms,   160),
+	ENTRY(CHARSET_ISO_8859_8,   "iso-8859-8",   iso8859_8_syms,   160),
+	ENTRY(CHARSET_ISO_8859_9,   "iso-8859-9",   iso8859_9_syms,   160),
+	ENTRY(CHARSET_ISO_8859_10,  "iso-8859-10",  latin6_syms,      160),
+	ENTRY(CHARSET_ISO_8859_15,  "iso-8859-15",  iso8859_15_syms,  160),
+	ENTRY(CHARSET_MAZOVIA,      "mazovia",      mazovia_syms,     128),
+	ENTRY(CHARSET_CP_1250,      "cp-1250",      cp1250_syms,      128),
+	ENTRY(CHARSET_KOI8_R,       "koi8-r",       koi8_syms,        128),
+	ENTRY(CHARSET_KOI8_U,       "koi8-u",       koi8_syms,        128),
+	ENTRY(CHARSET_TIS_620,      "tis-620",      tis_620_syms,     160), /* thai */
+	ENTRY(CHARSET_ISO_10646_18, "iso-10646-18", iso10646_18_syms, 159), /* ethiopic */
+	ENTRY(CHARSET_ISO_IR_197,   "iso-ir-197",   iso_ir_197_syms,  160), /* sami */
+	ENTRY(CHARSET_ISO_IR_209,   "iso-ir-209",   iso_ir_209_syms,  160), /* sami */
 };
+
+#undef ENTRY
 
 /* Functions for both dumpkeys and loadkeys. */
 
@@ -194,14 +226,15 @@ codetoksym(struct lk_ctx *ctx, int code)
 		if (KTYP(code) > KT_LATIN)
 			return get_sym(ctx, KTYP(code), KVAL(code));
 
-		i = ctx->charset;
+		if (KVAL(code) >= charsets[ctx->charset].start) {
+			j = KVAL(code) - charsets[ctx->charset].start;
 
-		if (KVAL(code) >= charsets[i].start) {
-			p = charsets[i].charnames;
-			p += KVAL(code) - charsets[i].start;
+			if (j >= 0 && j < charsets[ctx->charset].size) {
+				p = charsets[ctx->charset].charnames + j;
 
-			if (p->name[0])
-				return p->name;
+				if (p->name[0])
+					return p->name;
+			}
 		}
 	}
 
@@ -214,7 +247,7 @@ codetoksym(struct lk_ctx *ctx, int code)
 		for (i = 0; i < ARRAY_SIZE(charsets); i++) {
 			p = charsets[i].charnames;
 
-			for (j = charsets[i].start; j < 256; j++, p++) {
+			for (j = 0; j < charsets[i].size; j++, p++) {
 				if (p->uni == code && p->name[0])
 					return p->name;
 			}
@@ -241,19 +274,23 @@ lk_code_to_ksym(struct lk_ctx *ctx, int code)
 static int
 kt_latin(struct lk_ctx *ctx, const char *s, int direction)
 {
-	unsigned short i, max;
-	const sym *p;
+	int i, max;
 
-	p = charsets[ctx->charset].charnames;
+	if (direction != TO_UNICODE) {
+		const sym *p;
 
-	max = (direction == TO_UNICODE ? 128 : 256); // TODO(dmage): is 256 valid for ethiopic charset?
+		p = charsets[ctx->charset].charnames;
+		max = charsets[ctx->charset].size;
 
-	for (i = charsets[ctx->charset].start; i < max; i++, p++) {
-		if (p->name[0] && !strcmp(s, p->name))
-			return K(KT_LATIN, i);
+		for (i = 0; i < max; i++, p++) {
+			if (p->name[0] && !strcmp(s, p->name))
+				return K(KT_LATIN, charsets[ctx->charset].start + i);
+		}
 	}
 
-	max = (direction == TO_UNICODE ? 128 : syms[KT_LATIN].size);
+	max = (direction == TO_UNICODE
+			? MIN(UNICODE_ASCII_LEN, syms[KT_LATIN].size)
+			: syms[KT_LATIN].size);
 
 	for (i = 0; i < max; i++) {
 		if (!strcmp(s, get_sym(ctx, KT_LATIN, i)))
@@ -263,12 +300,22 @@ kt_latin(struct lk_ctx *ctx, const char *s, int direction)
 	return -1;
 }
 
+static unsigned short get_charset_uni(charset_index_t index, const char *s)
+{
+	const sym *p = charsets[index].charnames;
+
+	for (int i = 0; i < charsets[index].size; i++, p++) {
+		if (p->name[0] && !strcmp(s, p->name))
+			return p->uni;
+	}
+
+	return 0;
+}
+
 int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 {
-	unsigned short i, j;
-	int n;
-	int keycode;
-	const sym *p;
+	unsigned short i, uni;
+	int n, keycode;
 
 	if (direction == TO_AUTO)
 		direction = (ctx->flags & LK_FLAG_PREFER_UNICODE)
@@ -300,7 +347,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 	}
 
 	for (i = 1; i < syms_size; i++) {
-		for (j = 0; j < syms[i].size; j++) {
+		for (int j = 0; j < syms[i].size; j++) {
 			const char *ksym = get_sym(ctx, i, j);
 			if (ksym && !strcmp(s, ksym))
 				return K(i, j);
@@ -312,25 +359,17 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 			return ksymtocode(ctx, synonyms[i].official_name, direction);
 
 	if (direction == TO_UNICODE) {
-		i = ctx->charset;
-		p = charsets[i].charnames;
-
-		for (j = charsets[i].start; j < 256; j++, p++) {
-			if (!strcmp(s, p->name))
-				return U(p->uni);
-		}
+		if ((uni = get_charset_uni(ctx->charset, s)) > 0)
+			return U(uni);
 
 		/* not found in the current charset, maybe we'll have good luck in others? */
 		for (i = 0; i < ARRAY_SIZE(charsets); i++) {
 			if (i == ctx->charset) {
 				continue;
 			}
-			p = charsets[i].charnames;
 
-			for (j = charsets[i].start; j < 256; j++, p++) {
-				if (!strcmp(s, p->name))
-					return U(p->uni);
-			}
+			if ((uni = get_charset_uni(i, s)) > 0)
+				return U(uni);
 		}
 	} else /* if (!chosen_charset[0]) */ {
 		/* note: some keymaps use latin1 but with euro,
@@ -338,36 +377,23 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 		/* note: some keymaps with charset line still use
 		   symbols from more than one character set,
 		   so we cannot have the  `if (!chosen_charset[0])'  here */
+		charset_index_t try_charset[] = {
+			CHARSET_ISO_8859_1, CHARSET_ISO_8859_15,
+			CHARSET_ISO_8859_2, CHARSET_ISO_8859_3,
+			CHARSET_ISO_8859_4
+		};
 
-		for (i = 0; i < 256 - 160; i++)
-			if (!strcmp(s, latin1_syms[i].name)) {
-				INFO(ctx, _("assuming %s %s"), "iso-8859-1", s);
-				return K(KT_LATIN, 160 + i);
-			}
+		for (size_t num = 0; num < ARRAY_SIZE(try_charset); num++) {
+			const struct cs *cs = charsets + try_charset[num];
+			const sym *p = cs->charnames;
 
-		for (i = 0; i < 256 - 160; i++)
-			if (!strcmp(s, iso8859_15_syms[i].name)) {
-				INFO(ctx, _("assuming %s %s"), "iso-8859-15", s);
-				return K(KT_LATIN, 160 + i);
+			for (i = 0; i < cs->size; i++, p++) {
+				if (p->name[0] && !strcmp(s, p->name)) {
+					INFO(ctx, _("assuming %s %s"), cs->charset, s);
+					return K(KT_LATIN, cs->start + i);
+				}
 			}
-
-		for (i = 0; i < 256 - 160; i++)
-			if (!strcmp(s, latin2_syms[i].name)) {
-				INFO(ctx, _("assuming %s %s"), "iso-8859-2", s);
-				return K(KT_LATIN, 160 + i);
-			}
-
-		for (i = 0; i < 256 - 160; i++)
-			if (!strcmp(s, latin3_syms[i].name)) {
-				INFO(ctx, _("assuming %s %s"), "iso-8859-3", s);
-				return K(KT_LATIN, 160 + i);
-			}
-
-		for (i = 0; i < 256 - 160; i++)
-			if (!strcmp(s, latin4_syms[i].name)) {
-				INFO(ctx, _("assuming %s %s"), "iso-8859-4", s);
-				return K(KT_LATIN, 160 + i);
-			}
+		}
 	}
 
 	ERR(ctx, _("unknown keysym '%s'"), s);

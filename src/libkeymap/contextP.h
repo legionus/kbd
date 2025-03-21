@@ -17,6 +17,11 @@
 
 #include "keymap.h"
 
+/**
+ * @brief The first 128 code points of Unicode are the same as ASCII.
+ */
+#define UNICODE_ASCII_LEN 128
+
 #define UNICODE_MASK 0xf000
 #define U(x) ((x) ^ UNICODE_MASK)
 
