@@ -29,7 +29,7 @@ tests/configure.sh --datadir="$PWD/tests/data" ||
 
 make -j$nproc V=1 CFLAGS+="-g -O0"
 
-export CHECK_KEYWORDS="unittest e2e"
+export CHECK_KEYWORDS="unittest e2e loadability"
 export SANDBOX="priviliged"
 export TTY="/dev/tty60"
 

@@ -1,0 +1,5 @@
+AT_SETUP([check all distributed keymaps for loadability])
+AT_KEYWORDS([loadability])
+AT_SKIP_IF([ test "$SANDBOX" != "priviliged" ])
+AT_CHECK([env BUILDDIR="$abs_top_builddir" "$abs_srcdir/check-data-keymaps.sh"])
+AT_CLEANUP
