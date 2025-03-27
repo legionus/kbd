@@ -13,8 +13,8 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	if (!fp)
 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
 
-	const char *const dirpath[]  = { "", TESTDIR "/data/findfile/test_1/consolefonts/", 0 };
-	const char *const suffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", 0 };
+	const char *const dirpath[]  = { "", TESTDIR "/data/findfile/test_1/consolefonts/", NULL };
+	const char *const suffixes[] = { "", ".psfu", ".psf", ".cp", ".fnt", NULL };
 
 	const char *expect = TESTDIR "/data/findfile/test_1/consolefonts/simple-1.psf.gz";
 
