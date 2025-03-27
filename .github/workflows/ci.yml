@@ -51,10 +51,16 @@ jobs:
     - name: "Install dependencies"
       run: |
         sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind
+        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind sparse
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/data"
+    - name: "Check sparse"
+      run: |
+        make check-sparse V=1
+    - name: "Clean"
+      run: |
+        make clean
     - name: "Build"
       run: |
         make V=1

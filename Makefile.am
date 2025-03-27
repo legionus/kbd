@@ -22,6 +22,14 @@ if BUILD_TESTS
 SUBDIRS += tests
 endif
 
+SPARSE = sparse
+CHECK  = $(SPARSE) \
+	-Wsparse-error -Wsparse-all -Wno-default-bitfield-sign \
+	-Wno-declaration-after-statement -Wno-unknown-attribute
+
+check-sparse:
+	make CC="cgcc" REAL_CC="$(CC)" CHECK="$(CHECK)" CFLAGS+="-D_LINUX_WAIT_H"
+
 .PHONY: compile_commands.json
 compile_commands.json:
 	@make -C src $(MAKEFLAGS) REAL_CC="$(CC)" CC=$(CURDIR)/contrib/gen_compile_commands
