@@ -1,0 +1,160 @@
+# AZERTY AFNOR - The new azerty
+# https://norme-azerty.fr/
+# Copyright © 2025 Maxence Lupion <maxencelupion@gmail.com>
+
+include "linux-with-alt-and-altgr"
+include "azerty-layout"
+keymaps 0-15
+
+keycode 1 = Escape Escape
+keycode 14 = Delete Delete
+keycode 15 = Tab Tab
+keycode 28 = Return
+keycode 29 = Control
+keycode 42 = Shift
+keycode 54 = Shift
+keycode 56 = Alt
+keycode 58 = Caps_Lock
+keycode 97 = Control
+
+# First row
+
+keycode 41 = at numbersign
+	AltGr keycode 41 = dead_breve
+	Shift AltGr keycode 41 = dead_invertedbreve
+keycode 2 = +agrave one
+	AltGr keycode 2 = section
+	Shift AltGr keycode 2 = +Agrave
+keycode 3 = +eacute two
+	AltGr keycode 3 = dead_acute
+	Shift AltGr keycode 3 = +Eacute
+keycode 4 = +egrave three
+	AltGr keycode 4 = dead_grave
+	Shift AltGr keycode 4 = +Egrave
+keycode 5 = +ecircumflex four
+	AltGr keycode 5 = ampersand
+	Shift AltGr keycode 5 = +Ecircumflex
+keycode 6 = parenleft five
+	AltGr keycode 6 = bracketleft
+	Shift AltGr keycode 6 = dead_doubleacute
+keycode 7 = parenright +six
+	AltGr keycode 7 = bracketright
+	Shift AltGr keycode 7 = dead_doublegrave
+keycode 8 = U+2018 seven
+	Alt Shift keycode 8 = Meta_seven
+	AltGr keycode 8 = dead_macron
+keycode 9 = U+2019 eight
+	AltGr keycode 9 = underscore
+	Shift AltGr keycode 9 = emdash
+keycode 10 = guillemotleft nine
+	AltGr keycode 10 = U+201C
+	Shift AltGr keycode 10 = U+2039
+keycode 11 = guillemotright zero
+	AltGr keycode 11 = U+201D
+	Shift AltGr keycode 11 = U+203A
+keycode 12 = apostrophe quotedbl
+	AltGr keycode 12 = degree
+	Shift AltGr keycode 12 = dead_abovering
+keycode 13 = dead_circumflex
+	AltGr keycode 13 = dead_diaeresis
+	Shift AltGr keycode 13 = dead_caron
+
+# Second row
+
+keycode 16 = a
+	AltGr keycode 16 = ae
+	Shift AltGr keycode 16 = AE
+keycode 17 = z
+	AltGr keycode 17 = sterling
+keycode 18 = e
+	AltGr keycode 18 = U+20AC
+keycode 19 = r
+	AltGr keycode 19 = registered
+keycode 20 = t
+	AltGr keycode 20 = braceleft
+	Shift AltGr keycode 20 = trademark
+keycode 21 = y
+	AltGr keycode 21 = braceright
+keycode 22 = u
+	AltGr keycode 22 = +ugrave
+	Shift AltGr keycode 22 = +Ugrave
+keycode 23 = i
+	AltGr keycode 23 = dead_abovedot
+	Shift AltGr keycode 23 = dead_belowdot
+keycode 24 = o
+	AltGr keycode 24 = +oe
+	Shift AltGr keycode 24 = +OE
+keycode 25 = p
+	AltGr keycode 25 = percent
+	Shift AltGr keycode 25 = permille
+keycode 26 = minus endash
+	AltGr keycode 26 = U+2212
+	Shift AltGr keycode 26 = U+2011
+keycode 27 = plus plusminus
+	AltGr keycode 27 = dagger
+	Shift AltGr keycode 27 = doubledagger
+
+# Third row
+
+keycode 30 = q
+	AltGr keycode 30 = U+03B8
+	Shift AltGr keycode 30 = U+0398
+keycode 31 = s
+	AltGr keycode 31 = ssharp
+	Shift AltGr keycode 31 = U+1E9E
+keycode 32 = d
+	AltGr keycode 32 = dollar
+keycode 33 = f
+	AltGr keycode 33 = dead_currency
+keycode 34 = g
+	AltGr keycode 34 = dead_greek
+keycode 35 = h
+	# Shift AltGr dead_belowmacron not available
+keycode 36 = j
+keycode 37 = k
+	AltGr keycode 37 = dead_stroke
+keycode 38 = l
+	AltGr keycode 38 = bar
+keycode 39 = m
+	AltGr keycode 39 = U+221E
+keycode 40 = slash backslash
+	AltGr keycode 40 = division
+	Shift AltGr keycode 40 = U+221A
+keycode 43 = asterisk onehalf
+	AltGr keycode 43 = multiply
+	Shift AltGr keycode 43 = U+00BC
+
+# Fourth row
+
+keycode 86 = less greater
+	AltGr keycode 86 = U+2264
+	Shift AltGr keycode 86 = U+2265
+keycode 44 = w
+	AltGr keycode 44 = U+0292
+	Shift AltGr keycode 44 = U+01B7
+keycode 45 = x
+	AltGr keycode 45 = copyright
+keycode 46 = c
+	AltGr keycode 46 = U+00E7
+	Shift AltGr keycode 46 = U+00C7
+keycode 47 = v
+	AltGr keycode 47 = dead_cedilla
+	Shift AltGr keycode 47 = dead_ogonek
+keycode 48 = b
+	AltGr keycode 48 = dead_stroke
+keycode 49 = n
+	AltGr keycode 49 = dead_tilde
+keycode 50 = period question
+	AltGr keycode 50 = questiondown
+keycode 51 = comma exclam
+	AltGr keycode 51 = exclamdown
+	Shift AltGr keycode 51 = dead_belowcomma
+keycode 52 = colon ellipsis
+	AltGr keycode 52 = periodcentered
+keycode 53 = semicolon equal
+	AltGr keycode 53 = U+2243
+	Shift AltGr keycode 53 = U+2260
+
+# Spacebar
+keycode 57 = space space nobreakspace
+	Shift AltGr keycode 57 = U+202f
