@@ -13,114 +13,139 @@
 #include "contextP.h"
 #include "ksyms.h"
 
-static int
-defkeys(struct lk_ctx *ctx, int fd, int kbd_mode)
+static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 {
 	struct kbentry ke;
-	int ct = 0;
-	int i, j, fail;
+	int k_index, value, count, fail;
+
+	count = 0;
+
+	for (k_index = 0; k_index < NR_KEYS; k_index++) {
+		if (!lk_key_exists(ctx, k_table, k_index))
+			continue;
+
+		value = lk_get_key(ctx, k_table, k_index);
+
+		if (value < 0 || value > USHRT_MAX) {
+			WARN(ctx, _("can not bind key %d to value %d because it is too large"),
+					k_index, value);
+			continue;
+		}
+
+		ke.kb_table = (unsigned char) k_table;
+		ke.kb_index = (unsigned char) k_index;
+		ke.kb_value = (unsigned short) value;
+
+		fail = ioctl(fd, KDSKBENT, &ke);
+
+		if (fail) {
+			if (errno == EPERM) {
+				ERR(ctx, _("Keymap %d: Permission denied"),
+						k_table);
+				return -1;
+			}
+			ERR(ctx, "%s", strerror(errno));
+
+			/*
+			 * Such an error can be returned if the tty has been
+			 * hungup while loadkeys is running.
+			 */
+			if (errno == EIO)
+				return -1;
+		} else {
+			count++;
+		}
+
+		INFO(ctx, _("keycode %d, table %d = %d%s"), k_index, k_table, ke.kb_value,
+				fail ? _("    FAILED") : "");
+
+		if (fail)
+			WARN(ctx, _("failed to bind key %d to value %d"),
+					k_index, ke.kb_value);
+	}
+
+	return count;
+}
+
+static int clear_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
+{
+	struct kbentry ke;
+
+	/* deallocate keymap */
+	ke.kb_table = (unsigned char) k_table;
+	ke.kb_index = 0;
+	ke.kb_value = K_NOSUCHMAP;
+
+	DBG(ctx, _("deallocate keymap %d"), k_table);
+
+	if (!ioctl(fd, KDSKBENT, &ke))
+		return 0;
+
+	if (errno != EINVAL) {
+		ERR(ctx, _("KDSKBENT: %s: could not deallocate keymap %d"),
+				strerror(errno), k_table);
+		return -1;
+	}
+
+	/*
+	 * probably an old kernel. clear keymap by hand.
+	 */
+	for (int k_index = 0; k_index < NR_KEYS; k_index++) {
+		ke.kb_table = (unsigned char) k_table;
+		ke.kb_index = (unsigned char) k_index;
+		ke.kb_value = K_HOLE;
+
+		if (ioctl(fd, KDSKBENT, &ke)) {
+			if (errno == EINVAL && k_table >= 16)
+				break; /* old kernel */
+
+			ERR(ctx, _("KDSKBENT: %s: cannot deallocate or clear keymap"),
+					strerror(errno));
+			return -1;
+		}
+	}
+
+	return 0;
+}
+
+static int set_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
+{
+	int count = 0;
 
 	if (ctx->flags & LK_FLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
 		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
 			ERR(ctx, _("KDSKBMODE: %s: could not switch to Unicode mode"),
-			    strerror(errno));
-			goto fail;
+					strerror(errno));
+			return -1;
 		}
 	}
 
-	for (i = 0; i < MAX_NR_KEYMAPS; i++) {
-		int exist = lk_map_exists(ctx, i);
+	for (int k_table = 0; k_table < MAX_NR_KEYMAPS; k_table++) {
+		if (lk_map_exists(ctx, k_table)) {
+			int ct = set_keymap_table(ctx, fd, k_table);
 
-		if (exist) {
-			for (j = 0; j < NR_KEYS; j++) {
-				if (!lk_key_exists(ctx, i, j))
-					continue;
-
-				int value = lk_get_key(ctx, i, j);
-
-				if (value < 0 || value > USHRT_MAX) {
-					WARN(ctx, _("can not bind key %d to value %d because it is too large"), j, value);
-					continue;
-				}
-
-				ke.kb_index = (unsigned char) j;
-				ke.kb_table = (unsigned char) i;
-				ke.kb_value = (unsigned short) value;
-
-				fail = ioctl(fd, KDSKBENT, (unsigned long)&ke);
-
-				if (fail) {
-					if (errno == EPERM) {
-						ERR(ctx, _("Keymap %d: Permission denied"), i);
-						j = NR_KEYS;
-						continue;
-					}
-					if (errno == EIO) {
-						/*
-						 * Such an error can be returned
-						 * if the tty has been hungup
-						 * while loadkeys is running.
-						 */
-						ERR(ctx, "%s", strerror(errno));
-						goto fail;
-					}
-					ERR(ctx, "%s", strerror(errno));
-				} else
-					ct++;
-
-				INFO(ctx, _("keycode %d, table %d = %d%s"),
-				     j, i, ke.kb_value, fail ? _("    FAILED") : "");
-
-				if (fail)
-					WARN(ctx, _("failed to bind key %d to value %d"),
-					     j, ke.kb_value);
+			if (ct < 0) {
+				count = -1;
+				break;
 			}
+			count += ct;
 
-		} else if ((ctx->keywords & LK_KEYWORD_KEYMAPS) && !exist) {
-			/* deallocate keymap */
-			ke.kb_index = 0;
-			ke.kb_table = (unsigned char) i;
-			ke.kb_value = K_NOSUCHMAP;
-
-			DBG(ctx, _("deallocate keymap %d"), i);
-
-			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
-				if (errno != EINVAL) {
-					ERR(ctx, _("KDSKBENT: %s: could not deallocate keymap %d"),
-					    strerror(errno), i);
-					goto fail;
-				}
-				/* probably an old kernel */
-				/* clear keymap by hand */
-				for (j = 0; j < NR_KEYS; j++) {
-					ke.kb_index = (unsigned char) j;
-					ke.kb_table = (unsigned char) i;
-					ke.kb_value = K_HOLE;
-
-					if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
-						if (errno == EINVAL && i >= 16)
-							break; /* old kernel */
-
-						ERR(ctx, _("KDSKBENT: %s: cannot deallocate or clear keymap"),
-						    strerror(errno));
-						goto fail;
-					}
-				}
+		} else if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
+			if (clear_keymap_table(ctx, fd, k_table) < 0) {
+				count = -1;
+				break;
 			}
 		}
 	}
 
 	if ((ctx->flags & LK_FLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
-		ERR(ctx, _("KDSKBMODE: %s: could not return to original keyboard mode"),
-		    strerror(errno));
-		goto fail;
+		ERR(ctx, _("KDSKBMODE: %sr could not return to original keyboard mode"),
+				strerror(errno));
+		return -1;
 	}
 
-	return ct;
-
-fail:
-	return -1;
+	return count;
 }
 
 static char *
@@ -270,7 +295,7 @@ int lk_load_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 	if (lk_add_constants(ctx) < 0)
 		return -1;
 
-	if ((keyct = defkeys(ctx, fd, kbd_mode)) < 0 || (funcct = deffuncs(ctx, fd)) < 0)
+	if ((keyct = set_keymap(ctx, fd, kbd_mode)) < 0 || (funcct = deffuncs(ctx, fd)) < 0)
 		return -1;
 
 	INFO(ctx, P_("\nChanged %d key", "\nChanged %d keys", (unsigned int) keyct), keyct);
