@@ -2,9 +2,9 @@ name: CI
 on:
   push:
     branches:
-      - master
-      - for-master
-      - github-ci
+      - "master"
+      - "for-master"
+      - "patchset/**"
     tags:
       - v*
   pull_request:
