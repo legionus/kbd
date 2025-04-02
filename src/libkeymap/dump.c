@@ -373,8 +373,8 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 	int plus;
 
 	fprintf(fd, " ");
-	t = KTYP(code);
-	v = KVAL(code);
+	t = KBD_KTYP(code);
+	v = KBD_KVAL(code);
 	if (t >= syms_size) {
 		if (!numeric && (p = codetoksym(ctx, code)) != NULL)
 			fprintf(fd, "%-16s", p);
@@ -447,14 +447,14 @@ void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numer
 			if (buf0 == -1)
 				break;
 
-			type = KTYP(buf0);
+			type = KBD_KTYP(buf0);
 
-			if ((type == KT_LATIN || type == KT_LETTER) && KVAL(buf0) < 128) {
+			if ((type == KT_LATIN || type == KT_LETTER) && KBD_KVAL(buf0) < 128) {
 				buf1 = lk_map_exists(ctx, ja)
 				           ? lk_get_key(ctx, ja, i)
 				           : -1;
 
-				if (buf1 != K(KT_META, KVAL(buf0)))
+				if (buf1 != K(KT_META, KBD_KVAL(buf0)))
 					goto not_alt_is_meta;
 			}
 		}
@@ -503,8 +503,8 @@ no_shorthands:
 			continue;
 		}
 
-		typ      = KTYP(buf[0]);
-		val      = KVAL(buf[0]);
+		typ      = KBD_KTYP(buf[0]);
+		val      = KBD_KVAL(buf[0]);
 		islatin  = (typ == KT_LATIN || typ == KT_LETTER);
 		isletter = (islatin && ((val >= 'A' && val <= 'Z') || (val >= 'a' && val <= 'z')));
 
@@ -521,7 +521,7 @@ no_shorthands:
 				defs[j] = K(KT_LATIN, val & ~96);
 
 			for (j = 8; j < 16; j++)
-				defs[j] = K(KT_META, KVAL(defs[j - 8]));
+				defs[j] = K(KT_META, KBD_KVAL(defs[j - 8]));
 
 			for (j = 0; j < keymapnr; j++) {
 				if (lk_map_exists(ctx, j)) {
@@ -543,8 +543,8 @@ no_shorthands:
 				int ja, ktyp;
 				ja = (j | M_ALT);
 
-				if (j != ja && lk_map_exists(ctx, ja) && ((ktyp = KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER) && KVAL(buf[j]) < 128) {
-					if (buf[ja] != K(KT_META, KVAL(buf[j])))
+				if (j != ja && lk_map_exists(ctx, ja) && ((ktyp = KBD_KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER) && KBD_KVAL(buf[j]) < 128) {
+					if (buf[ja] != K(KT_META, KBD_KVAL(buf[j])))
 						fprintf(stderr, _("impossible: not meta?\n"));
 					buf[ja]    = K_HOLE;
 					zapped[ja] = 1;

@@ -151,8 +151,8 @@ int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 
 	if (ctx->keywords & LK_KEYWORD_ALTISMETA) {
 		int alttable = k_table | M_ALT;
-		int type     = KTYP(keycode);
-		int val      = KVAL(keycode);
+		int type     = KBD_KTYP(keycode);
+		int val      = KBD_KVAL(keycode);
 
 		if (alttable != k_table && lk_map_exists(ctx, alttable) &&
 		    !lk_key_exists(ctx, alttable, k_index) &&
@@ -171,8 +171,8 @@ do_constant_key(struct lk_ctx *ctx, int i, int key)
 {
 	int j, typ, val;
 
-	typ = KTYP(key);
-	val = KVAL(key);
+	typ = KBD_KTYP(key);
+	val = KBD_KVAL(key);
 
 	if ((typ == KT_LATIN || typ == KT_LETTER) &&
 	    ((val >= 'a' && val <= 'z') || (val >= 'A' && val <= 'Z'))) {
@@ -187,7 +187,7 @@ do_constant_key(struct lk_ctx *ctx, int i, int key)
 			defs[j] = K(KT_LATIN, val & ~96);
 
 		for (j = 8; j < 16; j++)
-			defs[j] = K(KT_META, KVAL(defs[j - 8]));
+			defs[j] = K(KT_META, KBD_KVAL(defs[j - 8]));
 
 		for (j = 0; j < ctx->keymap->total; j++) {
 			if (!lk_map_exists(ctx, j))

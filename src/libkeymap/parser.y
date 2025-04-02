@@ -244,13 +244,13 @@ strline		: STRING LITERAL EQUALS STRLITERAL EOL
 			{
 				struct kbsentry ke;
 
-				if (KTYP($2) != KT_FN) {
+				if (KBD_KTYP($2) != KT_FN) {
 					ERR(ctx, _("'%s' is not a function key symbol"),
-						get_sym(ctx, KTYP($2), KVAL($2)));
+						get_sym(ctx, KBD_KTYP($2), KBD_KVAL($2)));
 					YYERROR;
 				}
 
-				ke.kb_func = (unsigned char) KVAL($2);
+				ke.kb_func = (unsigned char) KBD_KVAL($2);
 
 				strlcpy((char *) ke.kb_string,
 				        $4.str_data,

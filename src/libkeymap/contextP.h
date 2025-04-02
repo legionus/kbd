@@ -25,6 +25,21 @@
 #define UNICODE_MASK 0xf000
 #define U(x) ((x) ^ UNICODE_MASK)
 
+#define BIT_32(nr)		((1) << (nr))
+
+#define GENMASK_32(h, l) \
+	(((~(0)) - ((1) << (l)) + 1) & (~(0) >> (31 - (h))))
+
+/**
+ * @brief Bits above the maximum unicode (0x10ffff) available for flags.
+ */
+#define FLAG_MASK		GENMASK_32(31, 24)
+
+#define STRIP_FLAGS(x)		((x) & ~FLAG_MASK)
+
+#define KBD_KTYP(x)		KTYP(STRIP_FLAGS(x))
+#define KBD_KVAL(x)		KVAL(STRIP_FLAGS(x))
+
 /**
  * @brief The maximum number of include levels.
  */

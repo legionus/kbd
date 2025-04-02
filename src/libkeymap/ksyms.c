@@ -217,17 +217,17 @@ codetoksym(struct lk_ctx *ctx, int code)
 		if (code < 0x80)
 			return get_sym(ctx, KT_LATIN, code);
 
-		if (KTYP(code) == KT_META)
+		if (KBD_KTYP(code) == KT_META)
 			return NULL;
 
-		if (KTYP(code) == KT_LETTER)
-			code = K(KT_LATIN, KVAL(code));
+		if (KBD_KTYP(code) == KT_LETTER)
+			code = K(KT_LATIN, KBD_KVAL(code));
 
-		if (KTYP(code) > KT_LATIN)
-			return get_sym(ctx, KTYP(code), KVAL(code));
+		if (KBD_KTYP(code) > KT_LATIN)
+			return get_sym(ctx, KBD_KTYP(code), KBD_KVAL(code));
 
-		if (KVAL(code) >= charsets[ctx->charset].start) {
-			j = KVAL(code) - charsets[ctx->charset].start;
+		if (KBD_KVAL(code) >= charsets[ctx->charset].start) {
+			j = KBD_KVAL(code) - charsets[ctx->charset].start;
 
 			if (j >= 0 && j < charsets[ctx->charset].size) {
 				p = charsets[ctx->charset].charnames + j;
@@ -324,8 +324,8 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 
 	if (!strncmp(s, "Meta_", 5)) {
 		keycode = ksymtocode(ctx, s + 5, TO_8BIT);
-		if (KTYP(keycode) == KT_LATIN)
-			return K(KT_META, KVAL(keycode));
+		if (KBD_KTYP(keycode) == KT_LATIN)
+			return K(KT_META, KBD_KVAL(keycode));
 
 		/* Avoid error messages for Meta_acute with UTF-8 */
 		else if (direction == TO_UNICODE)
@@ -336,8 +336,8 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 
 	if (!strncmp(s, "dead2_", 6)) {
 		keycode = ksymtocode(ctx, s + 6, TO_8BIT);
-		if (KTYP(keycode) == KT_LATIN)
-			return K(KT_DEAD2, KVAL(keycode));
+		if (KBD_KTYP(keycode) == KT_LATIN)
+			return K(KT_DEAD2, KBD_KVAL(keycode));
 
 		/* fall through to error printf */
 	}
@@ -418,7 +418,7 @@ int convert_code(struct lk_ctx *ctx, int code, int direction)
 		                ? TO_UNICODE
 		                : TO_8BIT;
 
-	if (KTYP(code) == KT_META)
+	if (KBD_KTYP(code) == KT_META)
 		return code;
 	else if (!input_is_unicode && code < 0x80)
 		/* basic ASCII is fine in every situation */
@@ -438,7 +438,7 @@ int convert_code(struct lk_ctx *ctx, int code, int direction)
 			result = ksymtocode(ctx, ksym, direction);
 		else
 			result = code;
-		if (direction == TO_UNICODE && KTYP(code) == KT_LETTER && U(result) < 0x100) {
+		if (direction == TO_UNICODE && KBD_KTYP(code) == KT_LETTER && U(result) < 0x100) {
 			/* Unicode Latin-1 Supplement */
 			result = K(KT_LETTER, U(result));
 		}
@@ -454,8 +454,8 @@ int convert_code(struct lk_ctx *ctx, int code, int direction)
 
 int add_capslock(struct lk_ctx *ctx, int code)
 {
-	if (KTYP(code) == KT_LATIN && (!(ctx->flags & LK_FLAG_PREFER_UNICODE) || code < 0x80))
-		return K(KT_LETTER, KVAL(code));
+	if (KBD_KTYP(code) == KT_LATIN && (!(ctx->flags & LK_FLAG_PREFER_UNICODE) || code < 0x80))
+		return K(KT_LETTER, KBD_KVAL(code));
 	else if (U(code) < 0x100)
 		/* Unicode Latin-1 Supplement */
 		/* a bit dirty to use KT_LETTER here, but it should work */
