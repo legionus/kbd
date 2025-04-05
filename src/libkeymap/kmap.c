@@ -116,6 +116,7 @@ int lk_del_key(struct lk_ctx *ctx, int k_table, int k_index)
 int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 {
 	struct lk_array *map;
+	int input_is_unicode = (STRIP_FLAGS(keycode) >= 0x1000);
 	int code = keycode + 1;
 
 	if (keycode == CODE_FOR_UNKNOWN_KSYM) {
@@ -140,6 +141,9 @@ int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 	if ((ctx->keywords & LK_KEYWORD_ALTISMETA) && keycode == K_HOLE &&
 	    lk_key_exists(ctx, k_table, k_index))
 		return 0;
+
+	if (input_is_unicode)
+		code = KBD_UNICODE(code);
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 

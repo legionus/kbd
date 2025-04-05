@@ -16,6 +16,7 @@
 static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 {
 	struct kbentry ke;
+	unsigned int k_value;
 	int k_index, value, count, fail;
 
 	count = 0;
@@ -26,7 +27,14 @@ static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 
 		value = lk_get_key(ctx, k_table, k_index);
 
-		if (value < 0 || value > USHRT_MAX) {
+		if (value < 0) {
+			WARN(ctx, "can not bind key %d", k_index);
+			continue;
+		}
+
+		k_value = export_value((unsigned int) value);
+
+		if (k_value > USHRT_MAX) {
 			WARN(ctx, _("can not bind key %d to value %d because it is too large"),
 					k_index, value);
 			continue;
@@ -34,7 +42,7 @@ static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 
 		ke.kb_table = (unsigned char) k_table;
 		ke.kb_index = (unsigned char) k_index;
-		ke.kb_value = (unsigned short) value;
+		ke.kb_value = (unsigned short) k_value;
 
 		fail = ioctl(fd, KDSKBENT, &ke);
 
@@ -244,9 +252,9 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			if (!ptr)
 				continue;
 
-			kdu.kbdiacruc[j].diacr  = ptr->diacr;
-			kdu.kbdiacruc[j].base   = ptr->base;
-			kdu.kbdiacruc[j].result = ptr->result;
+			kdu.kbdiacruc[j].diacr  = export_value(ptr->diacr);
+			kdu.kbdiacruc[j].base   = export_value(ptr->base);
+			kdu.kbdiacruc[j].result = export_value(ptr->result);
 			j++;
 		}
 
@@ -265,6 +273,10 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			ptr = lk_array_get_ptr(ctx->accent_table, i);
 			if (!ptr)
 				continue;
+
+			ptr->diacr  = export_value(ptr->diacr);
+			ptr->base   = export_value(ptr->base);
+			ptr->result = export_value(ptr->result);
 
 			if (ptr->diacr > UCHAR_MAX ||
 			    ptr->base > UCHAR_MAX ||

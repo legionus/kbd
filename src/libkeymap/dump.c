@@ -79,14 +79,22 @@ int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd)
 			continue;
 
 		for (j = 0; j < NR_KEYS / 2; j++) {
+			unsigned int k_value;
 			int value = lk_get_key(ctx, i, j);
 
-			if (value < 0 || value > USHRT_MAX) {
+			if (value < 0) {
+				ERR(ctx, "can not bind key %d", j);
+				goto fail;
+			}
+
+			k_value = export_value((unsigned int) value);
+
+			if (k_value > USHRT_MAX) {
 				ERR(ctx, _("can not bind key %d to value %d because it is too large"), j, value);
 				goto fail;
 			}
 
-			if (fwrite(&value, sizeof(unsigned short), 1, fd) != 1)
+			if (fwrite(&k_value, sizeof(unsigned short), 1, fd) != 1)
 				goto fail;
 		}
 	}
@@ -149,9 +157,14 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 				fprintf(fd, "static ");
 			fprintf(fd, "unsigned short %s_map[NR_KEYS] = {", mk_mapname((char) i));
 			for (j = 0; j < NR_KEYS; j++) {
+				int value = lk_get_key(ctx, i, j);
+				if (value < 0) {
+					ERR(ctx, "can not bind key %d", j);
+					return -1;
+				}
 				if (!(j % 8))
 					fprintf(fd, "\n");
-				fprintf(fd, "\t0x%04x,", U(lk_get_key(ctx, i, j)));
+				fprintf(fd, "\t0x%04x,", export_value((unsigned int) value));
 			}
 			fprintf(fd, "\n};\n\n");
 		}
@@ -225,12 +238,12 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 		kddiac = lk_array_get_ptr(ctx->accent_table, i);
 
 		fprintf(fd, "\t{");
-		outchar(fd, kddiac->diacr, 1);
-		outchar(fd, kddiac->base, 1);
+		outchar(fd, export_value(kddiac->diacr), 1);
+		outchar(fd, export_value(kddiac->base), 1);
 		if (unicode)
-			fprintf(fd, "0x%04x", kddiac->result);
+			fprintf(fd, "0x%04x", export_value(kddiac->result));
 		else
-			outchar(fd, kddiac->result, 0);
+			outchar(fd, export_value(kddiac->result), 0);
 		fprintf(fd, "},");
 		if (i % 2)
 			fprintf(fd, "\n");
@@ -284,29 +297,29 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 			continue;
 
 		fprintf(fd, "compose ");
-		dumpchar(fd, ptr->diacr, 0);
+		dumpchar(fd, export_value(ptr->diacr), 0);
 		fprintf(fd, " ");
-		dumpchar(fd, ptr->base, 0);
+		dumpchar(fd, export_value(ptr->base), 0);
 #ifdef KDGKBDIACRUC
 		if (ctx->flags & LK_FLAG_PREFER_UNICODE) {
-			ksym = codetoksym(ctx, (int) U(ptr->result));
+			ksym = codetoksym(ctx, (int) ptr->result);
 			if (ksym) {
 				fprintf(fd, " to %s\n", ksym);
 			} else {
-				fprintf(fd, " to U+%04x\n", ptr->result);
+				fprintf(fd, " to U+%04x\n", export_value(ptr->result));
 			}
 		} else
 #endif
-		    if (ptr->result > 0xff) {
+		    if (export_value(ptr->result) > 0xff) {
 			// impossible case?
-			fprintf(fd, " to 0x%x\n", ptr->result);
+			fprintf(fd, " to 0x%x\n", export_value(ptr->result));
 		} else {
 			ksym = codetoksym(ctx, (int) ptr->result);
 			if (ksym) {
 				fprintf(fd, " to %s\n", ksym);
 			} else {
 				fprintf(fd, " to ");
-				dumpchar(fd, ptr->result, 0);
+				dumpchar(fd, export_value(ptr->result), 0);
 				fprintf(fd, "\n");
 			}
 		}
@@ -379,7 +392,7 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 		if (!numeric && (p = codetoksym(ctx, code)) != NULL)
 			fprintf(fd, "%-16s", p);
 		else
-			fprintf(fd, "U+%04x          ", U(code));
+			fprintf(fd, "U+%04x          ", export_value((unsigned int) code));
 		return;
 	}
 	plus = 0;

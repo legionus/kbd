@@ -281,8 +281,8 @@ compline        : COMPOSE compsym compsym TO CCHAR EOL
 					YYERROR;
 			}
                 ;
-compsym		: CCHAR		{	$$ = $1;	}
-		| UNUMBER	{	$$ = U($1);	}
+compsym		: CCHAR		{	$$ = KBD_KVALUE($1);	}
+		| UNUMBER	{	$$ = KBD_UNICODE($1);	}
 		;
 singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
@@ -381,12 +381,12 @@ rvalue1		: rvalue
 				lk_array_append(ctx->key_line, &val);
 			}
 		;
-rvalue		: NUMBER	{ $$ = convert_code(ctx, $1, TO_AUTO);		}
-                | PLUS NUMBER	{ $$ = add_capslock(ctx, $2);			}
-		| UNUMBER	{ $$ = convert_code(ctx, U($1), TO_AUTO);	}
-		| PLUS UNUMBER	{ $$ = add_capslock(ctx, U($2));		}
-		| LITERAL	{ $$ = $1;					}
-                | PLUS LITERAL	{ $$ = add_capslock(ctx, $2);			}
+rvalue		: NUMBER	{ $$ = convert_code(ctx, KBD_KVALUE($1), TO_AUTO);	}
+		| PLUS NUMBER	{ $$ = add_capslock(ctx, KBD_KVALUE($2));		}
+		| UNUMBER	{ $$ = convert_code(ctx, KBD_UNICODE($1), TO_AUTO);	}
+		| PLUS UNUMBER	{ $$ = add_capslock(ctx, KBD_UNICODE($2));		}
+		| LITERAL	{ $$ = KBD_KVALUE($1);					}
+		| PLUS LITERAL	{ $$ = add_capslock(ctx, KBD_KVALUE($2));		}
 		;
 %%
 

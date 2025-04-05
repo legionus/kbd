@@ -34,11 +34,23 @@
  * @brief Bits above the maximum unicode (0x10ffff) available for flags.
  */
 #define FLAG_MASK		GENMASK_32(31, 24)
+#define FLAG_UNICODE		BIT_32(30)
 
 #define STRIP_FLAGS(x)		((x) & ~FLAG_MASK)
 
+#define KBD_KVALUE(x)		((x))
+#define KBD_UNICODE(x)		((x) | FLAG_UNICODE)
+
 #define KBD_KTYP(x)		KTYP(STRIP_FLAGS(x))
 #define KBD_KVAL(x)		KVAL(STRIP_FLAGS(x))
+
+static inline unsigned int export_value(unsigned int value)
+{
+	if ((value & FLAG_UNICODE))
+		value = U(value);
+
+	return STRIP_FLAGS(value);
+}
 
 /**
  * @brief The maximum number of include levels.

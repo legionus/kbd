@@ -213,7 +213,7 @@ codetoksym(struct lk_ctx *ctx, int code)
 	if (code < 0)
 		return NULL;
 
-	if (code < 0x1000) { /* "traditional" keysym */
+	if (STRIP_FLAGS(code) < 0x1000) { /* "traditional" keysym */
 		if (code < 0x80)
 			return get_sym(ctx, KT_LATIN, code);
 
@@ -239,7 +239,7 @@ codetoksym(struct lk_ctx *ctx, int code)
 	}
 
 	else { /* Unicode keysym */
-		code = U(code);
+		code = STRIP_FLAGS(code);
 
 		if (code < 0x80)
 			return get_sym(ctx, KT_LATIN, code);
@@ -360,7 +360,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 
 	if (direction == TO_UNICODE) {
 		if ((uni = get_charset_uni(ctx->charset, s)) > 0)
-			return U(uni);
+			return KBD_UNICODE(uni);
 
 		/* not found in the current charset, maybe we'll have good luck in others? */
 		for (i = 0; i < ARRAY_SIZE(charsets); i++) {
@@ -369,7 +369,7 @@ int ksymtocode(struct lk_ctx *ctx, const char *s, int direction)
 			}
 
 			if ((uni = get_charset_uni(i, s)) > 0)
-				return U(uni);
+				return KBD_UNICODE(uni);
 		}
 	} else /* if (!chosen_charset[0]) */ {
 		/* note: some keymaps use latin1 but with euro,
@@ -423,9 +423,9 @@ int convert_code(struct lk_ctx *ctx, int code, int direction)
 	else if (!input_is_unicode && code < 0x80)
 		/* basic ASCII is fine in every situation */
 		return code;
-	else if (input_is_unicode && U(code) < 0x80)
+	else if (input_is_unicode && STRIP_FLAGS(code) < 0x80)
 		/* so is Unicode "Basic Latin" */
-		return U(code);
+		return KBD_UNICODE(code);
 	else if ((input_is_unicode && direction == TO_UNICODE) ||
 	         (!input_is_unicode && direction == TO_8BIT))
 		/* no conversion necessary */
@@ -438,16 +438,16 @@ int convert_code(struct lk_ctx *ctx, int code, int direction)
 			result = ksymtocode(ctx, ksym, direction);
 		else
 			result = code;
-		if (direction == TO_UNICODE && KBD_KTYP(code) == KT_LETTER && U(result) < 0x100) {
+		if (direction == TO_UNICODE && KBD_KTYP(code) == KT_LETTER && STRIP_FLAGS(result) < 0x100) {
 			/* Unicode Latin-1 Supplement */
-			result = K(KT_LETTER, U(result));
+			result = K(KT_LETTER, STRIP_FLAGS(result));
 		}
 	}
 
 	/* if direction was TO_UNICODE from the beginning, we return the true
 	 * Unicode value (without the UNICODE_MASK) */
 	if (unicode_forced && result >= 0x1000)
-		return U(result);
+		return KBD_UNICODE(result);
 	else
 		return result;
 }
@@ -456,10 +456,10 @@ int add_capslock(struct lk_ctx *ctx, int code)
 {
 	if (KBD_KTYP(code) == KT_LATIN && (!(ctx->flags & LK_FLAG_PREFER_UNICODE) || code < 0x80))
 		return K(KT_LETTER, KBD_KVAL(code));
-	else if (U(code) < 0x100)
+	else if (STRIP_FLAGS(code) < 0x100)
 		/* Unicode Latin-1 Supplement */
 		/* a bit dirty to use KT_LETTER here, but it should work */
-		return K(KT_LETTER, U(code));
+		return K(KT_LETTER, STRIP_FLAGS(code));
 	else
 		return convert_code(ctx, code, TO_AUTO);
 }
