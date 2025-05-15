@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-12-16 18:11+0100\n"
+"POT-Creation-Date: 2025-05-15 11:59+0200\n"
 "PO-Revision-Date: 2024-10-29 18:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -28,29 +28,29 @@ msgstr ""
 "\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
-#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
+#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
 #: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
-#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
+#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
 msgstr "консольний пристрій, який буде використано."
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
-#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
-#: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
+#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
+#: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
 msgstr "вивести це повідомлення щодо використання."
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
-#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
-#: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
+#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
+#: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
 msgstr "вивести номер версії."
@@ -61,10 +61,10 @@ msgstr "Недостатньо аргументів."
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
-#: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
+#: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
 #, c-format
@@ -93,8 +93,8 @@ msgstr "Не вдалося активувати ВТ %d"
 msgid "Usage: %s [option...] [N ...]\n"
 msgstr "Користування: %s [параметр...] [N ...]\n"
 
-#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
-#: src/setmetamode.c:134
+#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:253 src/setleds.c:261
+#: src/setmetamode.c:133
 #, c-format
 msgid "Unrecognized argument: %s"
 msgstr "Невідомий аргумент: %s"
@@ -113,7 +113,7 @@ msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "не вдалося звільнити консоль %d: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
-#: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
+#: src/kbd_mode.c:30 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -177,16 +177,16 @@ msgid ""
 msgstr "інтерпретувати коди дій у символах як у вказаному наборі символів."
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
-#: src/setfont.c:189 src/setleds.c:215 src/showconsolefont.c:135
+#: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "виводити докладнішу інформацію."
 
-#: src/dumpkeys.c:145 src/libkeymap/parser.y:193
+#: src/dumpkeys.c:145 src/libkeymap/parser.y:185
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "невідомий набір символів %s - вказування набору символів ігнорується\n"
 
-#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
+#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 msgid "Unable to read keyboard mode"
 msgstr "Не вдалося прочитати режим клавіатури"
@@ -267,65 +267,77 @@ msgstr ""
 msgid "Unable to read console mode"
 msgstr "Не вдалося прочитати режим консолі"
 
-#: src/kbdinfo.c:136 src/setmetamode.c:120
+#: src/kbdinfo.c:136 src/setmetamode.c:119
 msgid "Unable to read meta key handling mode"
 msgstr "Не вдалося прочитати режим обробки клавіші Meta"
 
-#: src/kbdinfo.c:149 src/setleds.c:121
+#: src/kbdinfo.c:149 src/setleds.c:122
 msgid "Unable to read keyboard flags"
 msgstr "Не вдалося прочитати прапорці клавіатури"
 
-#: src/kbd_mode.c:27 src/loadunimap.c:29
+#: src/kbd_mode.c:32 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr "Ця програма повідомляє або встановлює режим клавіатури.\n"
 
-#: src/kbd_mode.c:40
+#: src/kbd_mode.c:45
 #, c-format
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "Клавіатура знаходиться у сирому (raw) режимі (надсилає скан-коди)"
 
-#: src/kbd_mode.c:43
+#: src/kbd_mode.c:48
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "Клавіатура знаходиться у напівсирому режимі (надсилає коди клавіш)"
 
-#: src/kbd_mode.c:46
+#: src/kbd_mode.c:51
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "Клавіатура перебуває у звичайному режимі (надсилає ASCII-коди знаків)"
 
-#: src/kbd_mode.c:49
+#: src/kbd_mode.c:54
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "Клавіатура перебуває у режимі Unicode (надсилає коди знаків у UTF-8)"
 
-#: src/kbd_mode.c:52
+#: src/kbd_mode.c:58
+#, c-format
+msgid ""
+"The keyboard is in Disabled mode, perhaps you are using a graphical "
+"environment?"
+msgstr ""
+
+#: src/kbd_mode.c:62
 #, c-format
 msgid "The keyboard is in some unknown mode"
 msgstr "Клавіатура перебуває у невідомому режимі"
 
-#: src/kbd_mode.c:77
+#: src/kbd_mode.c:88
 msgid "set ASCII mode."
 msgstr "встановити режим ASCII."
 
-#: src/kbd_mode.c:78
+#: src/kbd_mode.c:89
 msgid "set keycode mode."
 msgstr "встановити режим коду клавіш."
 
-#: src/kbd_mode.c:79
+#: src/kbd_mode.c:90
 msgid "set scancode mode."
 msgstr "встановити режим скан-кодів."
 
-#: src/kbd_mode.c:80
+#: src/kbd_mode.c:91
 msgid "set UTF-8 mode."
 msgstr "встановити режим UTF-8."
 
-#: src/kbd_mode.c:81
+#: src/kbd_mode.c:92
+#, fuzzy
+msgid "set disable mode."
+msgstr "встановити режим скан-кодів."
+
+#: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
 msgstr "Перемкнути режим, навіть якщо це зробить клавіатуру непрацездатною."
 
-#: src/kbd_mode.c:158
+#: src/kbd_mode.c:178
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use "
@@ -415,58 +427,52 @@ msgstr "Повідомляйте про вади авторам.\n"
 msgid "includes are nested too deeply"
 msgstr "занадто високий рівень вкладеності включення"
 
-#: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
-#: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
-#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:51
-#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:134
+#: src/libkeymap/analyze.l:148 src/libkeymap/analyze.l:255
+#: src/libkeymap/analyze.l:391 src/libkeymap/common.c:158
+#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:50
+#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:159
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
 msgstr "недостатньо пам'яті"
 
-#: src/libkeymap/analyze.l:256
+#: src/libkeymap/analyze.l:251
 #, c-format
 msgid "switching to %s"
 msgstr "перемикання на %s"
 
-#: src/libkeymap/analyze.l:266
+#: src/libkeymap/analyze.l:262
 #, c-format
 msgid "cannot open include file %s"
 msgstr "не вдалося відкрити включений файл %s"
 
-#: src/libkeymap/analyze.l:288
+#: src/libkeymap/analyze.l:282
 #, c-format
 msgid "unable to parse number: %s"
 msgstr "не вдалося обробити число: %s"
 
-#: src/libkeymap/analyze.l:293
+#: src/libkeymap/analyze.l:287
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr "значення має бути додатним числом: %s"
 
-#: src/libkeymap/analyze.l:298
+#: src/libkeymap/analyze.l:292
 #, c-format
-msgid "value must be less than %d: %s"
-msgstr "значення має бути меншим за %d: %s"
+msgid "value must be less than %lld: %s"
+msgstr "значення має бути меншим за %lld: %s"
 
-#: src/libkeymap/analyze.l:366
-msgid "expected filename between quotes"
-msgstr "мало бути вказано назву файла у лапках"
-
-#: src/libkeymap/analyze.l:405
-#, c-format
-msgid "unicode keysym out of range: %s"
-msgstr "номер символу unicode поза межами діапазону: %s"
-
-#: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
-#: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
-#: src/libkeymap/analyze.l:508
+#: src/libkeymap/analyze.l:326
 msgid "string too long"
 msgstr "надто довгий рядок"
 
-#: src/libkeymap/analyze.l:477
-msgid "octal number too big"
-msgstr "надто велике вісімкове число"
+#: src/libkeymap/analyze.l:408
+msgid "expected filename between quotes"
+msgstr "мало бути вказано назву файла у лапках"
+
+#: src/libkeymap/analyze.l:447
+#, c-format
+msgid "unicode keysym out of range: %s"
+msgstr "номер символу unicode поза межами діапазону: %s"
 
 #: src/libkeymap/common.c:164
 #, c-format
@@ -482,19 +488,19 @@ msgstr "Індексу %d у таблиці акцентів не існує"
 msgid "Unable to remove item from the diacritical table"
 msgstr "Не вдалося вилучити запис із таблиці діакритичних символів"
 
-#: src/libkeymap/dump.c:87 src/libkeymap/loadkeys.c:43
+#: src/libkeymap/dump.c:85 src/libkeymap/loadkeys.c:30
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr ""
 "не вдалося прив’язати клавішу %d до значення %d, оскільки воно є надто "
 "великим"
 
-#: src/libkeymap/dump.c:99 src/libkfont/mapscrn.c:253
+#: src/libkeymap/dump.c:97 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "Помилка запису у файл"
 
-#: src/libkeymap/dump.c:547
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "неможливо: не `meta'?\n"
@@ -504,7 +510,7 @@ msgstr "неможливо: не `meta'?\n"
 msgid "func %d not allocated"
 msgstr "функцію %d не розміщено"
 
-#: src/libkeymap/func.c:61
+#: src/libkeymap/func.c:60
 msgid "Unable to remove item from the list of functions"
 msgstr "Не вдалося вилучити запис зі списку функцій"
 
@@ -567,94 +573,92 @@ msgstr "не вдалося визначити клавішу %d для табл
 msgid "impossible error in lk_add_constants"
 msgstr "неможлива помилка у lk_add_constants"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:178
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "не вдалося отримати символ за помилковим типом: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:192
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "не вдалося отримати символ типу %d за помилковим індексом: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:392
 #, c-format
 msgid "assuming %s %s"
 msgstr "припускаємо %s %s"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:399
 #, c-format
 msgid "unknown keysym '%s'"
 msgstr "невідомий символ клавіші «%s»"
 
-#: src/libkeymap/loadkeys.c:26
-#, c-format
-msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE: %s: не вдалося перемкнутися у режим Unicode"
-
-#: src/libkeymap/loadkeys.c:55
+#: src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "Розкладка %d: відмовлено у доступі"
 
-#: src/libkeymap/loadkeys.c:72
+#: src/libkeymap/loadkeys.c:59
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "клавіша %d, таблиця %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:73
+#: src/libkeymap/loadkeys.c:60
 msgid "    FAILED"
 msgstr "    ПОМИЛКА"
 
-#: src/libkeymap/loadkeys.c:76
+#: src/libkeymap/loadkeys.c:63
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "не вдалося прив’язати клавішу %d до значення %d"
 
-#: src/libkeymap/loadkeys.c:86
+#: src/libkeymap/loadkeys.c:79
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "вилучити розкладку %d"
 
-#: src/libkeymap/loadkeys.c:90
+#: src/libkeymap/loadkeys.c:85
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: не вдалося вилучити розкладку %d"
 
-#: src/libkeymap/loadkeys.c:105
+#: src/libkeymap/loadkeys.c:102
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: не вдалося вилучити або спорожнити розкладку"
 
-#: src/libkeymap/loadkeys.c:115
+#: src/libkeymap/loadkeys.c:118
 #, c-format
-msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "KDSKBMODE: %s: не вдалося перемкнутися у режим Unicode"
+
+#: src/libkeymap/loadkeys.c:143
+#, fuzzy, c-format
+msgid "KDSKBMODE: %sr could not return to original keyboard mode"
 msgstr ""
 "KDSKBMODE: %s: не вдалося повернутися до початкового режиму роботи клавіатури"
 
-#: src/libkeymap/loadkeys.c:178
+#: src/libkeymap/loadkeys.c:204
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "не вдалося пов’язати рядок «%s» з функцією %s"
 
-#: src/libkeymap/loadkeys.c:188
+#: src/libkeymap/loadkeys.c:214
 #, c-format
 msgid "failed to clear string %s"
 msgstr "не вдалося спорожнити рядок %s"
 
-#: src/libkeymap/loadkeys.c:206
+#: src/libkeymap/loadkeys.c:232
 msgid "too many compose definitions"
 msgstr "занадто багато визначень сполучень"
 
-#: src/libkeymap/loadkeys.c:246
+#: src/libkeymap/loadkeys.c:272
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
 "не вдалося завантажити визначення композицій, оскільки деякі з них є надто "
 "великими"
 
-#: src/libkeymap/loadkeys.c:275
+#: src/libkeymap/loadkeys.c:301
 #, c-format
 msgid ""
 "\n"
@@ -675,7 +679,7 @@ msgstr[3] ""
 "\n"
 "Змінено %d клавішу"
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:302
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
@@ -684,7 +688,7 @@ msgstr[1] "Змінено %d рядки"
 msgstr[2] "Змінено %d рядків"
 msgstr[3] "Змінено %d рядок"
 
-#: src/libkeymap/loadkeys.c:284
+#: src/libkeymap/loadkeys.c:310
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
@@ -693,26 +697,26 @@ msgstr[1] "Завантажено %d визначення сполучень"
 msgstr[2] "Завантажено %d визначень сполучень"
 msgstr[3] "Завантажено %d визначення сполучення"
 
-#: src/libkeymap/loadkeys.c:289
+#: src/libkeymap/loadkeys.c:315
 msgid "(No change in compose definitions)"
 msgstr "(Немає змін у визначеннях сполучених клавіш.)"
 
-#: src/libkeymap/parser.y:115
+#: src/libkeymap/parser.y:153
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr "loadkeys: невідомий спосіб створення сполучення для %s"
 
-#: src/libkeymap/parser.y:256
+#: src/libkeymap/parser.y:248
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr "«%s» не є символом функціональної клавіші"
 
-#: src/libkeymap/parser.y:343
+#: src/libkeymap/parser.y:333
 #, c-format
 msgid "too many (%ld) entries on one line"
 msgstr "занадто багато записів (%ld) в одному рядку"
 
-#: src/libkeymap/parser.y:413
+#: src/libkeymap/parser.y:399
 #, c-format
 msgid "Loading %s"
 msgstr "Завантажується «%s»"
@@ -1545,12 +1549,12 @@ msgstr "код поза допустимим діапазоном"
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "помилка встановлення скан-коду %x коду %d: ioctl KDSETKEYCODE"
 
-#: src/setleds.c:31
+#: src/setleds.c:32
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
 msgstr "Користування: %s [параметр...] [[+|-][ num | caps | scroll %s]]\n"
 
-#: src/setleds.c:40
+#: src/setleds.c:41
 #, c-format
 msgid ""
 "Thus,\n"
@@ -1575,100 +1579,100 @@ msgstr ""
 "При вказуванні -D, setleds встановлює як ознаки так і типові ознаки, тобто\n"
 "наступний сигнал скидання стану не змінить ці ознаки.\n"
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "on "
 msgstr "увімк"
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "off"
 msgstr "вимкн"
 
-#: src/setleds.c:101
+#: src/setleds.c:102
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Помилка читання поточного стану індикаторів. Можливо, stdin не є ВТ?: ioctl "
 "KDGETLED"
 
-#: src/setleds.c:131 src/setleds.c:144
+#: src/setleds.c:132 src/setleds.c:145
 #, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr ""
 "Помилка читання поточного стану індикаторів з /dev/kbd. Можливо stdin не є "
 "ВТ?: ioctl %s"
 
-#: src/setleds.c:135 src/setleds.c:148
+#: src/setleds.c:136 src/setleds.c:149
 #, c-format
 msgid "ioctl %s unavailable?"
 msgstr "ioctl %s є недоступним?"
 
-#: src/setleds.c:211
+#: src/setleds.c:212
 msgid "change both the VT flags and their default settings."
 msgstr "змінити одразу прапорці ВТ і їхні типові параметри."
 
-#: src/setleds.c:212
+#: src/setleds.c:213
 msgid "change the VT flags."
 msgstr "змінити прапорці ВТ."
 
-#: src/setleds.c:213
+#: src/setleds.c:214
 msgid "change only the leds."
 msgstr "змінити лише індикатори."
 
-#: src/setleds.c:290
+#: src/setleds.c:291
 msgid "Error resetting ledmode"
 msgstr "Помилка встановлення індикаторів у початковий стан"
 
-#: src/setleds.c:298
+#: src/setleds.c:299
 #, c-format
 msgid "Current default flags:  "
 msgstr "Поточні `типові' ознаки:       "
 
-#: src/setleds.c:302
+#: src/setleds.c:303
 #, c-format
 msgid "Current flags:          "
 msgstr "Поточні ознаки:                "
 
-#: src/setleds.c:306
+#: src/setleds.c:307
 #, c-format
 msgid "Current leds:           "
 msgstr "Поточний стан індикаторів:     "
 
-#: src/setleds.c:321
+#: src/setleds.c:322
 #, c-format
 msgid "Old default flags:    "
 msgstr "Попередні `типові' ознаки:     "
 
-#: src/setleds.c:323
+#: src/setleds.c:324
 #, c-format
 msgid "New default flags:    "
 msgstr "Нові `типові' ознаки:          "
 
-#: src/setleds.c:330
+#: src/setleds.c:331
 #, c-format
 msgid "Old flags:            "
 msgstr "Старі ознаки                   "
 
-#: src/setleds.c:332
+#: src/setleds.c:333
 #, c-format
 msgid "New flags:            "
 msgstr "Нові ознаки:                   "
 
-#: src/setleds.c:345 src/setleds.c:354
+#: src/setleds.c:346 src/setleds.c:355
 #, c-format
 msgid "Old leds:             "
 msgstr "Попередній стан індикаторів:   "
 
-#: src/setleds.c:347 src/setleds.c:356
+#: src/setleds.c:348 src/setleds.c:357
 #, c-format
 msgid "New leds:             "
 msgstr "Новий стан індикаторів:        "
 
-#: src/setmetamode.c:25
+#: src/setmetamode.c:26
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
 msgstr "Користування: %s [параметр...] [аргумент]\n"
 
-#: src/setmetamode.c:28
+#: src/setmetamode.c:29
 #, c-format
 msgid ""
 "Arguments:\n"
@@ -1683,24 +1687,24 @@ msgstr ""
 "              породжує префікс ESC (\\033), за яким слідує\n"
 "              символ клавіші.\n"
 
-#: src/setmetamode.c:48
+#: src/setmetamode.c:49
 msgid "Meta key sets high order bit"
 msgstr "Клавіша Meta встановлює старший біт"
 
-#: src/setmetamode.c:51
+#: src/setmetamode.c:52
 msgid "Meta key gives Esc prefix"
 msgstr "Клавіша Meta видає Esc-префікс"
 
-#: src/setmetamode.c:54
+#: src/setmetamode.c:55
 msgid "Strange mode for Meta key?"
 msgstr "Дивний режим клавіші Meta?"
 
-#: src/setmetamode.c:139
+#: src/setmetamode.c:138
 #, c-format
 msgid "old state:    "
 msgstr "попередній стан:     "
 
-#: src/setmetamode.c:144
+#: src/setmetamode.c:143
 #, c-format
 msgid "new state:    "
 msgstr "новий стан:          "
@@ -1975,6 +1979,9 @@ msgstr "Цей пристрій tty (%s) не є віртуальною конс
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Показ даних у консолі не може бути повністю заблоковано.\n"
+
+#~ msgid "octal number too big"
+#~ msgstr "надто велике вісімкове число"
 
 #, c-format
 #~ msgid "usage: screendump [n]\n"

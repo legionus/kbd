@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-12-16 18:11+0100\n"
+"POT-Creation-Date: 2025-05-15 11:59+0200\n"
 "PO-Revision-Date: 2024-10-30 19:07+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -24,29 +24,29 @@ msgid "Usage: %s [option...] N\n"
 msgstr "Składnia: %s [opcja...] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
-#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
+#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
 #: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
-#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
+#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
 msgstr "urządzenie konsoli do użycia."
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
-#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
-#: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
+#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
+#: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
 msgstr "wypisanie tego opisu składni."
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
-#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
-#: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
+#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
+#: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
 msgstr "wypisanie numeru wersji."
@@ -57,10 +57,10 @@ msgstr "Za mało argumentów."
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
-#: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
+#: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
 #, c-format
@@ -89,8 +89,8 @@ msgstr "Nie udało się uaktywnić vt %d"
 msgid "Usage: %s [option...] [N ...]\n"
 msgstr "Składnia: %s [opcja...] [N ...]\n"
 
-#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
-#: src/setmetamode.c:134
+#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:253 src/setleds.c:261
+#: src/setmetamode.c:133
 #, c-format
 msgid "Unrecognized argument: %s"
 msgstr "Nie rozpoznany argument: %s"
@@ -109,7 +109,7 @@ msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "nie można zwolnić konsoli %d: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
-#: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
+#: src/kbd_mode.c:30 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -174,16 +174,16 @@ msgstr ""
 "interpretowanie kodów znaków jako pochodzących z podanego zestawu znaków."
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
-#: src/setfont.c:189 src/setleds.c:215 src/showconsolefont.c:135
+#: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "podawanie większej ilości informacji."
 
-#: src/dumpkeys.c:145 src/libkeymap/parser.y:193
+#: src/dumpkeys.c:145 src/libkeymap/parser.y:185
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "nieznany zestaw znaków %s - ignorowanie żądania zestawu znaków\n"
 
-#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
+#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 msgid "Unable to read keyboard mode"
 msgstr "Nie udało się odczytać trybu klawiatury"
@@ -264,65 +264,77 @@ msgstr ""
 msgid "Unable to read console mode"
 msgstr "Nie udało się odczytać trybu konsoli"
 
-#: src/kbdinfo.c:136 src/setmetamode.c:120
+#: src/kbdinfo.c:136 src/setmetamode.c:119
 msgid "Unable to read meta key handling mode"
 msgstr "Nie udało się odczytać trybu obsługi klawiszy meta"
 
-#: src/kbdinfo.c:149 src/setleds.c:121
+#: src/kbdinfo.c:149 src/setleds.c:122
 msgid "Unable to read keyboard flags"
 msgstr "Nie udało się odczytać flag klawiatury"
 
-#: src/kbd_mode.c:27 src/loadunimap.c:29
+#: src/kbd_mode.c:32 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr "To narzędzie raportuje lub ustawia tryb klawiatury.\n"
 
-#: src/kbd_mode.c:40
+#: src/kbd_mode.c:45
 #, c-format
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "Klawiatura jest w trybie surowym (skankodów)"
 
-#: src/kbd_mode.c:43
+#: src/kbd_mode.c:48
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "Klawiatura jest w trybie średnio surowym (kodów klawiszy)"
 
-#: src/kbd_mode.c:46
+#: src/kbd_mode.c:51
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "Klawiatura jest w trybie normalnym (ASCII)"
 
-#: src/kbd_mode.c:49
+#: src/kbd_mode.c:54
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "Klawiatura jest w trybie Unicode (UTF-8)"
 
-#: src/kbd_mode.c:52
+#: src/kbd_mode.c:58
+#, c-format
+msgid ""
+"The keyboard is in Disabled mode, perhaps you are using a graphical "
+"environment?"
+msgstr ""
+
+#: src/kbd_mode.c:62
 #, c-format
 msgid "The keyboard is in some unknown mode"
 msgstr "Klawiatura jest w nieznanym trybie"
 
-#: src/kbd_mode.c:77
+#: src/kbd_mode.c:88
 msgid "set ASCII mode."
 msgstr "ustawienie trybu ASCII."
 
-#: src/kbd_mode.c:78
+#: src/kbd_mode.c:89
 msgid "set keycode mode."
 msgstr "ustawienie trybu kodów klawiszy."
 
-#: src/kbd_mode.c:79
+#: src/kbd_mode.c:90
 msgid "set scancode mode."
 msgstr "ustawienie trybu skankodów."
 
-#: src/kbd_mode.c:80
+#: src/kbd_mode.c:91
 msgid "set UTF-8 mode."
 msgstr "ustawienie trybu UTF-8."
 
-#: src/kbd_mode.c:81
+#: src/kbd_mode.c:92
+#, fuzzy
+msgid "set disable mode."
+msgstr "ustawienie trybu skankodów."
+
+#: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
 msgstr "przełączenie trybu nawet jeśli uczyni to klawiaturę nieużywalną."
 
-#: src/kbd_mode.c:158
+#: src/kbd_mode.c:178
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use "
@@ -410,58 +422,52 @@ msgstr "Błędy prosimy zgłaszać do autorów.\n"
 msgid "includes are nested too deeply"
 msgstr "dołączenia zagnieżdżone zbyt głęboko"
 
-#: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
-#: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
-#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:51
-#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:134
+#: src/libkeymap/analyze.l:148 src/libkeymap/analyze.l:255
+#: src/libkeymap/analyze.l:391 src/libkeymap/common.c:158
+#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:50
+#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:159
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
 msgstr "brak pamięci"
 
-#: src/libkeymap/analyze.l:256
+#: src/libkeymap/analyze.l:251
 #, c-format
 msgid "switching to %s"
 msgstr "przełączanie na %s"
 
-#: src/libkeymap/analyze.l:266
+#: src/libkeymap/analyze.l:262
 #, c-format
 msgid "cannot open include file %s"
 msgstr "nie można otworzyć pliku dołączanego %s"
 
-#: src/libkeymap/analyze.l:288
+#: src/libkeymap/analyze.l:282
 #, c-format
 msgid "unable to parse number: %s"
 msgstr "nie można odczytać liczby: %s"
 
-#: src/libkeymap/analyze.l:293
+#: src/libkeymap/analyze.l:287
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr "wartość musi być liczbą dodatnią: %s"
 
-#: src/libkeymap/analyze.l:298
+#: src/libkeymap/analyze.l:292
 #, c-format
-msgid "value must be less than %d: %s"
-msgstr "wartość musi być mniejsza niż %d: %s"
+msgid "value must be less than %lld: %s"
+msgstr "wartość musi być mniejsza niż %lld: %s"
 
-#: src/libkeymap/analyze.l:366
-msgid "expected filename between quotes"
-msgstr "oczekiwano nazwy pliku w cudzysłowach"
-
-#: src/libkeymap/analyze.l:405
-#, c-format
-msgid "unicode keysym out of range: %s"
-msgstr "symbol unikodowy spoza zakresu: %s"
-
-#: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
-#: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
-#: src/libkeymap/analyze.l:508
+#: src/libkeymap/analyze.l:326
 msgid "string too long"
 msgstr "łańcuch zbyt długi"
 
-#: src/libkeymap/analyze.l:477
-msgid "octal number too big"
-msgstr "liczba ósemkowa zbyt duża"
+#: src/libkeymap/analyze.l:408
+msgid "expected filename between quotes"
+msgstr "oczekiwano nazwy pliku w cudzysłowach"
+
+#: src/libkeymap/analyze.l:447
+#, c-format
+msgid "unicode keysym out of range: %s"
+msgstr "symbol unikodowy spoza zakresu: %s"
 
 #: src/libkeymap/common.c:164
 #, c-format
@@ -477,17 +483,17 @@ msgstr "Indeks %d w tablicy akcentów nie istnieje"
 msgid "Unable to remove item from the diacritical table"
 msgstr "Nie udało się usunąć elementu z tablicy diakrytyków"
 
-#: src/libkeymap/dump.c:87 src/libkeymap/loadkeys.c:43
+#: src/libkeymap/dump.c:85 src/libkeymap/loadkeys.c:30
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr "nie można dowiązać klawisza %d do wartości %d, ponieważ jest zbyt duża"
 
-#: src/libkeymap/dump.c:99 src/libkfont/mapscrn.c:253
+#: src/libkeymap/dump.c:97 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "Błąd podczas zapisu mapy do pliku"
 
-#: src/libkeymap/dump.c:547
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "niemożliwe: nie meta?\n"
@@ -497,7 +503,7 @@ msgstr "niemożliwe: nie meta?\n"
 msgid "func %d not allocated"
 msgstr "funkcja %d nie przydzielona"
 
-#: src/libkeymap/func.c:61
+#: src/libkeymap/func.c:60
 msgid "Unable to remove item from the list of functions"
 msgstr "Nie udało się usunąć elementu z listy funkcji"
 
@@ -560,93 +566,91 @@ msgstr "nie udało się przypisać klawisza %d dla tabeli %d"
 msgid "impossible error in lk_add_constants"
 msgstr "niemożliwy błąd w lk_add_constants"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:178
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "nie udało się pobrać symbolu poprzez niewłaściwy typ: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:192
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "nie udało się pobrać symbolu typu %d poprzez niewłaściwy indeks: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:392
 #, c-format
 msgid "assuming %s %s"
 msgstr "przyjęto %s %s"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:399
 #, c-format
 msgid "unknown keysym '%s'"
 msgstr "nieznany symbol '%s'"
 
-#: src/libkeymap/loadkeys.c:26
-#, c-format
-msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE: %s: nie udało się przełączyć w tryb Unicode"
-
-#: src/libkeymap/loadkeys.c:55
+#: src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "Mapa klawiszy %d: brak uprawnień"
 
-#: src/libkeymap/loadkeys.c:72
+#: src/libkeymap/loadkeys.c:59
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "kod klawisza %d, tabela %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:73
+#: src/libkeymap/loadkeys.c:60
 msgid "    FAILED"
 msgstr "    BŁĄD"
 
-#: src/libkeymap/loadkeys.c:76
+#: src/libkeymap/loadkeys.c:63
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "nie udało się przypisać klawisza %d do wartości %d"
 
-#: src/libkeymap/loadkeys.c:86
+#: src/libkeymap/loadkeys.c:79
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "zwalnianie mapy klawiszy %d"
 
-#: src/libkeymap/loadkeys.c:90
+#: src/libkeymap/loadkeys.c:85
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: nie udało się zwolnić mapy klawiszy %d"
 
-#: src/libkeymap/loadkeys.c:105
+#: src/libkeymap/loadkeys.c:102
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: nie udało się zwolnić lub wyczyścić mapy klawiszy"
 
-#: src/libkeymap/loadkeys.c:115
+#: src/libkeymap/loadkeys.c:118
 #, c-format
-msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "KDSKBMODE: %s: nie udało się przełączyć w tryb Unicode"
+
+#: src/libkeymap/loadkeys.c:143
+#, fuzzy, c-format
+msgid "KDSKBMODE: %sr could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: nie udało się wrócić do pierwotnego trybu klawiatury"
 
-#: src/libkeymap/loadkeys.c:178
+#: src/libkeymap/loadkeys.c:204
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "nie udało się przypisać łańcucha '%s' do funkcji %s"
 
-#: src/libkeymap/loadkeys.c:188
+#: src/libkeymap/loadkeys.c:214
 #, c-format
 msgid "failed to clear string %s"
 msgstr "nie udało się wyczyścić łańcucha %s"
 
-#: src/libkeymap/loadkeys.c:206
+#: src/libkeymap/loadkeys.c:232
 msgid "too many compose definitions"
 msgstr "zbyt dużo definicji compose"
 
-#: src/libkeymap/loadkeys.c:246
+#: src/libkeymap/loadkeys.c:272
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
 "nie udało się załadować definicji compose, ponieważ niektóre z nich są zbyt "
 "duże"
 
-#: src/libkeymap/loadkeys.c:275
+#: src/libkeymap/loadkeys.c:301
 #, c-format
 msgid ""
 "\n"
@@ -664,7 +668,7 @@ msgstr[2] ""
 "\n"
 "Zmieniono %d klawiszy"
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:302
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
@@ -672,7 +676,7 @@ msgstr[0] "Zmieniono %d łańcuch"
 msgstr[1] "Zmieniono %d łańcuchy"
 msgstr[2] "Zmieniono %d łańcuchów"
 
-#: src/libkeymap/loadkeys.c:284
+#: src/libkeymap/loadkeys.c:310
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
@@ -680,26 +684,26 @@ msgstr[0] "Wczytano %d definicję compose"
 msgstr[1] "Wczytano %d definicje compose"
 msgstr[2] "Wczytano %d definicji compose"
 
-#: src/libkeymap/loadkeys.c:289
+#: src/libkeymap/loadkeys.c:315
 msgid "(No change in compose definitions)"
 msgstr "(Brak zmian w definicjach compose)"
 
-#: src/libkeymap/parser.y:115
+#: src/libkeymap/parser.y:153
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr "loadkeys: nie wiem, jak wykonać compose dla %s"
 
-#: src/libkeymap/parser.y:256
+#: src/libkeymap/parser.y:248
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr "'%s' nie jest symbolem klawisza funkcyjnego"
 
-#: src/libkeymap/parser.y:343
+#: src/libkeymap/parser.y:333
 #, c-format
 msgid "too many (%ld) entries on one line"
 msgstr "zbyt dużo (%ld) wpisów w jednym wierszu"
 
-#: src/libkeymap/parser.y:413
+#: src/libkeymap/parser.y:399
 #, c-format
 msgid "Loading %s"
 msgstr "Ładowanie %s"
@@ -1521,12 +1525,12 @@ msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
 "nie udało się ustawić skankodu %x na kod klawisza %d: ioctl KDSETKEYCODE"
 
-#: src/setleds.c:31
+#: src/setleds.c:32
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
 msgstr "Składnia: %s [opcja...] [[+|-][ num | caps | scroll %s]]\n"
 
-#: src/setleds.c:40
+#: src/setleds.c:41
 #, c-format
 msgid ""
 "Thus,\n"
@@ -1551,98 +1555,98 @@ msgstr ""
 "Przy -D, setleds ustawia flagi i domyślne flagi, więc następujący\n"
 "potem reset nie zmieni flag.\n"
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "on "
 msgstr "wł. "
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "off"
 msgstr "wył."
 
-#: src/setleds.c:101
+#: src/setleds.c:102
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Błąd podczas odczytu aktualnych ustawień diod. Może stdin nie jest VT?: "
 "ioctl KDGETLED"
 
-#: src/setleds.c:131 src/setleds.c:144
+#: src/setleds.c:132 src/setleds.c:145
 #, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr "Błąd podczas odczytu aktualnych ustawień diod z /dev/kbd: ioctl %s"
 
-#: src/setleds.c:135 src/setleds.c:148
+#: src/setleds.c:136 src/setleds.c:149
 #, c-format
 msgid "ioctl %s unavailable?"
 msgstr "ioctl %s niedostępny?"
 
-#: src/setleds.c:211
+#: src/setleds.c:212
 msgid "change both the VT flags and their default settings."
 msgstr "zmiana jednocześnie flag VT oraz ich ustawień domyślnych."
 
-#: src/setleds.c:212
+#: src/setleds.c:213
 msgid "change the VT flags."
 msgstr "zmiana tylko flag VT."
 
-#: src/setleds.c:213
+#: src/setleds.c:214
 msgid "change only the leds."
 msgstr "zmiana tylko diod."
 
-#: src/setleds.c:290
+#: src/setleds.c:291
 msgid "Error resetting ledmode"
 msgstr "Błąd podczas resetowania trybu diod"
 
-#: src/setleds.c:298
+#: src/setleds.c:299
 #, c-format
 msgid "Current default flags:  "
 msgstr "Aktualne flagi domyślne: "
 
-#: src/setleds.c:302
+#: src/setleds.c:303
 #, c-format
 msgid "Current flags:          "
 msgstr "Aktualne flagi:          "
 
-#: src/setleds.c:306
+#: src/setleds.c:307
 #, c-format
 msgid "Current leds:           "
 msgstr "Aktualne diody:          "
 
-#: src/setleds.c:321
+#: src/setleds.c:322
 #, c-format
 msgid "Old default flags:    "
 msgstr "Stare domyślne flagi: "
 
-#: src/setleds.c:323
+#: src/setleds.c:324
 #, c-format
 msgid "New default flags:    "
 msgstr "Nowe domyślne flagi:  "
 
-#: src/setleds.c:330
+#: src/setleds.c:331
 #, c-format
 msgid "Old flags:            "
 msgstr "Stare flagi:          "
 
-#: src/setleds.c:332
+#: src/setleds.c:333
 #, c-format
 msgid "New flags:            "
 msgstr "Nowe flagi:           "
 
-#: src/setleds.c:345 src/setleds.c:354
+#: src/setleds.c:346 src/setleds.c:355
 #, c-format
 msgid "Old leds:             "
 msgstr "Stare diody:          "
 
-#: src/setleds.c:347 src/setleds.c:356
+#: src/setleds.c:348 src/setleds.c:357
 #, c-format
 msgid "New leds:             "
 msgstr "Nowe diody:           "
 
-#: src/setmetamode.c:25
+#: src/setmetamode.c:26
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
 msgstr "Składnia: %s [opcja...] [argument]\n"
 
-#: src/setmetamode.c:28
+#: src/setmetamode.c:29
 #, c-format
 msgid ""
 "Arguments:\n"
@@ -1656,24 +1660,24 @@ msgstr ""
 "  escprefix   określenie, czy wciśnięcie klawisza meta (alt)\n"
 "              generuje przedrostek Esc (\\033), a następnie symbol.\n"
 
-#: src/setmetamode.c:48
+#: src/setmetamode.c:49
 msgid "Meta key sets high order bit"
 msgstr "Klawisz Meta ustawia najbardziej znaczący bit"
 
-#: src/setmetamode.c:51
+#: src/setmetamode.c:52
 msgid "Meta key gives Esc prefix"
 msgstr "Klawisz Meta daje przedrostek Esc"
 
-#: src/setmetamode.c:54
+#: src/setmetamode.c:55
 msgid "Strange mode for Meta key?"
 msgstr "Dziwny tryb dla klawisza Meta?"
 
-#: src/setmetamode.c:139
+#: src/setmetamode.c:138
 #, c-format
 msgid "old state:    "
 msgstr "stary stan:   "
 
-#: src/setmetamode.c:144
+#: src/setmetamode.c:143
 #, c-format
 msgid "new state:    "
 msgstr "nowy stan:    "
@@ -1945,3 +1949,6 @@ msgstr "Ten terminal (%s) nie jest konsolą wirtualną.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Nie można zablokować całości konsoli.\n"
+
+#~ msgid "octal number too big"
+#~ msgstr "liczba ósemkowa zbyt duża"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-12-16 18:11+0100\n"
+"POT-Creation-Date: 2025-05-15 11:59+0200\n"
 "PO-Revision-Date: 2017-05-05 20:38+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -25,29 +25,29 @@ msgid "Usage: %s [option...] N\n"
 msgstr ""
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
-#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
+#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
 #: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
-#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
+#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
 msgstr ""
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
-#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
-#: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
+#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
+#: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
 msgstr ""
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
-#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
-#: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
+#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
+#: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
 msgstr ""
@@ -59,10 +59,10 @@ msgstr "Hiba: nincs elég argumentum.\n"
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
-#: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
+#: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
 #, fuzzy, c-format
@@ -94,8 +94,8 @@ msgstr "Nem sikerült a(z) %d. vt aktiválása"
 msgid "Usage: %s [option...] [N ...]\n"
 msgstr ""
 
-#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
-#: src/setmetamode.c:134
+#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:253 src/setleds.c:261
+#: src/setmetamode.c:133
 #, fuzzy, c-format
 msgid "Unrecognized argument: %s"
 msgstr ""
@@ -118,7 +118,7 @@ msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "nem sikerült felszabadítani a(z) %d. konzolt: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
-#: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
+#: src/kbd_mode.c:30 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -182,16 +182,16 @@ msgstr ""
 "\t\t\t    karakterkészletből\n"
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
-#: src/setfont.c:189 src/setleds.c:215 src/showconsolefont.c:135
+#: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr ""
 
-#: src/dumpkeys.c:145 src/libkeymap/parser.y:193
+#: src/dumpkeys.c:145 src/libkeymap/parser.y:185
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "ismeretlen karakterkészlet: %s - a karakterkészlet-kérés mellőzése\n"
 
-#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
+#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 #, fuzzy
 msgid "Unable to read keyboard mode"
@@ -279,67 +279,78 @@ msgstr ""
 msgid "Unable to read console mode"
 msgstr "Nem olvasható a konzol térkép\n"
 
-#: src/kbdinfo.c:136 src/setmetamode.c:120
+#: src/kbdinfo.c:136 src/setmetamode.c:119
 #, fuzzy
 msgid "Unable to read meta key handling mode"
 msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
 
-#: src/kbdinfo.c:149 src/setleds.c:121
+#: src/kbdinfo.c:149 src/setleds.c:122
 #, fuzzy
 msgid "Unable to read keyboard flags"
 msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
 
-#: src/kbd_mode.c:27 src/loadunimap.c:29
+#: src/kbd_mode.c:32 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr ""
 
-#: src/kbd_mode.c:40
+#: src/kbd_mode.c:45
 #, fuzzy, c-format
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "A billentyűzet nyers (vizsgálómód) módban van\n"
 
-#: src/kbd_mode.c:43
+#: src/kbd_mode.c:48
 #, fuzzy, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "A billentyűzet közepes nyers (billentyűmód) módban van\n"
 
-#: src/kbd_mode.c:46
+#: src/kbd_mode.c:51
 #, fuzzy, c-format
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "A billentyűzet az alapértelmezett (ASCII) módban van\n"
 
-#: src/kbd_mode.c:49
+#: src/kbd_mode.c:54
 #, fuzzy, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "A billentyűzet Unicode (UTF-8) módban van\n"
 
-#: src/kbd_mode.c:52
+#: src/kbd_mode.c:58
+#, c-format
+msgid ""
+"The keyboard is in Disabled mode, perhaps you are using a graphical "
+"environment?"
+msgstr ""
+
+#: src/kbd_mode.c:62
 #, fuzzy, c-format
 msgid "The keyboard is in some unknown mode"
 msgstr "A billentyűzet valamilyen ismeretlen módban van\n"
 
-#: src/kbd_mode.c:77
+#: src/kbd_mode.c:88
 msgid "set ASCII mode."
 msgstr ""
 
-#: src/kbd_mode.c:78
+#: src/kbd_mode.c:89
 msgid "set keycode mode."
 msgstr ""
 
-#: src/kbd_mode.c:79
+#: src/kbd_mode.c:90
 msgid "set scancode mode."
 msgstr ""
 
-#: src/kbd_mode.c:80
+#: src/kbd_mode.c:91
 msgid "set UTF-8 mode."
 msgstr ""
 
-#: src/kbd_mode.c:81
+#: src/kbd_mode.c:92
+msgid "set disable mode."
+msgstr ""
+
+#: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
 msgstr ""
 
-#: src/kbd_mode.c:158
+#: src/kbd_mode.c:178
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use "
@@ -424,58 +435,52 @@ msgstr ""
 msgid "includes are nested too deeply"
 msgstr ""
 
-#: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
-#: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
-#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:51
-#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:134
+#: src/libkeymap/analyze.l:148 src/libkeymap/analyze.l:255
+#: src/libkeymap/analyze.l:391 src/libkeymap/common.c:158
+#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:50
+#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:159
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
 msgstr "nincs elég memória"
 
-#: src/libkeymap/analyze.l:256
+#: src/libkeymap/analyze.l:251
 #, fuzzy, c-format
 msgid "switching to %s"
 msgstr "%s VT használata"
 
-#: src/libkeymap/analyze.l:266
+#: src/libkeymap/analyze.l:262
 #, fuzzy, c-format
 msgid "cannot open include file %s"
 msgstr "nem sikerült megnyitni a(z) %s fájlt\n"
 
-#: src/libkeymap/analyze.l:288
+#: src/libkeymap/analyze.l:282
 #, fuzzy, c-format
 msgid "unable to parse number: %s"
 msgstr "A(z) „%s” nem nyitható meg"
 
-#: src/libkeymap/analyze.l:293
+#: src/libkeymap/analyze.l:287
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:298
+#: src/libkeymap/analyze.l:292
 #, c-format
-msgid "value must be less than %d: %s"
+msgid "value must be less than %lld: %s"
 msgstr ""
 
-#: src/libkeymap/analyze.l:366
-msgid "expected filename between quotes"
-msgstr ""
-
-#: src/libkeymap/analyze.l:405
-#, c-format
-msgid "unicode keysym out of range: %s"
-msgstr ""
-
-#: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
-#: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
-#: src/libkeymap/analyze.l:508
+#: src/libkeymap/analyze.l:326
 #, fuzzy
 msgid "string too long"
 msgstr "%s: figyelmeztetés: a sor túl hosszú\n"
 
-#: src/libkeymap/analyze.l:477
-msgid "octal number too big"
+#: src/libkeymap/analyze.l:408
+msgid "expected filename between quotes"
+msgstr ""
+
+#: src/libkeymap/analyze.l:447
+#, c-format
+msgid "unicode keysym out of range: %s"
 msgstr ""
 
 #: src/libkeymap/common.c:164
@@ -492,17 +497,17 @@ msgstr ""
 msgid "Unable to remove item from the diacritical table"
 msgstr ""
 
-#: src/libkeymap/dump.c:87 src/libkeymap/loadkeys.c:43
+#: src/libkeymap/dump.c:85 src/libkeymap/loadkeys.c:30
 #, fuzzy, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr "nem sikerült a(z) %d billentyű kötése a(z) %d értékhez"
 
-#: src/libkeymap/dump.c:99 src/libkfont/mapscrn.c:253
+#: src/libkeymap/dump.c:97 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "Hiba a térkép fájlba írásakor"
 
-#: src/libkeymap/dump.c:547
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "lehetetlen: nem meta?\n"
@@ -512,7 +517,7 @@ msgstr "lehetetlen: nem meta?\n"
 msgid "func %d not allocated"
 msgstr ""
 
-#: src/libkeymap/func.c:61
+#: src/libkeymap/func.c:60
 msgid "Unable to remove item from the list of functions"
 msgstr ""
 
@@ -575,93 +580,91 @@ msgstr "nem sikerült beállítani a(z) %d billentyűt a(z) %d táblázatnál"
 msgid "impossible error in lk_add_constants"
 msgstr "lehetetlen hiba ebben: lk_add_constants"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:178
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "nem sikerült lekérni a szimbólumot a rossz típus alapján: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:192
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr ""
 "nem sikerült lekérni a(z) %d típus szimbólumát a rossz index alapján: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:392
 #, fuzzy, c-format
 msgid "assuming %s %s"
 msgstr "iso-8859-1 %s feltételezve"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:399
 #, fuzzy, c-format
 msgid "unknown keysym '%s'"
 msgstr "ismeretlen billentyűszimbólum: „%s”\n"
 
-#: src/libkeymap/loadkeys.c:26
-#, c-format
-msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE: %s: nem sikerült átváltani Unicode módra"
-
-#: src/libkeymap/loadkeys.c:55
+#: src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "%d billentyűtérkép: hozzáférés megtagadva"
 
-#: src/libkeymap/loadkeys.c:72
+#: src/libkeymap/loadkeys.c:59
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "%d billentyűkód, %d táblázat = %d%s"
 
-#: src/libkeymap/loadkeys.c:73
+#: src/libkeymap/loadkeys.c:60
 msgid "    FAILED"
 msgstr "    SIKERTELEN"
 
-#: src/libkeymap/loadkeys.c:76
+#: src/libkeymap/loadkeys.c:63
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "nem sikerült a(z) %d billentyű kötése a(z) %d értékhez"
 
-#: src/libkeymap/loadkeys.c:86
+#: src/libkeymap/loadkeys.c:79
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "a(z) %d billentyűtérkép felszabadítása"
 
-#: src/libkeymap/loadkeys.c:90
+#: src/libkeymap/loadkeys.c:85
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: nem sikerült felszabadítani a(z) %d billentyűtérképet"
 
-#: src/libkeymap/loadkeys.c:105
+#: src/libkeymap/loadkeys.c:102
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr ""
 "KDSKBENT: %s: nem sikerült felszabadítani vagy törölni a billentyűtérképet"
 
-#: src/libkeymap/loadkeys.c:115
+#: src/libkeymap/loadkeys.c:118
 #, c-format
-msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "KDSKBMODE: %s: nem sikerült átváltani Unicode módra"
+
+#: src/libkeymap/loadkeys.c:143
+#, fuzzy, c-format
+msgid "KDSKBMODE: %sr could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: nem sikerült visszatérni az eredeti billentyűzet módra"
 
-#: src/libkeymap/loadkeys.c:178
+#: src/libkeymap/loadkeys.c:204
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "nem sikerült a(z) „%s” szöveg kötése a(z) %s függvényhez"
 
-#: src/libkeymap/loadkeys.c:188
+#: src/libkeymap/loadkeys.c:214
 #, c-format
 msgid "failed to clear string %s"
 msgstr "nem sikerült a(z) %s szöveg törlése"
 
-#: src/libkeymap/loadkeys.c:206
+#: src/libkeymap/loadkeys.c:232
 msgid "too many compose definitions"
 msgstr "túl sok összeállítási meghatározás"
 
-#: src/libkeymap/loadkeys.c:246
+#: src/libkeymap/loadkeys.c:272
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
 
-#: src/libkeymap/loadkeys.c:275
+#: src/libkeymap/loadkeys.c:301
 #, c-format
 msgid ""
 "\n"
@@ -676,40 +679,40 @@ msgstr[1] ""
 "\n"
 "%d billentyű változott"
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:302
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
 msgstr[0] "%d szöveg változott"
 msgstr[1] "%d szöveg változott"
 
-#: src/libkeymap/loadkeys.c:284
+#: src/libkeymap/loadkeys.c:310
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "%d összeállítási meghatározás betöltve"
 msgstr[1] "%d összeállítási meghatározás betöltve"
 
-#: src/libkeymap/loadkeys.c:289
+#: src/libkeymap/loadkeys.c:315
 msgid "(No change in compose definitions)"
 msgstr "(Nincs változás az összeállítási meghatározásokban)"
 
-#: src/libkeymap/parser.y:115
+#: src/libkeymap/parser.y:153
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr ""
 
-#: src/libkeymap/parser.y:256
+#: src/libkeymap/parser.y:248
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr ""
 
-#: src/libkeymap/parser.y:343
+#: src/libkeymap/parser.y:333
 #, fuzzy, c-format
 msgid "too many (%ld) entries on one line"
 msgstr "Túl sok egyesítendő fájl\n"
 
-#: src/libkeymap/parser.y:413
+#: src/libkeymap/parser.y:399
 #, fuzzy, c-format
 msgid "Loading %s"
 msgstr "Hiba a(z) „%s” olvasásakor"
@@ -1567,12 +1570,12 @@ msgstr ""
 "nem sikerült a(z) %x vizsgálókód beállítása a(z) %d billentyűkódra: ioctl "
 "KDSETKEYCODE"
 
-#: src/setleds.c:31
+#: src/setleds.c:32
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
 msgstr ""
 
-#: src/setleds.c:40
+#: src/setleds.c:41
 #, fuzzy, c-format
 msgid ""
 "Thus,\n"
@@ -1601,101 +1604,101 @@ msgstr ""
 "így\n"
 "a következő újraindításkor nem fogja módosítani a jelzőket.\n"
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "on "
 msgstr "be "
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "off"
 msgstr "ki "
 
-#: src/setleds.c:101
+#: src/setleds.c:102
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Hiba a jelenlegi LED-beállítás olvasásakor. Talán a szabványos bemenet nem a "
 "VT?: ioctl KDGETLED"
 
-#: src/setleds.c:131 src/setleds.c:144
+#: src/setleds.c:132 src/setleds.c:145
 #, fuzzy, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr ""
 "Hiba a jelenlegi LED-beállítás olvasásakor a /dev/kbd fájlból: ioctl KIOCGLED"
 
-#: src/setleds.c:135 src/setleds.c:148
+#: src/setleds.c:136 src/setleds.c:149
 #, fuzzy, c-format
 msgid "ioctl %s unavailable?"
 msgstr "KIOCGLED nem érhető el?\n"
 
-#: src/setleds.c:211
+#: src/setleds.c:212
 msgid "change both the VT flags and their default settings."
 msgstr ""
 
-#: src/setleds.c:212
+#: src/setleds.c:213
 #, fuzzy
 msgid "change the VT flags."
 msgstr "Csak a rendszergazda használhatja a -u jelzőt."
 
-#: src/setleds.c:213
+#: src/setleds.c:214
 msgid "change only the leds."
 msgstr ""
 
-#: src/setleds.c:290
+#: src/setleds.c:291
 #, fuzzy
 msgid "Error resetting ledmode"
 msgstr "Hiba a LED-mód visszaállításakor\n"
 
-#: src/setleds.c:298
+#: src/setleds.c:299
 #, c-format
 msgid "Current default flags:  "
 msgstr "Jelenlegi alapértelmezett jelzők: "
 
-#: src/setleds.c:302
+#: src/setleds.c:303
 #, c-format
 msgid "Current flags:          "
 msgstr "Jelenlegi jelzők:                 "
 
-#: src/setleds.c:306
+#: src/setleds.c:307
 #, c-format
 msgid "Current leds:           "
 msgstr "Jelenlegi LED-ek:                 "
 
-#: src/setleds.c:321
+#: src/setleds.c:322
 #, c-format
 msgid "Old default flags:    "
 msgstr "Régi alapértelmezett jelzők: "
 
-#: src/setleds.c:323
+#: src/setleds.c:324
 #, c-format
 msgid "New default flags:    "
 msgstr "Új alapértelmezett jelzők:   "
 
-#: src/setleds.c:330
+#: src/setleds.c:331
 #, c-format
 msgid "Old flags:            "
 msgstr "Régi jelzők:                 "
 
-#: src/setleds.c:332
+#: src/setleds.c:333
 #, c-format
 msgid "New flags:            "
 msgstr "Új jelzők:                   "
 
-#: src/setleds.c:345 src/setleds.c:354
+#: src/setleds.c:346 src/setleds.c:355
 #, c-format
 msgid "Old leds:             "
 msgstr "Régi LED-ek:                 "
 
-#: src/setleds.c:347 src/setleds.c:356
+#: src/setleds.c:348 src/setleds.c:357
 #, c-format
 msgid "New leds:             "
 msgstr "Új LED-ek:                   "
 
-#: src/setmetamode.c:25
+#: src/setmetamode.c:26
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
 msgstr ""
 
-#: src/setmetamode.c:28
+#: src/setmetamode.c:29
 #, c-format
 msgid ""
 "Arguments:\n"
@@ -1705,27 +1708,27 @@ msgid ""
 "              the keysym.\n"
 msgstr ""
 
-#: src/setmetamode.c:48
+#: src/setmetamode.c:49
 #, fuzzy
 msgid "Meta key sets high order bit"
 msgstr "A Meta billentyű magas sorrendbitet állít be\n"
 
-#: src/setmetamode.c:51
+#: src/setmetamode.c:52
 #, fuzzy
 msgid "Meta key gives Esc prefix"
 msgstr "A Meta billentyű Esc előtagot ad\n"
 
-#: src/setmetamode.c:54
+#: src/setmetamode.c:55
 #, fuzzy
 msgid "Strange mode for Meta key?"
 msgstr "Különös mód a Meta billentyűnél?\n"
 
-#: src/setmetamode.c:139
+#: src/setmetamode.c:138
 #, c-format
 msgid "old state:    "
 msgstr "régi állapot: "
 
-#: src/setmetamode.c:144
+#: src/setmetamode.c:143
 #, c-format
 msgid "new state:    "
 msgstr "új állapot:   "

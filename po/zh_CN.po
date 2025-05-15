@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.5-rc2\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-12-16 18:11+0100\n"
+"POT-Creation-Date: 2025-05-15 11:59+0200\n"
 "PO-Revision-Date: 2022-06-30 11:35-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -28,29 +28,29 @@ msgid "Usage: %s [option...] N\n"
 msgstr "用法：%s [选项...] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
-#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
+#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
 #: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
-#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
+#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
 msgstr "要使用的控制台设备。"
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
-#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
-#: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
+#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
+#: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
 msgstr "打印本使用方式信息。"
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
-#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
-#: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
+#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
+#: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
 msgstr "打印版本号。"
@@ -61,10 +61,10 @@ msgstr "参数不足。"
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
-#: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
+#: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
 #, c-format
@@ -93,8 +93,8 @@ msgstr "无法激活 VT %d"
 msgid "Usage: %s [option...] [N ...]\n"
 msgstr ""
 
-#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
-#: src/setmetamode.c:134
+#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:253 src/setleds.c:261
+#: src/setmetamode.c:133
 #, c-format
 msgid "Unrecognized argument: %s"
 msgstr "无法识别的参数：%s"
@@ -113,7 +113,7 @@ msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "无法回收控制台 %d: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
-#: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
+#: src/kbd_mode.c:30 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -177,16 +177,16 @@ msgstr ""
 "\t\t\t    字符动作代码\n"
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
-#: src/setfont.c:189 src/setleds.c:215 src/showconsolefont.c:135
+#: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "输出更详细信息。"
 
-#: src/dumpkeys.c:145 src/libkeymap/parser.y:193
+#: src/dumpkeys.c:145 src/libkeymap/parser.y:185
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr "未知的字符集 %s - 忽略字符集请求\n"
 
-#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
+#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 #, fuzzy
 msgid "Unable to read keyboard mode"
@@ -267,66 +267,78 @@ msgstr ""
 msgid "Unable to read console mode"
 msgstr "无法读取控制台模式"
 
-#: src/kbdinfo.c:136 src/setmetamode.c:120
+#: src/kbdinfo.c:136 src/setmetamode.c:119
 #, fuzzy
 msgid "Unable to read meta key handling mode"
 msgstr "无法获取键映射 %d"
 
-#: src/kbdinfo.c:149 src/setleds.c:121
+#: src/kbdinfo.c:149 src/setleds.c:122
 msgid "Unable to read keyboard flags"
 msgstr "无法获取键盘标志"
 
-#: src/kbd_mode.c:27 src/loadunimap.c:29
+#: src/kbd_mode.c:32 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr ""
 
-#: src/kbd_mode.c:40
+#: src/kbd_mode.c:45
 #, c-format
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "键盘处于原始(扫描码)模式"
 
-#: src/kbd_mode.c:43
+#: src/kbd_mode.c:48
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "键盘处于半原始(键码)模式"
 
-#: src/kbd_mode.c:46
+#: src/kbd_mode.c:51
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "键盘处于默认 (ASCII) 模式"
 
-#: src/kbd_mode.c:49
+#: src/kbd_mode.c:54
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "键盘处于 Unicode (UTF-8) 模式"
 
-#: src/kbd_mode.c:52
+#: src/kbd_mode.c:58
+#, c-format
+msgid ""
+"The keyboard is in Disabled mode, perhaps you are using a graphical "
+"environment?"
+msgstr ""
+
+#: src/kbd_mode.c:62
 #, c-format
 msgid "The keyboard is in some unknown mode"
 msgstr "键盘处于某种未知模式"
 
-#: src/kbd_mode.c:77
+#: src/kbd_mode.c:88
 msgid "set ASCII mode."
 msgstr "设置 ASCII 模式。"
 
-#: src/kbd_mode.c:78
+#: src/kbd_mode.c:89
 msgid "set keycode mode."
 msgstr ""
 
-#: src/kbd_mode.c:79
+#: src/kbd_mode.c:90
 msgid "set scancode mode."
 msgstr ""
 
-#: src/kbd_mode.c:80
+#: src/kbd_mode.c:91
 msgid "set UTF-8 mode."
 msgstr "设置 UTF-8 模式。"
 
-#: src/kbd_mode.c:81
+#: src/kbd_mode.c:92
+#, fuzzy
+msgid "set disable mode."
+msgstr "设置 ASCII 模式。"
+
+#: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
 msgstr "切换模式，即使这么做会使键盘不可用。"
 
-#: src/kbd_mode.c:158
+#: src/kbd_mode.c:178
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use "
@@ -409,57 +421,51 @@ msgstr "将错误报告给作者。\n"
 msgid "includes are nested too deeply"
 msgstr "包含文件嵌套太深"
 
-#: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
-#: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
-#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:51
-#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:134
+#: src/libkeymap/analyze.l:148 src/libkeymap/analyze.l:255
+#: src/libkeymap/analyze.l:391 src/libkeymap/common.c:158
+#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:50
+#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:159
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
 msgstr "内存不足"
 
-#: src/libkeymap/analyze.l:256
+#: src/libkeymap/analyze.l:251
 #, c-format
 msgid "switching to %s"
 msgstr "切换到 %s"
 
-#: src/libkeymap/analyze.l:266
+#: src/libkeymap/analyze.l:262
 #, c-format
 msgid "cannot open include file %s"
 msgstr "无法打开包含文件 %s"
 
-#: src/libkeymap/analyze.l:288
+#: src/libkeymap/analyze.l:282
 #, c-format
 msgid "unable to parse number: %s"
 msgstr "无法解析数字：%s"
 
-#: src/libkeymap/analyze.l:293
+#: src/libkeymap/analyze.l:287
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr "值必须为一个正数：%s"
 
-#: src/libkeymap/analyze.l:298
+#: src/libkeymap/analyze.l:292
 #, c-format
-msgid "value must be less than %d: %s"
-msgstr "值不能小于 %d：%s"
+msgid "value must be less than %lld: %s"
+msgstr "值不能小于 %lld：%s"
 
-#: src/libkeymap/analyze.l:366
-msgid "expected filename between quotes"
-msgstr ""
-
-#: src/libkeymap/analyze.l:405
-#, c-format
-msgid "unicode keysym out of range: %s"
-msgstr ""
-
-#: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
-#: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
-#: src/libkeymap/analyze.l:508
+#: src/libkeymap/analyze.l:326
 msgid "string too long"
 msgstr "字符串太长"
 
-#: src/libkeymap/analyze.l:477
-msgid "octal number too big"
+#: src/libkeymap/analyze.l:408
+msgid "expected filename between quotes"
+msgstr ""
+
+#: src/libkeymap/analyze.l:447
+#, c-format
+msgid "unicode keysym out of range: %s"
 msgstr ""
 
 #: src/libkeymap/common.c:164
@@ -476,17 +482,17 @@ msgstr ""
 msgid "Unable to remove item from the diacritical table"
 msgstr ""
 
-#: src/libkeymap/dump.c:87 src/libkeymap/loadkeys.c:43
+#: src/libkeymap/dump.c:85 src/libkeymap/loadkeys.c:30
 #, fuzzy, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr "将键 %d 绑定到值 %d 失败"
 
-#: src/libkeymap/dump.c:99 src/libkfont/mapscrn.c:253
+#: src/libkeymap/dump.c:97 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "将映射写入文件失败"
 
-#: src/libkeymap/dump.c:547
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "不可能:不是 meta 键?\n"
@@ -496,7 +502,7 @@ msgstr "不可能:不是 meta 键?\n"
 msgid "func %d not allocated"
 msgstr ""
 
-#: src/libkeymap/func.c:61
+#: src/libkeymap/func.c:60
 msgid "Unable to remove item from the list of functions"
 msgstr ""
 
@@ -559,91 +565,89 @@ msgstr "将键 %d 绑定到表 %d 失败"
 msgid "impossible error in lk_add_constants"
 msgstr "lk_add_constants 中发生不可能的错误"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:178
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "无法以错误的类型获取符号: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:192
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "无法以错误的索引获取 %d 类型的符号: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:392
 #, c-format
 msgid "assuming %s %s"
 msgstr "假定 %s %s"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:399
 #, c-format
 msgid "unknown keysym '%s'"
 msgstr "未知的 keysym '%s'"
 
-#: src/libkeymap/loadkeys.c:26
-#, c-format
-msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE: %s: 不能切换到 Unicode 模式"
-
-#: src/libkeymap/loadkeys.c:55
+#: src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "键映射 %d: 权限不足"
 
-#: src/libkeymap/loadkeys.c:72
+#: src/libkeymap/loadkeys.c:59
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "键码 %d, 表 %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:73
+#: src/libkeymap/loadkeys.c:60
 msgid "    FAILED"
 msgstr "    失败"
 
-#: src/libkeymap/loadkeys.c:76
+#: src/libkeymap/loadkeys.c:63
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "将键 %d 绑定到值 %d 失败"
 
-#: src/libkeymap/loadkeys.c:86
+#: src/libkeymap/loadkeys.c:79
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "回收键映射 %d"
 
-#: src/libkeymap/loadkeys.c:90
+#: src/libkeymap/loadkeys.c:85
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: 无法回收键映射 %d"
 
-#: src/libkeymap/loadkeys.c:105
+#: src/libkeymap/loadkeys.c:102
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: 无法回收或清除键映射"
 
-#: src/libkeymap/loadkeys.c:115
+#: src/libkeymap/loadkeys.c:118
 #, c-format
-msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "KDSKBMODE: %s: 不能切换到 Unicode 模式"
+
+#: src/libkeymap/loadkeys.c:143
+#, fuzzy, c-format
+msgid "KDSKBMODE: %sr could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: 无法回到原来的键盘模式"
 
-#: src/libkeymap/loadkeys.c:178
+#: src/libkeymap/loadkeys.c:204
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "将字符串 '%s' 绑定到函数 %s 失败"
 
-#: src/libkeymap/loadkeys.c:188
+#: src/libkeymap/loadkeys.c:214
 #, c-format
 msgid "failed to clear string %s"
 msgstr "清除字符串 %s 失败"
 
-#: src/libkeymap/loadkeys.c:206
+#: src/libkeymap/loadkeys.c:232
 msgid "too many compose definitions"
 msgstr "太多组合定义"
 
-#: src/libkeymap/loadkeys.c:246
+#: src/libkeymap/loadkeys.c:272
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
 
-#: src/libkeymap/loadkeys.c:275
+#: src/libkeymap/loadkeys.c:301
 #, c-format
 msgid ""
 "\n"
@@ -655,38 +659,38 @@ msgstr[0] ""
 "\n"
 "更改了 %d 个键"
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:302
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
 msgstr[0] "已修改 %d 个字符串"
 
-#: src/libkeymap/loadkeys.c:284
+#: src/libkeymap/loadkeys.c:310
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
 msgstr[0] "加载了 %d 个组合定义"
 
-#: src/libkeymap/loadkeys.c:289
+#: src/libkeymap/loadkeys.c:315
 msgid "(No change in compose definitions)"
 msgstr "(组合定义没有改变)"
 
-#: src/libkeymap/parser.y:115
+#: src/libkeymap/parser.y:153
 #, fuzzy, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr "loadkeys: 不知道如何为 %s 进行组合\n"
 
-#: src/libkeymap/parser.y:256
+#: src/libkeymap/parser.y:248
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr "'%s' 不是一个功能键标志"
 
-#: src/libkeymap/parser.y:343
+#: src/libkeymap/parser.y:333
 #, fuzzy, c-format
 msgid "too many (%ld) entries on one line"
 msgstr "一行上存在太多的 ( %d 个) 条目"
 
-#: src/libkeymap/parser.y:413
+#: src/libkeymap/parser.y:399
 #, c-format
 msgid "Loading %s"
 msgstr "正在加载 %s"
@@ -1498,12 +1502,12 @@ msgstr "边界外的键码"
 msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr "设置扫描码 %x 到键码 %d 失败：ioctl KDSETKEYCODE"
 
-#: src/setleds.c:31
+#: src/setleds.c:32
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
 msgstr ""
 
-#: src/setleds.c:40
+#: src/setleds.c:41
 #, fuzzy, c-format
 msgid ""
 "Thus,\n"
@@ -1530,96 +1534,96 @@ msgstr ""
 "使用 -D，setleds 同时设置标志和默认标志，从而\n"
 "接下来的复位将不会改变标志。\n"
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "on "
 msgstr "开 "
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "off"
 msgstr "关"
 
-#: src/setleds.c:101
+#: src/setleds.c:102
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr "读取当前 LED 设置出错。也许标准输入不是一个 VT？：ioctl KDGETLED"
 
-#: src/setleds.c:131 src/setleds.c:144
+#: src/setleds.c:132 src/setleds.c:145
 #, fuzzy, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr "从 /dev/kbd 读取当前 LED 设置出错：ioctl KIOCGLED"
 
-#: src/setleds.c:135 src/setleds.c:148
+#: src/setleds.c:136 src/setleds.c:149
 #, c-format
 msgid "ioctl %s unavailable?"
 msgstr "ioctl %s 不可用？"
 
-#: src/setleds.c:211
+#: src/setleds.c:212
 msgid "change both the VT flags and their default settings."
 msgstr ""
 
-#: src/setleds.c:212
+#: src/setleds.c:213
 msgid "change the VT flags."
 msgstr "更改 VT 标志。"
 
-#: src/setleds.c:213
+#: src/setleds.c:214
 msgid "change only the leds."
 msgstr ""
 
-#: src/setleds.c:290
+#: src/setleds.c:291
 msgid "Error resetting ledmode"
 msgstr "复位 LED 模式出错"
 
-#: src/setleds.c:298
+#: src/setleds.c:299
 #, c-format
 msgid "Current default flags:  "
 msgstr "当前默认标志:  "
 
-#: src/setleds.c:302
+#: src/setleds.c:303
 #, c-format
 msgid "Current flags:          "
 msgstr "当前标志:          "
 
-#: src/setleds.c:306
+#: src/setleds.c:307
 #, c-format
 msgid "Current leds:           "
 msgstr "当前 LED:           "
 
-#: src/setleds.c:321
+#: src/setleds.c:322
 #, c-format
 msgid "Old default flags:    "
 msgstr "旧的默认标志:    "
 
-#: src/setleds.c:323
+#: src/setleds.c:324
 #, c-format
 msgid "New default flags:    "
 msgstr "新的默认标志:    "
 
-#: src/setleds.c:330
+#: src/setleds.c:331
 #, c-format
 msgid "Old flags:            "
 msgstr "旧的标志:            "
 
-#: src/setleds.c:332
+#: src/setleds.c:333
 #, c-format
 msgid "New flags:            "
 msgstr "新的标志:            "
 
-#: src/setleds.c:345 src/setleds.c:354
+#: src/setleds.c:346 src/setleds.c:355
 #, c-format
 msgid "Old leds:             "
 msgstr "旧的 LED:             "
 
-#: src/setleds.c:347 src/setleds.c:356
+#: src/setleds.c:348 src/setleds.c:357
 #, c-format
 msgid "New leds:             "
 msgstr "新的 LED:             "
 
-#: src/setmetamode.c:25
+#: src/setmetamode.c:26
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
 msgstr "用法：%s [选项...] [参数]\n"
 
-#: src/setmetamode.c:28
+#: src/setmetamode.c:29
 #, c-format
 msgid ""
 "Arguments:\n"
@@ -1629,27 +1633,27 @@ msgid ""
 "              the keysym.\n"
 msgstr ""
 
-#: src/setmetamode.c:48
+#: src/setmetamode.c:49
 #, fuzzy
 msgid "Meta key sets high order bit"
 msgstr "Meta 键设置了高有效位\n"
 
-#: src/setmetamode.c:51
+#: src/setmetamode.c:52
 #, fuzzy
 msgid "Meta key gives Esc prefix"
 msgstr "Meta 键给出了 Esc 前缀\n"
 
-#: src/setmetamode.c:54
+#: src/setmetamode.c:55
 #, fuzzy
 msgid "Strange mode for Meta key?"
 msgstr "Meta 键的奇怪模式？\n"
 
-#: src/setmetamode.c:139
+#: src/setmetamode.c:138
 #, c-format
 msgid "old state:    "
 msgstr "旧状态:    "
 
-#: src/setmetamode.c:144
+#: src/setmetamode.c:143
 #, c-format
 msgid "new state:    "
 msgstr "新状态:    "

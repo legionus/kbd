@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2024-12-16 18:11+0100\n"
+"POT-Creation-Date: 2025-05-15 11:59+0200\n"
 "PO-Revision-Date: 2024-10-29 14:30+0100\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
@@ -44,29 +44,29 @@ msgid "Usage: %s [option...] N\n"
 msgstr "Utilizare: %s [opțiune...] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
-#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:82
+#: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
 #: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
-#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:91
+#: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
 msgstr "dispozitivul consolă care urmează să fie utilizat."
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:84 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
-#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:216 src/setlogcons.c:58
-#: src/setmetamode.c:93 src/setpalette.c:42 src/setvtrgb.c:159
+#: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
+#: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
 msgid "print this usage message."
 msgstr "imprimă acest mesaj de utilizare."
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:83 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
-#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:214 src/setlogcons.c:57
-#: src/setmetamode.c:92 src/setpalette.c:41 src/setvtrgb.c:158
+#: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
+#: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
 msgid "print version number."
 msgstr "imprimă numărul de versiune."
@@ -77,10 +77,10 @@ msgstr "Nu sunt suficiente argumente."
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:135 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
-#: src/setmetamode.c:117 src/setpalette.c:80 src/setvesablank.c:31
+#: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
 #: src/setvtrgb.c:202 src/showconsolefont.c:173 src/showkey.c:198
 #: src/totextmode.c:31
 #, c-format
@@ -118,8 +118,8 @@ msgstr "Nu s-a putut activa terminalul virtual(vt) %d"
 msgid "Usage: %s [option...] [N ...]\n"
 msgstr "Utilizare: %s [opțiune...] [N ...]\n"
 
-#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:252 src/setleds.c:260
-#: src/setmetamode.c:134
+#: src/deallocvt.c:76 src/kbdinfo.c:166 src/setleds.c:253 src/setleds.c:261
+#: src/setmetamode.c:133
 #, c-format
 msgid "Unrecognized argument: %s"
 msgstr "Argument nerecunoscut: %s"
@@ -138,7 +138,7 @@ msgid "could not deallocate console %d: ioctl VT_DISALLOCATE"
 msgstr "nu s-a putut elibera consola %d: ioctl VT_DISALLOCATE"
 
 #: src/dumpkeys.c:30 src/fgconsole.c:21 src/getkeycodes.c:23 src/getunimap.c:35
-#: src/kbd_mode.c:25 src/kbdrate.c:321 src/loadunimap.c:27
+#: src/kbd_mode.c:30 src/kbdrate.c:321 src/loadunimap.c:27
 #: src/showconsolefont.c:102 src/showkey.c:89 src/totextmode.c:27
 #, c-format
 msgid "Usage: %s [option...]\n"
@@ -230,17 +230,17 @@ msgstr ""
 "                           fiind din setul de caractere specificat."
 
 #: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
-#: src/setfont.c:189 src/setleds.c:215 src/showconsolefont.c:135
+#: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "oferă mai multe detalii."
 
-#: src/dumpkeys.c:145 src/libkeymap/parser.y:193
+#: src/dumpkeys.c:145 src/libkeymap/parser.y:185
 #, c-format
 msgid "unknown charset %s - ignoring charset request\n"
 msgstr ""
 "set de caractere %s necunoscut - se ignoră cererea de set de caractere\n"
 
-#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:140 src/kbd_mode.c:149
+#: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
 #: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
 msgid "Unable to read keyboard mode"
 msgstr "Nu se poate citi modul de tastatură"
@@ -324,7 +324,7 @@ msgstr "Nu se poate citi modul consolă"
 # Întrebare:
 # forma actuală de traducere, sau:
 # „Nu se poate citi modul de gestionare al meta-tastelor” ???
-#: src/kbdinfo.c:136 src/setmetamode.c:120
+#: src/kbdinfo.c:136 src/setmetamode.c:119
 msgid "Unable to read meta key handling mode"
 msgstr "Nu se poate citi modul de gestionare a meta-tastelor"
 
@@ -332,63 +332,75 @@ msgstr "Nu se poate citi modul de gestionare a meta-tastelor"
 # am tradus acest mesaj, de această formă,
 # pentru că referința mesajului, este:
 # «src/kbdinfo.c:171 src/setleds.c:141»
-#: src/kbdinfo.c:149 src/setleds.c:121
+#: src/kbdinfo.c:149 src/setleds.c:122
 msgid "Unable to read keyboard flags"
 msgstr "Nu se pot citi indicatorii(starea ledurilor) de la tastatură"
 
-#: src/kbd_mode.c:27 src/loadunimap.c:29
+#: src/kbd_mode.c:32 src/loadunimap.c:29
 #, c-format
 msgid "This utility reports or sets the keyboard mode.\n"
 msgstr ""
 "Acest instrument raportează sau stabilește modul tastaturii.\n"
 "\n"
 
-#: src/kbd_mode.c:40
+#: src/kbd_mode.c:45
 #, c-format
 msgid "The keyboard is in raw (scancode) mode"
 msgstr "Tastatura se află în modul brut (scanare de cod)"
 
-#: src/kbd_mode.c:43
+#: src/kbd_mode.c:48
 #, c-format
 msgid "The keyboard is in mediumraw (keycode) mode"
 msgstr "Tastatura se află în modul brut-mediu (cod de taste)"
 
-#: src/kbd_mode.c:46
+#: src/kbd_mode.c:51
 #, c-format
 msgid "The keyboard is in the default (ASCII) mode"
 msgstr "Tastatura este în modul predefinit (ASCII)"
 
-#: src/kbd_mode.c:49
+#: src/kbd_mode.c:54
 #, c-format
 msgid "The keyboard is in Unicode (UTF-8) mode"
 msgstr "Tastatura este în modul Unicode (UTF-8)"
 
-#: src/kbd_mode.c:52
+#: src/kbd_mode.c:58
+#, c-format
+msgid ""
+"The keyboard is in Disabled mode, perhaps you are using a graphical "
+"environment?"
+msgstr ""
+
+#: src/kbd_mode.c:62
 #, c-format
 msgid "The keyboard is in some unknown mode"
 msgstr "Tastatura este într-un mod necunoscut"
 
-#: src/kbd_mode.c:77
+#: src/kbd_mode.c:88
 msgid "set ASCII mode."
 msgstr "stabilește modul ASCII."
 
-#: src/kbd_mode.c:78
+#: src/kbd_mode.c:89
 msgid "set keycode mode."
 msgstr "stabilește modul cod de tastă."
 
-#: src/kbd_mode.c:79
+#: src/kbd_mode.c:90
 msgid "set scancode mode."
 msgstr "stabilește modul cod de scanare."
 
-#: src/kbd_mode.c:80
+#: src/kbd_mode.c:91
 msgid "set UTF-8 mode."
 msgstr "stabilește modul UTF-8."
 
-#: src/kbd_mode.c:81
+#: src/kbd_mode.c:92
+#, fuzzy
+msgid "set disable mode."
+msgstr "stabilește modul cod de scanare."
+
+#: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
 msgstr "comută modul chiar dacă asta face ca tastatura să fie inutilizabilă."
 
-#: src/kbd_mode.c:158
+#: src/kbd_mode.c:178
 #, c-format
 msgid ""
 "Changing to the requested mode may make your keyboard unusable, please use "
@@ -479,58 +491,52 @@ msgstr "Raportați erorile către autori.\n"
 msgid "includes are nested too deeply"
 msgstr "includerile sunt la niveluri prea profunde"
 
-#: src/libkeymap/analyze.l:158 src/libkeymap/analyze.l:260
-#: src/libkeymap/analyze.l:354 src/libkeymap/common.c:158
-#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:51
-#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:134
+#: src/libkeymap/analyze.l:148 src/libkeymap/analyze.l:255
+#: src/libkeymap/analyze.l:391 src/libkeymap/common.c:158
+#: src/libkeymap/diacr.c:47 src/libkeymap/diacr.c:66 src/libkeymap/func.c:50
+#: src/libkeymap/kmap.c:60 src/libkeymap/kmap.c:68 src/libkeymap/loadkeys.c:159
 #: src/screendump.c:120 src/screendump.c:123 src/screendump.c:165
 #: src/screendump.c:195
 msgid "out of memory"
 msgstr "memorie insuficientă"
 
-#: src/libkeymap/analyze.l:256
+#: src/libkeymap/analyze.l:251
 #, c-format
 msgid "switching to %s"
 msgstr "se comută la %s"
 
-#: src/libkeymap/analyze.l:266
+#: src/libkeymap/analyze.l:262
 #, c-format
 msgid "cannot open include file %s"
 msgstr "nu se poate deschide fișierul de includere %s"
 
-#: src/libkeymap/analyze.l:288
+#: src/libkeymap/analyze.l:282
 #, c-format
 msgid "unable to parse number: %s"
 msgstr "nu s-a putut analiza numărul: %s"
 
-#: src/libkeymap/analyze.l:293
+#: src/libkeymap/analyze.l:287
 #, c-format
 msgid "value must be a positive number: %s"
 msgstr "valoarea trebuie să fie un număr pozitiv: %s"
 
-#: src/libkeymap/analyze.l:298
+#: src/libkeymap/analyze.l:292
 #, c-format
-msgid "value must be less than %d: %s"
-msgstr "valoarea trebuie să fie mai mică decât %d: %s"
+msgid "value must be less than %lld: %s"
+msgstr "valoarea trebuie să fie mai mică decât %lld: %s"
 
-#: src/libkeymap/analyze.l:366
-msgid "expected filename between quotes"
-msgstr "se aștepta numele fișierului între ghilimele"
-
-#: src/libkeymap/analyze.l:405
-#, c-format
-msgid "unicode keysym out of range: %s"
-msgstr "simbolul de tastă(keysym) unicode, în afara intervalului: %s"
-
-#: src/libkeymap/analyze.l:465 src/libkeymap/analyze.l:485
-#: src/libkeymap/analyze.l:492 src/libkeymap/analyze.l:499
-#: src/libkeymap/analyze.l:508
+#: src/libkeymap/analyze.l:326
 msgid "string too long"
 msgstr "șir prea lung"
 
-#: src/libkeymap/analyze.l:477
-msgid "octal number too big"
-msgstr "număr octal prea mare"
+#: src/libkeymap/analyze.l:408
+msgid "expected filename between quotes"
+msgstr "se aștepta numele fișierului între ghilimele"
+
+#: src/libkeymap/analyze.l:447
+#, c-format
+msgid "unicode keysym out of range: %s"
+msgstr "simbolul de tastă(keysym) unicode, în afara intervalului: %s"
 
 #: src/libkeymap/common.c:164
 #, c-format
@@ -546,7 +552,7 @@ msgstr "Indexul %d din tabla de accente (diacritice) nu există"
 msgid "Unable to remove item from the diacritical table"
 msgstr "Nu se poate elimina elementul din tabla de diacritice"
 
-#: src/libkeymap/dump.c:87 src/libkeymap/loadkeys.c:43
+#: src/libkeymap/dump.c:85 src/libkeymap/loadkeys.c:30
 #, c-format
 msgid "can not bind key %d to value %d because it is too large"
 msgstr ""
@@ -564,12 +570,12 @@ msgstr ""
 # *****
 # Răspuns (R-GC):
 # a patra: „schemă  -  schema este un tip de hartă, precum și un tip de tabel
-#: src/libkeymap/dump.c:99 src/libkfont/mapscrn.c:253
+#: src/libkeymap/dump.c:97 src/libkfont/mapscrn.c:253
 #: src/libkfont/mapscrn.c:258
 msgid "Error writing map to file"
 msgstr "Eroare la scrierea schemei în fișier"
 
-#: src/libkeymap/dump.c:547
+#: src/libkeymap/dump.c:548
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "imposibil: non meta?\n"
@@ -579,7 +585,7 @@ msgstr "imposibil: non meta?\n"
 msgid "func %d not allocated"
 msgstr "funcția %d nu a fost alocată"
 
-#: src/libkeymap/func.c:61
+#: src/libkeymap/func.c:60
 msgid "Unable to remove item from the list of functions"
 msgstr "Nu s-a putut elimina elementul din lista de funcții"
 
@@ -646,87 +652,85 @@ msgstr "nu se poate configura tasta %d din tabelul %d"
 msgid "impossible error in lk_add_constants"
 msgstr "eroare imposibilă în lk_add_constants"
 
-#: src/libkeymap/ksyms.c:150
+#: src/libkeymap/ksyms.c:178
 #, c-format
 msgid "unable to get symbol by wrong type: %d"
 msgstr "nu se poate obține simbolul după tipul eronat: %d"
 
-#: src/libkeymap/ksyms.c:164
+#: src/libkeymap/ksyms.c:192
 #, c-format
 msgid "unable to get symbol of %d type by wrong index: %d"
 msgstr "nu se poate obține simbolul de tip %d după indexul greșit: %d"
 
-#: src/libkeymap/ksyms.c:340 src/libkeymap/ksyms.c:346
-#: src/libkeymap/ksyms.c:352 src/libkeymap/ksyms.c:358
-#: src/libkeymap/ksyms.c:364
+#: src/libkeymap/ksyms.c:392
 #, c-format
 msgid "assuming %s %s"
 msgstr "presupunând %s %s"
 
-#: src/libkeymap/ksyms.c:369
+#: src/libkeymap/ksyms.c:399
 #, c-format
 msgid "unknown keysym '%s'"
 msgstr "simbol_tastă(keysym) „%s” necunoscut"
 
-#: src/libkeymap/loadkeys.c:26
-#, c-format
-msgid "KDSKBMODE: %s: could not switch to Unicode mode"
-msgstr "KDSKBMODE: %s: nu s-a putut comuta la modul Unicode"
-
-#: src/libkeymap/loadkeys.c:55
+#: src/libkeymap/loadkeys.c:43
 #, c-format
 msgid "Keymap %d: Permission denied"
 msgstr "Harta de taste %d: Permisiune refuzată"
 
-#: src/libkeymap/loadkeys.c:72
+#: src/libkeymap/loadkeys.c:59
 #, c-format
 msgid "keycode %d, table %d = %d%s"
 msgstr "codul tastei %d, tabelul %d = %d%s"
 
-#: src/libkeymap/loadkeys.c:73
+#: src/libkeymap/loadkeys.c:60
 msgid "    FAILED"
 msgstr "    A EȘUAT"
 
-#: src/libkeymap/loadkeys.c:76
+#: src/libkeymap/loadkeys.c:63
 #, c-format
 msgid "failed to bind key %d to value %d"
 msgstr "nu s-a putut asocia tasta %d cu valoarea %d"
 
-#: src/libkeymap/loadkeys.c:86
+#: src/libkeymap/loadkeys.c:79
 #, c-format
 msgid "deallocate keymap %d"
 msgstr "se eliberează harta de taste %d"
 
-#: src/libkeymap/loadkeys.c:90
+#: src/libkeymap/loadkeys.c:85
 #, c-format
 msgid "KDSKBENT: %s: could not deallocate keymap %d"
 msgstr "KDSKBENT: %s: nu s-a putut elibera harta de taste %d"
 
-#: src/libkeymap/loadkeys.c:105
+#: src/libkeymap/loadkeys.c:102
 #, c-format
 msgid "KDSKBENT: %s: cannot deallocate or clear keymap"
 msgstr "KDSKBENT: %s: nu se poate elibera sau șterge harta de taste"
 
-#: src/libkeymap/loadkeys.c:115
+#: src/libkeymap/loadkeys.c:118
 #, c-format
-msgid "KDSKBMODE: %s: could not return to original keyboard mode"
+msgid "KDSKBMODE: %s: could not switch to Unicode mode"
+msgstr "KDSKBMODE: %s: nu s-a putut comuta la modul Unicode"
+
+#: src/libkeymap/loadkeys.c:143
+#, fuzzy, c-format
+msgid "KDSKBMODE: %sr could not return to original keyboard mode"
 msgstr "KDSKBMODE: %s: nu s-a putut reveni la modul inițial de tastatură"
 
-#: src/libkeymap/loadkeys.c:178
+#: src/libkeymap/loadkeys.c:204
 #, c-format
 msgid "failed to bind string '%s' to function %s"
 msgstr "nu s-a putut asocia șirul „%s” cu funcția %s"
 
-#: src/libkeymap/loadkeys.c:188
+#: src/libkeymap/loadkeys.c:214
 #, c-format
 msgid "failed to clear string %s"
 msgstr "nu s-a putut șterge șirul %s"
 
-#: src/libkeymap/loadkeys.c:206
+#: src/libkeymap/loadkeys.c:232
 msgid "too many compose definitions"
 msgstr "prea multe definiții compuse"
 
-#: src/libkeymap/loadkeys.c:246
+#: src/libkeymap/loadkeys.c:272
 msgid "unable to load compose definitions because some of them are too large"
 msgstr ""
 "nu se pot încărca definițiile de compunere, deoarece unele dintre ele sunt "
@@ -735,7 +739,7 @@ msgstr ""
 # Întrebare:
 # ar fi mai potrivit de tradus:
 # A fost schimbată /Au fost schimbate?
-#: src/libkeymap/loadkeys.c:275
+#: src/libkeymap/loadkeys.c:301
 #, c-format
 msgid ""
 "\n"
@@ -756,7 +760,7 @@ msgstr[3] ""
 "\n"
 "S-au schimbat %d de taste"
 
-#: src/libkeymap/loadkeys.c:276
+#: src/libkeymap/loadkeys.c:302
 #, c-format
 msgid "Changed %d string"
 msgid_plural "Changed %d strings"
@@ -765,7 +769,7 @@ msgstr[1] "S-au schimbat două șiruri"
 msgstr[2] "S-au schimbat %d șiruri"
 msgstr[3] "S-au schimbat %d de șiruri"
 
-#: src/libkeymap/loadkeys.c:284
+#: src/libkeymap/loadkeys.c:310
 #, c-format
 msgid "Loaded %d compose definition"
 msgid_plural "Loaded %d compose definitions"
@@ -774,26 +778,26 @@ msgstr[1] "S-au încărcat două definiții compuse"
 msgstr[2] "S-au încărcat %d definiții compuse"
 msgstr[3] "S-au încărcat %d de definiții compuse"
 
-#: src/libkeymap/loadkeys.c:289
+#: src/libkeymap/loadkeys.c:315
 msgid "(No change in compose definitions)"
 msgstr "(Nicio modificare în definițiile compuse)"
 
-#: src/libkeymap/parser.y:115
+#: src/libkeymap/parser.y:153
 #, c-format
 msgid "loadkeys: don't know how to compose for %s"
 msgstr "loadkeys: nu știu cum să compun pentru %s"
 
-#: src/libkeymap/parser.y:256
+#: src/libkeymap/parser.y:248
 #, c-format
 msgid "'%s' is not a function key symbol"
 msgstr "„%s” nu este un simbol al unei taste funcționale"
 
-#: src/libkeymap/parser.y:343
+#: src/libkeymap/parser.y:333
 #, c-format
 msgid "too many (%ld) entries on one line"
 msgstr "prea multe (%ld) intrări într-o singură linie"
 
-#: src/libkeymap/parser.y:413
+#: src/libkeymap/parser.y:399
 #, c-format
 msgid "Loading %s"
 msgstr "Se încarcă %s"
@@ -1655,12 +1659,12 @@ msgid "failed to set scancode %x to keycode %d: ioctl KDSETKEYCODE"
 msgstr ""
 "nu s-a putut aloca codul de scanare %x la codul tastei %d: ioctl KDSETKEYCODE"
 
-#: src/setleds.c:31
+#: src/setleds.c:32
 #, c-format
 msgid "Usage: %s [option...] [[+|-][ num | caps | scroll %s]]\n"
 msgstr "Utilizare: %s [opțiune...] [[+|-][ num | caps | scroll %s]]\n"
 
-#: src/setleds.c:40
+#: src/setleds.c:41
 #, c-format
 msgid ""
 "Thus,\n"
@@ -1693,11 +1697,11 @@ msgstr ""
 # ==========================
 # activat       activat       activat
 # dezactivat dezactivat dezactivat
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "on "
 msgstr "activat    "
 
-#: src/setleds.c:57
+#: src/setleds.c:58
 msgid "off"
 msgstr "dezactivat"
 
@@ -1710,35 +1714,35 @@ msgstr "dezactivat"
 # TV; datorită faptului că într-o sesiune X,
 # servitorul X se află citind din /dev/console,
 # în același timp cu „kbd”.
-#: src/setleds.c:101
+#: src/setleds.c:102
 msgid ""
 "Error reading current led setting. Maybe stdin is not a VT?: ioctl KDGETLED"
 msgstr ""
 "Eroare la citirea configurării curente a LED-urilor: ioctl KDGETLED\n"
 "Poate că intrarea standard nu este un terminal virtual(VT)?"
 
-#: src/setleds.c:131 src/setleds.c:144
+#: src/setleds.c:132 src/setleds.c:145
 #, c-format
 msgid "Error reading current led setting from /dev/kbd: ioctl %s"
 msgstr ""
 "Eroare la citirea configurării curente a LED-urilor din /dev/kbd: ioctl %s"
 
-#: src/setleds.c:135 src/setleds.c:148
+#: src/setleds.c:136 src/setleds.c:149
 #, c-format
 msgid "ioctl %s unavailable?"
 msgstr "ioctl %s indisponibil?"
 
-#: src/setleds.c:211
+#: src/setleds.c:212
 msgid "change both the VT flags and their default settings."
 msgstr ""
 "modifică atât indicatorii terminalului virtual(VT), cât și configurările "
 "implicite ale acestora."
 
-#: src/setleds.c:212
+#: src/setleds.c:213
 msgid "change the VT flags."
 msgstr "modifică indicatorii terminalului virtual(VT)."
 
-#: src/setleds.c:213
+#: src/setleds.c:214
 msgid "change only the leds."
 msgstr "modifică doar led-urile."
 
@@ -1748,11 +1752,11 @@ msgstr "modifică doar led-urile."
 # că traducerea inițială:
 # „Eroare în restabilirea modurilor led-ului”,
 # nu „spune”, mai nimic...
-#: src/setleds.c:290
+#: src/setleds.c:291
 msgid "Error resetting ledmode"
 msgstr "Eroare în restabilirea stării led-urilor"
 
-#: src/setleds.c:298
+#: src/setleds.c:299
 #, c-format
 msgid "Current default flags:  "
 msgstr "Indicatorii impliciți, actuali:  "
@@ -1764,7 +1768,7 @@ msgstr "Indicatorii impliciți, actuali:  "
 # ==========================
 # Indicatorii impliciți, actuali:  NumLock activat
 # Indicatorii actuali:                 NumLock activat
-#: src/setleds.c:302
+#: src/setleds.c:303
 #, c-format
 msgid "Current flags:          "
 msgstr "Indicatorii actuali:             "
@@ -1777,47 +1781,47 @@ msgstr "Indicatorii actuali:             "
 # Indicatorii impliciți, actuali:  NumLock activat
 # Indicatorii actuali:                 NumLock activat
 # Led-uri curente:                     NumLock activat
-#: src/setleds.c:306
+#: src/setleds.c:307
 #, c-format
 msgid "Current leds:           "
 msgstr "Led-uri curente:                 "
 
-#: src/setleds.c:321
+#: src/setleds.c:322
 #, c-format
 msgid "Old default flags:    "
 msgstr "Indicatorii impliciți, vechi:    "
 
-#: src/setleds.c:323
+#: src/setleds.c:324
 #, c-format
 msgid "New default flags:    "
 msgstr "Indicatorii impliciți, noi:    "
 
-#: src/setleds.c:330
+#: src/setleds.c:331
 #, c-format
 msgid "Old flags:            "
 msgstr "Indicatori vechi:            "
 
-#: src/setleds.c:332
+#: src/setleds.c:333
 #, c-format
 msgid "New flags:            "
 msgstr "Indicatori noi:            "
 
-#: src/setleds.c:345 src/setleds.c:354
+#: src/setleds.c:346 src/setleds.c:355
 #, c-format
 msgid "Old leds:             "
 msgstr "Led-uri vechi:             "
 
-#: src/setleds.c:347 src/setleds.c:356
+#: src/setleds.c:348 src/setleds.c:357
 #, c-format
 msgid "New leds:             "
 msgstr "Led-uri noi:             "
 
-#: src/setmetamode.c:25
+#: src/setmetamode.c:26
 #, c-format
 msgid "Usage: %s [option...] [argument]\n"
 msgstr "Utilizare: %s [opțiune...] [argument]\n"
 
-#: src/setmetamode.c:28
+#: src/setmetamode.c:29
 #, c-format
 msgid ""
 "Arguments:\n"
@@ -1833,24 +1837,24 @@ msgstr ""
 "              generează un prefix ESC (\\033) urmat de\n"
 "              simbolul tastei (keysym).\n"
 
-#: src/setmetamode.c:48
+#: src/setmetamode.c:49
 msgid "Meta key sets high order bit"
 msgstr "Tasta Meta activează bitul de ordine înaltă"
 
-#: src/setmetamode.c:51
+#: src/setmetamode.c:52
 msgid "Meta key gives Esc prefix"
 msgstr "Tasta Meta furnizează prefixul Esc"
 
-#: src/setmetamode.c:54
+#: src/setmetamode.c:55
 msgid "Strange mode for Meta key?"
 msgstr "Mod ciudat pentru tasta Meta?"
 
-#: src/setmetamode.c:139
+#: src/setmetamode.c:138
 #, c-format
 msgid "old state:    "
 msgstr "stare veche:    "
 
-#: src/setmetamode.c:144
+#: src/setmetamode.c:143
 #, c-format
 msgid "new state:    "
 msgstr "stare nouă:    "
@@ -2133,6 +2137,9 @@ msgstr "Acest terminal(tty) «%s» nu este o consolă virtuală.\n"
 #, c-format
 msgid "The entire console display cannot be locked.\n"
 msgstr "Nu poate fi blocat întregul afișaj al consolei.\n"
+
+#~ msgid "octal number too big"
+#~ msgstr "număr octal prea mare"
 
 #, c-format
 #~ msgid "usage: screendump [n]\n"
