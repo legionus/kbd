@@ -24,12 +24,15 @@ CFLAGS="${CFLAGS:-}"
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_YACC
-AC_PROG_LEX([noyywrap])
 AC_PROG_SED
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_CANONICAL_HOST
+
+AC_PROG_LEX([noyywrap])
+AS_IF([test "x$LEX" != xflex],
+      [AC_MSG_ERROR([kbd depends on flex features, but found '$LEX'.])])
 
 AX_CHECK_COMPILE_FLAG([-std=gnu11],[CFLAGS="$CFLAGS -std=gnu11"])
 
