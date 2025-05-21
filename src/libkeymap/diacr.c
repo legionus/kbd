@@ -79,6 +79,15 @@ int lk_add_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
 int lk_del_diacr(struct lk_ctx *ctx, int index)
 {
 	int rc;
+	struct lk_kbdiacr *ptr;
+
+	ptr = lk_array_get_ptr(ctx->accent_table, index);
+	if (!ptr) {
+		ERR(ctx, _("Index %d in the accent table does not exist"), index);
+		return -1;
+	}
+	free(ptr);
+
 	rc = lk_array_unset(ctx->accent_table, index);
 	if (rc) {
 		ERR(ctx, _("Unable to remove item from the diacritical table"));

@@ -56,6 +56,12 @@ int lk_add_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 
 int lk_del_func(struct lk_ctx *ctx, int index)
 {
+	char *s;
+
+	s = lk_array_get_ptr(ctx->func_table, index);
+	if (s)
+		free(s);
+
 	if (lk_array_unset(ctx->func_table, index) < 0) {
 		ERR(ctx, _("Unable to remove item from the list of functions"));
 		return -1;
