@@ -1,6 +1,7 @@
 CODE_COVERAGE_DIRECTORY        = $(top_builddir)/src $(top_builddir)/tests
 CODE_COVERAGE_OUTPUT_FILE      = coverage.info
 CODE_COVERAGE_OUTPUT_DIRECTORY = coverage
+CODE_COVERAGE_GENHTML_OPTIONS  = --ignore-errors range,range
 
 include $(top_srcdir)/aminclude_static.am
 
