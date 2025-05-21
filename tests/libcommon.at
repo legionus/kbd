@@ -1,0 +1,22 @@
+AT_BANNER([libcommon unit tests])
+
+AT_SETUP([test options output])
+AT_KEYWORDS([libcommon unittest])
+cp -f -- \
+	"$abs_srcdir/data/libcommon/options1.txt" \
+	experr
+UNITTEST_MEMCHECK([$abs_builddir/libcommon/libcommon-test01], [0], [], [experr])
+AT_CLEANUP
+
+AT_SETUP([test footer message])
+AT_KEYWORDS([libcommon unittest])
+cp -f -- \
+	"$abs_srcdir/data/libcommon/footer.txt" \
+	experr
+UNITTEST_MEMCHECK([$abs_builddir/libcommon/libcommon-test02], [0], [], [experr])
+AT_CLEANUP
+
+AT_SETUP([test get console])
+AT_KEYWORDS([libcommon unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libcommon/libcommon-test03])
+AT_CLEANUP

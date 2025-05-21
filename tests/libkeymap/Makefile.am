@@ -33,5 +33,7 @@ noinst_PROGRAMS = \
 	libkeymap-test16 \
 	libkeymap-test17 \
 	libkeymap-test18 \
+	libkeymap-test19 \
+	libkeymap-test20 \
 	$(NULL)
 

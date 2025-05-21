@@ -182,3 +182,19 @@ cp -f -- \
 UNITTEST_MEMCHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"],
 	[0], [expout])
 AT_CLEANUP
+
+AT_SETUP([dump summary])
+AT_KEYWORDS([libkeymap unittest])
+cp -f -- \
+	"$abs_srcdir/data/keymap0-summary.txt" \
+	expout
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test19], [0], [expout])
+AT_CLEANUP
+
+AT_SETUP([dump compose as usual])
+AT_KEYWORDS([libkeymap unittest])
+cp -f -- \
+	"$abs_srcdir/data/keymap7-compose-as-usual.txt" \
+	expout
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test20], [0], [expout])
+AT_CLEANUP

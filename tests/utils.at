@@ -1,0 +1,36 @@
+AT_BANNER([utilities unit tests])
+
+AT_SETUP([loadkeys mutually exclusive options])
+AT_KEYWORDS([utils unittest])
+AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
+cat >experr <<EOF
+loadkeys: Options --unicode and --ascii are mutually exclusive.
+EOF
+AT_CHECK([$abs_top_builddir/src/loadkeys --ascii --unicode --parse /dev/null], [1], [], [experr])
+AT_CLEANUP
+
+AT_SETUP([loadkeys default keymap])
+AT_KEYWORDS([utils unittest])
+AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
+echo > defkeymap.map
+AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys --default --parse])
+AT_CLEANUP
+
+AT_SETUP([loadkeys prefer unicode with keymap file])
+AT_KEYWORDS([utils unittest])
+AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
+AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys prefer unicode with stdin])
+AT_KEYWORDS([utils unittest])
+AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
+AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse < "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
+AT_CLEANUP
+
+AT_SETUP([loadkeys prefer unicode with stdin file])
+AT_KEYWORDS([utils unittest])
+AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
+AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse - < "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
+AT_CLEANUP
+

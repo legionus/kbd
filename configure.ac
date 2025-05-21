@@ -247,6 +247,7 @@ AC_CONFIG_FILES([Makefile
 		src/libkeymap/Makefile
 		src/vlock/Makefile
 		tests/helpers/Makefile
+		tests/libcommon/Makefile
 		tests/libkbdfile/Makefile
 		tests/libkeymap/Makefile
 		tests/Makefile

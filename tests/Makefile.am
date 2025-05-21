@@ -2,6 +2,7 @@ NULL =
 
 SUBDIRS = \
 	helpers    \
+	libcommon  \
 	libkbdfile \
 	libkeymap  \
 	$(NULL)
