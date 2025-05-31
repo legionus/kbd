@@ -16,6 +16,9 @@ loadkeys \- load keyboard translation tables
 .I --bkeymap
 .br
 .B loadkeys
+.IB --tkeymap "[=shape]"
+.br
+.B loadkeys
 .I --parse
 .LP
 .SH DESCRIPTION
@@ -134,6 +137,45 @@ prints to the standard output a file that may be used as a binary
 keymap as expected by Busybox
 .B loadkmap
 command (and does not modify the current keymap).
+.SH "CREATE TEXT KEYMAP"
+If the
+.I -t
+(or
+.I --tkeymap
+) option is given
+.B loadkeys
+prints to the standard output a file that may be used as a text
+keymap as expected by
+.B loadkeys
+command (and does not modify the current keymap).
+An optional argument can be used to select the shape of the output
+format:
+.IB "-t" shape
+(or
+.IB "--tkeymap=" shape
+).
+.LP
+Available shapes:
+.LP
+.RS
+.B 2
+default output.
+.RE
+.LP
+.RS
+.B 4
+one line for each keycode.
+.RE
+.LP
+.RS
+.B 8
+one line for each (modifier,keycode) pair.
+.RE
+.LP
+.RS
+.B 16
+one line for each keycode until 1st hole.
+.RE
 .SH "UNICODE MODE"
 .B loadkeys
 automatically detects whether the console is in Unicode or
