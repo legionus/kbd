@@ -5,7 +5,7 @@ shift
 
 case "$tool" in
 	memcheck)
-		valgrind_args="--leak-check=full --leak-resolution=high --show-leak-kinds=all --track-origins=yes"
+		valgrind_args="--leak-check=full --leak-resolution=high --show-leak-kinds=all --track-origins=yes --trace-children=yes"
 		;;
 	*)
 		echo >&1 "$0: unknown valgrind tool: $tool"
