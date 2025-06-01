@@ -225,6 +225,20 @@ AC_ARG_ENABLE(tests,
 	[build_tests=$enableval], [build_tests=auto])
 AM_CONDITIONAL(BUILD_TESTS, test "$build_tests" != "no")
 
+AC_ARG_ENABLE(tests-memcheck,
+	[AS_HELP_STRING([--disable-tests-memcheck],
+			[do not check memory leaks during tests])],
+	[build_tests_memcheck=$enableval],
+	[build_tests_memcheck=auto])
+
+AS_IF([test "x$build_tests_memcheck" != xno],
+	[
+		AC_CHECK_PROGS([VALGRIND_PROG], [valgrind])
+		AS_IF([test "x$build_tests_memcheck" != xauto -a "x$VALGRIND_PROG" = x],
+		      [AC_MSG_ERROR([valgrind required.])])
+	])
+AM_CONDITIONAL(BUILD_TESTS_MEMCHECK, test "x$VALGRIND_PROG" != "x")
+
 AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
 AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
 

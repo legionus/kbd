@@ -1,3 +1,5 @@
+AT_ARG_OPTION(memcheck, [AS_HELP_STRING([--memcheck], [check memory leaks during tests])])
+
 m4_define([UNITTEST_RUN_MEMCHECK],[[
 libtool --mode=execute -- "$abs_srcdir"/valgrind.sh memcheck $1 || exit $?;
 cat stdout ||:;
@@ -5,5 +7,7 @@ sed '/==[0-9]\+== .*/d' stderr >&2 ||:
 ]])
 
 m4_define([UNITTEST_MEMCHECK],[
-AT_CHECK([UNITTEST_RUN_MEMCHECK([$1])],[$2],[$3],[$4],[$5],[$6])
+AS_IF([test "x$at_arg_memcheck" != "xfalse"],
+	[AT_CHECK([UNITTEST_RUN_MEMCHECK([$1])],[$2],[$3],[$4],[$5],[$6])],
+	[AT_CHECK([$1],[$2],[$3],[$4],[$5],[$6])])
 ])
