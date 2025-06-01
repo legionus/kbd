@@ -54,7 +54,7 @@ jobs:
         sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind sparse
     - name: "Configure"
       run: |
-        tests/configure.sh --datadir="$PWD/data"
+        tests/configure.sh --datadir="$PWD/data" --enable-memcheck
     - name: "Check sparse"
       run: |
         make check-sparse V=1
@@ -123,7 +123,7 @@ jobs:
     - run: sudo apt-get install -y -qq gcc clang musl musl-dev musl-tools
     - name: "Configure"
       run: |
-        tests/configure.sh --datadir="$PWD/tests/data" ${{ matrix.configure }}
+        tests/configure.sh --datadir="$PWD/tests/data" --enable-memcheck ${{ matrix.configure }}
     - name: "Build"
       run: |
         make V=1 CFLAGS+="-g -O0"

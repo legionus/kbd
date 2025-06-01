@@ -24,7 +24,7 @@ nproc=$(grep -c ^processor /proc/cpuinfo || echo 1)
 
 cd "/tmp/kbd"
 
-tests/configure.sh --datadir="$PWD/tests/data" ||
+tests/configure.sh --datadir="$PWD/tests/data" --enable-memcheck ||
 	fail_with_artifacts
 
 make -j$nproc V=1 CFLAGS+="-g -O0"

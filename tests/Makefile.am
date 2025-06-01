@@ -16,6 +16,10 @@ ATCONFIG  = $(abs_builddir)/atconfig
 ATPACKAGE = $(abs_builddir)/atpackage
 TESTSUITE = $(abs_builddir)/testsuite
 
+if TESTS_MEMCHECK
+TESTSUITE_ARG_MEMCHECK = --memcheck
+endif
+
 EXTRA_DIST = \
 	data             \
 	$(wildcard *.at) \
@@ -49,10 +53,10 @@ $(ATCONFIG): $(top_builddir)/config.status
 	$(SHELL) ./config.status tests/atconfig
 
 check-local: $(ATCONFIG) $(TESTSUITE)
-	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) $(TESTSUITEFLAGS)
+	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) $(TESTSUITE_ARG_MEMCHECK) $(TESTSUITEFLAGS)
 
 installcheck-local: $(ATCONFIG) $(TESTSUITE)
-	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) AUTOTEST_PATH='$(bindir)' $(TESTSUITEFLAGS)
+	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) AUTOTEST_PATH='$(bindir)' $(TESTSUITE_ARG_MEMCHECK) $(TESTSUITEFLAGS)
 
 $(TESTSUITE): $(ATPACKAGE) $(ATCONFIG)
 	$(AUTOTEST) -I '$(srcdir)' -o - testsuite.at > $@
