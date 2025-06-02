@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 #include <search.h>
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -201,7 +202,7 @@ static void print_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask)
 
 	for (size_t m = 0; m < mask->num; m++) {
 		for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-			if ((mask->mask[m] & (1u << mod)) == 0)
+			if ((mask->mask[m] & (UINT32_C(1) << mod)) == 0)
 				continue;
 
 			const char *modname = xkb_keymap_mod_get_name(keymap, mod);
@@ -438,7 +439,7 @@ static int get_kernel_modifier(struct xkeymap *xkeymap, struct xkb_mask *xkbmask
 	xkb_mod_index_t num_mods = xkb_keymap_num_mods(xkeymap->keymap);
 
 	for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-		if (!(xkbmask->mask[0] & (1u << mod)))
+		if (!(xkbmask->mask[0] & (UINT32_C(1) << mod)))
 			continue;
 
 		map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
