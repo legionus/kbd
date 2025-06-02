@@ -74,6 +74,7 @@ struct xkeymap {
 #define XKB_MAX_MODS ((xkb_mod_index_t)(sizeof(xkb_mod_mask_t) * 8))
 
 struct xkb_mask {
+	// FIXME: this should be the max count of supported mods combinations
 	xkb_mod_mask_t mask[XKB_MAX_MODS];
 	size_t num;
 };
@@ -195,7 +196,7 @@ static int compare_codes(const void *pa, const void *pb)
 	return 0;
 }
 
-static void print_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask)
+static void print_xkb_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask)
 {
 	int padding = 30;
 	xkb_mod_index_t num_mods = xkb_keymap_num_mods(keymap);
@@ -340,7 +341,7 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 	xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
 
 	printf(" xkb:symname= %-27s xkb:mods=", s);
-	print_modifiers(xkeymap->keymap, &keycode_mask);
+	print_xkb_modifiers(xkeymap->keymap, &keycode_mask);
 	printf(" ");
 
 	if (lk_valid_ksym(xkeymap->ctx, s, TO_UNICODE))
@@ -432,7 +433,7 @@ static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code, i
 	keyvalue[modifier] = code;
 }
 
-static int get_kernel_modifier(struct xkeymap *xkeymap, xkb_mod_mask_t xkbmask)
+static int get_kernel_modifier_mask(struct xkeymap *xkeymap, xkb_mod_mask_t xkbmask)
 {
 	const struct modifier_mapping *map;
 	int modifier = 0;
@@ -542,7 +543,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
 
 				for (size_t m = 0; m < keycode_mask.num; m++) {
-					modifier = get_kernel_modifier(xkeymap, keycode_mask.mask[m]);
+					modifier = get_kernel_modifier_mask(xkeymap, keycode_mask.mask[m]);
 
 					if (sym == XKB_KEY_ISO_Next_Group) {
 						xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, keyvalue);
