@@ -476,6 +476,11 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
 
+	if (num_layouts > NR_LAYOUTS) {
+		kbd_warning(0, "keymap defines more layouts than the kernel can handle.");
+		num_layouts = NR_LAYOUTS;
+	}
+
 	/*
 	 * Pick the languages layout. The switching order depends on the
 	 * number of languages (xkb layouts).
@@ -569,7 +574,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					value == shiftr_lock)
 						value = shift_lock;
 
-					for (unsigned short i = 0; i < NR_LAYOUTS; i++) {
+					for (unsigned short i = 0; i < num_layouts; i++) {
 						if (layout != kmap_layout[i])
 							continue;
 						xkeymap_add_value(xkeymap, modifier | layout_switch[i], value, keyvalue);
