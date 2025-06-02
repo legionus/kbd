@@ -1,9 +1,11 @@
 #define _GNU_SOURCE
 #include <search.h>
 
+#include <assert.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include <errno.h>
 #include <ctype.h>
 
@@ -404,15 +406,16 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 	return 1;
 }
 
-static int used_code(struct xkeymap *xkeymap, int code)
+static struct keysym_entry* used_code(struct xkeymap *xkeymap, int code)
 {
 	struct keysym_entry entry = { .keysym = code };
-	return tfind(&entry, &xkeymap->used_codes, compare_keysym_entries) != NULL;
+	return tfind(&entry, &xkeymap->used_codes, compare_keysym_entries);
 }
 
 static void remember_code(struct xkeymap *xkeymap, int code, int score)
 {
 	struct keysym_entry *ptr, **val;
+	assert(score > 0);
 
 	if (used_code(xkeymap, code))
 		return;
@@ -607,7 +610,7 @@ process_keycode:
 			if (lk_add_key(xkeymap->ctx, i, (int) KERN_KEYCODE(keycode), keyvalue[i]) < 0)
 				goto err;
 			/* Compute score base on the modifier */
-			int score = i & ~layout_switchs_mask;
+			int score = ((i & ~layout_switchs_mask) << 1) | 0x1;
 			remember_code(xkeymap, keyvalue[i], score);
 		}
 	}
@@ -708,22 +711,43 @@ static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
 	printf("}\n");
 }
 
+struct score_entry {
+	struct lk_kbdiacr entry;
+	int score;
+};
+
+static int compare_keysym_scores(const void *pa, const void *pb)
+{
+	if (((struct score_entry *) pa)->score < ((struct score_entry *) pb)->score)
+		return -1;
+	if (((struct score_entry *) pa)->score > ((struct score_entry *) pb)->score)
+		return 1;
+	return 0;
+}
+
 static int xkeymap_compose(struct xkeymap *xkeymap)
 {
-	int count, ret;
+	int ret;
+	size_t count, allocated;
 	struct xkb_compose_table_entry *entry;
 	struct xkb_compose_table_iterator *iter = xkb_compose_table_iterator_new(xkeymap->compose);
+	char keysym_name[60] = { 0 };
 
 	if (!iter) {
 		kbd_warning(0, "xkb_compose_table_iterator_new failed");
 		return -1;
 	}
 
-	count = ret = 0;
+	count = allocated = 0;
+	ret = 0;
+	struct score_entry *entries = NULL;
 
 	while ((entry = xkb_compose_table_iterator_next(iter))) {
 		size_t seqlen = 0;
 		const xkb_keysym_t *syms = xkb_compose_table_entry_sequence(entry, &seqlen);
+		// FIXME: handle string
+		// /* There is at least a string or a keysym; prefer the string if available */
+		// const char *string = xkb_compose_table_entry_utf8(entry);
 		xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
 
 		if (is_debug(xkeymap, "1")) {
@@ -734,49 +758,104 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 		if (keysym == XKB_KEY_NoSymbol)
 			continue;
 
+		/* Discard sequences > 2 */
 		if (seqlen == 2) {
 			struct lk_kbdiacr ptr;
-			int code;
+			int code, score;
+			const struct keysym_entry *ks_entry;
+
+			/*
+			 * Discard sequences keysyms that are either
+			 * non-translatable or unreachable
+			 */
 
 			if ((code = xkeymap_get_code(xkeymap, syms[0])) < 0 ||
-			    !used_code(xkeymap, code))
+			    !(ks_entry = used_code(xkeymap, code))) {
+				if (code < 0) {
+					xkb_keysym_get_name(syms[0], keysym_name, ARRAY_SIZE(keysym_name));
+					kbd_warning(0, "Cannot translate XKB keysym %s (%#"PRIx32")",
+								keysym_name, syms[0]);
+				}
 				continue;
+			}
 
 			ptr.diacr = (unsigned int) code;
+			score = ks_entry->score;
 
 			if ((code = xkeymap_get_code(xkeymap, syms[1])) < 0 ||
-			    !used_code(xkeymap, code))
+			    !(ks_entry = used_code(xkeymap, code))) {
+				if (code < 0) {
+					xkb_keysym_get_name(syms[1], keysym_name, ARRAY_SIZE(keysym_name));
+					kbd_warning(0, "Cannot translate XKB keysym %s (%#"PRIx32")",
+								keysym_name, syms[1]);
+				}
 				continue;
+			}
 
 			ptr.base = (unsigned int) code;
+			score *= ks_entry->score;
 
-			if ((code = xkeymap_get_code(xkeymap, keysym)) < 0 ||
-			    used_code(xkeymap, code))
+			/*
+			 * Discard sequence that result with either a
+			 * non-translatable keysym or a keysym reachable without
+			 * requiring Compose mechanism.
+			 */
+			if ((code = xkeymap_get_code(xkeymap, keysym)) < 0)
 				continue;
+
+			if (used_code(xkeymap, code))
+				score <<= 1;
 
 			ptr.result = (unsigned int) code;
 
-			if (++count >= MAX_DIACR)
-				continue;
+			count++;
 
 			if (is_debug(xkeymap, "2")) {
 				xkeymap_compose_printer(entry);
 				continue;
 			}
 
-			ret = lk_append_diacr(xkeymap->ctx, &ptr);
-
-			if (ret == -1)
-				break;
+			if (count > allocated) {
+				allocated = (allocated == 0)
+				          ? MAX_DIACR : (allocated * 2);
+				struct score_entry *new = reallocarray(
+					entries, allocated, sizeof(*entries));
+				if (!new) {
+					ret = -1;
+					goto alloc_error;
+				}
+				entries = new;
+			}
+			entries[count - 1].entry = ptr;
+			entries[count - 1].score = score;
 		}
 	}
 
 	xkb_compose_table_iterator_free(iter);
 
-	if (count >= MAX_DIACR)
-		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb specified %d.",
-		            MAX_DIACR, count);
+	if (!allocated)
+		return ret;
 
+	// FIXME: remove
+	fprintf(stderr, "~~~ count %zu (%zu)\n", count, allocated);
+
+	if (count >= MAX_DIACR) {
+		/* Too many sequences */
+		kbd_warning(0, "kernel can handle only %u compose definitions, but xkb specified %zu.",
+		            MAX_DIACR, count);
+		/* sort & drop least accessible sequences */
+		qsort(entries, count, sizeof(*entries), compare_keysym_scores);
+		count = MAX_DIACR - 1;
+	}
+
+	for (size_t s = 0; s < count; s++) {
+		ret = lk_append_diacr(xkeymap->ctx, &entries[s].entry);
+		if (ret == -1)
+			break;
+	}
+
+alloc_error:
+	free(entries);
 	return ret;
 }
 
