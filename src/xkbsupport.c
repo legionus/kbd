@@ -432,14 +432,14 @@ static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code, i
 	keyvalue[modifier] = code;
 }
 
-static int get_kernel_modifier(struct xkeymap *xkeymap, struct xkb_mask *xkbmask)
+static int get_kernel_modifier(struct xkeymap *xkeymap, xkb_mod_mask_t xkbmask)
 {
 	const struct modifier_mapping *map;
 	int modifier = 0;
 	xkb_mod_index_t num_mods = xkb_keymap_num_mods(xkeymap->keymap);
 
 	for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-		if (!(xkbmask->mask[0] & (UINT32_C(1) << mod)))
+		if (!(xkbmask & (UINT32_C(1) << mod)))
 			continue;
 
 		map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
@@ -540,36 +540,39 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					xkeymap_walk_printer(xkeymap, layout, level, keycode, sym);
 
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
-				modifier = get_kernel_modifier(xkeymap, &keycode_mask);
 
-				if (sym == XKB_KEY_ISO_Next_Group) {
-					xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, keyvalue);
-					xkeymap_add_value(xkeymap, modifier | layout_switch[1], shiftr_lock, keyvalue);
-					xkeymap_add_value(xkeymap, modifier | layout_switch[2], shiftr_lock, keyvalue);
-					xkeymap_add_value(xkeymap, modifier | layout_switch[3], shiftl_lock, keyvalue);
+				for (size_t m = 0; m < keycode_mask.num; m++) {
+					modifier = get_kernel_modifier(xkeymap, keycode_mask.mask[m]);
 
-					goto process_keycode;
-				}
+					if (sym == XKB_KEY_ISO_Next_Group) {
+						xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, keyvalue);
+						xkeymap_add_value(xkeymap, modifier | layout_switch[1], shiftr_lock, keyvalue);
+						xkeymap_add_value(xkeymap, modifier | layout_switch[2], shiftr_lock, keyvalue);
+						xkeymap_add_value(xkeymap, modifier | layout_switch[3], shiftl_lock, keyvalue);
 
-				if ((value = xkeymap_get_code(xkeymap, sym)) < 0)
-					continue;
+						goto process_keycode;
+					}
 
-				/*
-				 * Replace ShiftL/ShiftR by Shift to protect
-				 * layout switches.
-				 */
-				if (value == shiftl ||
-				    value == shiftr)
-					value = shift;
-
-				if (value == shiftl_lock ||
-				    value == shiftr_lock)
-					value = shift_lock;
-
-				for (unsigned short i = 0; i < NR_LAYOUTS; i++) {
-					if (layout != kmap_layout[i])
+					if ((value = xkeymap_get_code(xkeymap, sym)) < 0)
 						continue;
-					xkeymap_add_value(xkeymap, modifier | layout_switch[i], value, keyvalue);
+
+					/*
+					* Replace ShiftL/ShiftR by Shift to protect
+					* layout switches.
+					*/
+					if (value == shiftl ||
+					value == shiftr)
+						value = shift;
+
+					if (value == shiftl_lock ||
+					value == shiftr_lock)
+						value = shift_lock;
+
+					for (unsigned short i = 0; i < NR_LAYOUTS; i++) {
+						if (layout != kmap_layout[i])
+							continue;
+						xkeymap_add_value(xkeymap, modifier | layout_switch[i], value, keyvalue);
+					}
 				}
 			}
 		}
