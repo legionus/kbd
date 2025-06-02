@@ -98,8 +98,8 @@ struct xkb_mask {
  * | `Meta`       | Virtual | `Mod1` or `Mod4` | The legacy [Meta] key               |
  * | `NumLock`    | Virtual | `Mod2`           | The usual [NumLock]                 |
  * | `Super`      | Virtual | `Mod4`           | The usual [Super]/GUI               |
- * | `LevelThree` | Virtual | `Mod3`           | [ISO][ISO9995] level 3, aka [AltGr] |
- * | `LevelFive`  | Virtual | `Mod5`           | [ISO][ISO9995] level 5              |
+ * | `LevelThree` | Virtual | `Mod5`           | [ISO][ISO9995] level 3, aka [AltGr] |
+ * | `LevelFive`  | Virtual | `Mod3`           | [ISO][ISO9995] level 5              |
  *
  * [Shift]: https://en.wikipedia.org/wiki/Control_key
  * [Lock]: https://en.wikipedia.org/wiki/Caps_Lock
@@ -124,9 +124,9 @@ static struct modifier_mapping modifier_mapping[] = {
 	{ "Control",		"control",	(1u << KG_CTRL)		},
 	{ "Mod1",		"alt",		(1u << KG_ALT)		},
 	{ "Mod2",		"<numlock>",	0			},
-	{ "Mod3",		"altgr",	(1u << KG_ALTGR)	},
+	{ "Mod3",		"alt",		(1u << KG_ALT)		},
 	{ "Mod4",		"<super>",	0			},
-	{ "Mod5",		"alt",		(1u << KG_ALT)		},
+	{ "Mod5",		"altgr",	(1u << KG_ALTGR)	},
 	{ "Alt",		"alt",		(1u << KG_ALT)		},
 	{ "Meta",		"<meta>",	0			},
 	{ "NumLock",		"<numlock>",	0			},
