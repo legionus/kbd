@@ -46,6 +46,11 @@ struct sym_pair {
 	char *krn_sym;
 };
 
+struct keysym_entry {
+	int keysym;
+	int score;
+};
+
 struct xkeymap {
 	const char *debug;
 	struct xkb_context *xkb;
@@ -187,11 +192,11 @@ static const char *map_xkbsym_to_ksym(struct xkeymap *xkeymap, char *xkb_sym)
 	return NULL;
 }
 
-static int compare_codes(const void *pa, const void *pb)
+static int compare_keysym_entries(const void *pa, const void *pb)
 {
-	if (*(int *) pa < *(int *) pb)
+	if (((struct keysym_entry *) pa)->keysym < ((struct keysym_entry *) pb)->keysym)
 		return -1;
-	if (*(int *) pa > *(int *) pb)
+	if (((struct keysym_entry *) pa)->keysym > ((struct keysym_entry *) pb)->keysym)
 		return 1;
 	return 0;
 }
@@ -401,28 +406,35 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 
 static int used_code(struct xkeymap *xkeymap, int code)
 {
-	return tfind(&code, &xkeymap->used_codes, compare_codes) != NULL;
+	struct keysym_entry entry = { .keysym = code };
+	return tfind(&entry, &xkeymap->used_codes, compare_keysym_entries) != NULL;
 }
 
-static void remember_code(struct xkeymap *xkeymap, int code)
+static void remember_code(struct xkeymap *xkeymap, int code, int score)
 {
-	int *ptr, **val;
+	struct keysym_entry *ptr, **val;
 
 	if (used_code(xkeymap, code))
 		return;
 
-	ptr = malloc(sizeof(code));
+	ptr = malloc(sizeof(*ptr));
 	if (!ptr)
 		kbd_error(1, errno, "out of memory");
 
-	*ptr = code;
+	ptr->keysym = code;
+	ptr->score = score;
 
-	val = tsearch(ptr, &xkeymap->used_codes, compare_codes);
+	val = tsearch(ptr, &xkeymap->used_codes, compare_keysym_entries);
 	if (!val)
 		kbd_error(1, errno, "out of memory");
 
-	if (*val != ptr)
+	if (*val != ptr) {
 		free(ptr);
+		if ((*val)->score > score) {
+			/* Found a new position that is more accessible: update */
+			(*val)->score = score;
+		}
+	}
 }
 
 static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code, int keyvalue[MAX_NR_KEYMAPS])
@@ -473,6 +485,11 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	int shift_lock  = lk_ksym_to_unicode(xkeymap->ctx, "Shift_Lock");
 	int shiftl_lock = lk_ksym_to_unicode(xkeymap->ctx, "ShiftL_Lock");
 	int shiftr_lock = lk_ksym_to_unicode(xkeymap->ctx, "ShiftR_Lock");
+
+	int layout_switchs_mask = 0;
+	for (unsigned short i = 0; i < ARRAY_SIZE(layout_switch); i++) {
+		layout_switchs_mask |= layout_switch[i];
+	}
 
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
 
@@ -589,7 +606,9 @@ process_keycode:
 				continue;
 			if (lk_add_key(xkeymap->ctx, i, (int) KERN_KEYCODE(keycode), keyvalue[i]) < 0)
 				goto err;
-			remember_code(xkeymap, keyvalue[i]);
+			/* Compute score base on the modifier */
+			int score = i & ~layout_switchs_mask;
+			remember_code(xkeymap, keyvalue[i], score);
 		}
 	}
 
