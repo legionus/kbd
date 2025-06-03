@@ -215,7 +215,7 @@ static void print_xkb_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask
 
 			const char *modname = xkb_keymap_mod_get_name(keymap, mod);
 
-			padding -= fprintf(stderr, " %ld:%s(%d)", m, modname, mod);
+			padding -= fprintf(stderr, " %zu:%s(%"PRIu32")", m, modname, mod);
 		}
 	}
 
@@ -330,7 +330,7 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 
 	fprintf(stderr, "keycode %3d = ", KERN_KEYCODE(keycode));
 
-	fprintf(stderr, "layout[%d]= %-12s level= %d",
+	fprintf(stderr, "layout[%"PRIu32"]= %-12s level= %"PRIu32,
 		layout, xkb_keymap_layout_get_name(xkeymap->keymap, layout), level);
 
 	char s[BUFSIZ];
@@ -691,7 +691,7 @@ static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
 	const char *chr = xkb_compose_table_entry_utf8(entry);
 	xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
 
-	fprintf(stderr, "Compose: \"%s\" (chars=%ld) ", chr, strlen(chr));
+	fprintf(stderr, "Compose: \"%s\" (chars=%zu) ", chr, strlen(chr));
 
 	if (xkb_keysym_get_name(keysym, buf, sizeof(buf)) > 0)
 		offset -= fprintf(stderr, "<%s>", buf);
@@ -701,7 +701,7 @@ static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
 	for (; offset > 0; offset--)
 		fprintf(stderr, " ");
 
-	fprintf(stderr, " -> sequence[%ld] = { ", seqlen);
+	fprintf(stderr, " -> sequence[%zu] = { ", seqlen);
 	for (size_t i = 0; i < seqlen; i++) {
 		if (xkb_keysym_get_name(syms[i], buf, sizeof(buf)) > 0)
 			fprintf(stderr, "<%s> ", buf);
