@@ -887,7 +887,7 @@ static int load_translation_table(struct xkeymap *xkeymap)
 
 int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 {
-	struct xkeymap xkeymap = { 0 };
+	struct xkeymap xkeymap;
 	int ret = -1;
 
 	struct xkb_rule_names names = {
@@ -897,6 +897,8 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 		.variant = params->variant,
 		.options = params->options,
 	};
+
+	memset(&xkeymap, 0, sizeof(xkeymap));
 
 	xkeymap.ctx = ctx;
 	xkeymap.debug = getenv("LK_XKB_DEBUG");
