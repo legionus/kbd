@@ -24,6 +24,10 @@
 
 #include "libcommon.h"
 
+#ifdef USE_XKB
+#include "xkbsupport.h"
+#endif
+
 static const char *const dirpath1[] = {
 	DATADIR "/" KEYMAPDIR "/**",
 	KERNDIR "/",
@@ -79,6 +83,17 @@ int main(int argc, char *argv[])
 	struct kbdfile_ctx *fctx;
 	struct kbdfile *fp = NULL;
 
+#ifdef USE_XKB
+	struct xkeymap_params xkeymap_params = {
+		.model = "pc104",
+		.layout = NULL,
+		.variant = NULL,
+		.options = NULL,
+		.locale = NULL,
+	};
+	int use_xkb = 0;
+#endif
+
 	setuplocale();
 
 	const char *const short_opts = "abcC:dhmpst::uqvV";
@@ -97,9 +112,24 @@ int main(int argc, char *argv[])
 		{ "quiet", no_argument, NULL, 'q' },
 		{ "verbose", no_argument, NULL, 'v' },
 		{ "version", no_argument, NULL, 'V' },
+#ifdef USE_XKB
+		//{ "xkb-rules", required_argument, NULL, 1 },
+		{ "xkb-model", required_argument, NULL, 2 },
+		{ "xkb-layout", required_argument, NULL, 3 },
+		{ "xkb-variant", required_argument, NULL, 4 },
+		{ "xkb-options", required_argument, NULL, 5 },
+		{ "xkb-locale", required_argument, NULL, 6 },
+#endif
 		{ NULL, 0, NULL, 0 }
 	};
 	const struct kbd_help opthelp[] = {
+#ifdef USE_XKB
+		{ "--xkb-model=STR",       _("Specifies model used to choose component names.") },
+		{ "--xkb-layout=STR",      _("Specifies layout used to choose component names.") },
+		{ "--xkb-variant=STR",     _("Specifies layout variant used to choose component names.") },
+		{ "--xkb-options=STR",     _("Adds an option used to choose component names.") },
+		{ "--xkb-locale=LOCALE",   _("Use LOCALE to search an appropriate compose file.") },
+#endif
 		{ "-C, --console=DEV",     _("the console device to be used.") },
 		{ "-a, --ascii",           _("force conversion to ASCII.") },
 		{ "-b, --bkeymap",         _("output a binary keymap to stdout.") },
@@ -137,6 +167,28 @@ int main(int argc, char *argv[])
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+#ifdef USE_XKB
+			case 2:
+				xkeymap_params.model = optarg;
+				use_xkb = 1;
+				break;
+			case 3:
+				xkeymap_params.layout = optarg;
+				use_xkb = 1;
+				break;
+			case 4:
+				xkeymap_params.variant = optarg;
+				use_xkb = 1;
+				break;
+			case 5:
+				xkeymap_params.options = optarg;
+				use_xkb = 1;
+				break;
+			case 6:
+				xkeymap_params.locale = optarg;
+				use_xkb = 1;
+				break;
+#endif
 			case 'a':
 				options |= OPT_A;
 				break;
@@ -246,6 +298,22 @@ int main(int argc, char *argv[])
 		if (rc == -1)
 			goto fail;
 
+#ifdef USE_XKB
+	} else if (use_xkb) {
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = getenv("LC_ALL");
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = getenv("LC_CTYPE");
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = getenv("LANG");
+		if (!xkeymap_params.locale || !*xkeymap_params.locale)
+			xkeymap_params.locale = "C";
+
+		rc = convert_xkb_keymap(ctx, &xkeymap_params);
+		if (rc == -1)
+			goto fail;
+
+#endif
 	} else if (optind == argc) {
 		if (!(fp = kbdfile_new(fctx)))
 			kbd_error(EXIT_FAILURE, 0, _("Unable to create kbdfile instance: %m"));

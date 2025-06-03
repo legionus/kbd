@@ -43,6 +43,10 @@ jobs:
     name: "Distcheck"
     runs-on: ubuntu-latest
     needs: [ check_commits_job ]
+    env:
+      XCOMPOSEFILE: "tests/data/xkb/compose/en_US" 
+      XKB_CONFIG_ROOT: "tests/data/xkb"
+      LK_XKB_TRANSLATION_TABLE: "data/xkbtrans/names"
     steps:
     - name: "Check out repository"
       uses: actions/checkout@v4
@@ -51,7 +55,9 @@ jobs:
     - name: "Install dependencies"
       run: |
         sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind sparse
+        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin \
+                                    libpam0g-dev bison flex gettext valgrind sparse \
+                                    libxkbcommon-dev
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/data" --enable-memcheck
@@ -113,13 +119,18 @@ jobs:
       SANDBOX: priviliged
       TTY: /dev/tty60
       HAVE_VGA: 1
+      XCOMPOSEFILE: "tests/data/xkb/compose/en_US" 
+      XKB_CONFIG_ROOT: "tests/data/xkb"
+      LK_XKB_TRANSLATION_TABLE: "data/xkbtrans/names"
     steps:
     - name: "Check out repository"
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - run: sudo apt-get update  -y -qq
-    - run: sudo apt-get install -y -qq autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext kbd strace valgrind
+    - run: sudo apt-get install -y -qq autoconf automake autopoint libtool libtool-bin \
+                                       libpam0g-dev bison flex gettext kbd strace valgrind \
+                                       libxkbcommon-dev
     - run: sudo apt-get install -y -qq gcc clang musl musl-dev musl-tools
     - name: "Configure"
       run: |

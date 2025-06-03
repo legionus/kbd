@@ -34,3 +34,15 @@ AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
 AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse - < "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
 AT_CLEANUP
 
+AT_SETUP([loadkeys xkb])
+AT_KEYWORDS([utils unittest])
+cp -f -- \
+	"$abs_srcdir/data/loadkeys-xkb/fr-bepo.map" \
+	expout
+cat >experr <<EOF
+loadkeys: keymap defines more keycodes than the kernel can handle.
+EOF
+UNITTEST_MEMCHECK(
+	[$abs_top_builddir/src/loadkeys -q -u --tkeymap=8 --xkb-layout=fr --xkb-variant=bepo --xkb-locale=en_US.UTF-8],
+	[0], [expout], [experr])
+AT_CLEANUP
