@@ -771,7 +771,7 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 
 			if ((code = xkeymap_get_code(xkeymap, syms[0])) < 0 ||
 			    !(ks_entry = used_code(xkeymap, code))) {
-				if (code < 0) {
+				if (code < 0 && xkeymap->debug) {
 					xkb_keysym_get_name(syms[0], keysym_name, ARRAY_SIZE(keysym_name));
 					kbd_warning(0, "Cannot translate XKB keysym %s (%#"PRIx32")",
 								keysym_name, syms[0]);
@@ -784,7 +784,7 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 
 			if ((code = xkeymap_get_code(xkeymap, syms[1])) < 0 ||
 			    !(ks_entry = used_code(xkeymap, code))) {
-				if (code < 0) {
+				if (code < 0 && xkeymap->debug) {
 					xkb_keysym_get_name(syms[1], keysym_name, ARRAY_SIZE(keysym_name));
 					kbd_warning(0, "Cannot translate XKB keysym %s (%#"PRIx32")",
 								keysym_name, syms[1]);
@@ -837,7 +837,7 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 		return ret;
 
 	// FIXME: remove
-	fprintf(stderr, "~~~ count %zu (%zu)\n", count, allocated);
+	// fprintf(stderr, "~~~ count %zu (%zu)\n", count, allocated);
 
 	if (count >= MAX_DIACR) {
 		/* Too many sequences */
