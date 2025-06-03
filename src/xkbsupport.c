@@ -1,13 +1,11 @@
-#define _GNU_SOURCE
-#include <search.h>
-
 #include <assert.h>
+#include <ctype.h>
+#include <errno.h>
+#include <inttypes.h>
+#include <search.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <inttypes.h>
-#include <errno.h>
-#include <ctype.h>
 
 #include "libcommon.h"
 #include "keymap.h"
