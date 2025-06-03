@@ -79,7 +79,7 @@ loadkeys_LDADD        = libkeymap/libkeymap.la libkbdfile/libkbdfile.la $(COMMON
 loadkeys_SOURCES = loadkeys.c
 
 if USE_XKB
-loadkeys_SOURCES += xkbsupport.c
+loadkeys_SOURCES += xkbsupport.c xkbsupport.h
 loadkeys_CFLAGS = -DUSE_XKB @XKBCOMMON_CFLAGS@
 loadkeys_LDADD += @XKBCOMMON_LIBS@
 LDADD += @XKBCOMMON_LIBS@
