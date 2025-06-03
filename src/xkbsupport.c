@@ -215,15 +215,15 @@ static void print_xkb_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask
 
 			const char *modname = xkb_keymap_mod_get_name(keymap, mod);
 
-			padding -= printf(" %ld:%s(%d)", m, modname, mod);
+			padding -= fprintf(stderr, " %ld:%s(%d)", m, modname, mod);
 		}
 	}
 
 	if (padding == 30)
-		padding -= printf(" -");
+		padding -= fprintf(stderr, " -");
 
 	while (padding-- > 0)
-		putchar(' ');
+		fputc(' ', stderr);
 }
 
 static void xkeymap_keycode_mask(struct xkb_keymap *keymap,
@@ -321,16 +321,16 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 {
 	switch (sym) {
 		case XKB_KEY_ISO_Next_Group:
-			printf("* ");
+			fprintf(stderr, "* ");
 			break;
 		default:
-			printf("  ");
+			fprintf(stderr, "  ");
 			break;
 	}
 
-	printf("keycode %3d = ", KERN_KEYCODE(keycode));
+	fprintf(stderr, "keycode %3d = ", KERN_KEYCODE(keycode));
 
-	printf("layout[%d]= %-12s level= %d",
+	fprintf(stderr, "layout[%d]= %-12s level= %d",
 		layout, xkb_keymap_layout_get_name(xkeymap->keymap, layout), level);
 
 	char s[BUFSIZ];
@@ -347,9 +347,9 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 	struct xkb_mask keycode_mask;
 	xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
 
-	printf(" xkb:symname= %-27s xkb:mods=", s);
+	fprintf(stderr, " xkb:symname= %-27s xkb:mods=", s);
 	print_xkb_modifiers(xkeymap->keymap, &keycode_mask);
-	printf(" ");
+	fprintf(stderr, " ");
 
 	if (lk_valid_ksym(xkeymap->ctx, s, TO_UNICODE))
 		symname = s;
@@ -361,11 +361,11 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 
 	value = xkeymap_get_code(xkeymap, sym);
 
-	printf(" kbd:code= U+%04x kbd:symname= %-32s", value, symname);
+	fprintf(stderr, " kbd:code= U+%04x kbd:symname= %-32s", value, symname);
 
 	int kbd_mods = 0;
 
-	printf(" kbd:mods=");
+	fprintf(stderr, " kbd:mods=");
 	if (keycode_mask.num > 0) {
 		xkb_mod_index_t num_mods = xkb_keymap_num_mods(xkeymap->keymap);
 
@@ -375,13 +375,13 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 
 			const struct modifier_mapping *map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
 
-			printf(" %s", map->krn_mod);
+			fprintf(stderr, " %s", map->krn_mod);
 			kbd_mods++;
 		}
 	}
 	if (!kbd_mods)
-		printf(" -");
-	printf("\n");
+		fprintf(stderr, " -");
+	fprintf(stderr, "\n");
 
 	fflush(stdout);
 	fflush(stderr);
@@ -691,24 +691,24 @@ static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
 	const char *chr = xkb_compose_table_entry_utf8(entry);
 	xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
 
-	printf("Compose: \"%s\" (chars=%ld) ", chr, strlen(chr));
+	fprintf(stderr, "Compose: \"%s\" (chars=%ld) ", chr, strlen(chr));
 
 	if (xkb_keysym_get_name(keysym, buf, sizeof(buf)) > 0)
-		offset -= printf("<%s>", buf);
+		offset -= fprintf(stderr, "<%s>", buf);
 	else
-		offset -= printf("<?>");
+		offset -= fprintf(stderr, "<?>");
 
 	for (; offset > 0; offset--)
-		printf(" ");
+		fprintf(stderr, " ");
 
-	printf(" -> sequence[%ld] = { ", seqlen);
+	fprintf(stderr, " -> sequence[%ld] = { ", seqlen);
 	for (size_t i = 0; i < seqlen; i++) {
 		if (xkb_keysym_get_name(syms[i], buf, sizeof(buf)) > 0)
-			printf("<%s> ", buf);
+			fprintf(stderr, "<%s> ", buf);
 		else
-			printf("<?> ");
+			fprintf(stderr, "<?> ");
 	}
-	printf("}\n");
+	fprintf(stderr, "}\n");
 }
 
 struct score_entry {
