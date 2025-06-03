@@ -39,7 +39,10 @@ AT_KEYWORDS([utils unittest])
 cp -f -- \
 	"$abs_srcdir/data/loadkeys-xkb/fr-bepo.map" \
 	expout
+cat >experr <<EOF
+loadkeys: keymap defines more keycodes than the kernel can handle.
+EOF
 UNITTEST_MEMCHECK(
 	[$abs_top_builddir/src/loadkeys -q -u --tkeymap=8 --xkb-layout=fr --xkb-variant=bepo --xkb-locale=en_US.UTF-8],
-	[0], [expout])
+	[0], [expout], [experr])
 AT_CLEANUP
