@@ -47,6 +47,7 @@ int main(int argc KBD_ATTR_UNUSED, char **argv)
 	kbdfile_set_file(fp, fopen(argv[1], "r"));
 
 	lk_parse_keymap(ctx, fp);
+	lk_add_constants(ctx);
 	lk_dump_keymap(ctx, stdout, table, numeric);
 	lk_dump_diacs(ctx, stdout);
 
