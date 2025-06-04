@@ -321,9 +321,6 @@ void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 	fprintf(fd, "keymaps");
 
 	for (i = 0; i < ctx->keymap->total; i++) {
-		if (ctx->keywords & LK_KEYWORD_ALTISMETA && i == (i | M_ALT))
-			continue;
-
 		if (!lk_map_exists(ctx, i)) {
 			if (!m)
 				continue;
@@ -496,7 +493,8 @@ no_shorthands:
 		if (table == LK_SHAPE_SEPARATE_LINES) {
 			for (j = 0; j < keymapnr; j++) {
 				//if (buf[j] != K_HOLE)
-				print_bind(ctx, fd, buf[j], i, j, numeric);
+				if (lk_map_exists(ctx, j))
+					print_bind(ctx, fd, buf[j], i, j, numeric);
 			}
 
 			fprintf(fd, "\n");

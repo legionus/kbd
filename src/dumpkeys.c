@@ -195,6 +195,8 @@ int main(int argc, char *argv[])
 	if (!diac_only) {
 #endif
 		if (!funcs_only) {
+			if ((rc = lk_add_constants(ctx)) < 0)
+				goto fail;
 			lk_dump_keymap(ctx, stdout, table, numeric);
 		}
 #ifdef KDGKBDIACR
