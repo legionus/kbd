@@ -287,6 +287,8 @@ int main(int argc, char *argv[])
 		} else if (options & OPT_M) {
 			rc = lk_dump_ctable(ctx, stdout);
 		} else if (options & OPT_T) {
+			if ((rc = lk_add_constants(ctx)) < 0)
+				goto fail;
 			lk_dump_keymap(ctx, stdout, table_shape, 0);
 #ifdef KDGKBDIACR
 			lk_dump_diacs(ctx, stdout);
