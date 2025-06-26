@@ -315,15 +315,14 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 
 void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 {
-	int i, n, m, s;
-	i = n = m = s = 0;
-
-	fprintf(fd, "keymaps");
+	int i, n, m, s, kw;
+	kw = i = n = m = s = 0;
 
 	for (i = 0; i < ctx->keymap->total; i++) {
 		if (!lk_map_exists(ctx, i)) {
 			if (!m)
 				continue;
+			kw = kw ?: fprintf(fd, "keymaps");
 			n--, m--;
 			(n == m)
 			    ? fprintf(fd, "%c%d", (s ? ',' : ' '), n)
@@ -338,13 +337,15 @@ void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 	}
 
 	if (m) {
+		kw = kw ?: fprintf(fd, "keymaps");
 		n--, m--;
 		(n == m)
 		    ? fprintf(fd, "%c%d", (s ? ',' : ' '), n)
 		    : fprintf(fd, "%c%d-%d", (s ? ',' : ' '), n, m);
 	}
 
-	fprintf(fd, "\n");
+	if (kw)
+		fprintf(fd, "\n");
 }
 
 static void
