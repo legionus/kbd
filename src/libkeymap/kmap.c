@@ -128,8 +128,8 @@ int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
 		if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
-			ERR(ctx, _("adding map %d violates explicit keymaps line"),
-			    k_table);
+			ERR(ctx, _("adding map %d for key %d violates explicit keymaps line"),
+			    k_table, k_index);
 			return -1;
 		}
 

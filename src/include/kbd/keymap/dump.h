@@ -69,6 +69,9 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 void lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
 	KBD_ATTR_NONNULL(1, 2);
 
+int lk_dump_keymap2(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
+	KBD_ATTR_NONNULL(1, 2);
+
 /**
  * Outputs keycodes.
  * @param ctx is a keymap library context.
