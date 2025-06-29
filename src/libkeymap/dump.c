@@ -614,3 +614,12 @@ void lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char num
 	lk_dump_keys(ctx, fd, table, numeric);
 	lk_dump_funcs(ctx, fd);
 }
+
+int lk_dump_keymap2(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
+{
+	if (lk_add_constants(ctx) < 0)
+		return -1;
+
+	lk_dump_keymap(ctx, fd, table, numeric);
+	return 0;
+}
