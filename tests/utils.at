@@ -68,3 +68,16 @@ for keymap in "qwerty/us" "qwerty/cz" "qwerty/ru3"; do
 	done
 done
 AT_CLEANUP
+
+AT_SETUP([check parsing and restoration of alt_is_meta])
+AT_KEYWORDS([utils unittest])
+AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
+AT_CHECK([
+printf '%s\n' 'alt_is_meta' 'include "qwerty-layout"' |
+	LOADKEYS_INCLUDE_PATH="$LOADKEYS_KEYMAP_PATH/i386/include" \
+	$abs_top_builddir/src/loadkeys -q -u --tkeymap=2 -
+], [0], [stdout])
+cp -f -- stdout expout
+AT_CHECK([grep -qs alt_is_meta stdout])
+AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -u --tkeymap=2 stdout], [0], [expout])
+AT_CLEANUP
