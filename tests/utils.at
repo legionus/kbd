@@ -1,5 +1,9 @@
 AT_BANNER([utilities unit tests])
 
+AT_PREPARE_EACH_TEST([
+LOADKEYS_KEYMAP_PATH="$abs_top_srcdir/tests/data/keymaps"
+])
+
 AT_SETUP([loadkeys mutually exclusive options])
 AT_KEYWORDS([utils unittest])
 AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
@@ -13,25 +17,25 @@ AT_SETUP([loadkeys default keymap])
 AT_KEYWORDS([utils unittest])
 AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
 echo > defkeymap.map
-AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys --default --parse])
+AT_CHECK([$abs_top_builddir/src/loadkeys --default --parse])
 AT_CLEANUP
 
 AT_SETUP([loadkeys prefer unicode with keymap file])
 AT_KEYWORDS([utils unittest])
 AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
-AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
+AT_CHECK([$abs_top_builddir/src/loadkeys -q -c -s -u --parse "$LOADKEYS_KEYMAP_PATH/i386/qwerty/cz.map"])
 AT_CLEANUP
 
 AT_SETUP([loadkeys prefer unicode with stdin])
 AT_KEYWORDS([utils unittest])
 AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
-AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse < "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
+AT_CHECK([$abs_top_builddir/src/loadkeys -q -c -s -u --parse < "$LOADKEYS_KEYMAP_PATH/i386/qwerty/cz.map"])
 AT_CLEANUP
 
 AT_SETUP([loadkeys prefer unicode with stdin file])
 AT_KEYWORDS([utils unittest])
 AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
-AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -c -s -u --parse - < "$abs_srcdir/data/keymaps/i386/qwerty/cz.map"])
+AT_CHECK([$abs_top_builddir/src/loadkeys -q -c -s -u --parse - < "$LOADKEYS_KEYMAP_PATH/i386/qwerty/cz.map"])
 AT_CLEANUP
 
 AT_SETUP([loadkeys roundtrip])
@@ -40,10 +44,10 @@ AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
 for keymap in "qwerty/us" "qwerty/cz" "qwerty/ru3"; do
 	for shape in 2 4 8 16; do
 		echo "Testing $keymap, shape: $shape"
-		AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -u --tkeymap="$shape" "$abs_srcdir/data/keymaps/i386/$keymap.map"], [0], [stdout])
+		AT_CHECK([$abs_top_builddir/src/loadkeys -q -u --tkeymap="$shape" "$LOADKEYS_KEYMAP_PATH/i386/$keymap.map"], [0], [stdout])
 		AT_CHECK([test -s stdout])
 		cp -f -- stdout expout
-		AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -u --tkeymap="$shape" stdout], [0], [expout])
+		AT_CHECK([$abs_top_builddir/src/loadkeys -q -u --tkeymap="$shape" stdout], [0], [expout])
 	done
 done
 AT_CLEANUP
@@ -54,10 +58,13 @@ AT_SKIP_IF([ test -z "$(tty 2>/dev/null)" ])
 for keymap in "qwerty/us" "qwerty/cz" "qwerty/ru3"; do
 	for shape in 2 4 8 16; do
 		echo "Testing $keymap, shape: $shape"
-		AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -u --mktable "$abs_srcdir/data/keymaps/i386/$keymap.map"], [0], [stdout])
+		AT_CHECK([$abs_top_builddir/src/loadkeys -q -u --mktable "$LOADKEYS_KEYMAP_PATH/i386/$keymap.map"], [0], [stdout])
 		AT_CHECK([test -s stdout])
 		cp -f -- stdout expout
-		AT_CHECK([LOADKEYS_KEYMAP_PATH="$PWD" $abs_top_builddir/src/loadkeys -q -u --tkeymap="$shape" "$abs_srcdir/data/keymaps/i386/$keymap.map" | $abs_top_builddir/src/loadkeys -q -u --mktable -], [0], [expout])
+		AT_CHECK([
+			$abs_top_builddir/src/loadkeys -q -u --tkeymap="$shape" "$LOADKEYS_KEYMAP_PATH/i386/$keymap.map" |
+				$abs_top_builddir/src/loadkeys -q -u --mktable -
+		], [0], [expout])
 	done
 done
 AT_CLEANUP
