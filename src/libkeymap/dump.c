@@ -493,7 +493,6 @@ no_shorthands:
 
 		if (table == LK_SHAPE_SEPARATE_LINES) {
 			for (j = 0; j < keymapnr; j++) {
-				//if (buf[j] != K_HOLE)
 				if (lk_map_exists(ctx, j))
 					print_bind(ctx, fd, buf[j], i, j, numeric);
 			}
@@ -593,7 +592,6 @@ no_shorthands:
 				     j < keymapnr && buf[j] != K_HOLE &&
 				     (table != LK_SHAPE_UNTIL_HOLE || lk_map_exists(ctx, j));
 				     j++) {
-					//print_bind(ctx, fd, buf[j], i, j, numeric);
 					print_keysym(ctx, fd, buf[j], numeric);
 				}
 				fprintf(fd, "\n");
