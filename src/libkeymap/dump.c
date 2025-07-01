@@ -315,18 +315,14 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 
 void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 {
-	int i, n, m, s;
-	i = n = m = s = 0;
-
-	fprintf(fd, "keymaps");
+	int i, n, m, s, kw;
+	kw = i = n = m = s = 0;
 
 	for (i = 0; i < ctx->keymap->total; i++) {
-		if (ctx->keywords & LK_KEYWORD_ALTISMETA && i == (i | M_ALT))
-			continue;
-
 		if (!lk_map_exists(ctx, i)) {
 			if (!m)
 				continue;
+			kw = kw ?: fprintf(fd, "keymaps");
 			n--, m--;
 			(n == m)
 			    ? fprintf(fd, "%c%d", (s ? ',' : ' '), n)
@@ -341,13 +337,15 @@ void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 	}
 
 	if (m) {
+		kw = kw ?: fprintf(fd, "keymaps");
 		n--, m--;
 		(n == m)
 		    ? fprintf(fd, "%c%d", (s ? ',' : ' '), n)
 		    : fprintf(fd, "%c%d-%d", (s ? ',' : ' '), n, m);
 	}
 
-	fprintf(fd, "\n");
+	if (kw)
+		fprintf(fd, "\n");
 }
 
 static void
@@ -495,8 +493,8 @@ no_shorthands:
 
 		if (table == LK_SHAPE_SEPARATE_LINES) {
 			for (j = 0; j < keymapnr; j++) {
-				//if (buf[j] != K_HOLE)
-				print_bind(ctx, fd, buf[j], i, j, numeric);
+				if (lk_map_exists(ctx, j))
+					print_bind(ctx, fd, buf[j], i, j, numeric);
 			}
 
 			fprintf(fd, "\n");
@@ -594,7 +592,6 @@ no_shorthands:
 				     j < keymapnr && buf[j] != K_HOLE &&
 				     (table != LK_SHAPE_UNTIL_HOLE || lk_map_exists(ctx, j));
 				     j++) {
-					//print_bind(ctx, fd, buf[j], i, j, numeric);
 					print_keysym(ctx, fd, buf[j], numeric);
 				}
 				fprintf(fd, "\n");
@@ -614,4 +611,13 @@ void lk_dump_keymap(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char num
 	lk_dump_keymaps(ctx, fd);
 	lk_dump_keys(ctx, fd, table, numeric);
 	lk_dump_funcs(ctx, fd);
+}
+
+int lk_dump_keymap2(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
+{
+	if (lk_add_constants(ctx) < 0)
+		return -1;
+
+	lk_dump_keymap(ctx, fd, table, numeric);
+	return 0;
 }
