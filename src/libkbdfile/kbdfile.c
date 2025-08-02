@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
@@ -71,6 +72,29 @@ int
 kbdfile_set_pathname(struct kbdfile *fp, const char *pathname)
 {
 	strncpy(fp->pathname, pathname, sizeof(fp->pathname) - 1);
+	return 0;
+}
+
+static int KBD_ATTR_PRINTF(2, 3)
+kbdfile_pathname_sprintf(struct kbdfile *fp, const char *fmt, ...)
+{
+	ssize_t size;
+	va_list ap;
+
+	if (fp == NULL || fmt == NULL)
+		return -1;
+
+	va_start(ap, fmt);
+	size = vsnprintf(NULL, 0, fmt, ap);
+	va_end(ap);
+
+	if (size < 0 || (size_t) size >= sizeof(fp->pathname))
+		return -1;
+
+	va_start(ap, fmt);
+	vsnprintf(fp->pathname, sizeof(fp->pathname), fmt, ap);
+	va_end(ap);
+
 	return 0;
 }
 
@@ -181,30 +205,22 @@ findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfi
 	int i;
 	struct stat st;
 	struct decompressor *dc;
-	size_t fnam_len, sp_len;
 
 	fp->flags &= ~KBDFILE_PIPE;
-	fnam_len = strlen(fnam);
 
 	for (i = 0; suffixes[i]; i++) {
 		if (suffixes[i] == NULL)
 			continue; /* we tried it already */
 
-		sp_len = strlen(suffixes[i]);
-
-		if (fnam_len + sp_len + 1 > sizeof(fp->pathname))
+		if (kbdfile_pathname_sprintf(fp, "%s%s", fnam, suffixes[i]) < 0)
 			continue;
-
-		snprintf(fp->pathname, sizeof(fp->pathname), "%s%s", fnam, suffixes[i]);
 
 		if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && (fp->fd = fopen(fp->pathname, "r")) != NULL)
 			return 0;
 
 		for (dc = &decompressors[0]; dc->cmd; dc++) {
-			if (fnam_len + sp_len + strlen(dc->ext) + 1 > sizeof(fp->pathname))
+			if (kbdfile_pathname_sprintf(fp, "%s%s%s", fnam, suffixes[i], dc->ext) < 0)
 				continue;
-
-			snprintf(fp->pathname, sizeof(fp->pathname), "%s%s%s", fnam, suffixes[i], dc->ext);
 
 			if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && access(fp->pathname, R_OK) == 0)
 				return pipe_open(dc, fp);
@@ -343,7 +359,8 @@ StartScan:
 		if (secondpass || ff)
 			continue;
 
-		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s", dir, namelist[n]->d_name);
+		if (kbdfile_pathname_sprintf(fp, "%s/%s", dir, namelist[n]->d_name) < 0)
+			continue;
 
 		if (stat(fp->pathname, &st) || !S_ISREG(st.st_mode))
 			continue;
@@ -354,7 +371,10 @@ StartScan:
 	}
 
 	if (!secondpass && index != UINT_MAX) {
-		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : ""));
+		if (kbdfile_pathname_sprintf(fp, "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : "")) < 0) {
+			rc = -1;
+			goto EndScan;
+		}
 
 		if (!dc) {
 			rc = maybe_pipe_open(fp);
@@ -398,7 +418,7 @@ kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *su
 	fp->flags &= ~KBDFILE_PIPE;
 
 	/* Try explicitly given name first */
-	strncpy(fp->pathname, fnam, sizeof(fp->pathname) - 1);
+	kbdfile_set_pathname(fp, fnam);
 
 	if (!maybe_pipe_open(fp))
 		return 0;
