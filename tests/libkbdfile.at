@@ -62,7 +62,7 @@ AT_CLEANUP
 
 AT_SETUP([test 13])
 AT_KEYWORDS([libkbdfile unittest])
-AT_SKIP_IF([ test "$(arch)" != "ppc64el" ])
+AT_SKIP_IF([ test "$(arch)" = "ppc64el" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test13])
 AT_CLEANUP
 
