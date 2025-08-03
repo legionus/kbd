@@ -168,43 +168,49 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 	return 0;
 }
 
+static int
+is_reg_file(const char *filename)
+{
+	struct stat st;
+	return (!stat(filename, &st) && S_ISREG(st.st_mode));
+}
+
 /* If a file PATHNAME exists, then open it.
    If is has a `compressed' extension, then open a pipe reading it */
 static int
 maybe_pipe_open(struct kbdfile *fp)
 {
-	char *t;
-	struct stat st;
+	size_t len;
 	struct decompressor *dc;
 
-	if (stat(fp->pathname, &st) == -1 || !S_ISREG(st.st_mode) || access(fp->pathname, R_OK) == -1)
+	if (!fp)
 		return -1;
 
-	t = strrchr(fp->pathname, '.');
-	if (t) {
-		for (dc = &decompressors[0]; dc->cmd; dc++) {
-			if (strcmp(t, dc->ext) == 0)
-				return pipe_open(dc, fp);
-		}
+	if (is_reg_file(fp->pathname) && (fp->fd = fopen(fp->pathname, "r")) != NULL)
+		return 0;
+
+	len = strlen(fp->pathname);
+
+	for (dc = &decompressors[0]; dc->cmd; dc++) {
+		if (len + strlen(dc->ext) >= sizeof(fp->pathname))
+			continue;
+
+		fp->pathname[len] = '\0';
+		strcat(fp->pathname, dc->ext);
+
+		if (is_reg_file(fp->pathname) && !access(fp->pathname, R_OK))
+			return pipe_open(dc, fp);
 	}
 
-	fp->flags &= ~KBDFILE_PIPE;
+	fp->pathname[len] = '\0';
 
-	if ((fp->fd = fopen(fp->pathname, "r")) == NULL) {
-		char buf[200];
-		ERR(fp->ctx, "fopen: %s: %s", fp->pathname, kbd_strerror(errno, buf, sizeof(buf)));
-		return -1;
-	}
-
-	return 0;
+	return -1;
 }
 
 static int
 findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfile *fp)
 {
 	int i;
-	struct stat st;
-	struct decompressor *dc;
 
 	fp->flags &= ~KBDFILE_PIPE;
 
@@ -215,23 +221,15 @@ findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfi
 		if (kbdfile_pathname_sprintf(fp, "%s%s", fnam, suffixes[i]) < 0)
 			continue;
 
-		if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && (fp->fd = fopen(fp->pathname, "r")) != NULL)
+		if (!maybe_pipe_open(fp))
 			return 0;
-
-		for (dc = &decompressors[0]; dc->cmd; dc++) {
-			if (kbdfile_pathname_sprintf(fp, "%s%s%s", fnam, suffixes[i], dc->ext) < 0)
-				continue;
-
-			if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && access(fp->pathname, R_OK) == 0)
-				return pipe_open(dc, fp);
-		}
 	}
 
 	return -1;
 }
 
 static int
-filecmp(const char *fname, const char *name, const char *const *suf, unsigned int *index, struct decompressor **d)
+filecmp(const char *fname, const char *name, const char *const *suf, unsigned int *index)
 {
 	/* Does d_name start right? */
 	const char *p = name;
@@ -248,7 +246,6 @@ filecmp(const char *fname, const char *name, const char *const *suf, unsigned in
 		if (!strcmp(p, suf[i])) {
 			if (i < *index) {
 				*index = i;
-				*d = NULL;
 			}
 			return 0;
 		}
@@ -262,7 +259,6 @@ filecmp(const char *fname, const char *name, const char *const *suf, unsigned in
 			if (!strcmp(p + l, dc->ext)) {
 				if (i < *index) {
 					*index = i;
-					*d = dc;
 				}
 				return 0;
 			}
@@ -307,7 +303,6 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 		goto EndScan;
 	}
 
-	struct decompressor *dc = NULL;
 	unsigned int index = UINT_MAX;
 
 	// Scan the directory twice: first for files, then
@@ -365,31 +360,27 @@ StartScan:
 		if (stat(fp->pathname, &st) || !S_ISREG(st.st_mode))
 			continue;
 
-		if (!filecmp(fnam, namelist[n]->d_name, suf, &index, &dc)) {
+		if (!filecmp(fnam, namelist[n]->d_name, suf, &index)) {
+			/*
+			 * We cannot immediately try to open the file because
+			 * the suffixes are specified in order of priority. We
+			 * need to find the lowest index.
+			 */
 			rc = 0;
 		}
 	}
 
-	if (!secondpass && index != UINT_MAX) {
-		if (kbdfile_pathname_sprintf(fp, "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : "")) < 0) {
-			rc = -1;
+	if (!secondpass) {
+		if (index != UINT_MAX) {
+			rc = rc ?: kbdfile_pathname_sprintf(fp, "%s/%s%s", dir, fnam, suf[index]);
+			rc = rc ?: maybe_pipe_open(fp);
 			goto EndScan;
 		}
 
-		if (!dc) {
-			rc = maybe_pipe_open(fp);
-			goto EndScan;
+		if (recdepth > 0) {
+			secondpass = 1;
+			goto StartScan;
 		}
-
-		if (pipe_open(dc, fp) < 0) {
-			rc = -1;
-			goto EndScan;
-		}
-	}
-
-	if (recdepth > 0 && !secondpass) {
-		secondpass = 1;
-		goto StartScan;
 	}
 
 EndScan:
