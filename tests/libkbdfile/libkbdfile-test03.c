@@ -17,14 +17,20 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	const char *const suffixes[] = { "", ".kmap", ".map", NULL };
 
 	const char *expect = TESTDIR "/data/findfile/test_0/keymaps/i386/qwertz/test2";
+	const char *const searches[] = { "test2", "qwertz/test2", "i386/qwertz/test2", NULL };
 
-	int rc = kbdfile_find("test2", dirpath, suffixes, fp);
+	for (int i = 0; searches[i]; i++) {
+		int rc;
 
-	if (rc != 0)
-		kbd_error(EXIT_FAILURE, 0, "unable to find file");
+		rc = kbdfile_find(searches[i], dirpath, suffixes, fp);
+		if (rc != 0)
+			kbd_error(EXIT_FAILURE, 0, "unable to find file: %s", searches[i]);
 
-	if (strcmp(expect, kbdfile_get_pathname(fp)) != 0)
-		kbd_error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
+		if (strcmp(expect, kbdfile_get_pathname(fp)) != 0)
+			kbd_error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
+
+		kbdfile_close(fp);
+	}
 
 	kbdfile_free(fp);
 
