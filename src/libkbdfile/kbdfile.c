@@ -17,14 +17,16 @@
 #include "contextP.h"
 
 static struct decompressor {
+	unsigned char magic[2];
 	const char *ext; /* starts with `.', has no other dots */
 	const char *cmd;
 } decompressors[] = {
-	{ ".gz",  "gzip -d -c"    },
-	{ ".bz2", "bzip2 -d -c"   },
-	{ ".xz",  "xz -d -c"      },
-	{ ".zst", "zstd -d -q -c" },
-	{ NULL, NULL }
+	{ { 0x1f, 0x8b }, ".gz",  "gzip -d -c"    },
+	{ { 0x1f, 0x9e }, ".gz",  "gzip -d -c"    },
+	{ { 0x42, 0x5a }, ".bz2", "bzip2 -d -c"   },
+	{ { 0xfd, 0x37 }, ".xz",  "xz -d -c"      },
+	{ { 0x28, 0xb5 }, ".zst", "zstd -d -q -c" },
+	{ { 0, 0 }, NULL, NULL }
 };
 
 struct kbdfile *
@@ -169,14 +171,59 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 }
 
 static int
-is_reg_file(const char *filename)
+open_pathname(struct kbdfile *fp)
 {
+	FILE *f;
+	char buf[200];
+	unsigned char magic[2];
 	struct stat st;
-	return (!stat(filename, &st) && S_ISREG(st.st_mode));
+
+	if (!fp || stat(fp->pathname, &st) < 0 || !S_ISREG(st.st_mode))
+		return -1;
+
+	errno = 0;
+	f = fopen(fp->pathname, "r");
+
+	if (!f) {
+		ERR(fp->ctx, "fopen: %s: %s", fp->pathname, kbd_strerror(errno, buf, sizeof(buf)));
+		return -1;
+	}
+
+	if ((size_t) st.st_size > sizeof(magic)) {
+		struct decompressor *dc;
+
+		errno = 0;
+
+		if (fread(magic, sizeof(magic), 1, f) != 1) {
+			ERR(fp->ctx, "fread: %s: %s", fp->pathname, kbd_strerror(errno, buf, sizeof(buf)));
+			fclose(f);
+			return -1;
+		}
+
+		/*
+		 * We ignore the suffix and use archive magics to avoid problems
+		 * with incorrect file naming.
+		 */
+		for (dc = &decompressors[0]; dc->cmd; dc++) {
+			if (memcmp(magic, dc->magic, sizeof(magic)) != 0)
+				continue;
+			fclose(f);
+			return pipe_open(dc, fp);
+		}
+
+		rewind(f);
+	}
+
+	fp->flags &= ~KBDFILE_PIPE;
+	fp->fd = f;
+
+	return 0;
 }
 
-/* If a file PATHNAME exists, then open it.
-   If is has a `compressed' extension, then open a pipe reading it */
+/*
+ * If a file PATHNAME exists, then open it.
+ * If is has a `compressed' extension, then open a pipe reading it.
+ */
 static int
 maybe_pipe_open(struct kbdfile *fp)
 {
@@ -186,11 +233,15 @@ maybe_pipe_open(struct kbdfile *fp)
 	if (!fp)
 		return -1;
 
-	if (is_reg_file(fp->pathname) && (fp->fd = fopen(fp->pathname, "r")) != NULL)
+	if (!open_pathname(fp))
 		return 0;
 
 	len = strlen(fp->pathname);
 
+	/*
+	 * We no longer rely on suffixes to select a decompressor, but we still
+	 * need to check the suffix for backward compatibility.
+	 */
 	for (dc = &decompressors[0]; dc->cmd; dc++) {
 		if (len + strlen(dc->ext) >= sizeof(fp->pathname))
 			continue;
@@ -198,8 +249,8 @@ maybe_pipe_open(struct kbdfile *fp)
 		fp->pathname[len] = '\0';
 		strcat(fp->pathname, dc->ext);
 
-		if (is_reg_file(fp->pathname) && !access(fp->pathname, R_OK))
-			return pipe_open(dc, fp);
+		if (!open_pathname(fp))
+			return 0;
 	}
 
 	fp->pathname[len] = '\0';
