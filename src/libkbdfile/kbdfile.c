@@ -157,7 +157,7 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 	sprintf(pipe_cmd, "%s %s", dc->cmd, fp->pathname);
 
 	fp->fd = popen(pipe_cmd, "r");
-	fp->flags |= KBDFILE_PIPE;
+	fp->flags |= KBDFILE_PIPE | KBDFILE_COMPRESSED;
 
 	if (!(fp->fd)) {
 		char buf[200];
@@ -215,6 +215,8 @@ open_pathname(struct kbdfile *fp)
 	}
 
 	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
+
 	fp->fd = f;
 
 	return 0;
@@ -264,6 +266,7 @@ findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfi
 	int i;
 
 	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
 
 	for (i = 0; suffixes[i]; i++) {
 		if (suffixes[i] == NULL)
@@ -329,6 +332,7 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 
 	fp->fd = NULL;
 	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
 
 	dir_len = strlen(dir);
 
@@ -458,6 +462,7 @@ kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *su
 	}
 
 	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
 
 	/* Try explicitly given name first */
 	kbdfile_set_pathname(fp, fnam);
@@ -528,5 +533,5 @@ kbdfile_open(struct kbdfile_ctx *ctx, const char *filename)
 int
 kbdfile_is_compressed(struct kbdfile *fp)
 {
-	return (fp->flags & KBDFILE_PIPE);
+	return (fp->flags & KBDFILE_COMPRESSED);
 }

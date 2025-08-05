@@ -33,6 +33,7 @@ struct kbdfile {
 
 #define KBDFILE_CTX_INITIALIZED 0x01
 #define KBDFILE_PIPE            0x02
+#define KBDFILE_COMPRESSED      0x04
 
 #define kbdfile_log_cond(ctx, level, arg...)                                          \
 	do {                                                                     \
