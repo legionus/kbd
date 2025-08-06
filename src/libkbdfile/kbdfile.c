@@ -18,15 +18,16 @@
 
 static struct decompressor {
 	unsigned char magic[2];
+	FILE *(*decompressor)(struct kbdfile *fp);
 	const char *ext; /* starts with `.', has no other dots */
 	const char *cmd;
 } decompressors[] = {
-	{ { 0x1f, 0x8b }, ".gz",  "gzip -d -c"    },
-	{ { 0x1f, 0x9e }, ".gz",  "gzip -d -c"    },
-	{ { 0x42, 0x5a }, ".bz2", "bzip2 -d -c"   },
-	{ { 0xfd, 0x37 }, ".xz",  "xz -d -c"      },
-	{ { 0x28, 0xb5 }, ".zst", "zstd -d -q -c" },
-	{ { 0, 0 }, NULL, NULL }
+	{ { 0x1f, 0x8b }, kbdfile_decompressor_zlib,  ".gz",  "gzip -d -c"    },
+	{ { 0x1f, 0x9e }, kbdfile_decompressor_zlib,  ".gz",  "gzip -d -c"    },
+	{ { 0x42, 0x5a }, kbdfile_decompressor_bzip2, ".bz2", "bzip2 -d -c"   },
+	{ { 0xfd, 0x37 }, kbdfile_decompressor_lzma,  ".xz",  "xz -d -c"      },
+	{ { 0x28, 0xb5 }, kbdfile_decompressor_zstd,  ".zst", "zstd -d -q -c" },
+	{ { 0, 0 }, NULL, NULL, NULL }
 };
 
 struct kbdfile *
@@ -128,7 +129,7 @@ kbdfile_close(struct kbdfile *fp)
 	fp->pathname[0] = '\0';
 }
 
-static char *
+char *
 kbd_strerror(int errnum, char *buf, size_t buflen)
 {
 	*buf = '\0';
@@ -189,6 +190,9 @@ open_pathname(struct kbdfile *fp)
 		return -1;
 	}
 
+	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
+
 	if ((size_t) st.st_size > sizeof(magic)) {
 		struct decompressor *dc;
 
@@ -208,15 +212,19 @@ open_pathname(struct kbdfile *fp)
 			if (memcmp(magic, dc->magic, sizeof(magic)) != 0)
 				continue;
 			fclose(f);
+
+			if (dc->decompressor && (f = dc->decompressor(fp)) != NULL) {
+				fp->flags |= KBDFILE_COMPRESSED;
+				goto uncompressed;
+			}
+
 			return pipe_open(dc, fp);
 		}
 
 		rewind(f);
 	}
 
-	fp->flags &= ~KBDFILE_PIPE;
-	fp->flags &= ~KBDFILE_COMPRESSED;
-
+uncompressed:
 	fp->fd = f;
 
 	return 0;
