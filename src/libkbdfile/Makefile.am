@@ -10,8 +10,18 @@ headers = \
 libkbdfile_la_SOURCES = \
 	$(headers) \
 	contextP.h \
+	elf-note.h \
+	elf-note.c \
 	init.c \
 	kbdfile.c
+
+libkbdfile_la_LIBADD =
+libkbdfile_la_CFLAGS =
+
+if USE_ZLIB
+libkbdfile_la_SOURCES += kbdfile-zlib.c
+libkbdfile_la_CFLAGS += $(ZLIB_CFLAGS)
+endif
 
 KBDFILE_CURRENT  = 1
 KBDFILE_REVISION = 0

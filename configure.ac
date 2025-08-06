@@ -220,6 +220,19 @@ if test "$VLOCK_PROG" = "yes"; then
 	fi
 fi
 
+AC_ARG_WITH([zlib],
+	[AS_HELP_STRING([--with-zlib],
+			[support zlib compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_zlib=yes])])
+
+AS_IF([test "x$with_zlib" != xno],
+	[PKG_CHECK_MODULES(ZLIB, zlib, [HAVE_ZLIB=yes], [HAVE_ZLIB=no])],
+	[HAVE_ZLIB=no])
+AS_IF([test "x$HAVE_ZLIB" = "xyes"],
+	[AC_DEFINE([HAVE_ZLIB], [1], [support zlib compression])])
+AM_CONDITIONAL(USE_ZLIB, test "x$HAVE_ZLIB" = "xyes")
+
 AC_ARG_ENABLE(tests,
 	[AS_HELP_STRING([--disable-tests], [do not build tests])],
 	[build_tests=$enableval], [build_tests=auto])
