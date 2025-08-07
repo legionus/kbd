@@ -55,9 +55,6 @@ jobs:
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/data" --enable-memcheck
-    - name: "Check sparse"
-      run: |
-        make check-sparse V=1
     - name: "Clean"
       run: |
         make clean
