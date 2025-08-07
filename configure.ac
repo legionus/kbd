@@ -233,6 +233,27 @@ AS_IF([test "x$HAVE_ZLIB" = "xyes"],
 	[AC_DEFINE([HAVE_ZLIB], [1], [support zlib compression])])
 AM_CONDITIONAL(USE_ZLIB, test "x$HAVE_ZLIB" = "xyes")
 
+AC_ARG_WITH([bzip2],
+	[AS_HELP_STRING([--with-bzip2],
+			[support bzip2 compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_bzip2=yes])])
+
+AS_IF([test "x$with_bzip2" != xno],
+	[PKG_CHECK_MODULES(BZIP2, bzip2, [HAVE_BZIP2=yes], [HAVE_BZIP2=no])],
+	[HAVE_BZIP2=no])
+
+if test "x$HAVE_BZIP2" = xno; then
+	AC_CHECK_LIB(bz2, BZ2_bzDecompressInit, [
+		HAVE_BZIP2=yes
+		BZIP2_LIBS=-lbz2
+		BZIP2_CFLAGS=''
+	], [HAVE_BZIP2=no])
+fi
+AS_IF([test "x$HAVE_BZIP2" = "xyes"],
+	[AC_DEFINE([HAVE_BZIP2], [1], [support bzip2 compression])])
+AM_CONDITIONAL(USE_BZIP2, test "$HAVE_BZIP2" = "yes")
+
 AC_ARG_ENABLE(tests,
 	[AS_HELP_STRING([--disable-tests], [do not build tests])],
 	[build_tests=$enableval], [build_tests=auto])

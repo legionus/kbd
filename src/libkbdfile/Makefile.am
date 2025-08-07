@@ -23,6 +23,11 @@ libkbdfile_la_SOURCES += kbdfile-zlib.c
 libkbdfile_la_CFLAGS += $(ZLIB_CFLAGS)
 endif
 
+if USE_BZIP2
+libkbdfile_la_SOURCES += kbdfile-bzip2.c
+libkbdfile_la_CFLAGS += $(BZIP2_CFLAGS)
+endif
+
 KBDFILE_CURRENT  = 1
 KBDFILE_REVISION = 0
 KBDFILE_AGE      = 0
