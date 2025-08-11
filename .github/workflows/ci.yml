@@ -99,7 +99,7 @@ jobs:
             cflags: -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
             compiler: gcc
             libc: musl
-            configure: --host=x86_64-linux-musl --disable-vlock --without-zlib --without-bzip2 --without-lzma
+            configure: --host=x86_64-linux-musl --disable-vlock --without-zlib --without-bzip2 --without-lzma --without-zstd
             check: unittest e2e
       fail-fast: false
     runs-on: ${{ matrix.os }}

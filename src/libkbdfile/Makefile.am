@@ -33,6 +33,11 @@ libkbdfile_la_SOURCES += kbdfile-lzma.c
 libkbdfile_la_CFLAGS += $(LZMA_CFLAGS)
 endif
 
+if USE_ZSTD
+libkbdfile_la_SOURCES += kbdfile-zstd.c
+libkbdfile_la_CFLAGS += $(ZSTD_CFLAGS)
+endif
+
 KBDFILE_CURRENT  = 1
 KBDFILE_REVISION = 0
 KBDFILE_AGE      = 0

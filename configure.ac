@@ -267,6 +267,19 @@ AS_IF([test "x$HAVE_LZMA" = "xyes"],
 	[AC_DEFINE([HAVE_LZMA], [1], [support lzma compression])])
 AM_CONDITIONAL(USE_LZMA, test "$HAVE_LZMA" = "yes")
 
+AC_ARG_WITH([zstd],
+	[AS_HELP_STRING([--with-zstd],
+			[support zstd compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_zstd=yes])])
+
+AS_IF([test "x$with_zstd" != xno],
+	[PKG_CHECK_MODULES(ZSTD, libzstd, [HAVE_ZSTD=yes], [HAVE_ZSTD=no])],
+	[HAVE_ZSTD=no])
+AS_IF([test "x$HAVE_ZSTD" = "xyes"],
+	[AC_DEFINE([HAVE_ZSTD], [1], [support zstd compression])])
+AM_CONDITIONAL(USE_ZSTD, test "$HAVE_ZSTD" = "yes")
+
 AC_ARG_ENABLE(tests,
 	[AS_HELP_STRING([--disable-tests], [do not build tests])],
 	[build_tests=$enableval], [build_tests=auto])
