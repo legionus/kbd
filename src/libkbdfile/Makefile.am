@@ -28,6 +28,11 @@ libkbdfile_la_SOURCES += kbdfile-bzip2.c
 libkbdfile_la_CFLAGS += $(BZIP2_CFLAGS)
 endif
 
+if USE_LZMA
+libkbdfile_la_SOURCES += kbdfile-lzma.c
+libkbdfile_la_CFLAGS += $(LZMA_CFLAGS)
+endif
+
 KBDFILE_CURRENT  = 1
 KBDFILE_REVISION = 0
 KBDFILE_AGE      = 0

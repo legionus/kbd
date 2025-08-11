@@ -254,6 +254,19 @@ AS_IF([test "x$HAVE_BZIP2" = "xyes"],
 	[AC_DEFINE([HAVE_BZIP2], [1], [support bzip2 compression])])
 AM_CONDITIONAL(USE_BZIP2, test "$HAVE_BZIP2" = "yes")
 
+AC_ARG_WITH([lzma],
+	[AS_HELP_STRING([--with-lzma],
+			[support lzma compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_lzma=yes])])
+
+AS_IF([test "x$with_lzma" != xno],
+	[PKG_CHECK_MODULES(LZMA, liblzma, [HAVE_LZMA=yes], [HAVE_LZMA=no])],
+	[HAVE_LZMA=no])
+AS_IF([test "x$HAVE_LZMA" = "xyes"],
+	[AC_DEFINE([HAVE_LZMA], [1], [support lzma compression])])
+AM_CONDITIONAL(USE_LZMA, test "$HAVE_LZMA" = "yes")
+
 AC_ARG_ENABLE(tests,
 	[AS_HELP_STRING([--disable-tests], [do not build tests])],
 	[build_tests=$enableval], [build_tests=auto])
