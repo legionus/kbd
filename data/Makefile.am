@@ -1,4 +1,5 @@
-EXTRA_DIST = consolefonts consoletrans keymaps partialfonts unimaps
+EXTRA_DIST = consolefonts consoletrans keymaps partialfonts unimaps \
+	     compress.sh
 
 KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
 	i386/fgGIod i386/qwerty i386/qwertz i386/include i386/olpc \
@@ -8,10 +9,34 @@ KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
 COMPRESS = $(COMPRESS_PROG) -f -9
 LOCAL_CLEANUPDIRS =
 
+export COMPRESS
+
 if ENABLE_COMPRESS
 SRC_KEYMAPDIR  = $(KEYMAPDIR)_Z
 SRC_FONTDIR    = $(FONTDIR)_Z
 SRC_PARTIALDIR = $(PARTIALDIR)_Z
+
+all: $(SRC_KEYMAPDIR) $(SRC_FONTDIR) $(SRC_PARTIALDIR)
+
+V_PACK   = $(V_PACK_$(V))
+V_PACK_  = $(V_PACK_$(AM_DEFAULT_VERBOSITY))
+V_PACK_0 = @echo "  PACK    " $@;
+V_PACK_1 =
+
+# compress data files - do not touch the distribution but copy first
+$(SRC_KEYMAPDIR): $(KEYMAPDIR)
+	$(V_PACK)cp -r -- "$<" "$@" && chmod -R u+w -- "$@" && \
+	$(srcdir)/compress.sh "$@"/*/*.map "$@"/*/*/*.map
+
+$(SRC_FONTDIR): $(FONTDIR)
+	$(V_PACK)cp -r -- "$<" "$@" && chmod -R u+w -- "$@" && \
+	$(srcdir)/compress.sh "$@"/*
+
+$(SRC_PARTIALDIR): $(PARTIALDIR)
+	$(V_PACK)cp -r -- "$<" "$@" && chmod -R u+w -- "$@" && \
+	$(srcdir)/compress.sh "$@"/*
+
+# (not yet screenmaps - some other time)
 
 LOCAL_CLEANUPDIRS += $(SRC_KEYMAPDIR) $(SRC_FONTDIR) $(SRC_PARTIALDIR)
 else
@@ -20,24 +45,25 @@ SRC_FONTDIR    = $(FONTDIR)
 SRC_PARTIALDIR = $(PARTIALDIR)
 endif
 
-install-data-hook: $(SRC_KEYMAPDIR) $(SRC_FONTDIR) $(SRC_PARTIALDIR)
-	install -d -m 755 $(DESTDIR)$(datadir)
-	install -d -m 755 $(DESTDIR)$(datadir)/$(FONTDIR)
-	install -m 644 $(SRC_FONTDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)
-	install -d -m 755 $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
-	install -m 644 $(SRC_PARTIALDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
-	install -d -m 755 $(DESTDIR)$(datadir)/$(TRANSDIR)
-	install -m 644 $(srcdir)/$(TRANSDIR)/* $(DESTDIR)$(datadir)/$(TRANSDIR)
-	install -d -m 755 $(DESTDIR)$(datadir)/$(UNIMAPDIR)
-	install -m 644 $(srcdir)/$(UNIMAPDIR)/* $(DESTDIR)$(datadir)/$(UNIMAPDIR)
-	install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)
-	install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)/i386
-	install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)/mac
-	for i in $(KEYMAPSUBDIRS); do \
-		install -d -m 755 $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
-		install -m 644 $(SRC_KEYMAPDIR)/$$i/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/$$i ;\
-	done
-	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc; $(LN_S) mac $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
+install-consolefonts: $(SRC_FONTDIR) $(SRC_PARTIALDIR)
+	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(FONTDIR)
+	cp -a -- $(SRC_FONTDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/
+	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
+	cp -a -- $(SRC_PARTIALDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)/
+
+install-consoletrans:
+	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(TRANSDIR)
+	cp -a -- $(srcdir)/$(TRANSDIR)/* $(DESTDIR)$(datadir)/$(TRANSDIR)/
+
+install-unimaps:
+	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(UNIMAPDIR)
+	cp -a -- $(srcdir)/$(UNIMAPDIR)/* $(DESTDIR)$(datadir)/$(UNIMAPDIR)/
+
+install-keymaps: $(SRC_KEYMAPDIR)
+	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(KEYMAPDIR)
+	cp -ar -- $(SRC_KEYMAPDIR)/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/
+	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
+	$(LN_S) mac $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
 	@if [ -f $(DESTDIR)$(datadir)/$(OLDKEYMAPDIR) ]; then \
 	  echo "Done. You may want to remove old keymaps with" ; \
 	  echo "  rm -rf $(DESTDIR)$(datadir)/$(OLDKEYMAPDIR)" ; \
@@ -45,34 +71,7 @@ install-data-hook: $(SRC_KEYMAPDIR) $(SRC_FONTDIR) $(SRC_PARTIALDIR)
 	  echo "nonstandard, and to adapt any scripts in rc.local or so." ; \
 	fi
 
-# compress data files - do not touch the distribution but copy first
-$(KEYMAPDIR)_Z:
-	cp -r $(srcdir)/$(KEYMAPDIR) $(SRC_KEYMAPDIR)
-	chmod -R u+w $(SRC_KEYMAPDIR)
-	for f in "$(SRC_KEYMAPDIR)"/*/*.map "$(SRC_KEYMAPDIR)"/*/*/*.map; do \
-	  test -L "$$f" && t="`readlink -m $$f`" && rm -f -- "$$f" && \
-	  cp -- "$$t" "$$f" ||:; \
-	done
-	for f in "$(SRC_KEYMAPDIR)"/*/*.map "$(SRC_KEYMAPDIR)"/*/*/*.map; do \
-	  test -f "$$f" && $(COMPRESS) "$$f" && rm -f -- "$$f"; \
-	done
-
-$(FONTDIR)_Z:
-	cp -r "$(srcdir)/$(FONTDIR)" "$(SRC_FONTDIR)"
-	chmod -R u+w $(SRC_FONTDIR)
-	for f in "$(SRC_FONTDIR)"/*; do \
-	  case "$$f" in (*/ERRORS*|*/README*) continue; ;; esac; \
-	  test -f "$$f" && $(COMPRESS) "$$f" && rm -f -- "$$f"; \
-	done
-
-$(PARTIALDIR)_Z:
-	cp -r "$(srcdir)/$(PARTIALDIR)" "$(SRC_PARTIALDIR)"
-	chmod -R u+w $(SRC_PARTIALDIR)
-	for f in "$(SRC_PARTIALDIR)"/*; do \
-	  test -f "$$f" && $(COMPRESS) "$$f" && rm -f -- "$$f"; \
-	done
-
-# (not yet screenmaps - some other time)
+install-data-hook: install-keymaps install-consolefonts install-consoletrans install-unimaps
 
 clean-local:
 	for d in $(LOCAL_CLEANUPDIRS); do \

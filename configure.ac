@@ -7,7 +7,7 @@ AC_PREREQ([2.71])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.9 -Wall -Wno-portability color-tests dist-xz])
+AM_INIT_AUTOMAKE([1.9 -Wall -Wno-portability color-tests tar-pax dist-xz])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_HEADERS(config.h)
@@ -241,6 +241,13 @@ AM_CONDITIONAL(TESTS_MEMCHECK, test "x$VALGRIND_PROG" != "x")
 
 AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
 AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
+
+# Remove -h (dereference) from am__tar
+AC_CONFIG_COMMANDS_PRE([
+	AS_CASE([$am__tar],
+		[*' -chf '*], [AC_SUBST([am__tar], [`AS_ECHO(["$am__tar"]) | $SED 's/ -chf / -cf /'`])],
+		[*' chf '*],  [AC_SUBST([am__tar], [`AS_ECHO(["$am__tar"]) | $SED 's/ chf / cf /'`])])
+])
 
 AC_CONFIG_FILES([Makefile
 		data/Makefile
