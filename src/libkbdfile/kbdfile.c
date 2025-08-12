@@ -218,6 +218,9 @@ open_pathname(struct kbdfile *fp)
 				goto uncompressed;
 			}
 
+			if (getenv("KBDFILE_IGNORE_DECOMP_UTILS") != NULL)
+				return -1;
+
 			return pipe_open(dc, fp);
 		}
 
