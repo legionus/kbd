@@ -28,4 +28,5 @@ noinst_PROGRAMS = \
 	libkbdfile-test12 \
 	libkbdfile-test13 \
 	libkbdfile-test14 \
+	libkbdfile-test15 \
 	$(NULL)

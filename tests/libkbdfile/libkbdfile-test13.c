@@ -20,7 +20,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 
 	int rc = 0;
 
-	rc = kbdfile_find("simple-1.psf.gz", dirpath, suffixes, fp);
+	rc = kbdfile_find("simple-1.psf", dirpath, suffixes, fp);
 
 	if (rc != 0)
 		kbd_error(EXIT_FAILURE, 0, "unable to find file");

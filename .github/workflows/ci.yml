@@ -55,9 +55,6 @@ jobs:
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/data" --enable-memcheck
-    - name: "Check sparse"
-      run: |
-        make check-sparse V=1
     - name: "Clean"
       run: |
         make clean
@@ -87,28 +84,27 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            cc: gcc
+            cflags:
             compiler: gcc
             libc: glibc
             configure:
             check: unittest e2e
           - os: ubuntu-latest
-            cc: clang
+            cflags:
             compiler: clang
             libc: glibc
             configure:
             check: unittest e2e
           - os: ubuntu-latest
-            cc: musl-gcc -static -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
+            cflags: -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
             compiler: gcc
             libc: musl
-            configure: --disable-libkeymap --disable-vlock
+            configure: --host=x86_64-linux-musl --disable-vlock --without-zlib --without-bzip2 --without-lzma --without-zstd
             check: unittest e2e
       fail-fast: false
     runs-on: ${{ matrix.os }}
     needs: [ distcheck_job ]
     env:
-      CC: ${{ matrix.cc }}
       CHECK_KEYWORDS: ${{ matrix.check }}
       SANDBOX: priviliged
       TTY: /dev/tty60
@@ -126,7 +122,7 @@ jobs:
         tests/configure.sh --datadir="$PWD/tests/data" --enable-memcheck ${{ matrix.configure }}
     - name: "Build"
       run: |
-        make V=1 CFLAGS+="-g -O0"
+        make V=1 CFLAGS+="-g -O0 ${{ matrix.cflags }}"
     - name: "Check"
       run: |
         sudo -E tests/check.sh

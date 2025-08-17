@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
@@ -16,14 +17,17 @@
 #include "contextP.h"
 
 static struct decompressor {
+	unsigned char magic[2];
+	FILE *(*decompressor)(struct kbdfile *fp);
 	const char *ext; /* starts with `.', has no other dots */
 	const char *cmd;
 } decompressors[] = {
-	{ ".gz",  "gzip -d -c"    },
-	{ ".bz2", "bzip2 -d -c"   },
-	{ ".xz",  "xz -d -c"      },
-	{ ".zst", "zstd -d -q -c" },
-	{ NULL, NULL }
+	{ { 0x1f, 0x8b }, kbdfile_decompressor_zlib,  ".gz",  "gzip -d -c"    },
+	{ { 0x1f, 0x9e }, kbdfile_decompressor_zlib,  ".gz",  "gzip -d -c"    },
+	{ { 0x42, 0x5a }, kbdfile_decompressor_bzip2, ".bz2", "bzip2 -d -c"   },
+	{ { 0xfd, 0x37 }, kbdfile_decompressor_lzma,  ".xz",  "xz -d -c"      },
+	{ { 0x28, 0xb5 }, kbdfile_decompressor_zstd,  ".zst", "zstd -d -q -c" },
+	{ { 0, 0 }, NULL, NULL, NULL }
 };
 
 struct kbdfile *
@@ -74,6 +78,29 @@ kbdfile_set_pathname(struct kbdfile *fp, const char *pathname)
 	return 0;
 }
 
+static int KBD_ATTR_PRINTF(2, 3)
+kbdfile_pathname_sprintf(struct kbdfile *fp, const char *fmt, ...)
+{
+	ssize_t size;
+	va_list ap;
+
+	if (fp == NULL || fmt == NULL)
+		return -1;
+
+	va_start(ap, fmt);
+	size = vsnprintf(NULL, 0, fmt, ap);
+	va_end(ap);
+
+	if (size < 0 || (size_t) size >= sizeof(fp->pathname))
+		return -1;
+
+	va_start(ap, fmt);
+	vsnprintf(fp->pathname, sizeof(fp->pathname), fmt, ap);
+	va_end(ap);
+
+	return 0;
+}
+
 FILE *
 kbdfile_get_file(struct kbdfile *fp)
 {
@@ -102,7 +129,7 @@ kbdfile_close(struct kbdfile *fp)
 	fp->pathname[0] = '\0';
 }
 
-static char *
+char *
 kbd_strerror(int errnum, char *buf, size_t buflen)
 {
 	*buf = '\0';
@@ -131,7 +158,7 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 	sprintf(pipe_cmd, "%s %s", dc->cmd, fp->pathname);
 
 	fp->fd = popen(pipe_cmd, "r");
-	fp->flags |= KBDFILE_PIPE;
+	fp->flags |= KBDFILE_PIPE | KBDFILE_COMPRESSED;
 
 	if (!(fp->fd)) {
 		char buf[200];
@@ -144,78 +171,130 @@ pipe_open(const struct decompressor *dc, struct kbdfile *fp)
 	return 0;
 }
 
-/* If a file PATHNAME exists, then open it.
-   If is has a `compressed' extension, then open a pipe reading it */
 static int
-maybe_pipe_open(struct kbdfile *fp)
+open_pathname(struct kbdfile *fp)
 {
-	char *t;
+	FILE *f;
+	char buf[200];
+	unsigned char magic[2];
 	struct stat st;
-	struct decompressor *dc;
 
-	if (stat(fp->pathname, &st) == -1 || !S_ISREG(st.st_mode) || access(fp->pathname, R_OK) == -1)
+	if (!fp || stat(fp->pathname, &st) < 0 || !S_ISREG(st.st_mode))
 		return -1;
 
-	t = strrchr(fp->pathname, '.');
-	if (t) {
-		for (dc = &decompressors[0]; dc->cmd; dc++) {
-			if (strcmp(t, dc->ext) == 0)
-				return pipe_open(dc, fp);
-		}
-	}
+	errno = 0;
+	f = fopen(fp->pathname, "r");
 
-	fp->flags &= ~KBDFILE_PIPE;
-
-	if ((fp->fd = fopen(fp->pathname, "r")) == NULL) {
-		char buf[200];
+	if (!f) {
 		ERR(fp->ctx, "fopen: %s: %s", fp->pathname, kbd_strerror(errno, buf, sizeof(buf)));
 		return -1;
 	}
 
+	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
+
+	if ((size_t) st.st_size > sizeof(magic)) {
+		struct decompressor *dc;
+
+		errno = 0;
+
+		if (fread(magic, sizeof(magic), 1, f) != 1) {
+			ERR(fp->ctx, "fread: %s: %s", fp->pathname, kbd_strerror(errno, buf, sizeof(buf)));
+			fclose(f);
+			return -1;
+		}
+
+		/*
+		 * We ignore the suffix and use archive magics to avoid problems
+		 * with incorrect file naming.
+		 */
+		for (dc = &decompressors[0]; dc->cmd; dc++) {
+			if (memcmp(magic, dc->magic, sizeof(magic)) != 0)
+				continue;
+			fclose(f);
+
+			if (dc->decompressor && (f = dc->decompressor(fp)) != NULL) {
+				fp->flags |= KBDFILE_COMPRESSED;
+				goto uncompressed;
+			}
+
+			if (getenv("KBDFILE_IGNORE_DECOMP_UTILS") != NULL)
+				return -1;
+
+			return pipe_open(dc, fp);
+		}
+
+		rewind(f);
+	}
+
+uncompressed:
+	fp->fd = f;
+
 	return 0;
+}
+
+/*
+ * If a file PATHNAME exists, then open it.
+ * If is has a `compressed' extension, then open a pipe reading it.
+ */
+static int
+maybe_pipe_open(struct kbdfile *fp)
+{
+	size_t len;
+	struct decompressor *dc;
+
+	if (!fp)
+		return -1;
+
+	if (!open_pathname(fp))
+		return 0;
+
+	len = strlen(fp->pathname);
+
+	/*
+	 * We no longer rely on suffixes to select a decompressor, but we still
+	 * need to check the suffix for backward compatibility.
+	 */
+	for (dc = &decompressors[0]; dc->cmd; dc++) {
+		if (len + strlen(dc->ext) >= sizeof(fp->pathname))
+			continue;
+
+		fp->pathname[len] = '\0';
+		strcat(fp->pathname, dc->ext);
+
+		if (!open_pathname(fp))
+			return 0;
+	}
+
+	fp->pathname[len] = '\0';
+
+	return -1;
 }
 
 static int
 findfile_by_fullname(const char *fnam, const char *const *suffixes, struct kbdfile *fp)
 {
 	int i;
-	struct stat st;
-	struct decompressor *dc;
-	size_t fnam_len, sp_len;
 
 	fp->flags &= ~KBDFILE_PIPE;
-	fnam_len = strlen(fnam);
+	fp->flags &= ~KBDFILE_COMPRESSED;
 
 	for (i = 0; suffixes[i]; i++) {
 		if (suffixes[i] == NULL)
 			continue; /* we tried it already */
 
-		sp_len = strlen(suffixes[i]);
-
-		if (fnam_len + sp_len + 1 > sizeof(fp->pathname))
+		if (kbdfile_pathname_sprintf(fp, "%s%s", fnam, suffixes[i]) < 0)
 			continue;
 
-		snprintf(fp->pathname, sizeof(fp->pathname), "%s%s", fnam, suffixes[i]);
-
-		if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && (fp->fd = fopen(fp->pathname, "r")) != NULL)
+		if (!maybe_pipe_open(fp))
 			return 0;
-
-		for (dc = &decompressors[0]; dc->cmd; dc++) {
-			if (fnam_len + sp_len + strlen(dc->ext) + 1 > sizeof(fp->pathname))
-				continue;
-
-			snprintf(fp->pathname, sizeof(fp->pathname), "%s%s%s", fnam, suffixes[i], dc->ext);
-
-			if (stat(fp->pathname, &st) == 0 && S_ISREG(st.st_mode) && access(fp->pathname, R_OK) == 0)
-				return pipe_open(dc, fp);
-		}
 	}
 
 	return -1;
 }
 
 static int
-filecmp(const char *fname, const char *name, const char *const *suf, unsigned int *index, struct decompressor **d)
+filecmp(const char *fname, const char *name, const char *const *suf, unsigned int *index)
 {
 	/* Does d_name start right? */
 	const char *p = name;
@@ -232,7 +311,6 @@ filecmp(const char *fname, const char *name, const char *const *suf, unsigned in
 		if (!strcmp(p, suf[i])) {
 			if (i < *index) {
 				*index = i;
-				*d = NULL;
 			}
 			return 0;
 		}
@@ -246,7 +324,6 @@ filecmp(const char *fname, const char *name, const char *const *suf, unsigned in
 			if (!strcmp(p + l, dc->ext)) {
 				if (i < *index) {
 					*index = i;
-					*d = dc;
 				}
 				return 0;
 			}
@@ -266,6 +343,7 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 
 	fp->fd = NULL;
 	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
 
 	dir_len = strlen(dir);
 
@@ -291,7 +369,6 @@ findfile_in_dir(const char *fnam, const char *dir, const int recdepth, const cha
 		goto EndScan;
 	}
 
-	struct decompressor *dc = NULL;
 	unsigned int index = UINT_MAX;
 
 	// Scan the directory twice: first for files, then
@@ -343,33 +420,33 @@ StartScan:
 		if (secondpass || ff)
 			continue;
 
-		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s", dir, namelist[n]->d_name);
+		if (kbdfile_pathname_sprintf(fp, "%s/%s", dir, namelist[n]->d_name) < 0)
+			continue;
 
 		if (stat(fp->pathname, &st) || !S_ISREG(st.st_mode))
 			continue;
 
-		if (!filecmp(fnam, namelist[n]->d_name, suf, &index, &dc)) {
+		if (!filecmp(fnam, namelist[n]->d_name, suf, &index)) {
+			/*
+			 * We cannot immediately try to open the file because
+			 * the suffixes are specified in order of priority. We
+			 * need to find the lowest index.
+			 */
 			rc = 0;
 		}
 	}
 
-	if (!secondpass && index != UINT_MAX) {
-		snprintf(fp->pathname, sizeof(fp->pathname), "%s/%s%s%s", dir, fnam, suf[index], (dc ? dc->ext : ""));
-
-		if (!dc) {
-			rc = maybe_pipe_open(fp);
+	if (!secondpass) {
+		if (index != UINT_MAX) {
+			rc = rc ?: kbdfile_pathname_sprintf(fp, "%s/%s%s", dir, fnam, suf[index]);
+			rc = rc ?: maybe_pipe_open(fp);
 			goto EndScan;
 		}
 
-		if (pipe_open(dc, fp) < 0) {
-			rc = -1;
-			goto EndScan;
+		if (recdepth > 0) {
+			secondpass = 1;
+			goto StartScan;
 		}
-	}
-
-	if (recdepth > 0 && !secondpass) {
-		secondpass = 1;
-		goto StartScan;
 	}
 
 EndScan:
@@ -396,9 +473,10 @@ kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *su
 	}
 
 	fp->flags &= ~KBDFILE_PIPE;
+	fp->flags &= ~KBDFILE_COMPRESSED;
 
 	/* Try explicitly given name first */
-	strncpy(fp->pathname, fnam, sizeof(fp->pathname) - 1);
+	kbdfile_set_pathname(fp, fnam);
 
 	if (!maybe_pipe_open(fp))
 		return 0;
@@ -466,5 +544,5 @@ kbdfile_open(struct kbdfile_ctx *ctx, const char *filename)
 int
 kbdfile_is_compressed(struct kbdfile *fp)
 {
-	return (fp->flags & KBDFILE_PIPE);
+	return (fp->flags & KBDFILE_COMPRESSED);
 }

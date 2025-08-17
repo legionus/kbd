@@ -33,6 +33,7 @@ struct kbdfile {
 
 #define KBDFILE_CTX_INITIALIZED 0x01
 #define KBDFILE_PIPE            0x02
+#define KBDFILE_COMPRESSED      0x04
 
 #define kbdfile_log_cond(ctx, level, arg...)                                          \
 	do {                                                                     \
@@ -67,5 +68,37 @@ struct kbdfile {
  * @param arg is output message.
  */
 #define ERR(ctx, arg...) kbdfile_log_cond(ctx, LOG_ERR, ##arg)
+
+char *kbd_strerror(int errnum, char *buf, size_t buflen);
+
+static inline FILE *kbdfile_decompressor_dummy(struct kbdfile *file KBD_ATTR_UNUSED)
+{
+	return NULL;
+}
+
+#define kbdfile_decompressor_zlib	kbdfile_decompressor_dummy
+#define kbdfile_decompressor_bzip2	kbdfile_decompressor_dummy
+#define kbdfile_decompressor_lzma	kbdfile_decompressor_dummy
+#define kbdfile_decompressor_zstd	kbdfile_decompressor_dummy
+
+#ifdef HAVE_ZLIB
+#undef kbdfile_decompressor_zlib
+FILE  *kbdfile_decompressor_zlib(struct kbdfile *file) KBD_ATTR_MUST_CHECK;
+#endif
+
+#ifdef HAVE_BZIP2
+#undef kbdfile_decompressor_bzip2
+FILE  *kbdfile_decompressor_bzip2(struct kbdfile *file) KBD_ATTR_MUST_CHECK;
+#endif
+
+#ifdef HAVE_LZMA
+#undef kbdfile_decompressor_lzma
+FILE  *kbdfile_decompressor_lzma(struct kbdfile *file) KBD_ATTR_MUST_CHECK;
+#endif
+
+#ifdef HAVE_ZSTD
+#undef kbdfile_decompressor_zstd
+FILE  *kbdfile_decompressor_zstd(struct kbdfile *file) KBD_ATTR_MUST_CHECK;
+#endif
 
 #endif /* KBDFILE_CONTEXTP_H */

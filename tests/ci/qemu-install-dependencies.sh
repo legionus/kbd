@@ -40,4 +40,5 @@ message "system info"
 apt_get_install \
 	autoconf automake autopoint libtool libtool-bin pkg-config \
 	make bison flex gettext kbd strace valgrind libpam0g-dev \
+	libz-dev libbz2-dev liblzma-dev libzstd-dev \
 	gcc

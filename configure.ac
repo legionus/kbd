@@ -220,6 +220,66 @@ if test "$VLOCK_PROG" = "yes"; then
 	fi
 fi
 
+AC_ARG_WITH([zlib],
+	[AS_HELP_STRING([--with-zlib],
+			[support zlib compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_zlib=yes])])
+
+AS_IF([test "x$with_zlib" != xno],
+	[PKG_CHECK_MODULES(ZLIB, zlib, [HAVE_ZLIB=yes], [HAVE_ZLIB=no])],
+	[HAVE_ZLIB=no])
+AS_IF([test "x$HAVE_ZLIB" = "xyes"],
+	[AC_DEFINE([HAVE_ZLIB], [1], [support zlib compression])])
+AM_CONDITIONAL(USE_ZLIB, test "x$HAVE_ZLIB" = "xyes")
+
+AC_ARG_WITH([bzip2],
+	[AS_HELP_STRING([--with-bzip2],
+			[support bzip2 compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_bzip2=yes])])
+
+AS_IF([test "x$with_bzip2" != xno],
+	[PKG_CHECK_MODULES(BZIP2, bzip2, [HAVE_BZIP2=yes], [HAVE_BZIP2=no])],
+	[HAVE_BZIP2=no])
+
+if test "x$HAVE_BZIP2" = xno; then
+	AC_CHECK_LIB(bz2, BZ2_bzDecompressInit, [
+		HAVE_BZIP2=yes
+		BZIP2_LIBS=-lbz2
+		BZIP2_CFLAGS=''
+	], [HAVE_BZIP2=no])
+fi
+AS_IF([test "x$HAVE_BZIP2" = "xyes"],
+	[AC_DEFINE([HAVE_BZIP2], [1], [support bzip2 compression])])
+AM_CONDITIONAL(USE_BZIP2, test "$HAVE_BZIP2" = "yes")
+
+AC_ARG_WITH([lzma],
+	[AS_HELP_STRING([--with-lzma],
+			[support lzma compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_lzma=yes])])
+
+AS_IF([test "x$with_lzma" != xno],
+	[PKG_CHECK_MODULES(LZMA, liblzma, [HAVE_LZMA=yes], [HAVE_LZMA=no])],
+	[HAVE_LZMA=no])
+AS_IF([test "x$HAVE_LZMA" = "xyes"],
+	[AC_DEFINE([HAVE_LZMA], [1], [support lzma compression])])
+AM_CONDITIONAL(USE_LZMA, test "$HAVE_LZMA" = "yes")
+
+AC_ARG_WITH([zstd],
+	[AS_HELP_STRING([--with-zstd],
+			[support zstd compression @<:@default=auto@:>@])],
+	[],
+	[: m4_divert_text([DEFAULTS], [with_zstd=yes])])
+
+AS_IF([test "x$with_zstd" != xno],
+	[PKG_CHECK_MODULES(ZSTD, libzstd, [HAVE_ZSTD=yes], [HAVE_ZSTD=no])],
+	[HAVE_ZSTD=no])
+AS_IF([test "x$HAVE_ZSTD" = "xyes"],
+	[AC_DEFINE([HAVE_ZSTD], [1], [support zstd compression])])
+AM_CONDITIONAL(USE_ZSTD, test "$HAVE_ZSTD" = "yes")
+
 AC_ARG_ENABLE(tests,
 	[AS_HELP_STRING([--disable-tests], [do not build tests])],
 	[build_tests=$enableval], [build_tests=auto])
