@@ -1,10 +1,7 @@
 EXTRA_DIST = consolefonts consoletrans keymaps partialfonts unimaps \
 	     compress.sh
 
-KEYMAPSUBDIRS = include sun amiga atari i386/azerty i386/bepo i386/dvorak \
-	i386/fgGIod i386/qwerty i386/qwertz i386/include i386/olpc \
-	i386/colemak i386/carpalx i386/neo mac/include mac/all \
-	pine
+IGNORE_KEYMAPS = i386/mk_modmap README */README */*/README
 
 COMPRESS = $(COMPRESS_PROG) -f -9
 LOCAL_CLEANUPDIRS =
@@ -62,6 +59,8 @@ install-unimaps:
 install-keymaps: $(SRC_KEYMAPDIR)
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(KEYMAPDIR)
 	cp -ar -- $(SRC_KEYMAPDIR)/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/
+	cd "$(DESTDIR)$(datadir)/$(KEYMAPDIR)"; \
+	  for f in $(IGNORE_KEYMAPS); do ! test -e "$$f" || rm -f -- "$$f"; done
 	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
 	$(LN_S) mac $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
 	@if [ -f $(DESTDIR)$(datadir)/$(OLDKEYMAPDIR) ]; then \
