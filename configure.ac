@@ -31,8 +31,8 @@ AC_PROG_MAKE_SET
 AC_CANONICAL_HOST
 
 AC_PROG_LEX([noyywrap])
-AS_IF([test "x$LEX" != xflex],
-      [AC_MSG_ERROR([kbd depends on flex features, but found '$LEX'.])])
+AS_IF([test "x$LEX" != "x:" -a "x$LEX" != "xflex"],
+      [AC_MSG_WARN([kbd depends on flex features, but found '$LEX'.])])
 
 AX_CHECK_COMPILE_FLAG([-std=gnu11],[CFLAGS="$CFLAGS -std=gnu11"])
 
