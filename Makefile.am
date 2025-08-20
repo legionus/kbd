@@ -5,12 +5,18 @@ CODE_COVERAGE_GENHTML_OPTIONS  = --ignore-errors range,range
 
 include $(top_srcdir)/aminclude_static.am
 
-AM_DISTCHECK_CONFIGURE_FLAGS = \
+KBD_DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-code-coverage \
 	--enable-libkeymap \
 	--enable-libkfont \
 	--enable-optional-progs \
 	${DISTCHECK_CONFIGURE_EXTRA_FLAGS}
+
+if CODE_COVERAGE_ENABLED
+AM_DISTCHECK_CONFIGURE_FLAGS += $(KBD_DISTCHECK_CONFIGURE_FLAGS)
+else
+AM_DISTCHECK_CONFIGURE_FLAGS = $(KBD_DISTCHECK_CONFIGURE_FLAGS)
+endif
 
 ACLOCAL_AMFLAGS = -I m4
 
