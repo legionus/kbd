@@ -69,4 +69,4 @@
  */
 #define KBD_ATTR_MUST_CHECK			__attribute__((__warn_unused_result__))
 
-#endif /* _KBD _COMMON_COMPILER_ATTRIBUTES_H_ */
+#endif /* _KBD_COMMON_COMPILER_ATTRIBUTES_H_ */

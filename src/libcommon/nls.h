@@ -1,5 +1,5 @@
-#ifndef KBD_NLS_H
-#define KBD_NLS_H
+#ifndef _KBD_NLS_H_
+#define _KBD_NLS_H_
 
 #ifndef LOCALEDIR
 #define LOCALEDIR "/usr/share/locale"
@@ -50,4 +50,4 @@
 	textdomain(PACKAGE); \
 } while (0)
 
-#endif /* KBD_NLS_H */
+#endif /* _KBD_NLS_H_ */

@@ -1,10 +1,80 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# clang-format configuration file. Intended for clang-format >= 17.
+#
+# For more information, see:
+#
+#   Documentation/dev-tools/clang-format.rst
+#   https://clang.llvm.org/docs/ClangFormat.html
+#   https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+#
+---
 BasedOnStyle: LLVM
-IndentWidth: 8
+
+AlignArrayOfStructures: Left
+AlignConsecutiveDeclarations: false
+AlignEscapedNewlines: Left
+AllowAllParametersOfDeclarationOnNextLine: false
+AlwaysBreakTemplateDeclarations: false
+BinPackArguments: true
+BinPackParameters: BinPack
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: true
+  AfterObjCDeclaration: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BracedInitializerIndentWidth: 8
+BreakBeforeBraces: Custom
 ColumnLimit: 0
-UseTab: ForIndentation
-BreakBeforeBraces: Linux
-AllowShortIfStatementsOnASingleLine: false
-IndentCaseLabels: true
-AlignConsecutiveAssignments: true
+ConstructorInitializerIndentWidth: 8
+ContinuationIndentWidth: 8
 Cpp11BracedListStyle: false
+IndentCaseLabels: true
+IndentGotoLabels: false
+IndentPPDirectives: None
+IndentWidth: 8
+IndentWrappedFunctionNames: false
+MaxEmptyLinesToKeep: 1
+PointerAlignment: Right
+QualifierAlignment: Left
+ReflowComments: IndentOnly
 SortIncludes: false
+SpaceAfterCStyleCast: true
+SpaceBeforeAssignmentOperators: true
+TabWidth: 8
+UseTab: ForContinuationAndIndentation
+
+# Taken from git's rules
+PenaltyBreakAssignment: 10
+PenaltyBreakBeforeFirstCallParameter: 30
+PenaltyBreakComment: 10
+PenaltyBreakFirstLessLess: 0
+PenaltyBreakString: 10
+PenaltyExcessCharacter: 100
+PenaltyReturnTypeOnItsOwnLine: 60
+
+# Taken from:
+#  git grep --no-line-number -h '^#define[[:space:]]+KBD_[^[:space:]]*' \
+#    | sed -r -e "s,^#define[[:space:]]+(KBD_[^[:space:](]*)[[:space:]]*.*$,  - '\1'," \
+#    | LC_ALL=C sort -u
+AttributeMacros:
+  - 'KBD_ATTR_MUST_CHECK'
+  - 'KBD_ATTR_NONNULL'
+  - 'KBD_ATTR_NORETURN'
+  - 'KBD_ATTR_PRINTF'
+  - 'KBD_ATTR_SCANF'
+  - 'KBD_ATTR_UNUSED'
+  - 'KBD_ATTR_USED'
+  - 'KBD_TEXTDOMAIN_EXPLICIT'
+...
