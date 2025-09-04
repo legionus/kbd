@@ -4,7 +4,7 @@
 #
 AC_PREREQ([2.71])
 
-AC_INIT([kbd],[2.8.0],[gladkov.alexey@gmail.com],[kbd],[https://kbd-project.org/])
+AC_INIT([kbd],[2.9.0],[gladkov.alexey@gmail.com],[kbd],[https://kbd-project.org/])
 
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])

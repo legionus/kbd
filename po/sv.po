@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2025-05-29 12:43+0200\n"
+"POT-Creation-Date: 2025-09-04 11:19+0200\n"
 "PO-Revision-Date: 2024-10-30 22:24+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -29,7 +29,7 @@ msgstr "Användning: %s [flagga…] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
 #: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
-#: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
+#: src/loadkeys.c:103 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
 #: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
@@ -37,7 +37,7 @@ msgstr "konsolenheten att använda."
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:116 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
 #: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
 #: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
@@ -47,7 +47,7 @@ msgstr "skriv ut detta användningsmeddelande."
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:115 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
 #: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
 #: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
@@ -61,7 +61,7 @@ msgstr "Inte tillräckligt med argument."
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:200
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
 #: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
@@ -124,7 +124,7 @@ msgstr "Användning: %s [flagga…]\n"
 msgid "Available charsets: "
 msgstr "Tillgängliga teckenuppsättningar: "
 
-#: src/dumpkeys.c:39
+#: src/dumpkeys.c:39 src/loadkeys.c:50
 #, c-format
 msgid ""
 "Available shapes:\n"
@@ -177,7 +177,7 @@ msgid ""
 msgstr ""
 "tolka teckenåtgärdsskoder som om de är från den angivna teckenuppsättningen."
 
-#: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
+#: src/dumpkeys.c:99 src/loadkeys.c:114 src/mapscrn.c:55 src/openvt.c:266
 #: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "var mer utförlig."
@@ -188,7 +188,7 @@ msgid "unknown charset %s - ignoring charset request\n"
 msgstr "okänd teckenuppsättning %s - ignorerar begäran om teckenuppsättning\n"
 
 #: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
-#: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
+#: src/loadkeys.c:204 src/showconsolefont.c:176 src/showkey.c:33
 msgid "Unable to read keyboard mode"
 msgstr "Kan inte läsa av tangentbordsläget"
 
@@ -265,7 +265,7 @@ msgstr ""
 "Verktyget gör att man kan läsa och styra olika parametrar\n"
 "för tangentbordet och den virtuella konsolen.\n"
 
-#: src/kbdinfo.c:104 src/loadkeys.c:189
+#: src/kbdinfo.c:104 src/loadkeys.c:206
 msgid "Unable to read console mode"
 msgstr "Kan inte läsa av konsolläget"
 
@@ -400,7 +400,7 @@ msgstr ""
 msgid "do not set new values, but only display the current ones."
 msgstr "ställ inte in nya värden, visa bara de nuvarande."
 
-#: src/kbdrate.c:352 src/loadkeys.c:103
+#: src/kbdrate.c:352 src/loadkeys.c:112
 msgid "suppress all normal output."
 msgstr "undertryck all normal utskrift."
 
@@ -502,7 +502,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "Fel vid skrivning av avbildningen till en fil"
 
-#: src/libkeymap/dump.c:548
+#: src/libkeymap/dump.c:546
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "omöjligt: inte meta?\n"
@@ -562,8 +562,8 @@ msgid "lk_add_key called with bad keycode %d"
 msgstr "lk_add_key anropad med felaktig tangentkod %d"
 
 #: src/libkeymap/kmap.c:131
-#, c-format
-msgid "adding map %d violates explicit keymaps line"
+#, fuzzy, c-format
+msgid "adding map %d for key %d violates explicit keymaps line"
 msgstr "att lägga till avbildning %d bryter mot explicit keymaps-rad"
 
 #: src/libkeymap/kmap.c:147
@@ -851,7 +851,7 @@ msgstr[0] "# %d post"
 msgstr[1] "# %d poster"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
-#: src/libkfont/mapscrn.c:230 src/loadkeys.c:256 src/openvt.c:413
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:273 src/openvt.c:413
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
@@ -868,7 +868,7 @@ msgid "Appended Unicode map"
 msgstr "Lade till Unicode-avbildningen"
 
 #: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
-#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
+#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:241
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Kan inte hitta filen: %s"
@@ -1117,48 +1117,53 @@ msgstr "Användning: %s [flagga …] [avbildningsfil …]\n"
 msgid "Default keymap: %s\n"
 msgstr "Standardtangentavbildning: %s\n"
 
-#: src/loadkeys.c:95
+#: src/loadkeys.c:104
 msgid "force conversion to ASCII."
 msgstr "framtvinga konvertering till ASCII."
 
-#: src/loadkeys.c:96
+#: src/loadkeys.c:105
 msgid "output a binary keymap to stdout."
 msgstr "skriv ut en binär teckenavbildning till standard ut."
 
-#: src/loadkeys.c:97
+#: src/loadkeys.c:106
 msgid "clear kernel compose table."
 msgstr "töm kärnans kompositionstabell."
 
-#: src/loadkeys.c:98
+#: src/loadkeys.c:107
 msgid "load default."
 msgstr "ladda standardvärden."
 
-#: src/loadkeys.c:99
+#: src/loadkeys.c:108
 msgid "output a 'defkeymap.c' to stdout."
 msgstr "mata ut en ”defkeymap.c” till standard ut."
 
-#: src/loadkeys.c:100
+#: src/loadkeys.c:109
 msgid "search and parse keymap without action."
 msgstr "sök och tolka en tangentavbildning utan åtgärd."
 
-#: src/loadkeys.c:101
+#: src/loadkeys.c:110
 msgid "clear kernel string table."
 msgstr "töm kärnans strängtabell."
 
-#: src/loadkeys.c:102
+#: src/loadkeys.c:111
 msgid "force conversion to Unicode."
 msgstr "framtvinga konvertering till Unicode."
 
-#: src/loadkeys.c:125
+#: src/loadkeys.c:113
+#, fuzzy
+msgid "output a text keymap to stdout."
+msgstr "skriv ut en binär teckenavbildning till standard ut."
+
+#: src/loadkeys.c:136
 msgid "Unable to create kbdfile context"
 msgstr "Det går inte att skapa en kbdfile-kontext"
 
-#: src/loadkeys.c:177
+#: src/loadkeys.c:194
 #, c-format
 msgid "Options %s and %s are mutually exclusive."
 msgstr "Flaggorna %s och %s är ömsesidigt uteslutande."
 
-#: src/loadkeys.c:194
+#: src/loadkeys.c:211
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
@@ -1166,7 +1171,7 @@ msgstr ""
 "Varning: läser in en icke-Unicode-tangentavbildning på en Unicode-konsol\n"
 "    (kanske du vill göra ”kbd_mode -a”?)"
 
-#: src/loadkeys.c:205
+#: src/loadkeys.c:222
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
@@ -1174,7 +1179,7 @@ msgstr ""
 "Varning: läser in en Unicode-tangentavbildning på en icke-Unicode-konsol\n"
 "    (kanske du vill göra ”kbd_mode -u”?)"
 
-#: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
+#: src/loadkeys.c:237 src/loadkeys.c:251 src/loadkeys.c:265
 #, c-format
 msgid "Unable to create kbdfile instance: %m"
 msgstr "Det gick inte att skapa en instans av kbdfile: %m"

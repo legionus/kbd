@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.7-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2025-05-29 12:43+0200\n"
+"POT-Creation-Date: 2025-09-04 11:19+0200\n"
 "PO-Revision-Date: 2024-10-29 14:30+0100\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
@@ -45,7 +45,7 @@ msgstr "Utilizare: %s [opțiune...] N\n"
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
 #: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
-#: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
+#: src/loadkeys.c:103 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
 #: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
@@ -53,7 +53,7 @@ msgstr "dispozitivul consolă care urmează să fie utilizat."
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:116 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
 #: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
 #: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
@@ -63,7 +63,7 @@ msgstr "imprimă acest mesaj de utilizare."
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:115 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
 #: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
 #: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
@@ -77,7 +77,7 @@ msgstr "Nu sunt suficiente argumente."
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:200
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
 #: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
@@ -149,7 +149,7 @@ msgstr "Utilizare: %s [opțiune...]\n"
 msgid "Available charsets: "
 msgstr "Seturi de caractere disponibile: "
 
-#: src/dumpkeys.c:39
+#: src/dumpkeys.c:39 src/loadkeys.c:50
 #, c-format
 msgid ""
 "Available shapes:\n"
@@ -229,7 +229,7 @@ msgstr ""
 "interpretează codurile de acțiuni ale caracterelor ca\n"
 "                           fiind din setul de caractere specificat."
 
-#: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
+#: src/dumpkeys.c:99 src/loadkeys.c:114 src/mapscrn.c:55 src/openvt.c:266
 #: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "oferă mai multe detalii."
@@ -241,7 +241,7 @@ msgstr ""
 "set de caractere %s necunoscut - se ignoră cererea de set de caractere\n"
 
 #: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
-#: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
+#: src/loadkeys.c:204 src/showconsolefont.c:176 src/showkey.c:33
 msgid "Unable to read keyboard mode"
 msgstr "Nu se poate citi modul de tastatură"
 
@@ -317,7 +317,7 @@ msgstr ""
 "Instrumentul permite citirea și verificarea diverșilor parametri\n"
 "ai tastaturii și consolei virtuale. \n"
 
-#: src/kbdinfo.c:104 src/loadkeys.c:189
+#: src/kbdinfo.c:104 src/loadkeys.c:206
 msgid "Unable to read console mode"
 msgstr "Nu se poate citi modul consolă"
 
@@ -463,7 +463,7 @@ msgstr ""
 msgid "do not set new values, but only display the current ones."
 msgstr "nu stabilește valori noi, ci doar afișează pe cele actuale."
 
-#: src/kbdrate.c:352 src/loadkeys.c:103
+#: src/kbdrate.c:352 src/loadkeys.c:112
 msgid "suppress all normal output."
 msgstr "suprimă toate ieșirile normale."
 
@@ -575,7 +575,7 @@ msgstr ""
 msgid "Error writing map to file"
 msgstr "Eroare la scrierea schemei în fișier"
 
-#: src/libkeymap/dump.c:548
+#: src/libkeymap/dump.c:546
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "imposibil: non meta?\n"
@@ -639,8 +639,8 @@ msgid "lk_add_key called with bad keycode %d"
 msgstr "lk_add_key a fost apelat cu codul de tastă greșit %d"
 
 #: src/libkeymap/kmap.c:131
-#, c-format
-msgid "adding map %d violates explicit keymaps line"
+#, fuzzy, c-format
+msgid "adding map %d for key %d violates explicit keymaps line"
 msgstr "adăugarea hărții %d, încalcă linia explicită a hărților de taste"
 
 #: src/libkeymap/kmap.c:147
@@ -951,7 +951,7 @@ msgstr[2] "# %d intrări"
 msgstr[3] "# %d de intrări"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
-#: src/libkfont/mapscrn.c:230 src/loadkeys.c:256 src/openvt.c:413
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:273 src/openvt.c:413
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
@@ -968,7 +968,7 @@ msgid "Appended Unicode map"
 msgstr "S-a adăugat harta de caractere unicode"
 
 #: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
-#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
+#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:241
 #, c-format
 msgid "Unable to find file: %s"
 msgstr "Nu se poate găsi fișierul: %s"
@@ -1221,43 +1221,48 @@ msgstr "Utilizare: %s [opțiune...] [fișier-hartă]\n"
 msgid "Default keymap: %s\n"
 msgstr "Schema de tastatură implicită: %s\n"
 
-#: src/loadkeys.c:95
+#: src/loadkeys.c:104
 msgid "force conversion to ASCII."
 msgstr "conversie forțată la ASCII."
 
-#: src/loadkeys.c:96
+#: src/loadkeys.c:105
 msgid "output a binary keymap to stdout."
 msgstr "afișează o schemă binară de taste la ieșirea standard."
 
-#: src/loadkeys.c:97
+#: src/loadkeys.c:106
 msgid "clear kernel compose table."
 msgstr "șterge tabelul de compoziție al nucleului."
 
-#: src/loadkeys.c:98
+#: src/loadkeys.c:107
 msgid "load default."
 msgstr "încarcă valorile implicite."
 
-#: src/loadkeys.c:99
+#: src/loadkeys.c:108
 msgid "output a 'defkeymap.c' to stdout."
 msgstr "afișează un „defkeymap.c” la ieșirea standard."
 
-#: src/loadkeys.c:100
+#: src/loadkeys.c:109
 msgid "search and parse keymap without action."
 msgstr "caută și analizează harta tastelor fără alte acțiuni suplimentare."
 
-#: src/loadkeys.c:101
+#: src/loadkeys.c:110
 msgid "clear kernel string table."
 msgstr "șterge tabelul de șiruri de nucleu."
 
-#: src/loadkeys.c:102
+#: src/loadkeys.c:111
 msgid "force conversion to Unicode."
 msgstr "conversie forțată la Unicode."
 
-#: src/loadkeys.c:125
+#: src/loadkeys.c:113
+#, fuzzy
+msgid "output a text keymap to stdout."
+msgstr "afișează o schemă binară de taste la ieșirea standard."
+
+#: src/loadkeys.c:136
 msgid "Unable to create kbdfile context"
 msgstr "Nu se poate crea contextul kbdfile"
 
-#: src/loadkeys.c:177
+#: src/loadkeys.c:194
 #, c-format
 msgid "Options %s and %s are mutually exclusive."
 msgstr "Opțiunile %s și %s se exclud reciproc."
@@ -1268,7 +1273,7 @@ msgstr "Opțiunile %s și %s se exclud reciproc."
 # ***
 # corecție aplicată; traducerea inițială:
 # „... să faceți ...?”
-#: src/loadkeys.c:194
+#: src/loadkeys.c:211
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
 "    (perhaps you want to do `kbd_mode -a'?)"
@@ -1276,7 +1281,7 @@ msgstr ""
 "Avertisment: se încarcă harta tastelor non-Unicode pe consola Unicode\n"
 "    (Poate că doriți să executați «kbd_mode -a»?)"
 
-#: src/loadkeys.c:205
+#: src/loadkeys.c:222
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
 "    (perhaps you want to do `kbd_mode -u'?)"
@@ -1284,7 +1289,7 @@ msgstr ""
 "Avertisment: se încarcă harta tastelor Unicode pe consola non-Unicode\n"
 "    (Poate că doriți să faceți «kbd_mode -a»?)"
 
-#: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
+#: src/loadkeys.c:237 src/loadkeys.c:251 src/loadkeys.c:265
 #, c-format
 msgid "Unable to create kbdfile instance: %m"
 msgstr "Nu se poate crea instanța kbdfile: %m"

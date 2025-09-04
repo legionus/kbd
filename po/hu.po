@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd 2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2025-05-29 12:43+0200\n"
+"POT-Creation-Date: 2025-09-04 11:19+0200\n"
 "PO-Revision-Date: 2017-05-05 20:38+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: src/chvt.c:55 src/clrunimap.c:44 src/deallocvt.c:49 src/dumpkeys.c:98
 #: src/fgconsole.c:46 src/getunimap.c:64 src/kbdinfo.c:65 src/kbd_mode.c:94
-#: src/loadkeys.c:94 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
+#: src/loadkeys.c:103 src/loadunimap.c:56 src/mapscrn.c:54 src/setfont.c:185
 #: src/setkeycodes.c:86 src/setlogcons.c:56 src/setmetamode.c:90
 #: src/setpalette.c:40 src/setvtrgb.c:157 src/showconsolefont.c:133
 msgid "the console device to be used."
@@ -34,7 +34,7 @@ msgstr ""
 
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbdinfo.c:67
-#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:106 src/loadunimap.c:58
+#: src/kbd_mode.c:96 src/kbdrate.c:354 src/loadkeys.c:116 src/loadunimap.c:58
 #: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
 #: src/setfont.c:191 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
 #: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
@@ -44,7 +44,7 @@ msgstr ""
 
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbdinfo.c:66
-#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:105 src/loadunimap.c:57
+#: src/kbd_mode.c:95 src/kbdrate.c:353 src/loadkeys.c:115 src/loadunimap.c:57
 #: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
 #: src/setfont.c:190 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
 #: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
@@ -59,7 +59,7 @@ msgstr "Hiba: nincs elég argumentum.\n"
 
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94 src/kbdinfo.c:100
-#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:183
+#: src/kbd_mode.c:153 src/libcommon/getfd.c:88 src/loadkeys.c:200
 #: src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328 src/resizecons.c:168
 #: src/setfont.c:313 src/setkeycodes.c:117 src/setlogcons.c:96
 #: src/setmetamode.c:116 src/setpalette.c:80 src/setvesablank.c:31
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Available charsets: "
 msgstr ""
 
-#: src/dumpkeys.c:39
+#: src/dumpkeys.c:39 src/loadkeys.c:50
 #, c-format
 msgid ""
 "Available shapes:\n"
@@ -181,7 +181,7 @@ msgstr ""
 "\t\t\t    karakter műveleti kódok értelmezése a megadott\n"
 "\t\t\t    karakterkészletből\n"
 
-#: src/dumpkeys.c:99 src/loadkeys.c:104 src/mapscrn.c:55 src/openvt.c:266
+#: src/dumpkeys.c:99 src/loadkeys.c:114 src/mapscrn.c:55 src/openvt.c:266
 #: src/setfont.c:189 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr ""
@@ -192,7 +192,7 @@ msgid "unknown charset %s - ignoring charset request\n"
 msgstr "ismeretlen karakterkészlet: %s - a karakterkészlet-kérés mellőzése\n"
 
 #: src/dumpkeys.c:174 src/kbdinfo.c:117 src/kbd_mode.c:158 src/kbd_mode.c:167
-#: src/loadkeys.c:187 src/showconsolefont.c:176 src/showkey.c:33
+#: src/loadkeys.c:204 src/showconsolefont.c:176 src/showkey.c:33
 #, fuzzy
 msgid "Unable to read keyboard mode"
 msgstr "nem sikerült lekérni a(z) %d billentyűtérképet"
@@ -274,7 +274,7 @@ msgid ""
 "of the keyboard and virtual console.\n"
 msgstr ""
 
-#: src/kbdinfo.c:104 src/loadkeys.c:189
+#: src/kbdinfo.c:104 src/loadkeys.c:206
 #, fuzzy
 msgid "Unable to read console mode"
 msgstr "Nem olvasható a konzol térkép\n"
@@ -407,7 +407,7 @@ msgstr ""
 msgid "do not set new values, but only display the current ones."
 msgstr ""
 
-#: src/kbdrate.c:352 src/loadkeys.c:103
+#: src/kbdrate.c:352 src/loadkeys.c:112
 msgid "suppress all normal output."
 msgstr ""
 
@@ -507,7 +507,7 @@ msgstr "nem sikerült a(z) %d billentyű kötése a(z) %d értékhez"
 msgid "Error writing map to file"
 msgstr "Hiba a térkép fájlba írásakor"
 
-#: src/libkeymap/dump.c:548
+#: src/libkeymap/dump.c:546
 #, c-format
 msgid "impossible: not meta?\n"
 msgstr "lehetetlen: nem meta?\n"
@@ -567,8 +567,8 @@ msgid "lk_add_key called with bad keycode %d"
 msgstr "az lk_add_key rossz billentyűkóddal (%d) lett meghívva"
 
 #: src/libkeymap/kmap.c:131
-#, c-format
-msgid "adding map %d violates explicit keymaps line"
+#, fuzzy, c-format
+msgid "adding map %d for key %d violates explicit keymaps line"
 msgstr "a(z) %d térkép hozzáadása megsérti az explicit billentyűtérképek sorát"
 
 #: src/libkeymap/kmap.c:147
@@ -859,7 +859,7 @@ msgstr[0] "bejegyzés"
 msgstr[1] "bejegyzés"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
-#: src/libkfont/mapscrn.c:230 src/loadkeys.c:256 src/openvt.c:413
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:273 src/openvt.c:413
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, fuzzy, c-format
@@ -877,7 +877,7 @@ msgid "Appended Unicode map"
 msgstr "Hozzáfűzött Unicode térkép\n"
 
 #: src/libkfont/mapscrn.c:94 src/libkfont/setfont.c:312
-#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:224
+#: src/libkfont/setfont.c:428 src/libkfont/setfont.c:435 src/loadkeys.c:241
 #, fuzzy, c-format
 msgid "Unable to find file: %s"
 msgstr "A(z) „%s” nem nyitható meg"
@@ -1155,48 +1155,52 @@ msgstr ""
 msgid "Default keymap: %s\n"
 msgstr "a(z) %d billentyűtérkép felszabadítása"
 
-#: src/loadkeys.c:95
+#: src/loadkeys.c:104
 msgid "force conversion to ASCII."
 msgstr ""
 
-#: src/loadkeys.c:96
+#: src/loadkeys.c:105
 msgid "output a binary keymap to stdout."
 msgstr ""
 
-#: src/loadkeys.c:97
+#: src/loadkeys.c:106
 msgid "clear kernel compose table."
 msgstr ""
 
-#: src/loadkeys.c:98
+#: src/loadkeys.c:107
 msgid "load default."
 msgstr ""
 
-#: src/loadkeys.c:99
+#: src/loadkeys.c:108
 msgid "output a 'defkeymap.c' to stdout."
 msgstr ""
 
-#: src/loadkeys.c:100
+#: src/loadkeys.c:109
 msgid "search and parse keymap without action."
 msgstr ""
 
-#: src/loadkeys.c:101
+#: src/loadkeys.c:110
 msgid "clear kernel string table."
 msgstr ""
 
-#: src/loadkeys.c:102
+#: src/loadkeys.c:111
 msgid "force conversion to Unicode."
 msgstr ""
 
-#: src/loadkeys.c:125
+#: src/loadkeys.c:113
+msgid "output a text keymap to stdout."
+msgstr ""
+
+#: src/loadkeys.c:136
 msgid "Unable to create kbdfile context"
 msgstr ""
 
-#: src/loadkeys.c:177
+#: src/loadkeys.c:194
 #, fuzzy, c-format
 msgid "Options %s and %s are mutually exclusive."
 msgstr "%s: A --unicode és az --ascii kapcsolók kölcsönösen kizárják egymást\n"
 
-#: src/loadkeys.c:194
+#: src/loadkeys.c:211
 #, fuzzy
 msgid ""
 "Warning: loading non-Unicode keymap on Unicode console\n"
@@ -1205,7 +1209,7 @@ msgstr ""
 "%s: figyelmeztetés: nem Unicode billentyűtérkép betöltése Unicode konzolon\n"
 "    (talán ezt akarta: „kbd_mode -a”?)\n"
 
-#: src/loadkeys.c:205
+#: src/loadkeys.c:222
 #, fuzzy
 msgid ""
 "Warning: loading Unicode keymap on non-Unicode console\n"
@@ -1214,7 +1218,7 @@ msgstr ""
 "%s: figyelmeztetés: Unicode billentyűtérkép betöltése nem Unicode konzolon\n"
 "    (talán ezt akarta: „kbd_mode -u”?)\n"
 
-#: src/loadkeys.c:220 src/loadkeys.c:234 src/loadkeys.c:248
+#: src/loadkeys.c:237 src/loadkeys.c:251 src/loadkeys.c:265
 #, fuzzy, c-format
 msgid "Unable to create kbdfile instance: %m"
 msgstr "nem sikerült beállítani a(z) %d billentyűt a(z) %d táblázatnál"
