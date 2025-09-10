@@ -44,21 +44,21 @@ endif
 
 install-consolefonts: $(SRC_FONTDIR) $(SRC_PARTIALDIR)
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(FONTDIR)
-	cp -a -- $(SRC_FONTDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/
+	cp -dPR -- $(SRC_FONTDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)
-	cp -a -- $(SRC_PARTIALDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)/
+	cp -dPR -- $(SRC_PARTIALDIR)/* $(DESTDIR)$(datadir)/$(FONTDIR)/$(PARTIALDIR)/
 
 install-consoletrans:
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(TRANSDIR)
-	cp -a -- $(srcdir)/$(TRANSDIR)/* $(DESTDIR)$(datadir)/$(TRANSDIR)/
+	cp -dPR -- $(srcdir)/$(TRANSDIR)/* $(DESTDIR)$(datadir)/$(TRANSDIR)/
 
 install-unimaps:
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(UNIMAPDIR)
-	cp -a -- $(srcdir)/$(UNIMAPDIR)/* $(DESTDIR)$(datadir)/$(UNIMAPDIR)/
+	cp -dPR -- $(srcdir)/$(UNIMAPDIR)/* $(DESTDIR)$(datadir)/$(UNIMAPDIR)/
 
 install-keymaps: $(SRC_KEYMAPDIR)
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(KEYMAPDIR)
-	cp -ar -- $(SRC_KEYMAPDIR)/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/
+	cp -dPR -- $(SRC_KEYMAPDIR)/* $(DESTDIR)$(datadir)/$(KEYMAPDIR)/
 	cd "$(DESTDIR)$(datadir)/$(KEYMAPDIR)"; \
 	  for f in $(IGNORE_KEYMAPS); do ! test -e "$$f" || rm -f -- "$$f"; done
 	rm -f $(DESTDIR)$(datadir)/$(KEYMAPDIR)/ppc
