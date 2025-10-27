@@ -23,7 +23,7 @@ int main(void)
 			ke.kb_table = i;
 			ke.kb_value = K_HOLE;
 
-			if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
+			if (ioctl(fd, KDSKBENT, &ke)) {
 				perror("KDSKBENT");
 				fprintf(stderr, "Error: cannot deallocate or clear keymap %d key %d\n", i, j);
 				return EXIT_FAILURE;
@@ -35,7 +35,7 @@ int main(void)
 		ke.kb_table = i;
 		ke.kb_value = K_NOSUCHMAP;
 
-		if (ioctl(fd, KDSKBENT, (unsigned long)&ke)) {
+		if (ioctl(fd, KDSKBENT, &ke)) {
 			perror("KDSKBENT");
 			fprintf(stderr, "Error: could not deallocate keymap %d\n", i);
 			return EXIT_FAILURE;

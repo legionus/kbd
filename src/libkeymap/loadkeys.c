@@ -197,7 +197,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 		if (ptr) {
 			strlcpy((char *)kbs.kb_string, ptr, sizeof(kbs.kb_string));
 
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
+			if (ioctl(fd, KDSKBSENT, &kbs)) {
 				s = ostr(ctx, (char *)kbs.kb_string);
 				if (s == NULL)
 					return -1;
@@ -210,7 +210,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 		} else if (ctx->flags & LK_FLAG_CLEAR_STRINGS) {
 			kbs.kb_string[0] = 0;
 
-			if (ioctl(fd, KDSKBSENT, (unsigned long)&kbs)) {
+			if (ioctl(fd, KDSKBSENT, &kbs)) {
 				ERR(ctx, _("failed to clear string %s"),
 				    get_sym(ctx, KT_FN, kbs.kb_func));
 			} else {
@@ -250,7 +250,7 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			j++;
 		}
 
-		if (ioctl(fd, KDSKBDIACRUC, (unsigned long)&kdu)) {
+		if (ioctl(fd, KDSKBDIACRUC, &kdu)) {
 			ERR(ctx, "KDSKBDIACRUC: %s", strerror(errno));
 			return -1;
 		}
@@ -279,7 +279,7 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			j++;
 		}
 
-		if (ioctl(fd, KDSKBDIACR, (unsigned long)&kd)) {
+		if (ioctl(fd, KDSKBDIACR, &kd)) {
 			ERR(ctx, "KDSKBDIACR: %s", strerror(errno));
 			return -1;
 		}

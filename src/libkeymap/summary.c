@@ -26,7 +26,7 @@ valid_type(int fd, int t)
 	ke.kb_table = 0;
 	ke.kb_value = (unsigned short) K(t, 0);
 
-	return (ioctl(fd, KDSKBENT, (unsigned long)&ke) == 0);
+	return (ioctl(fd, KDSKBENT, &ke) == 0);
 }
 
 static unsigned char
@@ -40,15 +40,15 @@ maximum_val(int fd, int t)
 	ke.kb_value = K_HOLE;
 	ke0         = ke;
 
-	ioctl(fd, KDGKBENT, (unsigned long)&ke0);
+	ioctl(fd, KDGKBENT, &ke0);
 
 	for (i = 0; i < 256; i++) {
 		ke.kb_value = (unsigned short) K(t, i);
-		if (ioctl(fd, KDSKBENT, (unsigned long)&ke))
+		if (ioctl(fd, KDSKBENT, &ke))
 			break;
 	}
 	ke.kb_value = K_HOLE;
-	ioctl(fd, KDSKBENT, (unsigned long)&ke0);
+	ioctl(fd, KDSKBENT, &ke0);
 
 	return (unsigned char) (i - 1);
 }
