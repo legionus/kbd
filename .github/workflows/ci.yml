@@ -138,7 +138,7 @@ jobs:
     needs: [ check_commits_job, distcheck_job ]
     env:
       CI_ARCH: ${{ matrix.arch }}
-      CI_UBUNTU_VERSION: "24.10"
+      CI_UBUNTU_VERSION: "25.04"
 
     steps:
     - name: "Check out repository"
