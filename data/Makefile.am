@@ -22,15 +22,15 @@ V_PACK_1 =
 
 # compress data files - do not touch the distribution but copy first
 $(SRC_KEYMAPDIR): $(KEYMAPDIR)
-	$(V_PACK)cp -r -- "$<" "$@" && chmod -R u+w -- "$@" && \
+	$(V_PACK)cp -r -- "$<" "$@" && chmod -R -- u+w "$@" && \
 	$(srcdir)/compress.sh "$@"/*/*.map "$@"/*/*/*.map
 
 $(SRC_FONTDIR): $(FONTDIR)
-	$(V_PACK)cp -r -- "$<" "$@" && chmod -R u+w -- "$@" && \
+	$(V_PACK)cp -r -- "$<" "$@" && chmod -R -- u+w "$@" && \
 	$(srcdir)/compress.sh "$@"/*
 
 $(SRC_PARTIALDIR): $(PARTIALDIR)
-	$(V_PACK)cp -r -- "$<" "$@" && chmod -R u+w -- "$@" && \
+	$(V_PACK)cp -r -- "$<" "$@" && chmod -R -- u+w "$@" && \
 	$(srcdir)/compress.sh "$@"/*
 
 # (not yet screenmaps - some other time)
