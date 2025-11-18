@@ -158,8 +158,8 @@ kbd_getopt(int argc, char **argv, const struct kbd_option *opts)
 	return '?';
 
 required_argument:
-	kbd_warning(0, "option '%s' requires an argument", name);
-	return '?';
+	optind--;
+	return '!';
 }
 
 int main(int argc, char *argv[])
@@ -295,6 +295,10 @@ int main(int argc, char *argv[])
 				if (ifilct == MAXIFILES)
 					kbd_error(EX_USAGE, 0, _("Too many input files."));
 				ifiles[ifilct++] = argv[optind++];
+				break;
+			case '!':
+				kbd_warning(0, "option '%s' requires an argument", argv[optind]);
+				usage(EX_USAGE, opthelp);
 				break;
 		}
 	}
