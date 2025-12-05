@@ -33,7 +33,7 @@ int dlsym_many(void **dlp, const char *filename, ...);
  * Helper defines, to be done locally before including this header to switch between
  * implementations
  */
-#define DECLARE_SYM(sym__) DECLARE_DLSYM(sym__);
+#define DECLARE_SYM(sym__) static typeof(sym__) *sym_##sym__;
 
 /*
  * Originally from systemd codebase.
