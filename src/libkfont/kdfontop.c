@@ -46,6 +46,7 @@ kfont_restore_font(struct kfont_context *ctx, int fd)
 		return -1;
 
 	cfo.op = KD_FONT_OP_SET_DEFAULT;
+	cfo.data = NULL;
 
 	if (ioctl(fd, KDFONTOP, &cfo)) {
 		KFONT_ERR(ctx, "ioctl(KD_FONT_OP_SET_DEFAULT): %m");
