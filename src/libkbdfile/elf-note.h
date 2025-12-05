@@ -26,14 +26,11 @@ int dlsym_many(void **dlp, const char *filename, ...);
  */
 #define DLSYM_ARG(symbol__) &sym_##symbol__, STRINGIFY(symbol__),
 
-/* For symbols being dynamically loaded */
-#define DECLARE_DLSYM(symbol) static typeof(symbol) *sym_##symbol
-
 /*
  * Helper defines, to be done locally before including this header to switch between
  * implementations
  */
-#define DECLARE_SYM(sym__) DECLARE_DLSYM(sym__);
+#define DECLARE_SYM(sym__) static typeof(sym__) *sym_##sym__;
 
 /*
  * Originally from systemd codebase.
