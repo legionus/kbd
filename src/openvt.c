@@ -99,13 +99,13 @@ authenticate_user(int curvt)
 
 	/* get the current tty */
 	/* try /dev/ttyN, then /dev/vc/N */
-	sprintf(filename, VTNAME, curvt);
+	snprintf(filename, sizeof(filename), VTNAME, curvt);
 	if (stat(filename, &buf)) {
 		int errsv = errno;
-		sprintf(filename, VTNAME2, curvt);
+		snprintf(filename, sizeof(filename), VTNAME2, curvt);
 		if (stat(filename, &buf)) {
 			/* give error message for first attempt */
-			sprintf(filename, VTNAME, curvt);
+			snprintf(filename, sizeof(filename), VTNAME, curvt);
 			kbd_error(EXIT_FAILURE, errsv, "%s", filename);
 		}
 	}
@@ -120,7 +120,7 @@ authenticate_user(int curvt)
 	/* check to make sure that user has a process on that tty */
 	/* this will fail for example when X is running on the tty */
 	while ((dentp = readdir(dp))) {
-		sprintf(filename, "/proc/%s/fd/0", dentp->d_name);
+		snprintf(filename, sizeof(filename), "/proc/%s/fd/0", dentp->d_name);
 
 		if (stat(filename, &buf))
 			continue;

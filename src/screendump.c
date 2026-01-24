@@ -95,18 +95,18 @@ int main(int argc, char **argv)
 				  "Argument is too big: %s", argv[optind]);
 	}
 
-	sprintf(infile, "/dev/vcsa%d", cons);
+	snprintf(infile, sizeof(infile), "/dev/vcsa%d", cons);
 	fd = open(infile, O_RDONLY);
 	if (fd < 0 && cons == 0 && errno == ENOENT) {
-		sprintf(infile, "/dev/vcsa");
+		snprintf(infile, sizeof(infile), "/dev/vcsa");
 		fd = open(infile, O_RDONLY);
 	}
 	if (fd < 0 && errno == ENOENT) {
-		sprintf(infile, "/dev/vcs/a%d", cons);
+		snprintf(infile, sizeof(infile), "/dev/vcs/a%d", cons);
 		fd = open(infile, O_RDONLY);
 	}
 	if (fd < 0 && cons == 0 && errno == ENOENT) {
-		sprintf(infile, "/dev/vcs/a");
+		snprintf(infile, sizeof(infile), "/dev/vcs/a");
 		fd = open(infile, O_RDONLY);
 	}
 	if (fd < 0 || read(fd, header, 4) != 4)

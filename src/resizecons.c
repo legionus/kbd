@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* prepare for: restoretextmode -r 80x25 */
-		sprintf(infile, "%dx%d", cc, rr);
+		snprintf(infile, sizeof(infile), "%dx%d", cc, rr);
 		if (kbdfile_find(infile, dirpath, suffixes, fp)) {
 			kbd_error(EXIT_FAILURE, 0, _("resizecons: cannot find videomode file %s"), infile);
 		}
@@ -267,7 +267,7 @@ int main(int argc, char **argv)
 
 	if (mode == MODE_RESTORETEXTMODE) {
 		/* do: restoretextmode -r 25x80 */
-		sprintf(cmd, "restoretextmode -r %s\n", kbdfile_get_pathname(fp));
+		snprintf(cmd, sizeof(cmd), "restoretextmode -r %s\n", kbdfile_get_pathname(fp));
 		errno = 0;
 		if (system(cmd)) {
 			if (errno)
@@ -290,10 +290,10 @@ int main(int argc, char **argv)
 	winsize.ws_col = (unsigned short) cc;
 	for (i = 0; i < 16; i++)
 		if (vtstat.v_state & (1 << i)) {
-			sprintf(tty, "/dev/tty%d", i);
+			snprintf(tty, sizeof(tty), "/dev/tty%d", i);
 			fd = open(tty, O_RDONLY);
 			if (fd < 0 && errno == ENOENT) {
-				sprintf(tty, "/dev/vc/%d", i);
+				snprintf(tty, sizeof(tty), "/dev/vc/%d", i);
 				fd = open(tty, O_RDONLY);
 			}
 			if (fd >= 0) {
@@ -348,7 +348,7 @@ int main(int argc, char **argv)
 			break;
 	}
 
-	sprintf(cmd, "setfont %s", defaultfont);
+	snprintf(cmd, sizeof(cmd), "setfont %s", defaultfont);
 	errno = 0;
 	if (system(cmd)) {
 		if (errno)
