@@ -347,27 +347,25 @@ int main(int argc, char *argv[])
 	if (as_user)
 		username = authenticate_user(vtstat.v_active);
 	else {
+		size_t cmd_size;
 		if (!(argc > optind)) {
 			def_cmd = getenv("SHELL");
 			if (def_cmd == NULL)
 				kbd_error(7, 0, _("Unable to find command."));
-			cmd = malloc(strlen(def_cmd) + 2);
+			cmd_size = strlen(def_cmd) + 2;
 		} else {
-			cmd = malloc(strlen(argv[optind]) + 2);
+			cmd_size = strlen(argv[optind]) + 2;
 		}
 
+		cmd = malloc(cmd_size);
 		if (!cmd)
 			kbd_error(EX_OSERR, errno, "malloc");
 
-		if (login)
-			strcpy(cmd, "-");
-		else
-			cmd[0] = '\0';
-
-		if (def_cmd)
-			strcat(cmd, def_cmd);
-		else
-			strcat(cmd, argv[optind]);
+		if (login) {
+			snprintf(cmd, cmd_size, "-%s", def_cmd ? def_cmd : argv[optind]);
+		} else {
+			snprintf(cmd, cmd_size, "%s", def_cmd ? def_cmd : argv[optind]);
+		}
 
 		if (login)
 			argv[optind] = cmd++;
