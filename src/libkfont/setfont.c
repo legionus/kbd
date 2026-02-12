@@ -281,7 +281,7 @@ kfont_load_fonts(struct kfont_context *ctx,
 	unsigned char *inbuf, *fontbuf, *bigfontbuf;
 	unsigned int inputlth, fontbuflth, fontsize, height, width;
 	unsigned int bigfontbuflth, bigfontsize, bigheight, bigwidth;
-	unsigned char *ptr;
+	unsigned char *ptr = NULL;
 	struct unicode_list *uclistheads;
 	struct kbdfile *fp = NULL;
 	int i;
