@@ -294,7 +294,10 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					/* Some files do not have a keymaps line, and
 					 * we have to wait until all input has been read
 					 * before we know which maps to fill. */
-					lk_array_set(ctx->key_constant, $2, &one);
+					if (lk_array_set(ctx->key_constant, $2, &one) < 0) {
+						ERR(ctx, _("out of memory"));
+						YYERROR;
+					}
 
 					/* On the other hand, we now have include files,
 					 * and it should be possible to override lines
@@ -378,7 +381,10 @@ rvalue0		:
 rvalue1		: rvalue
 			{
 				int val = $1;
-				lk_array_append(ctx->key_line, &val);
+				if (lk_array_append(ctx->key_line, &val) < 0) {
+					ERR(ctx, _("out of memory"));
+					YYERROR;
+				}
 			}
 		;
 rvalue		: NUMBER	{ $$ = convert_code(ctx, $1, TO_AUTO);		}

@@ -40,6 +40,7 @@ int lk_get_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
 
 int lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 {
+	int rc;
 	struct lk_kbdiacr *ptr;
 
 	ptr = malloc(sizeof(struct lk_kbdiacr));
@@ -52,13 +53,19 @@ int lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 	ptr->base   = dcr->base;
 	ptr->result = dcr->result;
 
-	lk_array_append(ctx->accent_table, &ptr);
+	rc = lk_array_append(ctx->accent_table, &ptr);
+	if (rc < 0) {
+		free(ptr);
+		ERR(ctx, _("out of memory"));
+		return -1;
+	}
 
 	return 0;
 }
 
 int lk_add_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
 {
+	int rc;
 	struct lk_kbdiacr *ptr;
 
 	ptr = malloc(sizeof(struct lk_kbdiacr));
@@ -71,7 +78,12 @@ int lk_add_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
 	ptr->base   = dcr->base;
 	ptr->result = dcr->result;
 
-	lk_array_set(ctx->accent_table, index, &ptr);
+	rc = lk_array_set(ctx->accent_table, index, &ptr);
+	if (rc < 0) {
+		free(ptr);
+		ERR(ctx, _("out of memory"));
+		return -1;
+	}
 
 	return 0;
 }
