@@ -161,7 +161,7 @@ init_array(struct lk_ctx *ctx, struct lk_array **arr, ssize_t size)
 
 	rc = lk_array_init(ptr, size, 0);
 	if (rc < 0) {
-		ERR(ctx, _("unable to initialize array: %s"), strerror(rc));
+		ERR(ctx, _("unable to initialize array: %s"), strerror(-rc));
 		free(ptr);
 		return -1;
 	}
