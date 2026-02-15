@@ -37,19 +37,24 @@ int lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 
 int lk_add_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 {
-	char *s;
+	char *old, *s;
 
-	s = lk_array_get_ptr(ctx->func_table, kbs->kb_func);
-	if (s)
-		free(s);
+	old = lk_array_get_ptr(ctx->func_table, kbs->kb_func);
 
 	s = strdup((char *)kbs->kb_string);
+	if (!s) {
+		ERR(ctx, _("out of memory"));
+		return -1;
+	}
 
 	if (lk_array_set(ctx->func_table, kbs->kb_func, &s) < 0) {
 		free(s);
 		ERR(ctx, _("out of memory"));
 		return -1;
 	}
+
+	if (old)
+		free(old);
 
 	return 0;
 }
