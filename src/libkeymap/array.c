@@ -139,7 +139,7 @@ lk_array_set(struct lk_array *a, ssize_t i, const void *e)
 int
 lk_array_unset(struct lk_array *a, ssize_t i)
 {
-	if (!a || i >= a->total) {
+	if (!a || i < 0 || i >= a->total) {
 		errno = EINVAL;
 		return -EINVAL;
 	}
