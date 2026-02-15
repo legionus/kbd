@@ -35,7 +35,7 @@ stack_push(struct lk_ctx *ctx, struct kbdfile *fp, void *scanner)
 {
 	int i = 0;
 
-	while (ctx->stack[i]) i++;
+	while (i < MAX_INCLUDE_DEPTH && ctx->stack[i]) i++;
 
 	if (i == MAX_INCLUDE_DEPTH) {
 		ERR(ctx, _("includes are nested too deeply"));
@@ -53,7 +53,7 @@ stack_pop(struct lk_ctx *ctx, void *scanner)
 {
 	int i = 0;
 
-	while (ctx->stack[i]) i++;
+	while (i < MAX_INCLUDE_DEPTH && ctx->stack[i]) i++;
 	if (!i)
 		return 0;
 	i--;
@@ -163,7 +163,7 @@ static int find_standard_incl_file(struct lk_ctx *ctx, char *filename,
 	int rc = 1;
 	int i = 0;
 
-	while (ctx->stack[i]) i++;
+	while (i < MAX_INCLUDE_DEPTH && ctx->stack[i]) i++;
 	if (i == 0)
 		return -1;
 	i--;
