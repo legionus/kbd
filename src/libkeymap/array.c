@@ -126,12 +126,19 @@ int
 lk_array_set(struct lk_array *a, ssize_t i, const void *e)
 {
 	int ret = array_resize(a, i);
+	int existed_before, exists_after;
 
 	if (ret < 0)
 		return ret;
 
+	existed_before = lk_array_exists(a, i);
 	memcpy(a->array + (a->memb * i), e, (size_t) a->memb);
-	a->count++;
+	exists_after = lk_array_exists(a, i);
+
+	if (!existed_before && exists_after)
+		a->count++;
+	else if (existed_before && !exists_after)
+		a->count--;
 
 	return 0;
 }
