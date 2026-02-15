@@ -217,27 +217,37 @@ static int find_incl_file(struct lk_ctx *ctx, char *filename, struct kbdfile *fp
 
 	if ((ev = getenv("LOADKEYS_INCLUDE_PATH")) != NULL) {
 		/* try user-specified path */
+		char *path, *p;
 		const char *user_dir[2] = { NULL, NULL };
-		while (ev) {
+		path = strdup(ev);
+		if (!path) {
+			ERR(ctx, _("out of memory"));
+			return -1;
+		}
+
+		p = path;
+		while (p) {
 			int rc;
-			char *t = strchr(ev, ':');
-			char sv = 0;
-			if (t) {
-				sv = *t;
+			char *t = strchr(p, ':');
+
+			if (t)
 				*t = 0;
-			}
-			user_dir[0] = ev;
-			if (*ev)
+
+			user_dir[0] = p;
+			if (*p)
 				rc = kbdfile_find(filename, user_dir, include_suffixes, fp);
 			else	/* empty string denotes system path */
 				rc = find_standard_incl_file(ctx, filename, fp);
 
-			if (rc <= 0)
+			if (rc <= 0) {
+				free(path);
 				return rc;
-			if (t)
-				*t++ = sv;
-			ev = t;
+			}
+
+			p = t ? t + 1 : NULL;
 		}
+
+		free(path);
 		return 1;
 	}
 	return find_standard_incl_file(ctx, filename, fp);
