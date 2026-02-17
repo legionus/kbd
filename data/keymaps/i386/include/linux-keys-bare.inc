@@ -89,6 +89,13 @@ control alt keycode  87 = Console_11
 control alt keycode  88 = Console_12
 
 #
+# Tab and Backtab
+#
+keycode  15 = Tab
+shift keycode  15 = Backtab
+alt keycode  15 = Meta_Tab
+
+#
 # Keypad keys
 #
 keycode  69 = Num_Lock

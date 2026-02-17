@@ -278,6 +278,7 @@ static const char *const fn_syms[] = {
 	"Help",
 	"Do",
 	"Pause",
+	"Backtab",
 	"F21", "F22", "F23", "F24", "F25",
 	"F26", "F27", "F28", "F29", "F30",
 	"F31", "F32", "F33", "F34", "F35",
@@ -323,7 +324,7 @@ static const char *const fn_syms[] = {
 	"F231", "F232", "F233", "F234", "F235",
 	"F236", "F237", "F238", "F239", "F240",
 	"F241", "F242", "F243", "F244", "F245",
-	"F246" /* there are 10 keys named Insert etc., total 256 */
+	/* 11 keys named Find through Backtab, total 256 */
 };
 
 /*

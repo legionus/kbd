@@ -79,7 +79,7 @@ static int
 strings_as_usual(struct lk_ctx *ctx)
 {
 	/*
-	 * 26 strings, mostly inspired by the VT100 family
+	 * 27 strings, mostly inspired by the VT100 family
 	 */
 	const char *stringvalues[] = {
 		/* F1 .. F20 */
@@ -90,8 +90,8 @@ strings_as_usual(struct lk_ctx *ctx)
 		"\033[31~", "\033[32~", "\033[33~", "\033[34~",
 		/* Find,    Insert,     Remove,     Select,     Prior */
 		"\033[1~",  "\033[2~",  "\033[3~",  "\033[4~",  "\033[5~",
-		/* Next,    Macro,      Help,       Do,         Pause */
-		"\033[6~",  NULL,       NULL,       NULL,       NULL
+		/* Next,    Macro,      Help,       Do,         Pause,    Backtab */
+		"\033[6~",  NULL,       NULL,       NULL,       NULL,     "\033[Z"
 	};
 	unsigned char i;
 
