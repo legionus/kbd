@@ -323,7 +323,14 @@ static const char *const fn_syms[] = {
 	"F231", "F232", "F233", "F234", "F235",
 	"F236", "F237", "F238", "F239", "F240",
 	"F241", "F242", "F243", "F244", "F245",
-	"F246" /* there are 10 keys named Insert etc., total 256 */
+	/*
+	 * The kernel UAPI defines KT_FN keys F1..F20 (indices 0..19),
+	 * then Find/Insert/Remove/Select/Prior/Next/Macro/Help/Do/Pause
+	 * (indices 20..29), then F21..F245 (indices 30..254).
+	 * Index 255 is the last available slot with no kernel UAPI name,
+	 * so Backtab is placed here to avoid shifting any existing indices.
+	 */
+	"Backtab" /* there are 11 keys named Find etc., total 256 */
 };
 
 /*

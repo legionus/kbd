@@ -8,6 +8,7 @@ struct syn const synonyms[] = {
 	{ "End", "Select" },
 	{ "PageUp", "Prior" },
 	{ "PageDown", "Next" },
+	{ "F246", "Backtab" },
 	{ "multiplication", "multiply" },
 	{ "pound", "sterling" },
 	{ "pilcrow", "paragraph" },

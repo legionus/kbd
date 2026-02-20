@@ -106,6 +106,23 @@ strings_as_usual(struct lk_ctx *ctx)
 				return -1;
 		}
 	}
+
+	/*
+	 * Backtab (Shift+Tab) is assigned to KT_FN index 255, the last
+	 * available slot with no kernel UAPI name (K_F245 = KT_FN index 254
+	 * is the last kernel-defined entry). It cannot be added to the array
+	 * above without displacing the existing named entries F21..F245.
+	 */
+	{
+		struct kbsentry ke;
+
+		ke.kb_func = 255; /* Backtab, see syms.ktyp.h */
+		strlcpy((char *)ke.kb_string, "\033[Z", sizeof(ke.kb_string));
+
+		if (lk_add_func(ctx, &ke) == -1)
+			return -1;
+	}
+
 	return 0;
 }
 
