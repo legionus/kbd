@@ -210,7 +210,8 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 		return 0;
 
 	if (errno == ENOSYS) {
-		KFONT_ERR(ctx, _("Unable to load such font with such kernel version"));
+		if (!kfont_get_quietness(ctx))
+			KFONT_ERR(ctx, _("Unable to load such font with such kernel version"));
 		return -1;
 	}
 

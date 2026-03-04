@@ -20,6 +20,7 @@
 
 struct kfont_context {
 	const char *progname;
+	int quiet;
 	int verbose;
 	kfont_logger_t log_fn;
 

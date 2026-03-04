@@ -186,6 +186,7 @@ int main(int argc, char *argv[])
 		{ "-d, --double",                    _("double size of font horizontally and vertically.") },
 		{ "-f, --force",                     _("force load unicode map.") },
 		{ "-R, --reset",                     _("reset the screen font, size, and unicode map to the bootup defaults.") },
+		{ "-q, --quiet",                     _("if kernel cannot load font, do not log error.") },
 		{ "-v, --verbose",                   _("be more verbose.") },
 		{ "-V, --version",                   _("print version number.") },
 		{ "-h, --help",                      _("print this usage message.") },
@@ -199,6 +200,7 @@ int main(int argc, char *argv[])
 		{ "=v",  "verbose",           kbd_no_argument,       'v' },
 		{ "=V",  "version",           kbd_no_argument,       'V' },
 		{ "=h",  "help",              kbd_no_argument,       'H' },
+		{ "=q",  "quiet",             kbd_no_argument,       'q' },
 		{ "+h",  "font-height",       kbd_required_argument, 'h' },
 		{ "=om", "output-consolemap", kbd_required_argument, 'M' },
 		{ "=ou", "output-unicodemap", kbd_required_argument, 'U' },
@@ -282,6 +284,9 @@ int main(int argc, char *argv[])
 				break;
 			case 'V':
 				print_version_and_exit();
+				break;
+			case 'q':
+				kfont_set_quietness(kfont);
 				break;
 			case 'H':
 				usage(EXIT_SUCCESS, opthelp);

@@ -242,6 +242,10 @@ map even if the specified map is empty.  This may be useful in unusual cases.
 \fB\-R\fR, \fB\-\-reset\fR
 Reset the screen font, size, and Unicode mapping to the bootup defaults.
 .TP
+\fB\-v\fR, \fB\-\-quiet\fR
+If kernel cannot load font, do not log error. This prevents ugly errors
+with systemd try-and-fail detection of a fully initialized console.
+.TP
 \fB\-v\fR, \fB\-\-verbose\fR
 Be verbose.
 .TP

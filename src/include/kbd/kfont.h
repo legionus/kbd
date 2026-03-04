@@ -124,6 +124,12 @@ enum kfont_option {
 	kfont_double_size,
 };
 
+int kfont_get_quietness(struct kfont_context *ctx)
+	KBD_ATTR_NONNULL(1);
+
+void kfont_set_quietness(struct kfont_context *ctx)
+	KBD_ATTR_NONNULL(1);
+
 int kfont_get_verbosity(struct kfont_context *ctx)
 	KBD_ATTR_NONNULL(1);
 
