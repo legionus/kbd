@@ -84,6 +84,18 @@ kfont_inc_verbosity(struct kfont_context *ctx)
 	ctx->verbose++;
 }
 
+int
+kfont_get_quietness(struct kfont_context *ctx)
+{
+	return ctx->quiet;
+}
+
+void
+kfont_set_quietness(struct kfont_context *ctx)
+{
+	ctx->quiet = 1;
+}
+
 void
 kfont_set_logger(struct kfont_context *ctx, kfont_logger_t fn)
 {
@@ -155,6 +167,7 @@ kfont_init(const char *prefix, struct kfont_context **ctx)
 
 	p->progname = prefix;
 	p->verbose = 0;
+	p->quiet = 0;
 	p->options = 0;
 	p->log_fn = log_stderr;
 	p->mapdirpath = mapdirpath;
