@@ -84,22 +84,18 @@ kbdfile_set_pathname(struct kbdfile *fp, const char *pathname)
 static int KBD_ATTR_PRINTF(2, 3)
 kbdfile_pathname_sprintf(struct kbdfile *fp, const char *fmt, ...)
 {
-	ssize_t size;
+	int size;
 	va_list ap;
 
 	if (fp == NULL || fmt == NULL)
 		return -1;
 
 	va_start(ap, fmt);
-	size = vsnprintf(NULL, 0, fmt, ap);
+	size = vsnprintf(fp->pathname, sizeof(fp->pathname), fmt, ap);
 	va_end(ap);
 
 	if (size < 0 || (size_t) size >= sizeof(fp->pathname))
 		return -1;
-
-	va_start(ap, fmt);
-	vsnprintf(fp->pathname, sizeof(fp->pathname), fmt, ap);
-	va_end(ap);
 
 	return 0;
 }
