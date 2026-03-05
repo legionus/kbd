@@ -70,8 +70,8 @@ int dlsym_many(void **dlp, const char *filename, ...);
 #define _SONAME_ARRAY1(a) "[\""a"\"]"
 #define _SONAME_ARRAY2(a, b) "[\""a"\",\""b"\"]"
 #define _SONAME_ARRAY3(a, b, c) "[\""a"\",\""b"\",\""c"\"]"
-#define _SONAME_ARRAY4(a, b, c, d) "[\""a"\",\""b"\",\""c"\"",\""d"\"]"
-#define _SONAME_ARRAY5(a, b, c, d, e) "[\""a"\",\""b"\",\""c"\"",\""d"\",\""e"\"]"
+#define _SONAME_ARRAY4(a, b, c, d) "[\""a"\",\""b"\",\""c"\",\""d"\"]"
+#define _SONAME_ARRAY5(a, b, c, d, e) "[\""a"\",\""b"\",\""c"\",\""d"\",\""e"\"]"
 #define _SONAME_ARRAY_GET(_1,_2,_3,_4,_5,NAME,...) NAME
 #define _SONAME_ARRAY(...) _SONAME_ARRAY_GET(__VA_ARGS__, _SONAME_ARRAY5, _SONAME_ARRAY4, _SONAME_ARRAY3, _SONAME_ARRAY2, _SONAME_ARRAY1)(__VA_ARGS__)
 
