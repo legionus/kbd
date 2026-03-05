@@ -102,7 +102,8 @@ FILE *kbdfile_decompressor_zlib(struct kbdfile *file)
 	}
 
 cleanup:
-	sym_gzclose(gzf);
+	if (gzf)
+		sym_gzclose(gzf);
 
 	if (retcode == 0) {
 		lseek(memfd, 0L, SEEK_SET);
