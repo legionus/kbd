@@ -74,6 +74,9 @@ kbdfile_get_pathname(struct kbdfile *fp)
 int
 kbdfile_set_pathname(struct kbdfile *fp, const char *pathname)
 {
+	if (!fp || !pathname)
+		return -1;
+
 	strncpy(fp->pathname, pathname, sizeof(fp->pathname) - 1);
 	return 0;
 }
@@ -112,6 +115,9 @@ kbdfile_get_file(struct kbdfile *fp)
 int
 kbdfile_set_file(struct kbdfile *fp, FILE *x)
 {
+	if (!fp)
+		return -1;
+
 	fp->fd = x;
 	return 0;
 }
@@ -531,7 +537,10 @@ kbdfile_open(struct kbdfile_ctx *ctx, const char *filename)
 	if (!fp)
 		return NULL;
 
-	kbdfile_set_pathname(fp, filename);
+	if (kbdfile_set_pathname(fp, filename) < 0) {
+		kbdfile_free(fp);
+		return NULL;
+	}
 
 	if (maybe_pipe_open(fp) < 0) {
 		kbdfile_free(fp);
