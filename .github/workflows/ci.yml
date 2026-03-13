@@ -16,7 +16,7 @@ jobs:
     name: "Check commits"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: "Developer's Certificate of Origin"
@@ -32,7 +32,7 @@ jobs:
     needs: [ check_commits_job ]
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
     - name: "Install dependencies"
@@ -53,7 +53,7 @@ jobs:
         sudo -E make distcheck
     - name: "Upload artifacts"
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: artifact-distcheck
         path: |
@@ -98,7 +98,7 @@ jobs:
       HAVE_VGA: 1
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
     - run: sudo apt-get update  -y -qq
@@ -115,7 +115,7 @@ jobs:
         sudo -E tests/check.sh
     - name: "Upload artifacts"
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: artifact-${{ matrix.compiler }}-${{ matrix.libc }}
         path: |
@@ -142,7 +142,7 @@ jobs:
 
     steps:
     - name: "Check out repository"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
