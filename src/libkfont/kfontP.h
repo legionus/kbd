@@ -21,15 +21,17 @@
 #define KBD_TEXTDOMAIN_EXPLICIT	LIBKFONT_TEXTDOMAIN
 #include "nls.h"
 
+struct kfont_ops {
+	int (*ioctl_fn)(int fd, unsigned long req, void *arg);
+	unsigned int (*sleep_fn)(unsigned int seconds);
+};
+
 struct kfont_context {
 	const char *progname;
 	int verbose;
 	kfont_logger_t log_fn;
 
-	struct kfont_ops {
-		int (*ioctl_fn)(int fd, unsigned long req, void *arg);
-		unsigned int (*sleep_fn)(unsigned int seconds);
-	} ops;
+	struct kfont_ops ops;
 
 	unsigned int options;
 
@@ -59,6 +61,12 @@ static inline unsigned int
 kfont_sleep(struct kfont_context *ctx, unsigned int seconds)
 {
 	return ctx->ops.sleep_fn(seconds);
+}
+
+static inline void
+kfont_set_ops(struct kfont_context *ctx, const struct kfont_ops *ops)
+{
+	ctx->ops = *ops;
 }
 
 void logger(struct kfont_context *ctx, int priority, const char *file,

@@ -1,0 +1,6 @@
+AT_BANNER([libkfont unit tests])
+
+AT_SETUP([test 01 (get_unicodemap retries after ENOMEM)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test01])
+AT_CLEANUP
