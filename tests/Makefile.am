@@ -3,6 +3,7 @@ NULL =
 SUBDIRS = \
 	helpers    \
 	libcommon  \
+	libkfont   \
 	libkbdfile \
 	libkeymap  \
 	$(NULL)

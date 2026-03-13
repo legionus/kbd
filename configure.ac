@@ -386,6 +386,7 @@ AC_CONFIG_FILES([
 	tests/Makefile
 	tests/helpers/Makefile
 	tests/libcommon/Makefile
+	tests/libkfont/Makefile
 	tests/libkbdfile/Makefile
 	tests/libkeymap/Makefile
 ])
