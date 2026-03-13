@@ -38,7 +38,7 @@
  */
 int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 {
-	if (ioctl(fd, GIO_SCRNMAP, map)) {
+	if (kfont_ioctl(ctx, fd, GIO_SCRNMAP, map)) {
 		KFONT_ERR(ctx, "ioctl(GIO_SCRNMAP): %m");
 		return -1;
 	}
@@ -47,7 +47,7 @@ int getscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 
 int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 {
-	if (ioctl(fd, PIO_SCRNMAP, map)) {
+	if (kfont_ioctl(ctx, fd, PIO_SCRNMAP, map)) {
 		KFONT_ERR(ctx, "ioctl(PIO_SCRNMAP): %m");
 		return -1;
 	}
@@ -81,7 +81,7 @@ int loadscrnmap(struct kfont_context *ctx, int fd, unsigned char *map)
 int
 kfont_get_uniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 {
-	if (ioctl(fd, GIO_UNISCRNMAP, map)) {
+	if (kfont_ioctl(ctx, fd, GIO_UNISCRNMAP, map)) {
 		KFONT_ERR(ctx, "ioctl(GIO_UNISCRNMAP): %m");
 		return -1;
 	}
@@ -98,7 +98,7 @@ kfont_put_uniscrnmap(struct kfont_context *ctx, int fd, unsigned short *map)
 	 */
 	memcpy(inbuf, map, sizeof(inbuf));
 
-	if (ioctl(fd, PIO_UNISCRNMAP, inbuf)) {
+	if (kfont_ioctl(ctx, fd, PIO_UNISCRNMAP, inbuf)) {
 		KFONT_ERR(ctx, "ioctl(PIO_UNISCRNMAP): %m");
 		return -1;
 	}
@@ -150,7 +150,7 @@ kfont_get_unicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 
 	ud.entry_ct = 0;
 	ud.entries  = NULL;
-	if (ioctl(fd, GIO_UNIMAP, &ud)) {
+	if (kfont_ioctl(ctx, fd, GIO_UNIMAP, &ud)) {
 		if (errno != ENOMEM || ud.entry_ct == 0) {
 			KFONT_ERR(ctx, "ioctl(GIO_UNIMAP): %m");
 			return -1;
@@ -163,7 +163,7 @@ kfont_get_unicodemap(struct kfont_context *ctx, int fd, struct unimapdesc *ud0)
 			return -1;
 		}
 
-		if (ioctl(fd, GIO_UNIMAP, &ud)) {
+		if (kfont_ioctl(ctx, fd, GIO_UNIMAP, &ud)) {
 			KFONT_ERR(ctx, "ioctl(GIO_UNIMAP): %m");
 			free(ud.entries);
 			return -1;
@@ -191,7 +191,7 @@ kfont_put_unicodemap(struct kfont_context *ctx, int fd, struct unimapinit *ui, s
 		advice.advised_hashlevel = 0;
 	}
 again:
-	if (ioctl(fd, PIO_UNIMAPCLR, &advice)) {
+	if (kfont_ioctl(ctx, fd, PIO_UNIMAPCLR, &advice)) {
 #ifdef ENOIOCTLCMD
 		if (errno == ENOIOCTLCMD) {
 			KFONT_ERR(ctx,
@@ -205,7 +205,7 @@ again:
 	if (ud == NULL)
 		return 0;
 
-	if (ioctl(fd, PIO_UNIMAP, ud)) {
+	if (kfont_ioctl(ctx, fd, PIO_UNIMAP, ud)) {
 		if (errno == ENOMEM && advice.advised_hashlevel < 100) {
 			advice.advised_hashlevel++;
 			goto again;

@@ -25,7 +25,7 @@ is_kd_text_mode(struct kfont_context *ctx, int fd, int report_errors)
 {
 	unsigned int kd_mode;
 
-	if (ioctl(fd, KDGETMODE, &kd_mode)) {
+	if (kfont_ioctl(ctx, fd, KDGETMODE, &kd_mode)) {
 		if (report_errors)
 			KFONT_ERR(ctx, "ioctl(KDGETMODE): %m");
 		return 0;
@@ -56,7 +56,7 @@ kfont_restore_font(struct kfont_context *ctx, int fd)
 	cfo.op = KD_FONT_OP_SET_DEFAULT;
 	cfo.data = NULL;
 
-	if (ioctl(fd, KDFONTOP, &cfo)) {
+	if (kfont_ioctl(ctx, fd, KDFONTOP, &cfo)) {
 		KFONT_ERR(ctx, "ioctl(KD_FONT_OP_SET_DEFAULT): %m");
 		return -1;
 	}
@@ -110,7 +110,7 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 	 */
 	while (1) {
 		errno = 0;
-		if (ioctl(consolefd, KDFONTOP, &cfo)) {
+		if (kfont_ioctl(ctx, consolefd, KDFONTOP, &cfo)) {
 #ifdef KD_FONT_OP_GET_TALL
 			if (errno == ENOSPC && cfo.op != KD_FONT_OP_GET_TALL) {
 				/*
@@ -136,7 +136,7 @@ get_font_kdfontop(struct kfont_context *ctx, int consolefd,
 		cfo.charcount = *count;
 
 		errno = 0;
-		if (ioctl(consolefd, KDFONTOP, &cfo)) {
+		if (kfont_ioctl(ctx, consolefd, KDFONTOP, &cfo)) {
 			if (errno != ENOSYS && errno != EINVAL) {
 				KFONT_ERR(ctx, "ioctl(KDFONTOP): %m");
 			}
@@ -200,7 +200,7 @@ kfont_is_font_console(struct kfont_context *ctx, int fd)
 	};
 
 	errno = 0;
-	ioctl(fd, KDFONTOP, &cfo);
+	kfont_ioctl(ctx, fd, KDFONTOP, &cfo);
 
 	return (errno != ENOSYS && errno != ENOTTY);
 }
@@ -235,7 +235,7 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 
 	errno = 0;
 
-	if (!ioctl(consolefd, KDFONTOP, &cfo))
+	if (!kfont_ioctl(ctx, consolefd, KDFONTOP, &cfo))
 		return 0;
 
 	if (errno == ENOSYS) {
@@ -262,7 +262,7 @@ put_font_kdfontop(struct kfont_context *ctx, int consolefd, unsigned char *buf,
 
 		errno = 0;
 
-		ret = ioctl(consolefd, KDFONTOP, &cfo);
+		ret = kfont_ioctl(ctx, consolefd, KDFONTOP, &cfo);
 		free(mybuf);
 	}
 

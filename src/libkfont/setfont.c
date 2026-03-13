@@ -154,7 +154,7 @@ try_loadfont(struct kfont_context *ctx, int fd, const unsigned char *inbuf,
 					KFONT_ERR(ctx, _("background will look funny"));
 					break;
 			}
-			sleep(2);
+			kfont_sleep(ctx, 2);
 		}
 	}
 

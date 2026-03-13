@@ -5,6 +5,9 @@
 #ifndef _KFONT_PRIVATE_H_
 #define _KFONT_PRIVATE_H_
 
+#include <sys/ioctl.h>
+#include <unistd.h>
+
 #include <kfont.h>
 
 /*
@@ -23,6 +26,11 @@ struct kfont_context {
 	int verbose;
 	kfont_logger_t log_fn;
 
+	struct kfont_ops {
+		int (*ioctl_fn)(int fd, unsigned long req, void *arg);
+		unsigned int (*sleep_fn)(unsigned int seconds);
+	} ops;
+
 	unsigned int options;
 
 	const char *const *mapdirpath;
@@ -37,6 +45,21 @@ struct kfont_context {
 	const char *const *unidirpath;
 	const char *const *unisuffixes;
 };
+
+int kfont_default_ioctl(int fd, unsigned long req, void *arg);
+unsigned int kfont_default_sleep(unsigned int seconds);
+
+static inline int
+kfont_ioctl(struct kfont_context *ctx, int fd, unsigned long req, void *arg)
+{
+	return ctx->ops.ioctl_fn(fd, req, arg);
+}
+
+static inline unsigned int
+kfont_sleep(struct kfont_context *ctx, unsigned int seconds)
+{
+	return ctx->ops.sleep_fn(seconds);
+}
 
 void logger(struct kfont_context *ctx, int priority, const char *file,
 		int line, const char *fn, const char *fmt, ...)

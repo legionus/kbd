@@ -11,6 +11,18 @@
 
 #include "kfontP.h"
 
+int
+kfont_default_ioctl(int fd, unsigned long req, void *arg)
+{
+	return ioctl(fd, req, arg);
+}
+
+unsigned int
+kfont_default_sleep(unsigned int seconds)
+{
+	return sleep(seconds);
+}
+
 /* search for the map file in these directories (with trailing /) */
 static const char *const mapdirpath[]  = {
 	DATADIR "/" TRANSDIR "/",
@@ -157,6 +169,8 @@ kfont_init(const char *prefix, struct kfont_context **ctx)
 	p->verbose = 0;
 	p->options = 0;
 	p->log_fn = log_stderr;
+	p->ops.ioctl_fn = kfont_default_ioctl;
+	p->ops.sleep_fn = kfont_default_sleep;
 	p->mapdirpath = mapdirpath;
 	p->mapsuffixes = mapsuffixes;
 	p->fontdirpath = fontdirpath;
