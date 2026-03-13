@@ -17,4 +17,5 @@ LDADD  = \
 noinst_PROGRAMS = \
 	libkfont-test01 \
 	libkfont-test02 \
+	libkfont-test03 \
 	$(NULL)
