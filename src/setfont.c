@@ -166,10 +166,8 @@ int main(int argc, char *argv[])
 {
 	const char *ifiles[MAXIFILES];
 	char *mfil, *ufil, *Ofil, *ofil, *omfil, *oufil, *console;
-	int ifilct = 0, fd, no_m, no_u;
+	int ifilct, fd, no_m, no_u, restore, check_console, ret, c;
 	unsigned int iunit, hwunit;
-	int restore = 0;
-	int ret, c;
 
 	struct kfont_context *kfont;
 
@@ -183,6 +181,7 @@ int main(int argc, char *argv[])
 		{ "-m, --consolemap <FILE>",         _("load console screen map ('none' means don't load it).") },
 		{ "-u, --unicodemap <FILE>",         _("load font unicode map ('none' means don't load it).") },
 		{ "-C, --console <DEV>",             _("the console device to be used.") },
+		{ "-c, --check",                     _("check whether console is suitable for font operations.") },
 		{ "-d, --double",                    _("double size of font horizontally and vertically.") },
 		{ "-f, --force",                     _("force load unicode map.") },
 		{ "-R, --reset",                     _("reset the screen font, size, and unicode map to the bootup defaults.") },
@@ -193,6 +192,7 @@ int main(int argc, char *argv[])
 	};
 
 	const struct kbd_option opts[] = {
+		{ "=c",  "check",             kbd_no_argument,       'c' },
 		{ "=d",  "double",            kbd_no_argument,       'd' },
 		{ "=f",  "force",             kbd_no_argument,       'f' },
 		{ "=R",  "reset",             kbd_no_argument,       'R' },
@@ -218,7 +218,8 @@ int main(int argc, char *argv[])
 
 	ifiles[0] = mfil = ufil = Ofil = ofil = omfil = oufil = NULL;
 	iunit = hwunit = 0;
-	no_m = no_u = 0;
+	ifilct = no_m = no_u = 0;
+	restore = check_console = 0;
 	console = NULL;
 
 	while ((c = kbd_getopt(argc, argv, opts)) != -1) {
@@ -271,6 +272,9 @@ int main(int argc, char *argv[])
 			case 'R':
 				restore = 1;
 				break;
+			case 'c':
+				check_console = 1;
+				break;
 			case 'd':
 				kfont_set_option(kfont, kfont_double_size);
 				break;
@@ -315,6 +319,9 @@ int main(int argc, char *argv[])
 
 	if ((fd = getfd(console)) < 0)
 		kbd_error(EX_OSERR, 0, _("Couldn't get a file descriptor referring to the console."));
+
+	if (check_console)
+		return kfont_is_font_console(kfont, fd) ? EX_OK : EXIT_FAILURE;
 
 	int kd_mode = -1;
 	if (!ioctl(fd, KDGETMODE, &kd_mode) && (kd_mode == KD_GRAPHICS)) {

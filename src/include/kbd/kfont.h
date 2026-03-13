@@ -189,6 +189,14 @@ unsigned int kfont_get_fontsize(struct kfont_context *ctx, int consolefd)
 	KBD_ATTR_NONNULL(1);
 
 /*
+ * Check whether CONSOLEFD refers to a text-mode console suitable for
+ * font operations through KDFONTOP. The check is silent and returns 1
+ * if the console can be used, 0 otherwise.
+ */
+int kfont_is_font_console(struct kfont_context *ctx, int consolefd)
+	KBD_ATTR_NONNULL(1);
+
+/*
  * Restore font (doesn't work).
  */
 int kfont_restore_font(struct kfont_context *ctx, int fd)

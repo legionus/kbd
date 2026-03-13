@@ -21,20 +21,28 @@
 #endif
 
 static int
-is_kd_text(struct kfont_context *ctx, int fd)
+is_kd_text_mode(struct kfont_context *ctx, int fd, int report_errors)
 {
 	unsigned int kd_mode;
 
 	if (ioctl(fd, KDGETMODE, &kd_mode)) {
-		KFONT_ERR(ctx, "ioctl(KDGETMODE): %m");
+		if (report_errors)
+			KFONT_ERR(ctx, "ioctl(KDGETMODE): %m");
 		return 0;
 	}
 
 	if (kd_mode == KD_TEXT)
 		return 1;
 
-	KFONT_ERR(ctx, _("Console is not in text mode"));
+	if (report_errors)
+		KFONT_ERR(ctx, _("Console is not in text mode"));
 	return 0;
+}
+
+static inline int
+is_kd_text(struct kfont_context *ctx, int fd)
+{
+	return is_kd_text_mode(ctx, fd, 1);
 }
 
 int
@@ -174,6 +182,27 @@ kfont_get_fontsize(struct kfont_context *ctx, int fd)
 	if (!kfont_get_font(ctx, fd, NULL, &count, NULL, NULL, NULL))
 		return count;
 	return 256;
+}
+
+int
+kfont_is_font_console(struct kfont_context *ctx, int fd)
+{
+	if (!is_kd_text_mode(ctx, fd, 0))
+		return 0;
+
+	struct console_font_op cfo = {
+		.op        = KD_FONT_OP_GET,
+		.flags     = 0,
+		.width     = 32,
+		.height    = 32,
+		.charcount = (sizeof(unsigned char) * MAXFONTSIZE) / (64 * 128 / 8),
+		.data      = NULL,
+	};
+
+	errno = 0;
+	ioctl(fd, KDFONTOP, &cfo);
+
+	return (errno != ENOSYS && errno != ENOTTY);
 }
 
 static int
