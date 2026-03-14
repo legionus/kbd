@@ -4,6 +4,7 @@ AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(top_srcdir)/src/include \
 	-I$(top_srcdir)/src/libcommon \
+	-I$(top_srcdir)/src/libkeymap \
 	-DTESTDIR=\"$(realpath $(top_srcdir))/tests\"
 
 AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
@@ -37,5 +38,5 @@ noinst_PROGRAMS = \
 	libkeymap-test18 \
 	libkeymap-test19 \
 	libkeymap-test20 \
+	libkeymap-test21 \
 	$(NULL)
-
