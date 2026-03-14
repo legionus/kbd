@@ -18,7 +18,7 @@
 #include "modifiers.h"
 
 static char
-valid_type(int fd, int t)
+valid_type(struct lk_ctx *ctx, int fd, int t)
 {
 	struct kbentry ke;
 
@@ -26,11 +26,11 @@ valid_type(int fd, int t)
 	ke.kb_table = 0;
 	ke.kb_value = (unsigned short) K(t, 0);
 
-	return (ioctl(fd, KDSKBENT, &ke) == 0);
+	return (lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke) == 0);
 }
 
 static unsigned char
-maximum_val(int fd, int t)
+maximum_val(struct lk_ctx *ctx, int fd, int t)
 {
 	struct kbentry ke, ke0;
 	int i;
@@ -40,15 +40,15 @@ maximum_val(int fd, int t)
 	ke.kb_value = K_HOLE;
 	ke0         = ke;
 
-	ioctl(fd, KDGKBENT, &ke0);
+	lk_ioctl_ptr(ctx, fd, KDGKBENT, &ke0);
 
 	for (i = 0; i < 256; i++) {
 		ke.kb_value = (unsigned short) K(t, i);
-		if (ioctl(fd, KDSKBENT, &ke))
+		if (lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke))
 			break;
 	}
 	ke.kb_value = K_HOLE;
-	ioctl(fd, KDSKBENT, &ke0);
+	lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke0);
 
 	return (unsigned char) (i - 1);
 }
@@ -100,9 +100,9 @@ void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 
 	fprintf(fd, _("ranges of action codes supported by kernel:\n"));
 
-	for (i = 0; i < NR_TYPES && valid_type(console, i); i++)
+	for (i = 0; i < NR_TYPES && valid_type(ctx, console, i); i++)
 		fprintf(fd, "	0x%04x - 0x%04x\n",
-		        K(i, 0), K(i, maximum_val(console, i)));
+		        K(i, 0), K(i, maximum_val(ctx, console, i)));
 
 	fprintf(fd, _("number of function keys supported by kernel: %d\n"),
 	        MAX_NR_FUNC);

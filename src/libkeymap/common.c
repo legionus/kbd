@@ -7,6 +7,12 @@
 #include "keymap.h"
 #include "contextP.h"
 
+int
+lk_default_ioctl(int fd, unsigned long req, uintptr_t arg)
+{
+	return ioctl(fd, req, arg);
+}
+
 void
 lk_log(struct lk_ctx *ctx, int priority,
        const char *file, int line, const char *fn,
@@ -184,6 +190,7 @@ lk_init(void)
 
 	lk_set_log_fn(ctx, log_file, stderr);
 	lk_set_log_priority(ctx, LOG_ERR);
+	ctx->ops.ioctl_fn = lk_default_ioctl;
 
 	int ret = 0;
 
