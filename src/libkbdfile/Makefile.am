@@ -16,7 +16,7 @@ libkbdfile_la_SOURCES = \
 	kbdfile.c
 
 libkbdfile_la_LIBADD =
-libkbdfile_la_CFLAGS =
+libkbdfile_la_CFLAGS = $(AM_CFLAGS)
 
 if USE_ZLIB
 libkbdfile_la_SOURCES += kbdfile-zlib.c

@@ -40,7 +40,8 @@ spawn_login_CFLAGS   = -DSPAWN_LOGIN
 
 COMMON_LIBS = \
 	libcommon/libcommon.a \
-	@INTLLIBS@
+	@INTLLIBS@ \
+	$(CODE_COVERAGE_LIBS)
 
 chvt_LDADD            = $(COMMON_LIBS)
 deallocvt_LDADD       = $(COMMON_LIBS)
