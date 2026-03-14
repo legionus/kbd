@@ -124,7 +124,12 @@ UNITTEST_MEMCHECK([$abs_builddir/helpers/libkeymap-bkeymap $abs_srcdir/../data/k
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 24 (generate keymap table source)])
+AT_SETUP([test 24 (load keymaps with manual clear fallback)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test24])
+AT_CLEANUP
+
+AT_SETUP([test 25 (generate keymap table source)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
 	"$abs_srcdir/data/dumpkeys-mktable/defkeymap.c" \
@@ -133,7 +138,7 @@ UNITTEST_MEMCHECK([$abs_builddir/helpers/libkeymap-mktable $abs_srcdir/../data/k
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 25 (dump full table in numeric mode)])
+AT_SETUP([test 26 (dump full table in numeric mode)])
 AT_KEYWORDS([libkeymap unittest])
 suffix=
 case "$(arch)" in
@@ -148,7 +153,7 @@ UNITTEST_MEMCHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dum
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 26 (dump full table in default mode)])
+AT_SETUP([test 27 (dump full table in default mode)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
 	"$abs_srcdir/data/dumpkeys-fulltable/qwerty-layout.map" \
@@ -157,7 +162,7 @@ UNITTEST_MEMCHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dum
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 27 (dump full table as separate lines)])
+AT_SETUP([test 28 (dump full table as separate lines)])
 AT_KEYWORDS([libkeymap unittest])
 sed -n \
 	-e 's/#\(keymaps[[:space:]]\+\)/\1/p' \
@@ -168,7 +173,7 @@ AT_CHECK([$abs_builddir/helpers/libkeymap-dumpkeys $abs_srcdir/data/dumpkeys-ful
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 28 (build binary keymap us.map)])
+AT_SETUP([test 29 (build binary keymap us.map)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
@@ -178,7 +183,7 @@ UNITTEST_MEMCHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 29 (build binary keymap pt-latin9.map)])
+AT_SETUP([test 30 (build binary keymap pt-latin9.map)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
@@ -188,7 +193,7 @@ UNITTEST_MEMCHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 30 (build binary keymap cz.map)])
+AT_SETUP([test 31 (build binary keymap cz.map)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test "$(arch)" != "x86_64" ])
 cp -f -- \
@@ -198,7 +203,7 @@ UNITTEST_MEMCHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 31 (render summary and symbol tables)])
+AT_SETUP([test 32 (render summary and symbol tables)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
 	"$abs_srcdir/data/keymap0-summary.txt" \
@@ -206,7 +211,7 @@ cp -f -- \
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test19], [0], [expout])
 AT_CLEANUP
 
-AT_SETUP([test 32 (edit compose table entries)])
+AT_SETUP([test 33 (edit compose table entries)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
 	"$abs_srcdir/data/keymap7-compose-as-usual.txt" \
