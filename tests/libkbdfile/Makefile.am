@@ -13,6 +13,8 @@ LDADD  = \
 	$(top_builddir)/src/libkbdfile/libkbdfile.la \
 	@LIBINTL@ $(CODE_COVERAGE_LIBS)
 
+noinst_HEADERS = libkbdfile-test.h
+
 noinst_PROGRAMS = \
 	libkbdfile-test01 \
 	libkbdfile-test02 \

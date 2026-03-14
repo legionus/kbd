@@ -3,30 +3,20 @@
 #include <string.h>
 #include <errno.h>
 
-#include <kbdfile.h>
-#include "libcommon.h"
+#include "libkbdfile-test.h"
 
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
-	struct kbdfile *fp = kbdfile_new(NULL);
-	if (!fp)
-		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
+	struct kbdfile *fp = new_test_kbdfile();
 
 	const char *const dirpath[]  = { "", TESTDIR "/data/findfile/test_0/keymaps/**", NULL };
 	const char *const suffixes[] = { "", ".map", ".kmap", NULL };
 
 	const char *expect = TESTDIR "/data/findfile/test_0/keymaps/i386/qwerty/test0.map";
 
-	int rc = 0;
-
-	rc = kbdfile_find(TESTDIR "/data/findfile/test_0/keymaps/i386/qwerty/test0", dirpath, suffixes, fp);
-
-	if (rc != 0)
-		kbd_error(EXIT_FAILURE, 0, "unable to find file");
-
-	if (strcmp(expect, kbdfile_get_pathname(fp)) != 0)
-		kbd_error(EXIT_FAILURE, 0, "unexpected file: %s (expected %s)", kbdfile_get_pathname(fp), expect);
+	find_and_expect_kbdfile(fp, TESTDIR "/data/findfile/test_0/keymaps/i386/qwerty/test0",
+			dirpath, suffixes, expect);
 
 	kbdfile_free(fp);
 
