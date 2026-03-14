@@ -1,7 +1,9 @@
 #ifndef LK_CONTEXTP_H
 #define LK_CONTEXTP_H
 
+#include <stdint.h>
 #include <stdarg.h>
+#include <sys/ioctl.h>
 #include <kbdfile.h>
 
 /*
@@ -33,6 +35,10 @@
 /**
  * @brief Opaque object representing the library context.
  */
+struct lk_ops {
+	int (*ioctl_fn)(int fd, unsigned long req, uintptr_t arg);
+};
+
 struct lk_ctx {
 	/**
 	 * Parser flags that are set outside the library.
@@ -69,6 +75,8 @@ struct lk_ctx {
 	 */
 	lk_logger_t log_fn;
 
+	struct lk_ops ops;
+
 	/**
 	 * The data passed to the @ref log_fn logging function as the first argument.
 	 */
@@ -91,6 +99,26 @@ struct lk_ctx {
 	int mod;
 	struct kbdfile *stack[MAX_INCLUDE_DEPTH];
 };
+
+int lk_default_ioctl(int fd, unsigned long req, uintptr_t arg);
+
+static inline int
+lk_ioctl_ptr(struct lk_ctx *ctx, int fd, unsigned long req, void *arg)
+{
+	return ctx->ops.ioctl_fn(fd, req, (uintptr_t)arg);
+}
+
+static inline int
+lk_ioctl_int(struct lk_ctx *ctx, int fd, unsigned long req, int arg)
+{
+	return ctx->ops.ioctl_fn(fd, req, (uintptr_t)arg);
+}
+
+static inline void
+lk_set_ops(struct lk_ctx *ctx, const struct lk_ops *ops)
+{
+	ctx->ops = *ops;
+}
 
 #define lk_log_cond(ctx, level, arg...)                                          \
 	do {                                                                     \

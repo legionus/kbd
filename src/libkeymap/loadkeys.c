@@ -36,7 +36,7 @@ static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 		ke.kb_index = (unsigned char) k_index;
 		ke.kb_value = (unsigned short) value;
 
-		fail = ioctl(fd, KDSKBENT, &ke);
+		fail = lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke);
 
 		if (fail) {
 			if (errno == EPERM) {
@@ -78,7 +78,7 @@ static int clear_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 
 	DBG(ctx, _("deallocate keymap %d"), k_table);
 
-	if (!ioctl(fd, KDSKBENT, &ke))
+	if (!lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke))
 		return 0;
 
 	if (errno != EINVAL) {
@@ -95,7 +95,7 @@ static int clear_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 		ke.kb_index = (unsigned char) k_index;
 		ke.kb_value = K_HOLE;
 
-		if (ioctl(fd, KDSKBENT, &ke)) {
+		if (lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke)) {
 			if (errno == EINVAL && k_table >= 16)
 				break; /* old kernel */
 
@@ -114,7 +114,7 @@ static int set_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 
 	if (ctx->flags & LK_FLAG_UNICODE_MODE) {
 		/* temporarily switch to K_UNICODE while defining keys */
-		if (ioctl(fd, KDSKBMODE, K_UNICODE)) {
+		if (lk_ioctl_int(ctx, fd, KDSKBMODE, K_UNICODE)) {
 			ERR(ctx, _("KDSKBMODE: %s: could not switch to Unicode mode"),
 					strerror(errno));
 			return -1;
@@ -139,7 +139,8 @@ static int set_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 		}
 	}
 
-	if ((ctx->flags & LK_FLAG_UNICODE_MODE) && ioctl(fd, KDSKBMODE, kbd_mode)) {
+	if ((ctx->flags & LK_FLAG_UNICODE_MODE) &&
+	    lk_ioctl_int(ctx, fd, KDSKBMODE, kbd_mode)) {
 		ERR(ctx, _("KDSKBMODE: %sr could not return to original keyboard mode"),
 				strerror(errno));
 		return -1;
@@ -197,7 +198,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 		if (ptr) {
 			strlcpy((char *)kbs.kb_string, ptr, sizeof(kbs.kb_string));
 
-			if (ioctl(fd, KDSKBSENT, &kbs)) {
+			if (lk_ioctl_ptr(ctx, fd, KDSKBSENT, &kbs)) {
 				s = ostr(ctx, (char *)kbs.kb_string);
 				if (s == NULL)
 					return -1;
@@ -210,7 +211,7 @@ deffuncs(struct lk_ctx *ctx, int fd)
 		} else if (ctx->flags & LK_FLAG_CLEAR_STRINGS) {
 			kbs.kb_string[0] = 0;
 
-			if (ioctl(fd, KDSKBSENT, &kbs)) {
+			if (lk_ioctl_ptr(ctx, fd, KDSKBSENT, &kbs)) {
 				ERR(ctx, _("failed to clear string %s"),
 				    get_sym(ctx, KT_FN, kbs.kb_func));
 			} else {
@@ -250,7 +251,7 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			j++;
 		}
 
-		if (ioctl(fd, KDSKBDIACRUC, &kdu)) {
+		if (lk_ioctl_ptr(ctx, fd, KDSKBDIACRUC, &kdu)) {
 			ERR(ctx, "KDSKBDIACRUC: %s", strerror(errno));
 			return -1;
 		}
@@ -279,7 +280,7 @@ defdiacs(struct lk_ctx *ctx, int fd)
 			j++;
 		}
 
-		if (ioctl(fd, KDSKBDIACR, &kd)) {
+		if (lk_ioctl_ptr(ctx, fd, KDSKBDIACR, &kd)) {
 			ERR(ctx, "KDSKBDIACR: %s", strerror(errno));
 			return -1;
 		}
