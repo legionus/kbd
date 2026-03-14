@@ -228,3 +228,13 @@ AT_SETUP([test 35 (abort when Unicode mode switch fails)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test26])
 AT_CLEANUP
+
+AT_SETUP([test 36 (abort on KDSKBENT permission errors)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test27])
+AT_CLEANUP
+
+AT_SETUP([test 37 (abort on KDSKBENT I/O errors)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test28])
+AT_CLEANUP

@@ -44,4 +44,6 @@ noinst_PROGRAMS = \
 	libkeymap-test24 \
 	libkeymap-test25 \
 	libkeymap-test26 \
+	libkeymap-test27 \
+	libkeymap-test28 \
 	$(NULL)
