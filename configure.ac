@@ -6,6 +6,10 @@ AC_PREREQ([2.71])
 
 AC_INIT([kbd],[2.9.0],[gladkov.alexey@gmail.com],[kbd],[https://kbd-project.org/])
 
+AC_DEFINE_UNQUOTED([PACKAGE], ["$PACKAGE"], [Name of package])
+AC_DEFINE_UNQUOTED([VERSION], ["$VERSION"], [Package version])
+AC_DEFINE_UNQUOTED([PACKAGE_STRING], ["$PACKAGE_STRING"], [Package name and version])
+
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 

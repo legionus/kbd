@@ -30,13 +30,13 @@ EXTRA_DIST = \
 	totextmode.c README.cad README.init README.openvt \
 	cad
 
-getunimap_CFLAGS = -DUSE_LIBC
+getunimap_CFLAGS = $(AM_CFLAGS) -DUSE_LIBC
 
 spawn_console_SOURCES = spawn_command.c
 spawn_login_SOURCES   = spawn_command.c
 
-spawn_console_CFLAGS = -DSPAWN_CONSOLE
-spawn_login_CFLAGS   = -DSPAWN_LOGIN
+spawn_console_CFLAGS = $(AM_CFLAGS) -DSPAWN_CONSOLE
+spawn_login_CFLAGS   = $(AM_CFLAGS) -DSPAWN_LOGIN
 
 COMMON_LIBS = \
 	libcommon/libcommon.a \
