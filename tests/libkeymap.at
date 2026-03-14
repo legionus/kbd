@@ -95,6 +95,11 @@ AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test21])
 AT_CLEANUP
 
+AT_SETUP([test 20 (load function strings from kernel ioctl)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test22])
+AT_CLEANUP
+
 AT_SETUP([test 19 (alt-is-meta)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
