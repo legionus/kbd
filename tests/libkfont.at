@@ -14,3 +14,8 @@ AT_SETUP([test 03 (get_font retries with GET_TALL)])
 AT_KEYWORDS([libkfont unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test03])
 AT_CLEANUP
+
+AT_SETUP([test 04 (get_font fails on second KDFONTOP)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test04])
+AT_CLEANUP
