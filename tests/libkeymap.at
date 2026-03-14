@@ -1,6 +1,6 @@
 AT_BANNER([libkeymap unit tests])
 
-AT_SETUP([test 01])
+AT_SETUP([test 01 (parse charset from keymap)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test01])
 AT_CLEANUP
@@ -20,37 +20,37 @@ AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test04])
 AT_CLEANUP
 
-AT_SETUP([test 05])
+AT_SETUP([test 05 (resolve key symbols and codes)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test05])
 AT_CLEANUP
 
-AT_SETUP([test 06])
+AT_SETUP([test 06 (read shifted key values)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test06])
 AT_CLEANUP
 
-AT_SETUP([test 07])
+AT_SETUP([test 07 (propagate key across all maps)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test07])
 AT_CLEANUP
 
-AT_SETUP([test 08])
+AT_SETUP([test 08 (read per-map alphabet entries)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test08])
 AT_CLEANUP
 
-AT_SETUP([test 09])
+AT_SETUP([test 09 (resolve include files from env path)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test09])
 AT_CLEANUP
 
-AT_SETUP([test 10])
+AT_SETUP([test 10 (iterate and delete functions)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test10])
 AT_CLEANUP
 
-AT_SETUP([test 11])
+AT_SETUP([test 11 (reject missing functions)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test11])
 AT_CLEANUP
@@ -183,7 +183,7 @@ UNITTEST_MEMCHECK([$abs_top_builddir/src/loadkeys -b "$abs_srcdir/data/keymaps/i
 	[0], [expout])
 AT_CLEANUP
 
-AT_SETUP([dump summary])
+AT_SETUP([dump summary (render summary and symbol tables)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
 	"$abs_srcdir/data/keymap0-summary.txt" \
@@ -191,7 +191,7 @@ cp -f -- \
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test19], [0], [expout])
 AT_CLEANUP
 
-AT_SETUP([dump compose as usual])
+AT_SETUP([dump compose as usual (edit compose table entries)])
 AT_KEYWORDS([libkeymap unittest])
 cp -f -- \
 	"$abs_srcdir/data/keymap7-compose-as-usual.txt" \

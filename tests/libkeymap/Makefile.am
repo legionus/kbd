@@ -14,6 +14,8 @@ LDADD  = \
 	$(top_builddir)/src/libkeymap/libkeymap.la \
 	@LIBINTL@ $(CODE_COVERAGE_LIBS)
 
+noinst_HEADERS = libkeymap-test.h
+
 noinst_PROGRAMS = \
 	libkeymap-test01 \
 	libkeymap-test02 \
