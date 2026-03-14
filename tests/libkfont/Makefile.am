@@ -28,4 +28,6 @@ noinst_PROGRAMS = \
 	libkfont-test10 \
 	libkfont-test11 \
 	libkfont-test12 \
+	libkfont-test13 \
+	libkfont-test14 \
 	$(NULL)

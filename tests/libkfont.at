@@ -59,3 +59,13 @@ AT_SETUP([test 12 (screen map wrappers pass buffers through)])
 AT_KEYWORDS([libkfont unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test12])
 AT_CLEANUP
+
+AT_SETUP([test 13 (read minimal PSF1 font image)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test13])
+AT_CLEANUP
+
+AT_SETUP([test 14 (load symbolic console map into unicode map)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test14])
+AT_CLEANUP
