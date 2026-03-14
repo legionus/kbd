@@ -238,3 +238,13 @@ AT_SETUP([test 37 (abort on KDSKBENT I/O errors)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test28])
 AT_CLEANUP
+
+AT_SETUP([test 38 (load and clear function strings)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test29])
+AT_CLEANUP
+
+AT_SETUP([test 39 (load compose definitions through KDSKBDIACR)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test30])
+AT_CLEANUP
