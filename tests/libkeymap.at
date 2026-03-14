@@ -218,3 +218,13 @@ cp -f -- \
 	expout
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test20], [0], [expout])
 AT_CLEANUP
+
+AT_SETUP([test 34 (switch keyboard mode during Unicode load)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test25])
+AT_CLEANUP
+
+AT_SETUP([test 35 (abort when Unicode mode switch fails)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test26])
+AT_CLEANUP
