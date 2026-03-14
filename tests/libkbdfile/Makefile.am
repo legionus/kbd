@@ -4,6 +4,7 @@ AM_CPPFLAGS = \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(top_srcdir)/src/include \
 	-I$(top_srcdir)/src/libcommon \
+	-I$(top_srcdir)/src/libkbdfile \
 	-DTESTDIR=\"$(realpath $(top_srcdir))/tests\"
 
 AM_CFLAGS = $(CHECK_CFLAGS) $(CODE_COVERAGE_CFLAGS)
@@ -32,4 +33,13 @@ noinst_PROGRAMS = \
 	libkbdfile-test13 \
 	libkbdfile-test14 \
 	libkbdfile-test15 \
+	libkbdfile-test16 \
 	$(NULL)
+
+libkbdfile_test16_SOURCES = \
+	libkbdfile-test16.c \
+	$(top_srcdir)/src/libkbdfile/elf-note.c
+
+libkbdfile_test16_LDADD = \
+	$(top_builddir)/src/libcommon/libcommon.a \
+	@LIBINTL@ $(CODE_COVERAGE_LIBS)

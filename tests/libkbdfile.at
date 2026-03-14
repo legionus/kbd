@@ -75,3 +75,8 @@ AT_SETUP([test 15 (open compressed and plain files through kbdfile_find)])
 AT_KEYWORDS([libkbdfile unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test15])
 AT_CLEANUP
+
+AT_SETUP([test 16 (load shared library symbols lazily)])
+AT_KEYWORDS([libkbdfile unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test16])
+AT_CLEANUP

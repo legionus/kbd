@@ -9,7 +9,7 @@ AC_INIT([kbd],[2.9.0],[gladkov.alexey@gmail.com],[kbd],[https://kbd-project.org/
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.9 -Wall -Wno-portability color-tests tar-pax dist-xz])
+AM_INIT_AUTOMAKE([1.9 -Wall -Wno-portability subdir-objects color-tests tar-pax dist-xz])
 AC_CONFIG_SRCDIR([src/loadkeys.c])
 AC_CONFIG_TESTDIR([tests])
 AC_CONFIG_HEADERS([config.h])
