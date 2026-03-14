@@ -29,3 +29,8 @@ AT_SETUP([test 06 (put_font fails with ENOSYS)])
 AT_KEYWORDS([libkfont unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test06])
 AT_CLEANUP
+
+AT_SETUP([test 07 (put_font uses SET_TALL)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test07])
+AT_CLEANUP
