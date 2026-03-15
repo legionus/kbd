@@ -248,3 +248,63 @@ AT_SETUP([test 39 (load compose definitions through KDSKBDIACR)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test30])
 AT_CLEANUP
+
+AT_SETUP([test 40 (parse sparse keymaps lines from memory)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test31])
+AT_CLEANUP
+
+AT_SETUP([test 41 (parse strings-as-usual declarations from memory)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test32])
+AT_CLEANUP
+
+AT_SETUP([test 42 (parse compose-as-usual declarations from memory)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test33])
+AT_CLEANUP
+
+AT_SETUP([test 43 (reject malformed keymaps syntax from memory)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test34])
+AT_CLEANUP
+
+AT_SETUP([test 44 (clear prefer-unicode on iso-8859-1 charset)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test35])
+AT_CLEANUP
+
+AT_SETUP([test 45 (parse plain and shifted key bindings from memory)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test36])
+AT_CLEANUP
+
+AT_SETUP([test 46 (reject non-function string declarations)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test37])
+AT_CLEANUP
+
+AT_SETUP([test 47 (reject unknown charset declarations)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test38])
+AT_CLEANUP
+
+AT_SETUP([test 48 (reject unsupported compose-as-usual charset)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test39])
+AT_CLEANUP
+
+AT_SETUP([test 49 (reset modifier chains between singleline entries)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test40])
+AT_CLEANUP
+
+AT_SETUP([test 50 (parse plus-prefixed rvalue forms)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test41])
+AT_CLEANUP
+
+AT_SETUP([test 51 (reject extra rvalues for active keymaps)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test42])
+AT_CLEANUP

@@ -1,6 +1,7 @@
 NULL =
 
 AM_CPPFLAGS = \
+	-D_GNU_SOURCE \
 	$(CODE_COVERAGE_CPPFLAGS) \
 	-I$(top_srcdir)/src/include \
 	-I$(top_srcdir)/src/libcommon \
@@ -49,4 +50,16 @@ noinst_PROGRAMS = \
 	libkeymap-test28 \
 	libkeymap-test29 \
 	libkeymap-test30 \
+	libkeymap-test31 \
+	libkeymap-test32 \
+	libkeymap-test33 \
+	libkeymap-test34 \
+	libkeymap-test35 \
+	libkeymap-test36 \
+	libkeymap-test37 \
+	libkeymap-test38 \
+	libkeymap-test39 \
+	libkeymap-test40 \
+	libkeymap-test41 \
+	libkeymap-test42 \
 	$(NULL)
