@@ -21,18 +21,7 @@ noinst_PROGRAMS = \
 	libkbdfile-test01 \
 	libkbdfile-test02 \
 	libkbdfile-test03 \
-	libkbdfile-test04 \
-	libkbdfile-test05 \
-	libkbdfile-test06 \
-	libkbdfile-test07 \
-	libkbdfile-test08 \
-	libkbdfile-test09 \
-	libkbdfile-test10 \
-	libkbdfile-test11 \
-	libkbdfile-test12 \
-	libkbdfile-test13 \
 	libkbdfile-test14 \
-	libkbdfile-test15 \
 	libkbdfile-test16 \
 	$(NULL)
 

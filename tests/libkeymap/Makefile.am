@@ -52,21 +52,17 @@ noinst_PROGRAMS = \
 	libkeymap-test30 \
 	libkeymap-test31 \
 	libkeymap-test32 \
-	libkeymap-test33 \
-	libkeymap-test34 \
-	libkeymap-test35 \
-	libkeymap-test36 \
-	libkeymap-test37 \
-	libkeymap-test38 \
-	libkeymap-test39 \
-	libkeymap-test40 \
-	libkeymap-test41 \
-	libkeymap-test42 \
 	libkeymap-test43 \
 	libkeymap-test44 \
-	libkeymap-test45 \
-	libkeymap-test46 \
-	libkeymap-test47 \
-	libkeymap-test48 \
-	libkeymap-test49 \
+	libkeymap-test50 \
+	libkeymap-test51 \
+	libkeymap-test52 \
 	$(NULL)
+
+libkeymap_test44_SOURCES = \
+	libkeymap-test44.c \
+	$(top_srcdir)/src/libkeymap/ksyms.c
+
+libkeymap_test44_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-I$(top_builddir)/src/libkeymap

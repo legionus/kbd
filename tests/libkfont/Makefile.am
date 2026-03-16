@@ -17,17 +17,8 @@ LDADD  = \
 
 noinst_PROGRAMS = \
 	libkfont-test01 \
-	libkfont-test02 \
-	libkfont-test03 \
-	libkfont-test04 \
 	libkfont-test05 \
-	libkfont-test06 \
-	libkfont-test07 \
 	libkfont-test08 \
-	libkfont-test09 \
-	libkfont-test10 \
-	libkfont-test11 \
-	libkfont-test12 \
 	libkfont-test13 \
 	libkfont-test14 \
 	libkfont-test15 \
@@ -35,12 +26,7 @@ noinst_PROGRAMS = \
 	libkfont-test17 \
 	libkfont-test18 \
 	libkfont-test19 \
-	libkfont-test20 \
-	libkfont-test21 \
-	libkfont-test22 \
-	libkfont-test23 \
 	libkfont-test24 \
-	libkfont-test25 \
 	$(NULL)
 
 libkfont_test16_SOURCES = \
@@ -71,4 +57,18 @@ libkfont_test17_CPPFLAGS = \
 
 libkfont_test17_LDADD = \
 	$(top_builddir)/src/libcommon/libcommon.a \
+	@LIBINTL@ $(CODE_COVERAGE_LIBS)
+
+libkfont_test24_SOURCES = \
+	libkfont-test24.c \
+	$(top_srcdir)/src/libkfont/context.c \
+	$(top_srcdir)/src/libkfont/kdfontop.c
+
+libkfont_test24_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\".\"
+
+libkfont_test24_LDADD = \
+	$(top_builddir)/src/libcommon/libcommon.a \
+	$(top_builddir)/src/libkfont/libkfont.la \
 	@LIBINTL@ $(CODE_COVERAGE_LIBS)

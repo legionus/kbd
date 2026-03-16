@@ -5,78 +5,23 @@ AT_KEYWORDS([libkbdfile unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test01])
 AT_CLEANUP
 
-AT_SETUP([test 02 (find top-level keymap by .map suffix)])
+AT_SETUP([test 02 (resolve keymap paths across suffix and layout variants)])
 AT_KEYWORDS([libkbdfile unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test02])
 AT_CLEANUP
 
-AT_SETUP([test 03 (resolve nested keymap names at multiple depths)])
+AT_SETUP([test 03 (open direct and compressed files through libkbdfile)])
 AT_KEYWORDS([libkbdfile unittest])
+AT_SKIP_IF([ test "$(arch)" = "ppc64el" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test03])
 AT_CLEANUP
 
-AT_SETUP([test 04 (prefer .map over bare file and .kmap)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test04])
-AT_CLEANUP
-
-AT_SETUP([test 05 (prefer .kmap over .map and bare file)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test05])
-AT_CLEANUP
-
-AT_SETUP([test 06 (skip unknown suffixes before matching keymap)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test06])
-AT_CLEANUP
-
-AT_SETUP([test 07 (pick qwerty variant when basename differs)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test07])
-AT_CLEANUP
-
-AT_SETUP([test 08 (resolve absolute keymap path with suffix fallback)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test08])
-AT_CLEANUP
-
-AT_SETUP([test 09 (open existing file directly)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test09])
-AT_CLEANUP
-
-AT_SETUP([test 10 (fail to open file without explicit suffix)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test10])
-AT_CLEANUP
-
-AT_SETUP([test 11 (find keymap by architecture-qualified path)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test11])
-AT_CLEANUP
-
-AT_SETUP([test 12 (find keymap by layout-qualified path)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test12])
-AT_CLEANUP
-
-AT_SETUP([test 13 (find compressed console font)])
-AT_KEYWORDS([libkbdfile unittest])
-AT_SKIP_IF([ test "$(arch)" = "ppc64el" ])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test13])
-AT_CLEANUP
-
-AT_SETUP([test 14 (set and get logging context state)])
+AT_SETUP([test 04 (set and get logging context state)])
 AT_KEYWORDS([libkbdfile unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test14])
 AT_CLEANUP
 
-AT_SETUP([test 15 (open compressed and plain files through kbdfile_find)])
-AT_KEYWORDS([libkbdfile unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test15])
-AT_CLEANUP
-
-AT_SETUP([test 16 (load shared library symbols lazily)])
+AT_SETUP([test 05 (load shared library symbols lazily)])
 AT_KEYWORDS([libkbdfile unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkbdfile/libkbdfile-test16])
 AT_CLEANUP

@@ -249,97 +249,37 @@ AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test30])
 AT_CLEANUP
 
-AT_SETUP([test 40 (parse sparse keymaps lines from memory)])
+AT_SETUP([test 40 (parse valid in-memory keymap definitions)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test31])
 AT_CLEANUP
 
-AT_SETUP([test 41 (parse strings-as-usual declarations from memory)])
+AT_SETUP([test 41 (reject invalid in-memory keymap definitions)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test32])
 AT_CLEANUP
 
-AT_SETUP([test 42 (parse compose-as-usual declarations from memory)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test33])
-AT_CLEANUP
-
-AT_SETUP([test 43 (reject malformed keymaps syntax from memory)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test34])
-AT_CLEANUP
-
-AT_SETUP([test 44 (clear prefer-unicode on iso-8859-1 charset)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test35])
-AT_CLEANUP
-
-AT_SETUP([test 45 (parse plain and shifted key bindings from memory)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test36])
-AT_CLEANUP
-
-AT_SETUP([test 46 (reject non-function string declarations)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test37])
-AT_CLEANUP
-
-AT_SETUP([test 47 (reject unknown charset declarations)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test38])
-AT_CLEANUP
-
-AT_SETUP([test 48 (reject unsupported compose-as-usual charset)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test39])
-AT_CLEANUP
-
-AT_SETUP([test 49 (reset modifier chains between singleline entries)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test40])
-AT_CLEANUP
-
-AT_SETUP([test 50 (parse plus-prefixed rvalue forms)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test41])
-AT_CLEANUP
-
-AT_SETUP([test 51 (reject extra rvalues for active keymaps)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test42])
-AT_CLEANUP
-
-AT_SETUP([test 52 (dump default keymaps with shorthands)])
+AT_SETUP([test 42 (dump keymaps in supported output formats)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test43])
 AT_CLEANUP
 
-AT_SETUP([test 53 (dump alternate table shapes)])
+AT_SETUP([test 43 (exercise helper and kernel-backed keymap paths)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test44])
 AT_CLEANUP
 
-AT_SETUP([test 54 (dump C and binary keymap formats)])
+AT_SETUP([test 44 (parse lexer-driven positive keymap edge cases)])
 AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test45])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test50])
 AT_CLEANUP
 
-AT_SETUP([test 55 (exercise direct kmap operations)])
+AT_SETUP([test 45 (reject lexer-driven malformed keymap input)])
 AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test46])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test51])
 AT_CLEANUP
 
-AT_SETUP([test 56 (dump summary with kernel type probing)])
+AT_SETUP([test 46 (resolve include files across override and symlink cases)])
 AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test47])
-AT_CLEANUP
-
-AT_SETUP([test 57 (load whole kernel keymap state)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test48])
-AT_CLEANUP
-
-AT_SETUP([test 58 (exercise charset and symbol helpers)])
-AT_KEYWORDS([libkeymap unittest])
-UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test49])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test52])
 AT_CLEANUP
