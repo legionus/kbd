@@ -24,7 +24,7 @@ for filename in "$@"; do
 		continue
 
 	case "$filename" in
-		*/ERRORS*|*/README*)
+		*/ERRORS*|*/README*|*.gz|*bz2|*.xz|*.zst)
 			continue
 			;;
 	esac
