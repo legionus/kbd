@@ -39,6 +39,8 @@ noinst_PROGRAMS = \
 	libkfont-test21 \
 	libkfont-test22 \
 	libkfont-test23 \
+	libkfont-test24 \
+	libkfont-test25 \
 	$(NULL)
 
 libkfont_test16_SOURCES = \
