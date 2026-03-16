@@ -69,3 +69,48 @@ AT_SETUP([test 14 (load symbolic console map into unicode map)])
 AT_KEYWORDS([libkfont unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test14])
 AT_CLEANUP
+
+AT_SETUP([test 15 (read PSF2 font with unicode table and sequence)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test15])
+AT_CLEANUP
+
+AT_SETUP([test 16 (write PSF1 and PSF2 font images)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test16])
+AT_CLEANUP
+
+AT_SETUP([test 17 (reject malformed PSF2 utf8 table)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test17])
+AT_CLEANUP
+
+AT_SETUP([test 18 (reject malformed PSF font metadata)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test18])
+AT_CLEANUP
+
+AT_SETUP([test 19 (save console map prefers compact direct map)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test19])
+AT_CLEANUP
+
+AT_SETUP([test 20 (save console map fails when no map can be read)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test20])
+AT_CLEANUP
+
+AT_SETUP([test 21 (load binary direct console map)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test21])
+AT_CLEANUP
+
+AT_SETUP([test 22 (load binary unicode console map)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test22])
+AT_CLEANUP
+
+AT_SETUP([test 23 (save console map reports open failure)])
+AT_KEYWORDS([libkfont unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkfont/libkfont-test23])
+AT_CLEANUP
