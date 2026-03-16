@@ -65,6 +65,43 @@ jobs:
         if-no-files-found: ignore
         retention-days: 1
 
+  coverage_job:
+    name: "Coverage"
+    runs-on: ubuntu-latest
+    needs: [ distcheck_job ]
+    steps:
+    - name: "Check out repository"
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - name: "Install dependencies"
+      run: |
+        sudo apt-get update -y -qq
+        sudo apt-get install -y -qq \
+          gcc autoconf automake autopoint libtool libtool-bin \
+          libpam0g-dev bison flex gettext lcov \
+          zlib1g-dev libbz2-dev liblzma-dev libzstd-dev
+    - name: "Configure"
+      run: |
+        tests/configure.sh --datadir="$PWD/tests/data" --enable-code-coverage --disable-memcheck
+    - name: "Coverage report"
+      run: |
+        make V=1 coverage-report
+    - name: "Coverage summary"
+      if: always()
+      run: |
+        exec >> "$GITHUB_STEP_SUMMARY"
+        echo "## Coverage"
+        echo
+        if [ -f coverage.info ]; then
+          echo "### Overall"
+          echo '```text'
+          lcov --summary coverage.info
+          echo '```'
+        else
+          echo "Coverage output was not generated."
+        fi
+
   local_build_job:
     name: "Check with ${{ matrix.compiler }} / ${{ matrix.libc }} on x86_64"
     strategy:
@@ -135,7 +172,7 @@ jobs:
           - arch: ppc64el
       fail-fast: false
     runs-on: ubuntu-latest
-    needs: [ check_commits_job, distcheck_job ]
+    needs: [ coverage_job, local_build_job ]
     env:
       CI_ARCH: ${{ matrix.arch }}
       CI_UBUNTU_VERSION: "25.04"
