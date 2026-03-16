@@ -308,3 +308,38 @@ AT_SETUP([test 51 (reject extra rvalues for active keymaps)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test42])
 AT_CLEANUP
+
+AT_SETUP([test 52 (dump default keymaps with shorthands)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test43])
+AT_CLEANUP
+
+AT_SETUP([test 53 (dump alternate table shapes)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test44])
+AT_CLEANUP
+
+AT_SETUP([test 54 (dump C and binary keymap formats)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test45])
+AT_CLEANUP
+
+AT_SETUP([test 55 (exercise direct kmap operations)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test46])
+AT_CLEANUP
+
+AT_SETUP([test 56 (dump summary with kernel type probing)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test47])
+AT_CLEANUP
+
+AT_SETUP([test 57 (load whole kernel keymap state)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test48])
+AT_CLEANUP
+
+AT_SETUP([test 58 (exercise charset and symbol helpers)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test49])
+AT_CLEANUP
