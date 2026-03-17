@@ -57,6 +57,7 @@ noinst_PROGRAMS = \
 	libkeymap-test50 \
 	libkeymap-test51 \
 	libkeymap-test52 \
+	libkeymap-test53 \
 	$(NULL)
 
 libkeymap_test44_SOURCES = \

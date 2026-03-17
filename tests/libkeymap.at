@@ -283,3 +283,8 @@ AT_SETUP([test 46 (resolve include files across override and symlink cases)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test52])
 AT_CLEANUP
+
+AT_SETUP([test 47 (round-trip parse and canonical dump representative keymaps)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test53])
+AT_CLEANUP
