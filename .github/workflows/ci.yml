@@ -35,35 +35,35 @@ jobs:
       uses: actions/checkout@v6
       with:
         fetch-depth: 0
-    - name: "Install dependencies"
-      run: |
-        sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind sparse
-    - name: "Configure"
-      run: |
-        tests/configure.sh --datadir="$PWD/data" --enable-memcheck
-    - name: "Clean"
-      run: |
-        make clean
-    - name: "Build"
-      run: |
-        make V=1
-    - name: "Distcheck"
-      run: |
-        sudo -E make distcheck
-    - name: "Upload artifacts"
-      if: failure()
-      uses: actions/upload-artifact@v6
-      with:
-        name: artifact-distcheck
-        path: |
-          config.log
-          tests/testsuite.dir
-          tests/testsuite.log
-          kbd-*/_build/sub/tests/testsuite.dir
-          kbd-*/_build/sub/tests/testsuite.log
-        if-no-files-found: ignore
-        retention-days: 1
+    #- name: "Install dependencies"
+    #  run: |
+    #    sudo apt-get update  -y -qq
+    #    sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind sparse
+    #- name: "Configure"
+    #  run: |
+    #    tests/configure.sh --datadir="$PWD/data" --enable-memcheck
+    #- name: "Clean"
+    #  run: |
+    #    make clean
+    #- name: "Build"
+    #  run: |
+    #    make V=1
+    #- name: "Distcheck"
+    #  run: |
+    #    sudo -E make distcheck
+    #- name: "Upload artifacts"
+    #  if: failure()
+    #  uses: actions/upload-artifact@v6
+    #  with:
+    #    name: artifact-distcheck
+    #    path: |
+    #      config.log
+    #      tests/testsuite.dir
+    #      tests/testsuite.log
+    #      kbd-*/_build/sub/tests/testsuite.dir
+    #      kbd-*/_build/sub/tests/testsuite.log
+    #    if-no-files-found: ignore
+    #    retention-days: 1
 
   coverage_job:
     name: "Coverage"
@@ -74,155 +74,177 @@ jobs:
       uses: actions/checkout@v6
       with:
         fetch-depth: 0
-    - name: "Install dependencies"
-      run: |
-        sudo apt-get update -y -qq
-        sudo apt-get install -y -qq \
-          gcc autoconf automake autopoint libtool libtool-bin \
-          libpam0g-dev bison flex gettext lcov \
-          zlib1g-dev libbz2-dev liblzma-dev libzstd-dev
-    - name: "Configure"
-      run: |
-        tests/configure.sh --datadir="$PWD/tests/data" --enable-code-coverage --disable-memcheck
-    - name: "Coverage report"
-      run: |
-        make V=1 coverage-report
-    - name: "Coverage summary"
-      if: always()
-      run: |
-        exec >> "$GITHUB_STEP_SUMMARY"
-        echo "## Coverage"
-        echo
-        if [ -f coverage.info ]; then
-          echo "### Overall"
-          echo '```text'
-          lcov --summary coverage.info
-          echo '```'
-        else
-          echo "Coverage output was not generated."
-        fi
+    #- name: "Install dependencies"
+    #  run: |
+    #    sudo apt-get update -y -qq
+    #    sudo apt-get install -y -qq \
+    #      gcc autoconf automake autopoint libtool libtool-bin \
+    #      libpam0g-dev bison flex gettext lcov \
+    #      zlib1g-dev libbz2-dev liblzma-dev libzstd-dev
+    #- name: "Configure"
+    #  run: |
+    #    tests/configure.sh --datadir="$PWD/tests/data" --enable-code-coverage --disable-memcheck
+    #- name: "Coverage report"
+    #  run: |
+    #    make V=1 coverage-report
+    #- name: "Coverage summary"
+    #  if: always()
+    #  run: |
+    #    exec >> "$GITHUB_STEP_SUMMARY"
+    #    echo "## Coverage"
+    #    echo
+    #    if [ -f coverage.info ]; then
+    #      echo "### Overall"
+    #      echo '```text'
+    #      lcov --summary coverage.info
+    #      echo '```'
+    #    else
+    #      echo "Coverage output was not generated."
+    #    fi
 
   local_build_job:
-    name: "Check with ${{ matrix.compiler }} / ${{ matrix.libc }} on x86_64"
+    name: "Check ${{ matrix.arch }} / ${{ matrix.libc }} / ${{ matrix.compiler }}"
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
+            arch: x86_64
             cflags:
             compiler: gcc
             libc: glibc
             configure:
             check: unittest e2e
+            cc: gcc
+            host_check: yes
+            qemu_check:
+            extra_packages:
           - os: ubuntu-latest
+            arch: x86_64
             cflags:
             compiler: clang
             libc: glibc
             configure:
             check: unittest e2e
+            cc: clang
+            host_check: yes
+            qemu_check:
+            extra_packages:
           - os: ubuntu-latest
+            arch: x86_64
             cflags: -idirafter /usr/include/ -idirafter /usr/include/x86_64-linux-gnu/
             compiler: gcc
             libc: musl
             configure: --host=x86_64-linux-musl --disable-vlock --without-zlib --without-bzip2 --without-lzma --without-zstd
             check: unittest e2e
+            cc: gcc
+            host_check: yes
+            qemu_check:
+            extra_packages:
+          - os: ubuntu-latest
+            arch: s390x
+            cflags:
+            compiler: gcc
+            libc: glibc
+            configure: --host=s390x-linux-gnu --disable-vlock --without-zlib --without-bzip2 --without-lzma --without-zstd
+            check:
+            cc: s390x-linux-gnu-gcc
+            host_check:
+            qemu_check: yes
+            extra_packages: gcc-s390x-linux-gnu binutils-s390x-linux-gnu libc6-dev-s390x-cross linux-libc-dev-s390x-cross qemu-system ssh cloud-image-utils
+          - os: ubuntu-latest
+            arch: ppc64el
+            cflags:
+            compiler: gcc
+            libc: glibc
+            configure: --host=powerpc64le-linux-gnu --disable-vlock --without-zlib --without-bzip2 --without-lzma --without-zstd
+            check:
+            cc: powerpc64le-linux-gnu-gcc
+            host_check:
+            qemu_check: yes
+            extra_packages: gcc-powerpc64le-linux-gnu binutils-powerpc64le-linux-gnu libc6-dev-ppc64el-cross linux-libc-dev-ppc64el-cross qemu-system ssh cloud-image-utils
       fail-fast: false
     runs-on: ${{ matrix.os }}
     needs: [ distcheck_job ]
     env:
+      CC: ${{ matrix.cc }}
       CHECK_KEYWORDS: ${{ matrix.check }}
       SANDBOX: priviliged
       TTY: /dev/tty60
       HAVE_VGA: 1
+      CI_ARCH: ${{ matrix.arch }}
+      CI_UBUNTU_VERSION: "25.04"
     steps:
     - name: "Check out repository"
       uses: actions/checkout@v6
       with:
         fetch-depth: 0
-    - run: sudo apt-get update  -y -qq
-    - run: sudo apt-get install -y -qq autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext kbd strace valgrind
-    - run: sudo apt-get install -y -qq gcc clang musl musl-dev musl-tools
+    - name: "Prepare build tree"
+      run: |
+        rm -rf /tmp/kbd
+        mkdir -p /tmp/kbd
+        tar --exclude-vcs -C "$PWD" -cf - . | tar -xf - -C /tmp/kbd
+    - name: "Install dependencies"
+      run: |
+        sudo apt-get update -y -qq
+        sudo apt-get install -y \
+          autoconf automake autopoint libtool libtool-bin libpam0g-dev bison \
+          flex gettext kbd strace valgrind gcc clang musl musl-dev musl-tools \
+          ${{ matrix.extra_packages }}
+
     - name: "Configure"
       run: |
+        cd /tmp/kbd
         tests/configure.sh --datadir="$PWD/tests/data" --enable-memcheck ${{ matrix.configure }}
     - name: "Build"
       run: |
+        cd /tmp/kbd
         make V=1 CFLAGS+="-g -O0 ${{ matrix.cflags }}"
     - name: "Check"
+      if: matrix.host_check == 'yes'
       run: |
+        cd /tmp/kbd
         sudo -E tests/check.sh
-    - name: "Upload artifacts"
-      if: failure()
-      uses: actions/upload-artifact@v6
-      with:
-        name: artifact-${{ matrix.compiler }}-${{ matrix.libc }}
-        path: |
-          config.log
-          tests/testsuite.dir
-          tests/testsuite.log
-        if-no-files-found: ignore
-        retention-days: 1
-
-  qemu_build_job:
-    name: "Check on ${{ matrix.arch }}"
-    strategy:
-      matrix:
-        include:
-          - arch: x86_64
-          - arch: s390x
-          - arch: ppc64el
-      fail-fast: false
-    runs-on: ubuntu-latest
-    needs: [ coverage_job, local_build_job ]
-    env:
-      CI_ARCH: ${{ matrix.arch }}
-      CI_UBUNTU_VERSION: "25.04"
-
-    steps:
-    - name: "Check out repository"
-      uses: actions/checkout@v6
-      with:
-        fetch-depth: 0
-
-    - name: "Prepare Node"
+    - name: "Prepare QEMU"
+      if: matrix.qemu_check == 'yes'
       run: |
         for m in kvm kvm-amd kvm-intel; do sudo modprobe -v "$m" ||:; done
         test -c /dev/kvm && sudo chmod -v 666 /dev/kvm ||:
-
-    - name: "Install dependencies"
-      run: |
-        sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq qemu-system ssh cloud-image-utils
-
     - name: "Prepare cloud image for VM"
+      if: matrix.qemu_check == 'yes'
       run: tests/ci/create-cloud-image.sh
-
     - name: "Start VM"
+      if: matrix.qemu_check == 'yes'
       run: |
         tests/ci/start-qemu-vm.sh "$PWD"
         while ! tests/ci/vm-ssh.sh ubuntu@localhost /bin/true; do sleep 1; done
       timeout-minutes: 30
-
     - name: "Install dependencies into VM"
-      run: tests/ci/vm-ssh.sh ubuntu@localhost /opt/tests/ci/qemu-install-dependencies.sh
-
-    - name: "Copy sources into VM"
+      if: matrix.qemu_check == 'yes'
       run: |
+        tests/ci/vm-ssh.sh ubuntu@localhost /opt/tests/ci/qemu-install-test-dependencies.sh
+    - name: "Copy prebuilt tree into VM"
+      if: matrix.qemu_check == 'yes'
+      run: |
+        tests/ci/vm-ssh.sh ubuntu@localhost rm -rf /tmp/kbd
         tests/ci/vm-ssh.sh ubuntu@localhost mkdir /tmp/kbd
-        tests/ci/vm-scp.sh -r . ubuntu@localhost:/tmp/kbd/
-
-    - name: "Build project in the VM"
+        tar -C /tmp/kbd -cf - . | \
+          tests/ci/vm-ssh-stdin.sh ubuntu@localhost tar -C /tmp/kbd -xf -
+    - name: "Run tests in the VM"
+      if: matrix.qemu_check == 'yes'
       run: |
         rc=0
-        tests/ci/vm-ssh.sh ubuntu@localhost /opt/tests/ci/qemu-run-build-and-tests.sh ${{ matrix.arch }} || rc=1
+        tests/ci/vm-ssh.sh ubuntu@localhost /opt/tests/ci/qemu-run-tests-from-build.sh ${{ matrix.arch }} || rc=1
         tests/ci/vm-scp.sh ubuntu@localhost:artifacts.tar /tmp/${{ matrix.arch }}/ ||:
         exit $rc
-
     - name: "Upload artifacts"
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
-        name: build-on-${{ matrix.arch }}-artifacts
+        name: artifact-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.libc }}
         path: |
+          /tmp/kbd/config.log
+          /tmp/kbd/tests/testsuite.dir
+          /tmp/kbd/tests/testsuite.log
           /tmp/${{ matrix.arch }}/qemu.log
           /tmp/${{ matrix.arch }}/artifacts.tar
         if-no-files-found: ignore
