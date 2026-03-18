@@ -46,13 +46,18 @@ struct sym_pair {
 	char *krn_sym;
 };
 
+struct reachable_sym {
+	xkb_keysym_t sym;
+	int code;
+};
+
 struct xkeymap {
 	const char *debug;
 	struct xkb_context *xkb;
 	struct xkb_keymap *keymap;
 	struct xkb_compose_table *compose;
 	struct lk_ctx *ctx;
-	void *used_codes;
+	void *reachable_syms;
 	void *syms_map;
 };
 
@@ -60,6 +65,12 @@ struct compose_candidate {
 	struct lk_kbdiacr diacr;
 	xkb_keysym_t seq[2];
 	xkb_keysym_t result_sym;
+};
+
+struct compose_collection_stats {
+	size_t total_entries;
+	size_t two_symbol_entries;
+	size_t reachable_entries;
 };
 
 /*
@@ -192,11 +203,14 @@ static const char *map_xkbsym_to_ksym(struct xkeymap *xkeymap, char *xkb_sym)
 	return NULL;
 }
 
-static int compare_codes(const void *pa, const void *pb)
+static int compare_reachable_syms(const void *pa, const void *pb)
 {
-	if (*(int *) pa < *(int *) pb)
+	const struct reachable_sym *lhs = pa;
+	const struct reachable_sym *rhs = pb;
+
+	if (lhs->sym < rhs->sym)
 		return -1;
-	if (*(int *) pa > *(int *) pb)
+	if (lhs->sym > rhs->sym)
 		return 1;
 	return 0;
 }
@@ -438,25 +452,35 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 	return 1;
 }
 
-static int used_code(struct xkeymap *xkeymap, int code)
+static struct reachable_sym *lookup_reachable_sym(struct xkeymap *xkeymap, xkb_keysym_t sym)
 {
-	return tfind(&code, &xkeymap->used_codes, compare_codes) != NULL;
+	struct reachable_sym key = {
+		.sym = sym,
+	};
+	struct reachable_sym **val;
+
+	val = tfind(&key, &xkeymap->reachable_syms, compare_reachable_syms);
+	if (!val)
+		return NULL;
+
+	return *val;
 }
 
-static void remember_code(struct xkeymap *xkeymap, int code)
+static void remember_reachable_sym(struct xkeymap *xkeymap, xkb_keysym_t sym, int code)
 {
-	int *ptr, **val;
+	struct reachable_sym *ptr, **val;
 
-	if (used_code(xkeymap, code))
+	if (lookup_reachable_sym(xkeymap, sym))
 		return;
 
-	ptr = malloc(sizeof(code));
+	ptr = malloc(sizeof(*ptr));
 	if (!ptr)
 		kbd_error(1, errno, "out of memory");
 
-	*ptr = code;
+	ptr->sym = sym;
+	ptr->code = code;
 
-	val = tsearch(ptr, &xkeymap->used_codes, compare_codes);
+	val = tsearch(ptr, &xkeymap->reachable_syms, compare_reachable_syms);
 	if (!val)
 		kbd_error(1, errno, "out of memory");
 
@@ -650,6 +674,8 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				    value == shiftr_lock)
 					value = shift_lock;
 
+				remember_reachable_sym(xkeymap, sym, value);
+
 				for (size_t mask_index = 0; mask_index < keycode_mask.num; mask_index++) {
 					int modifier;
 
@@ -667,14 +693,13 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 		}
 
 process_keycode:
-		for (unsigned short i = 0; i < ARRAY_SIZE(keyvalue); i++) {
-			if (!keyvalue[i])
-				continue;
-			if (lk_add_key(xkeymap->ctx, i, (int) KERN_KEYCODE(keycode), keyvalue[i]) < 0)
-				goto err;
-			remember_code(xkeymap, keyvalue[i]);
+			for (unsigned short i = 0; i < ARRAY_SIZE(keyvalue); i++) {
+				if (!keyvalue[i])
+					continue;
+				if (lk_add_key(xkeymap->ctx, i, (int) KERN_KEYCODE(keycode), keyvalue[i]) < 0)
+					goto err;
+			}
 		}
-	}
 
 	return 0;
 err:
@@ -818,14 +843,65 @@ static int xkeymap_compose_candidate_append(struct compose_candidate **candidate
 	return 0;
 }
 
+static int xkeymap_symbol_is_reachable(struct xkeymap *xkeymap, xkb_keysym_t sym, int *code)
+{
+	struct reachable_sym *reachable;
+
+	reachable = lookup_reachable_sym(xkeymap, sym);
+	if (!reachable)
+		return 0;
+
+	if (code)
+		*code = reachable->code;
+
+	return 1;
+}
+
+static int xkeymap_compose_candidate_from_entry(struct xkeymap *xkeymap,
+						struct xkb_compose_table_entry *entry,
+						struct compose_candidate *candidate)
+{
+	size_t seqlen = 0;
+	const xkb_keysym_t *syms = xkb_compose_table_entry_sequence(entry, &seqlen);
+	xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
+	int code;
+
+	if (keysym == XKB_KEY_NoSymbol || seqlen != 2)
+		return 0;
+
+	if (!xkeymap_symbol_is_reachable(xkeymap, syms[0], &code))
+		return 0;
+	candidate->diacr.diacr = (unsigned int) code;
+	candidate->seq[0] = syms[0];
+
+	if (!xkeymap_symbol_is_reachable(xkeymap, syms[1], &code))
+		return 0;
+	candidate->diacr.base = (unsigned int) code;
+	candidate->seq[1] = syms[1];
+
+	if (xkeymap_symbol_is_reachable(xkeymap, keysym, &code))
+		return 0;
+
+	code = xkeymap_get_code(xkeymap, keysym);
+	if (code < 0)
+		return 0;
+
+	candidate->diacr.result = (unsigned int) code;
+	candidate->result_sym = keysym;
+
+	return 1;
+}
+
 static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
 					      struct compose_candidate **candidates_out,
-					      size_t *count_out)
+					      size_t *count_out,
+					      struct compose_collection_stats *stats_out)
 {
 	struct xkb_compose_table_entry *entry;
 	struct xkb_compose_table_iterator *iter = xkb_compose_table_iterator_new(xkeymap->compose);
 	struct compose_candidate *candidates = NULL;
 	size_t count = 0, capacity = 0;
+	struct compose_collection_stats stats = { 0 };
 	int ret = -1;
 
 	if (!iter) {
@@ -835,54 +911,41 @@ static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
 
 	while ((entry = xkb_compose_table_iterator_next(iter))) {
 		size_t seqlen = 0;
-		const xkb_keysym_t *syms = xkb_compose_table_entry_sequence(entry, &seqlen);
-		xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
+		struct compose_candidate candidate;
 
+		stats.total_entries++;
 		if (is_debug(xkeymap, "1")) {
 			xkeymap_compose_printer(entry);
 			continue;
 		}
 
-		if (keysym == XKB_KEY_NoSymbol)
+		xkb_compose_table_entry_sequence(entry, &seqlen);
+		if (seqlen == 2)
+			stats.two_symbol_entries++;
+
+		ret = xkeymap_compose_candidate_from_entry(xkeymap, entry, &candidate);
+		if (ret < 0)
+			break;
+		if (ret == 0)
 			continue;
 
-		if (seqlen == 2) {
-			struct compose_candidate candidate;
-			int code;
+		stats.reachable_entries++;
 
-			if ((code = xkeymap_get_code(xkeymap, syms[0])) < 0 ||
-			    !used_code(xkeymap, code))
-				continue;
-
-			candidate.diacr.diacr = (unsigned int) code;
-			candidate.seq[0] = syms[0];
-
-			if ((code = xkeymap_get_code(xkeymap, syms[1])) < 0 ||
-			    !used_code(xkeymap, code))
-				continue;
-
-			candidate.diacr.base = (unsigned int) code;
-			candidate.seq[1] = syms[1];
-
-			if ((code = xkeymap_get_code(xkeymap, keysym)) < 0 ||
-			    used_code(xkeymap, code))
-				continue;
-
-			candidate.diacr.result = (unsigned int) code;
-			candidate.result_sym = keysym;
-
-			if (xkeymap_compose_candidate_append(&candidates, &count, &capacity, &candidate) < 0)
-				break;
+		if (xkeymap_compose_candidate_append(&candidates, &count, &capacity, &candidate) < 0) {
+			ret = -1;
+			break;
 		}
 	}
 
 	xkb_compose_table_iterator_free(iter);
 
-	if (ret < 0 && errno)
+	if (ret < 0)
 		goto err;
 
 	*candidates_out = candidates;
 	*count_out = count;
+	if (stats_out)
+		*stats_out = stats;
 	return 0;
 err:
 	free(candidates);
@@ -918,12 +981,18 @@ static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 static int xkeymap_compose(struct xkeymap *xkeymap)
 {
 	struct compose_candidate *candidates = NULL;
+	struct compose_collection_stats stats;
 	size_t count = 0;
 	int ret;
 
-	ret = xkeymap_collect_compose_candidates(xkeymap, &candidates, &count);
+	ret = xkeymap_collect_compose_candidates(xkeymap, &candidates, &count, &stats);
 	if (ret < 0)
 		return -1;
+
+	if (is_debug(xkeymap, "compose")) {
+		kbd_warning(0, "compose candidates: total=%zu two-symbol=%zu reachable=%zu",
+			    stats.total_entries, stats.two_symbol_entries, stats.reachable_entries);
+	}
 
 	if (count > MAX_DIACR) {
 		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb specified %zu.",
@@ -1021,8 +1090,8 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 
 	ret = 0;
 end:
-	if (xkeymap.used_codes)
-		tdestroy(xkeymap.used_codes, free);
+	if (xkeymap.reachable_syms)
+		tdestroy(xkeymap.reachable_syms, free);
 
 	if (xkeymap.syms_map)
 		tdestroy(xkeymap.syms_map, xkeymap_pair_free);
