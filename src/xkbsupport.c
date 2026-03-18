@@ -56,6 +56,12 @@ struct xkeymap {
 	void *syms_map;
 };
 
+struct compose_candidate {
+	struct lk_kbdiacr diacr;
+	xkb_keysym_t seq[2];
+	xkb_keysym_t result_sym;
+};
+
 /*
  * Offset between evdev keycodes (where KEY_ESCAPE is 1), and the evdev XKB
  * keycode set (where ESC is 9).
@@ -766,18 +772,66 @@ static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
 	printf("}\n");
 }
 
-static int xkeymap_compose(struct xkeymap *xkeymap)
+static void xkeymap_compose_candidate_printer(const struct compose_candidate *candidate)
 {
-	int count, ret;
+	char buf[128];
+	int offset = 20;
+
+	if (xkb_keysym_get_name(candidate->result_sym, buf, sizeof(buf)) > 0)
+		printf("Compose: <%s>", buf);
+	else
+		printf("Compose: <?>");
+
+	offset -= 10;
+	for (; offset > 0; offset--)
+		printf(" ");
+
+	printf(" -> sequence[2] = { ");
+	for (size_t i = 0; i < ARRAY_SIZE(candidate->seq); i++) {
+		if (xkb_keysym_get_name(candidate->seq[i], buf, sizeof(buf)) > 0)
+			printf("<%s> ", buf);
+		else
+			printf("<?> ");
+	}
+	printf("}\n");
+}
+
+static int xkeymap_compose_candidate_append(struct compose_candidate **candidates,
+					    size_t *count, size_t *capacity,
+					    const struct compose_candidate *candidate)
+{
+	struct compose_candidate *tmp;
+	size_t new_capacity;
+
+	if (*count == *capacity) {
+		new_capacity = *capacity ? (*capacity * 2) : 32;
+		tmp = realloc(*candidates, new_capacity * sizeof(**candidates));
+		if (!tmp) {
+			kbd_warning(errno, "out of memory");
+			return -1;
+		}
+		*candidates = tmp;
+		*capacity = new_capacity;
+	}
+
+	(*candidates)[(*count)++] = *candidate;
+	return 0;
+}
+
+static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
+					      struct compose_candidate **candidates_out,
+					      size_t *count_out)
+{
 	struct xkb_compose_table_entry *entry;
 	struct xkb_compose_table_iterator *iter = xkb_compose_table_iterator_new(xkeymap->compose);
+	struct compose_candidate *candidates = NULL;
+	size_t count = 0, capacity = 0;
+	int ret = -1;
 
 	if (!iter) {
 		kbd_warning(0, "xkb_compose_table_iterator_new failed");
 		return -1;
 	}
-
-	count = ret = 0;
 
 	while ((entry = xkb_compose_table_iterator_next(iter))) {
 		size_t seqlen = 0;
@@ -793,47 +847,91 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 			continue;
 
 		if (seqlen == 2) {
-			struct lk_kbdiacr ptr;
+			struct compose_candidate candidate;
 			int code;
 
 			if ((code = xkeymap_get_code(xkeymap, syms[0])) < 0 ||
 			    !used_code(xkeymap, code))
 				continue;
 
-			ptr.diacr = (unsigned int) code;
+			candidate.diacr.diacr = (unsigned int) code;
+			candidate.seq[0] = syms[0];
 
 			if ((code = xkeymap_get_code(xkeymap, syms[1])) < 0 ||
 			    !used_code(xkeymap, code))
 				continue;
 
-			ptr.base = (unsigned int) code;
+			candidate.diacr.base = (unsigned int) code;
+			candidate.seq[1] = syms[1];
 
 			if ((code = xkeymap_get_code(xkeymap, keysym)) < 0 ||
 			    used_code(xkeymap, code))
 				continue;
 
-			ptr.result = (unsigned int) code;
+			candidate.diacr.result = (unsigned int) code;
+			candidate.result_sym = keysym;
 
-			if (++count > MAX_DIACR)
-				continue;
-
-			if (is_debug(xkeymap, "2")) {
-				xkeymap_compose_printer(entry);
-				continue;
-			}
-
-			ret = lk_append_diacr(xkeymap->ctx, &ptr);
-
-			if (ret == -1)
+			if (xkeymap_compose_candidate_append(&candidates, &count, &capacity, &candidate) < 0)
 				break;
 		}
 	}
 
 	xkb_compose_table_iterator_free(iter);
 
-	if (count >= MAX_DIACR)
-		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb specified %d.",
-		            MAX_DIACR, count);
+	if (ret < 0 && errno)
+		goto err;
+
+	*candidates_out = candidates;
+	*count_out = count;
+	return 0;
+err:
+	free(candidates);
+	return -1;
+}
+
+static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
+					     const struct compose_candidate *candidates,
+					     size_t count)
+{
+	int ret = 0;
+
+	for (size_t i = 0; i < count; i++) {
+		struct lk_kbdiacr diacr;
+
+		if (i >= MAX_DIACR)
+			break;
+
+		if (is_debug(xkeymap, "2")) {
+			xkeymap_compose_candidate_printer(&candidates[i]);
+			continue;
+		}
+
+		diacr = candidates[i].diacr;
+		ret = lk_append_diacr(xkeymap->ctx, &diacr);
+		if (ret == -1)
+			return -1;
+	}
+
+	return 0;
+}
+
+static int xkeymap_compose(struct xkeymap *xkeymap)
+{
+	struct compose_candidate *candidates = NULL;
+	size_t count = 0;
+	int ret;
+
+	ret = xkeymap_collect_compose_candidates(xkeymap, &candidates, &count);
+	if (ret < 0)
+		return -1;
+
+	if (count > MAX_DIACR) {
+		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb specified %zu.",
+			    MAX_DIACR, count);
+	}
+
+	ret = xkeymap_append_compose_candidates(xkeymap, candidates, count);
+	free(candidates);
 
 	return ret;
 }
