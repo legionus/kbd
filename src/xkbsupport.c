@@ -424,8 +424,8 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 		return 0;
 
 	if (num_syms > 1) {
-		kbd_warning(0, "fixme: more %d symbol on level", num_syms);
-		return -1;
+		kbd_warning(0, "keycode %u layout %u level %u has %d symbols; using the first one",
+			    keycode, layout, level, num_syms);
 	}
 
 	*symbol = syms[0];
@@ -551,8 +551,12 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 
 	for (xkb_keycode_t keycode = min_keycode; keycode <= max_keycode; keycode++) {
 		int keyvalue[MAX_NR_KEYMAPS];
+		xkb_layout_index_t key_layouts = xkb_keymap_num_layouts_for_key(xkeymap->keymap, keycode);
 
 		memset(keyvalue, 0, sizeof(keyvalue));
+
+		if (key_layouts == 0)
+			continue;
 
 		/*
 		 * A mapping of keycodes to symbols, actions and key types.
@@ -569,7 +573,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 		 *
 		 * See: https://github.com/xkbcommon/libxkbcommon/blob/master/doc/keymap-format-text-v1.md
 		 */
-		for (xkb_layout_index_t layout = 0; layout < num_layouts; layout++) {
+		for (xkb_layout_index_t layout = 0; layout < key_layouts; layout++) {
 			xkb_level_index_t num_levels = xkb_keymap_num_levels_for_key(xkeymap->keymap, keycode, layout);
 
 			/*
@@ -810,7 +814,7 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 
 			ptr.result = (unsigned int) code;
 
-			if (++count >= MAX_DIACR)
+			if (++count > MAX_DIACR)
 				continue;
 
 			if (is_debug(xkeymap, "2")) {
@@ -837,18 +841,20 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 static int load_translation_table(struct xkeymap *xkeymap)
 {
 	const char *filename = DATADIR "/xkbtrans/names";
+	const char *display_name = filename;
 	FILE *fp;
 
 	fp = fopen(filename, "r");
 	if (!fp) {
 		filename = getenv("LK_XKB_TRANSLATION_TABLE");
+		display_name = filename;
 
 		if (filename)
 			fp = fopen(filename, "r");
 
 		if (!fp) {
 			kbd_warning(0, "%s: translation table not found. Use the LK_XKB_TRANSLATION_TABLE environment variable to specify this file.",
-			            filename);
+			            display_name ? display_name : "<unset>");
 			return -1;
 		}
 	}
