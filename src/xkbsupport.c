@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 #include <search.h>
 
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -217,12 +218,43 @@ static void print_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask)
 		putchar(' ');
 }
 
+static unsigned int xkb_mask_weight(xkb_mod_mask_t mask)
+{
+	unsigned int weight = 0;
+
+	while (mask) {
+		weight += (unsigned int) (mask & 1u);
+		mask >>= 1;
+	}
+
+	return weight;
+}
+
 static void xkeymap_keycode_mask(struct xkb_keymap *keymap,
                                  xkb_layout_index_t layout, xkb_level_index_t level, xkb_keycode_t keycode,
                                  struct xkb_mask *out)
 {
+	size_t i, j;
+
 	memset(out->mask, 0, sizeof(out->mask));
 	out->num = xkb_keymap_key_get_mods_for_level(keymap, keycode, layout, level, out->mask, ARRAY_SIZE(out->mask));
+
+	/*
+	 * XKB may expose several masks for the same level.  Prefer the
+	 * simplest one so the resulting kernel table stays deterministic.
+	 */
+	for (i = 0; i < out->num; i++) {
+		for (j = i + 1; j < out->num; j++) {
+			unsigned int lhs = xkb_mask_weight(out->mask[i]);
+			unsigned int rhs = xkb_mask_weight(out->mask[j]);
+
+			if (rhs < lhs || (rhs == lhs && out->mask[j] < out->mask[i])) {
+				xkb_mod_mask_t tmp = out->mask[i];
+				out->mask[i] = out->mask[j];
+				out->mask[j] = tmp;
+			}
+		}
+	}
 }
 
 static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
@@ -366,7 +398,10 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 
 			const struct modifier_mapping *map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
 
-			printf(" %s", map->krn_mod);
+			if (map)
+				printf(" %s", map->krn_mod);
+			else
+				printf(" <%s>", xkb_keymap_mod_get_name(xkeymap->keymap, mod));
 			kbd_mods++;
 		}
 	}
@@ -423,30 +458,58 @@ static void remember_code(struct xkeymap *xkeymap, int code)
 		free(ptr);
 }
 
-static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code, int keyvalue[MAX_NR_KEYMAPS])
+static int xkeymap_is_capslockable(xkb_keysym_t sym, int code)
 {
-	if (!modifier || (modifier & (1 << KG_SHIFT)))
+	/* Only synthesize CapsLock behaviour for symbols the kernel can case-map. */
+	if (xkb_keysym_to_lower(sym) == sym && xkb_keysym_to_upper(sym) == sym)
+		return 0;
+
+	if (code < 0x100)
+		return 1;
+
+	if (code >= 0x1000 && (code ^ 0xf000) < 0x100)
+		return 1;
+
+	return 0;
+}
+
+static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code,
+			      int capslockable, int keyvalue[MAX_NR_KEYMAPS])
+{
+	if (modifier < 0 || modifier >= MAX_NR_KEYMAPS)
+		return;
+
+	if (capslockable && (!modifier || (modifier & (1 << KG_SHIFT))))
 		code = lk_add_capslock(xkeymap->ctx, code);
+
+	if (keyvalue[modifier])
+		return;
 
 	keyvalue[modifier] = code;
 }
 
-static int get_kernel_modifier(struct xkeymap *xkeymap, struct xkb_mask *xkbmask)
+static int get_kernel_modifier(struct xkeymap *xkeymap, xkb_mod_mask_t xkbmask, int *modifier)
 {
 	const struct modifier_mapping *map;
-	int modifier = 0;
+	int ret = 0;
 	xkb_mod_index_t num_mods = xkb_keymap_num_mods(xkeymap->keymap);
 
+	*modifier = 0;
+
 	for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-		if (!(xkbmask->mask[0] & (1u << mod)))
+		if (!(xkbmask & (1u << mod)))
 			continue;
 
 		map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
-		if (map)
-			modifier |= map->bit;
+		/* Ignore XKB states that have no safe kernel-table representation. */
+		if (!map || !map->bit)
+			return -1;
+
+		*modifier |= map->bit;
+		ret = 1;
 	}
 
-	return modifier;
+	return ret;
 }
 
 static int xkeymap_walk(struct xkeymap *xkeymap)
@@ -473,6 +536,12 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	int shiftr_lock = lk_ksym_to_unicode(xkeymap->ctx, "ShiftR_Lock");
 
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
+
+	if (num_layouts == 0 || num_layouts > NR_LAYOUTS) {
+		kbd_warning(0, "unable to convert XKB layouts: unsupported layout count %u.",
+			    (unsigned int) num_layouts);
+		return -1;
+	}
 
 	/*
 	 * Pick the languages layout. The switching order depends on the
@@ -517,7 +586,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 			*/
 			for (xkb_level_index_t level = 0; level < num_levels; level++) {
 				xkb_keysym_t sym;
-				int ret, value, modifier;
+				int ret, value;
 
 				/*
 				 * In XKB world, a key action defines the effect a key
@@ -539,13 +608,19 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					xkeymap_walk_printer(xkeymap, layout, level, keycode, sym);
 
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
-				modifier = get_kernel_modifier(xkeymap, &keycode_mask);
 
 				if (sym == XKB_KEY_ISO_Next_Group) {
-					xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, keyvalue);
-					xkeymap_add_value(xkeymap, modifier | layout_switch[1], shiftr_lock, keyvalue);
-					xkeymap_add_value(xkeymap, modifier | layout_switch[2], shiftr_lock, keyvalue);
-					xkeymap_add_value(xkeymap, modifier | layout_switch[3], shiftl_lock, keyvalue);
+					for (size_t mask_index = 0; mask_index < keycode_mask.num; mask_index++) {
+						int modifier;
+
+						if (get_kernel_modifier(xkeymap, keycode_mask.mask[mask_index], &modifier) < 0)
+							continue;
+
+						xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, 0, keyvalue);
+						xkeymap_add_value(xkeymap, modifier | layout_switch[1], shiftr_lock, 0, keyvalue);
+						xkeymap_add_value(xkeymap, modifier | layout_switch[2], shiftr_lock, 0, keyvalue);
+						xkeymap_add_value(xkeymap, modifier | layout_switch[3], shiftl_lock, 0, keyvalue);
+					}
 
 					goto process_keycode;
 				}
@@ -565,10 +640,18 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				    value == shiftr_lock)
 					value = shift_lock;
 
-				for (unsigned short i = 0; i < NR_LAYOUTS; i++) {
-					if (layout != kmap_layout[i])
+				for (size_t mask_index = 0; mask_index < keycode_mask.num; mask_index++) {
+					int modifier;
+
+					if (get_kernel_modifier(xkeymap, keycode_mask.mask[mask_index], &modifier) < 0)
 						continue;
-					xkeymap_add_value(xkeymap, modifier | layout_switch[i], value, keyvalue);
+
+					for (unsigned short i = 0; i < NR_LAYOUTS; i++) {
+						if (layout != kmap_layout[i])
+							continue;
+						xkeymap_add_value(xkeymap, modifier | layout_switch[i], value,
+								 xkeymap_is_capslockable(sym, value), keyvalue);
+					}
 				}
 			}
 		}
@@ -771,6 +854,7 @@ static int load_translation_table(struct xkeymap *xkeymap)
 	}
 
 	if (parsemap(xkeymap, fp, filename) < 0) {
+		fclose(fp);
 		kbd_warning(0, "unable to parse xkb translation names");
 		return -1;
 	}
@@ -842,8 +926,10 @@ end:
 	if (xkeymap.compose)
 		xkb_compose_table_unref(xkeymap.compose);
 
-	xkb_keymap_unref(xkeymap.keymap);
-	xkb_context_unref(xkeymap.xkb);
+	if (xkeymap.keymap)
+		xkb_keymap_unref(xkeymap.keymap);
+	if (xkeymap.xkb)
+		xkb_context_unref(xkeymap.xkb);
 
 	return ret;
 }
