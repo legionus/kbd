@@ -65,6 +65,7 @@ struct compose_candidate {
 	struct lk_kbdiacr diacr;
 	xkb_keysym_t seq[2];
 	xkb_keysym_t result_sym;
+	unsigned int score;
 };
 
 struct compose_collection_stats {
@@ -802,6 +803,8 @@ static void xkeymap_compose_candidate_printer(const struct compose_candidate *ca
 	char buf[128];
 	int offset = 20;
 
+	printf("score=%u ", candidate->score);
+
 	if (xkb_keysym_get_name(candidate->result_sym, buf, sizeof(buf)) > 0)
 		printf("Compose: <%s>", buf);
 	else
@@ -841,6 +844,124 @@ static int xkeymap_compose_candidate_append(struct compose_candidate **candidate
 
 	(*candidates)[(*count)++] = *candidate;
 	return 0;
+}
+
+static int xkeymap_is_dead_keysym(xkb_keysym_t sym)
+{
+	char buf[128];
+	int ret;
+
+	ret = xkb_keysym_get_name(sym, buf, sizeof(buf));
+	if (ret <= 0 || (size_t) ret >= sizeof(buf))
+		return 0;
+
+	return strncmp(buf, "dead_", 5) == 0;
+}
+
+static uint32_t xkeymap_compose_result_unicode(const struct compose_candidate *candidate)
+{
+	/*
+	 * xkeymap_get_code() already normalized the result into the kernel
+	 * representation we are going to load, so score the candidate based on
+	 * that value instead of trying to reinterpret the original XKB symbol.
+	 */
+	if (candidate->diacr.result >= 0x1000)
+		return (uint32_t) (candidate->diacr.result ^ 0xf000);
+
+	return 0;
+}
+
+static unsigned int xkeymap_score_compose_candidate(const struct compose_candidate *candidate)
+{
+	uint32_t result_unicode = xkeymap_compose_result_unicode(candidate);
+	unsigned int score = 0;
+
+	/*
+	 * Prefer classic dead-key style sequences first: these are the rules
+	 * users are most likely to expect from a compact kernel compose table.
+	 */
+	if (xkeymap_is_dead_keysym(candidate->seq[0]))
+		score += 1000;
+
+	/* Latin-1 and Latin Extended-A are the most valuable within MAX_DIACR. */
+	if (result_unicode > 0 && result_unicode <= 0x00ff)
+		score += 200;
+	else if (result_unicode > 0 && result_unicode <= 0x017f)
+		score += 100;
+	else if (result_unicode > 0)
+		score += 25;
+
+	return score;
+}
+
+static int compare_compose_candidates(const void *pa, const void *pb)
+{
+	const struct compose_candidate *lhs = pa;
+	const struct compose_candidate *rhs = pb;
+
+	if (lhs->score > rhs->score)
+		return -1;
+	if (lhs->score < rhs->score)
+		return 1;
+	if (lhs->seq[0] < rhs->seq[0])
+		return -1;
+	if (lhs->seq[0] > rhs->seq[0])
+		return 1;
+	if (lhs->seq[1] < rhs->seq[1])
+		return -1;
+	if (lhs->seq[1] > rhs->seq[1])
+		return 1;
+	if (lhs->result_sym < rhs->result_sym)
+		return -1;
+	if (lhs->result_sym > rhs->result_sym)
+		return 1;
+
+	return 0;
+}
+
+static int compose_candidates_same_sequence(const struct compose_candidate *lhs,
+					    const struct compose_candidate *rhs)
+{
+	return lhs->seq[0] == rhs->seq[0] &&
+	       lhs->seq[1] == rhs->seq[1];
+}
+
+static int compare_kernel_compose_rules(const void *pa, const void *pb)
+{
+	const struct lk_kbdiacr *lhs = pa;
+	const struct lk_kbdiacr *rhs = pb;
+
+	if (lhs->diacr < rhs->diacr)
+		return -1;
+	if (lhs->diacr > rhs->diacr)
+		return 1;
+	if (lhs->base < rhs->base)
+		return -1;
+	if (lhs->base > rhs->base)
+		return 1;
+	if (lhs->result < rhs->result)
+		return -1;
+	if (lhs->result > rhs->result)
+		return 1;
+
+	return 0;
+}
+
+static size_t xkeymap_select_compose_candidates(struct compose_candidate *candidates,
+						size_t count)
+{
+	size_t out = 0;
+
+	qsort(candidates, count, sizeof(*candidates), compare_compose_candidates);
+
+	for (size_t i = 0; i < count; i++) {
+		if (out > 0 && compose_candidates_same_sequence(&candidates[out - 1], &candidates[i]))
+			continue;
+
+		candidates[out++] = candidates[i];
+	}
+
+	return out;
 }
 
 static int xkeymap_symbol_is_reachable(struct xkeymap *xkeymap, xkb_keysym_t sym, int *code)
@@ -888,6 +1009,7 @@ static int xkeymap_compose_candidate_from_entry(struct xkeymap *xkeymap,
 
 	candidate->diacr.result = (unsigned int) code;
 	candidate->result_sym = keysym;
+	candidate->score = xkeymap_score_compose_candidate(candidate);
 
 	return 1;
 }
@@ -954,26 +1076,62 @@ err:
 
 static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 					     const struct compose_candidate *candidates,
-					     size_t count)
+					     size_t count,
+					     size_t *total_rules_out)
 {
+	struct lk_kbdiacr *rule, **val;
+	void *seen_rules = NULL;
+	size_t appended = 0, total_rules = 0;
 	int ret = 0;
 
 	for (size_t i = 0; i < count; i++) {
 		struct lk_kbdiacr diacr;
 
-		if (i >= MAX_DIACR)
+		rule = malloc(sizeof(*rule));
+		if (!rule) {
+			ret = -1;
 			break;
+		}
+
+		*rule = candidates[i].diacr;
+		val = tsearch(rule, &seen_rules, compare_kernel_compose_rules);
+		if (!val) {
+			free(rule);
+			ret = -1;
+			break;
+		}
+
+		if (*val != rule) {
+			free(rule);
+			continue;
+		}
+
+		total_rules++;
+		if (appended >= MAX_DIACR)
+			continue;
 
 		if (is_debug(xkeymap, "2")) {
 			xkeymap_compose_candidate_printer(&candidates[i]);
+			appended++;
 			continue;
 		}
 
 		diacr = candidates[i].diacr;
 		ret = lk_append_diacr(xkeymap->ctx, &diacr);
 		if (ret == -1)
-			return -1;
+			break;
+
+		appended++;
 	}
+
+	if (total_rules_out)
+		*total_rules_out = total_rules;
+
+	if (seen_rules)
+		tdestroy(seen_rules, free);
+
+	if (ret == -1)
+		return -1;
 
 	return 0;
 }
@@ -982,24 +1140,26 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 {
 	struct compose_candidate *candidates = NULL;
 	struct compose_collection_stats stats;
-	size_t count = 0;
+	size_t count = 0, selected, kernel_rules = 0;
 	int ret;
 
 	ret = xkeymap_collect_compose_candidates(xkeymap, &candidates, &count, &stats);
 	if (ret < 0)
 		return -1;
 
+	selected = xkeymap_select_compose_candidates(candidates, count);
+
 	if (is_debug(xkeymap, "compose")) {
-		kbd_warning(0, "compose candidates: total=%zu two-symbol=%zu reachable=%zu",
-			    stats.total_entries, stats.two_symbol_entries, stats.reachable_entries);
+		kbd_warning(0, "compose candidates: total=%zu two-symbol=%zu reachable=%zu selected=%zu",
+			    stats.total_entries, stats.two_symbol_entries, stats.reachable_entries,
+			    selected);
 	}
 
-	if (count > MAX_DIACR) {
-		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb specified %zu.",
-			    MAX_DIACR, count);
+	ret = xkeymap_append_compose_candidates(xkeymap, candidates, selected, &kernel_rules);
+	if (ret == 0 && kernel_rules > MAX_DIACR) {
+		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb needs %zu.",
+			    MAX_DIACR, kernel_rules);
 	}
-
-	ret = xkeymap_append_compose_candidates(xkeymap, candidates, count);
 	free(candidates);
 
 	return ret;
