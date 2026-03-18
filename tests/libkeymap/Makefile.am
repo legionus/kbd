@@ -62,6 +62,7 @@ noinst_PROGRAMS = \
 
 if USE_XKB
 noinst_PROGRAMS += libkeymap-test54
+noinst_PROGRAMS += libkeymap-test55
 
 libkeymap_test54_SOURCES = \
 	libkeymap-test54.c \
@@ -72,6 +73,17 @@ libkeymap_test54_CPPFLAGS = \
 	-I$(top_srcdir)/src
 
 libkeymap_test54_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test55_SOURCES = \
+	libkeymap-test55.c
+
+libkeymap_test55_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-I$(top_srcdir)/src
+
+libkeymap_test55_LDADD = \
 	$(LDADD) \
 	@XKBCOMMON_LIBS@
 endif

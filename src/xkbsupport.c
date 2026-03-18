@@ -919,6 +919,31 @@ static int compare_compose_candidates(const void *pa, const void *pb)
 	return 0;
 }
 
+static int compare_compose_candidates_by_sequence(const void *pa, const void *pb)
+{
+	const struct compose_candidate *lhs = pa;
+	const struct compose_candidate *rhs = pb;
+
+	if (lhs->seq[0] < rhs->seq[0])
+		return -1;
+	if (lhs->seq[0] > rhs->seq[0])
+		return 1;
+	if (lhs->seq[1] < rhs->seq[1])
+		return -1;
+	if (lhs->seq[1] > rhs->seq[1])
+		return 1;
+	if (lhs->score > rhs->score)
+		return -1;
+	if (lhs->score < rhs->score)
+		return 1;
+	if (lhs->result_sym < rhs->result_sym)
+		return -1;
+	if (lhs->result_sym > rhs->result_sym)
+		return 1;
+
+	return 0;
+}
+
 static int compose_candidates_same_sequence(const struct compose_candidate *lhs,
 					    const struct compose_candidate *rhs)
 {
@@ -952,7 +977,7 @@ static size_t xkeymap_select_compose_candidates(struct compose_candidate *candid
 {
 	size_t out = 0;
 
-	qsort(candidates, count, sizeof(*candidates), compare_compose_candidates);
+	qsort(candidates, count, sizeof(*candidates), compare_compose_candidates_by_sequence);
 
 	for (size_t i = 0; i < count; i++) {
 		if (out > 0 && compose_candidates_same_sequence(&candidates[out - 1], &candidates[i]))
@@ -960,6 +985,8 @@ static size_t xkeymap_select_compose_candidates(struct compose_candidate *candid
 
 		candidates[out++] = candidates[i];
 	}
+
+	qsort(candidates, out, sizeof(*candidates), compare_compose_candidates);
 
 	return out;
 }

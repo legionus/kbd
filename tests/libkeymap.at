@@ -225,6 +225,12 @@ AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test54" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test54])
 AT_CLEANUP
 
+AT_SETUP([test 55 (select compose rules by sequence and kernel form)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test55" ])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test55])
+AT_CLEANUP
+
 AT_SETUP([test 34 (switch keyboard mode during Unicode load)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test25])
