@@ -231,6 +231,15 @@ AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test55" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test55])
 AT_CLEANUP
 
+AT_SETUP([test 56 (dump converted XKB us,ru keymap)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test56" ])
+cp -f -- \
+	"$abs_srcdir/data/xkb/us-ru-caps.dump" \
+	expout
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test56], [0], [expout])
+AT_CLEANUP
+
 AT_SETUP([test 34 (switch keyboard mode during Unicode load)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test25])

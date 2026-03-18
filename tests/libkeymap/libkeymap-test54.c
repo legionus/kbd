@@ -16,6 +16,18 @@ set_xkb_translation_table(void)
 }
 
 static void
+set_xkb_config_root(void)
+{
+	char path[512];
+
+	if (snprintf(path, sizeof(path), "%s/data/xkb", TESTDIR) >= (int) sizeof(path))
+		kbd_error(EXIT_FAILURE, 0, "xkb config root path is too long");
+
+	if (setenv("XKB_CONFIG_ROOT", path, 1) != 0)
+		kbd_error(EXIT_FAILURE, errno, "unable to set XKB_CONFIG_ROOT");
+}
+
+static void
 expect_key_symbol(struct lk_ctx *ctx, int table, int keycode, const char *expected)
 {
 	int code = lk_get_key(ctx, table, keycode);
@@ -52,6 +64,7 @@ test_basic_us_layout(void)
 	};
 
 	init_test_keymap(&keymap, "xkb-us");
+	set_xkb_config_root();
 	set_xkb_translation_table();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
@@ -74,6 +87,7 @@ test_group_toggle_layout(void)
 	};
 
 	init_test_keymap(&keymap, "xkb-us-ru");
+	set_xkb_config_root();
 	set_xkb_translation_table();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
