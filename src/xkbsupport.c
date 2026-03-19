@@ -13,6 +13,20 @@
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
+static int
+xkeymap_warnings_suppressed(void)
+{
+	const char *env = getenv("LK_XKB_SUPPRESS_WARNINGS");
+
+	return env && env[0] != '\0' && strcmp(env, "0") != 0;
+}
+
+#define XKEYMAP_WARNING(...) \
+	do { \
+		if (!xkeymap_warnings_suppressed()) \
+			kbd_warning(__VA_ARGS__); \
+	} while (0)
+
 /*
  * The number of layouts that can be processed by this implementation.
  */
@@ -292,7 +306,7 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 		errno = 0;
 		value = (int) strtol(symname + 2, NULL, 16);
 		if (errno == ERANGE) {
-			kbd_warning(0, "unable to convert unnamed non-Unicode xkb symbol `%s'", symname);
+			XKEYMAP_WARNING(0, "unable to convert unnamed non-Unicode xkb symbol `%s'", symname);
 			return -1;
 		}
 		return lk_convert_code(ctx, value, TO_UNICODE);
@@ -304,7 +318,7 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 		errno = 0;
 		value = (int) strtol(symname + 1, NULL, 16);
 		if (errno == ERANGE) {
-			kbd_warning(0, "unable to convert unnamed unicode xkb symbol `%s'", symname);
+			XKEYMAP_WARNING(0, "unable to convert unnamed unicode xkb symbol `%s'", symname);
 			return -1;
 		}
 		return lk_convert_code(ctx, value ^ 0xf000, TO_UNICODE);
@@ -325,7 +339,7 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 	ret = xkb_keysym_get_name(symbol, symbuf, sizeof(symbuf));
 
 	if (ret < 0 || (size_t)ret >= sizeof(symbuf)) {
-		kbd_warning(0, "failed to get name of keysym");
+		XKEYMAP_WARNING(0, "failed to get name of keysym");
 		return -1;
 	}
 
@@ -389,7 +403,7 @@ static void xkeymap_walk_printer(struct xkeymap *xkeymap,
 	ret = xkb_keysym_get_name(sym, s, sizeof(s));
 
 	if (ret < 0 || (size_t)ret >= sizeof(s)) {
-		kbd_warning(0, "failed to get name of keysym");
+		XKEYMAP_WARNING(0, "failed to get name of keysym");
 		return;
 	}
 
@@ -450,8 +464,8 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 		return 0;
 
 	if (num_syms > 1) {
-		kbd_warning(0, "keycode %u layout %u level %u has %d symbols; using the first one",
-			    keycode, layout, level, num_syms);
+		XKEYMAP_WARNING(0, "keycode %u layout %u level %u has %d symbols; using the first one",
+				keycode, layout, level, num_syms);
 	}
 
 	*symbol = syms[0];
@@ -555,12 +569,12 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	xkb_keycode_t max_keycode = xkb_keymap_max_keycode(xkeymap->keymap);
 
 	if (KERN_KEYCODE(min_keycode) >= NR_KEYS) {
-		kbd_warning(0, "keymap defines more keycodes than the kernel can handle.");
+		XKEYMAP_WARNING(0, "keymap defines more keycodes than the kernel can handle.");
 		min_keycode = (NR_KEYS - 1) + EVDEV_OFFSET;
 	}
 
 	if (KERN_KEYCODE(max_keycode) >= NR_KEYS) {
-		kbd_warning(0, "keymap defines more keycodes than the kernel can handle.");
+		XKEYMAP_WARNING(0, "keymap defines more keycodes than the kernel can handle.");
 		max_keycode = (NR_KEYS - 1) + EVDEV_OFFSET;
 	}
 
@@ -574,8 +588,8 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
 
 	if (num_layouts == 0 || num_layouts > NR_LAYOUTS) {
-		kbd_warning(0, "unable to convert XKB layouts: unsupported layout count %u.",
-			    (unsigned int) num_layouts);
+		XKEYMAP_WARNING(0, "unable to convert XKB layouts: unsupported layout count %u.",
+				(unsigned int) num_layouts);
 		return -1;
 	}
 
@@ -725,8 +739,8 @@ static int parsemap(struct xkeymap *xkeymap, FILE *fp, const char *filename)
 		buffer[BUFSIZ - 1] = '\0';
 
 		if (!(p = strchr(buffer, '\n'))) {
-			kbd_warning(0, "%s:%d: The line does not end with a newline. Looks like the line is too long.",
-			            filename, line_nr);
+			XKEYMAP_WARNING(0, "%s:%d: The line does not end with a newline. Looks like the line is too long.",
+					filename, line_nr);
 			goto err;
 		}
 		*p = '\0';
@@ -840,7 +854,7 @@ static int xkeymap_compose_candidate_append(struct compose_candidate **candidate
 		new_capacity = *capacity ? (*capacity * 2) : 32;
 		tmp = realloc(*candidates, new_capacity * sizeof(**candidates));
 		if (!tmp) {
-			kbd_warning(errno, "out of memory");
+			XKEYMAP_WARNING(errno, "out of memory");
 			return -1;
 		}
 		*candidates = tmp;
@@ -1059,7 +1073,7 @@ static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
 	int ret = -1;
 
 	if (!iter) {
-		kbd_warning(0, "xkb_compose_table_iterator_new failed");
+		XKEYMAP_WARNING(0, "xkb_compose_table_iterator_new failed");
 		return -1;
 	}
 
@@ -1182,15 +1196,15 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 	selected = xkeymap_select_compose_candidates(candidates, count);
 
 	if (is_debug(xkeymap, "compose")) {
-		kbd_warning(0, "compose candidates: total=%zu two-symbol=%zu reachable=%zu selected=%zu",
-			    stats.total_entries, stats.two_symbol_entries, stats.reachable_entries,
-			    selected);
+		XKEYMAP_WARNING(0, "compose candidates: total=%zu two-symbol=%zu reachable=%zu selected=%zu",
+				stats.total_entries, stats.two_symbol_entries, stats.reachable_entries,
+				selected);
 	}
 
 	ret = xkeymap_append_compose_candidates(xkeymap, candidates, selected, &kernel_rules);
 	if (ret == 0 && kernel_rules > MAX_DIACR) {
-		kbd_warning(0, "kernel can handle only %d compose definitions, but xkb needs %zu.",
-			    MAX_DIACR, kernel_rules);
+		XKEYMAP_WARNING(0, "kernel can handle only %d compose definitions, but xkb needs %zu.",
+				MAX_DIACR, kernel_rules);
 	}
 	free(candidates);
 
@@ -1212,15 +1226,15 @@ static int load_translation_table(struct xkeymap *xkeymap)
 			fp = fopen(filename, "r");
 
 		if (!fp) {
-			kbd_warning(0, "%s: translation table not found. Use the LK_XKB_TRANSLATION_TABLE environment variable to specify this file.",
-			            display_name ? display_name : "<unset>");
+			XKEYMAP_WARNING(0, "%s: translation table not found. Use the LK_XKB_TRANSLATION_TABLE environment variable to specify this file.",
+					display_name ? display_name : "<unset>");
 			return -1;
 		}
 	}
 
 	if (parsemap(xkeymap, fp, filename) < 0) {
 		fclose(fp);
-		kbd_warning(0, "unable to parse xkb translation names");
+		XKEYMAP_WARNING(0, "unable to parse xkb translation names");
 		return -1;
 	}
 	fclose(fp);
@@ -1248,25 +1262,25 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 
 	xkeymap.xkb = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
 	if (!xkeymap.xkb) {
-		kbd_warning(0, "xkb_context_new failed");
+		XKEYMAP_WARNING(0, "xkb_context_new failed");
 		goto end;
 	}
 
 	xkeymap.keymap = xkb_keymap_new_from_names(xkeymap.xkb, &names, XKB_KEYMAP_COMPILE_NO_FLAGS);
 	if (!xkeymap.keymap) {
-		kbd_warning(0, "xkb_keymap_new_from_names failed");
+		XKEYMAP_WARNING(0, "xkb_keymap_new_from_names failed");
 		goto end;
 	}
 
 	if (xkb_keymap_num_layouts(xkeymap.keymap) > NR_LAYOUTS) {
-		kbd_warning(0, "too many layouts specified. At the moment, you can use no more than %d", NR_LAYOUTS);
+		XKEYMAP_WARNING(0, "too many layouts specified. At the moment, you can use no more than %d", NR_LAYOUTS);
 		goto end;
 	}
 
 	if (params->locale) {
 		xkeymap.compose = xkb_compose_table_new_from_locale(xkeymap.xkb, params->locale, XKB_COMPOSE_COMPILE_NO_FLAGS);
 		if (!xkeymap.compose) {
-			kbd_warning(0, "xkb_compose_table_new_from_locale failed");
+			XKEYMAP_WARNING(0, "xkb_compose_table_new_from_locale failed");
 			goto end;
 		}
 	}

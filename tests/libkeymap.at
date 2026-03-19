@@ -240,6 +240,24 @@ cp -f -- \
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test56], [0], [expout])
 AT_CLEANUP
 
+AT_SETUP([test 57 (dump converted XKB us intl keymap with compose)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test57" ])
+cp -f -- \
+	"$abs_srcdir/data/xkb/us-intl-compose.dump" \
+	expout
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test57], [0], [expout])
+AT_CLEANUP
+
+AT_SETUP([test 58 (dump converted XKB cz keymap with compose)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test58" ])
+cp -f -- \
+	"$abs_srcdir/data/xkb/cz-compose.dump" \
+	expout
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test58], [0], [expout])
+AT_CLEANUP
+
 AT_SETUP([test 34 (switch keyboard mode during Unicode load)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test25])

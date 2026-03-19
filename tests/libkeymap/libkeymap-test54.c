@@ -28,6 +28,13 @@ set_xkb_config_root(void)
 }
 
 static void
+set_xkb_suppress_warnings(void)
+{
+	if (setenv("LK_XKB_SUPPRESS_WARNINGS", "1", 1) != 0)
+		kbd_error(EXIT_FAILURE, errno, "unable to set LK_XKB_SUPPRESS_WARNINGS");
+}
+
+static void
 expect_key_symbol(struct lk_ctx *ctx, int table, int keycode, const char *expected)
 {
 	int code = lk_get_key(ctx, table, keycode);
@@ -66,6 +73,7 @@ test_basic_us_layout(void)
 	init_test_keymap(&keymap, "xkb-us");
 	set_xkb_config_root();
 	set_xkb_translation_table();
+	set_xkb_suppress_warnings();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us layout");
@@ -89,6 +97,7 @@ test_group_toggle_layout(void)
 	init_test_keymap(&keymap, "xkb-us-ru");
 	set_xkb_config_root();
 	set_xkb_translation_table();
+	set_xkb_suppress_warnings();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us,ru layout");
