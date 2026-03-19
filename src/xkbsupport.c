@@ -490,11 +490,10 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 
 	for (xkb_keycode_t keycode = min_keycode; keycode <= max_keycode; keycode++) {
 		int keyvalue[MAX_NR_KEYMAPS];
-		xkb_layout_index_t key_layouts = xkb_keymap_num_layouts_for_key(xkeymap->keymap, keycode);
 
 		memset(keyvalue, 0, sizeof(keyvalue));
 
-		if (key_layouts == 0)
+		if (xkb_keymap_num_layouts_for_key(xkeymap->keymap, keycode) == 0)
 			continue;
 
 		/*
@@ -512,7 +511,14 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 		 *
 		 * See: https://github.com/xkbcommon/libxkbcommon/blob/master/doc/keymap-format-text-v1.md
 		 */
-		for (xkb_layout_index_t layout = 0; layout < key_layouts; layout++) {
+		/*
+		 * Iterate over all layouts in the keymap, not just the layouts
+		 * explicitly defined for this key. XKB normalizes out-of-range
+		 * per-key layout indexes back into range for these queries, so
+		 * walking all global layouts is required to preserve group
+		 * fallback semantics in the kernel table.
+		 */
+		for (xkb_layout_index_t layout = 0; layout < num_layouts; layout++) {
 			xkb_level_index_t num_levels = xkb_keymap_num_levels_for_key(xkeymap->keymap, keycode, layout);
 
 			/*

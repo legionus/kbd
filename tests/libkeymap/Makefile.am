@@ -69,6 +69,7 @@ noinst_PROGRAMS += libkeymap-test58
 noinst_PROGRAMS += libkeymap-test59
 noinst_PROGRAMS += libkeymap-test60
 noinst_PROGRAMS += libkeymap-test61
+noinst_PROGRAMS += libkeymap-test62
 
 libkeymap_test54_SOURCES = \
 	libkeymap-test54.c \
@@ -170,6 +171,19 @@ libkeymap_test61_CPPFLAGS = \
 	-I$(top_srcdir)/src
 
 libkeymap_test61_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test62_SOURCES = \
+	libkeymap-test62.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test62_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test62_LDADD = \
 	$(LDADD) \
 	@XKBCOMMON_LIBS@
 endif

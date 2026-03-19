@@ -224,6 +224,12 @@ AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test61])
 AT_CLEANUP
 
+AT_SETUP([test 61 (xkb key fallback across groups)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test62" ])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test62])
+AT_CLEANUP
+
 AT_SETUP([test 54 (convert XKB layouts to kernel tables)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test54" ])
