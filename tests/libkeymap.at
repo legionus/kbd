@@ -219,6 +219,11 @@ cp -f -- \
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test20], [0], [expout])
 AT_CLEANUP
 
+AT_SETUP([test 34 (xkb conversion without compose table)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test61])
+AT_CLEANUP
+
 AT_SETUP([test 54 (convert XKB layouts to kernel tables)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test54" ])

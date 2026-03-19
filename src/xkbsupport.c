@@ -1187,8 +1187,8 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 	if (params->locale) {
 		xkeymap.compose = xkb_compose_table_new_from_locale(xkeymap.xkb, params->locale, XKB_COMPOSE_COMPILE_NO_FLAGS);
 		if (!xkeymap.compose) {
-			XKEYMAP_WARNING(0, "xkb_compose_table_new_from_locale failed");
-			goto end;
+			XKEYMAP_WARNING(0, "xkb compose table for locale `%s' was not found; continuing without compose support",
+					params->locale);
 		}
 	}
 
