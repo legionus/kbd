@@ -258,6 +258,15 @@ cp -f -- \
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test58], [0], [expout])
 AT_CLEANUP
 
+AT_SETUP([test 59 (dump converted XKB de keymap with compose)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test59" ])
+cp -f -- \
+	"$abs_srcdir/data/xkb/de-compose.dump" \
+	expout
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test59], [0], [expout])
+AT_CLEANUP
+
 AT_SETUP([test 34 (switch keyboard mode during Unicode load)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test25])

@@ -109,11 +109,31 @@ test_kernel_rule_dedup_happens_after_selection(void)
 	free_test_keymap(&keymap);
 }
 
+static void
+test_console_dead_rule_policy_prefers_historic_letter_sets(void)
+{
+	struct compose_candidate preferred = {
+		.seq = { XKB_KEY_dead_caron, 'c' },
+		.diacr = { .diacr = 1, .base = 'c', .result = (unsigned int) ('c' ^ 0xf000) },
+	};
+	struct compose_candidate rejected = {
+		.seq = { XKB_KEY_dead_caron, 'q' },
+		.diacr = { .diacr = 1, .base = 'q', .result = (unsigned int) ('q' ^ 0xf000) },
+	};
+
+	if (!xkeymap_is_preferred_console_dead_rule(&preferred))
+		kbd_error(EXIT_FAILURE, 0, "Expected dead_caron + c to be preferred");
+
+	if (xkeymap_is_preferred_console_dead_rule(&rejected))
+		kbd_error(EXIT_FAILURE, 0, "Unexpected preferred dead-key rule for dead_caron + q");
+}
+
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_sequence_dedup_keeps_best_candidate();
 	test_kernel_rule_dedup_happens_after_selection();
+	test_console_dead_rule_policy_prefers_historic_letter_sets();
 
 	return EXIT_SUCCESS;
 }

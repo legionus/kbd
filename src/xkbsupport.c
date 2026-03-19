@@ -899,6 +899,78 @@ static uint32_t xkeymap_compose_result_unicode(const struct compose_candidate *c
 	return xkeymap_compose_code_to_unicode(candidate->diacr.result);
 }
 
+static int xkeymap_is_ascii_lower(uint32_t c)
+{
+	return c >= 'a' && c <= 'z';
+}
+
+static int xkeymap_is_ascii_upper(uint32_t c)
+{
+	return c >= 'A' && c <= 'Z';
+}
+
+static int xkeymap_is_ascii_vowel(uint32_t c)
+{
+	switch (c) {
+	case 'A': case 'E': case 'I': case 'O': case 'U': case 'Y':
+	case 'a': case 'e': case 'i': case 'o': case 'u': case 'y':
+		return 1;
+	default:
+		return 0;
+	}
+}
+
+static int xkeymap_ascii_in_set(uint32_t c, const char *set)
+{
+	for (; *set; set++) {
+		if (c == (unsigned char) *set)
+			return 1;
+	}
+
+	return 0;
+}
+
+static int xkeymap_is_preferred_console_dead_rule(const struct compose_candidate *candidate)
+{
+	uint32_t base_unicode = xkeymap_compose_code_to_unicode(candidate->diacr.base);
+
+	/*
+	 * Prefer the compact Latin dead-key repertoire used by existing
+	 * console keymaps and console-setup dkey tables.  This keeps the
+	 * kernel compose table biased toward historically expected accent
+	 * combinations instead of locale-wide XKB noise.
+	 */
+	switch (candidate->seq[0]) {
+	case XKB_KEY_dead_grave:
+	case XKB_KEY_dead_macron:
+		return xkeymap_ascii_in_set(base_unicode, "AEIOUaeiou");
+	case XKB_KEY_dead_acute:
+		return xkeymap_ascii_in_set(base_unicode, "ACEILNORSUYZaceilnorsuyz");
+	case XKB_KEY_dead_circumflex:
+		return xkeymap_ascii_in_set(base_unicode, "ACEGHIJOSUWYaceghijosuwy");
+	case XKB_KEY_dead_tilde:
+		return xkeymap_ascii_in_set(base_unicode, "AINOUainou");
+	case XKB_KEY_dead_diaeresis:
+		return xkeymap_is_ascii_vowel(base_unicode);
+	case XKB_KEY_dead_abovering:
+		return xkeymap_ascii_in_set(base_unicode, "AUau");
+	case XKB_KEY_dead_cedilla:
+		return xkeymap_ascii_in_set(base_unicode, "ACESTacest");
+	case XKB_KEY_dead_caron:
+		return xkeymap_ascii_in_set(base_unicode, "CDELNRSTZcdelnrstz");
+	case XKB_KEY_dead_ogonek:
+		return xkeymap_ascii_in_set(base_unicode, "AEae");
+	case XKB_KEY_dead_breve:
+		return xkeymap_ascii_in_set(base_unicode, "AGUagu");
+	case XKB_KEY_dead_doubleacute:
+		return xkeymap_ascii_in_set(base_unicode, "OUou");
+	case XKB_KEY_dead_abovedot:
+		return xkeymap_ascii_in_set(base_unicode, "CEGILZcegilz");
+	default:
+		return 0;
+	}
+}
+
 static unsigned int xkeymap_score_compose_candidate(const struct compose_candidate *candidate)
 {
 	uint32_t base_unicode = xkeymap_compose_code_to_unicode(candidate->diacr.base);
@@ -912,13 +984,16 @@ static unsigned int xkeymap_score_compose_candidate(const struct compose_candida
 	if (xkeymap_is_dead_keysym(candidate->seq[0]))
 		score += 1000;
 
+	if (xkeymap_is_preferred_console_dead_rule(candidate))
+		score += 300;
+
 	/*
 	 * Under MAX_DIACR, accent + letter rules are more useful than accent +
 	 * digit/space/keypad rules and closer to traditional console keymaps.
 	 */
-	if (base_unicode >= 'a' && base_unicode <= 'z')
+	if (xkeymap_is_ascii_lower(base_unicode))
 		score += 250;
-	else if (base_unicode >= 'A' && base_unicode <= 'Z')
+	else if (xkeymap_is_ascii_upper(base_unicode))
 		score += 200;
 	else if ((base_unicode >= '0' && base_unicode <= '9') || base_unicode == ' ')
 		score -= 200;
