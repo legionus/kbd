@@ -66,7 +66,6 @@ struct reachable_sym {
 };
 
 struct xkeymap {
-	const char *debug;
 	struct xkb_context *xkb;
 	struct xkb_keymap *keymap;
 	struct xkb_compose_table *compose;
@@ -81,12 +80,6 @@ struct compose_candidate {
 	xkb_keysym_t result_sym;
 	int result_reachable;
 	unsigned int score;
-};
-
-struct compose_collection_stats {
-	size_t total_entries;
-	size_t two_symbol_entries;
-	size_t reachable_entries;
 };
 
 /*
@@ -170,13 +163,6 @@ static struct modifier_mapping modifier_mapping[] = {
 	{ NULL,			NULL,		0			},
 };
 
-static int is_debug(struct xkeymap *xkeymap, const char *val)
-{
-	if (!xkeymap->debug || (val && strcmp(xkeymap->debug, val)))
-		return 0;
-	return 1;
-}
-
 static struct modifier_mapping *convert_modifier(const char *xkb_name)
 {
 	struct modifier_mapping *map = modifier_mapping;
@@ -234,29 +220,6 @@ static int compare_reachable_syms(const void *pa, const void *pb)
 static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod)
 {
 	return (xkb_mod_mask_t) 1 << mod;
-}
-
-static void print_modifiers(struct xkb_keymap *keymap, struct xkb_mask *mask)
-{
-	int padding = 30;
-	xkb_mod_index_t num_mods = xkb_keymap_num_mods(keymap);
-
-	for (size_t m = 0; m < mask->num; m++) {
-		for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-			if ((mask->mask[m] & xkb_mod_bit(mod)) == 0)
-				continue;
-
-			const char *modname = xkb_keymap_mod_get_name(keymap, mod);
-
-			padding -= printf(" %ld:%s(%d)", m, modname, mod);
-		}
-	}
-
-	if (padding == 30)
-		padding -= printf(" -");
-
-	while (padding-- > 0)
-		putchar(' ');
 }
 
 static unsigned int xkb_mask_weight(xkb_mod_mask_t mask)
@@ -377,81 +340,6 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 		ret = -1;
 
 	return ret;
-}
-
-static void xkeymap_walk_printer(struct xkeymap *xkeymap,
-                                 xkb_layout_index_t layout, xkb_level_index_t level,
-				 xkb_keycode_t keycode, xkb_keysym_t sym)
-{
-	switch (sym) {
-		case XKB_KEY_ISO_Next_Group:
-			printf("* ");
-			break;
-		default:
-			printf("  ");
-			break;
-	}
-
-	printf("keycode %3d = ", KERN_KEYCODE(keycode));
-
-	printf("layout[%d]= %-12s level= %d",
-		layout, xkb_keymap_layout_get_name(xkeymap->keymap, layout), level);
-
-	char s[BUFSIZ];
-	const char *symname = NULL;
-	int value, ret;
-
-	ret = xkb_keysym_get_name(sym, s, sizeof(s));
-
-	if (ret < 0 || (size_t)ret >= sizeof(s)) {
-		XKEYMAP_WARNING(0, "failed to get name of keysym");
-		return;
-	}
-
-	struct xkb_mask keycode_mask;
-	xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
-
-	printf(" xkb:symname= %-27s xkb:mods=", s);
-	print_modifiers(xkeymap->keymap, &keycode_mask);
-	printf(" ");
-
-	if (lk_valid_ksym(xkeymap->ctx, s, TO_UNICODE))
-		symname = s;
-	else
-		symname = map_xkbsym_to_ksym(xkeymap, s);
-
-	if (!symname)
-		symname = "-";
-
-	value = xkeymap_get_code(xkeymap, sym);
-
-	printf(" kbd:code= U+%04x kbd:symname= %-32s", value, symname);
-
-	int kbd_mods = 0;
-
-	printf(" kbd:mods=");
-	if (keycode_mask.num > 0) {
-		xkb_mod_index_t num_mods = xkb_keymap_num_mods(xkeymap->keymap);
-
-		for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-			if ((keycode_mask.mask[0] & xkb_mod_bit(mod)) == 0)
-				continue;
-
-			const struct modifier_mapping *map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
-
-			if (map)
-				printf(" %s", map->krn_mod);
-			else
-				printf(" <%s>", xkb_keymap_mod_get_name(xkeymap->keymap, mod));
-			kbd_mods++;
-		}
-	}
-	if (!kbd_mods)
-		printf(" -");
-	printf("\n");
-
-	fflush(stdout);
-	fflush(stderr);
 }
 
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
@@ -659,9 +547,6 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				else if (ret < 0)
 					goto err;
 
-				if (is_debug(xkeymap, NULL))
-					xkeymap_walk_printer(xkeymap, layout, level, keycode, sym);
-
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
 
 				if (sym == XKB_KEY_ISO_Next_Group) {
@@ -787,61 +672,6 @@ static int parsemap(struct xkeymap *xkeymap, FILE *fp, const char *filename)
 err:
 	xkeymap_pair_free(pair);
 	return -1;
-}
-
-static void xkeymap_compose_printer(struct xkb_compose_table_entry *entry)
-{
-	char buf[128];
-	int offset = 20;
-	size_t seqlen = 0;
-	const xkb_keysym_t *syms = xkb_compose_table_entry_sequence(entry, &seqlen);
-	const char *chr = xkb_compose_table_entry_utf8(entry);
-	xkb_keysym_t keysym = xkb_compose_table_entry_keysym(entry);
-
-	printf("Compose: \"%s\" (chars=%ld) ", chr, strlen(chr));
-
-	if (xkb_keysym_get_name(keysym, buf, sizeof(buf)) > 0)
-		offset -= printf("<%s>", buf);
-	else
-		offset -= printf("<?>");
-
-	for (; offset > 0; offset--)
-		printf(" ");
-
-	printf(" -> sequence[%ld] = { ", seqlen);
-	for (size_t i = 0; i < seqlen; i++) {
-		if (xkb_keysym_get_name(syms[i], buf, sizeof(buf)) > 0)
-			printf("<%s> ", buf);
-		else
-			printf("<?> ");
-	}
-	printf("}\n");
-}
-
-static void xkeymap_compose_candidate_printer(const struct compose_candidate *candidate)
-{
-	char buf[128];
-	int offset = 20;
-
-	printf("score=%u ", candidate->score);
-
-	if (xkb_keysym_get_name(candidate->result_sym, buf, sizeof(buf)) > 0)
-		printf("Compose: <%s>", buf);
-	else
-		printf("Compose: <?>");
-
-	offset -= 10;
-	for (; offset > 0; offset--)
-		printf(" ");
-
-	printf(" -> sequence[2] = { ");
-	for (size_t i = 0; i < ARRAY_SIZE(candidate->seq); i++) {
-		if (xkb_keysym_get_name(candidate->seq[i], buf, sizeof(buf)) > 0)
-			printf("<%s> ", buf);
-		else
-			printf("<?> ");
-	}
-	printf("}\n");
 }
 
 static int xkeymap_compose_candidate_append(struct compose_candidate **candidates,
@@ -1170,14 +1000,12 @@ static int xkeymap_compose_candidate_from_entry(struct xkeymap *xkeymap,
 
 static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
 					      struct compose_candidate **candidates_out,
-					      size_t *count_out,
-					      struct compose_collection_stats *stats_out)
+					      size_t *count_out)
 {
 	struct xkb_compose_table_entry *entry;
 	struct xkb_compose_table_iterator *iter = xkb_compose_table_iterator_new(xkeymap->compose);
 	struct compose_candidate *candidates = NULL;
 	size_t count = 0, capacity = 0;
-	struct compose_collection_stats stats = { 0 };
 	int ret = -1;
 
 	if (!iter) {
@@ -1186,26 +1014,13 @@ static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
 	}
 
 	while ((entry = xkb_compose_table_iterator_next(iter))) {
-		size_t seqlen = 0;
 		struct compose_candidate candidate;
-
-		stats.total_entries++;
-		if (is_debug(xkeymap, "1")) {
-			xkeymap_compose_printer(entry);
-			continue;
-		}
-
-		xkb_compose_table_entry_sequence(entry, &seqlen);
-		if (seqlen == 2)
-			stats.two_symbol_entries++;
 
 		ret = xkeymap_compose_candidate_from_entry(xkeymap, entry, &candidate);
 		if (ret < 0)
 			break;
 		if (ret == 0)
 			continue;
-
-		stats.reachable_entries++;
 
 		if (xkeymap_compose_candidate_append(&candidates, &count, &capacity, &candidate) < 0) {
 			ret = -1;
@@ -1220,8 +1035,6 @@ static int xkeymap_collect_compose_candidates(struct xkeymap *xkeymap,
 
 	*candidates_out = candidates;
 	*count_out = count;
-	if (stats_out)
-		*stats_out = stats;
 	return 0;
 err:
 	free(candidates);
@@ -1264,12 +1077,6 @@ static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 		if (appended >= MAX_DIACR)
 			continue;
 
-		if (is_debug(xkeymap, "2")) {
-			xkeymap_compose_candidate_printer(&candidates[i]);
-			appended++;
-			continue;
-		}
-
 		diacr = candidates[i].diacr;
 		ret = lk_append_diacr(xkeymap->ctx, &diacr);
 		if (ret == -1)
@@ -1293,21 +1100,14 @@ static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 static int xkeymap_compose(struct xkeymap *xkeymap)
 {
 	struct compose_candidate *candidates = NULL;
-	struct compose_collection_stats stats;
 	size_t count = 0, selected, kernel_rules = 0;
 	int ret;
 
-	ret = xkeymap_collect_compose_candidates(xkeymap, &candidates, &count, &stats);
+	ret = xkeymap_collect_compose_candidates(xkeymap, &candidates, &count);
 	if (ret < 0)
 		return -1;
 
 	selected = xkeymap_select_compose_candidates(candidates, count);
-
-	if (is_debug(xkeymap, "compose")) {
-		XKEYMAP_WARNING(0, "compose candidates: total=%zu two-symbol=%zu reachable=%zu selected=%zu",
-				stats.total_entries, stats.two_symbol_entries, stats.reachable_entries,
-				selected);
-	}
 
 	ret = xkeymap_append_compose_candidates(xkeymap, candidates, selected, &kernel_rules);
 	if (ret == 0 && kernel_rules > MAX_DIACR) {
@@ -1364,7 +1164,6 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 	};
 
 	xkeymap.ctx = ctx;
-	xkeymap.debug = getenv("LK_XKB_DEBUG");
 
 	lk_set_keywords(ctx, LK_KEYWORD_ALTISMETA | LK_KEYWORD_STRASUSUAL);
 
