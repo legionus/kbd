@@ -79,6 +79,7 @@ struct compose_candidate {
 	struct lk_kbdiacr diacr;
 	xkb_keysym_t seq[2];
 	xkb_keysym_t result_sym;
+	int result_reachable;
 	unsigned int score;
 };
 
@@ -877,6 +878,17 @@ static int xkeymap_is_dead_keysym(xkb_keysym_t sym)
 	return strncmp(buf, "dead_", 5) == 0;
 }
 
+static uint32_t xkeymap_compose_code_to_unicode(unsigned int code)
+{
+	if (code >= 0x1000)
+		return code ^ 0xf000;
+
+	if (KTYP(code) == KT_LATIN || KTYP(code) == KT_LETTER)
+		return KVAL(code);
+
+	return 0;
+}
+
 static uint32_t xkeymap_compose_result_unicode(const struct compose_candidate *candidate)
 {
 	/*
@@ -884,14 +896,12 @@ static uint32_t xkeymap_compose_result_unicode(const struct compose_candidate *c
 	 * representation we are going to load, so score the candidate based on
 	 * that value instead of trying to reinterpret the original XKB symbol.
 	 */
-	if (candidate->diacr.result >= 0x1000)
-		return (uint32_t) (candidate->diacr.result ^ 0xf000);
-
-	return 0;
+	return xkeymap_compose_code_to_unicode(candidate->diacr.result);
 }
 
 static unsigned int xkeymap_score_compose_candidate(const struct compose_candidate *candidate)
 {
+	uint32_t base_unicode = xkeymap_compose_code_to_unicode(candidate->diacr.base);
 	uint32_t result_unicode = xkeymap_compose_result_unicode(candidate);
 	unsigned int score = 0;
 
@@ -902,6 +912,19 @@ static unsigned int xkeymap_score_compose_candidate(const struct compose_candida
 	if (xkeymap_is_dead_keysym(candidate->seq[0]))
 		score += 1000;
 
+	/*
+	 * Under MAX_DIACR, accent + letter rules are more useful than accent +
+	 * digit/space/keypad rules and closer to traditional console keymaps.
+	 */
+	if (base_unicode >= 'a' && base_unicode <= 'z')
+		score += 250;
+	else if (base_unicode >= 'A' && base_unicode <= 'Z')
+		score += 200;
+	else if ((base_unicode >= '0' && base_unicode <= '9') || base_unicode == ' ')
+		score -= 200;
+	else if (base_unicode != 0)
+		score -= 50;
+
 	/* Latin-1 and Latin Extended-A are the most valuable within MAX_DIACR. */
 	if (result_unicode > 0 && result_unicode <= 0x00ff)
 		score += 200;
@@ -909,6 +932,14 @@ static unsigned int xkeymap_score_compose_candidate(const struct compose_candida
 		score += 100;
 	else if (result_unicode > 0)
 		score += 25;
+
+	/*
+	 * A directly reachable symbol is less valuable than one compose adds
+	 * from scratch, but traditional console keymaps still keep important
+	 * dead-key combinations for directly typed national letters.
+	 */
+	if (candidate->result_reachable)
+		score -= 100;
 
 	return score;
 }
@@ -1047,11 +1078,13 @@ static int xkeymap_compose_candidate_from_entry(struct xkeymap *xkeymap,
 	candidate->seq[1] = syms[1];
 
 	if (xkeymap_symbol_is_reachable(xkeymap, keysym, &code))
-		return 0;
-
-	code = xkeymap_get_code(xkeymap, keysym);
-	if (code < 0)
-		return 0;
+		candidate->result_reachable = 1;
+	else {
+		code = xkeymap_get_code(xkeymap, keysym);
+		if (code < 0)
+			return 0;
+		candidate->result_reachable = 0;
+	}
 
 	candidate->diacr.result = (unsigned int) code;
 	candidate->result_sym = keysym;
