@@ -1084,9 +1084,9 @@ static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 			continue;
 
 		diacr = candidates[i].diacr;
-		ret = lk_append_diacr(xkeymap->ctx, &diacr);
-		if (ret == -1)
-			break;
+			ret = lk_append_compose(xkeymap->ctx, &diacr);
+			if (ret == -1)
+				break;
 
 		appended++;
 	}

@@ -51,55 +51,6 @@ set_xkb_suppress_warnings(void)
 		kbd_error(EXIT_FAILURE, errno, "unable to set LK_XKB_SUPPRESS_WARNINGS");
 }
 
-static void
-dump_compose_symbol(struct lk_ctx *ctx, FILE *fp, unsigned int code)
-{
-	char *sym;
-	const unsigned char *p;
-
-	if (code < 0x1000 &&
-	    (KTYP(code) == KT_LATIN || KTYP(code) == KT_LETTER) &&
-	    KVAL(code) >= 0x20 && KVAL(code) <= 0x7e &&
-	    KVAL(code) != '\'' && KVAL(code) != '\\') {
-		fprintf(fp, "'%c'", KVAL(code));
-		return;
-	}
-
-	sym = lk_code_to_ksym(ctx, (int) code);
-	if (sym && strcmp(sym, "-") != 0) {
-		for (p = (const unsigned char *) sym; *p; p++) {
-			if (*p < 0x20 || *p == 0x7f) {
-				free(sym);
-				fprintf(fp, "0x%x", code);
-				return;
-			}
-		}
-		fputs(sym, fp);
-		free(sym);
-		return;
-	}
-
-	free(sym);
-	fprintf(fp, "0x%x", code);
-}
-
-static void
-dump_compose_table(struct lk_ctx *ctx, FILE *fp)
-{
-	struct lk_kbdiacr diacr;
-	int i = 0;
-
-	while (lk_get_diacr(ctx, i++, &diacr) == 0) {
-		fputs("compose ", fp);
-		dump_compose_symbol(ctx, fp, diacr.diacr);
-		fputc(' ', fp);
-		dump_compose_symbol(ctx, fp, diacr.base);
-		fputs(" to ", fp);
-		dump_compose_symbol(ctx, fp, diacr.result);
-		fputc('\n', fp);
-	}
-}
-
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
@@ -111,6 +62,8 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	};
 
 	init_test_keymap(&keymap, "xkb-de-dump");
+	if (lk_set_parser_flags(keymap.ctx, LK_FLAG_PREFER_UNICODE) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to enable preferred Unicode conversion");
 	set_xkb_config_root();
 	set_xcomposefile();
 	set_xkb_translation_table();
@@ -120,7 +73,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB de layout");
 
 	lk_dump_keymap(keymap.ctx, stdout, LK_SHAPE_SEPARATE_LINES, 0);
-	dump_compose_table(keymap.ctx, stdout);
+	lk_dump_diacs(keymap.ctx, stdout);
 
 	free_test_keymap(&keymap);
 	return EXIT_SUCCESS;

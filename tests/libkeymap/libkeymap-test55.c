@@ -110,6 +110,40 @@ test_kernel_rule_dedup_happens_after_selection(void)
 }
 
 static void
+test_compose_append_uses_kbd_conversion_rules(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap xkeymap = { 0 };
+	struct compose_candidate candidate = {
+		.seq = { 'a', 'b' },
+		.result_sym = 'c',
+		.diacr = {
+			.diacr = (unsigned int) ('a' ^ 0xf000),
+			.base = (unsigned int) ('b' ^ 0xf000),
+			.result = (unsigned int) ('c' ^ 0xf000),
+		},
+		.score = 10,
+	};
+	size_t total_rules = 0;
+
+	init_test_keymap(&keymap, "xkb-compose-conversion");
+	xkeymap.ctx = keymap.ctx;
+
+	if (xkeymap_append_compose_candidates(&xkeymap, &candidate, 1, &total_rules) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to append compose candidate through kbd conversion");
+
+	if (total_rules != 1)
+		kbd_error(EXIT_FAILURE, 0, "Expected 1 kernel compose rule, got %zu", total_rules);
+
+	expect_rule(keymap.ctx, 0,
+		    (unsigned int) lk_convert_code(keymap.ctx, 'a' ^ 0xf000, TO_8BIT),
+		    (unsigned int) lk_convert_code(keymap.ctx, 'b' ^ 0xf000, TO_8BIT),
+		    (unsigned int) lk_convert_code(keymap.ctx, 'c' ^ 0xf000, TO_8BIT));
+
+	free_test_keymap(&keymap);
+}
+
+static void
 test_console_dead_rule_policy_prefers_historic_letter_sets(void)
 {
 	struct compose_candidate preferred = {
@@ -133,6 +167,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_sequence_dedup_keeps_best_candidate();
 	test_kernel_rule_dedup_happens_after_selection();
+	test_compose_append_uses_kbd_conversion_rules();
 	test_console_dead_rule_policy_prefers_historic_letter_sets();
 
 	return EXIT_SUCCESS;
