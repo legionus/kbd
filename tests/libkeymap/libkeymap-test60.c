@@ -9,18 +9,6 @@
 #include "xkbsupport.h"
 
 static void
-set_xkb_translation_table(void)
-{
-	char path[512];
-
-	if (snprintf(path, sizeof(path), "%s/../data/xkbtrans/names", TESTDIR) >= (int) sizeof(path))
-		kbd_error(EXIT_FAILURE, 0, "translation table path is too long");
-
-	if (setenv("LK_XKB_TRANSLATION_TABLE", path, 1) != 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to set LK_XKB_TRANSLATION_TABLE");
-}
-
-static void
 set_xkb_config_root(void)
 {
 	char path[512];
@@ -66,7 +54,6 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 		kbd_error(EXIT_FAILURE, 0, "Unable to enable preferred Unicode conversion");
 	set_xkb_config_root();
 	set_xcomposefile();
-	set_xkb_translation_table();
 	set_xkb_suppress_warnings();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)

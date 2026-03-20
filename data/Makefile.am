@@ -1,4 +1,4 @@
-EXTRA_DIST = consolefonts consoletrans keymaps partialfonts unimaps xkbtrans \
+EXTRA_DIST = consolefonts consoletrans keymaps partialfonts unimaps \
 	     compress.sh
 
 IGNORE_KEYMAPS = i386/mk_modmap README */README */*/README
@@ -57,15 +57,6 @@ install-consoletrans:
 install-unimaps:
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(UNIMAPDIR)
 	cp -dPR -- $(srcdir)/$(UNIMAPDIR)/* $(DESTDIR)$(datadir)/$(UNIMAPDIR)/
-
-if USE_XKB
-install-xkbtrans:
-	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/xkbtrans
-	cp -dPR -- $(srcdir)/xkbtrans/* $(DESTDIR)$(datadir)/xkbtrans/
-
-INSTALL_DATA_HOOKS += install-xkbtrans
-UNINSTALL_DATA_DIRS += xkbtrans
-endif
 
 install-keymaps: $(SRC_KEYMAPDIR)
 	mkdir -p -m 755 -- $(DESTDIR)$(datadir)/$(KEYMAPDIR)

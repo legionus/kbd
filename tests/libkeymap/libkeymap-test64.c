@@ -1,6 +1,4 @@
 #include <linux/keyboard.h>
-#include <unistd.h>
-
 #include "libkeymap-test.h"
 #include "xkbsupport.h"
 
@@ -21,51 +19,6 @@ set_xkb_suppress_warnings(void)
 {
 	if (setenv("LK_XKB_SUPPRESS_WARNINGS", "1", 1) != 0)
 		kbd_error(EXIT_FAILURE, errno, "unable to set LK_XKB_SUPPRESS_WARNINGS");
-}
-
-static void
-set_filtered_xkb_translation_table(void)
-{
-	char src_path[512];
-	char tmp_path[] = "/tmp/libkeymap-xkbtrans-XXXXXX";
-	FILE *src, *dst;
-	char line[512];
-	int fd;
-
-	if (snprintf(src_path, sizeof(src_path), "%s/../data/xkbtrans/names", TESTDIR) >= (int) sizeof(src_path))
-		kbd_error(EXIT_FAILURE, 0, "translation table path is too long");
-
-	src = fopen(src_path, "r");
-	if (!src)
-		kbd_error(EXIT_FAILURE, errno, "unable to open %s", src_path);
-
-	fd = mkstemp(tmp_path);
-	if (fd < 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to create temporary translation table");
-
-	dst = fdopen(fd, "w");
-	if (!dst)
-		kbd_error(EXIT_FAILURE, errno, "unable to open temporary translation table");
-
-	while (fgets(line, sizeof(line), src)) {
-		if (strncmp(line, "Serbian_", strlen("Serbian_")) == 0)
-			continue;
-
-		if (fputs(line, dst) == EOF)
-			kbd_error(EXIT_FAILURE, errno, "unable to write temporary translation table");
-	}
-
-	if (fclose(src) != 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to close %s", src_path);
-
-	if (fclose(dst) != 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to close temporary translation table");
-
-	if (setenv("LK_XKB_TRANSLATION_TABLE", tmp_path, 1) != 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to set LK_XKB_TRANSLATION_TABLE");
-
-	if (unlink(tmp_path) != 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to unlink temporary translation table");
 }
 
 static void
@@ -101,7 +54,6 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 
 	init_test_keymap(&keymap, "xkb-ru-srp-unicode-fallback");
 	set_xkb_config_root();
-	set_filtered_xkb_translation_table();
 	set_xkb_suppress_warnings();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)

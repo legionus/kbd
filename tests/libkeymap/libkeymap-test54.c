@@ -4,18 +4,6 @@
 #include "xkbsupport.h"
 
 static void
-set_xkb_translation_table(void)
-{
-	char path[512];
-
-	if (snprintf(path, sizeof(path), "%s/../data/xkbtrans/names", TESTDIR) >= (int) sizeof(path))
-		kbd_error(EXIT_FAILURE, 0, "translation table path is too long");
-
-	if (setenv("LK_XKB_TRANSLATION_TABLE", path, 1) != 0)
-		kbd_error(EXIT_FAILURE, errno, "unable to set LK_XKB_TRANSLATION_TABLE");
-}
-
-static void
 set_xkb_config_root(void)
 {
 	char path[512];
@@ -72,7 +60,6 @@ test_basic_us_layout(void)
 
 	init_test_keymap(&keymap, "xkb-us");
 	set_xkb_config_root();
-	set_xkb_translation_table();
 	set_xkb_suppress_warnings();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
@@ -96,7 +83,6 @@ test_group_toggle_layout(void)
 
 	init_test_keymap(&keymap, "xkb-us-ru");
 	set_xkb_config_root();
-	set_xkb_translation_table();
 	set_xkb_suppress_warnings();
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)

@@ -55,11 +55,6 @@ static const unsigned int layouts[NR_LAYOUTS][NR_LAYOUTS] = {
 	{ 0, 1, 3, 2 },
 };
 
-struct sym_pair {
-	char *xkb_sym;
-	char *krn_sym;
-};
-
 struct reachable_sym {
 	xkb_keysym_t sym;
 	int code;
@@ -71,7 +66,6 @@ struct xkeymap {
 	struct xkb_compose_table *compose;
 	struct lk_ctx *ctx;
 	void *reachable_syms;
-	void *syms_map;
 };
 
 struct compose_candidate {
@@ -173,35 +167,6 @@ static struct modifier_mapping *convert_modifier(const char *xkb_name)
 		map++;
 	}
 
-	return NULL;
-}
-
-static void xkeymap_pair_free(void *pa)
-{
-	struct sym_pair *pair = pa;
-	if (!pair)
-		return;
-	free(pair->xkb_sym);
-	free(pair->krn_sym);
-	free(pair);
-}
-
-static int compare_by_xkbsym(const void *pa, const void *pb)
-{
-	return strcmp(((struct sym_pair *)pa)->xkb_sym,
-		      ((struct sym_pair *)pb)->xkb_sym);
-}
-
-static const char *map_xkbsym_to_ksym(struct xkeymap *xkeymap, char *xkb_sym)
-{
-	struct sym_pair **val;
-	struct sym_pair pair = {
-		.xkb_sym = xkb_sym,
-	};
-
-	val = tfind(&pair, &xkeymap->syms_map, compare_by_xkbsym);
-	if (val)
-		return ((struct sym_pair *) *val)->krn_sym;
 	return NULL;
 }
 
@@ -416,7 +381,6 @@ static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_key
 static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	int ret;
-	const char *symname;
 	char symbuf[BUFSIZ];
 
 	symbuf[0] = 0;
@@ -429,17 +393,10 @@ static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symb
 	}
 
 	/*
-	 * First. Let's try to translate the xkb name into the kbd name.
-	 */
-	if ((symname = map_xkbsym_to_ksym(xkeymap, symbuf)) != NULL &&
-	    lk_valid_ksym(xkeymap->ctx, symname, TO_UNICODE))
-		ret = lk_ksym_to_unicode(xkeymap->ctx, symname);
-
-	/*
-	 * Second. If the symbol name is known to us, that is, it matches
+	 * If the symbol name is known to us, that is, it matches
 	 * the kbd being used, then we use it.
 	 */
-	else if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_UNICODE))
+	if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_UNICODE))
 		ret = lk_ksym_to_unicode(xkeymap->ctx, symbuf);
 	else
 		ret = -1;
@@ -747,68 +704,6 @@ process_keycode:
 
 	return 0;
 err:
-	return -1;
-}
-
-static int parsemap(struct xkeymap *xkeymap, FILE *fp, const char *filename)
-{
-	char buffer[BUFSIZ];
-	char *p, *q, *xkb_sym = NULL, *krn_sym = NULL;
-	struct sym_pair **val, *pair = NULL;
-	int line_nr = 0;
-
-	while (fgets(buffer, sizeof(buffer) - 1, fp)) {
-		line_nr++;
-
-		buffer[BUFSIZ - 1] = '\0';
-
-		if (!(p = strchr(buffer, '\n'))) {
-			XKEYMAP_WARNING(0, "%s:%d: The line does not end with a newline. Looks like the line is too long.",
-					filename, line_nr);
-			goto err;
-		}
-		*p = '\0';
-
-		for (p = buffer; isspace(*p); p++);
-
-		if (*p == '#' || *p == '\0')
-			continue;
-
-		for (q = p; *q != '\0' && !isspace(*q); q++);
-		*q = '\0';
-
-		xkb_sym = p;
-
-		if (p != q)
-			for(p = ++q; isspace(*p); p++);
-
-		for (q = p; *q != '\0' && !isspace(*q); q++);
-		*q = '\0';
-
-		krn_sym = p;
-
-		pair = calloc(1, sizeof(*pair));
-		if (!pair)
-			goto err;
-
-		pair->xkb_sym = strdup(xkb_sym);
-		pair->krn_sym = strdup(krn_sym);
-
-		if (!pair->xkb_sym || !pair->krn_sym)
-			goto err;
-
-		val = tsearch(pair, &xkeymap->syms_map, compare_by_xkbsym);
-		if (!val)
-			goto err;
-
-		if (*val != pair)
-			xkeymap_pair_free(pair);
-
-		pair = NULL;
-	}
-	return 0;
-err:
-	xkeymap_pair_free(pair);
 	return -1;
 }
 
@@ -1257,37 +1152,6 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 	return ret;
 }
 
-static int load_translation_table(struct xkeymap *xkeymap)
-{
-	const char *filename = DATADIR "/xkbtrans/names";
-	const char *display_name = filename;
-	FILE *fp;
-
-	fp = fopen(filename, "r");
-	if (!fp) {
-		filename = getenv("LK_XKB_TRANSLATION_TABLE");
-		display_name = filename;
-
-		if (filename)
-			fp = fopen(filename, "r");
-
-		if (!fp) {
-			XKEYMAP_WARNING(0, "%s: translation table not found. Use the LK_XKB_TRANSLATION_TABLE environment variable to specify this file.",
-					display_name ? display_name : "<unset>");
-			return -1;
-		}
-	}
-
-	if (parsemap(xkeymap, fp, filename) < 0) {
-		fclose(fp);
-		XKEYMAP_WARNING(0, "unable to parse xkb translation names");
-		return -1;
-	}
-	fclose(fp);
-
-	return 0;
-}
-
 int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 {
 	struct xkeymap xkeymap = { 0 };
@@ -1330,9 +1194,6 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 		}
 	}
 
-	if (load_translation_table(&xkeymap) < 0)
-		 goto end;
-
 	if (xkeymap_walk(&xkeymap) < 0)
 		goto end;
 
@@ -1343,9 +1204,6 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 end:
 	if (xkeymap.reachable_syms)
 		tdestroy(xkeymap.reachable_syms, free);
-
-	if (xkeymap.syms_map)
-		tdestroy(xkeymap.syms_map, xkeymap_pair_free);
 
 	if (xkeymap.compose)
 		xkb_compose_table_unref(xkeymap.compose);
