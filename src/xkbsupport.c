@@ -340,6 +340,12 @@ static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_key
 		{ XKB_KEY_Super_R,		"Alt" },
 		{ XKB_KEY_Hyper_L,		"Alt" },
 		{ XKB_KEY_Hyper_R,		"Alt" },
+		{ XKB_KEY_Mode_switch,		"AltGr" },
+		{ XKB_KEY_Multi_key,		"Compose" },
+		{ XKB_KEY_Sys_Req,		"Last_Console" },
+		{ XKB_KEY_Print,		"Control_backslash" },
+		{ XKB_KEY_ISO_Level2_Latch,	"Shift" },
+		{ XKB_KEY_ISO_Lock,		"Caps_Lock" },
 		{ XKB_KEY_ISO_Level3_Shift,	"AltGr" },
 		{ XKB_KEY_ISO_Level3_Latch,	"AltGr" },
 		{ XKB_KEY_ISO_Level3_Lock,	"AltGr_Lock" },
@@ -380,8 +386,10 @@ static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_key
 		{ XKB_KEY_KP_Home,		"KP_7" },
 		{ XKB_KEY_KP_Up,		"KP_8" },
 		{ XKB_KEY_KP_Prior,		"KP_9" },
+		{ XKB_KEY_KP_Decimal,		"KP_Comma" },
 	};
 	char fkey[8];
+	char console[16];
 
 	for (size_t i = 0; i < ARRAY_SIZE(builtin_map); i++) {
 		if (builtin_map[i].sym == symbol)
@@ -393,6 +401,13 @@ static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_key
 			     (unsigned int) (symbol - XKB_KEY_F1 + 1)) >= (int) sizeof(fkey))
 			return -1;
 		return xkeymap_lookup_builtin_name(xkeymap, fkey);
+	}
+
+	if (symbol >= XKB_KEY_XF86Switch_VT_1 && symbol <= XKB_KEY_XF86Switch_VT_12) {
+		if (snprintf(console, sizeof(console), "Console_%u",
+			     (unsigned int) (symbol - XKB_KEY_XF86Switch_VT_1 + 1)) >= (int) sizeof(console))
+			return -1;
+		return xkeymap_lookup_builtin_name(xkeymap, console);
 	}
 
 	return -1;
