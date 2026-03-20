@@ -309,6 +309,7 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 		{ XKB_KEY_Multi_key,		"Compose" },
 		{ XKB_KEY_Sys_Req,		"Last_Console" },
 		{ XKB_KEY_Print,		"Control_backslash" },
+		{ XKB_KEY_Delete,		"Remove" },
 		{ XKB_KEY_ISO_Level2_Latch,	"Shift" },
 		{ XKB_KEY_ISO_Lock,		"Caps_Lock" },
 		{ XKB_KEY_ISO_Level3_Shift,	"AltGr" },
@@ -334,10 +335,12 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 		{ XKB_KEY_KP_Down,		"KP_2" },
 		{ XKB_KEY_KP_Next,		"KP_3" },
 		{ XKB_KEY_KP_Left,		"KP_4" },
+		{ XKB_KEY_KP_Begin,		"KP_5" },
 		{ XKB_KEY_KP_Right,		"KP_6" },
 		{ XKB_KEY_KP_Home,		"KP_7" },
 		{ XKB_KEY_KP_Up,		"KP_8" },
 		{ XKB_KEY_KP_Prior,		"KP_9" },
+		{ XKB_KEY_KP_Delete,		"KP_Period" },
 		{ XKB_KEY_KP_Decimal,		"KP_Comma" },
 	};
 	char console[16];

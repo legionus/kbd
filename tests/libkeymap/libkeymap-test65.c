@@ -39,8 +39,9 @@ expect_key_symbol(struct lk_ctx *ctx, int table, int keycode, const char *expect
 
 	actual = lk_code_to_ksym(ctx, code);
 	if (!actual)
-		kbd_error(EXIT_FAILURE, 0, "Unable to stringify keycode %d in table %d (raw=0x%x)",
-			  keycode, table, code);
+		kbd_error(EXIT_FAILURE, 0,
+			  "Unable to stringify keycode %d in table %d (raw=0x%x, expected=%s)",
+			  keycode, table, code, expected);
 
 	if (strcmp(actual, expected) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unexpected symbol in table %d keycode %d: got %s expected %s",
@@ -73,6 +74,9 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 16, "Q");
 	expect_key_symbol(keymap.ctx, 0, 18, "e");
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 18, "E");
+	expect_key_symbol(keymap.ctx, 0, 48, "Remove");
+	expect_key_symbol(keymap.ctx, 0, 76, "KP_5");
+	expect_key_symbol(keymap.ctx, 0, 83, "KP_Period");
 
 	free_test_keymap(&keymap);
 	return EXIT_SUCCESS;
