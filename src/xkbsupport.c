@@ -290,7 +290,7 @@ static int xkeymap_get_code_from_unicode(struct xkeymap *xkeymap, xkb_keysym_t s
 	return (int) (xkb_unicode ^ 0xf000);
 }
 
-static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
+static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	static const struct builtin_keysym_map builtin_map[] = {
 		{ XKB_KEY_Shift_L,		"Shift" },
@@ -329,19 +329,6 @@ static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_key
 		{ XKB_KEY_ISO_Prev_Group,	"ShiftL_Lock" },
 		{ XKB_KEY_ISO_Prev_Group_Lock,	"ShiftL_Lock" },
 		{ XKB_KEY_ISO_Left_Tab,		"Meta_Tab" },
-		{ XKB_KEY_BackSpace,		"BackSpace" },
-		{ XKB_KEY_Tab,			"Tab" },
-		{ XKB_KEY_Return,		"Return" },
-		{ XKB_KEY_Escape,		"Escape" },
-		{ XKB_KEY_Insert,		"Insert" },
-		{ XKB_KEY_Home,			"Find" },
-		{ XKB_KEY_End,			"Select" },
-		{ XKB_KEY_Prior,		"Prior" },
-		{ XKB_KEY_Next,			"Next" },
-		{ XKB_KEY_Left,			"Left" },
-		{ XKB_KEY_Right,		"Right" },
-		{ XKB_KEY_Up,			"Up" },
-		{ XKB_KEY_Down,			"Down" },
 		{ XKB_KEY_KP_Insert,		"KP_0" },
 		{ XKB_KEY_KP_End,		"KP_1" },
 		{ XKB_KEY_KP_Down,		"KP_2" },
@@ -353,19 +340,11 @@ static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_key
 		{ XKB_KEY_KP_Prior,		"KP_9" },
 		{ XKB_KEY_KP_Decimal,		"KP_Comma" },
 	};
-	char fkey[8];
 	char console[16];
 
 	for (size_t i = 0; i < ARRAY_SIZE(builtin_map); i++) {
 		if (builtin_map[i].sym == symbol)
 			return xkeymap_lookup_builtin_name(xkeymap, builtin_map[i].kbd_name);
-	}
-
-	if (symbol >= XKB_KEY_F1 && symbol <= XKB_KEY_F35) {
-		if (snprintf(fkey, sizeof(fkey), "F%u",
-			     (unsigned int) (symbol - XKB_KEY_F1 + 1)) >= (int) sizeof(fkey))
-			return -1;
-		return xkeymap_lookup_builtin_name(xkeymap, fkey);
 	}
 
 	if (symbol >= XKB_KEY_XF86Switch_VT_1 && symbol <= XKB_KEY_XF86Switch_VT_12) {
@@ -393,8 +372,8 @@ static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symb
 	}
 
 	/*
-	 * If the symbol name is known to us, that is, it matches
-	 * the kbd being used, then we use it.
+	 * Resolve lexical aliases through libkeymap's normal symbol tables
+	 * and synonyms. XKB-specific semantic remaps are handled separately.
 	 */
 	if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_UNICODE))
 		ret = lk_ksym_to_unicode(xkeymap->ctx, symbuf);
@@ -409,7 +388,7 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 	int ret;
 	char symbuf[BUFSIZ];
 
-	ret = xkeymap_get_code_from_builtin_keysym(xkeymap, symbol);
+	ret = xkeymap_get_code_from_semantic_keysym(xkeymap, symbol);
 	if (ret >= 0)
 		return xkeymap_validate_code(ret);
 
