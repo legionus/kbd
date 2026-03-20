@@ -230,6 +230,12 @@ AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test62" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test62])
 AT_CLEANUP
 
+AT_SETUP([test 63 (xkb Cyrillic aliases covered by Unicode fallback)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test63" ])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test63])
+AT_CLEANUP
+
 AT_SETUP([test 54 (convert XKB layouts to kernel tables)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test54" ])
