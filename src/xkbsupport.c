@@ -291,9 +291,115 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 	return 0;
 }
 
-static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
+struct builtin_keysym_map {
+	xkb_keysym_t sym;
+	const char *kbd_name;
+};
+
+static int xkeymap_validate_code(int ret)
+{
+	if (ret <= 0 || ret > USHRT_MAX)
+		return -1;
+
+	return ret;
+}
+
+static int xkeymap_lookup_builtin_name(struct xkeymap *xkeymap, const char *name)
+{
+	if (!lk_valid_ksym(xkeymap->ctx, name, TO_UNICODE))
+		return -1;
+
+	return lk_ksym_to_unicode(xkeymap->ctx, name);
+}
+
+static int xkeymap_get_code_from_unicode(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	uint32_t xkb_unicode;
+
+	(void) xkeymap;
+
+	xkb_unicode = xkb_keysym_to_utf32(symbol);
+	if (xkb_unicode < 0x20 || xkb_unicode == 0x7f)
+		return -1;
+
+	return (int) (xkb_unicode ^ 0xf000);
+}
+
+static int xkeymap_get_code_from_builtin_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
+{
+	static const struct builtin_keysym_map builtin_map[] = {
+		{ XKB_KEY_Shift_L,		"Shift" },
+		{ XKB_KEY_Shift_R,		"Shift" },
+		{ XKB_KEY_Control_L,		"Control" },
+		{ XKB_KEY_Control_R,		"Control" },
+		{ XKB_KEY_Alt_L,		"Alt" },
+		{ XKB_KEY_Alt_R,		"Alt" },
+		{ XKB_KEY_Meta_L,		"Alt" },
+		{ XKB_KEY_Meta_R,		"Alt" },
+		{ XKB_KEY_Super_L,		"Alt" },
+		{ XKB_KEY_Super_R,		"Alt" },
+		{ XKB_KEY_Hyper_L,		"Alt" },
+		{ XKB_KEY_Hyper_R,		"Alt" },
+		{ XKB_KEY_ISO_Level3_Shift,	"AltGr" },
+		{ XKB_KEY_ISO_Level3_Latch,	"AltGr" },
+		{ XKB_KEY_ISO_Level3_Lock,	"AltGr_Lock" },
+		{ XKB_KEY_ISO_Level5_Shift,	"AltGr" },
+		{ XKB_KEY_ISO_Level5_Latch,	"AltGr" },
+		{ XKB_KEY_ISO_Level5_Lock,	"AltGr_Lock" },
+		{ XKB_KEY_ISO_Group_Shift,	"ShiftL" },
+		{ XKB_KEY_ISO_Group_Latch,	"ShiftL" },
+		{ XKB_KEY_ISO_Group_Lock,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_First_Group,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_First_Group_Lock,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Last_Group,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Last_Group_Lock,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Next_Group,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Next_Group_Lock,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Prev_Group,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Prev_Group_Lock,	"ShiftL_Lock" },
+		{ XKB_KEY_ISO_Left_Tab,		"Meta_Tab" },
+		{ XKB_KEY_BackSpace,		"BackSpace" },
+		{ XKB_KEY_Tab,			"Tab" },
+		{ XKB_KEY_Return,		"Return" },
+		{ XKB_KEY_Escape,		"Escape" },
+		{ XKB_KEY_Insert,		"Insert" },
+		{ XKB_KEY_Home,			"Find" },
+		{ XKB_KEY_End,			"Select" },
+		{ XKB_KEY_Prior,		"Prior" },
+		{ XKB_KEY_Next,			"Next" },
+		{ XKB_KEY_Left,			"Left" },
+		{ XKB_KEY_Right,		"Right" },
+		{ XKB_KEY_Up,			"Up" },
+		{ XKB_KEY_Down,			"Down" },
+		{ XKB_KEY_KP_Insert,		"KP_0" },
+		{ XKB_KEY_KP_End,		"KP_1" },
+		{ XKB_KEY_KP_Down,		"KP_2" },
+		{ XKB_KEY_KP_Next,		"KP_3" },
+		{ XKB_KEY_KP_Left,		"KP_4" },
+		{ XKB_KEY_KP_Right,		"KP_6" },
+		{ XKB_KEY_KP_Home,		"KP_7" },
+		{ XKB_KEY_KP_Up,		"KP_8" },
+		{ XKB_KEY_KP_Prior,		"KP_9" },
+	};
+	char fkey[8];
+
+	for (size_t i = 0; i < ARRAY_SIZE(builtin_map); i++) {
+		if (builtin_map[i].sym == symbol)
+			return xkeymap_lookup_builtin_name(xkeymap, builtin_map[i].kbd_name);
+	}
+
+	if (symbol >= XKB_KEY_F1 && symbol <= XKB_KEY_F35) {
+		if (snprintf(fkey, sizeof(fkey), "F%u",
+			     (unsigned int) (symbol - XKB_KEY_F1 + 1)) >= (int) sizeof(fkey))
+			return -1;
+		return xkeymap_lookup_builtin_name(xkeymap, fkey);
+	}
+
+	return -1;
+}
+
+static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symbol)
+{
 	int ret;
 	const char *symname;
 	char symbuf[BUFSIZ];
@@ -320,26 +426,37 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 	 */
 	else if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_UNICODE))
 		ret = lk_ksym_to_unicode(xkeymap->ctx, symbuf);
-
-	/*
-	 * Third. Let's try to use utf32 code.
-	 */
-	else if ((xkb_unicode = xkb_keysym_to_utf32(symbol)) > 0)
-		ret = (int) (xkb_unicode ^ 0xf000);
-
-	/*
-	 * Last chance.
-	 */
 	else
-		ret = parse_hexcode(xkeymap->ctx, symbuf);
-
-	/*
-	 * The kbentry.kb_value is unsigned short.
-	 */
-	if (ret <= 0 || ret > USHRT_MAX)
 		ret = -1;
 
-	return ret;
+	return xkeymap_validate_code(ret);
+}
+
+static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
+{
+	int ret;
+	char symbuf[BUFSIZ];
+
+	ret = xkeymap_get_code_from_builtin_keysym(xkeymap, symbol);
+	if (ret >= 0)
+		return xkeymap_validate_code(ret);
+
+	ret = xkeymap_get_code_from_name(xkeymap, symbol);
+	if (ret >= 0)
+		return xkeymap_validate_code(ret);
+
+	ret = xkeymap_get_code_from_unicode(xkeymap, symbol);
+	if (ret >= 0)
+		return xkeymap_validate_code(ret);
+
+	symbuf[0] = '\0';
+	ret = xkb_keysym_get_name(symbol, symbuf, sizeof(symbuf));
+	if (ret < 0 || (size_t) ret >= sizeof(symbuf)) {
+		XKEYMAP_WARNING(0, "failed to get name of keysym");
+		return -1;
+	}
+
+	return xkeymap_validate_code(parse_hexcode(xkeymap->ctx, symbuf));
 }
 
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
