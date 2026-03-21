@@ -2240,3 +2240,16 @@ xkb_symbols "de_se_fi"  {
 
     include "level3(ralt_switch)"
 };
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "level5_test" {
+    include "us(basic)"
+    name[Group1] = "Level5 import test";
+
+    key <AD01> {
+	type[Group1] = "EIGHT_LEVEL",
+	[ q, Q, NoSymbol, NoSymbol, one, exclam, two, at ]
+    };
+
+    include "level5(ralt_switch)"
+};

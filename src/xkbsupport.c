@@ -149,13 +149,18 @@ static struct modifier_mapping modifier_mapping[] = {
 	{ "Mod2",		"<numlock>",	0			},
 	{ "Mod3",		"altgr",	(1u << KG_ALTGR)	},
 	{ "Mod4",		"<super>",	0			},
-	{ "Mod5",		"alt",		(1u << KG_ALT)		},
+	{ "Mod5",		"<level5>",	0			},
 	{ "Alt",		"alt",		(1u << KG_ALT)		},
 	{ "Meta",		"<meta>",	0			},
 	{ "NumLock",		"<numlock>",	0			},
 	{ "Super",		"<super>",	0			},
 	{ "LevelThree",		"altgr",	(1u << KG_ALTGR)	},
-	{ "LevelFive",		"alt",		(1u << KG_ALT)		},
+	/*
+	 * The Linux VT has no distinct LevelFive modifier state. Mapping it
+	 * to Alt would silently merge unrelated XKB levels into the Alt
+	 * tables, so treat LevelFive-only states as unrepresentable.
+	 */
+	{ "LevelFive",		"<level5>",	0			},
 	{ NULL,			NULL,		0			},
 };
 
