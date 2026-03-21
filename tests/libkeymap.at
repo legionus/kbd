@@ -248,6 +248,12 @@ AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test65" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test65])
 AT_CLEANUP
 
+AT_SETUP([test 66 (legacy CTRL+ALT XKB type keeps VT switching canonical)])
+AT_KEYWORDS([libkeymap unittest])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test66" ])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test66])
+AT_CLEANUP
+
 AT_SETUP([test 54 (convert XKB layouts to kernel tables)])
 AT_KEYWORDS([libkeymap unittest])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test54" ])

@@ -522,6 +522,30 @@ static int get_kernel_modifier(struct xkeymap *xkeymap, xkb_mod_mask_t xkbmask, 
 	return ret;
 }
 
+static int xkeymap_pick_kernel_modifier(struct xkeymap *xkeymap,
+					const struct xkb_mask *keycode_mask,
+					int *modifier)
+{
+	/*
+	 * XKB may report several equivalent masks for one level because key
+	 * types can preserve modifiers while still resolving to the same
+	 * symbol.  In the kernel keymap model these masks would compete for
+	 * one table slot, so pick only the simplest representable mask and
+	 * treat it as the canonical binding for that level.
+	 */
+	for (size_t mask_index = 0; mask_index < keycode_mask->num; mask_index++) {
+		int ret;
+
+		ret = get_kernel_modifier(xkeymap, keycode_mask->mask[mask_index], modifier);
+		if (ret < 0)
+			continue;
+
+		return ret;
+	}
+
+	return -1;
+}
+
 static int xkeymap_walk(struct xkeymap *xkeymap)
 {
 	struct xkb_mask keycode_mask;
@@ -627,17 +651,15 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
 
 				if (sym == XKB_KEY_ISO_Next_Group) {
-					for (size_t mask_index = 0; mask_index < keycode_mask.num; mask_index++) {
-						int modifier;
+					int modifier;
 
-						if (get_kernel_modifier(xkeymap, keycode_mask.mask[mask_index], &modifier) < 0)
-							continue;
+					if (xkeymap_pick_kernel_modifier(xkeymap, &keycode_mask, &modifier) < 0)
+						goto process_keycode;
 
-						xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, 0, keyvalue);
-						xkeymap_add_value(xkeymap, modifier | layout_switch[1], shiftr_lock, 0, keyvalue);
-						xkeymap_add_value(xkeymap, modifier | layout_switch[2], shiftr_lock, 0, keyvalue);
-						xkeymap_add_value(xkeymap, modifier | layout_switch[3], shiftl_lock, 0, keyvalue);
-					}
+					xkeymap_add_value(xkeymap, modifier | layout_switch[0], shiftl_lock, 0, keyvalue);
+					xkeymap_add_value(xkeymap, modifier | layout_switch[1], shiftr_lock, 0, keyvalue);
+					xkeymap_add_value(xkeymap, modifier | layout_switch[2], shiftr_lock, 0, keyvalue);
+					xkeymap_add_value(xkeymap, modifier | layout_switch[3], shiftl_lock, 0, keyvalue);
 
 					goto process_keycode;
 				}
@@ -659,10 +681,10 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 
 				remember_reachable_sym(xkeymap, sym, value);
 
-				for (size_t mask_index = 0; mask_index < keycode_mask.num; mask_index++) {
+				{
 					int modifier;
 
-					if (get_kernel_modifier(xkeymap, keycode_mask.mask[mask_index], &modifier) < 0)
+					if (xkeymap_pick_kernel_modifier(xkeymap, &keycode_mask, &modifier) < 0)
 						continue;
 
 					for (unsigned short i = 0; i < NR_LAYOUTS; i++) {
