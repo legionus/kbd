@@ -729,6 +729,12 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 {
 	struct lk_ctx *ctx = xkeymap->ctx;
 
+	/*
+	 * This intentionally runs after xkeymap_walk(). Whether a pure
+	 * modifier key must be visible in a given kernel table depends on the
+	 * final set of tables that survived XKB conversion, and that set is
+	 * only stable once the walk has finished.
+	 */
 	for (int keycode = 0; keycode < NR_KEYS; keycode++) {
 		int modifier_code = K_HOLE;
 		int seen = 0;
