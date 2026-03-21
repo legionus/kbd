@@ -123,6 +123,18 @@ char *lk_get_sym(struct lk_ctx *ctx, int ktype, int index)
  * Converts a string to a numeric representation of the character.
  * @param ctx is a keymap library context.
  * @param code is a string representation of ksym.
+ * @param direction controls whether the result is normalized to Unicode,
+ *        kept in the current kernel code space, or chosen automatically.
+ *
+ * @return a numeric representation of the code.
+ */
+int lk_ksym_to_code(struct lk_ctx *ctx, const char *code, int direction)
+	KBD_ATTR_NONNULL(1, 2);
+
+/**
+ * Converts a string to a numeric representation of the character.
+ * @param ctx is a keymap library context.
+ * @param code is a string representation of ksym.
  *
  * @return a unicode representation of the code.
  */

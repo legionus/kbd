@@ -271,10 +271,10 @@ static int xkeymap_validate_code(int ret)
 
 static int xkeymap_lookup_builtin_name(struct xkeymap *xkeymap, const char *name)
 {
-	if (!lk_valid_ksym(xkeymap->ctx, name, TO_UNICODE))
+	if (!lk_valid_ksym(xkeymap->ctx, name, TO_AUTO))
 		return -1;
 
-	return lk_ksym_to_unicode(xkeymap->ctx, name);
+	return lk_ksym_to_code(xkeymap->ctx, name, TO_AUTO);
 }
 
 static int xkeymap_get_code_from_unicode(struct xkeymap *xkeymap, xkb_keysym_t symbol)
@@ -378,8 +378,8 @@ static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symb
 	 * Resolve lexical aliases through libkeymap's normal symbol tables
 	 * and synonyms. XKB-specific semantic remaps are handled separately.
 	 */
-	if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_UNICODE))
-		ret = lk_ksym_to_unicode(xkeymap->ctx, symbuf);
+	if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_AUTO))
+		ret = lk_ksym_to_code(xkeymap->ctx, symbuf, TO_AUTO);
 	else
 		ret = -1;
 
@@ -489,7 +489,14 @@ static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code,
 	if (modifier < 0 || modifier >= MAX_NR_KEYMAPS)
 		return;
 
-	if (capslockable && (!modifier || (modifier & (1 << KG_SHIFT))))
+	/*
+	 * The kernel's CapsLock handling already inverts Shift for KT_LETTER.
+	 * Mark only the non-shifted binding as a letter; if the shifted binding
+	 * is also tagged, dumps become "+a +A" and Shift+CapsLock yields the
+	 * wrong case for XKB levels that already provide an explicit uppercase
+	 * symbol.
+	 */
+	if (capslockable && !(modifier & (1 << KG_SHIFT)))
 		code = lk_add_capslock(xkeymap->ctx, code);
 
 	if (keyvalue[modifier])
@@ -709,6 +716,60 @@ process_keycode:
 	return 0;
 err:
 	return -1;
+}
+
+static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
+{
+	struct lk_ctx *ctx = xkeymap->ctx;
+
+	for (int keycode = 0; keycode < NR_KEYS; keycode++) {
+		int modifier_code = K_HOLE;
+		int seen = 0;
+
+		for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+			int code;
+
+			if (!lk_map_exists(ctx, table) || !lk_key_exists(ctx, table, keycode))
+				continue;
+
+			code = lk_get_key(ctx, table, keycode);
+			if (code == K_HOLE)
+				continue;
+
+			if (!seen) {
+				modifier_code = code;
+				seen = 1;
+				continue;
+			}
+
+			if (code != modifier_code) {
+				seen = 0;
+				break;
+			}
+		}
+
+		if (!seen || KTYP(modifier_code) != KT_SHIFT)
+			continue;
+
+		/*
+		 * Linux resolves key release using the current modifier state,
+		 * i.e. while the key being released is still considered active.
+		 * For pure modifier keys, missing entries in shifted/control/alt
+		 * tables therefore turn key release into VoidSymbol and leave
+		 * the modifier stuck. Mirror the same modifier action into every
+		 * already-allocated table unless the key already has a distinct
+		 * binding there.
+		 */
+		for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+			if (!lk_map_exists(ctx, table) || lk_key_exists(ctx, table, keycode))
+				continue;
+
+			if (lk_add_key(ctx, table, keycode, modifier_code) < 0)
+				return -1;
+		}
+	}
+
+	return 0;
 }
 
 static int xkeymap_compose_candidate_append(struct compose_candidate **candidates,
@@ -1202,6 +1263,9 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 		goto end;
 
 	if (xkeymap.compose && xkeymap_compose(&xkeymap) < 0)
+		goto end;
+
+	if (xkeymap_fill_modifier_release_bindings(&xkeymap) < 0)
 		goto end;
 
 	ret = 0;

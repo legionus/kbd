@@ -406,6 +406,11 @@ int lk_ksym_to_unicode(struct lk_ctx *ctx, const char *s)
 	return ksymtocode(ctx, s, TO_UNICODE);
 }
 
+int lk_ksym_to_code(struct lk_ctx *ctx, const char *s, int direction)
+{
+	return ksymtocode(ctx, s, direction);
+}
+
 int lk_valid_ksym(struct lk_ctx *ctx, const char *s, int direction)
 {
 	struct lk_ctx quiet_ctx = *ctx;

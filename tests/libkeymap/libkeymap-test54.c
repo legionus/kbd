@@ -67,6 +67,9 @@ test_basic_us_layout(void)
 
 	expect_key_symbol(keymap.ctx, 0, 16, "q");
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 16, "Q");
+	if (KTYP(lk_get_key(keymap.ctx, 1 << KG_SHIFT, 16)) != KT_LATIN)
+		kbd_error(EXIT_FAILURE, 0, "Shifted latin level must not be CapsLock-tagged");
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 42, "Shift");
 
 	free_test_keymap(&keymap);
 }
@@ -92,6 +95,11 @@ test_group_toggle_layout(void)
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFTL, 58, "ShiftR_Lock");
 	expect_key_symbol(keymap.ctx, 0, 16, "q");
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 16, "Q");
+	if (KTYP(lk_get_key(keymap.ctx, 1 << KG_SHIFT, 16)) != KT_LATIN)
+		kbd_error(EXIT_FAILURE, 0, "Shifted latin level must not be CapsLock-tagged");
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 42, "Shift");
+	expect_key_symbol(keymap.ctx, 1 << KG_CTRL, 29, "Control");
+	expect_key_symbol(keymap.ctx, 1 << KG_ALT, 56, "Alt");
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFTL, 16, "cyrillic_small_letter_short_i");
 	expect_key_symbol(keymap.ctx, (1 << KG_SHIFTL) | (1 << KG_SHIFT), 16,
 			  "cyrillic_capital_letter_short_i");
