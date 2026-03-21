@@ -220,54 +220,54 @@ UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test20], [0], [expout])
 AT_CLEANUP
 
 AT_SETUP([test 61 (xkb conversion without compose table)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test61])
 AT_CLEANUP
 
 AT_SETUP([test 62 (xkb key fallback across groups)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test62" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test62])
 AT_CLEANUP
 
 AT_SETUP([test 63 (xkb Cyrillic aliases covered by Unicode fallback)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test63" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test63])
 AT_CLEANUP
 
 AT_SETUP([test 64 (xkb Serbian aliases covered by Unicode fallback)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test64" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test64])
 AT_CLEANUP
 
 AT_SETUP([test 65 (use first keysym from multi-symbol XKB levels)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test65" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test65])
 AT_CLEANUP
 
 AT_SETUP([test 66 (legacy CTRL+ALT XKB type keeps VT switching canonical)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test66" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test66])
 AT_CLEANUP
 
 AT_SETUP([test 54 (convert XKB layouts to kernel tables)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test54" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test54])
 AT_CLEANUP
 
 AT_SETUP([test 55 (select compose rules by sequence and kernel form)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test55" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test55])
 AT_CLEANUP
 
 AT_SETUP([test 56 (dump converted XKB us,ru keymap)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test56" ])
 cp -f -- \
 	"$abs_srcdir/data/xkb/us-ru-caps.dump" \
@@ -276,7 +276,7 @@ UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test56], [0], [expout])
 AT_CLEANUP
 
 AT_SETUP([test 57 (dump converted XKB us intl keymap with compose)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test57" ])
 cp -f -- \
 	"$abs_srcdir/data/xkb/us-intl-compose.dump" \
@@ -285,7 +285,7 @@ UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test57], [0], [expout])
 AT_CLEANUP
 
 AT_SETUP([test 58 (dump converted XKB cz keymap with compose)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test58" ])
 cp -f -- \
 	"$abs_srcdir/data/xkb/cz-compose.dump" \
@@ -294,7 +294,7 @@ UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test58], [0], [expout])
 AT_CLEANUP
 
 AT_SETUP([test 59 (dump converted XKB de keymap with compose)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test59" ])
 cp -f -- \
 	"$abs_srcdir/data/xkb/de-compose.dump" \
@@ -303,7 +303,7 @@ UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test59], [0], [expout])
 AT_CLEANUP
 
 AT_SETUP([test 60 (dump converted XKB gr keymap with compose)])
-AT_KEYWORDS([libkeymap unittest])
+AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test60" ])
 cp -f -- \
 	"$abs_srcdir/data/xkb/gr-compose.dump" \
