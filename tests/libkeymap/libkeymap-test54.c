@@ -107,11 +107,40 @@ test_group_toggle_layout(void)
 	free_test_keymap(&keymap);
 }
 
+static void
+test_prefer_unicode_does_not_change_xkb_lookup(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc104",
+		.layout = "us,ru",
+		.options = "grp:caps_toggle",
+	};
+
+	init_test_keymap(&keymap, "xkb-us-ru-prefer-unicode");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (lk_set_parser_flags(keymap.ctx, LK_FLAG_PREFER_UNICODE) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to enable prefer-unicode mode");
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us,ru layout with prefer-unicode");
+
+	expect_key_symbol(keymap.ctx, 0, 30, "a");
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 30, "A");
+	if (KTYP(lk_get_key(keymap.ctx, 1 << KG_SHIFT, 30)) != KT_LATIN)
+		kbd_error(EXIT_FAILURE, 0, "Prefer-unicode must not change shifted latin binding type");
+
+	free_test_keymap(&keymap);
+}
+
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_basic_us_layout();
 	test_group_toggle_layout();
+	test_prefer_unicode_does_not_change_xkb_lookup();
 
 	return EXIT_SUCCESS;
 }

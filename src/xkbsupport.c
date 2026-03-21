@@ -273,10 +273,10 @@ static int xkeymap_validate_code(int ret)
 
 static int xkeymap_lookup_builtin_name(struct xkeymap *xkeymap, const char *name)
 {
-	if (!lk_valid_ksym(xkeymap->ctx, name, TO_AUTO))
+	if (!lk_valid_ksym(xkeymap->ctx, name, TO_8BIT))
 		return -1;
 
-	return lk_ksym_to_code(xkeymap->ctx, name, TO_AUTO);
+	return lk_ksym_to_code(xkeymap->ctx, name, TO_8BIT);
 }
 
 static int xkeymap_get_code_from_unicode(struct xkeymap *xkeymap, xkb_keysym_t symbol)
@@ -380,8 +380,8 @@ static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symb
 	 * Resolve lexical aliases through libkeymap's normal symbol tables
 	 * and synonyms. XKB-specific semantic remaps are handled separately.
 	 */
-	if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_AUTO))
-		ret = lk_ksym_to_code(xkeymap->ctx, symbuf, TO_AUTO);
+	if (lk_valid_ksym(xkeymap->ctx, symbuf, TO_8BIT))
+		ret = lk_ksym_to_code(xkeymap->ctx, symbuf, TO_8BIT);
 	else
 		ret = -1;
 
