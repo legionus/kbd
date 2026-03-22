@@ -321,9 +321,21 @@ static int xkeymap_get_code_from_unicode(struct xkeymap *xkeymap, xkb_keysym_t s
 	return (int) (xkb_unicode ^ 0xf000);
 }
 
+static int xkeymap_lookup_semantic_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol,
+					  const struct builtin_keysym_map *map,
+					  size_t map_size)
+{
+	for (size_t i = 0; i < map_size; i++) {
+		if (map[i].sym == symbol)
+			return xkeymap_lookup_builtin_name(xkeymap, map[i].kbd_name);
+	}
+
+	return -1;
+}
+
 static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
-	static const struct builtin_keysym_map builtin_map[] = {
+	static const struct builtin_keysym_map semantic_modifier_map[] = {
 		{ XKB_KEY_Shift_L,		"Shift" },
 		{ XKB_KEY_Shift_R,		"Shift" },
 		{ XKB_KEY_Control_L,		"Control" },
@@ -360,7 +372,12 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 		{ XKB_KEY_ISO_Next_Group_Lock,	"ShiftL_Lock" },
 		{ XKB_KEY_ISO_Prev_Group,	"ShiftL_Lock" },
 		{ XKB_KEY_ISO_Prev_Group_Lock,	"ShiftL_Lock" },
+	};
+	static const struct builtin_keysym_map semantic_approximation_map[] = {
 		{ XKB_KEY_ISO_Left_Tab,		"Meta_Tab" },
+		{ XKB_KEY_Sys_Req,		"Last_Console" },
+		{ XKB_KEY_Print,		"Control_backslash" },
+		{ XKB_KEY_Delete,		"Remove" },
 		{ XKB_KEY_KP_Insert,		"KP_0" },
 		{ XKB_KEY_KP_End,		"KP_1" },
 		{ XKB_KEY_KP_Down,		"KP_2" },
@@ -375,11 +392,24 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 		{ XKB_KEY_KP_Decimal,		"KP_Comma" },
 	};
 	char console[16];
+	int ret;
 
-	for (size_t i = 0; i < ARRAY_SIZE(builtin_map); i++) {
-		if (builtin_map[i].sym == symbol)
-			return xkeymap_lookup_builtin_name(xkeymap, builtin_map[i].kbd_name);
-	}
+	/* Prefer direct semantic actions before Linux VT-specific approximations. */
+	ret = xkeymap_lookup_semantic_keysym(xkeymap, symbol, semantic_modifier_map,
+					     ARRAY_SIZE(semantic_modifier_map));
+	if (ret >= 0)
+		return ret;
+
+	/*
+	 * These remaps are Linux VT approximations rather than direct semantic
+	 * equivalents: keypad navigation aliases collapse to keypad digits,
+	 * Delete maps to the kernel Remove action, and VT switching uses the
+	 * nearest console actions.
+	 */
+	ret = xkeymap_lookup_semantic_keysym(xkeymap, symbol, semantic_approximation_map,
+					     ARRAY_SIZE(semantic_approximation_map));
+	if (ret >= 0)
+		return ret;
 
 	if (symbol >= XKB_KEY_XF86Switch_VT_1 && symbol <= XKB_KEY_XF86Switch_VT_12) {
 		if (snprintf(console, sizeof(console), "Console_%u",
