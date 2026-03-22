@@ -62,12 +62,23 @@ struct reachable_sym {
 	int code;
 };
 
+enum xkeymap_modifier_mask {
+	XKEYMAP_MASK_SHIFT,
+	XKEYMAP_MASK_LOCK,
+	XKEYMAP_MASK_CONTROL,
+	XKEYMAP_MASK_ALT,
+	XKEYMAP_MASK_LEVEL3,
+	XKEYMAP_MASK_LEVEL5,
+	XKEYMAP_MASK__COUNT,
+};
+
 struct xkeymap {
 	struct xkb_context *xkb;
 	struct xkb_keymap *keymap;
 	struct xkb_compose_table *compose;
 	struct lk_ctx *ctx;
 	void *reachable_syms;
+	xkb_mod_mask_t modifier_masks[XKEYMAP_MASK__COUNT];
 };
 
 struct compose_candidate {
@@ -100,81 +111,94 @@ struct xkb_mask {
 	size_t num;
 };
 
-/*
- * From xkbcommon documentation:
- *
- * The following table lists the usual modifiers present in the [standard
- * keyboard configuration][xkeyboard-config]. Note that this is provided for
- * information only, as it may change depending on the user configuration.
- *
- * | Modifier     | Type    | Usual mapping    | Comment                             |
- * | ------------ | ------- | ---------------- | ----------------------------------- |
- * | `Shift`      | Real    | `Shift`          | The usual [Shift]                   |
- * | `Lock`       | Real    | `Lock`           | The usual [Caps Lock][Lock]         |
- * | `Control`    | Real    | `Control`        | The usual [Control]                 |
- * | `Mod1`       | Real    | `Mod1`           | Not conventional                    |
- * | `Mod2`       | Real    | `Mod2`           | Not conventional                    |
- * | `Mod3`       | Real    | `Mod3`           | Not conventional                    |
- * | `Mod4`       | Real    | `Mod4`           | Not conventional                    |
- * | `Mod5`       | Real    | `Mod5`           | Not conventional                    |
- * | `Alt`        | Virtual | `Mod1`           | The usual [Alt]                     |
- * | `Meta`       | Virtual | `Mod1` or `Mod4` | The legacy [Meta] key               |
- * | `NumLock`    | Virtual | `Mod2`           | The usual [NumLock]                 |
- * | `Super`      | Virtual | `Mod4`           | The usual [Super]/GUI               |
- * | `LevelThree` | Virtual | `Mod3`           | [ISO][ISO9995] level 3, aka [AltGr] |
- * | `LevelFive`  | Virtual | `Mod5`           | [ISO][ISO9995] level 5              |
- *
- * [Shift]: https://en.wikipedia.org/wiki/Control_key
- * [Lock]: https://en.wikipedia.org/wiki/Caps_Lock
- * [Control]: https://en.wikipedia.org/wiki/Control_key
- * [Alt]: https://en.wikipedia.org/wiki/Alt_key
- * [AltGr]: https://en.wikipedia.org/wiki/AltGr_key
- * [NumLock]: https://en.wikipedia.org/wiki/Num_Lock
- * [Meta]: https://en.wikipedia.org/wiki/Meta_key
- * [Super]: https://en.wikipedia.org/wiki/Super_key_(keyboard_button)
- *
- * See: https://github.com/xkbcommon/libxkbcommon/blob/master/doc/keymap-format-text-v1.md
- */
-struct modifier_mapping {
-	const char *xkb_mod;
-	const char *krn_mod;
-	const int bit;
+static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod);
+static int xkeymap_get_symbol(struct xkb_keymap *keymap,
+		xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
+		xkb_keysym_t *symbol);
+
+struct xkeymap_modifier_rule {
+	enum xkeymap_modifier_mask mask;
+	const char *name;
+	xkb_keysym_t keysym;
+	unsigned int kernel_bit;
 };
 
-static struct modifier_mapping modifier_mapping[] = {
-	{ "Shift",		"shift",	(1u << KG_SHIFT)	},
-	{ "Lock",		"capslock",	(1u << KG_CAPSSHIFT)	},
-	{ "Control",		"control",	(1u << KG_CTRL)		},
-	{ "Mod1",		"alt",		(1u << KG_ALT)		},
-	{ "Mod2",		"<numlock>",	0			},
-	{ "Mod3",		"altgr",	(1u << KG_ALTGR)	},
-	{ "Mod4",		"<super>",	0			},
-	{ "Mod5",		"<level5>",	0			},
-	{ "Alt",		"alt",		(1u << KG_ALT)		},
-	{ "Meta",		"<meta>",	0			},
-	{ "NumLock",		"<numlock>",	0			},
-	{ "Super",		"<super>",	0			},
-	{ "LevelThree",		"altgr",	(1u << KG_ALTGR)	},
-	/*
-	 * The Linux VT has no distinct LevelFive modifier state. Mapping it
-	 * to Alt would silently merge unrelated XKB levels into the Alt
-	 * tables, so treat LevelFive-only states as unrepresentable.
-	 */
-	{ "LevelFive",		"<level5>",	0			},
-	{ NULL,			NULL,		0			},
+static const struct xkeymap_modifier_rule xkeymap_modifier_rules[] = {
+	{ XKEYMAP_MASK_SHIFT,		"Shift",		0,				(1u << KG_SHIFT) },
+	{ XKEYMAP_MASK_LOCK,		"Lock",			0,				(1u << KG_CAPSSHIFT) },
+	{ XKEYMAP_MASK_CONTROL,		"Control",		0,				(1u << KG_CTRL) },
+	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_L,			(1u << KG_ALT) },
+	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_R,			(1u << KG_ALT) },
+	{ XKEYMAP_MASK_LEVEL3,		NULL,			XKB_KEY_ISO_Level3_Shift,	(1u << KG_ALT) },
+	{ XKEYMAP_MASK_LEVEL5,		NULL,			XKB_KEY_ISO_Level5_Shift,	0 },
 };
 
-static struct modifier_mapping *convert_modifier(const char *xkb_name)
+static xkb_mod_mask_t xkeymap_mod_mask_by_name(struct xkb_keymap *keymap, const char *name)
 {
-	struct modifier_mapping *map = modifier_mapping;
+	xkb_mod_index_t idx = xkb_keymap_mod_get_index(keymap, name);
 
-	while (map->xkb_mod) {
-		if (!strcasecmp(map->xkb_mod, xkb_name))
-			return map;
-		map++;
+	if (idx == XKB_MOD_INVALID)
+		return 0;
+
+	return xkb_mod_bit(idx);
+}
+
+static xkb_mod_mask_t xkeymap_find_modifier_mask_for_keysym(struct xkeymap *xkeymap,
+							    xkb_keysym_t target)
+{
+	struct xkb_state *state;
+	xkb_keycode_t min, max;
+
+	state = xkb_state_new(xkeymap->keymap);
+	if (!state)
+		return 0;
+
+	min = xkb_keymap_min_keycode(xkeymap->keymap);
+	max = xkb_keymap_max_keycode(xkeymap->keymap);
+
+	for (xkb_keycode_t keycode = min; keycode <= max; keycode++) {
+		xkb_keysym_t sym;
+		int ret;
+
+		ret = xkeymap_get_symbol(xkeymap->keymap, keycode, 0, 0, &sym);
+		if (ret <= 0 || sym != target)
+			continue;
+
+		xkb_state_update_key(state, keycode, XKB_KEY_DOWN);
+		ret = (int) xkb_state_serialize_mods(state, XKB_STATE_MODS_EFFECTIVE);
+		xkb_state_update_key(state, keycode, XKB_KEY_UP);
+		xkb_state_unref(state);
+		if (ret > 0)
+			return (xkb_mod_mask_t) ret;
+		return 0;
 	}
 
-	return NULL;
+	xkb_state_unref(state);
+	return 0;
+}
+
+static void xkeymap_init_modifier_masks(struct xkeymap *xkeymap)
+{
+	memset(xkeymap->modifier_masks, 0, sizeof(xkeymap->modifier_masks));
+
+	/*
+	 * xkb_keymap_key_get_mods_for_level() returns masks in the keymap's real
+	 * modifier encoding. XKB rulesets are free to bind semantic modifiers
+	 * like LevelThree and LevelFive to different real ModN bits, so derive
+	 * those masks from the compiled keymap instead of hardcoding Mod3/Mod5.
+	 */
+	for (size_t i = 0; i < ARRAY_SIZE(xkeymap_modifier_rules); i++) {
+		const struct xkeymap_modifier_rule *rule = &xkeymap_modifier_rules[i];
+		xkb_mod_mask_t *mask = &xkeymap->modifier_masks[rule->mask];
+
+		if (*mask)
+			continue;
+
+		if (rule->name)
+			*mask = xkeymap_mod_mask_by_name(xkeymap->keymap, rule->name);
+		else
+			*mask = xkeymap_find_modifier_mask_for_keysym(xkeymap, rule->keysym);
+	}
 }
 
 static int compare_reachable_syms(const void *pa, const void *pb)
@@ -514,25 +538,40 @@ static void xkeymap_add_value(struct xkeymap *xkeymap, int modifier, int code,
 
 static int get_kernel_modifier(struct xkeymap *xkeymap, xkb_mod_mask_t xkbmask, int *modifier)
 {
-	const struct modifier_mapping *map;
 	int ret = 0;
-	xkb_mod_index_t num_mods = xkb_keymap_num_mods(xkeymap->keymap);
+	unsigned int kernel_modifier = 0;
+	size_t i;
 
-	*modifier = 0;
+	for (i = 0; i < ARRAY_SIZE(xkeymap_modifier_rules); i++) {
+		const struct xkeymap_modifier_rule *rule = &xkeymap_modifier_rules[i];
+		xkb_mod_mask_t mask = xkeymap->modifier_masks[rule->mask];
 
-	for (xkb_mod_index_t mod = 0; mod < num_mods; mod++) {
-		if (!(xkbmask & xkb_mod_bit(mod)))
+		if (!mask || !rule->kernel_bit)
 			continue;
 
-		map = convert_modifier(xkb_keymap_mod_get_name(xkeymap->keymap, mod));
-		/* Ignore XKB states that have no safe kernel-table representation. */
-		if (!map || !map->bit)
-			return -1;
+		if ((xkbmask & mask) != mask)
+			continue;
 
-		*modifier |= map->bit;
+		kernel_modifier |= rule->kernel_bit;
+		xkbmask &= ~mask;
 		ret = 1;
 	}
 
+	/*
+	 * The Linux VT has no distinct LevelFive modifier state. Mapping it to
+	 * Alt would silently merge unrelated XKB levels into the Alt tables, so
+	 * treat LevelFive-only states as unrepresentable.
+	 */
+	if (xkeymap->modifier_masks[XKEYMAP_MASK_LEVEL5] &&
+	    (xkbmask & xkeymap->modifier_masks[XKEYMAP_MASK_LEVEL5]) ==
+		    xkeymap->modifier_masks[XKEYMAP_MASK_LEVEL5])
+		return -1;
+
+	/* Ignore XKB states that have no safe kernel-table representation. */
+	if (xkbmask)
+		return -1;
+
+	*modifier = (int) kernel_modifier;
 	return ret;
 }
 
@@ -663,7 +702,6 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					goto err;
 
 				xkeymap_keycode_mask(xkeymap->keymap, layout, level, keycode, &keycode_mask);
-
 				if (sym == XKB_KEY_ISO_Next_Group) {
 					int modifier;
 
@@ -1263,6 +1301,8 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 		XKEYMAP_WARNING(0, "too many layouts specified. At the moment, you can use no more than %d", NR_LAYOUTS);
 		goto end;
 	}
+
+	xkeymap_init_modifier_masks(&xkeymap);
 
 	if (params->locale) {
 		xkeymap.compose = xkb_compose_table_new_from_locale(xkeymap.xkb, params->locale, XKB_COMPOSE_COMPILE_NO_FLAGS);
