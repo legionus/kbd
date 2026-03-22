@@ -201,16 +201,22 @@ static void xkeymap_init_modifier_masks(struct xkeymap *xkeymap)
 	}
 }
 
+static int compare_compose_order(unsigned int lhs, unsigned int rhs)
+{
+	if (lhs < rhs)
+		return -1;
+	if (lhs > rhs)
+		return 1;
+
+	return 0;
+}
+
 static int compare_reachable_syms(const void *pa, const void *pb)
 {
 	const struct reachable_sym *lhs = pa;
 	const struct reachable_sym *rhs = pb;
 
-	if (lhs->sym < rhs->sym)
-		return -1;
-	if (lhs->sym > rhs->sym)
-		return 1;
-	return 0;
+	return compare_compose_order(lhs->sym, rhs->sym);
 }
 
 static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod)
@@ -1032,50 +1038,42 @@ static int compare_compose_candidates(const void *pa, const void *pb)
 {
 	const struct compose_candidate *lhs = pa;
 	const struct compose_candidate *rhs = pb;
+	int ret;
 
-	if (lhs->score > rhs->score)
-		return -1;
-	if (lhs->score < rhs->score)
-		return 1;
-	if (lhs->seq[0] < rhs->seq[0])
-		return -1;
-	if (lhs->seq[0] > rhs->seq[0])
-		return 1;
-	if (lhs->seq[1] < rhs->seq[1])
-		return -1;
-	if (lhs->seq[1] > rhs->seq[1])
-		return 1;
-	if (lhs->result_sym < rhs->result_sym)
-		return -1;
-	if (lhs->result_sym > rhs->result_sym)
-		return 1;
+	ret = compare_compose_order(rhs->score, lhs->score);
+	if (ret != 0)
+		return ret;
 
-	return 0;
+	ret = compare_compose_order(lhs->seq[0], rhs->seq[0]);
+	if (ret != 0)
+		return ret;
+
+	ret = compare_compose_order(lhs->seq[1], rhs->seq[1]);
+	if (ret != 0)
+		return ret;
+
+	return compare_compose_order(lhs->result_sym, rhs->result_sym);
 }
 
 static int compare_compose_candidates_by_sequence(const void *pa, const void *pb)
 {
 	const struct compose_candidate *lhs = pa;
 	const struct compose_candidate *rhs = pb;
+	int ret;
 
-	if (lhs->seq[0] < rhs->seq[0])
-		return -1;
-	if (lhs->seq[0] > rhs->seq[0])
-		return 1;
-	if (lhs->seq[1] < rhs->seq[1])
-		return -1;
-	if (lhs->seq[1] > rhs->seq[1])
-		return 1;
-	if (lhs->score > rhs->score)
-		return -1;
-	if (lhs->score < rhs->score)
-		return 1;
-	if (lhs->result_sym < rhs->result_sym)
-		return -1;
-	if (lhs->result_sym > rhs->result_sym)
-		return 1;
+	ret = compare_compose_order(lhs->seq[0], rhs->seq[0]);
+	if (ret != 0)
+		return ret;
 
-	return 0;
+	ret = compare_compose_order(lhs->seq[1], rhs->seq[1]);
+	if (ret != 0)
+		return ret;
+
+	ret = compare_compose_order(rhs->score, lhs->score);
+	if (ret != 0)
+		return ret;
+
+	return compare_compose_order(lhs->result_sym, rhs->result_sym);
 }
 
 static int compose_candidates_same_sequence(const struct compose_candidate *lhs,
@@ -1089,21 +1087,17 @@ static int compare_kernel_compose_rules(const void *pa, const void *pb)
 {
 	const struct lk_kbdiacr *lhs = pa;
 	const struct lk_kbdiacr *rhs = pb;
+	int ret;
 
-	if (lhs->diacr < rhs->diacr)
-		return -1;
-	if (lhs->diacr > rhs->diacr)
-		return 1;
-	if (lhs->base < rhs->base)
-		return -1;
-	if (lhs->base > rhs->base)
-		return 1;
-	if (lhs->result < rhs->result)
-		return -1;
-	if (lhs->result > rhs->result)
-		return 1;
+	ret = compare_compose_order(lhs->diacr, rhs->diacr);
+	if (ret != 0)
+		return ret;
 
-	return 0;
+	ret = compare_compose_order(lhs->base, rhs->base);
+	if (ret != 0)
+		return ret;
+
+	return compare_compose_order(lhs->result, rhs->result);
 }
 
 static size_t xkeymap_select_compose_candidates(struct compose_candidate *candidates,
@@ -1257,9 +1251,10 @@ static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 			continue;
 
 		diacr = candidates[i].diacr;
-			ret = lk_append_compose(xkeymap->ctx, &diacr);
-			if (ret == -1)
-				break;
+
+		ret = lk_append_compose(xkeymap->ctx, &diacr);
+		if (ret == -1)
+			break;
 
 		appended++;
 	}
