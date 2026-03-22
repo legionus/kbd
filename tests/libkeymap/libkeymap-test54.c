@@ -100,9 +100,36 @@ test_group_toggle_layout(void)
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 42, "Shift");
 	expect_key_symbol(keymap.ctx, 1 << KG_CTRL, 29, "Control");
 	expect_key_symbol(keymap.ctx, 1 << KG_ALT, 56, "Alt");
+	expect_key_symbol(keymap.ctx, (1 << KG_CTRL) | (1 << KG_ALT), 59, "Console_1");
+	expect_key_symbol(keymap.ctx, (1 << KG_CTRL) | (1 << KG_ALT), 88, "Console_12");
+	expect_key_symbol(keymap.ctx, 0, 99, "Control_backslash");
+	expect_key_symbol(keymap.ctx, 1 << KG_ALT, 99, "Last_Console");
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFTL, 16, "cyrillic_small_letter_short_i");
 	expect_key_symbol(keymap.ctx, (1 << KG_SHIFTL) | (1 << KG_SHIFT), 16,
 			  "cyrillic_capital_letter_short_i");
+
+	free_test_keymap(&keymap);
+}
+
+static void
+test_group_select_layout(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc104",
+		.layout = "us,ru",
+		.options = "grp:shift_caps_switch",
+	};
+
+	init_test_keymap(&keymap, "xkb-us-ru-group-select");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us,ru shift_caps_switch layout");
+
+	expect_key_symbol(keymap.ctx, 0, 58, "Shift_Lock");
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 58, "Shift_Lock");
 
 	free_test_keymap(&keymap);
 }
@@ -166,6 +193,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_basic_us_layout();
 	test_group_toggle_layout();
+	test_group_select_layout();
 	test_prefer_unicode_does_not_change_xkb_lookup();
 	test_level5_is_not_collapsed_into_alt();
 
