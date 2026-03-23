@@ -682,15 +682,11 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	xkb_keycode_t min_keycode = xkb_keymap_min_keycode(xkeymap->keymap);
 	xkb_keycode_t max_keycode = xkb_keymap_max_keycode(xkeymap->keymap);
 
-	if (KERN_KEYCODE(min_keycode) >= NR_KEYS) {
-		XKEYMAP_WARNING(0, "keymap defines more keycodes than the kernel can handle.");
+	if (KERN_KEYCODE(min_keycode) >= NR_KEYS)
 		min_keycode = (NR_KEYS - 1) + EVDEV_OFFSET;
-	}
 
-	if (KERN_KEYCODE(max_keycode) >= NR_KEYS) {
-		XKEYMAP_WARNING(0, "keymap defines more keycodes than the kernel can handle.");
+	if (KERN_KEYCODE(max_keycode) >= NR_KEYS)
 		max_keycode = (NR_KEYS - 1) + EVDEV_OFFSET;
-	}
 
 	int shift       = lk_ksym_to_unicode(xkeymap->ctx, "Shift");
 	int shiftl      = lk_ksym_to_unicode(xkeymap->ctx, "ShiftL");
