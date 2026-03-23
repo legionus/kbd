@@ -54,6 +54,7 @@ noinst_PROGRAMS = \
 	libkeymap-test32 \
 	libkeymap-test43 \
 	libkeymap-test44 \
+	libkeymap-test45 \
 	libkeymap-test50 \
 	libkeymap-test51 \
 	libkeymap-test52 \

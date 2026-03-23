@@ -269,6 +269,11 @@ AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test44])
 AT_CLEANUP
 
+AT_SETUP([test 45 (clamp Unicode compose load below MAX_DIACR)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test45])
+AT_CLEANUP
+
 AT_SETUP([test 50 (parse lexer-driven positive keymap edge cases)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test50])
