@@ -188,6 +188,32 @@ test_level5_is_not_collapsed_into_alt(void)
 	free_test_keymap(&keymap);
 }
 
+static void
+test_modifier_mask_lookup_across_layouts(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc104",
+		.layout = "us,local",
+		.variant = ",group2_level3_probe",
+		.options = "grp:caps_toggle",
+	};
+
+	init_test_keymap(&keymap, "xkb-layout-level3-mask");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB layout with group2-only LevelThree modifier");
+
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFTL, 2, "1");
+	expect_key_symbol(keymap.ctx, (1 << KG_SHIFTL) | (1 << KG_ALT), 2, "exclamdown");
+	expect_key_symbol(keymap.ctx, (1 << KG_SHIFTL) | (1 << KG_ALT) | (1 << KG_SHIFT), 2,
+			  "onesuperior");
+
+	free_test_keymap(&keymap);
+}
+
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
@@ -196,6 +222,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	test_group_select_layout();
 	test_prefer_unicode_does_not_change_xkb_lookup();
 	test_level5_is_not_collapsed_into_alt();
+	test_modifier_mask_lookup_across_layouts();
 
 	return EXIT_SUCCESS;
 }

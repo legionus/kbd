@@ -112,6 +112,7 @@ struct xkb_mask {
 };
 
 static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod);
+static unsigned int xkb_mask_weight(xkb_mod_mask_t mask);
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 		xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
 		xkb_keysym_t *symbol);
@@ -143,11 +144,20 @@ static xkb_mod_mask_t xkeymap_mod_mask_by_name(struct xkb_keymap *keymap, const 
 	return xkb_mod_bit(idx);
 }
 
+/*
+ * libxkbcommon exposes named real modifiers directly, but it does not have a
+ * direct API to ask which real modifier mask implements a semantic keysym like
+ * ISO_Level3_Shift in the compiled keymap.  Derive that mask indirectly by
+ * probing candidate keys through xkb_state; this is necessarily a small
+ * workaround rather than a first-class query.
+ */
 static xkb_mod_mask_t xkeymap_find_modifier_mask_for_keysym(struct xkeymap *xkeymap,
 							    xkb_keysym_t target)
 {
 	struct xkb_state *state;
 	xkb_keycode_t min, max;
+	xkb_mod_mask_t best = 0;
+	unsigned int best_weight = UINT_MAX;
 
 	state = xkb_state_new(xkeymap->keymap);
 	if (!state)
@@ -156,25 +166,56 @@ static xkb_mod_mask_t xkeymap_find_modifier_mask_for_keysym(struct xkeymap *xkey
 	min = xkb_keymap_min_keycode(xkeymap->keymap);
 	max = xkb_keymap_max_keycode(xkeymap->keymap);
 
+	/*
+	 * Semantic modifier keysyms are not guaranteed to live on layout 0.
+	 * Some rulesets expose the effective LevelThree/LevelFive chooser only
+	 * in another group, so probing layout 0 alone misses a valid semantic
+	 * modifier and later makes reachable XKB levels look unrepresentable in
+	 * the kernel tables.
+	 *
+	 * Probe level 0 of every layout by first selecting that layout in the
+	 * temporary xkb_state and then pressing the candidate key. We
+	 * intentionally do not try to infer modifier-dependent higher levels
+	 * here: once another modifier is needed just to reach the keysym, a
+	 * blind synthetic press no longer tells us which part of the resulting
+	 * state belongs to the probed modifier and which part came from the
+	 * setup needed to reach that level.
+	 */
 	for (xkb_keycode_t keycode = min; keycode <= max; keycode++) {
-		xkb_keysym_t sym;
-		int ret;
+		xkb_layout_index_t num_layouts = xkb_keymap_num_layouts_for_key(xkeymap->keymap, keycode);
 
-		ret = xkeymap_get_symbol(xkeymap->keymap, keycode, 0, 0, &sym);
-		if (ret <= 0 || sym != target)
-			continue;
+		for (xkb_layout_index_t layout = 0; layout < num_layouts; layout++) {
+			xkb_keysym_t sym;
+			int ret;
 
-		xkb_state_update_key(state, keycode, XKB_KEY_DOWN);
-		ret = (int) xkb_state_serialize_mods(state, XKB_STATE_MODS_EFFECTIVE);
-		xkb_state_update_key(state, keycode, XKB_KEY_UP);
-		xkb_state_unref(state);
-		if (ret > 0)
-			return (xkb_mod_mask_t) ret;
-		return 0;
+			ret = xkeymap_get_symbol(xkeymap->keymap, keycode, layout, 0, &sym);
+			if (ret <= 0 || sym != target)
+				continue;
+
+			xkb_state_update_mask(state, 0, 0, 0, 0, 0, layout);
+			xkb_state_update_key(state, keycode, XKB_KEY_DOWN);
+
+			ret = (int) xkb_state_serialize_mods(state, XKB_STATE_MODS_EFFECTIVE);
+
+			xkb_state_update_key(state, keycode, XKB_KEY_UP);
+			xkb_state_update_mask(state, 0, 0, 0, 0, 0, 0);
+
+			if (ret <= 0)
+				continue;
+
+			xkb_mod_mask_t candidate = (xkb_mod_mask_t) ret;
+			unsigned int candidate_weight = xkb_mask_weight(candidate);
+
+			if (!best || candidate_weight < best_weight ||
+			    (candidate_weight == best_weight && candidate < best)) {
+				best = candidate;
+				best_weight = candidate_weight;
+			}
+		}
 	}
 
 	xkb_state_unref(state);
-	return 0;
+	return best;
 }
 
 static void xkeymap_init_modifier_masks(struct xkeymap *xkeymap)
