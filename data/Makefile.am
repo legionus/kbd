@@ -5,6 +5,8 @@ IGNORE_KEYMAPS = i386/mk_modmap README */README */*/README
 
 COMPRESS = $(COMPRESS_PROG) -f -9
 LOCAL_CLEANUPDIRS =
+INSTALL_DATA_HOOKS = install-keymaps install-consolefonts install-consoletrans install-unimaps
+UNINSTALL_DATA_DIRS = $(FONTDIR) $(PARTIALDIR) $(TRANSDIR) $(UNIMAPDIR) $(KEYMAPDIR)
 
 export COMPRESS
 
@@ -70,7 +72,7 @@ install-keymaps: $(SRC_KEYMAPDIR)
 	  echo "nonstandard, and to adapt any scripts in rc.local or so." ; \
 	fi
 
-install-data-hook: install-keymaps install-consolefonts install-consoletrans install-unimaps
+install-data-hook: $(INSTALL_DATA_HOOKS)
 
 clean-local:
 	for d in $(LOCAL_CLEANUPDIRS); do \
@@ -78,4 +80,4 @@ clean-local:
 	done
 
 uninstall-hook:
-	cd $(DESTDIR)$(datadir) && rm -rf $(FONTDIR) $(PARTIALDIR) $(TRANSDIR) $(UNIMAPDIR) $(KEYMAPDIR)
+	cd $(DESTDIR)$(datadir) && rm -rf $(UNINSTALL_DATA_DIRS)

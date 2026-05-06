@@ -228,8 +228,8 @@ defdiacs(struct lk_ctx *ctx, int fd)
 	unsigned int i, j, count;
 	struct lk_kbdiacr *ptr;
 
-	if (ctx->accent_table->count > MAX_DIACR) {
-		count = MAX_DIACR;
+	if (ctx->accent_table->count >= MAX_DIACR) {
+		count = MAX_DIACR - 1;
 		ERR(ctx, _("too many compose definitions"));
 	} else {
 		count = (unsigned int) ctx->accent_table->count;

@@ -54,11 +54,210 @@ noinst_PROGRAMS = \
 	libkeymap-test32 \
 	libkeymap-test43 \
 	libkeymap-test44 \
+	libkeymap-test45 \
 	libkeymap-test50 \
 	libkeymap-test51 \
 	libkeymap-test52 \
 	libkeymap-test53 \
 	$(NULL)
+
+if USE_XKB
+noinst_PROGRAMS += libkeymap-test54
+noinst_PROGRAMS += libkeymap-test55
+noinst_PROGRAMS += libkeymap-test56
+noinst_PROGRAMS += libkeymap-test57
+noinst_PROGRAMS += libkeymap-test58
+noinst_PROGRAMS += libkeymap-test59
+noinst_PROGRAMS += libkeymap-test60
+noinst_PROGRAMS += libkeymap-test61
+noinst_PROGRAMS += libkeymap-test62
+noinst_PROGRAMS += libkeymap-test63
+noinst_PROGRAMS += libkeymap-test64
+noinst_PROGRAMS += libkeymap-test65
+noinst_PROGRAMS += libkeymap-test66
+noinst_PROGRAMS += libkeymap-test67
+
+libkeymap_test54_SOURCES = \
+	libkeymap-test54.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test54_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test54_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test55_SOURCES = \
+	libkeymap-test55.c
+
+libkeymap_test55_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test55_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test56_SOURCES = \
+	libkeymap-test56.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test56_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test56_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test57_SOURCES = \
+	libkeymap-test57.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test57_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test57_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test58_SOURCES = \
+	libkeymap-test58.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test58_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test58_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test59_SOURCES = \
+	libkeymap-test59.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test59_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test59_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test60_SOURCES = \
+	libkeymap-test60.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test60_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test60_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test61_SOURCES = \
+	libkeymap-test61.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test61_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test61_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test62_SOURCES = \
+	libkeymap-test62.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test62_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test62_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test63_SOURCES = \
+	libkeymap-test63.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test63_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test63_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test64_SOURCES = \
+	libkeymap-test64.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test64_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test64_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test65_SOURCES = \
+	libkeymap-test65.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test65_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test65_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test66_SOURCES = \
+	libkeymap-test66.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test66_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test66_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+
+libkeymap_test67_SOURCES = \
+	libkeymap-test67.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test67_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test67_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@
+endif
 
 libkeymap_test44_SOURCES = \
 	libkeymap-test44.c \
