@@ -47,8 +47,8 @@ FILE *kbdfile_decompressor_lzma(struct kbdfile *file)
 
 	retcode = dlopen_lzma();
 	if (retcode < 0) {
-		ERR(file->ctx, "lzma: can't load and resolve symbols: %s",
-		    kbd_strerror(-retcode, errbuf, sizeof(errbuf)));
+		ERR(file->ctx, _("%s: can't load and resolve symbols: %s"),
+		    "lzma", kbd_strerror(-retcode, errbuf, sizeof(errbuf)));
 		return NULL;
 	}
 
@@ -59,14 +59,14 @@ FILE *kbdfile_decompressor_lzma(struct kbdfile *file)
 
 	infd = open(file->pathname, O_RDONLY);
 	if (infd < 0) {
-		ERR(file->ctx, "unable to open xz-archive file: %s",
-		    kbd_strerror(errno, errbuf, sizeof(errbuf)));
+		ERR(file->ctx, _("%s: unable to open archive: %s"),
+		    "lzma", kbd_strerror(errno, errbuf, sizeof(errbuf)));
 		goto cleanup;
 	}
 
 	memfd = memfd_create(file->pathname, MFD_CLOEXEC);
 	if (memfd < 0) {
-		ERR(file->ctx, "unable to open in-memory file: %s",
+		ERR(file->ctx, _("unable to open in-memory file: %s"),
 		    kbd_strerror(errno, errbuf, sizeof(errbuf)));
 		goto cleanup;
 	}
@@ -80,8 +80,8 @@ FILE *kbdfile_decompressor_lzma(struct kbdfile *file)
 			ssize_t read_bytes = read(infd, inpbuf, sizeof(inpbuf));
 
 			if (read_bytes < 0) {
-				ERR(file->ctx, "unable to read xz-archive: %s",
-				    kbd_strerror(errno, errbuf, sizeof(errbuf)));
+				ERR(file->ctx, _("%s: unable to read archive: %s"),
+				    "lzma", kbd_strerror(errno, errbuf, sizeof(errbuf)));
 				goto cleanup;
 			} else if (read_bytes == 0) {
 				eof = 1;
@@ -111,7 +111,7 @@ FILE *kbdfile_decompressor_lzma(struct kbdfile *file)
 				if (errno == EINTR)
 					continue;
 
-				ERR(file->ctx, "unable to write data: %s",
+				ERR(file->ctx, _("unable to write data: %s"),
 				    kbd_strerror(errno, errbuf, sizeof(errbuf)));
 
 				goto cleanup;
@@ -136,7 +136,7 @@ cleanup:
 
 		outf = fdopen(memfd, "r");
 		if (!outf) {
-			ERR(file->ctx, "unable to create file stream from file descriptor: %s",
+			ERR(file->ctx, _("unable to create file stream from file descriptor: %s"),
 			    kbd_strerror(errno, errbuf, sizeof(errbuf)));
 
 			if (memfd >= 0)

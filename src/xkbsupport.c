@@ -313,7 +313,7 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 		errno = 0;
 		value = (int) strtol(symname + 2, NULL, 16);
 		if (errno == ERANGE) {
-			XKEYMAP_WARNING(0, "unable to convert unnamed non-Unicode xkb symbol `%s'", symname);
+			XKEYMAP_WARNING(0, _("unable to convert unnamed non-Unicode xkb symbol `%s'"), symname);
 			return -1;
 		}
 		return lk_convert_code(ctx, value, TO_UNICODE);
@@ -325,7 +325,7 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 		errno = 0;
 		value = (int) strtol(symname + 1, NULL, 16);
 		if (errno == ERANGE) {
-			XKEYMAP_WARNING(0, "unable to convert unnamed unicode xkb symbol `%s'", symname);
+			XKEYMAP_WARNING(0, _("unable to convert unnamed unicode xkb symbol `%s'"), symname);
 			return -1;
 		}
 		return lk_convert_code(ctx, value ^ 0xf000, TO_UNICODE);
@@ -478,7 +478,7 @@ static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symb
 	ret = xkb_keysym_get_name(symbol, symbuf, sizeof(symbuf));
 
 	if (ret < 0 || (size_t)ret >= sizeof(symbuf)) {
-		XKEYMAP_WARNING(0, "failed to get name of keysym");
+		XKEYMAP_WARNING(0, _("failed to get name of keysym"));
 		return -1;
 	}
 
@@ -514,7 +514,7 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 	symbuf[0] = '\0';
 	ret = xkb_keysym_get_name(symbol, symbuf, sizeof(symbuf));
 	if (ret < 0 || (size_t) ret >= sizeof(symbuf)) {
-		XKEYMAP_WARNING(0, "failed to get name of keysym");
+		XKEYMAP_WARNING(0, _("failed to get name of keysym"));
 		return -1;
 	}
 
@@ -532,7 +532,7 @@ static int xkeymap_get_symbol(struct xkb_keymap *keymap,
 		return 0;
 
 	if (num_syms > 1) {
-		XKEYMAP_WARNING(0, "keycode %u layout %u level %u has %d symbols; using the first one",
+		XKEYMAP_WARNING(0, _("keycode %u layout %u level %u has %d symbols; using the first one"),
 				keycode, layout, level, num_syms);
 	}
 
@@ -563,14 +563,14 @@ static void remember_reachable_sym(struct xkeymap *xkeymap, xkb_keysym_t sym, in
 
 	ptr = malloc(sizeof(*ptr));
 	if (!ptr)
-		kbd_error(1, errno, "out of memory");
+		kbd_error(1, errno, _("out of memory"));
 
 	ptr->sym = sym;
 	ptr->code = code;
 
 	val = tsearch(ptr, &xkeymap->reachable_syms, compare_reachable_syms);
 	if (!val)
-		kbd_error(1, errno, "out of memory");
+		kbd_error(1, errno, _("out of memory"));
 
 	if (*val != ptr)
 		free(ptr);
@@ -698,7 +698,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
 
 	if (num_layouts == 0 || num_layouts > NR_LAYOUTS) {
-		XKEYMAP_WARNING(0, "unable to convert XKB layouts: unsupported layout count %u.",
+		XKEYMAP_WARNING(0, _("unable to convert XKB layouts: unsupported layout count %u"),
 				(unsigned int) num_layouts);
 		return -1;
 	}
@@ -907,7 +907,7 @@ static int xkeymap_compose_candidate_append(struct compose_candidate **candidate
 		new_capacity = *capacity ? (*capacity * 2) : 32;
 		tmp = realloc(*candidates, new_capacity * sizeof(**candidates));
 		if (!tmp) {
-			XKEYMAP_WARNING(errno, "out of memory");
+			XKEYMAP_WARNING(errno, _("out of memory"));
 			return -1;
 		}
 		*candidates = tmp;
@@ -1322,7 +1322,7 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 
 	ret = xkeymap_append_compose_candidates(xkeymap, candidates, selected, &kernel_rules);
 	if (ret == 0 && kernel_rules > MAX_DIACR) {
-		XKEYMAP_WARNING(0, "kernel can handle only %d compose definitions, but xkb needs %zu.",
+		XKEYMAP_WARNING(0, _("kernel can handle only %d compose definitions, but xkb needs %zu"),
 				MAX_DIACR, kernel_rules);
 	}
 	free(candidates);
@@ -1360,7 +1360,7 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 	}
 
 	if (xkb_keymap_num_layouts(xkeymap.keymap) > NR_LAYOUTS) {
-		XKEYMAP_WARNING(0, "too many layouts specified. At the moment, you can use no more than %d", NR_LAYOUTS);
+		XKEYMAP_WARNING(0, _("too many layouts specified. At the moment, you can use no more than %d"), NR_LAYOUTS);
 		goto end;
 	}
 
@@ -1369,7 +1369,7 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 	if (params->locale) {
 		xkeymap.compose = xkb_compose_table_new_from_locale(xkeymap.xkb, params->locale, XKB_COMPOSE_COMPILE_NO_FLAGS);
 		if (!xkeymap.compose) {
-			XKEYMAP_WARNING(0, "xkb compose table for locale `%s' was not found; continuing without compose support",
+			XKEYMAP_WARNING(0, _("xkb compose table for locale `%s' was not found; continuing without compose support"),
 					params->locale);
 		}
 	}

@@ -4,6 +4,7 @@
 #include <stdarg.h>
 
 #include "kbdfile.h"
+#include "nls.h"
 
 /**
  * @brief Opaque object representing the library context.

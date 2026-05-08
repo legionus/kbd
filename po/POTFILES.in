@@ -2,7 +2,9 @@ contrib/codepage.c
 contrib/dropkeymaps.c
 contrib/splitfont.c
 contrib/sti.c
+contrib/vcslayout.c
 contrib/vcstime.c
+contrib/xkb-keysym-coverage.c
 src/chvt.c
 src/clrunimap.c
 src/deallocvt.c
@@ -10,13 +12,18 @@ src/dumpkeys.c
 src/fgconsole.c
 src/getkeycodes.c
 src/getunimap.c
-src/kbdinfo.c
 src/kbd_mode.c
+src/kbdinfo.c
 src/kbdrate.c
 src/libcommon/error.c
 src/libcommon/getfd.c
 src/libcommon/version.c
+src/libkbdfile/elf-note.c
 src/libkbdfile/init.c
+src/libkbdfile/kbdfile-bzip2.c
+src/libkbdfile/kbdfile-lzma.c
+src/libkbdfile/kbdfile-zlib.c
+src/libkbdfile/kbdfile-zstd.c
 src/libkbdfile/kbdfile.c
 src/libkeymap/analyze.l
 src/libkeymap/array.c
@@ -37,6 +44,7 @@ src/libkfont/kdmapop.c
 src/libkfont/loadunimap.c
 src/libkfont/mapscrn.c
 src/libkfont/psffontop.c
+src/libkfont/psfxtable.c
 src/libkfont/setfont.c
 src/libkfont/unicode.c
 src/libkfont/utf8.c
@@ -68,3 +76,4 @@ src/vlock/username.c
 src/vlock/vlock.c
 src/vlock/vt.c
 src/wctomb.c
+src/xkbsupport.c

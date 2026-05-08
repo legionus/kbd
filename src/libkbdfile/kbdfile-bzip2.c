@@ -44,8 +44,8 @@ FILE *kbdfile_decompressor_bzip2(struct kbdfile *file)
 
 	retcode = dlopen_note();
 	if (retcode < 0) {
-		ERR(file->ctx, "bzip2: can't load and resolve symbols: %s",
-		    kbd_strerror(-retcode, errbuf, sizeof(errbuf)));
+		ERR(file->ctx, _("%s: can't load and resolve symbols: %s"),
+		    "bzip2", kbd_strerror(-retcode, errbuf, sizeof(errbuf)));
 		return NULL;
 	}
 
@@ -53,15 +53,15 @@ FILE *kbdfile_decompressor_bzip2(struct kbdfile *file)
 
 	memfd = memfd_create(file->pathname, MFD_CLOEXEC);
 	if (memfd < 0) {
-		ERR(file->ctx, "unable to open in-memory file: %s",
+		ERR(file->ctx, _("unable to open in-memory file: %s"),
 		    kbd_strerror(errno, errbuf, sizeof(errbuf)));
 		goto cleanup;
 	}
 
 	zf = sym_BZ2_bzopen(file->pathname, "rb");
 	if (!zf) {
-		ERR(file->ctx, "bzip2: unable to open archive: %s",
-		    kbd_strerror(errno, errbuf, sizeof(errbuf)));
+		ERR(file->ctx, _("%s: unable to open archive: %s"),
+		    "bzip2", kbd_strerror(errno, errbuf, sizeof(errbuf)));
 		goto cleanup;
 	}
 
@@ -72,8 +72,8 @@ FILE *kbdfile_decompressor_bzip2(struct kbdfile *file)
 		read_bytes = sym_BZ2_bzread(zf, outbuf, sizeof(outbuf));
 		if (read_bytes < 0) {
 			int zerrno;
-			ERR(file->ctx, "bzip2: read error: %s",
-			    sym_BZ2_bzerror(zf, &zerrno));
+			ERR(file->ctx, _("%s: unable to read archive: %s"),
+			    "bzip2", sym_BZ2_bzerror(zf, &zerrno));
 			goto cleanup;
 		}
 		if (read_bytes == 0) {
@@ -91,7 +91,7 @@ FILE *kbdfile_decompressor_bzip2(struct kbdfile *file)
 				if (errno == EINTR)
 					continue;
 
-				ERR(file->ctx, "unable to write data: %s",
+				ERR(file->ctx, _("unable to write data: %s"),
 				    kbd_strerror(errno, errbuf, sizeof(errbuf)));
 
 				goto cleanup;
@@ -109,7 +109,7 @@ cleanup:
 
 		outf = fdopen(memfd, "r");
 		if (!outf) {
-			ERR(file->ctx, "unable to create file stream from file descriptor: %s",
+			ERR(file->ctx, _("unable to create file stream from file descriptor: %s"),
 			    kbd_strerror(errno, errbuf, sizeof(errbuf)));
 
 			if (memfd >= 0)
