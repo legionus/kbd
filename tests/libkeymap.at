@@ -353,6 +353,7 @@ AT_CLEANUP
 
 AT_SETUP([test 61 (xkb conversion without compose table)])
 AT_KEYWORDS([libkeymap unittest xkb])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test61" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test61])
 AT_CLEANUP
 
