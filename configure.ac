@@ -4,7 +4,7 @@
 #
 AC_PREREQ([2.71])
 
-AC_INIT([kbd],[2.9.0],[gladkov.alexey@gmail.com],[kbd],[https://kbd-project.org/])
+AC_INIT([kbd],[2.10-rc1],[gladkov.alexey@gmail.com],[kbd],[https://kbd-project.org/])
 
 AC_DEFINE_UNQUOTED([PACKAGE], ["$PACKAGE"], [Name of package])
 AC_DEFINE_UNQUOTED([VERSION], ["$VERSION"], [Package version])
