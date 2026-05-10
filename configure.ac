@@ -361,10 +361,10 @@ AM_CONDITIONAL(HAVE_DOXYGEN, test "$HAVE_DOXYGEN" = "yes")
 
 AC_ARG_ENABLE([xkb],
 	[AS_HELP_STRING([--enable-xkb],
-			[allow to generate kernel keymaps based on xkb database @<:@default=yes@:>@])],
-	[USE_XKB=$enableval],[USE_XKB=yes])
+			[allow to generate kernel keymaps based on xkb database @<:@default=auto@:>@])],
+	[USE_XKB=$enableval],[USE_XKB=auto])
 AS_IF([test "x$USE_XKB" != xno],
-	[PKG_CHECK_MODULES(XKBCOMMON, xkbcommon, [HAVE_XKBCOMMON=yes], [HAVE_XKBCOMMON=no])],
+	[PKG_CHECK_MODULES(XKBCOMMON, xkbcommon, [USE_XKB=yes], [USE_XKB=no])],
 	[USE_XKB=no])
 AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
 
