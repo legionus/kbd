@@ -38,7 +38,8 @@ jobs:
     - name: "Install dependencies"
       run: |
         sudo apt-get update  -y -qq
-        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex gettext valgrind sparse
+        sudo apt-get install -y -qq gcc autoconf automake autopoint libtool libtool-bin libpam0g-dev bison flex pkg-config gettext valgrind sparse
+        sudo apt-get install -y -qq zlib1g-dev libbz2-dev liblzma-dev libzstd-dev libxkbcommon-dev
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/data" --enable-memcheck
@@ -80,7 +81,7 @@ jobs:
         sudo apt-get install -y -qq \
           gcc autoconf automake autopoint libtool libtool-bin \
           libpam0g-dev bison flex gettext lcov \
-          zlib1g-dev libbz2-dev liblzma-dev libzstd-dev
+          zlib1g-dev libbz2-dev liblzma-dev libzstd-dev libxkbcommon-dev
     - name: "Configure"
       run: |
         tests/configure.sh --datadir="$PWD/tests/data" --enable-code-coverage --disable-memcheck
