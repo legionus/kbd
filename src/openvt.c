@@ -57,6 +57,51 @@ usage(int rc, const struct kbd_help *options)
 	exit(rc);
 }
 
+static int
+proc_pid_stat(const char *pid, uid_t *uid, dev_t *tty)
+{
+	char filename[NAME_MAX + 12];
+	char line[BUFSIZ];
+	char *lp, *rp;
+	FILE *fp;
+	struct stat st;
+	long tty_nr;
+
+	snprintf(filename, sizeof(filename), "/proc/%s/stat", pid);
+	fp = fopen(filename, "r");
+	if (!fp)
+		return -1;
+
+	if (fstat(fileno(fp), &st)) {
+		fclose(fp);
+		return -1;
+	}
+
+	if (!fgets(line, sizeof(line), fp)) {
+		fclose(fp);
+		return -1;
+	}
+	fclose(fp);
+
+	rp = strrchr(line, ')');
+	if (!rp)
+		return -1;
+
+	/*
+	 * /proc/<pid>/stat fields after comm are:
+	 * state ppid pgrp session tty_nr ...
+	 */
+	if (!rp || sscanf(rp + 1, " %*c %*d %*d %*d %ld", &tty_nr) != 1)
+		return -1;
+
+	if (tty_nr <= 0)
+		return -1;
+
+	*uid = st.st_uid;
+	*tty = (dev_t) tty_nr;
+	return 0;
+}
+
 /*
  * Support for Spawn_Console: openvt running from init
  * added by Joshua Spoerri, Thu Jul 18 21:13:16 EDT 1996
@@ -88,8 +133,7 @@ authenticate_user(int curvt)
 	DIR *dp;
 	struct dirent *dentp;
 	struct stat buf;
-	dev_t console_dev;
-	ino_t console_ino;
+	dev_t console_rdev;
 	uid_t console_uid;
 	char filename[NAME_MAX + 12];
 	struct passwd *pwnam;
@@ -109,9 +153,11 @@ authenticate_user(int curvt)
 			kbd_error(EXIT_FAILURE, errsv, "%s", filename);
 		}
 	}
-	console_dev = buf.st_dev;
-	console_ino = buf.st_ino;
+	console_rdev = buf.st_rdev;
 	console_uid = buf.st_uid;
+
+	if (console_uid == 0)
+		kbd_error(EXIT_FAILURE, 0, _("Refusing to pre-authenticate root on current tty."));
 
 	/* get the owner of current tty */
 	if (!(pwnam = getpwuid(console_uid)))
@@ -120,12 +166,16 @@ authenticate_user(int curvt)
 	/* check to make sure that user has a process on that tty */
 	/* this will fail for example when X is running on the tty */
 	while ((dentp = readdir(dp))) {
-		snprintf(filename, sizeof(filename), "/proc/%s/fd/0", dentp->d_name);
+		uid_t proc_uid;
+		dev_t proc_tty;
 
-		if (stat(filename, &buf))
+		if (dentp->d_name[0] < '0' || dentp->d_name[0] > '9')
 			continue;
 
-		if (buf.st_dev == console_dev && buf.st_ino == console_ino && buf.st_uid == console_uid)
+		if (proc_pid_stat(dentp->d_name, &proc_uid, &proc_tty) < 0)
+			continue;
+
+		if (proc_uid == console_uid && proc_tty == console_rdev)
 			goto got_a_process;
 	}
 

@@ -36,6 +36,8 @@ will be made the new current VT.
 \fB\-u\fR, \fB\-\-user\fR
 Figure out the owner of the current VT, and run login as that user.
 Suitable to be called by init. Shouldn't be used with \fI\-c\fR or \fI\-l\fR.
+This option refuses to pre-authenticate root and requires a process owned by
+the VT owner whose controlling terminal is the current VT.
 .TP
 \fB\-l\fR, \fB\-\-login\fR
 Make the command a login shell. A \- is prepended to the name of the command
@@ -64,6 +66,14 @@ If
 is compiled with a getopt_long() and you wish to set
 options to the command to be run, then you must supply
 the end of options \-\- flag before the command.
+.PP
+The
+.B \-u
+option uses
+.BR "login -f"
+and therefore bypasses normal password authentication for the detected user.
+It is intended only for controlled init or keyboard-request configurations.
+Use a normal authenticated login command when authentication is required.
 .SH EXAMPLES
 .B openvt
 can be used to start a shell on the next free VT, by using the command:
