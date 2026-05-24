@@ -1,4 +1,4 @@
-# Spanish translations for kbd-2.7-rc1
+# Spanish translations for kbd-2.10-rc1
 # This file is distributed under the same license as the kbd package.
 #
 # Juan Rafael Fernandez Garcia <juanrafael.fernandez@hispalinux.es>, 2005, 2008.
@@ -6,10 +6,10 @@
 # Cristian Othón Martínez Vera <cfuga@cfuga.mx>, 2022, 2023, 2024, 2025, 2026
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd-2.7-rc1\n"
+"Project-Id-Version: kbd-2.10-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2026-05-09 18:40+0200\n"
-"PO-Revision-Date: 2026-02-24 11:36-0600\n"
+"POT-Creation-Date: 2026-05-24 17:26+0200\n"
+"PO-Revision-Date: 2026-05-13 14:18-0600\n"
 "Last-Translator: Cristian Othón Martínez Vera <cfuga@cfuga.mx>\n"
 "Language-Team: Spanish <es@tp.org.es>\n"
 "Language: es\n"
@@ -35,7 +35,7 @@ msgstr "el dispositivo de consola a utilizar."
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbd_mode.c:96
 #: src/kbdinfo.c:67 src/kbdrate.c:354 src/loadkeys.c:146 src/loadunimap.c:58
-#: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
+#: src/mapscrn.c:57 src/openvt.c:318 src/outpsfheader.c:40 src/screendump.c:64
 #: src/setfont.c:190 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
 #: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
@@ -45,7 +45,7 @@ msgstr "muestra este mensaje de uso."
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbd_mode.c:95
 #: src/kbdinfo.c:66 src/kbdrate.c:353 src/loadkeys.c:145 src/loadunimap.c:57
-#: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
+#: src/mapscrn.c:56 src/openvt.c:317 src/outpsfheader.c:39 src/screendump.c:63
 #: src/setfont.c:189 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
 #: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
@@ -59,7 +59,7 @@ msgstr "No hay argumentos suficientes."
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94
 #: src/kbd_mode.c:153 src/kbdinfo.c:100 src/libcommon/getfd.c:88
-#: src/loadkeys.c:252 src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328
+#: src/loadkeys.c:252 src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:378
 #: src/resizecons.c:168 src/setfont.c:321 src/setkeycodes.c:117
 #: src/setlogcons.c:96 src/setmetamode.c:116 src/setpalette.c:80
 #: src/setvesablank.c:31 src/setvtrgb.c:202 src/showconsolefont.c:173
@@ -69,19 +69,19 @@ msgid "Couldn't get a file descriptor referring to the console."
 msgstr ""
 "No se puede conseguir un descriptor de fichero que refiera a la consola."
 
-#: src/chvt.c:97 src/openvt.c:176
+#: src/chvt.c:97 src/openvt.c:226
 msgid "Unable to set signal handler"
 msgstr "No se puede  establecer el manejador de señal"
 
-#: src/chvt.c:104 src/openvt.c:185
+#: src/chvt.c:104 src/openvt.c:235
 msgid "Unable to create timer"
 msgstr "No se puede crear un temporizador"
 
-#: src/chvt.c:112 src/openvt.c:195
+#: src/chvt.c:112 src/openvt.c:245
 msgid "Unable to set timer"
 msgstr "No se puede establecer un temporizador"
 
-#: src/chvt.c:118 src/openvt.c:203
+#: src/chvt.c:118 src/openvt.c:253
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "No se puede activar la terminal virtual %d"
@@ -176,7 +176,7 @@ msgstr ""
 "interpreta que los códigos de acción de carácter proceden del conjunto de "
 "caracteres especificado."
 
-#: src/dumpkeys.c:99 src/loadkeys.c:144 src/mapscrn.c:55 src/openvt.c:266
+#: src/dumpkeys.c:99 src/loadkeys.c:144 src/mapscrn.c:55 src/openvt.c:316
 #: src/setfont.c:188 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "modo detallado."
@@ -275,6 +275,8 @@ msgid ""
 "The keyboard is in Disabled mode, perhaps you are using a graphical "
 "environment?"
 msgstr ""
+"El teclado está en modo Desactivado. ¿Tal vez está utilizando un ambiente "
+"gráfico?"
 
 #: src/kbd_mode.c:62
 #, c-format
@@ -298,9 +300,8 @@ msgid "set UTF-8 mode."
 msgstr "establece el modo UTF-8."
 
 #: src/kbd_mode.c:92
-#, fuzzy
 msgid "set disable mode."
-msgstr "establece el modo de código de rastreo."
+msgstr "establece el modo desactivado."
 
 #: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
@@ -431,46 +432,47 @@ msgstr "Reporte errores a los autores.\n"
 #: src/libkbdfile/kbdfile-zlib.c:47 src/libkbdfile/kbdfile-zstd.c:51
 #, c-format
 msgid "%s: can't load and resolve symbols: %s"
-msgstr ""
+msgstr "%s: no se pueden cargar y resolver los símbolos: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:56 src/libkbdfile/kbdfile-lzma.c:69
 #: src/libkbdfile/kbdfile-zlib.c:56 src/libkbdfile/kbdfile-zstd.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open in-memory file: %s"
-msgstr "No se puede abrir el fichero: %s: %m"
+msgstr "No se puede abrir el fichero en memoria: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:63 src/libkbdfile/kbdfile-lzma.c:62
 #: src/libkbdfile/kbdfile-zlib.c:63 src/libkbdfile/kbdfile-zstd.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to open archive: %s"
-msgstr "No se puede abrir el fichero: %s: %m"
+msgstr "%s: no se puede abrir el archivo: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:75 src/libkbdfile/kbdfile-lzma.c:83
 #: src/libkbdfile/kbdfile-zlib.c:76 src/libkbdfile/kbdfile-zstd.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to read archive: %s"
-msgstr "no se puede decodificar el número: %s"
+msgstr "%s: no se puede leer el archivo: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:94 src/libkbdfile/kbdfile-lzma.c:114
 #: src/libkbdfile/kbdfile-zlib.c:95 src/libkbdfile/kbdfile-zstd.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write data: %s"
-msgstr "no se puede inicializar la matriz: %s"
+msgstr "no se pueden escribir datos: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:112 src/libkbdfile/kbdfile-lzma.c:139
 #: src/libkbdfile/kbdfile-zlib.c:113 src/libkbdfile/kbdfile-zstd.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create file stream from file descriptor: %s"
-msgstr "No se puede crear la instancia de fichero kbd: %m"
+msgstr ""
+"No se puede crear el flujo de fichero desde el descriptor de fichero: %s"
 
 #: src/libkbdfile/kbdfile-zstd.c:74
 msgid "prepare zstd streaming decompressor failed"
-msgstr ""
+msgstr "falló al preparar el descompresor del flujo zstd"
 
 #: src/libkbdfile/kbdfile-zstd.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to decompress stream: %s"
-msgstr "no se puede decodificar el número: %s"
+msgstr "%s: no se puede descomprimir el flujo: %s"
 
 #: src/libkeymap/analyze.l:41
 msgid "includes are nested too deeply"
@@ -509,9 +511,9 @@ msgid "value must be a positive number: %s"
 msgstr "el valor debe ser un número positivo: %s"
 
 #: src/libkeymap/analyze.l:302
-#, fuzzy, c-format
+#, c-format
 msgid "value must be less than %lld: %s"
-msgstr "el valor debe ser menor que %d: %s"
+msgstr "el valor debe ser menor que %lld: %s"
 
 #: src/libkeymap/analyze.l:336
 msgid "string too long"
@@ -610,9 +612,11 @@ msgid "lk_add_key called with bad keycode %d"
 msgstr "se llamó lk_add_key con el código de tecla erróneo %d"
 
 #: src/libkeymap/kmap.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "adding map %d for key %d violates explicit keymaps line"
-msgstr "al agregar map %d se viola la línea explícita de mapa de teclado"
+msgstr ""
+"al agregar map %d para la tecla %d se viola la línea explícita de mapa de "
+"teclado"
 
 #: src/libkeymap/kmap.c:147
 #, c-format
@@ -683,9 +687,9 @@ msgid "KDSKBMODE: %s: could not switch to Unicode mode"
 msgstr "KDSKBMODE: %s: no se puede cambiar al modo Unicode"
 
 #: src/libkeymap/loadkeys.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %sr could not return to original keyboard mode"
-msgstr "KDSKBMODE: %s: no se puede regresar al modo de teclado original"
+msgstr "KDSKBMODE: %sr no se puede regresar al modo de teclado original"
 
 #: src/libkeymap/loadkeys.c:205
 #, c-format
@@ -901,7 +905,7 @@ msgstr[0] "# %d entrada"
 msgstr[1] "# %d entradas"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
-#: src/libkfont/mapscrn.c:230 src/loadkeys.c:341 src/openvt.c:411
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:341 src/openvt.c:461
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
@@ -1032,41 +1036,39 @@ msgid "Cannot write font file"
 msgstr "No se puede escribir el fichero de tipos de letra"
 
 #: src/libkfont/psfxtable.c:98
-#, fuzzy
 msgid "Warning: line too long"
-msgstr "%s: Advertencia: línea demasiado larga"
+msgstr "Advertencia: línea demasiado larga"
 
 #: src/libkfont/psfxtable.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Glyph number (0x%x) past end of font"
-msgstr "%s: El número de glifo (0x%lx) es mayor que el final del tipo\n"
+msgstr "El número de glifo (0x%x) es mayor que el final del tipo"
 
 #: src/libkfont/psfxtable.c:129
-#, fuzzy, c-format
+#, c-format
 msgid "Bad end of range (0x%x)"
-msgstr "%s: Fin de intervalo (0x%x) erróneo\n"
+msgstr "Fin de intervalo (0x%x) erróneo"
 
 #: src/libkfont/psfxtable.c:155
-#, fuzzy
 msgid ""
 "Corresponding to a range of font positions, there should be a Unicode range"
 msgstr ""
-"%s: Correspondiendo a un intervalo de posiciones de tipo, debería haber un "
-"intervalo Unicode\n"
+"Correspondiendo a un intervalo de posiciones de tipo, debería haber un "
+"intervalo Unicode"
 
 #: src/libkfont/psfxtable.c:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unicode range U+%x-U+%x not of the same length as font position range "
 "0x%x-0x%x"
 msgstr ""
-"%s: El intervalo Unicode U+%x-U+%x no es de la misma longitud que el "
-"intervalo de posición 0x%x-0x%x en el tipo de letra"
+"El intervalo Unicode U+%x-U+%x no es de la misma longitud que el intervalo "
+"de posición 0x%x-0x%x en el tipo de letra"
 
 #: src/libkfont/psfxtable.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "trailing junk (%s) ignored"
-msgstr "%s: se descarta la basura del final (%s)"
+msgstr "se descarta la basura del final (%s)"
 
 #: src/libkfont/setfont.c:57
 #, c-format
@@ -1209,22 +1211,26 @@ msgstr "Mapa de teclado por default: %s\n"
 #: src/loadkeys.c:127
 msgid "Specifies model used to choose component names."
 msgstr ""
+"Especifica el modelo utilizado para escoger los nombres de componentes."
 
 #: src/loadkeys.c:128
 msgid "Specifies layout used to choose component names."
 msgstr ""
+"Especifica la distribución utilizada para escoger los nombres de componentes."
 
 #: src/loadkeys.c:129
 msgid "Specifies layout variant used to choose component names."
 msgstr ""
+"Especifica la variación de distribución utilizada para escoger los nombres "
+"de componentes."
 
 #: src/loadkeys.c:130
 msgid "Adds an option used to choose component names."
-msgstr ""
+msgstr "Agrega una opción utilizada para escoger los nombres de componentes."
 
 #: src/loadkeys.c:131
 msgid "Use LOCALE to search an appropriate compose file."
-msgstr ""
+msgstr "Usa LOCAL para buscar un nombre de fichero de composición adecuado."
 
 #: src/loadkeys.c:134
 msgid "force conversion to ASCII."
@@ -1259,9 +1265,8 @@ msgid "force conversion to Unicode."
 msgstr "fuerza la conversión a Unicode."
 
 #: src/loadkeys.c:143
-#, fuzzy
 msgid "output a text keymap to stdout."
-msgstr "muestra un mapa de teclado binario en la salida estándard."
+msgstr "muestra un mapa de teclado de texto en la salida estándard."
 
 #: src/loadkeys.c:166
 msgid "Unable to create kbdfile context"
@@ -1315,84 +1320,88 @@ msgstr ""
 "Esta utilidad ayuda a iniciar un programa en una terminal virtual (TV) "
 "nueva.\n"
 
-#: src/openvt.c:132
+#: src/openvt.c:160
+msgid "Refusing to pre-authenticate root on current tty."
+msgstr ""
+
+#: src/openvt.c:182
 msgid "Couldn't find owner of current tty!"
 msgstr "¡No se puede encontrar al propietario de la term. virt. actual!"
 
-#: src/openvt.c:259
+#: src/openvt.c:309
 msgid "use the given VT number and not the first available."
 msgstr "usa el número de VT dado y no el primero disponible."
 
-#: src/openvt.c:260
+#: src/openvt.c:310
 msgid "execute the command, without forking."
 msgstr "ejecuta la orden sin hacer fork."
 
-#: src/openvt.c:261
+#: src/openvt.c:311
 msgid "force opening a VT without checking."
 msgstr "fuerza la apertura de una TV sin verificar."
 
-#: src/openvt.c:262
+#: src/openvt.c:312
 msgid "make the command a login shell."
 msgstr "hace que la orden sea un intérprete de entrada."
 
-#: src/openvt.c:263
+#: src/openvt.c:313
 msgid "figure out the owner of the current VT."
 msgstr "obtiene el propietario de la TV actual."
 
-#: src/openvt.c:264
+#: src/openvt.c:314
 msgid "switch to the new VT."
 msgstr "cambia a la nueva TV."
 
-#: src/openvt.c:265
+#: src/openvt.c:315
 msgid "wait for command to complete"
 msgstr "espera a que la orden se complete"
 
-#: src/openvt.c:279
+#: src/openvt.c:329
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: Número de term. virt. ilegal"
 
-#: src/openvt.c:306
+#: src/openvt.c:356
 msgid "Only root can use the -u flag."
 msgstr "Sólo root puede usar el indicador -u."
 
-#: src/openvt.c:335
+#: src/openvt.c:385
 msgid "Cannot find a free vt"
 msgstr "No se encuentra ninguna term. virt. libre"
 
-#: src/openvt.c:339
+#: src/openvt.c:389
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
 "No se puede comprobar si la term. virt. %d está disponible; use «%s -f» para "
 "forzar."
 
-#: src/openvt.c:343
+#: src/openvt.c:393
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
 "La term. virt. %d está siendo utilizada; orden abortada; use «%s -f» para "
 "forzar."
 
-#: src/openvt.c:354
+#: src/openvt.c:404
 msgid "Unable to find command."
 msgstr "No se puede encontrar la orden."
 
-#: src/openvt.c:386
+#: src/openvt.c:436
 msgid "Unable to set new session"
 msgstr "No se puede establecer una nueva sesión"
 
-#: src/openvt.c:415
+#: src/openvt.c:465
 #, c-format
 msgid "Using VT %s"
 msgstr "Se usa la terminal virtual %s"
 
-#: src/openvt.c:421
+#: src/openvt.c:471
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "No se puede abrir %s para lectura/escritura"
 
-#: src/openvt.c:468
+#: src/openvt.c:518
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "No se puede liberar la consola %d"
@@ -1598,7 +1607,7 @@ msgstr ""
 
 #: src/setfont.c:184
 msgid "check whether console is suitable for font operations."
-msgstr ""
+msgstr "comprueba si la consola es adecuada para operaciones de tipografía."
 
 #: src/setfont.c:185
 msgid "double size of font horizontally and vertically."
@@ -2096,36 +2105,44 @@ msgstr "No se puede bloquear toda la pantalla de la consola.\n"
 #: src/xkbsupport.c:316
 #, c-format
 msgid "unable to convert unnamed non-Unicode xkb symbol `%s'"
-msgstr ""
+msgstr "no se puede convertir el símbolo xkb que no es Unicode sin nombre «%s»"
 
 #: src/xkbsupport.c:328
 #, c-format
 msgid "unable to convert unnamed unicode xkb symbol `%s'"
-msgstr ""
+msgstr "no se puede convertir el símbolo xkb Unicode sin nombre «%s»"
 
 #: src/xkbsupport.c:481 src/xkbsupport.c:517
 msgid "failed to get name of keysym"
-msgstr ""
+msgstr "falló al obtener el nombre de keysym"
 
 #: src/xkbsupport.c:535
 #, c-format
 msgid "keycode %u layout %u level %u has %d symbols; using the first one"
 msgstr ""
+"código de tecla %u distribución %u nivel %u tiene %d símbolos; se utiliza el "
+"primero"
 
 #: src/xkbsupport.c:701
 #, c-format
 msgid "unable to convert XKB layouts: unsupported layout count %u"
 msgstr ""
+"no se pueden convertir las distribuciones XKB: no se admite la cuenta de "
+"distribución %u"
 
 #: src/xkbsupport.c:1325
 #, c-format
 msgid "kernel can handle only %d compose definitions, but xkb needs %zu"
 msgstr ""
+"el kernel solamente puede manejar %d definiciones de composición, pero xkb "
+"necesita %zu"
 
 #: src/xkbsupport.c:1363
 #, c-format
 msgid "too many layouts specified. At the moment, you can use no more than %d"
 msgstr ""
+"se especificaron demasiadas distribuciones. En este momento, no puede usar "
+"más de %d"
 
 #: src/xkbsupport.c:1372
 #, c-format
@@ -2133,6 +2150,8 @@ msgid ""
 "xkb compose table for locale `%s' was not found; continuing without compose "
 "support"
 msgstr ""
+"no se encontró la tabla de composición xkb para el local «%s»; se continúa "
+"sin soporte para composición"
 
 #~ msgid "octal number too big"
 #~ msgstr "número octal demasiado grande"

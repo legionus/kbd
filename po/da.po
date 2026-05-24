@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kbd-1.15.3-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2026-05-09 18:40+0200\n"
+"POT-Creation-Date: 2026-05-24 17:26+0200\n"
 "PO-Revision-Date: 2011-06-03 22:01+0200\n"
 "Last-Translator: Keld Simonsen <keld@keldix.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbd_mode.c:96
 #: src/kbdinfo.c:67 src/kbdrate.c:354 src/loadkeys.c:146 src/loadunimap.c:58
-#: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
+#: src/mapscrn.c:57 src/openvt.c:318 src/outpsfheader.c:40 src/screendump.c:64
 #: src/setfont.c:190 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
 #: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
@@ -45,7 +45,7 @@ msgstr ""
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbd_mode.c:95
 #: src/kbdinfo.c:66 src/kbdrate.c:353 src/loadkeys.c:145 src/loadunimap.c:57
-#: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
+#: src/mapscrn.c:56 src/openvt.c:317 src/outpsfheader.c:39 src/screendump.c:63
 #: src/setfont.c:189 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
 #: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
@@ -60,7 +60,7 @@ msgstr "Fejl: Ikke nok argumenter.\n"
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94
 #: src/kbd_mode.c:153 src/kbdinfo.c:100 src/libcommon/getfd.c:88
-#: src/loadkeys.c:252 src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328
+#: src/loadkeys.c:252 src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:378
 #: src/resizecons.c:168 src/setfont.c:321 src/setkeycodes.c:117
 #: src/setlogcons.c:96 src/setmetamode.c:116 src/setpalette.c:80
 #: src/setvesablank.c:31 src/setvtrgb.c:202 src/showconsolefont.c:173
@@ -69,22 +69,22 @@ msgstr "Fejl: Ikke nok argumenter.\n"
 msgid "Couldn't get a file descriptor referring to the console."
 msgstr "Kunne ikke få en filidentifikator der refererer til konsollen"
 
-#: src/chvt.c:97 src/openvt.c:176
+#: src/chvt.c:97 src/openvt.c:226
 #, fuzzy
 msgid "Unable to set signal handler"
 msgstr "Kan ikke sætte ny session"
 
-#: src/chvt.c:104 src/openvt.c:185
+#: src/chvt.c:104 src/openvt.c:235
 #, fuzzy
 msgid "Unable to create timer"
 msgstr "Kan ikke sætte ny session"
 
-#: src/chvt.c:112 src/openvt.c:195
+#: src/chvt.c:112 src/openvt.c:245
 #, fuzzy
 msgid "Unable to set timer"
 msgstr "Kan ikke sætte ny session"
 
-#: src/chvt.c:118 src/openvt.c:203
+#: src/chvt.c:118 src/openvt.c:253
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "Kunne ikke aktivere vt %d"
@@ -179,7 +179,7 @@ msgstr ""
 "\t\t\t    tolk tegnhandlingskoder som om de er fra det\n"
 "\t\t\t    angivne tegnsæt\n"
 
-#: src/dumpkeys.c:99 src/loadkeys.c:144 src/mapscrn.c:55 src/openvt.c:266
+#: src/dumpkeys.c:99 src/loadkeys.c:144 src/mapscrn.c:55 src/openvt.c:316
 #: src/setfont.c:188 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr ""
@@ -440,9 +440,9 @@ msgstr "Kan ikke åbne %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:75 src/libkbdfile/kbdfile-lzma.c:83
 #: src/libkbdfile/kbdfile-zlib.c:76 src/libkbdfile/kbdfile-zstd.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to read archive: %s"
-msgstr "Kan ikke åbne %s"
+msgstr ""
 
 #: src/libkbdfile/kbdfile-bzip2.c:94 src/libkbdfile/kbdfile-lzma.c:114
 #: src/libkbdfile/kbdfile-zlib.c:95 src/libkbdfile/kbdfile-zstd.c:127
@@ -461,9 +461,9 @@ msgid "prepare zstd streaming decompressor failed"
 msgstr ""
 
 #: src/libkbdfile/kbdfile-zstd.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to decompress stream: %s"
-msgstr "Kan ikke åbne %s"
+msgstr ""
 
 #: src/libkeymap/analyze.l:41
 msgid "includes are nested too deeply"
@@ -898,7 +898,7 @@ msgstr[0] "post"
 msgstr[1] "post"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
-#: src/libkfont/mapscrn.c:230 src/loadkeys.c:341 src/openvt.c:411
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:341 src/openvt.c:461
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, fuzzy, c-format
@@ -1335,80 +1335,84 @@ msgid ""
 "This utility helps you to start a program on a new virtual terminal (VT).\n"
 msgstr ""
 
-#: src/openvt.c:132
+#: src/openvt.c:160
+msgid "Refusing to pre-authenticate root on current tty."
+msgstr ""
+
+#: src/openvt.c:182
 msgid "Couldn't find owner of current tty!"
 msgstr "Kunne ikke finde ejer af aktuel tty!"
 
-#: src/openvt.c:259
+#: src/openvt.c:309
 msgid "use the given VT number and not the first available."
 msgstr ""
 
-#: src/openvt.c:260
+#: src/openvt.c:310
 msgid "execute the command, without forking."
 msgstr ""
 
-#: src/openvt.c:261
+#: src/openvt.c:311
 msgid "force opening a VT without checking."
 msgstr ""
 
-#: src/openvt.c:262
+#: src/openvt.c:312
 msgid "make the command a login shell."
 msgstr ""
 
-#: src/openvt.c:263
+#: src/openvt.c:313
 msgid "figure out the owner of the current VT."
 msgstr ""
 
-#: src/openvt.c:264
+#: src/openvt.c:314
 msgid "switch to the new VT."
 msgstr ""
 
-#: src/openvt.c:265
+#: src/openvt.c:315
 msgid "wait for command to complete"
 msgstr ""
 
-#: src/openvt.c:279
+#: src/openvt.c:329
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: Ugyldigt vt-nummer"
 
-#: src/openvt.c:306
+#: src/openvt.c:356
 msgid "Only root can use the -u flag."
 msgstr "Kun root kan bruge flaget -u."
 
-#: src/openvt.c:335
+#: src/openvt.c:385
 msgid "Cannot find a free vt"
 msgstr "Kan ikke finde en ledig vt"
 
-#: src/openvt.c:339
+#: src/openvt.c:389
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr "Kan ikke undersøge om vt %d er ledig, brug '%s -f' at gennemtvinge."
 
-#: src/openvt.c:343
+#: src/openvt.c:393
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr "vt %d er i brug, kommandoen afbrudt, brug '%s -f' at gennemtvinge."
 
-#: src/openvt.c:354
+#: src/openvt.c:404
 msgid "Unable to find command."
 msgstr "Kunne ikke finde kommando"
 
-#: src/openvt.c:386
+#: src/openvt.c:436
 msgid "Unable to set new session"
 msgstr "Kan ikke sætte ny session"
 
-#: src/openvt.c:415
+#: src/openvt.c:465
 #, c-format
 msgid "Using VT %s"
 msgstr "Bruger VT %s"
 
-#: src/openvt.c:421
+#: src/openvt.c:471
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "Kan ikke åbne %s for læsning/skrivning"
 
-#: src/openvt.c:468
+#: src/openvt.c:518
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "Kunne ikke deallokere konsol %d"
@@ -2082,8 +2086,9 @@ msgid "unable to convert unnamed unicode xkb symbol `%s'"
 msgstr ""
 
 #: src/xkbsupport.c:481 src/xkbsupport.c:517
+#, fuzzy
 msgid "failed to get name of keysym"
-msgstr ""
+msgstr "kunne ikke sætte aflæsningskoden %x til tastekoden %d\n"
 
 #: src/xkbsupport.c:535
 #, c-format
@@ -2111,10 +2116,6 @@ msgid ""
 "xkb compose table for locale `%s' was not found; continuing without compose "
 "support"
 msgstr ""
-
-#, fuzzy, c-format
-#~ msgid "%s: unable to open archive file: %s"
-#~ msgstr "Kan ikke åbne %s"
 
 #, c-format
 #~ msgid "usage: chvt N\n"

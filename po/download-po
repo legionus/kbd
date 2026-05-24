@@ -1,0 +1,19 @@
+#!/bin/sh -efu
+
+cdup="$(git rev-parse --show-cdup)"
+
+[ -z "$cdup" ] || cd "$cdup"
+cd po/
+
+domain="$(find -type f -name '*.pot' -printf '%f' -quit)"
+domain="${domain%.pot}"
+domain="${domain?unable to find potfile}"
+
+version="$(sed -r -n -e 's/^"Project-Id-Version: [^[:space:]]+ (.*)\\n"/\1/p' "$domain".pot)"
+version="${version?unable to get $domain version}"
+
+find -type f -name '*.po' -printf '%f\n' | sed 's/\.po//g' |
+while read -r lang; do
+	echo "downloading $domain-$version ($lang) ..."
+	curl -sL -o "$lang.po" "https://translationproject.org/PO-files/$lang/$domain-$version.$lang.po"
+done

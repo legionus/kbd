@@ -1,11 +1,11 @@
 # Romanian translation for kbd.
 # Mesajele în limba română pentru pachetul kbd.
-# Copyright © 2020, 2022, 2023, 2024 Alexey Gladkov <gladkov.alexey@gmail.com>
+# Copyright © 2020, 2022, 2023, 2024, 2026 Alexey Gladkov <gladkov.alexey@gmail.com>
 # This file is distributed under the same license as the kbd package.
 # Acest fișier este distribuit sub aceeași licență ca pachetul kbd.
 #
 # Eugen Hoanca <eugenh@urban-grafx.ro>, 2003.
-# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2022 - 2024.
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2022 - 2024, 2026.
 #
 # Cronologia traducerii fișierului „kbd”:
 # Traducere inițială, făcută de EH, pentru versiunea kbd 1.08.
@@ -18,15 +18,16 @@
 # Actualizare completă la versiunea 2.5-rc2 (traducerea mesajelor 100%), făcută de R-GC, apr-2022.
 # Actualizare a traducerii pentru versiunea 2.6-rc1, făcută de R-GC, mai-2023.
 # Revizuire a traducerii pentru versiunea 2.6-rc1, făcută de R-GC, feb-2024.
-# Revizuire a traducerii pentru versiunea 2.7-rc1, făcută de R-GC, oct-2024.
+# Actualizare a traducerii pentru versiunea 2.7-rc1, făcută de R-GC, oct-2024.
+# Actualizare a traducerii pentru versiunea 2.10-rc1, făcută de R-GC, mai-2026.
 # Actualizare a traducerii pentru versiunea Y, făcută de X, Z(luna-anul).
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kbd 2.7-rc1\n"
+"Project-Id-Version: kbd 2.10-rc1\n"
 "Report-Msgid-Bugs-To: Alexey Gladkov <gladkov.alexey@gmail.com>\n"
-"POT-Creation-Date: 2026-05-09 18:40+0200\n"
-"PO-Revision-Date: 2024-10-29 14:30+0100\n"
+"POT-Creation-Date: 2026-05-24 17:26+0200\n"
+"PO-Revision-Date: 2026-05-10 20:05+0200\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -36,7 +37,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=((n==1) ? 0 : (n==2) ? 1 : (n==0 || (n%100 "
 "> 0 && n%100 < 20)) ? 2 : 3);\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/chvt.c:24
 #, c-format
@@ -54,7 +55,7 @@ msgstr "dispozitivul consolă care urmează să fie utilizat."
 #: src/chvt.c:56 src/clrunimap.c:46 src/deallocvt.c:50 src/dumpkeys.c:101
 #: src/fgconsole.c:49 src/getkeycodes.c:47 src/getunimap.c:66 src/kbd_mode.c:96
 #: src/kbdinfo.c:67 src/kbdrate.c:354 src/loadkeys.c:146 src/loadunimap.c:58
-#: src/mapscrn.c:57 src/openvt.c:268 src/outpsfheader.c:40 src/screendump.c:64
+#: src/mapscrn.c:57 src/openvt.c:318 src/outpsfheader.c:40 src/screendump.c:64
 #: src/setfont.c:190 src/setkeycodes.c:88 src/setleds.c:217 src/setlogcons.c:58
 #: src/setmetamode.c:92 src/setpalette.c:42 src/setvtrgb.c:159
 #: src/showconsolefont.c:137 src/showkey.c:126
@@ -64,7 +65,7 @@ msgstr "imprimă acest mesaj de utilizare."
 #: src/chvt.c:57 src/clrunimap.c:45 src/deallocvt.c:51 src/dumpkeys.c:100
 #: src/fgconsole.c:48 src/getkeycodes.c:48 src/getunimap.c:65 src/kbd_mode.c:95
 #: src/kbdinfo.c:66 src/kbdrate.c:353 src/loadkeys.c:145 src/loadunimap.c:57
-#: src/mapscrn.c:56 src/openvt.c:267 src/outpsfheader.c:39 src/screendump.c:63
+#: src/mapscrn.c:56 src/openvt.c:317 src/outpsfheader.c:39 src/screendump.c:63
 #: src/setfont.c:189 src/setkeycodes.c:87 src/setleds.c:215 src/setlogcons.c:57
 #: src/setmetamode.c:91 src/setpalette.c:41 src/setvtrgb.c:158
 #: src/showconsolefont.c:136 src/showkey.c:127
@@ -78,7 +79,7 @@ msgstr "Nu sunt suficiente argumente."
 #: src/chvt.c:88 src/clrunimap.c:72 src/deallocvt.c:80 src/dumpkeys.c:170
 #: src/fgconsole.c:74 src/getkeycodes.c:67 src/getunimap.c:94
 #: src/kbd_mode.c:153 src/kbdinfo.c:100 src/libcommon/getfd.c:88
-#: src/loadkeys.c:252 src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:328
+#: src/loadkeys.c:252 src/loadunimap.c:88 src/mapscrn.c:90 src/openvt.c:378
 #: src/resizecons.c:168 src/setfont.c:321 src/setkeycodes.c:117
 #: src/setlogcons.c:96 src/setmetamode.c:116 src/setpalette.c:80
 #: src/setvesablank.c:31 src/setvtrgb.c:202 src/showconsolefont.c:173
@@ -89,26 +90,19 @@ msgstr ""
 "Nu s-a putut găsi un descriptor de fișier care să se refere la această "
 "consolă."
 
-# R-GC
-# Întrebare:
-# „Nu s-a putut configura un operator de semnal”
-# sau
-# „Nu se poate configura gestionarea semnalului”
-# ====================================
-# Idei ?
-#: src/chvt.c:97 src/openvt.c:176
+#: src/chvt.c:97 src/openvt.c:226
 msgid "Unable to set signal handler"
 msgstr "Nu s-a putut configura un gestionar de semnal"
 
-#: src/chvt.c:104 src/openvt.c:185
+#: src/chvt.c:104 src/openvt.c:235
 msgid "Unable to create timer"
 msgstr "Nu s-a putut crea un temporizator"
 
-#: src/chvt.c:112 src/openvt.c:195
+#: src/chvt.c:112 src/openvt.c:245
 msgid "Unable to set timer"
 msgstr "Nu s-a putut configura temporizatorul"
 
-#: src/chvt.c:118 src/openvt.c:203
+#: src/chvt.c:118 src/openvt.c:253
 #, c-format
 msgid "Couldn't activate vt %d"
 msgstr "Nu s-a putut activa terminalul virtual(vt) %d"
@@ -229,7 +223,7 @@ msgstr ""
 "interpretează codurile de acțiuni ale caracterelor ca\n"
 "                           fiind din setul de caractere specificat."
 
-#: src/dumpkeys.c:99 src/loadkeys.c:144 src/mapscrn.c:55 src/openvt.c:266
+#: src/dumpkeys.c:99 src/loadkeys.c:144 src/mapscrn.c:55 src/openvt.c:316
 #: src/setfont.c:188 src/setleds.c:216 src/showconsolefont.c:135
 msgid "be more verbose."
 msgstr "oferă mai multe detalii."
@@ -328,6 +322,8 @@ msgid ""
 "The keyboard is in Disabled mode, perhaps you are using a graphical "
 "environment?"
 msgstr ""
+"Tastatura este în modul «Dezactivat»; este posibil să vă aflați într-un "
+"mediu grafic de birou?"
 
 #: src/kbd_mode.c:62
 #, c-format
@@ -351,9 +347,8 @@ msgid "set UTF-8 mode."
 msgstr "stabilește modul UTF-8."
 
 #: src/kbd_mode.c:92
-#, fuzzy
 msgid "set disable mode."
-msgstr "stabilește modul cod de scanare."
+msgstr "activează modul «Dezactivat»."
 
 #: src/kbd_mode.c:93
 msgid "switch the mode even if it makes the keyboard unusable."
@@ -491,46 +486,46 @@ msgstr "Raportați erorile către autori.\n"
 #: src/libkbdfile/kbdfile-zlib.c:47 src/libkbdfile/kbdfile-zstd.c:51
 #, c-format
 msgid "%s: can't load and resolve symbols: %s"
-msgstr ""
+msgstr "%s: nu sa-u putut încărca și rezolva simbolurile: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:56 src/libkbdfile/kbdfile-lzma.c:69
 #: src/libkbdfile/kbdfile-zlib.c:56 src/libkbdfile/kbdfile-zstd.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open in-memory file: %s"
-msgstr "Nu se poate deschide fișierul %s: %m"
+msgstr "nu se poate deschide fișierul din-memorie: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:63 src/libkbdfile/kbdfile-lzma.c:62
 #: src/libkbdfile/kbdfile-zlib.c:63 src/libkbdfile/kbdfile-zstd.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to open archive: %s"
-msgstr "Nu se poate deschide fișierul %s: %m"
+msgstr "%s: nu s-a putut deschide arhiva: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:75 src/libkbdfile/kbdfile-lzma.c:83
 #: src/libkbdfile/kbdfile-zlib.c:76 src/libkbdfile/kbdfile-zstd.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to read archive: %s"
-msgstr "nu s-a putut analiza numărul: %s"
+msgstr "%s: nu s-a putut citi arhiva: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:94 src/libkbdfile/kbdfile-lzma.c:114
 #: src/libkbdfile/kbdfile-zlib.c:95 src/libkbdfile/kbdfile-zstd.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write data: %s"
-msgstr "nu se poate inițializa matricea: %s"
+msgstr "nu s-au putut scrie datele: %s"
 
 #: src/libkbdfile/kbdfile-bzip2.c:112 src/libkbdfile/kbdfile-lzma.c:139
 #: src/libkbdfile/kbdfile-zlib.c:113 src/libkbdfile/kbdfile-zstd.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create file stream from file descriptor: %s"
-msgstr "Nu se poate crea instanța kbdfile: %m"
+msgstr "nu se poate crea fluxul de fișiere din descriptorul de fișiere: %s"
 
 #: src/libkbdfile/kbdfile-zstd.c:74
 msgid "prepare zstd streaming decompressor failed"
-msgstr ""
+msgstr "pregătirea decompresorului pentru fluxul zstd a eșuat"
 
 #: src/libkbdfile/kbdfile-zstd.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unable to decompress stream: %s"
-msgstr "nu s-a putut analiza numărul: %s"
+msgstr "%s: nu s-a putut decomprima fluxul: %s"
 
 #: src/libkeymap/analyze.l:41
 msgid "includes are nested too deeply"
@@ -569,9 +564,9 @@ msgid "value must be a positive number: %s"
 msgstr "valoarea trebuie să fie un număr pozitiv: %s"
 
 #: src/libkeymap/analyze.l:302
-#, fuzzy, c-format
+#, c-format
 msgid "value must be less than %lld: %s"
-msgstr "valoarea trebuie să fie mai mică decât %d: %s"
+msgstr "valoarea trebuie să fie mai mică decât %lld: %s"
 
 #: src/libkeymap/analyze.l:336
 msgid "string too long"
@@ -687,9 +682,11 @@ msgid "lk_add_key called with bad keycode %d"
 msgstr "lk_add_key a fost apelat cu codul de tastă greșit %d"
 
 #: src/libkeymap/kmap.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "adding map %d for key %d violates explicit keymaps line"
-msgstr "adăugarea hărții %d, încalcă linia explicită a hărților de taste"
+msgstr ""
+"adăugarea hărții %d pentru tasta %d, încalcă linia explicită a hărților de "
+"taste"
 
 #: src/libkeymap/kmap.c:147
 #, c-format
@@ -760,9 +757,9 @@ msgid "KDSKBMODE: %s: could not switch to Unicode mode"
 msgstr "KDSKBMODE: %s: nu s-a putut comuta la modul Unicode"
 
 #: src/libkeymap/loadkeys.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "KDSKBMODE: %sr could not return to original keyboard mode"
-msgstr "KDSKBMODE: %s: nu s-a putut reveni la modul inițial de tastatură"
+msgstr "KDSKBMODE: %sr: nu s-a putut reveni la modul inițial de tastatură"
 
 #: src/libkeymap/loadkeys.c:205
 #, c-format
@@ -999,7 +996,7 @@ msgstr[2] "# %d intrări"
 msgstr[3] "# %d de intrări"
 
 #: src/libkfont/loadunimap.c:316 src/libkfont/mapscrn.c:100
-#: src/libkfont/mapscrn.c:230 src/loadkeys.c:341 src/openvt.c:411
+#: src/libkfont/mapscrn.c:230 src/loadkeys.c:341 src/openvt.c:461
 #: src/psfxtable.c:120 src/psfxtable.c:127 src/psfxtable.c:136
 #: src/psfxtable.c:143
 #, c-format
@@ -1129,42 +1126,43 @@ msgid "Cannot write font file"
 msgstr "Nu se poate scrie fișierul de font"
 
 #: src/libkfont/psfxtable.c:98
-#, fuzzy
 msgid "Warning: line too long"
-msgstr "%s: Avertisment: linie prea lungă"
+msgstr "Avertisment: linie prea lungă"
 
 # R-GC, scrie:
 # definiție de dicționar pentru „glypph”:
 # ======================
 # glypph = a hieroglyphic character or symbol; a pictograph.
 #: src/libkfont/psfxtable.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Glyph number (0x%x) past end of font"
-msgstr "%s: Numărul pictogramei(glyph) (0x%x) mai mare decât lungimea literei"
+msgstr "Numărul glifelor (0x%x) depășește sfârșitul fontului"
 
 #: src/libkfont/psfxtable.c:129
-#, fuzzy, c-format
+#, c-format
 msgid "Bad end of range (0x%x)"
-msgstr "%s: Sfârșit de interval eronat (0x%x)\n"
+msgstr "Sfârșit de interval eronat (0x%x)"
 
 #: src/libkfont/psfxtable.c:155
 msgid ""
 "Corresponding to a range of font positions, there should be a Unicode range"
 msgstr ""
+"Pentru fiecare interval de poziții ale fontului ar trebui să existe un "
+"interval Unicode"
 
 #: src/libkfont/psfxtable.c:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unicode range U+%x-U+%x not of the same length as font position range "
 "0x%x-0x%x"
 msgstr ""
-"%s: Intervalul Unicode U+%x-U+%x nu are aceeași lungime ca intervalul de "
-"poziție al fontului 0x%x-0x%x"
+"Intervalul Unicode U+%x-U+%x nu are aceeași lungime ca intervalul de poziție "
+"al fontului 0x%x-0x%x"
 
 #: src/libkfont/psfxtable.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "trailing junk (%s) ignored"
-msgstr "%s: gunoiul(junk) de la sfârșit (%s) ignorat"
+msgstr "gunoiul de la sfârșit (%s), a fost ignorat"
 
 #: src/libkfont/setfont.c:57
 #, c-format
@@ -1309,23 +1307,25 @@ msgstr "Schema de tastatură implicită: %s\n"
 
 #: src/loadkeys.c:127
 msgid "Specifies model used to choose component names."
-msgstr ""
+msgstr "Specifică modelul utilizat pentru alegerea numelor componentelor."
 
 #: src/loadkeys.c:128
 msgid "Specifies layout used to choose component names."
-msgstr ""
+msgstr "Specifică aranjamentul utilizat pentru alegerea numelor componentelor."
 
 #: src/loadkeys.c:129
 msgid "Specifies layout variant used to choose component names."
 msgstr ""
+"Specifică varianta aranjamentului utilizat pentru alegerea numelor "
+"componentelor."
 
 #: src/loadkeys.c:130
 msgid "Adds an option used to choose component names."
-msgstr ""
+msgstr "Adaugă o opțiune folosită pentru a alege numele componentelor."
 
 #: src/loadkeys.c:131
 msgid "Use LOCALE to search an appropriate compose file."
-msgstr ""
+msgstr "Utilizează LOCALE pentru a căuta un fișier de compunere adecvat."
 
 #: src/loadkeys.c:134
 msgid "force conversion to ASCII."
@@ -1360,9 +1360,8 @@ msgid "force conversion to Unicode."
 msgstr "conversie forțată la Unicode."
 
 #: src/loadkeys.c:143
-#, fuzzy
 msgid "output a text keymap to stdout."
-msgstr "afișează o schemă binară de taste la ieșirea standard."
+msgstr "afișează o schemă de taste sub formă de text la ieșirea standard."
 
 #: src/loadkeys.c:166
 msgid "Unable to create kbdfile context"
@@ -1422,84 +1421,88 @@ msgstr ""
 "Acest instrument vă ajută să porniți un program pe un terminal virtual(VT) "
 "nou.\n"
 
-#: src/openvt.c:132
+#: src/openvt.c:160
+msgid "Refusing to pre-authenticate root on current tty."
+msgstr ""
+
+#: src/openvt.c:182
 msgid "Couldn't find owner of current tty!"
 msgstr "Nu s-a putut găsi proprietarul actualului tty!"
 
-#: src/openvt.c:259
+#: src/openvt.c:309
 msgid "use the given VT number and not the first available."
 msgstr "utilizează numărul VT dat și nu primul disponibil."
 
-#: src/openvt.c:260
+#: src/openvt.c:310
 msgid "execute the command, without forking."
 msgstr "execută comanda, fără bifurcare."
 
-#: src/openvt.c:261
+#: src/openvt.c:311
 msgid "force opening a VT without checking."
 msgstr "forțează deschiderea unui terminal virtual(VT) fără a verifica."
 
-#: src/openvt.c:262
+#: src/openvt.c:312
 msgid "make the command a login shell."
 msgstr "face din comandă un shell de autentificare."
 
-#: src/openvt.c:263
+#: src/openvt.c:313
 msgid "figure out the owner of the current VT."
 msgstr "descoperă proprietarul actualului terminal virtual(VT)."
 
-#: src/openvt.c:264
+#: src/openvt.c:314
 msgid "switch to the new VT."
 msgstr "comută la noul terminal virtual(VT)."
 
-#: src/openvt.c:265
+#: src/openvt.c:315
 msgid "wait for command to complete"
 msgstr "așteaptă finalizarea comenzii"
 
-#: src/openvt.c:279
+#: src/openvt.c:329
 #, c-format
 msgid "%s: Illegal vt number"
 msgstr "%s: număr de terminal virtual(vt) ilegal"
 
-#: src/openvt.c:306
+#: src/openvt.c:356
 msgid "Only root can use the -u flag."
 msgstr "Numai «root» poate folosi indicatorul „-u”."
 
-#: src/openvt.c:335
+#: src/openvt.c:385
 msgid "Cannot find a free vt"
 msgstr "Nu se poate găsi un terminal virtual(vt) liber"
 
-#: src/openvt.c:339
+#: src/openvt.c:389
 #, c-format
 msgid "Cannot check whether vt %d is free; use `%s -f' to force."
 msgstr ""
 "Nu se poate verifica dacă terminalul virtual(vt) %d este liber; utilizați "
 "«%s -f» pentru a forța verificarea."
 
-#: src/openvt.c:343
+#: src/openvt.c:393
 #, c-format
 msgid "vt %d is in use; command aborted; use `%s -f' to force."
 msgstr ""
 "terminalul virtual(vt) %d este în uz; comanda a fost anulată; utilizați «%s "
 "-f» pentru a forța."
 
-#: src/openvt.c:354
+#: src/openvt.c:404
 msgid "Unable to find command."
 msgstr "Nu se poate găsi comanda."
 
-#: src/openvt.c:386
+#: src/openvt.c:436
 msgid "Unable to set new session"
 msgstr "Nu se poate configura o nouă sesiune"
 
-#: src/openvt.c:415
+#: src/openvt.c:465
 #, c-format
 msgid "Using VT %s"
 msgstr "Se utilizează terminalul virtual(VT) %s"
 
-#: src/openvt.c:421
+#: src/openvt.c:471
 #, c-format
 msgid "Cannot open %s read/write"
 msgstr "Nu se poate deschide %s pentru citire/scriere"
 
-#: src/openvt.c:468
+#: src/openvt.c:518
 #, c-format
 msgid "Couldn't deallocate console %d"
 msgstr "Nu s-a putut elibera consola %d"
@@ -1711,6 +1714,7 @@ msgstr "încarcă harta unicode a fontului („none” înseamnă că nu o înca
 #: src/setfont.c:184
 msgid "check whether console is suitable for font operations."
 msgstr ""
+"verificați dacă consola este compatibilă cu operațiile legate de fonturi."
 
 #: src/setfont.c:185
 msgid "double size of font horizontally and vertically."
@@ -2256,36 +2260,43 @@ msgstr "Nu poate fi blocat întregul afișaj al consolei.\n"
 #: src/xkbsupport.c:316
 #, c-format
 msgid "unable to convert unnamed non-Unicode xkb symbol `%s'"
-msgstr ""
+msgstr "nu se poate converti simbolul xkb non-Unicode fără nume „%s”"
 
 #: src/xkbsupport.c:328
 #, c-format
 msgid "unable to convert unnamed unicode xkb symbol `%s'"
-msgstr ""
+msgstr "nu se poate converti simbolul xkb Unicode fără nume „%s”"
 
 #: src/xkbsupport.c:481 src/xkbsupport.c:517
 msgid "failed to get name of keysym"
-msgstr ""
+msgstr "obținerea numelui simbolului de tastă a eșuat"
 
 #: src/xkbsupport.c:535
 #, c-format
 msgid "keycode %u layout %u level %u has %d symbols; using the first one"
 msgstr ""
+"codul de tastă %u, aranjamentul %u, nivelul %u are %d simboluri; se "
+"utilizează primul dintre ele"
 
 #: src/xkbsupport.c:701
 #, c-format
 msgid "unable to convert XKB layouts: unsupported layout count %u"
 msgstr ""
+"nu se pot converti aranjamentele XKB: număr de aranjamente neacceptat %u"
 
 #: src/xkbsupport.c:1325
 #, c-format
 msgid "kernel can handle only %d compose definitions, but xkb needs %zu"
 msgstr ""
+"nucleul poate gestiona doar %d definiții de compunere, dar xkb are nevoie de "
+"%zu"
 
 #: src/xkbsupport.c:1363
 #, c-format
 msgid "too many layouts specified. At the moment, you can use no more than %d"
 msgstr ""
+"au fost specificate prea multe aranjamente. În acest moment, nu puteți "
+"utiliza mai mult de %d"
 
 #: src/xkbsupport.c:1372
 #, c-format
@@ -2293,6 +2304,8 @@ msgid ""
 "xkb compose table for locale `%s' was not found; continuing without compose "
 "support"
 msgstr ""
+"nu s-a găsit tabelul de compunere xkb pentru configurația regională „%s”; se "
+"continuă fără suport pentru compunere"
 
 #~ msgid "octal number too big"
 #~ msgstr "număr octal prea mare"
