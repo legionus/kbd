@@ -16,15 +16,22 @@
 			<h4>Table of contents</h4>
 			<ul class="list-group">
 				<li class="list-group-item"><a class="text-decoration-none" href="#introduction" name="TOCintroduction">Introduction</a></li>
+				<li class="list-group-item"><a class="text-decoration-none" href="#download" name="TOCdownloading">Download</a></li>
+				<li class="list-group-item"><a class="text-decoration-none" href="#documentation" name="TOCdocumentation">Documentation</a>
+					<ul>
+						<li><a class="text-decoration-none" href="#docs-users" name="TOCdocs-users">Users</a></li>
+						<li><a class="text-decoration-none" href="#docs-contributors" name="TOCdocs-contributors">Contributors</a></li>
+						<li><a class="text-decoration-none" href="#docs-reference" name="TOCdocs-reference">Reference</a></li>
+						<li><a class="text-decoration-none" href="#docs-historical" name="TOCdocs-historical">Historical documents</a></li>
+					</ul>
+				</li>
 				<li class="list-group-item"><a class="text-decoration-none"  href="#contribute" name="TOCcontribute">Getting involved</a>
 					<ul>
 						<li><a class="text-decoration-none" href="#repo" name="TOCrepo">Repository Access</a></li>
-						<li><a class="text-decoration-none" href="#maillist" name="TOCbugreporting">Bug reporing</a></li>
+						<li><a class="text-decoration-none" href="#bugreport" name="TOCbugreport">Bug reporting</a></li>
 						<li><a class="text-decoration-none" href="#translation" name="TOCtranslation">Translation</a></li>
 					</ul>
 				</li>
-				<li class="list-group-item"><a class="text-decoration-none" href="#documentation" name="TOCdocumentation">Documentation</a></li>
-				<li class="list-group-item"><a class="text-decoration-none" href="#download" name="TOCdownloading">Download</a></li>
 				<li class="list-group-item"><a class="text-decoration-none" href="#license" name="TOClicense">License</a></li>
 			</ul>
 		</div>
@@ -47,7 +54,7 @@
 
 			<div class="card mb-3">
 				<div class="card-body">
-					<h4 class="catd-title py-1 px-2 border border-1 rounded-3 bg-primary">
+					<h4 class="card-title py-1 px-2 border border-1 rounded-3 bg-primary">
 						<a class="text-decoration-none link-light" href="#TOCdownload" name="download">Download</a>
 					</h4>
 					The latest stable version of kbd can always be found on:
@@ -63,14 +70,39 @@
 					<h4 class="card-title py-1 px-2 border border-1 rounded-3 bg-primary">
 						<a class="text-decoration-none link-light" href="#TOCdocumentation" name="documentation">Documentation</a>
 					</h4>
+					<p>
+						The canonical documentation sources are kept in the
+						<a href="https://github.com/legionus/kbd/tree/master/docs">docs/</a>
+						directory of the kbd repository. This site publishes the stable
+						HTML view and links to the source documents that should be changed
+						through the normal patch review process.
+					</p>
+
+					<h5><a class="text-decoration-none" href="#TOCdocs-users" name="docs-users">Users</a></h5>
 					<ul>
-						<li>The Linux keyboard and console
-							<a href="docs/howto-linux-keyboard-and-console/kbd.html">HOWTO</a>;</li>
-						<li><a href="docs/scancodes/scancodes.html">Scancodes</a> (<a href="www.win.tue.nl/~aeb/linux/kbd/scancodes.html">old version</a>);</li>
-						<li><a href="docs/font-formats/font-formats.html">Font formats</a>;</li>
-						<li>The <a href="docs/reference/libkeymap/index.html">libkeymap</a> apidocs;</li>
-						<li>The fonts <a href="docs/fonts/index.html">README</a>;</li>
-						<li>The <a href="manpages/index.html">man pages</a>.</li>
+						<li><a href="manpages/index.html">Manual pages</a> for kbd commands and file formats.</li>
+						<li>The Linux keyboard and console <a href="docs/howto-linux-keyboard-and-console/kbd.html">HOWTO</a>.</li>
+						<li>The fonts <a href="docs/fonts/index.html">README</a>.</li>
+					</ul>
+
+					<h5><a class="text-decoration-none" href="#TOCdocs-contributors" name="docs-contributors">Contributors</a></h5>
+					<ul>
+						<li><a href="https://github.com/legionus/kbd/blob/master/docs/process/howto-contribute.md">How to contribute</a>.</li>
+						<li><a href="https://github.com/legionus/kbd/blob/master/docs/process/howto-compilation.md">How to build kbd from a git checkout</a>.</li>
+						<li><a href="https://github.com/legionus/kbd/blob/master/docs/process/howto-pull-request.md">Pull request workflow notes</a>.</li>
+						<li><a href="https://github.com/legionus/kbd/blob/master/docs/process/programming-language.md">Programming language notes</a>.</li>
+					</ul>
+
+					<h5><a class="text-decoration-none" href="#TOCdocs-reference" name="docs-reference">Reference</a></h5>
+					<ul>
+						<li>The <a href="docs/reference/libkeymap/index.html">libkeymap</a> API documentation.</li>
+						<li><a href="docs/font-formats/font-formats.html">Font formats</a>.</li>
+						<li><a href="https://github.com/legionus/kbd/tree/master/docs/doc">Character set and keysym reference files</a>.</li>
+					</ul>
+
+					<h5><a class="text-decoration-none" href="#TOCdocs-historical" name="docs-historical">Historical documents</a></h5>
+					<ul>
+						<li><a href="docs/scancodes/scancodes.html">Scancodes</a> (<a href="www.win.tue.nl/~aeb/linux/kbd/scancodes.html">old version</a>).</li>
 					</ul>
 				</div>
 			</div>
@@ -81,40 +113,37 @@
 						<a class="text-decoration-none link-light" href="#TOCcontribute" name="contribute">Getting involved</a>
 					</h4>
 					<h5><a class="text-decoration-none" href="#TOCrepo" name="repo">Repository Access</a></h5>
-					<p>To access the <a href="https://git-scm.com/documentation">git</a> repository:
-						<p class="pt-2"><code>
+					<p>To access the <a href="https://git-scm.com/documentation">git</a> repository:</p>
+					<p class="pt-2"><code>
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/legion/kbd.git
-						</code></p>
-						<p>you can also use the https protocol for these repositories.</p>
-					</p>
+					</code></p>
+					<p>You can also use the https protocol for these repositories.</p>
 
 					<h5><a class="text-decoration-none" href="#TOCbugreport" name="bugreport">Bug reporting</a></h5>
-					<p>
-						You can use several options:
-						<ul>
-							<li>
-								The most preferred method is a mailing list.
-								<dl class="row">
-									<dt class="col-sm-2 py-0 my-0">E-Mail:</dt>
-									<dd class="col-sm-10 py-0 my-0">
-										<a href="mailto:kbd@lists.linux.dev">kbd@lists.linux.dev</a>
-									</dd>
+					<p>You can use several options:</p>
+					<ul>
+						<li>
+							The most preferred method is a mailing list.
+							<dl class="row">
+								<dt class="col-sm-2 py-0 my-0">E-Mail:</dt>
+								<dd class="col-sm-10 py-0 my-0">
+									<a href="mailto:kbd@lists.linux.dev">kbd@lists.linux.dev</a>
+								</dd>
 
-									<dt class="col-sm-2 py-0 my-0">Archive:</dt>
-									<dd class="col-sm-10 py-0 my-0">
-										<a href="https://lore.kernel.org/kbd">https://lore.kernel.org/kbd</a>
-									</dd>
-								</dl>
-							</li>
-							<li>
-								If you think that github is the future, then use it:
-								<a href="https://github.com/legionus/kbd/issues">https://github.com/legionus/kbd/issues</a>
-							</li>
-							<li>
-								Bug reports with sensitive or private information: Alexey Gladkov &lt;gladkov.alexey@gmail.com&gt;.
-							</li>
-						</ul>
-					</p>
+								<dt class="col-sm-2 py-0 my-0">Archive:</dt>
+								<dd class="col-sm-10 py-0 my-0">
+									<a href="https://lore.kernel.org/kbd">https://lore.kernel.org/kbd</a>
+								</dd>
+							</dl>
+						</li>
+						<li>
+							If you think that github is the future, then use it:
+							<a href="https://github.com/legionus/kbd/issues">https://github.com/legionus/kbd/issues</a>
+						</li>
+						<li>
+							Bug reports with sensitive or private information: Alexey Gladkov &lt;gladkov.alexey@gmail.com&gt;.
+						</li>
+					</ul>
 
 					<h5><a class="text-decoration-none" href="#TOCtranslation" name="translation">NLS (PO Translation)</a></h5>
 					<p>To translate kbd's messages into other languages, please see the
