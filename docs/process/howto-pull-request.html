@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="generator" content="pandoc">
+		<title>Pull request workflow notes - KBD</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	</head>
+	<body class="container">
+		<header class="my-4">
+			<h1>KBD &ndash; Linux keyboard tools.</h1>
+			<nav>
+				<a href="../../index.html">Home</a>
+				<span class="mx-2">/</span>
+				<a href="../../index.html#documentation">Documentation</a>
+			</nav>
+		</header>
+
+		<main class="card mb-3">
+			<article class="card-body">
+<h1 id="introduction">Introduction</h1>
+<p>These instructions are wrote to contributors who tend to send lots of
+changes. The basics from <a
+href="howto-contribute.html">howto-contribute</a> file are assumed to be
+read and understood by the time this file becomes useful.</p>
+<h1 id="setup">Setup</h1>
+<ol type="1">
+<li><p>Find a git server that can be reached from anywhere in internet
+anonymously. Github is for example a popular choice.</p></li>
+<li><p>Create your own kbd contributor repository, and push a upstream
+clone to there.</p></li>
+<li><p>In these instructions the upstream remote repository is called
+'origin' and the 'yourgit' is the contributor repo.</p></li>
+</ol>
+<pre><code>cd ~/projects
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/legion/kbd.git
+cd kbd
+git remote add yourgit git@github.com:yourlogin/kbd.git
+git push yourgit</code></pre>
+<h1 id="stay-up-to-date">Stay up to date</h1>
+<ol type="1">
+<li><p>Ensure you have the latest from all remote repositories.</p></li>
+<li><p>Merge upstream 'master' branch if needed to your local
+'master'.</p></li>
+<li><p>Rebase your working contribution branches.</p></li>
+<li><p>Push the changes to 'yourgit'.</p></li>
+</ol>
+<pre><code>git fetch --all
+git log --graph --decorate --pretty=oneline --abbrev-commit --all</code></pre>
+<ol start="5" type="1">
+<li><p>If you notice upstream has changed while you were busy with your
+changes rebase on top of the master, but before that:</p></li>
+<li><p>Push a backup of your branch 'textual' to 'yourgit',
+then</p></li>
+</ol>
+<pre><code>git checkout master
+git merge origin/master
+git checkout textual
+git rebase master</code></pre>
+<p>If rebase reports conflicts fix the conflicts. In case the rebase
+conflict is difficult to fix rebase --abort is good option, or recover
+from 'yourgit', either way there is some serious re-work ahead with the
+change set.</p>
+<ol start="7" type="1">
+<li>Assuming rebase went fine push the latest to 'yourgit'.</li>
+</ol>
+<pre><code>git push yourgit master:master
+git push yourgit --force textual:textual</code></pre>
+<p>The contributor branch tends to need --force every now and then,
+don't be afraid using it.</p>
+			</article>
+		</main>
+
+		<footer class="my-4 text-muted">
+			Source:
+			<a href="https://github.com/legionus/kbd/blob/master/docs/process/howto-pull-request.md">docs/process/howto-pull-request.md</a>
+		</footer>
+	</body>
+</html>
