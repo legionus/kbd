@@ -55,6 +55,12 @@
 					keymaps, console fonts, virtual terminals, keyboard modes, and
 					related kernel interfaces.</p>
 
+					<p>kbd does not configure keyboard layouts for X11 or Wayland
+					sessions. When built with XKB support, however, <code>loadkeys</code>
+					can convert selected XKB layout descriptions into Linux virtual
+					console keymaps. See <a href="docs/xkb.html">XKB layout conversion</a>
+					for details.</p>
+
 					<p>This distribution contains no binaries - the sources depend on the
 					kernel version - compile them yourself.</p>
 				</div>
@@ -68,6 +74,9 @@
 					<dl class="row">
 						<dt class="col-lg-4"><a href="manpages/man1/loadkeys.1.html">loadkeys</a></dt>
 						<dd class="col-lg-8 mb-3">Load a console keymap or change the keyboard layout used by the Linux virtual console.</dd>
+
+						<dt class="col-lg-4"><a href="docs/xkb.html">loadkeys --xkb-layout</a></dt>
+						<dd class="col-lg-8 mb-3">Convert an XKB layout description into a Linux virtual console keymap when kbd is built with XKB support.</dd>
 
 						<dt class="col-lg-4"><a href="manpages/man8/setfont.8.html">setfont</a></dt>
 						<dd class="col-lg-8 mb-3">Load a console font and, when needed, an associated Unicode mapping table.</dd>
@@ -113,6 +122,7 @@
 					<h5><a class="text-decoration-none" href="#TOCdocs-users" name="docs-users">Users</a></h5>
 					<ul>
 						<li><a href="manpages/index.html">Manual pages</a> for kbd commands and file formats.</li>
+						<li><a href="docs/xkb.html">XKB layout conversion</a> for Linux virtual console keymaps.</li>
 						<li>The Linux keyboard and console <a href="docs/howto-linux-keyboard-and-console/kbd.html">HOWTO</a>.</li>
 						<li>The fonts <a href="docs/fonts/index.html">README</a>.</li>
 					</ul>
