@@ -398,3 +398,13 @@ AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test68" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test68])
 AT_CLEANUP
+
+AT_SETUP([test 69 (probe kernel keymap features)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test69])
+AT_CLEANUP
+
+AT_SETUP([test 70 (conditional keymap includes)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test70])
+AT_CLEANUP

@@ -59,6 +59,8 @@ noinst_PROGRAMS = \
 	libkeymap-test51 \
 	libkeymap-test52 \
 	libkeymap-test53 \
+	libkeymap-test69 \
+	libkeymap-test70 \
 	$(NULL)
 
 if USE_XKB
