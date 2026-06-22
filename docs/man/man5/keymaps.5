@@ -43,6 +43,25 @@ A keymap can include other keymaps using the syntax
 include "pathname"
 .RE
 .LP
+An include can be selected by a kernel keymap feature:
+.LP
+.RS
+.nf
+include-if feature (\fIKT_CSI\fP) "pathname"
+include-if not-feature (\fIKT_CSI\fP) "pathname"
+.fi
+.RE
+.LP
+Exactly one of the two directives is selected when the feature is known.
+The selected file is processed as a normal include; the other file is not
+opened. Feature names are defined by libkeymap. An unknown feature, or a
+feature whose probe was not completed, is an error rather than an implicit
+fallback.
+.LP
+The \fIKT_CSI\fP feature is available when the target Linux console accepts
+the modifier-aware CSI keysym type. This is probed on the target console, not
+inferred from the kernel release string, so kernels with backported support
+are handled correctly.
 .SH "CHARSET DEFINITIONS"
 A character set definition line is of the form:
 .LP
