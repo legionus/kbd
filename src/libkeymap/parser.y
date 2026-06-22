@@ -19,6 +19,8 @@
 
 #include "parser.h"
 #include "analyze.h"
+
+int include_if(struct lk_ctx *ctx, const char *filename, int enabled, void *scanner);
 %}
 
 %code requires {
@@ -52,6 +54,7 @@ struct string {
 %token PLAIN SHIFT CONTROL ALT ALTGR SHIFTL SHIFTR CTRLL CTRLR CAPSSHIFT
 %token COMMA DASH STRING STRLITERAL COMPOSE TO CCHAR ERROR PLUS
 %token UNUMBER ALT_IS_META STRINGS AS USUAL ON FOR
+%token INCLUDE_IF FEATURE NOT_FEATURE FEATURE_NAME LPAREN RPAREN
 
 %union {
 	int num;
@@ -59,12 +62,14 @@ struct string {
 }
 
 %type <str>  STRLITERAL
+%type <str>  FEATURE_NAME
 %type <num>  CCHAR
 %type <num>  LITERAL
 %type <num>  NUMBER
 %type <num>  UNUMBER
 %type <num>  compsym
 %type <num>  rvalue
+%type <num>  feature_condition
 
 %{
 static int
@@ -179,6 +184,33 @@ compose_as_usual(struct lk_ctx *ctx, char *charset)
 	return 0;
 }
 
+static int
+evaluate_feature(struct lk_ctx *ctx, const char *name, int negated, int *enabled)
+{
+	enum lk_feature feature = lk_feature_from_name(name);
+	enum lk_feature_status status;
+
+	if (feature == LK_FEATURE_COUNT) {
+		ERR(ctx, _("unknown keymap feature %s"), name);
+		return -1;
+	}
+
+	status = lk_get_feature_status(ctx, feature);
+	if (status == LK_FEATURE_UNCHECKED) {
+		ERR(ctx, _("keymap feature %s was not checked"), name);
+		return -1;
+	}
+	if (status == LK_FEATURE_UNAVAILABLE) {
+		ERR(ctx, _("keymap feature %s could not be checked"), name);
+		return -1;
+	}
+
+	*enabled = status == LK_FEATURE_SUPPORTED;
+	if (negated)
+		*enabled = !*enabled;
+	return 0;
+}
+
 %}
 
 %%
@@ -190,10 +222,28 @@ line		: EOL
 		| altismetaline
 		| usualstringsline
 		| usualcomposeline
+		| includeifline
 		| keymapline
 		| singleline
 		| strline
-                | compline
+		| compline
+		;
+includeifline	: INCLUDE_IF feature_condition STRLITERAL EOL
+			{
+				if (include_if(ctx, $3.str_data, $2, scanner) < 0)
+					YYERROR;
+			}
+		;
+feature_condition: FEATURE LPAREN FEATURE_NAME RPAREN
+				{
+					if (evaluate_feature(ctx, $3.str_data, 0, &$$) < 0)
+						YYERROR;
+				}
+			| NOT_FEATURE LPAREN FEATURE_NAME RPAREN
+				{
+					if (evaluate_feature(ctx, $3.str_data, 1, &$$) < 0)
+						YYERROR;
+				}
 		;
 charsetline	: CHARSET STRLITERAL EOL
 			{
