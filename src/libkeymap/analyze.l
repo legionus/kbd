@@ -16,6 +16,7 @@
 #include "keymap.h"
 int stack_push(struct lk_ctx *ctx, struct kbdfile *fp, void *scanner);
 int stack_pop(struct lk_ctx *ctx, void *scanner);
+int include_if(struct lk_ctx *ctx, const char *filename, int enabled, void *scanner);
 }
 
 %option reentrant
@@ -276,6 +277,21 @@ static struct kbdfile *open_include(struct lk_ctx *ctx, char *filename)
 	return fp;
 }
 
+int
+include_if(struct lk_ctx *ctx, const char *filename, int enabled, void *scanner)
+{
+	struct kbdfile *fp;
+
+	if (!enabled)
+		return 0;
+
+	fp = open_include(ctx, (char *)filename);
+	if (!fp)
+		return -1;
+
+	return stack_push(ctx, fp, scanner);
+}
+
 static int parse_positive_long(struct lk_ctx *ctx, char *text, char *value,
 		int base, long long max, long *res)
 {
@@ -353,11 +369,13 @@ static int strdata_append(struct lk_ctx *ctx, struct string *string,
 %s RVALUE
 %x STR
 %x INCLSTR
+%x FEATSTR
 Comment			#|!
 Continuation		\\\n
 Eol			\n
 Blank			[ \t]
 Include			include[ \t]*
+IncludeIf		include-if
 Decimal			[1-9][0-9]*
 Octal			0[0-7]*
 Hex			0[xX][0-9a-fA-F]+
@@ -387,12 +405,15 @@ Usual			usual|Usual|USUAL
 For			for|For|FOR
 On			on|On|ON
 To                      to|To|TO
+Feature			feature
+NotFeature		not-feature
 
 %%
 
 {Include}		{
 				yy_push_state(INCLSTR, yyscanner);
 			}
+{IncludeIf}		{ return(INCLUDE_IF); }
 <INCLSTR>\"[^\"\n]+\"	{
 				struct kbdfile *fp;
 
@@ -491,6 +512,31 @@ To                      to|To|TO
 {Usual}			{	return(USUAL);		}
 {On}			{	return(ON);		}
 {For}			{	return(FOR);		}
+{Feature}		{
+				yy_push_state(FEATSTR, yyscanner);
+				return(FEATURE);
+			}
+{NotFeature}		{
+				yy_push_state(FEATSTR, yyscanner);
+				return(NOT_FEATURE);
+			}
+<FEATSTR>{Blank}+	; /* do nothing */
+<FEATSTR>\(		{	return(LPAREN);		}
+<FEATSTR>\)		{
+				yy_pop_state(yyscanner);
+				return(RPAREN);
+			}
+<FEATSTR>{Literal}	{
+				strlcpy(yylval->str.str_data, yytext, sizeof(yylval->str.str_data));
+				yylval->str.str_len = strlen(yylval->str.str_data);
+				return(FEATURE_NAME);
+			}
+<FEATSTR>{Eol}		{
+				yyset_lineno(yyget_lineno(yyscanner) + 1, yyscanner);
+				yy_pop_state(yyscanner);
+				return(ERROR);
+			}
+<FEATSTR>.		{	return(ERROR);		}
 '\\{Octa}'              {
 				if (parse_int(yyextra, yytext, yytext + 2, 8, &(yylval->num)) < 0)
 					return(ERROR);
