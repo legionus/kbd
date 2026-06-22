@@ -5,6 +5,7 @@
 #include <kbd/keymap/context.h>
 #include <kbd/keymap/common.h>
 #include <kbd/keymap/dump.h>
+#include <kbd/keymap/features.h>
 #include <kbd/keymap/kernel.h>
 #include <kbd/keymap/kmap.h>
 #include <kbd/keymap/logging.h>
