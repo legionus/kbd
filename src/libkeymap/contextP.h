@@ -92,6 +92,9 @@ struct lk_ctx {
 	 */
 	unsigned short charset;
 
+	/** Kernel keymap feature probe results. */
+	enum lk_feature_status features[LK_FEATURE_COUNT];
+
 	/* Fields used by keymap parser */
 
 	struct lk_array *key_constant;

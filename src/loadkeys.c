@@ -278,6 +278,14 @@ int main(int argc, char *argv[])
 
 	lk_set_parser_flags(ctx, flags);
 
+	/*
+	 * Conditional keymaps require a capability result. Do not probe for
+	 * parse-only mode: it must remain usable without permission to modify the
+	 * console, and a conditional map will report that no result is available.
+	 */
+	if (fd >= 0 && !(options & OPT_P) && lk_check_features(ctx, fd) < 0)
+		kbd_error(EXIT_FAILURE, errno, _("Unable to check console keymap features"));
+
 	dirpath = dirpath1;
 	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
 		dirpath2[0] = ev;

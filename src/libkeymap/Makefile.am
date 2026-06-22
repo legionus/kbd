@@ -3,7 +3,7 @@ include $(top_srcdir)/Makefile.common
 CLEANFILES = libkeymap.pc
 EXTRA_DIST = libkeymap.pc.gen
 
-LK_CURRENT  = 1
+LK_CURRENT  = 2
 LK_REVISION = 0
 LK_AGE      = 0
 
@@ -16,6 +16,7 @@ headers = \
 	../include/kbd/keymap/charset.h \
 	../include/kbd/keymap/common.h \
 	../include/kbd/keymap/dump.h \
+	../include/kbd/keymap/features.h \
 	../include/kbd/keymap/kernel.h \
 	../include/kbd/keymap/kmap.h \
 	../include/kbd/keymap/logging.h
@@ -49,7 +50,7 @@ ksyms_headers = \
 libkeymap_la_SOURCES = \
 	$(headers) \
 	array.c \
-	common.c kernel.c dump.c kmap.c diacr.c func.c summary.c loadkeys.c \
+	common.c features.c kernel.c dump.c kmap.c diacr.c func.c summary.c loadkeys.c \
 	contextP.h \
 	parser.y parser.h analyze.l analyze.h \
 	modifiers.c modifiers.h \
