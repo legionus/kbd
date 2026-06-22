@@ -1,5 +1,15 @@
 AT_BANNER([libkeymap unit tests])
 
+AT_SETUP([test 68 (probe kernel keymap features)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test68])
+AT_CLEANUP
+
+AT_SETUP([test 69 (conditional keymap includes)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test69])
+AT_CLEANUP
+
 AT_SETUP([test 01 (parse charset from keymap)])
 AT_KEYWORDS([libkeymap unittest])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test01])
