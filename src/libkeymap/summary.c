@@ -78,7 +78,7 @@ int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
 	return 0;
 }
 
-#define NR_TYPES 15
+#define NR_TYPES 16
 
 void lk_dump_summary(struct lk_ctx *ctx, FILE *fd, int console)
 {

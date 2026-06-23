@@ -353,6 +353,83 @@ and describe how two bytes are combined to form a third one
 (when a dead accent or compose key is used).
 This is used to get accented letters and the like on a standard
 keyboard.
+.SH "MODIFIER-AWARE KEYS"
+Certain key types automatically encode the current modifier state into
+the escape sequence they produce. This eliminates the need to define
+separate keymap entries for each modifier combination.
+.SS "Cursor Keys"
+The cursor keys (Up, Down, Left, Right) automatically include modifier
+information when Shift, Alt, or Control are held. With no modifiers,
+they produce the standard sequences (e.g., ESC [ A for Up). With
+modifiers, they produce extended sequences in the format ESC [ 1 ; \fImod\fP X,
+where \fImod\fP encodes the modifier state and X is the direction letter.
+.LP
+The modifier value is calculated as: 1 + (Shift?1:0) + (Alt?2:0) + (Control?4:0).
+AltGr counts as Alt for this purpose.
+For example, Shift+Up produces ESC [ 1 ; 2 A, and Control+Alt+Up
+produces ESC [ 1 ; 7 A.
+.SS "CSI Keys"
+The Csi_* keysyms provide similar modifier-aware behavior for navigation
+and function keys, generating sequences in the CSI tilde format
+(ESC [ \fIn\fP ~ or ESC [ \fIn\fP ; \fImod\fP ~ with modifiers).
+.LP
+Available CSI keysyms and their unmodified sequences:
+.RS
+.TP 16
+.B Csi_Home
+ESC [ 1 ~
+.TP
+.B Csi_Insert
+ESC [ 2 ~
+.TP
+.B Csi_Delete
+ESC [ 3 ~
+.TP
+.B Csi_End
+ESC [ 4 ~
+.TP
+.B Csi_PgUp
+ESC [ 5 ~
+.TP
+.B Csi_PgDn
+ESC [ 6 ~
+.TP
+.B Csi_F1 \fR...\fB Csi_F12
+ESC [ 11 ~ through ESC [ 24 ~ (skipping 16 and 22)
+.TP
+.B Csi_F13 \fR...\fB Csi_F20
+ESC [ 25 ~ through ESC [ 34 ~ (skipping 27 and 30)
+.RE
+.LP
+Note: The Csi_F* sequences follow the xterm numbering scheme, including
+its gaps in the parameter numbering, which differs from the traditional
+Linux console F1-F5 sequences (ESC [ [ A through ESC [ [ E).
+.SS "Fallback Behavior"
+When a cursor or CSI key is pressed with modifiers, and no explicit binding
+exists for that modifier combination, the kernel automatically falls back
+to the plain (unmodified) keymap entry. The modifier state is still encoded
+in the output sequence.
+.LP
+This means you only need to define the plain keymap entry:
+.LP
+.RS
+.nf
+keycode 102 = Csi_Home
+.fi
+.RE
+.LP
+and all modifier combinations (Shift+Home, Control+Home, etc.) will
+automatically produce the correct modified sequences without additional
+keymap entries.
+.LP
+.B Note:
+Modifier-aware key behavior requires Linux kernel 7.1 or later.
+On older kernels, cursor keys produce their traditional unmodified
+sequences, and Csi_* keysyms have no effect: on a console in Unicode
+mode the corresponding keys produce no output, while on a non-Unicode
+console
+.BR loadkeys (1)
+reports an error for each Csi_* entry.
 .SH ABBREVIATIONS
 Various abbreviations can be used with kbd-0.96 and later.
 .TP
