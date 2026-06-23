@@ -1,0 +1,222 @@
+#!/bin/sh
+# kbd-terminfo-fixup - Update terminfo when new kbd keysym bindings are used
+#
+# This script handles two terminfo mismatches:
+#
+# 1. The Linux console has a long-standing discrepancy where F1-F5 use
+#    non-standard sequences (\e[[A through \e[[E) while F6 and above use
+#    standard CSI sequences. The Csi_F1 through Csi_F5 keysyms fix this.
+#
+# 2. The Backtab keysym produces the standard \e[Z sequence, but the
+#    linux terminfo entry expects \e^I (ESC + Tab).
+#
+# This script detects when these keysyms are in use and installs a
+# modified "linux" terminfo entry in /etc/terminfo so applications can
+# correctly recognize them.
+#
+# The override is always rebuilt from the distribution's pristine entry
+# (never from the active search path, which may include a previous
+# override), so fixups that are no longer needed are automatically
+# dropped when the keymap changes. The generated entry is tagged with a
+# "(kbd-terminfo-fixup)" marker in its description; an existing
+# /etc/terminfo/l/linux without that marker is considered the
+# administrator's own and is never modified or removed.
+#
+# Some applications may recognize these sequences regardless of terminfo,
+# but not all do. This ensures consistent behavior across all
+# terminfo-aware applications.
+#
+# Usage: kbd-terminfo-fixup [--update | --remove | --check]
+#
+# Options:
+#   --update    Create/update terminfo if CSI keysyms detected (default)
+#   --remove    Remove system terminfo override
+#   --check     Check if CSI keysyms are in use (exit 0 if yes)
+
+set -e
+
+TERMINFO_DIR="${TERMINFO_DIR:-/etc/terminfo}"
+MARKER="kbd-terminfo-fixup"
+
+# Check which Csi_F1-F5 keysyms are in use
+# (-w prevents e.g. Csi_F11 from matching as Csi_F1)
+detect_csi_keys() {
+    dumpkeys 2>/dev/null | grep -woE 'Csi_F[1-5]' | sort -u
+}
+
+# Check if Backtab keysym is in use
+detect_backtab() {
+    if dumpkeys 2>/dev/null | grep -qw 'Backtab'; then
+        echo "Backtab"
+    fi
+}
+
+# The compiled entry stores the description string verbatim, so the
+# marker added by this script can be detected with a plain grep.
+override_is_ours() {
+    grep -q "(${MARKER})" "${TERMINFO_DIR}/l/linux" 2>/dev/null
+}
+
+# Print the distribution's pristine "linux" entry, one capability per
+# line, bypassing $TERMINFO_DIR so we never read back our own override.
+pristine_entry() {
+    for dir in /usr/share/terminfo /lib/terminfo /usr/lib/terminfo; do
+        if [ -e "$dir/l/linux" ]; then
+            TERMINFO="$dir" infocmp -1 -x linux 2>/dev/null || true
+            return 0
+        fi
+    done
+    # Unusual layout: fall back to the default search path
+    infocmp -1 -x linux 2>/dev/null || true
+}
+
+# Tag the entry description so we can recognize our own override later
+add_marker() {
+    sed "/^linux|/{/(${MARKER})/!s/,\$/ (${MARKER}),/;}"
+}
+
+do_check() {
+    csi_keys=$(detect_csi_keys)
+    backtab=$(detect_backtab)
+    if [ -n "$csi_keys" ] || [ -n "$backtab" ]; then
+        [ -n "$csi_keys" ] && echo "CSI function keys in use: $csi_keys"
+        [ -n "$backtab" ] && echo "Backtab keysym in use"
+        return 0
+    else
+        echo "No CSI function keys (F1-F5) or Backtab detected"
+        return 1
+    fi
+}
+
+do_update() {
+    target="${TERMINFO_DIR}/l/linux"
+
+    # Never touch an override file we did not create
+    if [ -f "$target" ] && ! override_is_ours; then
+        echo "$target was not created by this script; leaving it alone"
+        return 0
+    fi
+
+    csi_keys=$(detect_csi_keys)
+    backtab=$(detect_backtab)
+
+    if [ -z "$csi_keys" ] && [ -z "$backtab" ]; then
+        # No CSI keys or Backtab - remove override if present
+        do_remove quiet
+        return 0
+    fi
+
+    pristine=$(pristine_entry)
+    if [ -z "$pristine" ]; then
+        echo "Cannot read the 'linux' terminfo entry" >&2
+        return 1
+    fi
+
+    # Build the desired entry from the pristine one
+    sed_expr=""
+    for key in $csi_keys; do
+        fnum="${key#Csi_F}"
+        # Csi_Fn produces \E[1n~ for n in 1..5
+        sed_expr="${sed_expr}s/kf${fnum}=[^,]*/kf${fnum}=\\\\E[1${fnum}~/;"
+    done
+    if [ -n "$backtab" ]; then
+        sed_expr="${sed_expr}s/kcbt=[^,]*/kcbt=\\\\E[Z/;"
+    fi
+
+    desired=$(printf '%s\n' "$pristine" | sed "$sed_expr")
+
+    if [ "$desired" = "$pristine" ]; then
+        # The distribution entry already has the right sequences
+        do_remove quiet
+        echo "Terminfo already has correct sequences"
+        return 0
+    fi
+
+    desired=$(printf '%s\n' "$desired" | add_marker)
+
+    # Skip rewriting if our existing override is already up to date
+    if [ -f "$target" ]; then
+        current=$(TERMINFO="$TERMINFO_DIR" infocmp -1 -x linux 2>/dev/null | grep -v '^#' || true)
+        if [ "$(printf '%s\n' "$desired" | grep -v '^#' || true)" = "$current" ]; then
+            echo "Terminfo already up to date"
+            return 0
+        fi
+    fi
+
+    echo "Updating terminfo for:" $csi_keys $backtab
+
+    # Create terminfo directory if needed
+    mkdir -p "${TERMINFO_DIR}/l"
+
+    # Compile the modified terminfo
+    printf '%s\n' "$desired" | tic -x -o "$TERMINFO_DIR" -
+
+    echo "Terminfo updated in $target"
+}
+
+do_remove() {
+    quiet="${1:-}"
+    target="${TERMINFO_DIR}/l/linux"
+    if [ ! -f "$target" ]; then
+        [ "$quiet" = "quiet" ] || echo "No system terminfo override found"
+        return 0
+    fi
+    if ! override_is_ours; then
+        [ "$quiet" = "quiet" ] || echo "$target was not created by this script; leaving it alone"
+        return 0
+    fi
+    rm -f "$target"
+    [ "$quiet" = "quiet" ] || echo "Removed $target"
+    # Clean up the subdirectory if empty, but leave $TERMINFO_DIR
+    # itself alone: it usually belongs to the distribution
+    rmdir "${TERMINFO_DIR}/l" 2>/dev/null || true
+}
+
+show_usage() {
+    cat <<EOF
+Usage: kbd-terminfo-fixup [--update | --remove | --check]
+
+Update system terminfo when new kbd keysym bindings are used.
+
+Options:
+  --update    Create/update terminfo if new keysyms detected, or remove
+              the override if not (default)
+  --remove    Remove system terminfo override
+  --check     Check if new keysyms are in use
+
+This script handles two cases:
+
+1. The Linux console has a long-standing discrepancy where F1-F5 use
+   non-standard sequences (\e[[A through \e[[E) while F6 and above use
+   standard CSI sequences (\e[17~ etc.). The Csi_F1 through Csi_F5 keysyms
+   fix this by making F1-F5 use CSI sequences (\e[11~ through \e[15~).
+
+2. The Backtab keysym produces the standard backtab sequence \e[Z,
+   but the linux terminfo entry expects \e^I (ESC + Tab).
+
+This script detects when these keysyms are in use and installs a
+modified "linux" terminfo entry accordingly.
+
+Some applications may recognize these sequences regardless of terminfo,
+but not all do. This ensures consistent behavior across all
+terminfo-aware applications.
+
+The modified entry is rebuilt from the distribution's pristine terminfo
+entry, installed to /etc/terminfo/ (which takes precedence over the
+default system entry), and tagged with a "($MARKER)" marker
+in its description. An /etc/terminfo/l/linux file without that marker
+is treated as the administrator's own and is never touched.
+EOF
+}
+
+case "${1:---update}" in
+    --update)  do_update ;;
+    --remove)  do_remove ;;
+    --check)   do_check ;;
+    --help|-h) show_usage ;;
+    *)
+        echo "Unknown option: $1" >&2
+        show_usage >&2
+        exit 1
+        ;;
+esac

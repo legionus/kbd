@@ -33,6 +33,22 @@ EXTRA_DIST = \
 	CREDITS \
 	contrib docs
 
+pkglibexec_SCRIPTS = contrib/kbd-terminfo-fixup
+
+if HAVE_SYSTEMD
+systemdsystemunit_DATA = contrib/kbd-terminfo-fixup.service
+endif
+
+# Substitute directory variables at make time so they are fully
+# expanded (configure would leave ${exec_prefix} unexpanded).
+contrib/kbd-terminfo-fixup.service: contrib/kbd-terminfo-fixup.service.in Makefile
+	$(AM_V_GEN)$(MKDIR_P) contrib && \
+	$(SED) -e 's|@libexecdir[@]|$(libexecdir)|g' \
+	       -e 's|@PACKAGE[@]|$(PACKAGE)|g' \
+	       $(srcdir)/contrib/kbd-terminfo-fixup.service.in > $@
+
+CLEANFILES = contrib/kbd-terminfo-fixup.service
+
 SUBDIRS = src data po docs
 if BUILD_TESTS
 SUBDIRS += tests

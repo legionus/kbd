@@ -368,6 +368,22 @@ AS_IF([test "x$USE_XKB" != xno],
 	[USE_XKB=no])
 AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
 
+AC_ARG_WITH([systemdsystemunitdir],
+	[AS_HELP_STRING([--with-systemdsystemunitdir=DIR],
+			[directory for systemd service files @<:@default=auto@:>@])],
+	[],
+	[with_systemdsystemunitdir=auto]
+)
+AS_IF([test "$with_systemdsystemunitdir" = "auto"], [
+	PKG_CHECK_VAR([systemdsystemunitdir], [systemd], [systemdsystemunitdir],
+		[with_systemdsystemunitdir="$systemdsystemunitdir"],
+		[with_systemdsystemunitdir=no])
+])
+AS_IF([test "$with_systemdsystemunitdir" != "no"], [
+	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+])
+AM_CONDITIONAL(HAVE_SYSTEMD, test "$with_systemdsystemunitdir" != "no")
+
 AC_MSG_NOTICE([generation of Makefiles...])
 
 # Remove -h (dereference) from am__tar
@@ -431,4 +447,6 @@ AC_MSG_RESULT([
 	standalone libkeymap:   ${BUILD_LIBKEYMAP}
 	standalone libkfont:    ${BUILD_LIBKFONT}
 	xkb support:            ${USE_XKB}
+
+	systemd unit dir:       ${with_systemdsystemunitdir}
 ])

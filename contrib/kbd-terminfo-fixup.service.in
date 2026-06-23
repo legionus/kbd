@@ -1,0 +1,13 @@
+[Unit]
+Description=Update terminfo for CSI function keys
+Documentation=man:keymaps(5)
+After=systemd-vconsole-setup.service
+ConditionPathExists=/dev/tty0
+
+[Service]
+Type=oneshot
+ExecStart=@libexecdir@/@PACKAGE@/kbd-terminfo-fixup --update
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
