@@ -588,3 +588,42 @@ static const char *const brl_syms[] = {
 	"Brl_dot9",
 	"Brl_dot10"
 };
+
+/*
+ * Keysyms whose KTYP is KT_CSI.
+ * Index is the CSI parameter number for ESC [ <index> ~ sequences.
+ */
+static const char *const csi_syms[] = {
+	"",           /* 0: unused */
+	"Csi_Home",   /* 1: ESC [ 1 ~ */
+	"Csi_Insert", /* 2: ESC [ 2 ~ */
+	"Csi_Delete", /* 3: ESC [ 3 ~ */
+	"Csi_End",    /* 4: ESC [ 4 ~ */
+	"Csi_PgUp",   /* 5: ESC [ 5 ~ */
+	"Csi_PgDn",   /* 6: ESC [ 6 ~ */
+	"", "", "", "",   /* 7-10: unused */
+	"Csi_F1",     /* 11: ESC [ 11 ~ */
+	"Csi_F2",     /* 12: ESC [ 12 ~ */
+	"Csi_F3",     /* 13: ESC [ 13 ~ */
+	"Csi_F4",     /* 14: ESC [ 14 ~ */
+	"Csi_F5",     /* 15: ESC [ 15 ~ */
+	"",           /* 16: unused */
+	"Csi_F6",     /* 17: ESC [ 17 ~ */
+	"Csi_F7",     /* 18: ESC [ 18 ~ */
+	"Csi_F8",     /* 19: ESC [ 19 ~ */
+	"Csi_F9",     /* 20: ESC [ 20 ~ */
+	"Csi_F10",    /* 21: ESC [ 21 ~ */
+	"",           /* 22: unused */
+	"Csi_F11",    /* 23: ESC [ 23 ~ */
+	"Csi_F12",    /* 24: ESC [ 24 ~ */
+	"Csi_F13",    /* 25: ESC [ 25 ~ */
+	"Csi_F14",    /* 26: ESC [ 26 ~ */
+	"",           /* 27: unused */
+	"Csi_F15",    /* 28: ESC [ 28 ~ */
+	"Csi_F16",    /* 29: ESC [ 29 ~ */
+	"",           /* 30: unused */
+	"Csi_F17",    /* 31: ESC [ 31 ~ */
+	"Csi_F18",    /* 32: ESC [ 32 ~ */
+	"Csi_F19",    /* 33: ESC [ 33 ~ */
+	"Csi_F20",    /* 34: ESC [ 34 ~ */
+};

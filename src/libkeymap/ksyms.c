@@ -52,7 +52,8 @@ static const syms_entry syms[] = {
 	{ NULL, 0 },    /* KT_LETTER */
 	E(sticky_syms), /* KT_SLOCK */
 	{ NULL, 0 },    /* KT_DEAD2 */
-	E(brl_syms)     /* KT_BRL */
+	E(brl_syms),    /* KT_BRL */
+	E(csi_syms)     /* KT_CSI */
 };
 
 #undef E
