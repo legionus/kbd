@@ -1,0 +1,115 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  display: grid;
+  grid-template:
+    "toolbar" auto
+    "viewer" 1fr / minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.toolbar {
+  border-bottom: 1px solid #8885;
+  display: grid;
+  gap: 0.5rem;
+  grid-area: toolbar;
+  grid-template-rows: auto minmax(1.8rem, auto);
+  padding: 0.75rem 1rem;
+}
+
+.toolbar-controls {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.toolbar label {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toolbar-switches {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  min-height: 1.8rem;
+}
+
+.toolbar-category {
+  color: #666;
+}
+
+#lock-sequences {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.lock-sequences-empty {
+  color: #888;
+}
+
+.lock-sequence {
+  background: transparent;
+  border: 1px solid #8885;
+  border-radius: 999px;
+  color: inherit;
+  cursor: pointer;
+  font-family: ui-monospace, monospace;
+  font-size: inherit;
+  padding: 0.15rem 0.45rem;
+}
+
+.lock-sequence:hover {
+  border-color: #888;
+}
+
+.lock-sequence.active {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  color: white;
+}
+
+.viewer {
+  grid-area: viewer;
+  min-width: 0;
+  overflow: auto;
+  padding: 1rem;
+}
+
+#keyboard svg {
+  display: block;
+  height: auto;
+  max-width: none;
+}
+
+#keyboard g[data-key-id] {
+  cursor: pointer;
+}
+
+#keyboard g[data-key-id].selected .key {
+  fill: #f6d365;
+  stroke: #b36b00;
+}
+
+#keyboard g[data-key-id].held .key {
+  fill: #b8d7ff;
+  stroke: #2263aa;
+}
+
+#keyboard .keymap-legend {
+  fill: #111;
+  font-family: sans-serif;
+  pointer-events: none;
+  text-anchor: middle;
+}

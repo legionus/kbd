@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>kbdlayout viewer</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="toolbar">
+        <div class="toolbar-controls">
+          <label>
+            Model
+            <select id="model-select"></select>
+          </label>
+          <label>
+            Keymap
+            <select id="keymap-select"></select>
+          </label>
+        </div>
+        <div class="toolbar-switches">
+          <span class="toolbar-category" title="key combinations that switch the keyboard layout">Switches</span>
+          <div id="lock-sequences" aria-label="key combinations that switch the keyboard layout"></div>
+        </div>
+      </header>
+
+      <section class="viewer" aria-label="Keyboard model">
+        <div id="keyboard"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
