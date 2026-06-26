@@ -108,8 +108,12 @@ body {
 }
 
 #keyboard .keymap-legend {
-  fill: #111;
+  fill: var(--keymap-legend-fill, #111);
   font-family: sans-serif;
+  paint-order: stroke;
   pointer-events: none;
+  stroke: var(--keymap-legend-stroke, #fff);
+  stroke-linejoin: round;
+  stroke-width: 0.035;
   text-anchor: middle;
 }
