@@ -1,6 +1,7 @@
 #include <linux/keyboard.h>
 #include <xkbcommon/xkbcommon-keysyms.h>
 
+#include "contextP.h"
 #include "libkeymap-test.h"
 #include "xkbsupport.h"
 
@@ -178,6 +179,48 @@ test_german_altgr(const char *model)
 	expect_key_code(keymap.ctx, altgr | (1 << KG_ALT), 16, K(KT_META, '@'));
 	expect_key_symbol(keymap.ctx, (1 << KG_CTRL) | (1 << KG_ALT), 59, "Console_1");
 
+	free_test_keymap(&keymap);
+}
+
+static void
+test_kt_csi_feature_selects_csi_symbols(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc104",
+		.layout = "us",
+	};
+
+	init_test_keymap(&keymap, "xkb-us-csi");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us layout without KT_CSI");
+
+	expect_key_symbol(keymap.ctx, 0, 59, "F1");
+	expect_key_symbol(keymap.ctx, 0, 111, "Remove");
+	free_test_keymap(&keymap);
+
+	init_test_keymap(&keymap, "xkb-us-csi");
+	keymap.ctx->features[LK_FEATURE_KT_CSI] = LK_FEATURE_SUPPORTED;
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us layout with KT_CSI");
+
+	expect_key_symbol(keymap.ctx, 0, 59, "Csi_F1");
+	expect_key_symbol(keymap.ctx, 0, 111, "Csi_Delete");
+	free_test_keymap(&keymap);
+
+	params.layout = "us,ru";
+	init_test_keymap(&keymap, "xkb-us-ru-csi");
+	keymap.ctx->features[LK_FEATURE_KT_CSI] = LK_FEATURE_SUPPORTED;
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us,ru layout with KT_CSI");
+
+	expect_key_symbol(keymap.ctx, 0, 59, "Csi_F1");
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFTL, 59, "Csi_F1");
 	free_test_keymap(&keymap);
 }
 
@@ -686,6 +729,7 @@ int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_basic_us_layout();
+	test_kt_csi_feature_selects_csi_symbols();
 	test_german_altgr("pc104");
 	test_german_altgr("pc105");
 	test_group_toggle_layout();
