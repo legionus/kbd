@@ -380,6 +380,46 @@ static int xkeymap_lookup_semantic_keysym(struct xkeymap *xkeymap, xkb_keysym_t 
 	return -1;
 }
 
+static int xkeymap_get_code_from_csi_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
+{
+	static const struct builtin_keysym_map csi_map[] = {
+		{ XKB_KEY_Home,		"Csi_Home" },
+		{ XKB_KEY_Insert,	"Csi_Insert" },
+		{ XKB_KEY_Delete,	"Csi_Delete" },
+		{ XKB_KEY_End,		"Csi_End" },
+		{ XKB_KEY_Prior,	"Csi_PgUp" },
+		{ XKB_KEY_Next,		"Csi_PgDn" },
+		{ XKB_KEY_Page_Up,	"Csi_PgUp" },
+		{ XKB_KEY_Page_Down,	"Csi_PgDn" },
+		{ XKB_KEY_F1,		"Csi_F1" },
+		{ XKB_KEY_F2,		"Csi_F2" },
+		{ XKB_KEY_F3,		"Csi_F3" },
+		{ XKB_KEY_F4,		"Csi_F4" },
+		{ XKB_KEY_F5,		"Csi_F5" },
+		{ XKB_KEY_F6,		"Csi_F6" },
+		{ XKB_KEY_F7,		"Csi_F7" },
+		{ XKB_KEY_F8,		"Csi_F8" },
+		{ XKB_KEY_F9,		"Csi_F9" },
+		{ XKB_KEY_F10,		"Csi_F10" },
+		{ XKB_KEY_F11,		"Csi_F11" },
+		{ XKB_KEY_F12,		"Csi_F12" },
+		{ XKB_KEY_F13,		"Csi_F13" },
+		{ XKB_KEY_F14,		"Csi_F14" },
+		{ XKB_KEY_F15,		"Csi_F15" },
+		{ XKB_KEY_F16,		"Csi_F16" },
+		{ XKB_KEY_F17,		"Csi_F17" },
+		{ XKB_KEY_F18,		"Csi_F18" },
+		{ XKB_KEY_F19,		"Csi_F19" },
+		{ XKB_KEY_F20,		"Csi_F20" },
+	};
+
+	if (lk_get_feature_status(xkeymap->ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_SUPPORTED)
+		return -1;
+
+	return xkeymap_lookup_semantic_keysym(xkeymap, symbol, csi_map,
+					      ARRAY_SIZE(csi_map));
+}
+
 static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	static const struct builtin_keysym_map semantic_modifier_map[] = {
@@ -498,6 +538,10 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	int ret;
 	char symbuf[BUFSIZ];
+
+	ret = xkeymap_get_code_from_csi_keysym(xkeymap, symbol);
+	if (ret >= 0)
+		return xkeymap_validate_code(ret);
 
 	ret = xkeymap_get_code_from_semantic_keysym(xkeymap, symbol);
 	if (ret >= 0)
@@ -816,7 +860,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 						if (layout != kmap_layout[i])
 							continue;
 						xkeymap_add_value(xkeymap, modifier | layout_switch[i], value,
-								 xkeymap_is_capslockable(sym, value), keyvalue);
+								  xkeymap_is_capslockable(sym, value), keyvalue);
 					}
 				}
 			}
