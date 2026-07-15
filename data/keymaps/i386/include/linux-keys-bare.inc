@@ -168,3 +168,4 @@ alt	keycode  70 = Show_Registers
 keycode 101 = Break			# Ctrl+Break/Pause
 keycode 119 = Pause			# Break/Pause
 
+include-if feature (KT_CSI) "linux-keys-csi"
