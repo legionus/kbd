@@ -248,7 +248,7 @@ int main(int argc, char *argv[])
 
 	if (!(options & OPT_M) && !(options & OPT_B) && !(options & OPT_T)) {
 		/* get console */
-		if ((fd = getfd(console)) < 0)
+		if ((fd = console ? getfd(console) : getfd_keymap()) < 0)
 			kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
 
 		/* check whether the keyboard is in Unicode mode */

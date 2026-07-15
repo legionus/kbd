@@ -13,6 +13,7 @@ struct kbd_help {
 
 // getfd.c
 int getfd(const char *fnam);
+int getfd_keymap(void);
 
 // version.c
 void print_version_and_exit(void)

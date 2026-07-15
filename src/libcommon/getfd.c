@@ -91,3 +91,56 @@ getfd(const char *fnam)
 	/* total failure */
 	exit(1);
 }
+
+static int
+kbmode(int fd) {
+	int mode;
+
+	if (ioctl(fd, KDGKBMODE, &mode) < 0)
+		return -1;
+	else
+		return mode;
+}
+
+/* Get a file descriptor suitable for setting the keymap.  Anything not in
+ * raw mode will do - it doesn't have to be the foreground console - but we
+ * prefer Unicode if we can get it.
+ */
+int
+getfd_keymap(void) {
+	int fd, bestfd = -1;
+	char ttyname[sizeof("/dev/ttyNN")] = "/dev/tty";
+	int i;
+
+#define CHECK_FD_KEYMAP do { \
+	if (is_a_console(fd)) { \
+		int mode = kbmode(fd); \
+		if (mode == K_UNICODE) { \
+			if (bestfd != -1) \
+				close(bestfd); \
+			return fd; \
+		} else if (mode == K_XLATE && bestfd == -1) \
+			bestfd = fd; \
+		else \
+			close(fd); \
+	} else \
+		close(fd); \
+} while (0)
+
+	for (i = 0; conspath[i]; i++) {
+		if ((fd = open_a_console(conspath[i])) >= 0)
+			CHECK_FD_KEYMAP;
+	}
+
+	for (i = 1; i <= 12; ++i) {
+		snprintf(ttyname + sizeof("/dev/tty") - 1, 3, "%d", i);
+		if ((fd = open_a_console(ttyname)) >= 0)
+			CHECK_FD_KEYMAP;
+	}
+
+	fprintf(stderr,
+		_("Couldn't get a file descriptor referring to the console\n"));
+
+	/* total failure */
+	exit(1);
+}
