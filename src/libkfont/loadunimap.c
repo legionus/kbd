@@ -102,7 +102,7 @@ add_unipair(struct kfont_context *ctx,
 {
 	if (*listct == *listsz) {
 		*listsz += 4096;
-		*list = realloc(*list, *listsz);
+		*list = realloc(*list, *listsz * sizeof(**list));
 		if (!*list) {
 			KFONT_ERR(ctx, "realloc: %m");
 			return -EX_OSERR;
