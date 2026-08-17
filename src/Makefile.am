@@ -25,6 +25,8 @@ endif
 dist_bin_SCRIPTS = unicode_start unicode_stop
 bin_PROGRAMS = $(OLDPROGS) $(PROGS)
 
+noinst_HEADERS = include/kbd/reallocarray.h
+
 EXTRA_DIST = \
 	wctomb.c \
 	totextmode.c README.cad README.init README.openvt \

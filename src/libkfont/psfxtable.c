@@ -17,6 +17,8 @@
 
 #include "kfontP.h"
 
+#include <kbd/reallocarray.h>
+
 static int
 str_to_unicode(struct kfont_context *ctx,
 		const char *p, char **e, int base,
@@ -211,13 +213,15 @@ kfont_read_unicodetable(struct kfont_context *ctx, FILE *file,
 		struct unicode_list **uclistheadsp)
 {
 	char buf[65536];
+	struct unicode_list *ptr;
 	unsigned int i;
 
-	*uclistheadsp = realloc(*uclistheadsp, fontlen * sizeof(struct unicode_list));
-	if (!*uclistheadsp) {
+	ptr = kbd_reallocarray(*uclistheadsp, fontlen, sizeof(*ptr));
+	if (!ptr) {
 		KFONT_ERR(ctx, "realloc: %m");
 		return -EX_OSERR;
 	}
+	*uclistheadsp = ptr;
 
 	for (i = 0; i < fontlen; i++) {
 		struct unicode_list *up = &((*uclistheadsp)[i]);

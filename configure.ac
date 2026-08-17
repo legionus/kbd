@@ -86,7 +86,7 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
 AC_CHECK_FUNCS([alarm dup2 endpwent memset setlocale strcasecmp strerror \
-		strdup strndup strchr strrchr strspn strstr strtol])
+		reallocarray strdup strndup strchr strrchr strspn strstr strtol])
 
 AC_SEARCH_LIBS([timer_create], [rt])
 

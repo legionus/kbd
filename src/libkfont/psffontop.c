@@ -17,6 +17,8 @@
 #include "kfontP.h"
 #include "utf8.h"
 
+#include <kbd/reallocarray.h>
+
 static uint32_t
 assemble_uint32(unsigned char *ip)
 {
@@ -333,7 +335,7 @@ kfont_read_psffont(struct kfont_context *ctx,
 		return -EX_DATAERR;
 	}
 
-	ptr = realloc(*uclistheadsp, uclist_count * sizeof(*ptr));
+	ptr = kbd_reallocarray(*uclistheadsp, uclist_count, sizeof(*ptr));
 	if (!ptr) {
 		KFONT_ERR(ctx, "realloc: %m");
 		return -EX_OSERR;

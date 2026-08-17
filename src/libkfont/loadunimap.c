@@ -19,6 +19,7 @@
 #include <linux/kd.h>
 
 #include <kbdfile.h>
+#include <kbd/reallocarray.h>
 
 #include "kfontP.h"
 #include "utf8.h"
@@ -101,12 +102,15 @@ add_unipair(struct kfont_context *ctx,
 		unsigned short *listct)
 {
 	if (*listct == *listsz) {
+		struct unipair *new_list;
+
 		*listsz += 4096;
-		*list = realloc(*list, *listsz * sizeof(**list));
-		if (!*list) {
+		new_list = kbd_reallocarray(*list, *listsz, sizeof(**list));
+		if (!new_list) {
 			KFONT_ERR(ctx, "realloc: %m");
 			return -EX_OSERR;
 		}
+		*list = new_list;
 	}
 
 	(*list)[*listct].fontpos = fp;
