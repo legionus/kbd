@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,7 +51,8 @@ free_uclist(struct unicode_list *heads, unsigned int count)
 
 static void
 expect_read_failure(struct kfont_context *ctx, unsigned char *psf, unsigned int size,
-		unsigned int glyph_count, int expected_ret, const char *what)
+		unsigned int glyph_count, unsigned int fontpos0, int expected_ret,
+		const char *what)
 {
 	unsigned char *allbuf = psf;
 	unsigned char *fontbuf = NULL;
@@ -63,7 +65,7 @@ expect_read_failure(struct kfont_context *ctx, unsigned char *psf, unsigned int 
 	int ret;
 
 	ret = kfont_read_psffont(ctx, NULL, &allbuf, &allsz, &fontbuf, &fontsz,
-			&fontwidth, &fontheight, &fontlen, 0, &uclistheads);
+			&fontwidth, &fontheight, &fontlen, fontpos0, &uclistheads);
 	if (ret != expected_ret)
 		kbd_error(EXIT_FAILURE, 0, "%s: expected %d, got %d", what, expected_ret, ret);
 
@@ -82,6 +84,8 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	unsigned char trailing_garbage_psf[sizeof(struct psf2_header) + 1 + 2];
 	unsigned char zero_length_psf[sizeof(struct psf2_header) + 1];
 	unsigned char zero_charsize_psf[sizeof(struct psf2_header)];
+	unsigned char overflowing_width_psf[sizeof(struct psf2_header) + 1];
+	unsigned char overflowing_position_psf[sizeof(struct psf2_header) + 1];
 
 	if (kfont_init("libkfont-test18", &ctx) != 0)
 		kbd_error(EXIT_FAILURE, 0, "unable to create kfont context");
@@ -106,7 +110,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	short_table_psf[sizeof(struct psf2_header)] = 0xaa;
 	short_table_psf[sizeof(struct psf2_header) + 1] = 0x41;
 
-	expect_read_failure(ctx, short_table_psf, sizeof(short_table_psf), 1,
+	expect_read_failure(ctx, short_table_psf, sizeof(short_table_psf), 1, 0,
 			-EX_DATAERR, "short unicode table");
 
 	/*
@@ -128,7 +132,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	trailing_garbage_psf[sizeof(struct psf2_header) + 1] = PSF2_SEPARATOR;
 	trailing_garbage_psf[sizeof(struct psf2_header) + 2] = 0x99;
 
-	expect_read_failure(ctx, trailing_garbage_psf, sizeof(trailing_garbage_psf), 1,
+	expect_read_failure(ctx, trailing_garbage_psf, sizeof(trailing_garbage_psf), 1, 0,
 			-EX_DATAERR, "trailing garbage");
 
 	/*
@@ -146,7 +150,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	store_u32le(zero_length_psf + 24, 1);
 	store_u32le(zero_length_psf + 28, 8);
 
-	expect_read_failure(ctx, zero_length_psf, sizeof(zero_length_psf), 0,
+	expect_read_failure(ctx, zero_length_psf, sizeof(zero_length_psf), 0, 0,
 			-EX_DATAERR, "zero font length");
 
 	/*
@@ -164,8 +168,41 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	store_u32le(zero_charsize_psf + 24, 1);
 	store_u32le(zero_charsize_psf + 28, 8);
 
-	expect_read_failure(ctx, zero_charsize_psf, sizeof(zero_charsize_psf), 1,
+	expect_read_failure(ctx, zero_charsize_psf, sizeof(zero_charsize_psf), 1, 0,
 			-EX_DATAERR, "zero character size");
+
+	/* A maximal width must not wrap while calculating the byte width. */
+	memset(overflowing_width_psf, 0, sizeof(overflowing_width_psf));
+	overflowing_width_psf[0] = PSF2_MAGIC0;
+	overflowing_width_psf[1] = PSF2_MAGIC1;
+	overflowing_width_psf[2] = PSF2_MAGIC2;
+	overflowing_width_psf[3] = PSF2_MAGIC3;
+	store_u32le(overflowing_width_psf + 8, sizeof(struct psf2_header));
+	store_u32le(overflowing_width_psf + 16, 1);
+	store_u32le(overflowing_width_psf + 20, 1);
+	store_u32le(overflowing_width_psf + 24, 0);
+	store_u32le(overflowing_width_psf + 28, UINT_MAX);
+	overflowing_width_psf[sizeof(struct psf2_header)] = 0xaa;
+
+	expect_read_failure(ctx, overflowing_width_psf, sizeof(overflowing_width_psf),
+			1, 0, -EX_DATAERR, "overflowing font width");
+
+	/* The Unicode list offset and glyph count must not wrap. */
+	memset(overflowing_position_psf, 0, sizeof(overflowing_position_psf));
+	overflowing_position_psf[0] = PSF2_MAGIC0;
+	overflowing_position_psf[1] = PSF2_MAGIC1;
+	overflowing_position_psf[2] = PSF2_MAGIC2;
+	overflowing_position_psf[3] = PSF2_MAGIC3;
+	store_u32le(overflowing_position_psf + 8, sizeof(struct psf2_header));
+	store_u32le(overflowing_position_psf + 16, 1);
+	store_u32le(overflowing_position_psf + 20, 1);
+	store_u32le(overflowing_position_psf + 24, 1);
+	store_u32le(overflowing_position_psf + 28, 8);
+	overflowing_position_psf[sizeof(struct psf2_header)] = 0xaa;
+
+	expect_read_failure(ctx, overflowing_position_psf,
+			sizeof(overflowing_position_psf), 1, UINT_MAX,
+			-EX_DATAERR, "overflowing font position");
 
 	kfont_free(ctx);
 

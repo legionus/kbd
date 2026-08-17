@@ -274,24 +274,40 @@ kfont_read_psffont(struct kfont_context *ctx,
 		KFONT_ERR(ctx, _("zero input character size?"));
 		return -EX_DATAERR;
 	}
-
-	if (!fontheight) {
-		unsigned int bytewidth;
-		bytewidth = (fontwidth + 7) / 8;
-		fontheight = (fontlen * charsize) / (bytewidth * fontlen);
+	if (ftoffset > inputlth || fontlen > (inputlth - ftoffset) / charsize) {
+		KFONT_ERR(ctx, _("font bitmap exceeds input length (%u)"), inputlth);
+		return -EX_DATAERR;
 	}
 
-	unsigned int i = ftoffset + fontlen * charsize;
+	unsigned int fontbuflth = fontlen * charsize;
+	unsigned int bytewidth = fontwidth / 8 + !!(fontwidth % 8);
 
-	if (i > inputlth || (!hastable && i != inputlth)) {
-		KFONT_ERR(ctx, _("Input file: bad input length (%d)"), inputlth);
+	if (!bytewidth || charsize % bytewidth) {
+		KFONT_ERR(ctx, _("character size %u is invalid for width %u"),
+			charsize, fontwidth);
+		return -EX_DATAERR;
+	}
+
+	unsigned int expected_height = charsize / bytewidth;
+
+	if (fontheight && fontheight != expected_height) {
+		KFONT_ERR(ctx, _("character size %u does not match %ux%u font"),
+			charsize, fontwidth, fontheight);
+		return -EX_DATAERR;
+	}
+	fontheight = expected_height;
+
+	unsigned int i = ftoffset + fontbuflth;
+
+	if (!hastable && i != inputlth) {
+		KFONT_ERR(ctx, _("unexpected data after font bitmap"));
 		return -EX_DATAERR;
 	}
 
 	if (fontbufp && allbufp)
 		*fontbufp = *allbufp + ftoffset;
 	if (fontszp)
-		*fontszp = fontlen * charsize;
+		*fontszp = fontbuflth;
 	if (fontlenp)
 		*fontlenp = fontlen;
 	if (fontwidthp)
@@ -303,8 +319,21 @@ kfont_read_psffont(struct kfont_context *ctx,
 		return 0; /* got font, don't need unicode_list */
 
 	struct unicode_list *ptr;
+	size_t uclist_count;
 
-	ptr = realloc(*uclistheadsp, (fontpos0 + fontlen) * sizeof(*ptr));
+	if (fontlen > UINT_MAX - fontpos0) {
+		KFONT_ERR(ctx, _("font position range %u+%u overflows"),
+			fontpos0, fontlen);
+		return -EX_DATAERR;
+	}
+	uclist_count = (size_t)fontpos0 + fontlen;
+	if (uclist_count > SIZE_MAX / sizeof(*ptr)) {
+		KFONT_ERR(ctx, _("Unicode table is too large (%zu entries)"),
+			uclist_count);
+		return -EX_DATAERR;
+	}
+
+	ptr = realloc(*uclistheadsp, uclist_count * sizeof(*ptr));
 	if (!ptr) {
 		KFONT_ERR(ctx, "realloc: %m");
 		return -EX_OSERR;
@@ -314,7 +343,7 @@ kfont_read_psffont(struct kfont_context *ctx,
 	if (hastable) {
 		const unsigned char *inptr, *endptr;
 
-		inptr  = inputbuf + ftoffset + fontlen * charsize;
+		inptr  = inputbuf + ftoffset + fontbuflth;
 		endptr = inputbuf + inputlth;
 
 		for (i = 0; i < fontlen; i++) {
