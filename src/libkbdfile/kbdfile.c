@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include <kbdfile.h>
 
@@ -522,6 +523,67 @@ kbdfile_find(const char *fnam, const char *const *dirpath, const char *const *su
 			return 0;
 	}
 
+	return 1;
+}
+
+int
+kbdfile_compile(const char *xkb_desc, struct kbdfile *fp)
+{
+	int i;
+
+	if (fp->fd != NULL) {
+		ERR(fp->ctx, "can't compile `%s', because kbdfile already opened: %s", xkb_desc, fp->pathname);
+		return -1;
+	}
+
+	for (i = 0; xkb_desc[i]; i++)
+		if (!isalpha((unsigned char) xkb_desc[i]) &&
+			!isdigit((unsigned char) xkb_desc[i]) &&
+			/* - and _ in variant names; / in a layout name; : as separator */
+			!strchr("-/_:", xkb_desc[i]))
+			break;
+
+	if (!xkb_desc[i]) {
+		char *layout, *variant;
+		char *colon;
+		size_t cmdsize;
+		char *cmd;
+		int rc = 0;
+
+		layout = strdup(xkb_desc);
+		colon = strchr(layout, ':');
+		if (colon) {
+			*colon = '\0';
+			variant = strdup(colon + 1);
+		} else
+			variant = NULL;
+
+		cmdsize = sizeof("ckbcomp -model pc105 ");
+		if (variant) {
+			cmdsize += strlen(layout) + 1 + strlen(variant);
+			cmd = malloc(cmdsize);
+			sprintf(cmd, "ckbcomp -model pc105 %s %s", layout, variant);
+		} else {
+			cmdsize += strlen(layout);
+			cmd = malloc(cmdsize);
+			sprintf(cmd, "ckbcomp -model pc105 %s", layout);
+		}
+
+		kbdfile_set_pathname(fp, xkb_desc);
+		fp->fd = popen(cmd, "r");
+		fp->flags |= KBDFILE_PIPE;
+		if (!(fp->fd)) {
+			char buf[200];
+			strerror_r(errno, buf, sizeof(buf));
+			ERR(fp->ctx, "popen: %s: %s", cmd, buf);
+			rc = -1;
+		}
+
+		free(variant);
+		free(layout);
+		free(cmd);
+		return rc;
+	}
 	return 1;
 }
 

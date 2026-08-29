@@ -338,8 +338,10 @@ int main(int argc, char *argv[])
 			kbdfile_set_pathname(fp, "<stdin>");
 
 		} else if (kbdfile_find(argv[i], dirpath, suffixes, fp)) {
-			kbd_warning(0, _("Unable to open file: %s: %m"), argv[i]);
-			goto fail;
+			if (kbdfile_compile(argv[i], fp)) {
+				kbd_warning(0, _("Unable to open file: %s: %m"), argv[i]);
+				goto fail;
+			}
 		}
 
 		rc = lk_parse_keymap(ctx, fp);
