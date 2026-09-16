@@ -52,7 +52,7 @@ get_mode(void)
 	printf(_("kb mode was %s\n"), m);
 	if (oldkbmode != K_XLATE) {
 		printf(_("[ if you are trying this under X, it might not work\n"
-		         "since the X server is also reading /dev/console ]\n"));
+			 "since the X server is also reading /dev/console ]\n"));
 	}
 	printf("\n");
 }
@@ -96,19 +96,19 @@ usage(int rc, const struct kbd_help *options)
 
 int main(int argc, char *argv[])
 {
-	const char *short_opts          = "haskVt:";
+	const char *short_opts = "haskVt:";
 	const struct option long_opts[] = {
-		{ "help", no_argument, NULL, 'h' },
-		{ "ascii", no_argument, NULL, 'a' },
-		{ "scancodes", no_argument, NULL, 's' },
-		{ "keycodes", no_argument, NULL, 'k' },
-		{ "timeout", required_argument, NULL, 't' },
-		{ "version", no_argument, NULL, 'V' },
-		{ NULL, 0, NULL, 0 }
+		{ "help",      no_argument,       NULL, 'h' },
+		{ "ascii",     no_argument,       NULL, 'a' },
+		{ "scancodes", no_argument,       NULL, 's' },
+		{ "keycodes",  no_argument,       NULL, 'k' },
+		{ "timeout",   required_argument, NULL, 't' },
+		{ "version",   no_argument,       NULL, 'V' },
+		{ NULL,        0,                 NULL, 0   }
 	};
 	int c;
 	int show_keycodes = 1;
-	int print_ascii   = 0;
+	int print_ascii = 0;
 	int timeout = 10;
 
 	struct termios new = { 0 };
@@ -120,12 +120,12 @@ int main(int argc, char *argv[])
 
 	const struct kbd_help opthelp[] = {
 		{ "-a, --ascii",     _("display the decimal/octal/hex values of the keys.") },
-		{ "-s, --scancodes", _("display only the raw scan-codes.") },
-		{ "-k, --keycodes",  _("display only the interpreted keycodes (default).") },
-		{ "-t, --timeout",   _("set timeout, default 10")     },
-		{ "-h, --help",      _("print this usage message.") },
-		{ "-V, --version",   _("print version number.")     },
-		{ NULL, NULL }
+		{ "-s, --scancodes", _("display only the raw scan-codes.")                  },
+		{ "-k, --keycodes",  _("display only the interpreted keycodes (default).")  },
+		{ "-t, --timeout",   _("set timeout, default 10")                           },
+		{ "-h, --help",      _("print this usage message.")                         },
+		{ "-V, --version",   _("print version number.")                             },
+		{ NULL,              NULL						   }
 	};
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
@@ -169,16 +169,16 @@ int main(int argc, char *argv[])
 		if (tcgetattr(fd, &new) == -1)
 			kbd_warning(errno, "tcgetattr");
 
-		new.c_lflag &= ~((tcflag_t)(ICANON | ISIG));
+		new.c_lflag &= ~((tcflag_t) (ICANON | ISIG));
 		new.c_lflag |= (ECHO | ECHOCTL);
-		new.c_iflag     = 0;
-		new.c_cc[VMIN]  = 1;
+		new.c_iflag = 0;
+		new.c_cc[VMIN] = 1;
 		new.c_cc[VTIME] = 0;
 
 		if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
 			kbd_warning(errno, "tcgetattr");
 		printf(_("\nPress any keys - "
-		         "Ctrl-D will terminate this program\n\n"));
+			 "Ctrl-D will terminate this program\n\n"));
 
 		while (1) {
 			n = read(fd, buf, 1);
@@ -234,9 +234,9 @@ int main(int argc, char *argv[])
 	if (tcgetattr(fd, &new) == -1)
 		kbd_warning(errno, "tcgetattr");
 
-	new.c_lflag &= ~((tcflag_t)(ICANON | ECHO | ISIG));
-	new.c_iflag     = 0;
-	new.c_cc[VMIN]  = sizeof(buf);
+	new.c_lflag &= ~((tcflag_t) (ICANON | ECHO | ISIG));
+	new.c_iflag = 0;
+	new.c_cc[VMIN] = sizeof(buf);
 	new.c_cc[VTIME] = 1; /* 0.1 sec intercharacter timeout */
 
 	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
