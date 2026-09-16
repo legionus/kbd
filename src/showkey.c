@@ -95,6 +95,40 @@ usage(int rc, const struct kbd_help *options)
 }
 
 static void
+run_ascii(void)
+{
+	struct termios new = { 0 };
+	unsigned char ch;
+
+	fd = STDIN_FILENO;
+
+	if (tcgetattr(fd, &old) == -1)
+		kbd_warning(errno, "tcgetattr");
+	if (tcgetattr(fd, &new) == -1)
+		kbd_warning(errno, "tcgetattr");
+
+	new.c_lflag &= ~((tcflag_t) (ICANON | ISIG));
+	new.c_lflag |= (ECHO | ECHOCTL);
+	new.c_iflag = 0;
+	new.c_cc[VMIN] = 1;
+	new.c_cc[VTIME] = 0;
+
+	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
+		kbd_warning(errno, "tcgetattr");
+	printf(_("\nPress any keys - "
+		 "Ctrl-D will terminate this program\n\n"));
+
+	while (read(fd, &ch, 1) == 1) {
+		printf(" \t%3d 0%03o 0x%02x\n", ch, ch, ch);
+		if (ch == 04)
+			break;
+	}
+
+	if (tcsetattr(fd, 0, &old) == -1)
+		kbd_warning(errno, "tcsetattr");
+}
+
+static void
 run_console(const char *device, int show_keycodes, int timeout)
 {
 	struct termios new = { 0 };
@@ -208,11 +242,6 @@ int main(int argc, char *argv[])
 	int print_ascii = 0;
 	int timeout = 10;
 
-	struct termios new = { 0 };
-	unsigned char buf[18]; /* divisible by 3 */
-	int i;
-	ssize_t n;
-
 	setuplocale();
 
 	const struct kbd_help opthelp[] = {
@@ -259,35 +288,7 @@ int main(int argc, char *argv[])
 
 	if (print_ascii) {
 		/* no mode and signal and timer stuff - just read stdin */
-		fd = 0;
-
-		if (tcgetattr(fd, &old) == -1)
-			kbd_warning(errno, "tcgetattr");
-		if (tcgetattr(fd, &new) == -1)
-			kbd_warning(errno, "tcgetattr");
-
-		new.c_lflag &= ~((tcflag_t) (ICANON | ISIG));
-		new.c_lflag |= (ECHO | ECHOCTL);
-		new.c_iflag = 0;
-		new.c_cc[VMIN] = 1;
-		new.c_cc[VTIME] = 0;
-
-		if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
-			kbd_warning(errno, "tcgetattr");
-		printf(_("\nPress any keys - "
-			 "Ctrl-D will terminate this program\n\n"));
-
-		while (1) {
-			n = read(fd, buf, 1);
-			if (n == 1)
-				printf(" \t%3d 0%03o 0x%02x\n",
-				       buf[0], buf[0], buf[0]);
-			if (n != 1 || buf[0] == 04)
-				break;
-		}
-
-		if (tcsetattr(fd, 0, &old) == -1)
-			kbd_warning(errno, "tcsetattr");
+		run_ascii();
 		return EXIT_SUCCESS;
 	}
 
