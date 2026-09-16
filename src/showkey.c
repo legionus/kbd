@@ -94,6 +94,102 @@ usage(int rc, const struct kbd_help *options)
 	exit(rc);
 }
 
+static void
+run_console(const char *device, int show_keycodes, int timeout)
+{
+	struct termios new = { 0 };
+	unsigned char buf[18];
+	ssize_t n;
+	int i;
+
+	if ((fd = getfd(device)) < 0)
+		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
+
+	signal(SIGALRM, watch_dog);
+
+	/*
+	  if we receive a signal, we want to exit nicely, in
+	  order not to leave the keyboard in an unusable mode
+	*/
+	signal(SIGHUP, die);
+	signal(SIGINT, die);
+	signal(SIGQUIT, die);
+	signal(SIGILL, die);
+	signal(SIGTRAP, die);
+	signal(SIGABRT, die);
+	signal(SIGIOT, die);
+	signal(SIGFPE, die);
+	signal(SIGKILL, die);
+	signal(SIGUSR1, die);
+	signal(SIGSEGV, die);
+	signal(SIGUSR2, die);
+	signal(SIGPIPE, die);
+	signal(SIGTERM, die);
+#ifdef SIGSTKFLT
+	signal(SIGSTKFLT, die);
+#endif
+	signal(SIGCHLD, die);
+	signal(SIGCONT, die);
+	signal(SIGSTOP, die);
+	signal(SIGTSTP, die);
+	signal(SIGTTIN, die);
+	signal(SIGTTOU, die);
+
+	get_mode();
+	if (tcgetattr(fd, &old) == -1)
+		kbd_warning(errno, "tcgetattr");
+	if (tcgetattr(fd, &new) == -1)
+		kbd_warning(errno, "tcgetattr");
+
+	new.c_lflag &= ~((tcflag_t) (ICANON | ECHO | ISIG));
+	new.c_iflag = 0;
+	new.c_cc[VMIN] = sizeof(buf);
+	new.c_cc[VTIME] = 1; /* 0.1 sec intercharacter timeout */
+
+	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
+		kbd_warning(errno, "tcsetattr");
+	if (ioctl(fd, KDSKBMODE, show_keycodes ? K_MEDIUMRAW : K_RAW)) {
+		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
+	}
+
+	printf(_("press any key (program terminates %ds after last keypress)...\n"), timeout);
+
+	/* show scancodes */
+	if (!show_keycodes) {
+		while (1) {
+			alarm((unsigned int) timeout);
+			n = read(fd, buf, sizeof(buf));
+			for (i = 0; i < n; i++)
+				printf("0x%02x ", buf[i]);
+			printf("\n");
+		}
+		return;
+	}
+
+	/* show keycodes - 2.6 allows 3-byte reports */
+	while (1) {
+		alarm((unsigned int) timeout);
+		n = read(fd, buf, sizeof(buf));
+		i = 0;
+		while (i < n) {
+			int kc;
+			const char *s;
+
+			s = (buf[i] & 0x80) ? _("release") : _("press");
+
+			if (i + 2 < n && (buf[i] & 0x7f) == 0 && (buf[i + 1] & 0x80) != 0 && (buf[i + 2] & 0x80) != 0) {
+				kc = ((buf[i + 1] & 0x7f) << 7) |
+				     (buf[i + 2] & 0x7f);
+				i += 3;
+			} else {
+				kc = (buf[i] & 0x7f);
+				i++;
+			}
+			printf(_("keycode %3d %s\n"), kc, s);
+		}
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	const char *short_opts = "haskVt:";
@@ -107,6 +203,7 @@ int main(int argc, char *argv[])
 		{ NULL,        0,                 NULL, 0   }
 	};
 	int c;
+	const char *device = NULL;
 	int show_keycodes = 1;
 	int print_ascii = 0;
 	int timeout = 10;
@@ -194,95 +291,8 @@ int main(int argc, char *argv[])
 		return EXIT_SUCCESS;
 	}
 
-	if ((fd = getfd(NULL)) < 0)
-		kbd_error(EXIT_FAILURE, 0, _("Couldn't get a file descriptor referring to the console."));
-
-	/* the program terminates when there is no input for 10 secs */
-	signal(SIGALRM, watch_dog);
-
-	/*
-	  if we receive a signal, we want to exit nicely, in
-	  order not to leave the keyboard in an unusable mode
-	*/
-	signal(SIGHUP, die);
-	signal(SIGINT, die);
-	signal(SIGQUIT, die);
-	signal(SIGILL, die);
-	signal(SIGTRAP, die);
-	signal(SIGABRT, die);
-	signal(SIGIOT, die);
-	signal(SIGFPE, die);
-	signal(SIGKILL, die);
-	signal(SIGUSR1, die);
-	signal(SIGSEGV, die);
-	signal(SIGUSR2, die);
-	signal(SIGPIPE, die);
-	signal(SIGTERM, die);
-#ifdef SIGSTKFLT
-	signal(SIGSTKFLT, die);
-#endif
-	signal(SIGCHLD, die);
-	signal(SIGCONT, die);
-	signal(SIGSTOP, die);
-	signal(SIGTSTP, die);
-	signal(SIGTTIN, die);
-	signal(SIGTTOU, die);
-
-	get_mode();
-	if (tcgetattr(fd, &old) == -1)
-		kbd_warning(errno, "tcgetattr");
-	if (tcgetattr(fd, &new) == -1)
-		kbd_warning(errno, "tcgetattr");
-
-	new.c_lflag &= ~((tcflag_t) (ICANON | ECHO | ISIG));
-	new.c_iflag = 0;
-	new.c_cc[VMIN] = sizeof(buf);
-	new.c_cc[VTIME] = 1; /* 0.1 sec intercharacter timeout */
-
-	if (tcsetattr(fd, TCSAFLUSH, &new) == -1)
-		kbd_warning(errno, "tcsetattr");
-	if (ioctl(fd, KDSKBMODE, show_keycodes ? K_MEDIUMRAW : K_RAW)) {
-		kbd_error(EXIT_FAILURE, errno, "ioctl KDSKBMODE");
-	}
-
-	printf(_("press any key (program terminates %ds after last keypress)...\n"), timeout);
-
-	/* show scancodes */
-	if (!show_keycodes) {
-		while (1) {
-			alarm((unsigned int) timeout);
-			n = read(fd, buf, sizeof(buf));
-			for (i = 0; i < n; i++)
-				printf("0x%02x ", buf[i]);
-			printf("\n");
-		}
-		clean_up();
-		return EXIT_SUCCESS;
-	}
-
-	/* show keycodes - 2.6 allows 3-byte reports */
-	while (1) {
-		alarm((unsigned int) timeout);
-		n = read(fd, buf, sizeof(buf));
-		i = 0;
-		while (i < n) {
-			int kc;
-			const char *s;
-
-			s = (buf[i] & 0x80) ? _("release") : _("press");
-
-			if (i + 2 < n && (buf[i] & 0x7f) == 0 && (buf[i + 1] & 0x80) != 0 && (buf[i + 2] & 0x80) != 0) {
-				kc = ((buf[i + 1] & 0x7f) << 7) |
-				     (buf[i + 2] & 0x7f);
-				i += 3;
-			} else {
-				kc = (buf[i] & 0x7f);
-				i++;
-			}
-			printf(_("keycode %3d %s\n"), kc, s);
-		}
-	}
-
+	run_console(device, show_keycodes, timeout);
 	clean_up();
+
 	return EXIT_SUCCESS;
 }
