@@ -4,6 +4,7 @@
 showkey \- examine the codes sent by the keyboard
 .SH SYNOPSIS
 showkey [\-h|\-\-help] [\-a|\-\-ascii] [\-s|\-\-scancodes] [\-k|\-\-keycodes] [\-V|\-\-version]
+[\-d|\-\-device=DEVICE] [\-t|\-\-timeout=SECONDS]
 .SH DESCRIPTION
 .IX "showkey command" "" "\fLshowkey\fR command"  
 .LP
@@ -46,6 +47,37 @@ prints to the standard output the decimal, octal, and hexadecimal
 value(s) of the key pressed, according to he present keymap.
 .SH OPTIONS
 .TP
+\-d \-\-device=DEVICE
+Read from the specified device. An evdev device uses the Linux input event
+interface; a virtual console uses the traditional console interface.
+Without this option, the traditional console interface is used.
+This option cannot be combined with \-\-ascii.
+.IP
+The special value
+.B all
+reads all accessible /dev/input/event* devices that advertise keyboard or
+media keys and support the selected mode. Button-only devices, such as
+ordinary mice and gamepads, are excluded. Each output line identifies its
+source device. Devices are discovered only at startup; newly connected or
+reconnected devices require restarting the program.
+.IP
+In evdev scancode mode, each MSC_SCAN value is printed in hexadecimal.
+Its meaning depends on the driver: for example, USB HID devices report HID
+usages rather than a stream of raw keyboard bytes. Devices without MSC_SCAN
+support cannot be used in this mode. Keycode mode reports EV_KEY codes and
+distinguishes press, release, and repeat events.
+.IP
+If the evdev queue overflows, a warning is printed and the incomplete packet
+is skipped. Lost events cannot be recovered.
+.IP
+Devices are not grabbed exclusively. Events still reach other consumers,
+including the active virtual console or graphical session, where shortcuts
+may remain effective. Input in the controlling terminal is discarded while
+the program runs and its terminal settings are restored on exit.
+.TP
+\-t \-\-timeout=SECONDS
+Set the inactivity timeout, in seconds. The default is 10.
+.TP
 \-h \-\-help
 .B showkey
 prints to the standard error output its version number, a compile
@@ -84,6 +116,9 @@ corresponds to what the keyboard hardware did send. So, if you want
 to know the scan codes sent by various keys it is better to boot a
 2.4 kernel. Since 2.6.9 there also is the boot option atkbd.softraw=0
 that tells the 2.6 kernel to return the actual scan codes.
+.LP
+These console raw-mode limitations do not apply to MSC_SCAN values read
+using \-\-device. Their meaning is still driver-dependent, as described above.
 .SH AUTHORS
 Andries Brouwer <aeb@cwi.nl>
 .SH "SEE ALSO"
