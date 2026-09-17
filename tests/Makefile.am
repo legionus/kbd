@@ -22,6 +22,7 @@ TESTSUITE_ARG_MEMCHECK = --memcheck
 endif
 
 EXTRA_DIST = \
+	showkey-pty.py    \
 	data             \
 	$(wildcard *.at) \
 	$(wildcard *.sh) \
@@ -59,5 +60,5 @@ check-local: $(ATCONFIG) $(TESTSUITE)
 installcheck-local: $(ATCONFIG) $(TESTSUITE)
 	$(SHELL) '$(TESTSUITE)' $(foreach kw,$(CHECK_KEYWORDS), --keywords=$(kw)) AUTOTEST_PATH='$(bindir)' $(TESTSUITE_ARG_MEMCHECK) $(TESTSUITEFLAGS)
 
-$(TESTSUITE): $(ATPACKAGE) $(ATCONFIG)
+$(TESTSUITE): $(ATPACKAGE) $(ATCONFIG) $(wildcard $(srcdir)/*.at)
 	$(AUTOTEST) -I '$(srcdir)' -o - testsuite.at > $@

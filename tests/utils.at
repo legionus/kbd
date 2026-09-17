@@ -4,6 +4,25 @@ AT_PREPARE_EACH_TEST([
 LOADKEYS_KEYMAP_PATH="$abs_top_srcdir/tests/data/keymaps"
 ])
 
+AT_SETUP([showkey device option])
+AT_KEYWORDS([showkey utils unittest])
+AT_CHECK([$abs_top_builddir/src/showkey --help], [0], [], [stderr])
+AT_CHECK([grep -q -- --device stderr])
+AT_CHECK([$abs_top_builddir/src/showkey --ascii --device=all], [64], [], [ignore])
+AT_CHECK([$abs_top_builddir/src/showkey --device=/dev/null], [1], [], [ignore])
+AT_CLEANUP
+
+AT_SETUP([showkey evdev filtering and dropped events])
+AT_KEYWORDS([showkey utils unittest])
+AT_CHECK([$abs_top_builddir/tests/helpers/showkey-test], [0], [ignore], [ignore])
+AT_CLEANUP
+
+AT_SETUP([showkey terminal restoration and input isolation])
+AT_KEYWORDS([showkey utils unittest])
+AT_SKIP_IF([! command -v python3 >/dev/null 2>&1])
+AT_CHECK([python3 "$abs_top_srcdir/tests/showkey-pty.py" "$abs_top_builddir/tests/helpers/showkey-test"], [0], [ignore], [ignore])
+AT_CLEANUP
+
 AT_SETUP([loadkeys mutually exclusive options])
 AT_KEYWORDS([utils unittest])
 AT_SKIP_IF([ ! $abs_top_builddir/src/kbdinfo getmode >/dev/null 2>&1 ])

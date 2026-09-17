@@ -16,8 +16,12 @@ LDADD  = \
 	@LIBINTL@ $(CODE_COVERAGE_LIBS)
 
 noinst_PROGRAMS = \
+	showkey-test      \
 	libkeymap-bkeymap  \
 	libkeymap-dumpkeys \
 	libkeymap-mktable  \
 	libkeymap-showmaps \
 	$(NULL)
+
+showkey_test_CPPFLAGS = $(AM_CPPFLAGS) -D_GNU_SOURCE
+showkey_test_LDADD = $(top_builddir)/src/libcommon/libcommon.a @LIBINTL@ $(CODE_COVERAGE_LIBS)
