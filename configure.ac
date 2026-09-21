@@ -368,9 +368,13 @@ AC_ARG_ENABLE([xkb],
 	[AS_HELP_STRING([--enable-xkb],
 			[allow to generate kernel keymaps based on xkb database @<:@default=auto@:>@])],
 	[USE_XKB=$enableval],[USE_XKB=auto])
-AS_IF([test "x$USE_XKB" != xno],
-	[PKG_CHECK_MODULES(XKBCOMMON, xkbcommon, [USE_XKB=yes], [USE_XKB=no])],
-	[USE_XKB=no])
+AS_IF([test "x$USE_XKB" = xyes],
+	[PKG_CHECK_MODULES(XKBCOMMON, [xkbcommon],
+			   [USE_XKB=yes],
+			   [AC_MSG_ERROR([xkbcommon library required for xkb support.])])],
+	[AS_IF([test "x$USE_XKB" = xauto],
+		[PKG_CHECK_MODULES([XKBCOMMON], [xkbcommon], [USE_XKB=yes], [USE_XKB=no])],
+		[USE_XKB=no])])
 AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
 
 AC_MSG_NOTICE([generation of Makefiles...])
