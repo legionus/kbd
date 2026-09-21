@@ -278,12 +278,15 @@ AC_ARG_WITH([zlib],
 	[AS_HELP_STRING([--with-zlib],
 			[support zlib compression @<:@default=auto@:>@])],
 	[],
-	[: m4_divert_text([DEFAULTS], [with_zlib=yes])]
+	[: m4_divert_text([DEFAULTS], [with_zlib=auto])]
 )
 AS_IF([test "$with_zlib" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(ZLIB, zlib, [HAVE_ZLIB=yes], [HAVE_ZLIB=no])],
 	[HAVE_ZLIB=no]
 )
+AS_IF([test "x$with_zlib" = xyes -a "$HAVE_ZLIB" != "yes"], [
+	AC_MSG_ERROR([zlib support was requested, but zlib is not available.])
+])
 AS_IF([test "$HAVE_ZLIB" = "yes"], [
 	AC_DEFINE([HAVE_ZLIB], [1], [support zlib compression])
 ])
@@ -293,7 +296,7 @@ AC_ARG_WITH([bzip2],
 	[AS_HELP_STRING([--with-bzip2],
 			[support bzip2 compression @<:@default=auto@:>@])],
 	[],
-	[: m4_divert_text([DEFAULTS], [with_bzip2=yes])]
+	[: m4_divert_text([DEFAULTS], [with_bzip2=auto])]
 )
 AS_IF([test "$with_bzip2" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(BZIP2, bzip2, [HAVE_BZIP2=yes], [HAVE_BZIP2=auto])],
@@ -306,6 +309,9 @@ AS_IF([test "$HAVE_BZIP2" = "auto"], [
 		BZIP2_CFLAGS=''
 	], [HAVE_BZIP2=no])
 ])
+AS_IF([test "x$with_bzip2" = xyes -a "$HAVE_BZIP2" != "yes"], [
+	AC_MSG_ERROR([bzip2 support was requested, but bzip2 is not available.])
+])
 AS_IF([test "$HAVE_BZIP2" = "yes"], [
 	AC_DEFINE([HAVE_BZIP2], [1], [support bzip2 compression])
 ])
@@ -315,12 +321,15 @@ AC_ARG_WITH([lzma],
 	[AS_HELP_STRING([--with-lzma],
 			[support lzma compression @<:@default=auto@:>@])],
 	[],
-	[: m4_divert_text([DEFAULTS], [with_lzma=yes])]
+	[: m4_divert_text([DEFAULTS], [with_lzma=auto])]
 )
 AS_IF([test "$with_lzma" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(LZMA, liblzma, [HAVE_LZMA=yes], [HAVE_LZMA=no])],
 	[HAVE_LZMA=no]
 )
+AS_IF([test "x$with_lzma" = xyes -a "$HAVE_LZMA" != "yes"], [
+	AC_MSG_ERROR([lzma support was requested, but liblzma is not available.])
+])
 AS_IF([test "$HAVE_LZMA" = "yes"], [
 	AC_DEFINE([HAVE_LZMA], [1], [support lzma compression])
 ])
@@ -330,12 +339,15 @@ AC_ARG_WITH([zstd],
 	[AS_HELP_STRING([--with-zstd],
 			[support zstd compression @<:@default=auto@:>@])],
 	[],
-	[: m4_divert_text([DEFAULTS], [with_zstd=yes])]
+	[: m4_divert_text([DEFAULTS], [with_zstd=auto])]
 )
 AS_IF([test "$with_zstd" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(ZSTD, libzstd, [HAVE_ZSTD=yes], [HAVE_ZSTD=no])],
 	[HAVE_ZSTD=no]
 )
+AS_IF([test "x$with_zstd" = xyes -a "$HAVE_ZSTD" != "yes"], [
+	AC_MSG_ERROR([zstd support was requested, but libzstd is not available.])
+])
 AS_IF([test "$HAVE_ZSTD" = "yes"], [
 	AC_DEFINE([HAVE_ZSTD], [1], [support zstd compression])
 ])
