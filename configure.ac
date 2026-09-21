@@ -235,7 +235,9 @@ AS_IF(
 	[test "x$enable_compress" = xno],   [],
 	[test "x$enable_compress" = xyes],  [AC_CHECK_PROGS([COMPRESS_PROG], [zstd xz bzip2 "gzip -n"])],
 	[test "x$enable_compress" = xauto], [AC_CHECK_PROGS([COMPRESS_PROG], ["gzip -n"])],
-	[AC_CHECK_PROGS([COMPRESS_PROG], ["$enable_compress"])]
+	[AC_CHECK_PROGS([COMPRESS_PROG], ["$enable_compress"]),
+		AS_IF([test "x$COMPRESS_PROG" = x],
+		      [AC_MSG_ERROR([$enable_compress program required for compressing installed data.])])]
 )
 AM_CONDITIONAL(ENABLE_COMPRESS, test "x$COMPRESS_PROG" != "x")
 
