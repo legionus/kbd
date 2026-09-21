@@ -6,7 +6,10 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <errno.h>
+
+#ifdef HAVE_DLFCN_H
 #include <dlfcn.h>
+#endif
 
 #include "elf-note.h"
 

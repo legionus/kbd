@@ -85,7 +85,7 @@ AC_FUNC_STAT
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
-AC_CHECK_FUNCS([alarm dup2 endpwent memset setlocale strcasecmp strerror \
+AC_CHECK_FUNCS([alarm dup2 endpwent memset setlocale strcasecmp strerror memfd_create \
 		reallocarray strdup strndup strchr strrchr strspn strstr strtol])
 
 AC_SEARCH_LIBS([timer_create], [rt])
@@ -267,13 +267,18 @@ AS_IF([test "$VLOCK_PROG" = "yes"], [
 ])
 AM_CONDITIONAL(VLOCK, test "$VLOCK_PROG" = "yes")
 
+AS_IF([test "$enable_dlopen" = "yes" -a "$ac_cv_func_memfd_create" = "yes"],
+      [enable_kbdfile_elfnote=yes],
+      [enable_kbdfile_elfnote=no])
+AM_CONDITIONAL(USE_ELFNOTE, test "$enable_kbdfile_elfnote" = "yes")
+
 AC_ARG_WITH([zlib],
 	[AS_HELP_STRING([--with-zlib],
 			[support zlib compression @<:@default=auto@:>@])],
 	[],
 	[: m4_divert_text([DEFAULTS], [with_zlib=yes])]
 )
-AS_IF([test "$with_zlib" != "no"],
+AS_IF([test "$with_zlib" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(ZLIB, zlib, [HAVE_ZLIB=yes], [HAVE_ZLIB=no])],
 	[HAVE_ZLIB=no]
 )
@@ -288,11 +293,11 @@ AC_ARG_WITH([bzip2],
 	[],
 	[: m4_divert_text([DEFAULTS], [with_bzip2=yes])]
 )
-AS_IF([test "$with_bzip2" != "no"],
-	[PKG_CHECK_MODULES(BZIP2, bzip2, [HAVE_BZIP2=yes], [HAVE_BZIP2=no])],
+AS_IF([test "$with_bzip2" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
+	[PKG_CHECK_MODULES(BZIP2, bzip2, [HAVE_BZIP2=yes], [HAVE_BZIP2=auto])],
 	[HAVE_BZIP2=no]
 )
-AS_IF([test "$HAVE_BZIP2" = "no"], [
+AS_IF([test "$HAVE_BZIP2" = "auto"], [
 	AC_CHECK_LIB(bz2, BZ2_bzDecompressInit, [
 		HAVE_BZIP2=yes
 		BZIP2_LIBS=-lbz2
@@ -310,7 +315,7 @@ AC_ARG_WITH([lzma],
 	[],
 	[: m4_divert_text([DEFAULTS], [with_lzma=yes])]
 )
-AS_IF([test "$with_lzma" != "no"],
+AS_IF([test "$with_lzma" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(LZMA, liblzma, [HAVE_LZMA=yes], [HAVE_LZMA=no])],
 	[HAVE_LZMA=no]
 )
@@ -325,7 +330,7 @@ AC_ARG_WITH([zstd],
 	[],
 	[: m4_divert_text([DEFAULTS], [with_zstd=yes])]
 )
-AS_IF([test "$with_zstd" != "no"],
+AS_IF([test "$with_zstd" != "no" -a "$enable_kbdfile_elfnote" = "yes"],
 	[PKG_CHECK_MODULES(ZSTD, libzstd, [HAVE_ZSTD=yes], [HAVE_ZSTD=no])],
 	[HAVE_ZSTD=no]
 )

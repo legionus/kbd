@@ -22,12 +22,15 @@ noinst_PROGRAMS = \
 	libkbdfile-test02 \
 	libkbdfile-test03 \
 	libkbdfile-test14 \
-	libkbdfile-test16 \
 	$(NULL)
+
+if USE_ELFNOTE
+noinst_PROGRAMS += libkbdfile-test16
 
 libkbdfile_test16_SOURCES = \
 	libkbdfile-test16.c \
 	$(top_srcdir)/src/libkbdfile/elf-note.c
+endif
 
 libkbdfile_test16_LDADD = \
 	$(top_builddir)/src/libcommon/libcommon.a \

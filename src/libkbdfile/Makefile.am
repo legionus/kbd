@@ -10,13 +10,16 @@ headers = \
 libkbdfile_la_SOURCES = \
 	$(headers) \
 	contextP.h \
-	elf-note.h \
-	elf-note.c \
 	init.c \
 	kbdfile.c
 
 libkbdfile_la_LIBADD =
 libkbdfile_la_CFLAGS = $(AM_CFLAGS)
+
+if USE_ELFNOTE
+libkbdfile_la_SOURCES += \
+	elf-note.h \
+	elf-note.c
 
 if USE_ZLIB
 libkbdfile_la_SOURCES += kbdfile-zlib.c
@@ -37,6 +40,8 @@ if USE_ZSTD
 libkbdfile_la_SOURCES += kbdfile-zstd.c
 libkbdfile_la_CFLAGS += $(ZSTD_CFLAGS)
 endif
+
+endif # USE_ELFNOTE
 
 KBDFILE_CURRENT  = 1
 KBDFILE_REVISION = 0
