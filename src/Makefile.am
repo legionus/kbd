@@ -83,8 +83,8 @@ loadkeys_SOURCES = loadkeys.c
 
 if USE_XKB
 loadkeys_SOURCES += xkbsupport.c
-loadkeys_CFLAGS = -DUSE_XKB @XKBCOMMON_CFLAGS@
-loadkeys_LDADD += @XKBCOMMON_LIBS@
+loadkeys_CFLAGS = -DUSE_XKB @XKBCOMMON_CFLAGS@ @XKBREGISTRY_CFLAGS@
+loadkeys_LDADD += @XKBCOMMON_LIBS@ @XKBREGISTRY_LIBS@
 endif
 
 EXTRA_DIST += include/xkbsupport.h xkbsupport.c

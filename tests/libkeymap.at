@@ -392,3 +392,9 @@ AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test67" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test67])
 AT_CLEANUP
+
+AT_SETUP([test 68 (reject unrecognized RMLVO model/layout/variant)])
+AT_KEYWORDS([libkeymap unittest xkb])
+AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test68" ])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test68])
+AT_CLEANUP

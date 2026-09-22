@@ -76,6 +76,7 @@ noinst_PROGRAMS += libkeymap-test64
 noinst_PROGRAMS += libkeymap-test65
 noinst_PROGRAMS += libkeymap-test66
 noinst_PROGRAMS += libkeymap-test67
+noinst_PROGRAMS += libkeymap-test68
 
 libkeymap_test54_SOURCES = \
 	libkeymap-test54.c \
@@ -88,7 +89,8 @@ libkeymap_test54_CPPFLAGS = \
 
 libkeymap_test54_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test55_SOURCES = \
 	libkeymap-test55.c
@@ -100,7 +102,8 @@ libkeymap_test55_CPPFLAGS = \
 
 libkeymap_test55_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test56_SOURCES = \
 	libkeymap-test56.c \
@@ -113,7 +116,8 @@ libkeymap_test56_CPPFLAGS = \
 
 libkeymap_test56_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test57_SOURCES = \
 	libkeymap-test57.c \
@@ -126,7 +130,8 @@ libkeymap_test57_CPPFLAGS = \
 
 libkeymap_test57_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test58_SOURCES = \
 	libkeymap-test58.c \
@@ -139,7 +144,8 @@ libkeymap_test58_CPPFLAGS = \
 
 libkeymap_test58_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test59_SOURCES = \
 	libkeymap-test59.c \
@@ -152,7 +158,8 @@ libkeymap_test59_CPPFLAGS = \
 
 libkeymap_test59_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test60_SOURCES = \
 	libkeymap-test60.c \
@@ -165,7 +172,8 @@ libkeymap_test60_CPPFLAGS = \
 
 libkeymap_test60_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test61_SOURCES = \
 	libkeymap-test61.c \
@@ -178,7 +186,8 @@ libkeymap_test61_CPPFLAGS = \
 
 libkeymap_test61_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test62_SOURCES = \
 	libkeymap-test62.c \
@@ -191,7 +200,8 @@ libkeymap_test62_CPPFLAGS = \
 
 libkeymap_test62_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test63_SOURCES = \
 	libkeymap-test63.c \
@@ -204,7 +214,8 @@ libkeymap_test63_CPPFLAGS = \
 
 libkeymap_test63_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test64_SOURCES = \
 	libkeymap-test64.c \
@@ -217,7 +228,8 @@ libkeymap_test64_CPPFLAGS = \
 
 libkeymap_test64_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test65_SOURCES = \
 	libkeymap-test65.c \
@@ -230,7 +242,8 @@ libkeymap_test65_CPPFLAGS = \
 
 libkeymap_test65_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test66_SOURCES = \
 	libkeymap-test66.c \
@@ -243,7 +256,8 @@ libkeymap_test66_CPPFLAGS = \
 
 libkeymap_test66_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 
 libkeymap_test67_SOURCES = \
 	libkeymap-test67.c \
@@ -256,7 +270,22 @@ libkeymap_test67_CPPFLAGS = \
 
 libkeymap_test67_LDADD = \
 	$(LDADD) \
-	@XKBCOMMON_LIBS@
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
+
+libkeymap_test68_SOURCES = \
+	libkeymap-test68.c \
+	$(top_srcdir)/src/xkbsupport.c
+
+libkeymap_test68_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DDATADIR=\"$(realpath $(top_srcdir))/data\" \
+	-I$(top_srcdir)/src
+
+libkeymap_test68_LDADD = \
+	$(LDADD) \
+	@XKBCOMMON_LIBS@ \
+	@XKBREGISTRY_LIBS@
 endif
 
 libkeymap_test44_SOURCES = \

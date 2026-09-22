@@ -384,10 +384,18 @@ AC_ARG_ENABLE([xkb],
 	[USE_XKB=$enableval],[USE_XKB=auto])
 AS_IF([test "x$USE_XKB" = xyes],
 	[PKG_CHECK_MODULES(XKBCOMMON, [xkbcommon],
-			   [USE_XKB=yes],
-			   [AC_MSG_ERROR([xkbcommon library required for xkb support.])])],
+			   [],
+			   [AC_MSG_ERROR([xkbcommon library required for xkb support.])])
+	 PKG_CHECK_MODULES(XKBREGISTRY, [xkbregistry],
+			   [],
+			   [AC_MSG_ERROR([xkbregistry library required for xkb support.])])
+	 USE_XKB=yes],
 	[AS_IF([test "x$USE_XKB" = xauto],
-		[PKG_CHECK_MODULES([XKBCOMMON], [xkbcommon], [USE_XKB=yes], [USE_XKB=no])],
+		[PKG_CHECK_MODULES([XKBCOMMON], [xkbcommon], [USE_XKB=yes], [USE_XKB=no])
+		 AS_IF([test "x$USE_XKB" = xyes],
+		       [PKG_CHECK_MODULES([XKBREGISTRY], [xkbregistry],
+					 [USE_XKB=yes],
+					 [USE_XKB=no])])],
 		[USE_XKB=no])])
 AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
 

@@ -4,6 +4,7 @@
 #include <search.h>
 
 #include <limits.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -12,6 +13,8 @@
 #include "libcommon.h"
 #include "keymap.h"
 #include "xkbsupport.h"
+
+#include <xkbcommon/xkbregistry.h>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -1330,10 +1333,146 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 	return ret;
 }
 
+#define XKEYMAP_MAX_RMLVO_ITEMS 32
+
+enum xkeymap_rmlvo_field {
+	XKEYMAP_RMLVO_OK = 0,
+	XKEYMAP_RMLVO_MODEL,
+	XKEYMAP_RMLVO_LAYOUT,
+	XKEYMAP_RMLVO_VARIANT,
+};
+
+/*
+ * Does the registry list a layout with the given name, optionally restricted
+ * to a specific variant? An empty variant matches the base layout (variant NULL).
+ */
+static bool
+xkeymap_layout_is_known(struct rxkb_context *rxkb, const char *layout, const char *variant)
+{
+	struct rxkb_layout *l;
+
+	if (!layout || !*layout)
+		return true;
+
+	for (l = rxkb_layout_first(rxkb); l; l = rxkb_layout_next(l)) {
+		const char *v;
+
+		if (strcmp(rxkb_layout_get_name(l), layout) != 0)
+			continue;
+
+		v = rxkb_layout_get_variant(l);
+		if (variant == NULL || *variant == '\0') {
+			if (v == NULL)
+				return true;
+		} else {
+			if (v != NULL && strcmp(v, variant) == 0)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+/*
+ * Split `list` on commas into at most `cap` items.  Empty entries are
+ * preserved, so ",foo" yields two items ("" and "foo"): they are valid in an
+ * RMLVO list where the i-th variant applies to the i-th layout and a variant
+ * may be omitted for any one layout.
+ */
+static int
+xkeymap_tokenize(const char *list, char items[][64], size_t cap)
+{
+	const char *p = list, *start = list;
+	size_t len;
+	int count = 0;
+
+	if (list == NULL || *list == '\0')
+		return 0;
+
+	for (p = list; ; p++) {
+		if (*p == '\0' || *p == ',') {
+			len = (size_t) (p - start);
+			if (len >= sizeof(items[0]))
+				len = sizeof(items[0]) - 1;
+			memcpy(items[count], start, len);
+			items[count][len] = '\0';
+			count++;
+			if (count >= (int) cap)
+				break;
+		}
+
+		if (*p == '\0')
+			break;
+		if (*p == ',')
+			start = p + 1;
+	}
+
+	return count;
+}
+
+/*
+ * Validate the model/layout/variant RMLVO triple against the registry for
+ * names->rules.  Layouts and variants are comma lists that are matched
+ * positionally.  Returns XKEYMAP_RMLVO_OK on success, otherwise the first
+ * unrecognized field.
+ */
+static enum xkeymap_rmlvo_field
+xkeymap_rmlvo_check(const struct xkb_rule_names *names)
+{
+	char layout_items[XKEYMAP_MAX_RMLVO_ITEMS][64];
+	char variant_items[XKEYMAP_MAX_RMLVO_ITEMS][64];
+	int n_layout = 0, n_variant = 0, i;
+	struct rxkb_context *rxkb;
+
+	if (names->model == NULL || *names->model == '\0')
+		return XKEYMAP_RMLVO_OK;
+
+	rxkb = rxkb_context_new(RXKB_CONTEXT_NO_FLAGS);
+	if (rxkb == NULL)
+		return XKEYMAP_RMLVO_MODEL;
+
+	if (!rxkb_context_parse(rxkb, names->rules)) {
+		rxkb_context_unref(rxkb);
+		return XKEYMAP_RMLVO_MODEL;
+	}
+
+	struct rxkb_model *m;
+	bool found = false;
+
+	for (m = rxkb_model_first(rxkb); m; m = rxkb_model_next(m)) {
+		if (strcmp(rxkb_model_get_name(m), names->model) == 0) {
+			found = true;
+			break;
+		}
+	}
+
+	if (!found) {
+		rxkb_context_unref(rxkb);
+		return XKEYMAP_RMLVO_MODEL;
+	}
+
+	n_layout = xkeymap_tokenize(names->layout, layout_items, ARRAY_SIZE(layout_items));
+	n_variant = xkeymap_tokenize(names->variant, variant_items, ARRAY_SIZE(variant_items));
+
+	for (i = 0; i < n_layout; i++) {
+		const char *v = (i < n_variant) ? variant_items[i] : "";
+
+		if (!xkeymap_layout_is_known(rxkb, layout_items[i], v)) {
+			rxkb_context_unref(rxkb);
+			return XKEYMAP_RMLVO_LAYOUT;
+		}
+	}
+
+	rxkb_context_unref(rxkb);
+	return XKEYMAP_RMLVO_OK;
+}
+
 int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 {
 	struct xkeymap xkeymap = { 0 };
 	int ret = -1;
+
+	enum xkeymap_rmlvo_field rmlvo;
 
 	struct xkb_rule_names names = {
 		.rules = "evdev",
@@ -1346,6 +1485,25 @@ int convert_xkb_keymap(struct lk_ctx *ctx, struct xkeymap_params *params)
 	xkeymap.ctx = ctx;
 
 	lk_set_keywords(ctx, LK_KEYWORD_ALTISMETA | LK_KEYWORD_STRASUSUAL);
+
+	/*
+	 * Sanity-check the RMLVO triple before compiling the keymap.  Bogus
+	 * values used to slip through the evdev rules silently because every
+	 * model maps to the same keycodes component and layout/variant are
+	 * resolved through wildcards, so only the layout/variant compile step
+	 * rejected them.  The registry gives us a precise, up-front check.
+	 */
+	rmlvo = xkeymap_rmlvo_check(&names);
+	if (rmlvo == XKEYMAP_RMLVO_MODEL) {
+		XKEYMAP_WARNING(0, _("unrecognized xkb model `%s'"),
+				params->model);
+		goto end;
+	}
+	if (rmlvo == XKEYMAP_RMLVO_LAYOUT) {
+		XKEYMAP_WARNING(0, _("unrecognized xkb layout `%s'"),
+				params->layout ? params->layout : "");
+		goto end;
+	}
 
 	xkeymap.xkb = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
 	if (!xkeymap.xkb) {
