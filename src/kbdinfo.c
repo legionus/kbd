@@ -26,7 +26,7 @@ usage(int rc, const struct kbd_help *options)
 			program_invocation_short_name);
 	fprintf(stderr, "\n");
 	fprintf(stderr, _(
-				"The utility allows to read and check various parameters\n"
+				"The utility allows reading and checking various parameters\n"
 				"of the keyboard and virtual console.\n"));
 
 	print_options(options);
