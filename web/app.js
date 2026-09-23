@@ -128,16 +128,21 @@ const state = {
   heldModifiers: new Map(),
   lockedModifiers: new Map(),
   lockActions: [],
+  currentModelId: null,
+  currentKeymapId: null,
+  suspendUrlUpdates: true,
 };
 
 const elements = {
   modelSelect: document.querySelector("#model-select"),
   keymapSelect: document.querySelector("#keymap-select"),
+  permalink: document.querySelector("#permalink"),
   lockSequences: document.querySelector("#lock-sequences"),
   keyboard: document.querySelector("#keyboard"),
 };
 
 async function main() {
+  const requestedState = readUrlState();
   const [catalog, keymapCatalog] = await Promise.all([
     fetchJson(catalogUrl),
     fetchJson(keymapCatalogUrl),
@@ -162,10 +167,14 @@ async function main() {
 
   elements.modelSelect.addEventListener("change", () => loadModel(elements.modelSelect.value));
   elements.keymapSelect.addEventListener("change", () => loadKeymap(elements.keymapSelect.value));
+  elements.permalink.addEventListener("click", copyPermalink);
   await Promise.all([
-    loadKeymap(defaultKeymapId()),
-    loadModel(state.catalog.models[0].id),
+    loadKeymap(validKeymapId(requestedState.keymap) ?? defaultKeymapId()),
+    loadModel(validModelId(requestedState.model) ?? state.catalog.models[0].id),
   ]);
+  applyUrlModifiers(requestedState);
+  state.suspendUrlUpdates = false;
+  updatePermalink();
 }
 
 function modelGroup(model) {
@@ -200,6 +209,7 @@ async function loadModel(modelId) {
   }
 
   elements.modelSelect.value = modelId;
+  state.currentModelId = modelId;
 
   const base = new URL(catalogUrl, window.location.href);
   const [model, svg] = await Promise.all([
@@ -208,6 +218,7 @@ async function loadModel(modelId) {
   ]);
 
   state.keys = new Map(model.keys.map((key) => [key.id, key]));
+  pruneHeldModifiers();
   elements.keyboard.innerHTML = svg;
   elements.keyboard.querySelectorAll("g[data-key-id]").forEach((node) => {
     node.addEventListener("click", () => pressKey(node.dataset.keyId));
@@ -215,6 +226,7 @@ async function loadModel(modelId) {
   updateLockActions();
   renderKeymapLegends();
   renderHeldModifiers();
+  updatePermalink();
 }
 
 async function loadKeymap(keymapId) {
@@ -228,11 +240,13 @@ async function loadKeymap(keymapId) {
   state.keymap = keymap;
   state.keymapByKeycode = new Map(keymap.keys.map((key) => [key.kbd_keycode, key]));
   elements.keymapSelect.value = keymapId;
+  state.currentKeymapId = keymapId;
   clearHeldModifiers();
   clearSelection();
   updateLockActions();
   renderKeymapLegends();
   renderHeldModifiers();
+  updatePermalink();
 }
 
 function defaultKeymapId() {
@@ -295,6 +309,7 @@ function toggleHeldModifier(key, modifier) {
   }
   renderHeldModifiers();
   renderKeymapLegends();
+  updatePermalink();
 }
 
 function toggleLockedModifier(modifier) {
@@ -312,6 +327,7 @@ function activateLockAction(action) {
   renderHeldModifiers();
   renderKeymapLegends();
   renderLockSequences();
+  updatePermalink();
 }
 
 function updateLockActions() {
@@ -402,6 +418,143 @@ function renderHeldModifiers() {
   for (const keyId of state.heldModifiers.keys()) {
     const node = elements.keyboard.querySelector(`g[data-key-id="${CSS.escape(keyId)}"]`);
     node?.classList.add("held");
+  }
+}
+
+function readUrlState() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    model: nonEmptyParam(params, "model"),
+    keymap: nonEmptyParam(params, "keymap"),
+    held: listParam(params, "held"),
+    locked: listParam(params, "locked"),
+  };
+}
+
+function nonEmptyParam(params, name) {
+  const value = params.get(name);
+  return value && value.trim() ? value.trim() : null;
+}
+
+function listParam(params, name) {
+  const value = params.get(name);
+  if (!value) {
+    return [];
+  }
+  return value.split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+function validModelId(modelId) {
+  if (!modelId) {
+    return null;
+  }
+  return state.catalog.models.some((model) => model.id === modelId) ? modelId : null;
+}
+
+function validKeymapId(keymapId) {
+  if (!keymapId) {
+    return null;
+  }
+  return state.keymapCatalog.keymaps.some((keymap) => keymap.id === keymapId) ? keymapId : null;
+}
+
+function applyUrlModifiers(requestedState) {
+  clearHeldModifiers();
+
+  for (const keyId of requestedState.held) {
+    const key = state.keys.get(keyId);
+    const modifier = key ? modifierForKey(key) : null;
+    if (modifier) {
+      state.heldModifiers.set(key.id, modifier);
+    }
+  }
+
+  for (const name of requestedState.locked) {
+    const modifier = modifierByNameOrWeight(name);
+    if (modifier) {
+      state.lockedModifiers.set(modifierName(modifier), modifier);
+    }
+  }
+
+  renderHeldModifiers();
+  renderKeymapLegends();
+  renderLockSequences();
+}
+
+function modifierForKey(key) {
+  if (key.kbd_keycode === null) {
+    return null;
+  }
+
+  const keymapKey = state.keymapByKeycode.get(key.kbd_keycode);
+  if (!keymapKey) {
+    return null;
+  }
+
+  const baseEntry = keymapKey.entries.find((entry) => entry.keymap === 0);
+  return modifierWeights.get(baseEntry?.symbol) ?? modifierWeights.get(legendForKey(key)?.symbol) ?? null;
+}
+
+function modifierByNameOrWeight(value) {
+  const named = modifierWeights.get(value);
+  if (named) {
+    return named;
+  }
+
+  const numeric = Number(value);
+  return Number.isFinite(numeric) && [...modifierWeights.values()].includes(numeric) ? numeric : null;
+}
+
+function pruneHeldModifiers() {
+  for (const keyId of state.heldModifiers.keys()) {
+    if (!state.keys.has(keyId)) {
+      state.heldModifiers.delete(keyId);
+    }
+  }
+}
+
+function updatePermalink() {
+  const url = new URL(window.location.href);
+  setUrlParam(url, "model", state.currentModelId);
+  setUrlParam(url, "keymap", state.currentKeymapId);
+  setUrlParam(url, "held", [...state.heldModifiers.keys()].sort().join(","));
+  setUrlParam(url, "locked", [...state.lockedModifiers.keys()].sort().join(","));
+  elements.permalink.href = url.href;
+
+  if (state.suspendUrlUpdates) {
+    return;
+  }
+
+  const next = `${url.pathname}${url.search}${url.hash}`;
+  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (next !== current) {
+    window.history.replaceState(null, "", url);
+  }
+}
+
+function setUrlParam(url, name, value) {
+  if (value) {
+    url.searchParams.set(name, value);
+  } else {
+    url.searchParams.delete(name);
+  }
+}
+
+async function copyPermalink(event) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    return;
+  }
+
+  event.preventDefault();
+  const href = elements.permalink.href;
+  try {
+    await navigator.clipboard.writeText(href);
+    elements.permalink.textContent = "Copied";
+    window.setTimeout(() => {
+      elements.permalink.textContent = "Permalink";
+    }, 1200);
+  } catch (error) {
+    window.prompt("Copy permalink", href);
   }
 }
 
