@@ -31,6 +31,7 @@
 #include <signal.h>
 #include <sys/vt.h>
 #include <sys/ioctl.h>
+#include <sys/sysmacros.h>
 #include <sys/wait.h>
 
 #include "vlock.h"
@@ -170,6 +171,21 @@ int init_vt(const char *tty)
 
 	if (o_lock_all) {
 		struct vt_mode vtm = ovtm;
+		unsigned int dev;
+
+		if (ioctl(vfd, TIOCGDEV, &dev) < 0) {
+			kbd_warning(errno, "ioctl TIOCGDEV");
+			fprintf(stderr,
+			        _("The entire console display cannot be locked.\n"));
+			return 0;
+		}
+
+		if (!minor(dev) || minor(dev) > MAX_NR_CONSOLES) {
+			kbd_warning(0, "invalid virtual console number: %u", minor(dev));
+			fprintf(stderr,
+			        _("The entire console display cannot be locked.\n"));
+			return 0;
+		}
 
 		vtm.mode   = VT_PROCESS; /* Process controls switching. */
 		vtm.relsig = SIGUSR1;    /* Signal to raise on release request, handled by release_vt(). */
@@ -180,12 +196,34 @@ int init_vt(const char *tty)
 			kbd_warning(errno, "ioctl VT_SETMODE");
 			return 0;
 		}
+
+		/*
+		 * Ensure our VT is in the foreground. If it is already active,
+		 * the kernel does nothing.
+		 */
+		if (ioctl(vfd, VT_ACTIVATE, minor(dev)) < 0) {
+			kbd_warning(errno, "ioctl VT_ACTIVATE");
+			goto activate_fail;
+		}
+
+		while (ioctl(vfd, VT_WAITACTIVE, minor(dev)) < 0) {
+			if (errno != EINTR) {
+				kbd_warning(errno, "ioctl VT_WAITACTIVE");
+				goto activate_fail;
+			}
+		}
 	}
 
 	if (is_vt)
 		init_screen();
 
 	return 1;
+
+activate_fail:
+	ioctl(vfd, VT_SETMODE, &ovtm);
+	fprintf(stderr,
+	        _("The entire console display cannot be locked.\n"));
+	return 0;
 }
 
 void restore_vt(void)
