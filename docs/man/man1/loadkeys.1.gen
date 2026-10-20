@@ -308,18 +308,35 @@ The following features are supported:
 .TP
 .B KT_CSI
 Support for the modifier-aware CSI keysym type introduced in Linux kernel 7.1.
-When available, this allows function keys (such as
+When available, this allows editing/navigation keys (such as
+.BR Csi_Insert ,
+.BR Csi_Home ,
+.BR Csi_Delete )
+and function keys
+.BR Csi_F6
+through
+.BR Csi_F12
+to produce standard escape sequences directly
+without consuming slots in the kernel's limited function string table.
+These keysyms are fully compatible with standard Linux console terminfo.
+.TP
+.B KT_CSI_TERMINFO
+Enables modifier-aware CSI function keys
 .BR Csi_F1
 through
-.BR Csi_F5 )
-and editing/navigation keys to produce standard escape sequences directly
-without consuming slots in the kernel's limited function string table.
+.BR Csi_F5 .
+Standard Linux console terminfo (\fBTERM=linux\fR) expects legacy sequences
+(\fB\e[[A\fR through \fB\e[[E\fR) for F1\[en]F5 rather than CSI sequences
+(\fB\e[11~\fR through \fB\e[15~\fR), so this feature is disabled by default
+and should only be enabled when an updated terminfo entry is installed (for example,
+by \fBkbd-terminfo-fixup\fR).
+Enabling \fBKT_CSI_TERMINFO\fR automatically enables \fBKT_CSI\fR as well.
 .LP
 When neither command-line options nor the
 .B LOADKEYS_FEATURES
 environment variable specify the status of a feature,
 .B loadkeys
-probes the target console automatically.
+probes the target console automatically for kernel capabilities.
 .SH ENVIRONMENT
 .TP
 .B LOADKEYS_FEATURES

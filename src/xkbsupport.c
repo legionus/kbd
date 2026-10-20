@@ -351,11 +351,6 @@ static int xkeymap_get_code_from_csi_keysym(struct xkeymap *xkeymap, xkb_keysym_
 		{ XKB_KEY_Next,      "Csi_PgDn"   },
 		{ XKB_KEY_Page_Up,   "Csi_PgUp"   },
 		{ XKB_KEY_Page_Down, "Csi_PgDn"   },
-		{ XKB_KEY_F1,        "Csi_F1"     },
-		{ XKB_KEY_F2,        "Csi_F2"     },
-		{ XKB_KEY_F3,        "Csi_F3"     },
-		{ XKB_KEY_F4,        "Csi_F4"     },
-		{ XKB_KEY_F5,        "Csi_F5"     },
 		{ XKB_KEY_F6,        "Csi_F6"     },
 		{ XKB_KEY_F7,        "Csi_F7"     },
 		{ XKB_KEY_F8,        "Csi_F8"     },
@@ -372,9 +367,23 @@ static int xkeymap_get_code_from_csi_keysym(struct xkeymap *xkeymap, xkb_keysym_
 		{ XKB_KEY_F19,       "Csi_F19"    },
 		{ XKB_KEY_F20,       "Csi_F20"    },
 	};
+	static const struct builtin_keysym_map csi_terminfo_map[] = {
+		{ XKB_KEY_F1, "Csi_F1" },
+		{ XKB_KEY_F2, "Csi_F2" },
+		{ XKB_KEY_F3, "Csi_F3" },
+		{ XKB_KEY_F4, "Csi_F4" },
+		{ XKB_KEY_F5, "Csi_F5" },
+	};
 
 	if (lk_get_feature_status(xkeymap->ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_SUPPORTED)
 		return -1;
+
+	if (lk_get_feature_status(xkeymap->ctx, LK_FEATURE_KT_CSI_TERMINFO) == LK_FEATURE_SUPPORTED) {
+		int ret = xkeymap_lookup_semantic_keysym(xkeymap, symbol, csi_terminfo_map,
+							 ARRAY_SIZE(csi_terminfo_map));
+		if (ret >= 0)
+			return ret;
+	}
 
 	return xkeymap_lookup_semantic_keysym(xkeymap, symbol, csi_map,
 					      ARRAY_SIZE(csi_map));

@@ -11,6 +11,7 @@
 
 static const char *const feature_names[LK_FEATURE_COUNT] = {
 	[LK_FEATURE_KT_CSI] = "KT_CSI",
+	[LK_FEATURE_KT_CSI_TERMINFO] = "KT_CSI_TERMINFO",
 };
 
 static int
@@ -95,6 +96,9 @@ int lk_check_features(struct lk_ctx *ctx, int console_fd)
 			case LK_FEATURE_KT_CSI:
 				ctx->features[feature] = check_kt_csi(ctx, console_fd);
 				break;
+			case LK_FEATURE_KT_CSI_TERMINFO:
+				ctx->features[feature] = LK_FEATURE_UNSUPPORTED;
+				break;
 			case LK_FEATURE_COUNT:
 				break;
 		}
@@ -128,6 +132,10 @@ int lk_set_feature_status(struct lk_ctx *ctx, enum lk_feature feature, enum lk_f
 		case LK_FEATURE_UNSUPPORTED:
 		case LK_FEATURE_UNAVAILABLE:
 			ctx->features[feature] = status;
+			if (feature == LK_FEATURE_KT_CSI_TERMINFO && status == LK_FEATURE_SUPPORTED)
+				ctx->features[LK_FEATURE_KT_CSI] = LK_FEATURE_SUPPORTED;
+			else if (feature == LK_FEATURE_KT_CSI && status != LK_FEATURE_SUPPORTED)
+				ctx->features[LK_FEATURE_KT_CSI_TERMINFO] = status;
 			return 0;
 		default:
 			errno = EINVAL;

@@ -62,6 +62,10 @@ The \fIKT_CSI\fP feature is available when the target Linux console accepts
 the modifier-aware CSI keysym type. This is probed on the target console, not
 inferred from the kernel release string, so kernels with backported support
 are handled correctly.
+.LP
+The \fIKT_CSI_TERMINFO\fP feature is used to enable CSI function keys F1\[en]F5,
+which emit sequences that require an updated \fBterminfo\fP description for the
+Linux virtual console.
 .SH "CHARSET DEFINITIONS"
 A character set definition line is of the form:
 .LP

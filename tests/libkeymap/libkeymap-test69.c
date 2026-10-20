@@ -128,11 +128,14 @@ int main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	ops.ioctl_fn = fake_ioctl;
 	lk_set_ops(ctx, &ops);
 
-	if (lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_UNCHECKED)
+	if (lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_UNCHECKED ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI_TERMINFO) != LK_FEATURE_UNCHECKED)
 		kbd_error(EXIT_FAILURE, 0, "feature was checked before probing");
 	if (lk_feature_from_name("KT_CSI") != LK_FEATURE_KT_CSI ||
+	    lk_feature_from_name("KT_CSI_TERMINFO") != LK_FEATURE_KT_CSI_TERMINFO ||
 	    lk_feature_from_name("unknown") != LK_FEATURE_COUNT ||
-	    !lk_feature_name(LK_FEATURE_KT_CSI))
+	    !lk_feature_name(LK_FEATURE_KT_CSI) ||
+	    !lk_feature_name(LK_FEATURE_KT_CSI_TERMINFO))
 		kbd_error(EXIT_FAILURE, 0, "feature registry lookup failed");
 
 	/* Test argument validation of lk_set_feature_status */
@@ -163,7 +166,24 @@ int main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	    calls_probe != 0)
 		kbd_error(EXIT_FAILURE, 0, "probe overwrote explicit unsupported status");
 
+	/* Test feature implications */
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI_TERMINFO, LK_FEATURE_SUPPORTED) != 0 ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_SUPPORTED)
+		kbd_error(EXIT_FAILURE, 0, "enabling KT_CSI_TERMINFO did not imply KT_CSI");
+
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI, LK_FEATURE_UNSUPPORTED) != 0 ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI_TERMINFO) != LK_FEATURE_UNSUPPORTED)
+		kbd_error(EXIT_FAILURE, 0, "disabling KT_CSI did not disable KT_CSI_TERMINFO");
+
+	lk_set_feature_status(ctx, LK_FEATURE_KT_CSI, LK_FEATURE_SUPPORTED);
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI_TERMINFO, LK_FEATURE_UNSUPPORTED) != 0 ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_SUPPORTED ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI_TERMINFO) != LK_FEATURE_UNSUPPORTED)
+		kbd_error(EXIT_FAILURE, 0, "disabling KT_CSI_TERMINFO affected KT_CSI");
+
 	check_result(ctx, PROBE_SUPPORTED, LK_FEATURE_SUPPORTED, 0);
+	if (lk_get_feature_status(ctx, LK_FEATURE_KT_CSI_TERMINFO) != LK_FEATURE_UNSUPPORTED)
+		kbd_error(EXIT_FAILURE, 0, "KT_CSI_TERMINFO was enabled by default");
 	check_result(ctx, PROBE_UNSUPPORTED, LK_FEATURE_UNSUPPORTED, 0);
 	check_result(ctx, PROBE_UNAVAILABLE, LK_FEATURE_UNAVAILABLE, -1);
 

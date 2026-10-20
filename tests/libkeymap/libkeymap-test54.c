@@ -199,6 +199,7 @@ test_kt_csi_feature_selects_csi_symbols(void)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us layout without KT_CSI");
 
 	expect_key_symbol(keymap.ctx, 0, 59, "F1");
+	expect_key_symbol(keymap.ctx, 0, 64, "F6");
 	expect_key_symbol(keymap.ctx, 0, 111, "Remove");
 	free_test_keymap(&keymap);
 
@@ -208,13 +209,27 @@ test_kt_csi_feature_selects_csi_symbols(void)
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us layout with KT_CSI");
 
+	expect_key_symbol(keymap.ctx, 0, 59, "F1");
+	expect_key_symbol(keymap.ctx, 0, 64, "Csi_F6");
+	expect_key_symbol(keymap.ctx, 0, 111, "Csi_Delete");
+	free_test_keymap(&keymap);
+
+	init_test_keymap(&keymap, "xkb-us-csi-terminfo");
+	keymap.ctx->features[LK_FEATURE_KT_CSI] = LK_FEATURE_SUPPORTED;
+	keymap.ctx->features[LK_FEATURE_KT_CSI_TERMINFO] = LK_FEATURE_SUPPORTED;
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us layout with KT_CSI_TERMINFO");
+
 	expect_key_symbol(keymap.ctx, 0, 59, "Csi_F1");
+	expect_key_symbol(keymap.ctx, 0, 64, "Csi_F6");
 	expect_key_symbol(keymap.ctx, 0, 111, "Csi_Delete");
 	free_test_keymap(&keymap);
 
 	params.layout = "us,ru";
 	init_test_keymap(&keymap, "xkb-us-ru-csi");
 	keymap.ctx->features[LK_FEATURE_KT_CSI] = LK_FEATURE_SUPPORTED;
+	keymap.ctx->features[LK_FEATURE_KT_CSI_TERMINFO] = LK_FEATURE_SUPPORTED;
 
 	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB us,ru layout with KT_CSI");
@@ -725,8 +740,7 @@ test_modifier_mask_lookup_across_layouts(void)
 	free_test_keymap(&keymap);
 }
 
-int
-main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
+int main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_basic_us_layout();
 	test_kt_csi_feature_selects_csi_symbols();

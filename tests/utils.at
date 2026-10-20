@@ -106,4 +106,32 @@ AT_CHECK([$abs_top_builddir/src/loadkeys --feature=UNKNOWN --parse /dev/null], [
 AT_CHECK([grep -q "Unknown keymap feature" stderr])
 AT_CHECK([LOADKEYS_FEATURES="UNKNOWN" $abs_top_builddir/src/loadkeys --parse /dev/null], [1], [ignore], [stderr])
 AT_CHECK([grep -q "Unknown keymap feature" stderr])
+
+AT_CHECK([LOADKEYS_INCLUDE_PATH="$abs_top_srcdir/data/keymaps/i386/include" $abs_top_builddir/src/loadkeys -q -u --tkeymap "$abs_top_srcdir/data/keymaps/i386/include/linux-keys-bare.inc"], [0], [stdout])
+AT_CHECK([grep -q "keycode  59 = F1" stdout])
+AT_CHECK([grep -q "keycode  64 = F6" stdout])
+
+AT_CHECK([LOADKEYS_INCLUDE_PATH="$abs_top_srcdir/data/keymaps/i386/include" $abs_top_builddir/src/loadkeys -q -u --feature=KT_CSI --tkeymap "$abs_top_srcdir/data/keymaps/i386/include/linux-keys-bare.inc"], [0], [stdout])
+AT_CHECK([grep -q "keycode  59 = F1" stdout])
+AT_CHECK([grep -q "keycode  64 = Csi_F6" stdout])
+AT_CHECK([grep -q "keycode 111 = Csi_Delete" stdout])
+
+AT_CHECK([LOADKEYS_INCLUDE_PATH="$abs_top_srcdir/data/keymaps/i386/include" $abs_top_builddir/src/loadkeys -q -u --feature=KT_CSI --feature=KT_CSI_TERMINFO --tkeymap "$abs_top_srcdir/data/keymaps/i386/include/linux-keys-bare.inc"], [0], [stdout])
+AT_CHECK([grep -q "keycode  59 = Csi_F1" stdout])
+AT_CHECK([grep -q "keycode  64 = Csi_F6" stdout])
+AT_CHECK([grep -q "keycode 111 = Csi_Delete" stdout])
+
+AT_CHECK([LOADKEYS_INCLUDE_PATH="$abs_top_srcdir/data/keymaps/i386/include" $abs_top_builddir/src/loadkeys -q -u --feature=KT_CSI_TERMINFO --tkeymap "$abs_top_srcdir/data/keymaps/i386/include/linux-keys-bare.inc"], [0], [stdout])
+AT_CHECK([grep -q "keycode  59 = Csi_F1" stdout])
+AT_CHECK([grep -q "keycode  64 = Csi_F6" stdout])
+AT_CHECK([grep -q "keycode 111 = Csi_Delete" stdout])
+
+AT_CHECK([LOADKEYS_INCLUDE_PATH="$abs_top_srcdir/data/keymaps/i386/include" LOADKEYS_FEATURES="KT_CSI_TERMINFO" $abs_top_builddir/src/loadkeys -q -u --tkeymap "$abs_top_srcdir/data/keymaps/i386/include/linux-keys-bare.inc"], [0], [stdout])
+AT_CHECK([grep -q "keycode  59 = Csi_F1" stdout])
+AT_CHECK([grep -q "keycode  64 = Csi_F6" stdout])
+AT_CHECK([grep -q "keycode 111 = Csi_Delete" stdout])
+
+AT_CHECK([LOADKEYS_INCLUDE_PATH="$abs_top_srcdir/data/keymaps/i386/include" $abs_top_builddir/src/loadkeys -q -u --feature=KT_CSI_TERMINFO --no-feature=KT_CSI --tkeymap "$abs_top_srcdir/data/keymaps/i386/include/linux-keys-bare.inc"], [0], [stdout])
+AT_CHECK([grep -q "keycode  59 = F1" stdout])
+AT_CHECK([grep -q "keycode  64 = F6" stdout])
 AT_CLEANUP

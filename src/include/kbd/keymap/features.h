@@ -13,6 +13,7 @@ struct lk_ctx;
 /** Features known to libkeymap. */
 enum lk_feature {
 	LK_FEATURE_KT_CSI,
+	LK_FEATURE_KT_CSI_TERMINFO,
 	LK_FEATURE_COUNT,
 };
 
