@@ -26,10 +26,10 @@ xkeymap_warnings_suppressed(void)
 	return env && env[0] != '\0' && strcmp(env, "0") != 0;
 }
 
-#define XKEYMAP_WARNING(...) \
-	do { \
+#define XKEYMAP_WARNING(...)                        \
+	do {                                        \
 		if (!xkeymap_warnings_suppressed()) \
-			kbd_warning(__VA_ARGS__); \
+			kbd_warning(__VA_ARGS__);   \
 	} while (0)
 
 /*
@@ -104,8 +104,8 @@ struct compose_candidate {
 static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod);
 static unsigned int xkb_mask_weight(xkb_mod_mask_t mask);
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
-		xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
-		xkb_keysym_t *symbol);
+			      xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
+			      xkb_keysym_t *symbol);
 
 struct xkeymap_modifier_rule {
 	enum xkeymap_modifier_mask mask;
@@ -115,11 +115,11 @@ struct xkeymap_modifier_rule {
 };
 
 static const struct xkeymap_modifier_rule xkeymap_modifier_rules[] = {
-	{ XKEYMAP_MASK_SHIFT,		"Shift",		0,				(1u << KG_SHIFT) },
-	{ XKEYMAP_MASK_CONTROL,		"Control",		0,				(1u << KG_CTRL) },
-	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_L,			(1u << KG_ALT) },
-	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_R,			(1u << KG_ALT) },
-	{ XKEYMAP_MASK_LEVEL3,		NULL,			XKB_KEY_ISO_Level3_Shift,	(1u << KG_ALTGR) },
+	{ XKEYMAP_MASK_SHIFT,   "Shift",   0,                        (1u << KG_SHIFT) },
+	{ XKEYMAP_MASK_CONTROL, "Control", 0,                        (1u << KG_CTRL)  },
+	{ XKEYMAP_MASK_ALT,     NULL,      XKB_KEY_Alt_L,            (1u << KG_ALT)   },
+	{ XKEYMAP_MASK_ALT,     NULL,      XKB_KEY_Alt_R,            (1u << KG_ALT)   },
+	{ XKEYMAP_MASK_LEVEL3,  NULL,      XKB_KEY_ISO_Level3_Shift, (1u << KG_ALTGR) },
 };
 
 static xkb_mod_mask_t xkeymap_mod_mask_by_name(struct xkb_keymap *keymap, const char *name)
@@ -280,8 +280,8 @@ static int parse_hexcode(struct lk_ctx *ctx, const char *symname)
 	}
 
 	if (ret >= 5 && symname[0] == 'U' &&
-	   isxdigit(symname[1]) && isxdigit(symname[2]) &&
-	   isxdigit(symname[3]) && isxdigit(symname[4])) {
+	    isxdigit(symname[1]) && isxdigit(symname[2]) &&
+	    isxdigit(symname[3]) && isxdigit(symname[4])) {
 		errno = 0;
 		value = (int) strtol(symname + 1, NULL, 16);
 		if (errno == ERANGE) {
@@ -343,34 +343,34 @@ static int xkeymap_lookup_semantic_keysym(struct xkeymap *xkeymap, xkb_keysym_t 
 static int xkeymap_get_code_from_csi_keysym(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 {
 	static const struct builtin_keysym_map csi_map[] = {
-		{ XKB_KEY_Home,		"Csi_Home" },
-		{ XKB_KEY_Insert,	"Csi_Insert" },
-		{ XKB_KEY_Delete,	"Csi_Delete" },
-		{ XKB_KEY_End,		"Csi_End" },
-		{ XKB_KEY_Prior,	"Csi_PgUp" },
-		{ XKB_KEY_Next,		"Csi_PgDn" },
-		{ XKB_KEY_Page_Up,	"Csi_PgUp" },
-		{ XKB_KEY_Page_Down,	"Csi_PgDn" },
-		{ XKB_KEY_F1,		"Csi_F1" },
-		{ XKB_KEY_F2,		"Csi_F2" },
-		{ XKB_KEY_F3,		"Csi_F3" },
-		{ XKB_KEY_F4,		"Csi_F4" },
-		{ XKB_KEY_F5,		"Csi_F5" },
-		{ XKB_KEY_F6,		"Csi_F6" },
-		{ XKB_KEY_F7,		"Csi_F7" },
-		{ XKB_KEY_F8,		"Csi_F8" },
-		{ XKB_KEY_F9,		"Csi_F9" },
-		{ XKB_KEY_F10,		"Csi_F10" },
-		{ XKB_KEY_F11,		"Csi_F11" },
-		{ XKB_KEY_F12,		"Csi_F12" },
-		{ XKB_KEY_F13,		"Csi_F13" },
-		{ XKB_KEY_F14,		"Csi_F14" },
-		{ XKB_KEY_F15,		"Csi_F15" },
-		{ XKB_KEY_F16,		"Csi_F16" },
-		{ XKB_KEY_F17,		"Csi_F17" },
-		{ XKB_KEY_F18,		"Csi_F18" },
-		{ XKB_KEY_F19,		"Csi_F19" },
-		{ XKB_KEY_F20,		"Csi_F20" },
+		{ XKB_KEY_Home,      "Csi_Home"   },
+		{ XKB_KEY_Insert,    "Csi_Insert" },
+		{ XKB_KEY_Delete,    "Csi_Delete" },
+		{ XKB_KEY_End,       "Csi_End"    },
+		{ XKB_KEY_Prior,     "Csi_PgUp"   },
+		{ XKB_KEY_Next,      "Csi_PgDn"   },
+		{ XKB_KEY_Page_Up,   "Csi_PgUp"   },
+		{ XKB_KEY_Page_Down, "Csi_PgDn"   },
+		{ XKB_KEY_F1,        "Csi_F1"     },
+		{ XKB_KEY_F2,        "Csi_F2"     },
+		{ XKB_KEY_F3,        "Csi_F3"     },
+		{ XKB_KEY_F4,        "Csi_F4"     },
+		{ XKB_KEY_F5,        "Csi_F5"     },
+		{ XKB_KEY_F6,        "Csi_F6"     },
+		{ XKB_KEY_F7,        "Csi_F7"     },
+		{ XKB_KEY_F8,        "Csi_F8"     },
+		{ XKB_KEY_F9,        "Csi_F9"     },
+		{ XKB_KEY_F10,       "Csi_F10"    },
+		{ XKB_KEY_F11,       "Csi_F11"    },
+		{ XKB_KEY_F12,       "Csi_F12"    },
+		{ XKB_KEY_F13,       "Csi_F13"    },
+		{ XKB_KEY_F14,       "Csi_F14"    },
+		{ XKB_KEY_F15,       "Csi_F15"    },
+		{ XKB_KEY_F16,       "Csi_F16"    },
+		{ XKB_KEY_F17,       "Csi_F17"    },
+		{ XKB_KEY_F18,       "Csi_F18"    },
+		{ XKB_KEY_F19,       "Csi_F19"    },
+		{ XKB_KEY_F20,       "Csi_F20"    },
 	};
 
 	if (lk_get_feature_status(xkeymap->ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_SUPPORTED)
@@ -390,59 +390,59 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 		{ XKB_KEY_dead_ogonek,      "dead_kogonek"      },
 	};
 	static const struct builtin_keysym_map semantic_modifier_map[] = {
-		{ XKB_KEY_Shift_L,		"Shift" },
-		{ XKB_KEY_Shift_R,		"Shift" },
-		{ XKB_KEY_Control_L,		"Control" },
-		{ XKB_KEY_Control_R,		"Control" },
-		{ XKB_KEY_Alt_L,		"Alt" },
-		{ XKB_KEY_Alt_R,		"Alt" },
-		{ XKB_KEY_Meta_L,		"Alt" },
-		{ XKB_KEY_Meta_R,		"Alt" },
-		{ XKB_KEY_Super_L,		"Alt" },
-		{ XKB_KEY_Super_R,		"Alt" },
-		{ XKB_KEY_Hyper_L,		"Alt" },
-		{ XKB_KEY_Hyper_R,		"Alt" },
-		{ XKB_KEY_Mode_switch,		"CtrlR" },
-		{ XKB_KEY_Multi_key,		"Compose" },
-		{ XKB_KEY_Sys_Req,		"Last_Console" },
-		{ XKB_KEY_Print,		"Control_backslash" },
-		{ XKB_KEY_Delete,		"Remove" },
-		{ XKB_KEY_ISO_Level2_Latch,	"Shift" },
-		{ XKB_KEY_ISO_Lock,		"Caps_Lock" },
-		{ XKB_KEY_ISO_Level3_Shift,	"AltGr" },
-		{ XKB_KEY_ISO_Level3_Latch,	"AltGr" },
-		{ XKB_KEY_ISO_Level3_Lock,	"AltGr_Lock" },
-		{ XKB_KEY_ISO_Level5_Shift,	"AltGr" },
-		{ XKB_KEY_ISO_Level5_Latch,	"AltGr" },
-		{ XKB_KEY_ISO_Level5_Lock,	"AltGr_Lock" },
-		{ XKB_KEY_ISO_Group_Latch,	"ShiftL" },
-		{ XKB_KEY_ISO_Group_Lock,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_First_Group,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_First_Group_Lock,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_Last_Group,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_Last_Group_Lock,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_Next_Group,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_Next_Group_Lock,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_Prev_Group,	"ShiftL_Lock" },
-		{ XKB_KEY_ISO_Prev_Group_Lock,	"ShiftL_Lock" },
+		{ XKB_KEY_Shift_L,              "Shift"             },
+		{ XKB_KEY_Shift_R,              "Shift"             },
+		{ XKB_KEY_Control_L,            "Control"           },
+		{ XKB_KEY_Control_R,            "Control"           },
+		{ XKB_KEY_Alt_L,                "Alt"               },
+		{ XKB_KEY_Alt_R,                "Alt"               },
+		{ XKB_KEY_Meta_L,               "Alt"               },
+		{ XKB_KEY_Meta_R,               "Alt"               },
+		{ XKB_KEY_Super_L,              "Alt"               },
+		{ XKB_KEY_Super_R,              "Alt"               },
+		{ XKB_KEY_Hyper_L,              "Alt"               },
+		{ XKB_KEY_Hyper_R,              "Alt"               },
+		{ XKB_KEY_Mode_switch,          "CtrlR"             },
+		{ XKB_KEY_Multi_key,            "Compose"           },
+		{ XKB_KEY_Sys_Req,              "Last_Console"      },
+		{ XKB_KEY_Print,                "Control_backslash" },
+		{ XKB_KEY_Delete,               "Remove"            },
+		{ XKB_KEY_ISO_Level2_Latch,     "Shift"             },
+		{ XKB_KEY_ISO_Lock,             "Caps_Lock"         },
+		{ XKB_KEY_ISO_Level3_Shift,     "AltGr"             },
+		{ XKB_KEY_ISO_Level3_Latch,     "AltGr"             },
+		{ XKB_KEY_ISO_Level3_Lock,      "AltGr_Lock"        },
+		{ XKB_KEY_ISO_Level5_Shift,     "AltGr"             },
+		{ XKB_KEY_ISO_Level5_Latch,     "AltGr"             },
+		{ XKB_KEY_ISO_Level5_Lock,      "AltGr_Lock"        },
+		{ XKB_KEY_ISO_Group_Latch,      "ShiftL"            },
+		{ XKB_KEY_ISO_Group_Lock,       "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_First_Group,      "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_First_Group_Lock, "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_Last_Group,       "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_Last_Group_Lock,  "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_Next_Group,       "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_Next_Group_Lock,  "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_Prev_Group,       "ShiftL_Lock"       },
+		{ XKB_KEY_ISO_Prev_Group_Lock,  "ShiftL_Lock"       },
 	};
 	static const struct builtin_keysym_map semantic_approximation_map[] = {
-		{ XKB_KEY_ISO_Left_Tab,		"Meta_Tab" },
-		{ XKB_KEY_Sys_Req,		"Last_Console" },
-		{ XKB_KEY_Print,		"Control_backslash" },
-		{ XKB_KEY_Delete,		"Remove" },
-		{ XKB_KEY_KP_Insert,		"KP_0" },
-		{ XKB_KEY_KP_End,		"KP_1" },
-		{ XKB_KEY_KP_Down,		"KP_2" },
-		{ XKB_KEY_KP_Next,		"KP_3" },
-		{ XKB_KEY_KP_Left,		"KP_4" },
-		{ XKB_KEY_KP_Begin,		"KP_5" },
-		{ XKB_KEY_KP_Right,		"KP_6" },
-		{ XKB_KEY_KP_Home,		"KP_7" },
-		{ XKB_KEY_KP_Up,		"KP_8" },
-		{ XKB_KEY_KP_Prior,		"KP_9" },
-		{ XKB_KEY_KP_Delete,		"KP_Period" },
-		{ XKB_KEY_KP_Decimal,		"KP_Comma" },
+		{ XKB_KEY_ISO_Left_Tab, "Meta_Tab"          },
+		{ XKB_KEY_Sys_Req,      "Last_Console"      },
+		{ XKB_KEY_Print,        "Control_backslash" },
+		{ XKB_KEY_Delete,       "Remove"            },
+		{ XKB_KEY_KP_Insert,    "KP_0"              },
+		{ XKB_KEY_KP_End,       "KP_1"              },
+		{ XKB_KEY_KP_Down,      "KP_2"              },
+		{ XKB_KEY_KP_Next,      "KP_3"              },
+		{ XKB_KEY_KP_Left,      "KP_4"              },
+		{ XKB_KEY_KP_Begin,     "KP_5"              },
+		{ XKB_KEY_KP_Right,     "KP_6"              },
+		{ XKB_KEY_KP_Home,      "KP_7"              },
+		{ XKB_KEY_KP_Up,        "KP_8"              },
+		{ XKB_KEY_KP_Prior,     "KP_9"              },
+		{ XKB_KEY_KP_Delete,    "KP_Period"         },
+		{ XKB_KEY_KP_Decimal,   "KP_Comma"          },
 	};
 	char console[16];
 	int ret;
@@ -488,7 +488,7 @@ static int xkeymap_get_code_from_name(struct xkeymap *xkeymap, xkb_keysym_t symb
 
 	ret = xkb_keysym_get_name(symbol, symbuf, sizeof(symbuf));
 
-	if (ret < 0 || (size_t)ret >= sizeof(symbuf)) {
+	if (ret < 0 || (size_t) ret >= sizeof(symbuf)) {
 		XKEYMAP_WARNING(0, _("failed to get name of keysym"));
 		return -1;
 	}
@@ -559,8 +559,8 @@ static int xkeymap_get_code(struct xkeymap *xkeymap, xkb_keysym_t symbol)
 }
 
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
-		xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
-		xkb_keysym_t *symbol)
+			      xkb_keycode_t keycode, xkb_layout_index_t layout, xkb_level_index_t level,
+			      xkb_keysym_t *symbol)
 {
 	int num_syms;
 	const xkb_keysym_t *syms = NULL;
@@ -970,11 +970,21 @@ static int xkeymap_is_ascii_upper(uint32_t c)
 static int xkeymap_is_ascii_vowel(uint32_t c)
 {
 	switch (c) {
-	case 'A': case 'E': case 'I': case 'O': case 'U': case 'Y':
-	case 'a': case 'e': case 'i': case 'o': case 'u': case 'y':
-		return 1;
-	default:
-		return 0;
+		case 'A':
+		case 'E':
+		case 'I':
+		case 'O':
+		case 'U':
+		case 'Y':
+		case 'a':
+		case 'e':
+		case 'i':
+		case 'o':
+		case 'u':
+		case 'y':
+			return 1;
+		default:
+			return 0;
 	}
 }
 
@@ -1003,33 +1013,33 @@ static int xkeymap_is_preferred_console_dead_rule(const struct compose_candidate
 	 * combinations instead of locale-wide XKB noise.
 	 */
 	switch (candidate->seq[0]) {
-	case XKB_KEY_dead_grave:
-	case XKB_KEY_dead_macron:
-		return xkeymap_ascii_in_set(base_unicode, "AEIOUaeiou");
-	case XKB_KEY_dead_acute:
-		return xkeymap_ascii_in_set(base_unicode, "ACEILNORSUYZaceilnorsuyz");
-	case XKB_KEY_dead_circumflex:
-		return xkeymap_ascii_in_set(base_unicode, "ACEGHIJOSUWYaceghijosuwy");
-	case XKB_KEY_dead_tilde:
-		return xkeymap_ascii_in_set(base_unicode, "AINOUainou");
-	case XKB_KEY_dead_diaeresis:
-		return xkeymap_is_ascii_vowel(base_unicode);
-	case XKB_KEY_dead_abovering:
-		return xkeymap_ascii_in_set(base_unicode, "AUau");
-	case XKB_KEY_dead_cedilla:
-		return xkeymap_ascii_in_set(base_unicode, "ACESTacest");
-	case XKB_KEY_dead_caron:
-		return xkeymap_ascii_in_set(base_unicode, "CDELNRSTZcdelnrstz");
-	case XKB_KEY_dead_ogonek:
-		return xkeymap_ascii_in_set(base_unicode, "AEae");
-	case XKB_KEY_dead_breve:
-		return xkeymap_ascii_in_set(base_unicode, "AGUagu");
-	case XKB_KEY_dead_doubleacute:
-		return xkeymap_ascii_in_set(base_unicode, "OUou");
-	case XKB_KEY_dead_abovedot:
-		return xkeymap_ascii_in_set(base_unicode, "CEGILZcegilz");
-	default:
-		return 0;
+		case XKB_KEY_dead_grave:
+		case XKB_KEY_dead_macron:
+			return xkeymap_ascii_in_set(base_unicode, "AEIOUaeiou");
+		case XKB_KEY_dead_acute:
+			return xkeymap_ascii_in_set(base_unicode, "ACEILNORSUYZaceilnorsuyz");
+		case XKB_KEY_dead_circumflex:
+			return xkeymap_ascii_in_set(base_unicode, "ACEGHIJOSUWYaceghijosuwy");
+		case XKB_KEY_dead_tilde:
+			return xkeymap_ascii_in_set(base_unicode, "AINOUainou");
+		case XKB_KEY_dead_diaeresis:
+			return xkeymap_is_ascii_vowel(base_unicode);
+		case XKB_KEY_dead_abovering:
+			return xkeymap_ascii_in_set(base_unicode, "AUau");
+		case XKB_KEY_dead_cedilla:
+			return xkeymap_ascii_in_set(base_unicode, "ACESTacest");
+		case XKB_KEY_dead_caron:
+			return xkeymap_ascii_in_set(base_unicode, "CDELNRSTZcdelnrstz");
+		case XKB_KEY_dead_ogonek:
+			return xkeymap_ascii_in_set(base_unicode, "AEae");
+		case XKB_KEY_dead_breve:
+			return xkeymap_ascii_in_set(base_unicode, "AGUagu");
+		case XKB_KEY_dead_doubleacute:
+			return xkeymap_ascii_in_set(base_unicode, "OUou");
+		case XKB_KEY_dead_abovedot:
+			return xkeymap_ascii_in_set(base_unicode, "CEGILZcegilz");
+		default:
+			return 0;
 	}
 }
 
@@ -1468,7 +1478,7 @@ xkeymap_tokenize(const char *list, char items[][64], size_t cap)
 	if (list == NULL || *list == '\0')
 		return 0;
 
-	for (p = list; ; p++) {
+	for (p = list;; p++) {
 		if (*p == '\0' || *p == ',') {
 			len = (size_t) (p - start);
 			if (len >= sizeof(items[0]))
