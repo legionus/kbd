@@ -19,7 +19,7 @@ find_unused_keymap(struct lk_ctx *ctx, int console_fd, struct kbentry *entry)
 	entry->kb_index = 0;
 
 	for (int table = 1; table < MAX_NR_KEYMAPS; table++) {
-		entry->kb_table = (unsigned char)table;
+		entry->kb_table = (unsigned char) table;
 		if (lk_ioctl_ptr(ctx, console_fd, KDGKBENT, entry))
 			return -1;
 		if (entry->kb_value == K_NOSUCHMAP)
@@ -82,15 +82,28 @@ check_kt_csi(struct lk_ctx *ctx, int console_fd)
 	return LK_FEATURE_UNAVAILABLE;
 }
 
-int
-lk_check_features(struct lk_ctx *ctx, int console_fd)
+int lk_check_features(struct lk_ctx *ctx, int console_fd)
 {
 	if (!ctx)
 		return -1;
 
-	ctx->features[LK_FEATURE_KT_CSI] = check_kt_csi(ctx, console_fd);
+	for (int feature = 0; feature < LK_FEATURE_COUNT; feature++) {
+		if (ctx->features[feature] != LK_FEATURE_UNCHECKED)
+			continue;
 
-	return ctx->features[LK_FEATURE_KT_CSI] == LK_FEATURE_UNAVAILABLE ? -1 : 0;
+		switch ((enum lk_feature) feature) {
+			case LK_FEATURE_KT_CSI:
+				ctx->features[feature] = check_kt_csi(ctx, console_fd);
+				break;
+			case LK_FEATURE_COUNT:
+				break;
+		}
+
+		if (ctx->features[feature] == LK_FEATURE_UNAVAILABLE)
+			return -1;
+	}
+
+	return 0;
 }
 
 enum lk_feature_status
@@ -100,6 +113,26 @@ lk_get_feature_status(const struct lk_ctx *ctx, enum lk_feature feature)
 		return LK_FEATURE_UNAVAILABLE;
 
 	return ctx->features[feature];
+}
+
+int lk_set_feature_status(struct lk_ctx *ctx, enum lk_feature feature, enum lk_feature_status status)
+{
+	if (!ctx || feature < 0 || feature >= LK_FEATURE_COUNT) {
+		errno = EINVAL;
+		return -1;
+	}
+
+	switch (status) {
+		case LK_FEATURE_UNCHECKED:
+		case LK_FEATURE_SUPPORTED:
+		case LK_FEATURE_UNSUPPORTED:
+		case LK_FEATURE_UNAVAILABLE:
+			ctx->features[feature] = status;
+			return 0;
+		default:
+			errno = EINVAL;
+			return -1;
+	}
 }
 
 enum lk_feature

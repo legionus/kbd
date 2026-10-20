@@ -280,6 +280,22 @@ tries
 and then
 .BR C .
 .TP
+.BI \-\-feature= feature
+Enable keymap feature
+.I feature
+(for example,
+.BR KT_CSI )
+when evaluating conditional
+.B include-if feature
+directives. This overrides automatic kernel feature probing.
+.TP
+.BI \-\-no\-feature= feature
+Disable keymap feature
+.I feature
+when evaluating conditional
+.B include-if feature
+directives. This overrides automatic kernel feature probing.
+.TP
 .B \-q \-\-quiet
 .B loadkeys
 suppresses all normal output.
@@ -287,6 +303,43 @@ suppresses all normal output.
 .B \-V \-\-version
 .B loadkeys
 prints version number and exits.
+.SH FEATURES
+The following features are supported:
+.TP
+.B KT_CSI
+Support for the modifier-aware CSI keysym type introduced in Linux kernel 7.1.
+When available, this allows function keys (such as
+.BR Csi_F1
+through
+.BR Csi_F5 )
+and editing/navigation keys to produce standard escape sequences directly
+without consuming slots in the kernel's limited function string table.
+.LP
+When neither command-line options nor the
+.B LOADKEYS_FEATURES
+environment variable specify the status of a feature,
+.B loadkeys
+probes the target console automatically.
+.SH ENVIRONMENT
+.TP
+.B LOADKEYS_FEATURES
+A comma-separated list of keymap features to enable or disable. A feature name prefixed with a minus sign
+.RB ( \- )
+is disabled (for example,
+.BR \-KT_CSI ),
+otherwise the feature is enabled (for example,
+.BR KT_CSI ).
+Options
+.B \-\-feature
+and
+.B \-\-no\-feature
+take precedence over this variable.
+.TP
+.B LOADKEYS_KEYMAP_PATH
+A list of directories to search for keymaps.
+.TP
+.B LOADKEYS_INCLUDE_PATH
+A list of directories to search for include files.
 .SH WARNING
 Note that anyone having read access to
 .B /dev/console

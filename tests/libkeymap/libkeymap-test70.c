@@ -10,7 +10,8 @@ parse_feature_keymap(struct parsed_keymap *keymap, enum lk_feature_status status
 	char path[256];
 
 	init_test_keymap(keymap, "keymap-feature.map");
-	keymap->ctx->features[LK_FEATURE_KT_CSI] = status;
+	if (lk_set_feature_status(keymap->ctx, LK_FEATURE_KT_CSI, status) < 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to set feature status");
 
 	snprintf(path, sizeof(path), TESTDIR "/data/libkeymap/keymap-feature.map");
 	keymap->file = fopen(path, "r");

@@ -30,7 +30,7 @@ static int calls_restore_mode;
 static int
 fake_ioctl(int fd, unsigned long req, uintptr_t arg)
 {
-	struct kbentry *entry = (struct kbentry *)arg;
+	struct kbentry *entry = (struct kbentry *) arg;
 
 	if (fd != TEST_CONSOLE_FD)
 		kbd_error(EXIT_FAILURE, 0, "unexpected fd: %d", fd);
@@ -47,15 +47,15 @@ fake_ioctl(int fd, unsigned long req, uintptr_t arg)
 			kbd_error(EXIT_FAILURE, 0, "unexpected key table: %u", entry->kb_table);
 			return -1;
 		case KDGKBMODE:
-			*(int *)arg = kbd_mode;
+			*(int *) arg = kbd_mode;
 			return 0;
 		case KDSKBMODE:
-			if ((int)arg == K_XLATE) {
+			if ((int) arg == K_XLATE) {
 				calls_set_xlate++;
 				kbd_mode = K_XLATE;
 			} else {
 				calls_restore_mode++;
-				kbd_mode = (int)arg;
+				kbd_mode = (int) arg;
 			}
 			return 0;
 		case KDSKBENT:
@@ -101,6 +101,8 @@ check_result(struct lk_ctx *ctx, enum probe_result new_result,
 	     enum lk_feature_status expected, int expected_rc)
 {
 	reset(new_result);
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI, LK_FEATURE_UNCHECKED) != 0)
+		kbd_error(EXIT_FAILURE, 0, "unable to reset KT_CSI feature status");
 	if (lk_check_features(ctx, TEST_CONSOLE_FD) != expected_rc)
 		kbd_error(EXIT_FAILURE, 0, "unexpected feature probe result");
 	if (lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != expected)
@@ -112,8 +114,7 @@ check_result(struct lk_ctx *ctx, enum probe_result new_result,
 		kbd_error(EXIT_FAILURE, 0, "feature probe did not remove temporary keymap");
 }
 
-int
-main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
+int main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	struct lk_ctx *ctx;
 	struct lk_ops ops;
@@ -133,6 +134,34 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	    lk_feature_from_name("unknown") != LK_FEATURE_COUNT ||
 	    !lk_feature_name(LK_FEATURE_KT_CSI))
 		kbd_error(EXIT_FAILURE, 0, "feature registry lookup failed");
+
+	/* Test argument validation of lk_set_feature_status */
+	errno = 0;
+	if (lk_set_feature_status(ctx, -1, LK_FEATURE_SUPPORTED) != -1 || errno != EINVAL)
+		kbd_error(EXIT_FAILURE, 0, "lk_set_feature_status accepted negative feature");
+	errno = 0;
+	if (lk_set_feature_status(ctx, LK_FEATURE_COUNT, LK_FEATURE_SUPPORTED) != -1 || errno != EINVAL)
+		kbd_error(EXIT_FAILURE, 0, "lk_set_feature_status accepted LK_FEATURE_COUNT");
+	errno = 0;
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI, (enum lk_feature_status) 999) != -1 || errno != EINVAL)
+		kbd_error(EXIT_FAILURE, 0, "lk_set_feature_status accepted invalid status");
+
+	/* Test explicit feature status overrides probing */
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI, LK_FEATURE_SUPPORTED) != 0)
+		kbd_error(EXIT_FAILURE, 0, "lk_set_feature_status failed");
+	reset(PROBE_UNSUPPORTED);
+	if (lk_check_features(ctx, TEST_CONSOLE_FD) != 0 ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_SUPPORTED ||
+	    calls_probe != 0)
+		kbd_error(EXIT_FAILURE, 0, "probe overwrote explicit supported status");
+
+	if (lk_set_feature_status(ctx, LK_FEATURE_KT_CSI, LK_FEATURE_UNSUPPORTED) != 0)
+		kbd_error(EXIT_FAILURE, 0, "lk_set_feature_status failed");
+	reset(PROBE_SUPPORTED);
+	if (lk_check_features(ctx, TEST_CONSOLE_FD) != 0 ||
+	    lk_get_feature_status(ctx, LK_FEATURE_KT_CSI) != LK_FEATURE_UNSUPPORTED ||
+	    calls_probe != 0)
+		kbd_error(EXIT_FAILURE, 0, "probe overwrote explicit unsupported status");
 
 	check_result(ctx, PROBE_SUPPORTED, LK_FEATURE_SUPPORTED, 0);
 	check_result(ctx, PROBE_UNSUPPORTED, LK_FEATURE_UNSUPPORTED, 0);

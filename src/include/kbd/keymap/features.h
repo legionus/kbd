@@ -42,6 +42,10 @@ enum lk_feature_status
 lk_get_feature_status(const struct lk_ctx *ctx, enum lk_feature feature)
 	KBD_ATTR_NONNULL(1);
 
+/** Set the status of @p feature in @p ctx. */
+int lk_set_feature_status(struct lk_ctx *ctx, enum lk_feature feature, enum lk_feature_status status)
+	KBD_ATTR_NONNULL(1);
+
 /** Resolve a feature name used by a keymap, or return LK_FEATURE_COUNT. */
 enum lk_feature lk_feature_from_name(const char *name)
 	KBD_ATTR_NONNULL(1);

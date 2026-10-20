@@ -44,7 +44,7 @@ static void KBD_ATTR_NORETURN
 usage(int rc, const struct kbd_help *options)
 {
 	fprintf(stderr, _("Usage: %s [option...] [mapfile...]\n"),
-			program_invocation_short_name);
+		program_invocation_short_name);
 
 	print_options(options);
 
@@ -52,15 +52,52 @@ usage(int rc, const struct kbd_help *options)
 	fprintf(stderr, _("Default keymap: %s\n"), DEFMAP);
 
 	fprintf(stderr, _("Available shapes:\n"
-	                  "  2  - default output;\n"
-	                  "  4  - one line for each keycode;\n"
-	                  "  8  - one line for each (modifier,keycode) pair;\n"
-	                  "  16 - one line for each keycode until 1st hole.\n"
-	                 ));
+			  "  2  - default output;\n"
+			  "  4  - one line for each keycode;\n"
+			  "  8  - one line for each (modifier,keycode) pair;\n"
+			  "  16 - one line for each keycode until 1st hole.\n"));
 
 	print_report_bugs();
 
 	exit(rc);
+}
+
+static void
+apply_feature(struct lk_ctx *ctx, const char *name, int enable)
+{
+	enum lk_feature feat;
+
+	if (*name == '-') {
+		enable = 0;
+		name++;
+	}
+
+	feat = lk_feature_from_name(name);
+	if (feat == LK_FEATURE_COUNT)
+		kbd_error(EXIT_FAILURE, 0, _("Unknown keymap feature: '%s'"), name);
+
+	lk_set_feature_status(ctx, feat, enable ? LK_FEATURE_SUPPORTED : LK_FEATURE_UNSUPPORTED);
+}
+
+static void
+parse_features_env(struct lk_ctx *ctx)
+{
+	char *env, *str, *p, *saveptr = NULL;
+
+	env = getenv("LOADKEYS_FEATURES");
+	if (!env || !*env)
+		return;
+
+	str = strdup(env);
+	if (!str)
+		kbd_error(EXIT_FAILURE, errno, "strdup");
+
+	for (p = strtok_r(str, ",", &saveptr); p; p = strtok_r(NULL, ",", &saveptr)) {
+		if (*p)
+			apply_feature(ctx, p, 1);
+	}
+
+	free(str);
 }
 
 int main(int argc, char *argv[])
@@ -98,53 +135,57 @@ int main(int argc, char *argv[])
 
 	const char *const short_opts = "abcC:dhmpst::uqvV";
 	const struct option long_opts[] = {
-		{ "console", required_argument, NULL, 'C' },
-		{ "ascii", no_argument, NULL, 'a' },
-		{ "bkeymap", no_argument, NULL, 'b' },
-		{ "clearcompose", no_argument, NULL, 'c' },
-		{ "default", no_argument, NULL, 'd' },
-		{ "help", no_argument, NULL, 'h' },
-		{ "mktable", no_argument, NULL, 'm' },
-		{ "parse", no_argument, NULL, 'p' },
-		{ "clearstrings", no_argument, NULL, 's' },
-		{ "tkeymap", optional_argument, NULL, 't' },
-		{ "unicode", no_argument, NULL, 'u' },
-		{ "quiet", no_argument, NULL, 'q' },
-		{ "verbose", no_argument, NULL, 'v' },
-		{ "version", no_argument, NULL, 'V' },
+		{ "console",      required_argument, NULL, 'C' },
+		{ "ascii",        no_argument,       NULL, 'a' },
+		{ "bkeymap",      no_argument,       NULL, 'b' },
+		{ "clearcompose", no_argument,       NULL, 'c' },
+		{ "default",      no_argument,       NULL, 'd' },
+		{ "help",         no_argument,       NULL, 'h' },
+		{ "mktable",      no_argument,       NULL, 'm' },
+		{ "parse",        no_argument,       NULL, 'p' },
+		{ "clearstrings", no_argument,       NULL, 's' },
+		{ "tkeymap",      optional_argument, NULL, 't' },
+		{ "unicode",      no_argument,       NULL, 'u' },
+		{ "quiet",        no_argument,       NULL, 'q' },
+		{ "verbose",      no_argument,       NULL, 'v' },
+		{ "version",      no_argument,       NULL, 'V' },
 #ifdef USE_XKB
 		//{ "xkb-rules", required_argument, NULL, 1 },
-		{ "xkb-model", required_argument, NULL, 2 },
-		{ "xkb-layout", required_argument, NULL, 3 },
-		{ "xkb-variant", required_argument, NULL, 4 },
-		{ "xkb-options", required_argument, NULL, 5 },
-		{ "xkb-locale", required_argument, NULL, 6 },
+		{ "xkb-model",    required_argument, NULL, 2   },
+		{ "xkb-layout",   required_argument, NULL, 3   },
+		{ "xkb-variant",  required_argument, NULL, 4   },
+		{ "xkb-options",  required_argument, NULL, 5   },
+		{ "xkb-locale",   required_argument, NULL, 6   },
 #endif
-		{ NULL, 0, NULL, 0 }
+		{ "feature",      required_argument, NULL, 7   },
+		{ "no-feature",   required_argument, NULL, 8   },
+		{ NULL,           0,                 NULL, 0   }
 	};
 	const struct kbd_help opthelp[] = {
 #ifdef USE_XKB
-		{ "--xkb-model=STR",       _("Specifies model used to choose component names.") },
-		{ "--xkb-layout=STR",      _("Specifies layout used to choose component names.") },
+		{ "--xkb-model=STR",       _("Specifies model used to choose component names.")          },
+		{ "--xkb-layout=STR",      _("Specifies layout used to choose component names.")         },
 		{ "--xkb-variant=STR",     _("Specifies layout variant used to choose component names.") },
-		{ "--xkb-options=STR",     _("Adds an option used to choose component names.") },
-		{ "--xkb-locale=LOCALE",   _("Use LOCALE to search an appropriate compose file.") },
+		{ "--xkb-options=STR",     _("Adds an option used to choose component names.")           },
+		{ "--xkb-locale=LOCALE",   _("Use LOCALE to search an appropriate compose file.")        },
 #endif
-		{ "-C, --console=DEV",     _("the console device to be used.") },
-		{ "-a, --ascii",           _("force conversion to ASCII.") },
-		{ "-b, --bkeymap",         _("output a binary keymap to stdout.") },
-		{ "-c, --clearcompose",    _("clear kernel compose table.") },
-		{ "-d, --default",         _("load default.") },
-		{ "-m, --mktable",         _("output a 'defkeymap.c' to stdout.") },
-		{ "-p, --parse",           _("search and parse keymap without action.") },
-		{ "-s, --clearstrings",    _("clear kernel string table.") },
-		{ "-u, --unicode",         _("force conversion to Unicode.") },
-		{ "-q, --quiet",           _("suppress all normal output.") },
-		{ "-t, --tkeymap[=SHAPE]", _("output a text keymap to stdout.") },
-		{ "-v, --verbose",         _("be more verbose.") },
-		{ "-V, --version",         _("print version number.")     },
-		{ "-h, --help",            _("print this usage message.") },
-		{ NULL, NULL }
+		{ "--feature=NAME",        _("enable keymap feature.")                                   },
+		{ "--no-feature=NAME",     _("disable keymap feature.")                                  },
+		{ "-C, --console=DEV",     _("the console device to be used.")                           },
+		{ "-a, --ascii",           _("force conversion to ASCII.")                               },
+		{ "-b, --bkeymap",         _("output a binary keymap to stdout.")                        },
+		{ "-c, --clearcompose",    _("clear kernel compose table.")                              },
+		{ "-d, --default",         _("load default.")                                            },
+		{ "-m, --mktable",         _("output a 'defkeymap.c' to stdout.")                        },
+		{ "-p, --parse",           _("search and parse keymap without action.")                  },
+		{ "-s, --clearstrings",    _("clear kernel string table.")                               },
+		{ "-u, --unicode",         _("force conversion to Unicode.")                             },
+		{ "-q, --quiet",           _("suppress all normal output.")                              },
+		{ "-t, --tkeymap[=SHAPE]", _("output a text keymap to stdout.")                          },
+		{ "-v, --verbose",         _("be more verbose.")                                         },
+		{ "-V, --version",         _("print version number.")                                    },
+		{ "-h, --help",            _("print this usage message.")                                },
+		{ NULL,                    NULL							  }
 	};
 
 	enum options {
@@ -162,11 +203,19 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	parse_features_env(ctx);
+
 	if (!(fctx = kbdfile_context_new()))
 		kbd_error(EXIT_FAILURE, errno, _("Unable to create kbdfile context"));
 
 	while ((c = getopt_long(argc, argv, short_opts, long_opts, NULL)) != -1) {
 		switch (c) {
+			case 7:
+				apply_feature(ctx, optarg, 1);
+				break;
+			case 8:
+				apply_feature(ctx, optarg, 0);
+				break;
 #ifdef USE_XKB
 			case 2:
 				xkeymap_params.model = optarg;
@@ -244,7 +293,7 @@ int main(int argc, char *argv[])
 
 	if ((options & OPT_U) && (options & OPT_A))
 		kbd_error(EXIT_FAILURE, 0, _("Options %s and %s are mutually exclusive."),
-				"--unicode", "--ascii");
+			  "--unicode", "--ascii");
 
 	if (!(options & OPT_M) && !(options & OPT_B) && !(options & OPT_T)) {
 		/* get console */
@@ -260,8 +309,8 @@ int main(int argc, char *argv[])
 		if (kbd_mode == K_UNICODE) {
 			if (options & OPT_A) {
 				kbd_warning(0,
-				        _("Warning: loading non-Unicode keymap on Unicode console\n"
-				          "    (perhaps you want to do `kbd_mode -a'?)"));
+					    _("Warning: loading non-Unicode keymap on Unicode console\n"
+					      "    (perhaps you want to do `kbd_mode -a'?)"));
 			} else {
 				flags |= LK_FLAG_PREFER_UNICODE;
 			}
@@ -271,8 +320,8 @@ int main(int argc, char *argv[])
 
 		} else if (options & OPT_U && kd_mode != KD_GRAPHICS) {
 			kbd_warning(0,
-			        _("Warning: loading Unicode keymap on non-Unicode console\n"
-			          "    (perhaps you want to do `kbd_mode -u'?)"));
+				    _("Warning: loading Unicode keymap on non-Unicode console\n"
+				      "    (perhaps you want to do `kbd_mode -u'?)"));
 		}
 	}
 
@@ -289,7 +338,7 @@ int main(int argc, char *argv[])
 	dirpath = dirpath1;
 	if ((ev = getenv("LOADKEYS_KEYMAP_PATH")) != NULL) {
 		dirpath2[0] = ev;
-		dirpath     = dirpath2;
+		dirpath = dirpath2;
 	}
 
 	if (options & OPT_D) {
@@ -374,8 +423,7 @@ int main(int argc, char *argv[])
 		} else {
 			rc = lk_load_keymap(ctx, fd, kbd_mode);
 		}
-	}
-	else if (getenv("LK_DUMPKEYS")) {
+	} else if (getenv("LK_DUMPKEYS")) {
 		lk_dump_keymap(ctx, stdout, LK_SHAPE_SEPARATE_LINES, 0);
 		lk_dump_diacs(ctx, stdout);
 	}
