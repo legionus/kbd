@@ -10,25 +10,25 @@
 
 #include <kbd/keymap/context.h>
 
-int lk_add_map(struct lk_ctx *ctx, int k_table)
+int lk_add_map(struct lk_ctx *ctx, unsigned int k_table)
 	KBD_ATTR_NONNULL(1);
 
-int lk_map_exists(struct lk_ctx *ctx, int k_table)
+int lk_map_exists(struct lk_ctx *ctx, unsigned int k_table)
 	KBD_ATTR_NONNULL(1);
 
-int lk_get_keys_total(struct lk_ctx *ctx, int k_table)
+int lk_get_keys_total(struct lk_ctx *ctx, unsigned int k_table)
 	KBD_ATTR_NONNULL(1);
 
-int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
+int lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int keycode)
 	KBD_ATTR_NONNULL(1);
 
-int lk_del_key(struct lk_ctx *ctx, int k_table, int k_index)
+int lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 	KBD_ATTR_NONNULL(1);
 
-int lk_get_key(struct lk_ctx *ctx, int k_table, int k_index)
+int lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 	KBD_ATTR_NONNULL(1);
 
-int lk_key_exists(struct lk_ctx *ctx, int k_table, int k_index)
+int lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 	KBD_ATTR_NONNULL(1);
 
 /* Functions for key string manipulations */
@@ -38,23 +38,23 @@ int lk_get_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 int lk_add_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 	KBD_ATTR_NONNULL(1, 2);
 
-int lk_del_func(struct lk_ctx *ctx, int index)
+int lk_del_func(struct lk_ctx *ctx, unsigned int index)
 	KBD_ATTR_NONNULL(1);
 
-int lk_func_exists(struct lk_ctx *ctx, int index)
+int lk_func_exists(struct lk_ctx *ctx, unsigned int index)
 	KBD_ATTR_NONNULL(1);
 
 /* Functions for manipulations with diacritical table */
-int lk_get_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
+int lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 	KBD_ATTR_NONNULL(1, 3);
 
-int lk_add_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
+int lk_add_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 	KBD_ATTR_NONNULL(1, 3);
 
-int lk_del_diacr(struct lk_ctx *ctx, int index)
+int lk_del_diacr(struct lk_ctx *ctx, unsigned int index)
 	KBD_ATTR_NONNULL(1);
 
-int lk_diacr_exists(struct lk_ctx *ctx, int index)
+int lk_diacr_exists(struct lk_ctx *ctx, unsigned int index)
 	KBD_ATTR_NONNULL(1);
 
 int lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)

@@ -1,4 +1,6 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdlib.h>
 
 #include "libkeymap-test.h"
@@ -10,20 +12,20 @@
 #include "xkbsupport.c"
 
 static void
-expect_rule(struct lk_ctx *ctx, int index, unsigned int diacr,
+expect_rule(struct lk_ctx *ctx, unsigned int index, unsigned int diacr,
 	    unsigned int base, unsigned int result)
 {
 	struct lk_kbdiacr rule;
 
 	if (!lk_diacr_exists(ctx, index))
-		kbd_error(EXIT_FAILURE, 0, "Missing compose rule %d", index);
+		kbd_error(EXIT_FAILURE, 0, "Missing compose rule %u", index);
 
 	if (lk_get_diacr(ctx, index, &rule) != 0)
-		kbd_error(EXIT_FAILURE, 0, "Unable to read compose rule %d", index);
+		kbd_error(EXIT_FAILURE, 0, "Unable to read compose rule %u", index);
 
 	if (rule.diacr != diacr || rule.base != base || rule.result != result) {
 		kbd_error(EXIT_FAILURE, 0,
-			  "Unexpected compose rule %d: got (%u,%u,%u) expected (%u,%u,%u)",
+			  "Unexpected compose rule %u: got (%u,%u,%u) expected (%u,%u,%u)",
 			  index, rule.diacr, rule.base, rule.result, diacr, base, result);
 	}
 }
@@ -239,7 +241,7 @@ test_dead_key_compose_inputs(int unicode)
 	if (xkeymap_compose(&xkeymap) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to import dead-key compose rules");
 
-	for (int i = 0; lk_diacr_exists(keymap.ctx, i); i++) {
+	for (unsigned int i = 0; lk_diacr_exists(keymap.ctx, i); i++) {
 		struct lk_kbdiacr rule;
 
 		if (lk_get_diacr(keymap.ctx, i, &rule) != 0)
@@ -325,7 +327,7 @@ test_distinct_dead_key_actions(void)
 	if (xkeymap_compose(&xkeymap) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to import distinct dead-key rules");
 
-	for (int i = 0; lk_diacr_exists(keymap.ctx, i); i++) {
+	for (unsigned int i = 0; lk_diacr_exists(keymap.ctx, i); i++) {
 		struct lk_kbdiacr rule;
 		size_t j;
 
@@ -435,13 +437,13 @@ test_unicode_action_collisions(void)
 	if (xkeymap_walk(&xkeymap) != 0)
 		kbd_error(EXIT_FAILURE, 0, "Unable to convert Unicode boundary keymap");
 
-	for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+	for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
 		if (!lk_map_exists(keymap.ctx, table))
 			continue;
 
 		if (lk_get_key(keymap.ctx, table, 1) != K_HOLE ||
 		    lk_get_key(keymap.ctx, table, 2) != (0xefff ^ 0xf000))
-			kbd_error(EXIT_FAILURE, 0, "Unicode character became an action in table %d", table);
+			kbd_error(EXIT_FAILURE, 0, "Unicode character became an action in table %u", table);
 	}
 
 	tdestroy(xkeymap.reachable_syms, free);

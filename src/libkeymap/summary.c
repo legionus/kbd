@@ -55,7 +55,7 @@ maximum_val(struct lk_ctx *ctx, int fd, int t)
 
 int lk_get_kmapinfo(struct lk_ctx *ctx, struct kmapinfo *res)
 {
-	int i;
+	unsigned int i;
 
 	res->flags     = ctx->flags;
 	res->keywords  = ctx->keywords;

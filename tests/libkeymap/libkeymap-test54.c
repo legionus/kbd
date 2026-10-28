@@ -24,13 +24,13 @@ set_xkb_suppress_warnings(void)
 }
 
 static void
-expect_key_symbol(struct lk_ctx *ctx, int table, int keycode, const char *expected)
+expect_key_symbol(struct lk_ctx *ctx, unsigned int table, unsigned int keycode, const char *expected)
 {
 	int code = lk_get_key(ctx, table, keycode);
 	char *actual;
 
 	if (code == K_HOLE)
-		kbd_error(EXIT_FAILURE, 0, "Missing keycode %d in table %d", keycode, table);
+		kbd_error(EXIT_FAILURE, 0, "Missing keycode %u in table %u", keycode, table);
 
 	if (expected[0] != '\0' && expected[1] == '\0' &&
 	    code >= 0 && code < 0x1000 &&
@@ -40,23 +40,23 @@ expect_key_symbol(struct lk_ctx *ctx, int table, int keycode, const char *expect
 
 	actual = lk_code_to_ksym(ctx, code);
 	if (!actual)
-		kbd_error(EXIT_FAILURE, 0, "Unable to stringify keycode %d in table %d (raw=0x%x)",
+		kbd_error(EXIT_FAILURE, 0, "Unable to stringify keycode %u in table %u (raw=0x%x)",
 			  keycode, table, code);
 
 	if (strcmp(actual, expected) != 0)
-		kbd_error(EXIT_FAILURE, 0, "Unexpected symbol in table %d keycode %d: got %s expected %s",
+		kbd_error(EXIT_FAILURE, 0, "Unexpected symbol in table %u keycode %u: got %s expected %s",
 			  table, keycode, actual, expected);
 
 	free(actual);
 }
 
 static void
-expect_key_code(struct lk_ctx *ctx, int table, int keycode, int expected)
+expect_key_code(struct lk_ctx *ctx, unsigned int table, unsigned int keycode, int expected)
 {
 	int actual = lk_get_key(ctx, table, keycode);
 
 	if (actual != expected)
-		kbd_error(EXIT_FAILURE, 0, "Unexpected code in table %d keycode %d: got %#x expected %#x",
+		kbd_error(EXIT_FAILURE, 0, "Unexpected code in table %u keycode %u: got %#x expected %#x",
 			  table, keycode, actual, expected);
 }
 
@@ -64,19 +64,19 @@ static void
 expect_us_capslock(struct lk_ctx *ctx)
 {
 	/* Match the KT_LETTER table selection in Linux kbd_keycode(). */
-	for (int shift = 0; shift < 2; shift++) {
-		for (int caps = 0; caps < 2; caps++) {
-			int table = shift << KG_SHIFT;
+	for (unsigned int shift = 0; shift < 2; shift++) {
+		for (unsigned int caps = 0; caps < 2; caps++) {
+			unsigned int table = shift << KG_SHIFT;
 			int letter = lk_get_key(ctx, table, 30);
 			int digit = lk_get_key(ctx, table, 2);
 
 			if (caps && KTYP(letter) == KT_LETTER)
-				letter = lk_get_key(ctx, table ^ (1 << KG_SHIFT), 30);
+				letter = lk_get_key(ctx, table ^ (1U << KG_SHIFT), 30);
 			if (caps && KTYP(digit) == KT_LETTER)
-				digit = lk_get_key(ctx, table ^ (1 << KG_SHIFT), 2);
+				digit = lk_get_key(ctx, table ^ (1U << KG_SHIFT), 2);
 			if (KVAL(letter) != ((shift ^ caps) ? 'A' : 'a') ||
 			    digit != (shift ? '!' : '1'))
-				kbd_error(EXIT_FAILURE, 0, "Incorrect US output with Shift=%d CapsLock=%d",
+				kbd_error(EXIT_FAILURE, 0, "Incorrect US output with Shift=%u CapsLock=%u",
 					  shift, caps);
 		}
 	}
@@ -113,7 +113,7 @@ test_basic_us_layout(void)
 	expect_key_code(keymap.ctx, 1 << KG_ALT, 30, K(KT_META, 'a'));
 	expect_key_code(keymap.ctx, (1 << KG_ALT) | (1 << KG_SHIFT), 30, K(KT_META, 'A'));
 	expect_key_code(keymap.ctx, (1 << KG_CTRL) | (1 << KG_ALT), 46, K(KT_META, 3));
-	for (int table = 0; table < 16; table++) {
+	for (unsigned int table = 0; table < 16; table++) {
 		int space = (table & (1 << KG_CTRL)) ? 0 : ' ';
 
 		if (table & (1 << KG_ALT))
@@ -131,7 +131,7 @@ static void
 test_german_altgr(const char *model)
 {
 	static const struct {
-		int keycode;
+		unsigned int keycode;
 		const char *plain;
 		const char *shift;
 		const char *altgr;
@@ -149,7 +149,7 @@ test_german_altgr(const char *model)
 		.model = model,
 		.layout = "de",
 	};
-	int altgr;
+	unsigned int altgr;
 
 	init_test_keymap(&keymap, "xkb-de-altgr");
 	set_xkb_config_root();
@@ -160,7 +160,7 @@ test_german_altgr(const char *model)
 
 	/* Select the table using the action installed on the right Alt key. */
 	expect_key_symbol(keymap.ctx, 0, 100, "AltGr");
-	altgr = 1 << KVAL(lk_get_key(keymap.ctx, 0, 100));
+	altgr = 1U << KVAL(lk_get_key(keymap.ctx, 0, 100));
 	for (size_t i = 0; i < sizeof(keys) / sizeof(keys[0]); i++) {
 		expect_key_symbol(keymap.ctx, 0, keys[i].keycode, keys[i].plain);
 		expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, keys[i].keycode, keys[i].shift);
@@ -233,9 +233,9 @@ struct console_state {
 };
 
 static int
-console_key(struct lk_ctx *ctx, struct console_state *state, int key, int pressed)
+console_key(struct lk_ctx *ctx, struct console_state *state, unsigned int key, int pressed)
 {
-	int code = lk_get_key(ctx, (int) (state->shift ^ state->lock), key);
+	int code = lk_get_key(ctx, state->shift ^ state->lock, key);
 	unsigned int value = KVAL(code);
 
 	if (KTYP(code) == KT_SHIFT) {
@@ -303,10 +303,10 @@ test_momentary_group_switch(const char *layouts, const char *variants, unsigned 
 		unsigned int locked = group << KG_SHIFTL;
 
 		for (unsigned int mods = 0; mods < 16; mods++) {
-			expect_key_code(keymap.ctx, (int) (locked | mods | (1 << KG_CTRLR)), 100, K_CTRLR);
-			expect_key_code(keymap.ctx, (int) (locked | mods | (1 << KG_CTRLR)), 97, K_CTRL);
-			expect_key_code(keymap.ctx, (int) (locked | mods | (1 << KG_CTRLR)), 42, K_SHIFT);
-			expect_key_code(keymap.ctx, (int) (locked | mods | (1 << KG_CTRLR)), 28, K_ENTER);
+			expect_key_code(keymap.ctx, locked | mods | (1U << KG_CTRLR), 100, K_CTRLR);
+			expect_key_code(keymap.ctx, locked | mods | (1U << KG_CTRLR), 97, K_CTRL);
+			expect_key_code(keymap.ctx, locked | mods | (1U << KG_CTRLR), 42, K_SHIFT);
+			expect_key_code(keymap.ctx, locked | mods | (1U << KG_CTRLR), 28, K_ENTER);
 		}
 		for (unsigned int seq = 0; seq < sizeof(sequences) / sizeof(sequences[0]); seq++) {
 			struct console_state console = { .lock = locked };
@@ -318,7 +318,7 @@ test_momentary_group_switch(const char *layouts, const char *variants, unsigned 
 			 * three-group lock cycle (which is not a next-group cycle).
 			 */
 			if (seq == 4 && (count == 3 ||
-					 lk_get_key(keymap.ctx, (int) locked, 100) != K_CTRLR))
+					 lk_get_key(keymap.ctx, locked, 100) != K_CTRLR))
 				continue;
 			state = xkb_state_new(reference);
 			if (!state)
@@ -327,7 +327,7 @@ test_momentary_group_switch(const char *layouts, const char *variants, unsigned 
 
 			for (unsigned int step = 0; step < 4; step++) {
 				int event = sequences[seq][step];
-				int key = event < 0 ? -event : event;
+				unsigned int key = (unsigned int) (event < 0 ? -event : event);
 				int action = console_key(keymap.ctx, &console, key, event > 0);
 				int code, expected;
 
@@ -340,7 +340,7 @@ test_momentary_group_switch(const char *layouts, const char *variants, unsigned 
 				    action != K_COMPOSE)
 					kbd_error(EXIT_FAILURE, 0, "Shift+RightAlt must remain Compose: %s group %u action %#x", layouts, group, action);
 				xkb_state_update_key(state, (xkb_keycode_t) key + 8, event > 0 ? XKB_KEY_DOWN : XKB_KEY_UP);
-				code = lk_get_key(keymap.ctx, (int) (console.shift ^ console.lock), 30);
+				code = lk_get_key(keymap.ctx, console.shift ^ console.lock, 30);
 				if (KTYP(code) == KT_LETTER)
 					code = K(KT_LATIN, KVAL(code));
 				expected = (int) xkb_state_key_get_utf32(state, 30 + 8);
@@ -417,7 +417,7 @@ test_group_select_layout(const char *layouts, const char *variants, unsigned int
 	    lk_map_exists(keymap.ctx, 1 << KG_CTRLR) != temporary)
 		kbd_error(EXIT_FAILURE, 0, "Unexpected group table allocation");
 
-	for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+	for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
 		if (!lk_map_exists(keymap.ctx, table))
 			continue;
 
@@ -452,14 +452,14 @@ test_group_select_layout(const char *layouts, const char *variants, unsigned int
 
 			for (size_t i = 0; i < sizeof(events) / sizeof(events[0]); i++) {
 				int event = events[i];
-				int key = event < 0 ? -event : event;
+				unsigned int key = (unsigned int) (event < 0 ? -event : event);
 				int code, expected;
 
 				console_key(keymap.ctx, &console, key, event > 0);
 				xkb_state_update_key(state, (xkb_keycode_t) key + 8,
 						     event > 0 ? XKB_KEY_DOWN : XKB_KEY_UP);
 
-				code = lk_get_key(keymap.ctx, (int) (console.shift ^ console.lock), 16);
+				code = lk_get_key(keymap.ctx, console.shift ^ console.lock, 16);
 
 				if (KTYP(code) == KT_LETTER)
 					code = K(KT_LATIN, KVAL(code));
@@ -481,7 +481,7 @@ test_group_select_layout(const char *layouts, const char *variants, unsigned int
 			if (console.shift)
 				kbd_error(EXIT_FAILURE, 0, "Modifier stuck after absolute group selection");
 
-			expect_key_symbol(keymap.ctx, (int) console.lock, 16, "q");
+			expect_key_symbol(keymap.ctx, console.lock, 16, "q");
 			xkb_state_unref(state);
 		}
 	}
@@ -525,10 +525,10 @@ test_previous_group(const char *layouts, unsigned int count, int temporary)
 	    lk_map_exists(keymap.ctx, 1 << KG_CTRLR) != temporary)
 		kbd_error(EXIT_FAILURE, 0, "Unexpected previous-group table allocation");
 
-	for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+	for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
 		if (!lk_map_exists(keymap.ctx, table))
 			continue;
-		expect_key_code(keymap.ctx, table, 58, lk_get_key(keymap.ctx, table & ~15, 58));
+		expect_key_code(keymap.ctx, table, 58, lk_get_key(keymap.ctx, table & ~15U, 58));
 		expect_key_code(keymap.ctx, table, 29, K_CTRL);
 		expect_key_code(keymap.ctx, table, 97, K_CTRL);
 		expect_key_code(keymap.ctx, table, 42, K_SHIFT);
@@ -568,7 +568,7 @@ test_previous_group(const char *layouts, unsigned int count, int temporary)
 					kbd_error(EXIT_FAILURE, 0, "Previous group locked an ordinary modifier");
 
 				/* Y differs in all four layouts: y, Cyrillic en, z, upsilon. */
-				code = lk_get_key(keymap.ctx, (int) (console.shift ^ console.lock), 21);
+				code = lk_get_key(keymap.ctx, console.shift ^ console.lock, 21);
 				if (KTYP(code) == KT_LETTER)
 					code = K(KT_LATIN, KVAL(code));
 				if (lk_convert_code(keymap.ctx, code, TO_UNICODE) !=
@@ -583,7 +583,7 @@ test_previous_group(const char *layouts, unsigned int count, int temporary)
 
 				console_key(keymap.ctx, &console, 100, 0);
 				xkb_state_update_key(state, 108, XKB_KEY_UP);
-				code = lk_get_key(keymap.ctx, (int) (console.shift ^ console.lock), 21);
+				code = lk_get_key(keymap.ctx, console.shift ^ console.lock, 21);
 				if (KTYP(code) == KT_LETTER)
 					code = K(KT_LATIN, KVAL(code));
 				if (lk_convert_code(keymap.ctx, code, TO_UNICODE) !=

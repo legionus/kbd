@@ -154,7 +154,7 @@ int lk_set_keywords(struct lk_ctx *ctx, lk_keywords keywords)
 }
 
 static int
-init_array(struct lk_ctx *ctx, struct lk_array **arr, ssize_t size)
+init_array(struct lk_ctx *ctx, struct lk_array **arr, size_t size)
 {
 	int rc;
 	void *ptr;
@@ -226,7 +226,7 @@ static void *free_ctx_array(struct lk_array *arr, enum ctx_array_type array_type
 	if (!arr)
 		return NULL;
 
-	for (int i = 0; i < arr->total; i++) {
+	for (size_t i = 0; i < arr->total; i++) {
 		void *ptr = lk_array_get_ptr(arr, i);
 
 		if (!ptr)

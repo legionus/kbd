@@ -51,7 +51,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 		dcr.base = 0x1100u + i;
 		dcr.result = 0x1200u + i;
 
-		if (lk_add_diacr(ctx, (int) i, &dcr) != 0)
+		if (lk_add_diacr(ctx, i, &dcr) != 0)
 			kbd_error(EXIT_FAILURE, 0, "Unable to add compose entry %u", i);
 	}
 

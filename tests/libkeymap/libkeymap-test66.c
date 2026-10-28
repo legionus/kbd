@@ -23,21 +23,21 @@ set_xkb_suppress_warnings(void)
 }
 
 static void
-expect_key_symbol(struct lk_ctx *ctx, int table, int keycode, const char *expected)
+expect_key_symbol(struct lk_ctx *ctx, unsigned int table, unsigned int keycode, const char *expected)
 {
 	int code = lk_get_key(ctx, table, keycode);
 	char *actual;
 
 	if (code == K_HOLE)
-		kbd_error(EXIT_FAILURE, 0, "Missing keycode %d in table %d", keycode, table);
+		kbd_error(EXIT_FAILURE, 0, "Missing keycode %u in table %u", keycode, table);
 
 	actual = lk_code_to_ksym(ctx, code);
 	if (!actual)
-		kbd_error(EXIT_FAILURE, 0, "Unable to stringify keycode %d in table %d (raw=0x%x)",
+		kbd_error(EXIT_FAILURE, 0, "Unable to stringify keycode %u in table %u (raw=0x%x)",
 			  keycode, table, code);
 
 	if (strcmp(actual, expected) != 0)
-		kbd_error(EXIT_FAILURE, 0, "Unexpected symbol in table %d keycode %d: got %s expected %s",
+		kbd_error(EXIT_FAILURE, 0, "Unexpected symbol in table %u keycode %u: got %s expected %s",
 			  table, keycode, actual, expected);
 
 	free(actual);

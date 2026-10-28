@@ -15,7 +15,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	load_test_keymap(&keymap, "keymap5.map");
 
 	for (i = 0; i < MAX_NR_FUNC; i++) {
-		if (!lk_func_exists(keymap.ctx, (int) i))
+		if (!lk_func_exists(keymap.ctx, i))
 			kbd_error(EXIT_FAILURE, 0, "Unable to find func %d", i);
 
 		kbs.kb_func      = (unsigned char) i;

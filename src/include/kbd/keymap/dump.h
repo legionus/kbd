@@ -28,14 +28,14 @@ typedef enum {
 struct kmapinfo {
 	lk_flags flags;          /**< Parser flags that are set outside the library */
 	lk_keywords keywords;    /**< Keywords used in keymap files */
-	ssize_t keymaps;         /**< Number of keymaps in actual use */
-	ssize_t keymaps_alloced; /**< Number of keymaps dynamically allocated */
-	ssize_t functions;       /**< Number of function keys */
-	ssize_t composes;        /**< Number of compose definitions in actual use */
+	size_t keymaps;          /**< Number of keymaps in actual use */
+	size_t keymaps_alloced;  /**< Number of keymaps dynamically allocated */
+	size_t functions;        /**< Number of function keys */
+	size_t composes;         /**< Number of compose definitions in actual use */
 
-	ssize_t keymaps_total;
-	ssize_t functions_total;
-	ssize_t composes_total;
+	size_t keymaps_total;
+	size_t functions_total;
+	size_t composes_total;
 };
 
 /**

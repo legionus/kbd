@@ -9,16 +9,16 @@
 #include <kbd/keymap/array.h>
 
 int
-lk_array_init(struct lk_array *a, ssize_t memb, ssize_t size)
+lk_array_init(struct lk_array *a, size_t memb, size_t size)
 {
-	if (!a || memb < 0 || size < 0) {
+	if (!a || !memb) {
 		errno = EINVAL;
 		return -EINVAL;
 	}
 
 	memset(a, 0, sizeof(struct lk_array));
 
-	a->array = calloc((size_t) size, (size_t) memb);
+	a->array = calloc(size, memb);
 	a->memb  = memb;
 	a->total = size;
 
@@ -50,19 +50,19 @@ lk_array_empty(struct lk_array *a)
 		return -EINVAL;
 	}
 
-	memset(a->array, 0, (size_t) (a->memb * a->total));
+	memset(a->array, 0, a->memb * a->total);
 	a->count = 0;
 
 	return 0;
 }
 
 int
-lk_array_exists(struct lk_array *a, ssize_t i)
+lk_array_exists(struct lk_array *a, size_t i)
 {
 	char *s;
-	ssize_t k;
+	size_t k;
 
-	if (!a || i < 0 || i >= a->total) {
+	if (!a || i >= a->total) {
 		errno = EINVAL;
 		return 0;
 	}
@@ -78,9 +78,9 @@ lk_array_exists(struct lk_array *a, ssize_t i)
 }
 
 void *
-lk_array_get(struct lk_array *a, ssize_t i)
+lk_array_get(struct lk_array *a, size_t i)
 {
-	if (!a || i < 0 || i >= a->total) {
+	if (!a || i >= a->total) {
 		errno = EINVAL;
 		return NULL;
 	}
@@ -88,10 +88,10 @@ lk_array_get(struct lk_array *a, ssize_t i)
 }
 
 void *
-lk_array_get_ptr(struct lk_array *a, ssize_t i)
+lk_array_get_ptr(struct lk_array *a, size_t i)
 {
 	void **ptr;
-	if (!a || i < 0 || i >= a->total) {
+	if (!a || i >= a->total) {
 		errno = EINVAL;
 		return NULL;
 	}
@@ -100,21 +100,21 @@ lk_array_get_ptr(struct lk_array *a, ssize_t i)
 }
 
 static int
-array_resize(struct lk_array *a, ssize_t i)
+array_resize(struct lk_array *a, size_t i)
 {
-	if (!a || i < 0) {
+	if (!a) {
 		errno = EINVAL;
 		return -EINVAL;
 	}
 
 	if (i >= a->total) {
-		char *tmp = realloc(a->array, (size_t) (a->memb * (i + 1)));
+		char *tmp = realloc(a->array, a->memb * (i + 1));
 		if (!tmp) {
 			errno = ENOMEM;
 			return -ENOMEM;
 		}
 
-		memset(tmp + (a->memb * a->total), 0, (size_t) (a->memb * (i + 1 - a->total)));
+		memset(tmp + (a->memb * a->total), 0, a->memb * (i + 1 - a->total));
 
 		a->array = tmp;
 		a->total = i + 1;
@@ -123,7 +123,7 @@ array_resize(struct lk_array *a, ssize_t i)
 }
 
 int
-lk_array_set(struct lk_array *a, ssize_t i, const void *e)
+lk_array_set(struct lk_array *a, size_t i, const void *e)
 {
 	int ret = array_resize(a, i);
 	int existed_before, exists_after;
@@ -132,7 +132,7 @@ lk_array_set(struct lk_array *a, ssize_t i, const void *e)
 		return ret;
 
 	existed_before = lk_array_exists(a, i);
-	memcpy(a->array + (a->memb * i), e, (size_t) a->memb);
+	memcpy(a->array + (a->memb * i), e, a->memb);
 	exists_after = lk_array_exists(a, i);
 
 	if (!existed_before && exists_after)
@@ -144,15 +144,15 @@ lk_array_set(struct lk_array *a, ssize_t i, const void *e)
 }
 
 int
-lk_array_unset(struct lk_array *a, ssize_t i)
+lk_array_unset(struct lk_array *a, size_t i)
 {
-	if (!a || i < 0 || i >= a->total) {
+	if (!a || i >= a->total) {
 		errno = EINVAL;
 		return -EINVAL;
 	}
 
 	if (lk_array_exists(a, i)) {
-		memset(a->array + (a->memb * i), 0, (size_t) a->memb);
+		memset(a->array + (a->memb * i), 0, a->memb);
 		a->count--;
 	}
 
@@ -167,7 +167,7 @@ lk_array_append(struct lk_array *a, const void *e)
 	if (ret < 0)
 		return ret;
 
-	memcpy(a->array + (a->memb * a->count), e, (size_t) a->memb);
+	memcpy(a->array + (a->memb * a->count), e, a->memb);
 	a->count++;
 
 	return 0;

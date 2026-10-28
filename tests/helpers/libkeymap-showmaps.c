@@ -8,7 +8,7 @@
 
 int main(int argc KBD_ATTR_UNUSED, char **argv)
 {
-	int i;
+	unsigned int i;
 	struct lk_ctx *ctx;
 	struct kbdfile *fp;
 	struct kbdfile_ctx *kbdfile_ctx;
@@ -33,7 +33,7 @@ int main(int argc KBD_ATTR_UNUSED, char **argv)
 	for (i = 0; i < ctx->keymap->total; i++) {
 		if (!lk_map_exists(ctx, i))
 			continue;
-		printf("keymap %03d\n", i);
+		printf("keymap %03u\n", i);
 	}
 
 	kbdfile_free(fp);

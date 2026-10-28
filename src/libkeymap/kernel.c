@@ -94,7 +94,7 @@ int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 	struct kbdiacrs kd = { 0 };
 	struct kbdiacr *ar = kd.kbdiacr;
 #endif
-	int i;
+	unsigned int i;
 	struct lk_kbdiacr dcr = { 0 };
 
 	if (lk_ioctl_ptr(ctx, fd, request, &kd)) {
@@ -103,7 +103,7 @@ int lk_kernel_diacrs(struct lk_ctx *ctx, int fd)
 		return -1;
 	}
 
-	for (i = 0; (unsigned int) i < kd.kb_cnt; i++) {
+	for (i = 0; i < kd.kb_cnt; i++) {
 		dcr.diacr  = (ar + i)->diacr;
 		dcr.base   = (ar + i)->base;
 		dcr.result = (ar + i)->result;

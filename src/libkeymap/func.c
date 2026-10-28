@@ -15,7 +15,7 @@
 
 #include "contextP.h"
 
-int lk_func_exists(struct lk_ctx *ctx, int index)
+int lk_func_exists(struct lk_ctx *ctx, unsigned int index)
 {
 	return (lk_array_get_ptr(ctx->func_table, index) != NULL);
 }
@@ -59,7 +59,7 @@ int lk_add_func(struct lk_ctx *ctx, struct kbsentry *kbs)
 	return 0;
 }
 
-int lk_del_func(struct lk_ctx *ctx, int index)
+int lk_del_func(struct lk_ctx *ctx, unsigned int index)
 {
 	char *s;
 

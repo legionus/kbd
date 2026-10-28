@@ -77,9 +77,9 @@ expect_options(const char *options, int want_accepted)
 		kbd_error(EXIT_FAILURE, 0, "Unexpected conversion result for options %s: %d",
 			  options ? options : "(default)", ret);
 	if (!want_accepted) {
-		for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+		for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
 			if (lk_map_exists(keymap.ctx, table))
-				kbd_error(EXIT_FAILURE, 0, "Rejected options populated table %d", table);
+				kbd_error(EXIT_FAILURE, 0, "Rejected options populated table %u", table);
 		}
 	}
 	free_test_keymap(&keymap);

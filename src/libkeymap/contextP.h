@@ -96,7 +96,7 @@ struct lk_ctx {
 
 	struct lk_array *key_constant;
 	struct lk_array *key_line;
-	int mod;
+	unsigned int mod;
 	struct kbdfile *stack[MAX_INCLUDE_DEPTH];
 };
 

@@ -247,13 +247,13 @@ range0		: NUMBER DASH NUMBER
 			{
 				int i;
 				for (i = $1; i <= $3; i++) {
-					if (lk_add_map(ctx, i) == -1)
+					if (lk_add_map(ctx, (unsigned int) i) == -1)
 						YYERROR;
 				}
 			}
 		| NUMBER
 			{
-				if (lk_add_map(ctx, $1) == -1)
+				if (lk_add_map(ctx, (unsigned int) $1) == -1)
 					YYERROR;
 			}
 		;
@@ -303,15 +303,18 @@ compsym		: CCHAR		{	$$ = $1;	}
 		;
 singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 			{
-				int j, i, keycode;
+				unsigned int j, i, key;
+				int keycode;
 				int *val;
+
+				key = (unsigned int) $2;
 
 				if (ctx->key_line->count == 1) {
 					char one = 1;
 					/* Some files do not have a keymaps line, and
 					 * we have to wait until all input has been read
 					 * before we know which maps to fill. */
-					if (lk_array_set(ctx->key_constant, $2, &one) < 0) {
+					if (lk_array_set(ctx->key_constant, key, &one) < 0) {
 						ERR(ctx, _("out of memory"));
 						YYERROR;
 					}
@@ -323,7 +326,7 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 						if (!lk_map_exists(ctx, j))
 							continue;
 
-						if (lk_del_key(ctx, j, $2) < 0)
+						if (lk_del_key(ctx, j, key) < 0)
 							YYERROR;
 					}
 				}
@@ -343,7 +346,7 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 								keycode = *val;
 							}
 
-							if (lk_add_key(ctx, j, $2, keycode) < 0)
+							if (lk_add_key(ctx, j, key, keycode) < 0)
 								YYERROR;
 						}
 						i++;
@@ -358,7 +361,7 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					for (i = 0; i < ctx->key_line->count; i++) {
 						val = lk_array_get(ctx->key_line, i);
 
-						if (lk_add_key(ctx, i, $2, *val) < 0)
+						if (lk_add_key(ctx, i, key, *val) < 0)
 							YYERROR;
 					}
 				}
@@ -366,13 +369,13 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 
 		| modifiers KEYCODE NUMBER EQUALS rvalue EOL
 			{
-				if (lk_add_key(ctx, ctx->mod, $3, $5) < 0)
+				if (lk_add_key(ctx, ctx->mod, (unsigned int) $3, $5) < 0)
 					YYERROR;
 				ctx->mod = 0;
 			}
 		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
 			{
-				if (lk_add_key(ctx, 0, $3, $5) < 0)
+				if (lk_add_key(ctx, 0, (unsigned int) $3, $5) < 0)
 					YYERROR;
 				ctx->mod = 0;
 			}

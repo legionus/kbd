@@ -13,10 +13,11 @@
 #include "contextP.h"
 #include "ksyms.h"
 
-static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
+static int set_keymap_table(struct lk_ctx *ctx, int fd, unsigned int k_table)
 {
 	struct kbentry ke;
-	int k_index, value, count, fail;
+	unsigned int k_index;
+	int value, count, fail;
 
 	count = 0;
 
@@ -27,7 +28,7 @@ static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 		value = lk_get_key(ctx, k_table, k_index);
 
 		if (value < 0 || value > USHRT_MAX) {
-			WARN(ctx, _("can not bind key %d to value %d because it is too large"),
+			WARN(ctx, _("can not bind key %u to value %d because it is too large"),
 					k_index, value);
 			continue;
 		}
@@ -40,7 +41,7 @@ static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 
 		if (fail) {
 			if (errno == EPERM) {
-				ERR(ctx, _("Keymap %d: Permission denied"),
+				ERR(ctx, _("Keymap %u: Permission denied"),
 						k_table);
 				return -1;
 			}
@@ -56,18 +57,18 @@ static int set_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 			count++;
 		}
 
-		INFO(ctx, _("keycode %d, table %d = %d%s"), k_index, k_table, ke.kb_value,
+		INFO(ctx, _("keycode %u, table %u = %d%s"), k_index, k_table, ke.kb_value,
 				fail ? _("    FAILED") : "");
 
 		if (fail)
-			WARN(ctx, _("failed to bind key %d to value %d"),
+			WARN(ctx, _("failed to bind key %u to value %d"),
 					k_index, ke.kb_value);
 	}
 
 	return count;
 }
 
-static int clear_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
+static int clear_keymap_table(struct lk_ctx *ctx, int fd, unsigned int k_table)
 {
 	struct kbentry ke;
 
@@ -76,13 +77,13 @@ static int clear_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 	ke.kb_index = 0;
 	ke.kb_value = K_NOSUCHMAP;
 
-	DBG(ctx, _("deallocate keymap %d"), k_table);
+	DBG(ctx, _("deallocate keymap %u"), k_table);
 
 	if (!lk_ioctl_ptr(ctx, fd, KDSKBENT, &ke))
 		return 0;
 
 	if (errno != EINVAL) {
-		ERR(ctx, _("KDSKBENT: %s: could not deallocate keymap %d"),
+		ERR(ctx, _("KDSKBENT: %s: could not deallocate keymap %u"),
 				strerror(errno), k_table);
 		return -1;
 	}
@@ -90,7 +91,7 @@ static int clear_keymap_table(struct lk_ctx *ctx, int fd, int k_table)
 	/*
 	 * probably an old kernel. clear keymap by hand.
 	 */
-	for (int k_index = 0; k_index < NR_KEYS; k_index++) {
+	for (unsigned int k_index = 0; k_index < NR_KEYS; k_index++) {
 		ke.kb_table = (unsigned char) k_table;
 		ke.kb_index = (unsigned char) k_index;
 		ke.kb_value = K_HOLE;
@@ -121,7 +122,7 @@ static int set_keymap(struct lk_ctx *ctx, int fd, int kbd_mode)
 		}
 	}
 
-	for (int k_table = 0; k_table < MAX_NR_KEYMAPS; k_table++) {
+	for (unsigned int k_table = 0; k_table < MAX_NR_KEYMAPS; k_table++) {
 		if (lk_map_exists(ctx, k_table)) {
 			int ct = set_keymap_table(ctx, fd, k_table);
 

@@ -67,7 +67,7 @@ dump_compose_input(struct lk_ctx *ctx, FILE *fd, unsigned int c)
 
 int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd)
 {
-	int i, j;
+	unsigned int i, j;
 	char magic[] = "bkeymap";
 
 	if (lk_add_constants(ctx) < 0)
@@ -91,7 +91,7 @@ int lk_dump_bkeymap(struct lk_ctx *ctx, FILE *fd)
 			int value = lk_get_key(ctx, i, j);
 
 			if (value < 0 || value > USHRT_MAX) {
-				ERR(ctx, _("can not bind key %d to value %d because it is too large"), j, value);
+				ERR(ctx, _("can not bind key %u to value %d because it is too large"), j, value);
 				goto fail;
 			}
 
@@ -132,10 +132,10 @@ mk_mapname(char modifier)
 
 int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 {
-	int j;
-	int i, imax;
+	unsigned int j;
+	unsigned int i, imax;
 
-	int maxfunc;
+	unsigned int maxfunc;
 	long func_table_offs[MAX_NR_FUNC];
 	long func_buf_offset = 0;
 	struct lk_kbdiacr *kddiac;
@@ -256,14 +256,14 @@ int lk_dump_ctable(struct lk_ctx *ctx, FILE *fd)
 /* void dump_funcs(void) */
 void lk_dump_funcs(struct lk_ctx *ctx, FILE *fd)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < ctx->func_table->total; i++) {
 		char *ptr = lk_array_get_ptr(ctx->func_table, i);
 		if (!ptr)
 			continue;
 
-		fprintf(fd, "string %s = \"", get_sym(ctx, KT_FN, i));
+		fprintf(fd, "string %s = \"", get_sym(ctx, KT_FN, (int) i));
 
 		for (; *ptr; ptr++) {
 			if (*ptr == '"' || *ptr == '\\') {
@@ -324,8 +324,10 @@ void lk_dump_diacs(struct lk_ctx *ctx, FILE *fd)
 
 void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 {
-	int i, n, m, s, kw;
-	kw = i = n = m = s = 0;
+	unsigned int i, n, m, s;
+	int kw;
+	kw = 0;
+	i = n = m = s = 0;
 
 	for (i = 0; i < ctx->keymap->total; i++) {
 		if (!lk_map_exists(ctx, i)) {
@@ -334,8 +336,8 @@ void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 			kw = kw ?: fprintf(fd, "keymaps");
 			n--, m--;
 			(n == m)
-			    ? fprintf(fd, "%c%d", (s ? ',' : ' '), n)
-			    : fprintf(fd, "%c%d-%d", (s ? ',' : ' '), n, m);
+			    ? fprintf(fd, "%c%u", (s ? ',' : ' '), n)
+			    : fprintf(fd, "%c%u-%u", (s ? ',' : ' '), n, m);
 			n = m = 0;
 			s = 1;
 		} else {
@@ -349,8 +351,8 @@ void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 		kw = kw ?: fprintf(fd, "keymaps");
 		n--, m--;
 		(n == m)
-		    ? fprintf(fd, "%c%d", (s ? ',' : ' '), n)
-		    : fprintf(fd, "%c%d-%d", (s ? ',' : ' '), n, m);
+		    ? fprintf(fd, "%c%u", (s ? ',' : ' '), n)
+		    : fprintf(fd, "%c%u-%u", (s ? ',' : ' '), n, m);
 	}
 
 	if (kw)
@@ -358,12 +360,12 @@ void lk_dump_keymaps(struct lk_ctx *ctx, FILE *fd)
 }
 
 static void
-print_mod(FILE *fd, int x)
+print_mod(FILE *fd, unsigned int x)
 {
 	if (x) {
 		modifier_t *mod = (modifier_t *)modifiers;
 		while (mod->name) {
-			if (x & (1 << mod->bit))
+			if (x & (1U << mod->bit))
 				fprintf(fd, "%s\t", mod->name);
 			mod++;
 		}
@@ -412,26 +414,26 @@ print_keysym(struct lk_ctx *ctx, FILE *fd, int code, char numeric)
 }
 
 static void
-print_bind(struct lk_ctx *ctx, FILE *fd, int bufj, int i, int j, char numeric)
+print_bind(struct lk_ctx *ctx, FILE *fd, int bufj, unsigned int i, unsigned int j, char numeric)
 {
 	if (j)
 		fprintf(fd, "\t");
 	print_mod(fd, j);
-	fprintf(fd, "keycode %3d =", i);
+	fprintf(fd, "keycode %3u =", i);
 	print_keysym(ctx, fd, bufj, numeric);
 	fprintf(fd, "\n");
 }
 
 void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numeric)
 {
-	int i, j;
+	unsigned int i, j;
 	int buf[MAX_NR_KEYMAPS];
 	int isletter, islatin, isasexpected;
 	int typ, val;
 	int alt_is_meta = 0;
 	int all_holes;
 	int zapped[MAX_NR_KEYMAPS];
-	ssize_t keymapnr = ctx->keymap->total;
+	size_t keymapnr = ctx->keymap->total;
 
 	if (!keymapnr)
 		return;
@@ -441,7 +443,7 @@ void lk_dump_keys(struct lk_ctx *ctx, FILE *fd, lk_table_shape table, char numer
 
 	/* first pass: determine whether to set alt_is_meta */
 	for (j = 0; j < ctx->keymap->total; j++) {
-		int ja = (j | M_ALT);
+		unsigned int ja = (j | M_ALT);
 
 		if (!(j != ja && lk_map_exists(ctx, j) && lk_map_exists(ctx, ja)))
 			continue;
@@ -489,7 +491,7 @@ no_shorthands:
 			continue;
 
 		if (table == LK_SHAPE_FULL_TABLE) {
-			fprintf(fd, "keycode %3d =", i);
+			fprintf(fd, "keycode %3u =", i);
 
 			for (j = 0; j < keymapnr; j++) {
 				if (lk_map_exists(ctx, j))
@@ -547,7 +549,8 @@ no_shorthands:
 
 		if (alt_is_meta) {
 			for (j = 0; j < keymapnr; j++) {
-				int ja, ktyp;
+				unsigned int ja;
+				int ktyp;
 				ja = (j | M_ALT);
 
 				if (j != ja && lk_map_exists(ctx, ja) && ((ktyp = KTYP(buf[j])) == KT_LATIN || ktyp == KT_LETTER) && KVAL(buf[j]) < 128) {
@@ -559,7 +562,7 @@ no_shorthands:
 			}
 		}
 
-		fprintf(fd, "keycode %3d =", i);
+		fprintf(fd, "keycode %3u =", i);
 
 		if (isasexpected) {
 			/* print only a single entry */
@@ -569,7 +572,7 @@ no_shorthands:
 		} else {
 			/* choose between single entry line followed by exceptions,
 			   and long line followed by exceptions; avoid VoidSymbol */
-			int bad, count;
+			size_t bad, count;
 			bad = count = 0;
 
 			for (j = 1; j < keymapnr; j++) {

@@ -136,12 +136,12 @@ expect_compose_input_round_trip(int unicode)
 	for (size_t i = 0; i < count; i++) {
 		struct lk_kbdiacr rule;
 
-		if (lk_get_diacr(second.ctx, (int) i, &rule) != 0 ||
+		if (lk_get_diacr(second.ctx, (unsigned int) i, &rule) != 0 ||
 		    rule.diacr != rules[i].diacr || rule.base != rules[i].base ||
 		    rule.result != rules[i].result)
 			kbd_error(EXIT_FAILURE, 0, "Compose rule %zu changed during round trip", i);
 	}
-	if (lk_diacr_exists(second.ctx, (int) count))
+	if (lk_diacr_exists(second.ctx, (unsigned int) count))
 		kbd_error(EXIT_FAILURE, 0, "Unexpected extra compose rule");
 	free(buf);
 	free_test_keymap(&second);

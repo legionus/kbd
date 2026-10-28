@@ -9,12 +9,12 @@
 #include "ksyms.h"
 #include "modifiers.h"
 
-int lk_map_exists(struct lk_ctx *ctx, int k_table)
+int lk_map_exists(struct lk_ctx *ctx, unsigned int k_table)
 {
 	return (lk_array_get_ptr(ctx->keymap, k_table) != NULL);
 }
 
-int lk_get_keys_total(struct lk_ctx *ctx, int k_table)
+int lk_get_keys_total(struct lk_ctx *ctx, unsigned int k_table)
 {
 	struct lk_array *map;
 	map = lk_array_get_ptr(ctx->keymap, k_table);
@@ -29,7 +29,7 @@ int lk_get_keys_total(struct lk_ctx *ctx, int k_table)
 	return (int) map->total;
 }
 
-int lk_key_exists(struct lk_ctx *ctx, int k_table, int k_index)
+int lk_key_exists(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 {
 	struct lk_array *map;
 	unsigned int *key;
@@ -47,7 +47,7 @@ int lk_key_exists(struct lk_ctx *ctx, int k_table, int k_index)
 	return (*key > 0);
 }
 
-int lk_add_map(struct lk_ctx *ctx, int k_table)
+int lk_add_map(struct lk_ctx *ctx, unsigned int k_table)
 {
 	struct lk_array *keys;
 
@@ -72,14 +72,14 @@ int lk_add_map(struct lk_ctx *ctx, int k_table)
 	return 0;
 }
 
-int lk_get_key(struct lk_ctx *ctx, int k_table, int k_index)
+int lk_get_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 {
 	struct lk_array *map;
 	int *key;
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
-		ERR(ctx, _("unable to get keymap %d"), k_table);
+		ERR(ctx, _("unable to get keymap %u"), k_table);
 		return -1;
 	}
 
@@ -91,13 +91,13 @@ int lk_get_key(struct lk_ctx *ctx, int k_table, int k_index)
 	return (*key) - 1;
 }
 
-int lk_del_key(struct lk_ctx *ctx, int k_table, int k_index)
+int lk_del_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index)
 {
 	struct lk_array *map;
 
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
-		ERR(ctx, _("unable to get keymap %d"), k_table);
+		ERR(ctx, _("unable to get keymap %u"), k_table);
 		return -1;
 	}
 
@@ -105,7 +105,7 @@ int lk_del_key(struct lk_ctx *ctx, int k_table, int k_index)
 		return 0;
 
 	if (lk_array_unset(map, k_index) < 0) {
-		ERR(ctx, _("unable to unset key %d for table %d"),
+		ERR(ctx, _("unable to unset key %u for table %u"),
 		    k_index, k_table);
 		return -1;
 	}
@@ -113,7 +113,7 @@ int lk_del_key(struct lk_ctx *ctx, int k_table, int k_index)
 	return 0;
 }
 
-int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
+int lk_add_key(struct lk_ctx *ctx, unsigned int k_table, unsigned int k_index, int keycode)
 {
 	struct lk_array *map;
 	int code = keycode + 1;
@@ -128,7 +128,7 @@ int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 	if (!map) {
 		if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
-			ERR(ctx, _("adding map %d for key %d violates explicit keymaps line"),
+			ERR(ctx, _("adding map %u for key %u violates explicit keymaps line"),
 			    k_table, k_index);
 			return -1;
 		}
@@ -144,15 +144,15 @@ int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 	map = lk_array_get_ptr(ctx->keymap, k_table);
 
 	if (lk_array_set(map, k_index, &code) < 0) {
-		ERR(ctx, _("unable to set key %d for table %d"),
+		ERR(ctx, _("unable to set key %u for table %u"),
 		    k_index, k_table);
 		return -1;
 	}
 
 	if (ctx->keywords & LK_KEYWORD_ALTISMETA) {
-		int alttable = k_table | M_ALT;
-		int type     = KTYP(keycode);
-		int val      = KVAL(keycode);
+		unsigned int alttable = k_table | M_ALT;
+		int type              = KTYP(keycode);
+		int val               = KVAL(keycode);
 
 		if (alttable != k_table && lk_map_exists(ctx, alttable) &&
 		    !lk_key_exists(ctx, alttable, k_index) &&
@@ -167,9 +167,10 @@ int lk_add_key(struct lk_ctx *ctx, int k_table, int k_index, int keycode)
 }
 
 static int
-do_constant_key(struct lk_ctx *ctx, int i, int key)
+do_constant_key(struct lk_ctx *ctx, unsigned int i, int key)
 {
-	int j, typ, val;
+	unsigned int j;
+	int typ, val;
 
 	typ = KTYP(key);
 	val = KVAL(key);
@@ -219,7 +220,7 @@ do_constant_key(struct lk_ctx *ctx, int i, int key)
 
 int lk_add_constants(struct lk_ctx *ctx)
 {
-	int i, r0 = 0;
+	unsigned int i, r0 = 0;
 
 	if (ctx->keywords & LK_KEYWORD_KEYMAPS) {
 		while (r0 < ctx->keymap->total && !lk_map_exists(ctx, r0))

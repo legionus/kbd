@@ -37,11 +37,11 @@ xkeymap_warnings_suppressed(void)
  */
 #define NR_LAYOUTS 4
 
-static const int layout_switch[NR_LAYOUTS] = {
+static const unsigned int layout_switch[NR_LAYOUTS] = {
 	(0),
-	(1 << KG_SHIFTL),
-	(1 << KG_SHIFTR),
-	(1 << KG_SHIFTL) | (1 << KG_SHIFTR)
+	(1U << KG_SHIFTL),
+	(1U << KG_SHIFTR),
+	(1U << KG_SHIFTL) | (1U << KG_SHIFTR)
 };
 
 /*
@@ -724,14 +724,14 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 			unsigned int group = (base % NR_LAYOUTS) ^ (base >= NR_LAYOUTS ? 3u : 0u);
 			bool held = slot >= group_states;
 			xkb_layout_index_t selected = (layouts[num_layouts - 1][group] + held) % num_layouts;
-			int group_table = layout_switch[base % NR_LAYOUTS] |
-					  (base >= NR_LAYOUTS ? (1 << KG_CTRLL) : 0);
+			unsigned int group_table = layout_switch[base % NR_LAYOUTS] |
+						   (base >= NR_LAYOUTS ? (1U << KG_CTRLL) : 0U);
 
 			for (unsigned int mods = 0; mods < ARRAY_SIZE(masks); mods++) {
 				xkb_layout_index_t layout;
 				xkb_level_index_t level;
 				xkb_keysym_t sym;
-				int table = group_table | (int) mods | (held ? (1 << KG_CTRLR) : 0);
+				unsigned int table = group_table | mods | (held ? (1U << KG_CTRLR) : 0U);
 				int code;
 
 				/*
@@ -741,7 +741,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				 * KG_CTRLR is separate from the locked group bits.
 				 */
 				if (held && group_switch[KERN_KEYCODE(key)]) {
-					if (lk_add_key(xkeymap->ctx, table, (int) KERN_KEYCODE(key), K_CTRLR) < 0)
+					if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), K_CTRLR) < 0)
 						goto end;
 					continue;
 				}
@@ -786,7 +786,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					code = xkeymap_apply_modifiers(xkeymap, state, key, mods, code);
 				}
 
-				if (lk_add_key(xkeymap->ctx, table, (int) KERN_KEYCODE(key), code) < 0)
+				if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), code) < 0)
 					goto end;
 			}
 		}
@@ -808,11 +808,11 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 	 * final set of tables that survived XKB conversion, and that set is
 	 * only stable once the walk has finished.
 	 */
-	for (int keycode = 0; keycode < NR_KEYS; keycode++) {
+	for (unsigned int keycode = 0; keycode < NR_KEYS; keycode++) {
 		int modifier_code = K_HOLE;
 		int seen = 0;
 
-		for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+		for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
 			int code;
 
 			if (!lk_map_exists(ctx, table) || !lk_key_exists(ctx, table, keycode))
@@ -846,7 +846,7 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 		 * already-allocated table unless the key already has a distinct
 		 * binding there.
 		 */
-		for (int table = 0; table < MAX_NR_KEYMAPS; table++) {
+		for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
 			if (!lk_map_exists(ctx, table) || lk_key_exists(ctx, table, keycode))
 				continue;
 

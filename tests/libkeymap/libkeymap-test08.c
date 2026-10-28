@@ -8,7 +8,7 @@
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
-	int i;
+	unsigned int i;
 	char str[] = "qwertyuiopasdfghjklzxcvbnm";
 	struct parsed_keymap keymap;
 

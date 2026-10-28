@@ -8,7 +8,7 @@
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
-	int i = 0;
+	unsigned int i = 0;
 	struct parsed_keymap keymap;
 
 	load_test_keymap(&keymap, "keymap2.map");

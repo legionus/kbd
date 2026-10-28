@@ -16,18 +16,18 @@
 #include "contextP.h"
 #include "ksyms.h"
 
-int lk_diacr_exists(struct lk_ctx *ctx, int index)
+int lk_diacr_exists(struct lk_ctx *ctx, unsigned int index)
 {
 	return (lk_array_get_ptr(ctx->accent_table, index) != NULL);
 }
 
-int lk_get_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
+int lk_get_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 {
 	struct lk_kbdiacr *ptr;
 
 	ptr = lk_array_get_ptr(ctx->accent_table, index);
 	if (!ptr) {
-		ERR(ctx, _("Index %d in the accent table does not exist"), index);
+		ERR(ctx, _("Index %u in the accent table does not exist"), index);
 		return -1;
 	}
 
@@ -63,7 +63,7 @@ int lk_append_diacr(struct lk_ctx *ctx, struct lk_kbdiacr *dcr)
 	return 0;
 }
 
-int lk_add_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
+int lk_add_diacr(struct lk_ctx *ctx, unsigned int index, struct lk_kbdiacr *dcr)
 {
 	int rc;
 	struct lk_kbdiacr *ptr;
@@ -88,14 +88,14 @@ int lk_add_diacr(struct lk_ctx *ctx, int index, struct lk_kbdiacr *dcr)
 	return 0;
 }
 
-int lk_del_diacr(struct lk_ctx *ctx, int index)
+int lk_del_diacr(struct lk_ctx *ctx, unsigned int index)
 {
 	int rc;
 	struct lk_kbdiacr *ptr;
 
 	ptr = lk_array_get_ptr(ctx->accent_table, index);
 	if (!ptr) {
-		ERR(ctx, _("Index %d in the accent table does not exist"), index);
+		ERR(ctx, _("Index %u in the accent table does not exist"), index);
 		return -1;
 	}
 	free(ptr);
