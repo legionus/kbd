@@ -246,6 +246,13 @@ range		: range COMMA range0
 range0		: NUMBER DASH NUMBER
 			{
 				int i;
+				if ($1 < 0 || $1 >= MAX_NR_KEYMAPS ||
+				    $3 < 0 || $3 >= MAX_NR_KEYMAPS ||
+				    $1 > $3) {
+					ERR(ctx, _("keymap range %d-%d is out of bounds [0, %d]"),
+						$1, $3, MAX_NR_KEYMAPS - 1);
+					YYERROR;
+				}
 				for (i = $1; i <= $3; i++) {
 					if (lk_add_map(ctx, (unsigned int) i) == -1)
 						YYERROR;
@@ -253,6 +260,11 @@ range0		: NUMBER DASH NUMBER
 			}
 		| NUMBER
 			{
+				if ($1 < 0 || $1 >= MAX_NR_KEYMAPS) {
+					ERR(ctx, _("keymap number %d is out of bounds [0, %d]"),
+						$1, MAX_NR_KEYMAPS - 1);
+					YYERROR;
+				}
 				if (lk_add_map(ctx, (unsigned int) $1) == -1)
 					YYERROR;
 			}
@@ -307,6 +319,12 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 				int keycode;
 				int *val;
 
+				if ($2 < 0 || $2 >= NR_KEYS) {
+					WARN(ctx, _("keycode %d out of range [0, %d], ignoring"),
+						$2, NR_KEYS - 1);
+					break;
+				}
+
 				key = (unsigned int) $2;
 
 				if (ctx->key_line->count == 1) {
@@ -353,7 +371,7 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 					}
 
 					if (i < ctx->key_line->count) {
-						ERR(ctx, _("too many (%ld) entries on one line"),
+						ERR(ctx, _("too many (%zu) entries on one line"),
 							ctx->key_line->count);
 						YYERROR;
 					}
@@ -369,12 +387,24 @@ singleline	: KEYCODE NUMBER EQUALS rvalue0 EOL
 
 		| modifiers KEYCODE NUMBER EQUALS rvalue EOL
 			{
+				if ($3 < 0 || $3 >= NR_KEYS) {
+					WARN(ctx, _("keycode %d out of range [0, %d], ignoring"),
+						$3, NR_KEYS - 1);
+					ctx->mod = 0;
+					break;
+				}
 				if (lk_add_key(ctx, ctx->mod, (unsigned int) $3, $5) < 0)
 					YYERROR;
 				ctx->mod = 0;
 			}
 		| PLAIN KEYCODE NUMBER EQUALS rvalue EOL
 			{
+				if ($3 < 0 || $3 >= NR_KEYS) {
+					WARN(ctx, _("keycode %d out of range [0, %d], ignoring"),
+						$3, NR_KEYS - 1);
+					ctx->mod = 0;
+					break;
+				}
 				if (lk_add_key(ctx, 0, (unsigned int) $3, $5) < 0)
 					YYERROR;
 				ctx->mod = 0;
@@ -401,6 +431,11 @@ rvalue0		:
 rvalue1		: rvalue
 			{
 				int val = $1;
+				if (ctx->key_line->count >= MAX_NR_KEYMAPS) {
+					ERR(ctx, _("too many (%zu) entries on one line"),
+						ctx->key_line->count + 1);
+					YYERROR;
+				}
 				if (lk_array_append(ctx->key_line, &val) < 0) {
 					ERR(ctx, _("out of memory"));
 					YYERROR;
