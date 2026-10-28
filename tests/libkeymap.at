@@ -398,3 +398,8 @@ AT_KEYWORDS([libkeymap unittest xkb])
 AT_SKIP_IF([ test ! -x "$abs_builddir/libkeymap/libkeymap-test68" ])
 UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test68])
 AT_CLEANUP
+
+AT_SETUP([test 69 (lk_array overflow and keymap bounds validation)])
+AT_KEYWORDS([libkeymap unittest])
+UNITTEST_MEMCHECK([$abs_builddir/libkeymap/libkeymap-test69])
+AT_CLEANUP
