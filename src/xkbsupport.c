@@ -68,6 +68,7 @@ struct reachable_sym {
 
 enum xkeymap_modifier_mask {
 	XKEYMAP_MASK_SHIFT,
+	XKEYMAP_MASK_LOCK,
 	XKEYMAP_MASK_CONTROL,
 	XKEYMAP_MASK_ALT,
 	XKEYMAP_MASK_LEVEL3,
@@ -145,6 +146,7 @@ struct xkeymap_modifier_rule {
 
 static const struct xkeymap_modifier_rule xkeymap_modifier_rules[] = {
 	{ XKEYMAP_MASK_SHIFT,		"Shift",		0,				(1u << KG_SHIFT) },
+	{ XKEYMAP_MASK_LOCK,		"Lock",			0,				0 },
 	{ XKEYMAP_MASK_CONTROL,		"Control",		0,				(1u << KG_CTRL) },
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_L,			(1u << KG_ALT) },
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_R,			(1u << KG_ALT) },
@@ -623,19 +625,35 @@ static void remember_reachable_sym(struct xkeymap *xkeymap, xkb_keysym_t sym, in
 		free(ptr);
 }
 
-static int xkeymap_is_capslockable(xkb_keysym_t sym, int code)
+static int xkeymap_is_capslockable(struct xkeymap *xkeymap, struct xkb_state *state,
+				   xkb_keycode_t key, xkb_mod_mask_t mask,
+				   xkb_layout_index_t selected, xkb_keysym_t sym, int code)
 {
+	xkb_mod_mask_t lock_mask = xkeymap->modifier_masks[XKEYMAP_MASK_LOCK];
+	xkb_mod_mask_t shift_mask = xkeymap->modifier_masks[XKEYMAP_MASK_SHIFT];
+	xkb_keysym_t sym_lock, sym_shift;
+
 	/* Only synthesize CapsLock behaviour for symbols the kernel can case-map. */
-	if (xkb_keysym_to_lower(sym) == sym && xkb_keysym_to_upper(sym) == sym)
+	if (code >= 0x100 && !(code >= 0x1000 && (code ^ 0xf000) < 0x100))
 		return 0;
 
-	if (code < 0x100)
-		return 1;
+	if (!lock_mask || !shift_mask)
+		return 0;
 
-	if (code >= 0x1000 && (code ^ 0xf000) < 0x100)
-		return 1;
+	/*
+	 * The Linux VT implements KT_LETTER by toggling KG_SHIFT when CapsLock
+	 * is active. Only mark a binding as KT_LETTER when activating XKB Lock
+	 * actually switches it to the same symbol as toggling Shift.
+	 */
+	xkb_state_update_mask(state, mask, 0, lock_mask, 0, 0, selected);
+	sym_lock = xkb_state_key_get_one_sym(state, key);
 
-	return 0;
+	xkb_state_update_mask(state, mask ^ shift_mask, 0, 0, 0, 0, selected);
+	sym_shift = xkb_state_key_get_one_sym(state, key);
+
+	xkb_state_update_mask(state, mask, 0, 0, 0, 0, selected);
+
+	return sym_lock != XKB_KEY_NoSymbol && sym_lock != sym && sym_lock == sym_shift;
 }
 
 /* Convert modifiers left over after XKB has selected the key's level. */
@@ -932,7 +950,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 						code = base_code;
 
 					remember_reachable_sym(xkeymap, sym, code);
-					if (xkeymap_is_capslockable(sym, code))
+					if (xkeymap_is_capslockable(xkeymap, state, key, mask, selected, sym, code))
 						code = lk_add_capslock(xkeymap->ctx, code);
 					code = xkeymap_apply_modifiers(xkeymap, state, key, mods, code);
 				}
