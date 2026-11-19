@@ -173,6 +173,14 @@ test_german_altgr(const char *model)
 	expect_key_symbol(keymap.ctx, altgr | (1 << KG_SHIFT), 100, "AltGr");
 	expect_key_symbol(keymap.ctx, altgr, 42, "Shift");
 	expect_key_symbol(keymap.ctx, altgr | (1 << KG_SHIFT), 42, "Shift");
+
+	/* Unassigned virtual-modifier slots (<LVL3>, <LVL5>..<HYPR>) must be omitted. */
+	if (lk_key_exists(keymap.ctx, 0, 84))
+		kbd_error(EXIT_FAILURE, 0, "Unassigned keycode 84 (<LVL3>) should not be emitted");
+	for (unsigned int fake = 195; fake <= 199; fake++) {
+		if (lk_key_exists(keymap.ctx, 0, fake))
+			kbd_error(EXIT_FAILURE, 0, "Unassigned keycode %u should not be emitted", fake);
+	}
 	expect_key_symbol(keymap.ctx, 0, 56, "Alt");
 	expect_key_symbol(keymap.ctx, altgr | (1 << KG_CTRL), 16, "nul");
 	expect_key_code(keymap.ctx, altgr | (1 << KG_ALT), 16, K(KT_META, '@'));
@@ -649,10 +657,159 @@ test_level5_is_not_collapsed_into_alt(void)
 	expect_us_capslock(keymap.ctx);
 	expect_key_symbol(keymap.ctx, 0, 16, "q");
 	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 16, "Q");
+	expect_key_code(keymap.ctx, 0, 100, K_CTRLL);
+	expect_key_code(keymap.ctx, 1 << KG_CTRLL, 16, K_HOLE);
+	expect_key_symbol(keymap.ctx, (1 << KG_CTRLL) | (1 << KG_SHIFT), 16, "exclam");
+	expect_key_code(keymap.ctx, (1 << KG_CTRLL) | (1 << KG_ALTGR), 16, K_HOLE);
+	expect_key_symbol(keymap.ctx, (1 << KG_CTRLL) | (1 << KG_ALTGR) | (1 << KG_SHIFT), 16, "at");
 
 	expect_key_code(keymap.ctx, 1 << KG_ALT, 16, K(KT_META, 'q'));
 	expect_key_code(keymap.ctx, 1 << KG_ALTGR, 16, K_HOLE);
 
+	free_test_keymap(&keymap);
+}
+
+static void
+test_level5_layouts_and_table_limits(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params noted = {
+		.model = "pc105",
+		.layout = "de",
+		.variant = "noted",
+	};
+	struct xkeymap_params e1 = {
+		.model = "pc105",
+		.layout = "de",
+		.variant = "e1",
+	};
+	struct xkeymap_params t3 = {
+		.model = "pc105",
+		.layout = "de",
+		.variant = "T3",
+	};
+	struct xkeymap_params digits_lock = {
+		.model = "pc105",
+		.layout = "fr",
+		.options = "caps:digits_row_independent_lock",
+	};
+	struct xkeymap_params three_group_select = {
+		.model = "pc105",
+		.layout = "us,ru,de",
+		.variant = ",,noted",
+		.options = "grp:shift_caps_switch",
+	};
+	struct xkeymap_params exhausted = {
+		.model = "pc105",
+		.layout = "us,ru,de",
+		.variant = ",,noted",
+		.options = "grp:shift_caps_switch,grp:switch",
+	};
+
+	init_test_keymap(&keymap, "xkb-de-noted-level5");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &noted) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB de(noted) layout");
+
+	/* Level3 stays on AltGr; Level5 uses CtrlL and CtrlL_Lock. */
+	expect_key_code(keymap.ctx, 0, 58, K_ALTGR);
+	expect_key_code(keymap.ctx, 0, 40, K_ALTGR);
+	expect_key_code(keymap.ctx, 0, 86, K_CTRLL);
+	expect_key_code(keymap.ctx, 0, 100, K_CTRLL);
+	expect_key_code(keymap.ctx, (1 << KG_ALTGR) | (1 << KG_SHIFT), 15, K_CTRLLLOCK);
+	expect_key_symbol(keymap.ctx, 0, 32, "i");
+	expect_key_symbol(keymap.ctx, 1 << KG_SHIFT, 32, "I");
+	expect_key_symbol(keymap.ctx, 1 << KG_ALTGR, 32, "braceleft");
+	expect_key_symbol(keymap.ctx, (1 << KG_ALTGR) | (1 << KG_SHIFT), 32, "iota");
+	expect_key_symbol(keymap.ctx, 1 << KG_CTRLL, 32, "Down");
+	expect_key_symbol(keymap.ctx, (1 << KG_CTRLL) | (1 << KG_SHIFT), 32, "Down");
+	expect_key_code(keymap.ctx, (1 << KG_CTRLL) | (1 << KG_ALTGR), 32, 0x222b ^ 0xf000);
+	free_test_keymap(&keymap);
+
+	/*
+	 * Layouts such as de(e1) and de(T3) expose ISO_Level5_Latch only on
+	 * higher levels (e.g. AltGr+F or Shift+RightAlt) and rely on the
+	 * virtual <LVL5> mapping for its modifier mask. Verify that holding
+	 * the level-5 modifier reaches level 5 and releasing keys in any
+	 * order never leaves a modifier stuck.
+	 */
+	init_test_keymap(&keymap, "xkb-de-e1-level5-latch");
+	if (convert_xkb_keymap(keymap.ctx, &e1) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB de(e1) layout");
+	expect_key_code(keymap.ctx, 1 << KG_ALTGR, 33, K_CTRLL);
+	expect_key_symbol(keymap.ctx, 1 << KG_CTRLL, 16, "masculine");
+	{
+		struct console_state console = { 0 };
+
+		console_key(keymap.ctx, &console, 100, 1); /* Press AltGr */
+		console_key(keymap.ctx, &console, 33, 1);  /* Press F -> CtrlL */
+		console_key(keymap.ctx, &console, 100, 0); /* Release AltGr first */
+		if (console_key(keymap.ctx, &console, 16, 1) != K(KT_LETTER, 0xba))
+			kbd_error(EXIT_FAILURE, 0, "Held LevelFive did not select level 5 symbol");
+		console_key(keymap.ctx, &console, 16, 0);
+		console_key(keymap.ctx, &console, 33, 0);  /* Release F */
+		if (console.shift != 0)
+			kbd_error(EXIT_FAILURE, 0, "Modifier stuck after releasing AltGr before F in de(e1)");
+	}
+	free_test_keymap(&keymap);
+
+	init_test_keymap(&keymap, "xkb-de-t3-level5-latch");
+	if (convert_xkb_keymap(keymap.ctx, &t3) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB de(T3) layout");
+	expect_key_code(keymap.ctx, 1 << KG_SHIFT, 100, K_ALTGR);
+	expect_key_code(keymap.ctx, 1 << KG_ALTGR, 42, K_SHIFT);
+	{
+		struct console_state console = { 0 };
+
+		console_key(keymap.ctx, &console, 42, 1);  /* Press Shift */
+		console_key(keymap.ctx, &console, 100, 1); /* Press RightAlt */
+		console_key(keymap.ctx, &console, 42, 0);  /* Release Shift first */
+		console_key(keymap.ctx, &console, 100, 0); /* Release RightAlt */
+		if (console.shift != 0)
+			kbd_error(EXIT_FAILURE, 0, "Modifier stuck after Shift+RightAlt in de(T3)");
+	}
+	free_test_keymap(&keymap);
+
+	/*
+	 * caps:digits_row_independent_lock exposes ISO_Level5_Lock only on
+	 * level 2 of CapsLock; modifier mask probing must still fall back to
+	 * the virtual <LVL5> keycode to resolve LevelFive.
+	 */
+	init_test_keymap(&keymap, "xkb-fr-digits-level5-lock");
+	if (convert_xkb_keymap(keymap.ctx, &digits_lock) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert fr with caps:digits_row_independent_lock");
+	expect_key_code(keymap.ctx, 1 << KG_SHIFT, 58, K_CTRLLLOCK);
+	expect_key_symbol(keymap.ctx, 0, 2, "ampersand");
+	expect_key_symbol(keymap.ctx, 1 << KG_CTRLL, 2, "one");
+	free_test_keymap(&keymap);
+
+	/*
+	 * When >2 groups with absolute selection reserve KG_CTRLL, LevelFive
+	 * falls back to KG_CTRLR as long as momentary group switching is absent.
+	 */
+	init_test_keymap(&keymap, "xkb-level5-ctrlr-fallback");
+	if (convert_xkb_keymap(keymap.ctx, &three_group_select) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert 3-group LevelFive layout with group selection");
+	expect_key_code(keymap.ctx, 1 << KG_SHIFTR, 86, K_CTRLR);
+	expect_key_code(keymap.ctx, 1 << KG_SHIFTR, 100, K_CTRLR);
+	expect_key_code(keymap.ctx, (1 << KG_SHIFTR) | (1 << KG_ALTGR) | (1 << KG_SHIFT), 15, K_CTRLRLOCK);
+	expect_key_symbol(keymap.ctx, (1 << KG_SHIFTR) | (1 << KG_CTRLR), 32, "Down");
+	free_test_keymap(&keymap);
+
+	/*
+	 * Combining >2 groups, absolute/previous group selection, momentary
+	 * group switching, and LevelFive requires 9 bits (512 tables) and must
+	 * be rejected cleanly.
+	 */
+	init_test_keymap(&keymap, "xkb-level5-exhausted");
+	if (convert_xkb_keymap(keymap.ctx, &exhausted) == 0)
+		kbd_error(EXIT_FAILURE, 0, "Unexpectedly converted keymap exceeding 256 kernel tables");
+	for (unsigned int table = 0; table < MAX_NR_KEYMAPS; table++) {
+		if (lk_map_exists(keymap.ctx, table))
+			kbd_error(EXIT_FAILURE, 0, "Rejected keymap populated table %u", table);
+	}
 	free_test_keymap(&keymap);
 }
 
@@ -682,12 +839,109 @@ test_modifier_mask_lookup_across_layouts(void)
 	free_test_keymap(&keymap);
 }
 
+static void
+test_shift_both_capslock_does_not_stick(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc105",
+		.layout = "de",
+		.variant = "noted",
+	};
+	struct console_state console = { 0 };
+
+	init_test_keymap(&keymap, "xkb-de-noted-shift");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB de(noted) layout");
+
+	for (unsigned int table = 0; table < 64; table++) {
+		if (!lk_map_exists(keymap.ctx, table))
+			continue;
+		expect_key_code(keymap.ctx, table, 42, K_SHIFT);
+		expect_key_code(keymap.ctx, table, 54, K_SHIFT);
+	}
+
+	console_key(keymap.ctx, &console, 42, 1);
+	if (console.shift != (1U << KG_SHIFT))
+		kbd_error(EXIT_FAILURE, 0, "Left Shift press did not activate KG_SHIFT");
+	console_key(keymap.ctx, &console, 42, 0);
+	if (console.shift != 0 || console.lock != 0)
+		kbd_error(EXIT_FAILURE, 0, "Left Shift release left modifier stuck");
+
+	console_key(keymap.ctx, &console, 54, 1);
+	if (console.shift != (1U << KG_SHIFT))
+		kbd_error(EXIT_FAILURE, 0, "Right Shift press did not activate KG_SHIFT");
+	console_key(keymap.ctx, &console, 54, 0);
+	if (console.shift != 0 || console.lock != 0)
+		kbd_error(EXIT_FAILURE, 0, "Right Shift release left modifier stuck");
+
+	free_test_keymap(&keymap);
+}
+
+static void
+test_real_key_modifier_mask_priority(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc105",
+		.layout = "local",
+		.variant = "real_key_mod_override",
+	};
+
+	init_test_keymap(&keymap, "xkb-real-key-mod-priority");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert local(real_key_mod_override)");
+
+	/*
+	 * Real keys bind ISO_Level3_Latch -> Mod3 and ISO_Level5_Lock -> Mod5,
+	 * overriding the fake <LVL3> (Mod5) and <LVL5> (Mod3) keys in pc(pc105).
+	 */
+	expect_key_code(keymap.ctx, 0, 100, K_ALTGR);
+	expect_key_code(keymap.ctx, 0, 86, K_CTRLLLOCK);
+	expect_key_symbol(keymap.ctx, 1 << KG_ALTGR, 2, "section");
+	expect_key_symbol(keymap.ctx, 1 << KG_CTRLL, 2, "exclamdown");
+
+	free_test_keymap(&keymap);
+}
+
+static void
+test_capslock_follows_xkb_lock_state(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params params = {
+		.model = "pc105",
+		.layout = "cz",
+	};
+
+	init_test_keymap(&keymap, "xkb-cz-capslock-levels");
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	if (convert_xkb_keymap(keymap.ctx, &params) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert XKB cz layout");
+
+	/* Levels 1-2 invert under CapsLock, but Shift+AltGr+E must not flip to EuroSign. */
+	expect_key_code(keymap.ctx, 0, 18, K(KT_LETTER, 'e'));
+	expect_key_code(keymap.ctx, 1 << KG_SHIFT, 18, K(KT_LETTER, 'E'));
+	expect_key_code(keymap.ctx, (1 << KG_SHIFT) | (1 << KG_ALTGR), 18, K(KT_LATIN, 'E'));
+
+	free_test_keymap(&keymap);
+}
+
 int
 main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 {
 	test_basic_us_layout();
 	test_german_altgr("pc104");
 	test_german_altgr("pc105");
+	test_capslock_follows_xkb_lock_state();
+	test_shift_both_capslock_does_not_stick();
 	test_group_toggle_layout();
 	test_momentary_group_switch("us", NULL, 1);
 	test_momentary_group_switch("us,ru", NULL, 2);
@@ -709,7 +963,9 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	test_previous_group("us,ru,de,gr", 4, 1);
 	test_prefer_unicode_does_not_change_xkb_lookup();
 	test_level5_is_not_collapsed_into_alt();
+	test_level5_layouts_and_table_limits();
 	test_modifier_mask_lookup_across_layouts();
+	test_real_key_modifier_mask_priority();
 
 	return EXIT_SUCCESS;
 }

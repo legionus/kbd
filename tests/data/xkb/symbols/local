@@ -12,3 +12,25 @@ partial modifier_keys
 xkb_symbols "previous_group" {
 	key <CAPS> { type[Group1] = "ONE_LEVEL", [ ISO_Prev_Group ] };
 };
+
+// Real keys bind ISO_Level3_Latch/ISO_Level5_Lock to swapped ModN bits while
+// pc(pc105) still carries fake <LVL3> (Mod5) and <LVL5> (Mod3).
+partial alphanumeric_keys modifier_keys
+xkb_symbols "real_key_mod_override" {
+	include "us"
+
+	key <AE01> {
+		type[Group1] = "EIGHT_LEVEL",
+		[ 1, exclam, exclamdown, onesuperior, section, sterling, yen, cent ]
+	};
+	key <RALT> {
+		type[Group1] = "ONE_LEVEL",
+		symbols[Group1] = [ ISO_Level3_Latch ],
+		actions[Group1] = [ LatchMods(modifiers=Mod3) ]
+	};
+	key <LSGT> {
+		type[Group1] = "ONE_LEVEL",
+		symbols[Group1] = [ ISO_Level5_Lock ],
+		actions[Group1] = [ LockMods(modifiers=Mod5) ]
+	};
+};

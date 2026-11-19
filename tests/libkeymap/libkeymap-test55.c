@@ -158,6 +158,49 @@ test_kernel_rule_dedup_happens_after_selection(int unicode)
 }
 
 static void
+test_compose_append_clamps_to_kernel_limit(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap xkeymap = { 0 };
+	struct compose_candidate candidates[MAX_DIACR + 4];
+	size_t total_rules = 0;
+
+	init_test_keymap(&keymap, "xkb-compose-kernel-limit");
+	if (lk_set_parser_flags(keymap.ctx, LK_FLAG_PREFER_UNICODE) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to enable Unicode conversion");
+	xkeymap.ctx = keymap.ctx;
+
+	for (size_t i = 0; i < ARRAY_SIZE(candidates); i++) {
+		unsigned int base = (unsigned int) (0x0100 + i);
+
+		candidates[i] = (struct compose_candidate) {
+			.seq = { XKB_KEY_dead_acute, base },
+			.result_sym = base,
+			.diacr = {
+				.diacr = '\'',
+				.base = base ^ 0xf000,
+				.result = base ^ 0xf000,
+			},
+			.score = (int) (ARRAY_SIZE(candidates) - i),
+		};
+	}
+
+	if (xkeymap_append_compose_candidates(&xkeymap, candidates, ARRAY_SIZE(candidates),
+					      &total_rules) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to append compose candidates up to kernel limit");
+
+	if (total_rules != ARRAY_SIZE(candidates))
+		kbd_error(EXIT_FAILURE, 0, "Expected %zu total compose rules, got %zu",
+			  ARRAY_SIZE(candidates), total_rules);
+
+	if (!lk_diacr_exists(keymap.ctx, MAX_DIACR - 2) ||
+	    lk_diacr_exists(keymap.ctx, MAX_DIACR - 1))
+		kbd_error(EXIT_FAILURE, 0, "Compose candidates were not clamped to MAX_DIACR - 1");
+
+	free_test_keymap(&keymap);
+}
+
+static void
 test_compose_append_uses_kbd_conversion_rules(void)
 {
 	struct parsed_keymap keymap;
@@ -459,6 +502,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	test_negative_compose_scores();
 	test_kernel_rule_dedup_happens_after_selection(0);
 	test_kernel_rule_dedup_happens_after_selection(1);
+	test_compose_append_clamps_to_kernel_limit();
 	test_compose_append_uses_kbd_conversion_rules();
 	test_console_dead_rule_policy_prefers_historic_letter_sets();
 	test_dead_key_compose_inputs(0);
