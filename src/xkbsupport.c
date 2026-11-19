@@ -106,6 +106,18 @@ struct compose_candidate {
  */
 #define KERN_KEYCODE(keycode) (keycode - EVDEV_OFFSET)
 
+static bool xkeymap_is_unassigned_keycode(unsigned int kern_keycode)
+{
+	/*
+	 * Linux reserves keycode 84 (between KEY_KPDOT and KEY_ZENKAKUHANKAKU)
+	 * and 195..199 (between KEY_F24 and KEY_PLAYCD). xkeyboard-config uses
+	 * those unassigned evdev slots for fake virtual-modifier keys (<LVL3>,
+	 * <LVL5>/<MDSW>, <ALT>, <META>, <SUPR>, <HYPR>).
+	 */
+	return (kern_keycode > KEY_KPDOT && kern_keycode < KEY_ZENKAKUHANKAKU) ||
+	       (kern_keycode > KEY_F24 && kern_keycode < KEY_PLAYCD);
+}
+
 /*
  * Shift, AltGr, Control and Alt occupy the four low console modifier bits
  * (16 combinations per group). An optional LevelFive modifier doubles the
@@ -137,8 +149,11 @@ static const struct xkeymap_modifier_rule xkeymap_modifier_rules[] = {
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_L,			(1u << KG_ALT) },
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_R,			(1u << KG_ALT) },
 	{ XKEYMAP_MASK_LEVEL3,		NULL,			XKB_KEY_ISO_Level3_Shift,	(1u << KG_ALTGR) },
+	{ XKEYMAP_MASK_LEVEL3,		NULL,			XKB_KEY_ISO_Level3_Latch,	(1u << KG_ALTGR) },
+	{ XKEYMAP_MASK_LEVEL3,		NULL,			XKB_KEY_ISO_Level3_Lock,	(1u << KG_ALTGR) },
 	{ XKEYMAP_MASK_LEVEL5,		NULL,			XKB_KEY_ISO_Level5_Shift,	0 },
 	{ XKEYMAP_MASK_LEVEL5,		NULL,			XKB_KEY_ISO_Level5_Latch,	0 },
+	{ XKEYMAP_MASK_LEVEL5,		NULL,			XKB_KEY_ISO_Level5_Lock,	0 },
 };
 
 static xkb_mod_mask_t xkeymap_mod_mask_by_name(struct xkb_keymap *keymap, const char *name)
@@ -159,7 +174,8 @@ static xkb_mod_mask_t xkeymap_mod_mask_by_name(struct xkb_keymap *keymap, const 
  * workaround rather than a first-class query.
  */
 static xkb_mod_mask_t xkeymap_find_modifier_mask_for_keysym(struct xkeymap *xkeymap,
-							    xkb_keysym_t target)
+							    xkb_keysym_t target,
+							    bool allow_unassigned)
 {
 	struct xkb_state *state;
 	xkb_keycode_t min, max;
@@ -189,7 +205,13 @@ static xkb_mod_mask_t xkeymap_find_modifier_mask_for_keysym(struct xkeymap *xkey
 	 * setup needed to reach that level.
 	 */
 	for (xkb_keycode_t keycode = min; keycode <= max; keycode++) {
-		xkb_layout_index_t num_layouts = xkb_keymap_num_layouts_for_key(xkeymap->keymap, keycode);
+		xkb_layout_index_t num_layouts;
+
+		if (!allow_unassigned && keycode >= EVDEV_OFFSET &&
+		    xkeymap_is_unassigned_keycode(KERN_KEYCODE(keycode)))
+			continue;
+
+		num_layouts = xkb_keymap_num_layouts_for_key(xkeymap->keymap, keycode);
 
 		for (xkb_layout_index_t layout = 0; layout < num_layouts; layout++) {
 			xkb_keysym_t sym;
@@ -231,20 +253,30 @@ static void xkeymap_init_modifier_masks(struct xkeymap *xkeymap)
 
 	/*
 	 * xkb_state_update_mask() takes real modifier masks. XKB rulesets may
-	 * bind Alt and LevelThree to different ModN bits, so derive their masks
-	 * from the compiled keymap instead of assuming fixed assignments.
+	 * bind Alt, LevelThree and LevelFive to different ModN bits, so derive
+	 * their masks from the compiled keymap instead of assuming fixed
+	 * assignments. Prefer real keys over fake virtual-modifier keycodes
+	 * (<LVL3>, <LVL5>, ...), falling back to the latter only when no real
+	 * key exposes the modifier on level 0 (e.g. level-2 ISO_Level5_Lock).
 	 */
-	for (size_t i = 0; i < ARRAY_SIZE(xkeymap_modifier_rules); i++) {
-		const struct xkeymap_modifier_rule *rule = &xkeymap_modifier_rules[i];
-		xkb_mod_mask_t *mask = &xkeymap->modifier_masks[rule->mask];
+	for (unsigned int pass = 0; pass < 2; pass++) {
+		bool allow_unassigned = (pass > 0);
 
-		if (*mask)
-			continue;
+		for (size_t i = 0; i < ARRAY_SIZE(xkeymap_modifier_rules); i++) {
+			const struct xkeymap_modifier_rule *rule = &xkeymap_modifier_rules[i];
+			xkb_mod_mask_t *mask = &xkeymap->modifier_masks[rule->mask];
 
-		if (rule->name)
-			*mask = xkeymap_mod_mask_by_name(xkeymap->keymap, rule->name);
-		else
-			*mask = xkeymap_find_modifier_mask_for_keysym(xkeymap, rule->keysym);
+			if (*mask)
+				continue;
+
+			if (rule->name) {
+				if (!allow_unassigned)
+					*mask = xkeymap_mod_mask_by_name(xkeymap->keymap, rule->name);
+			} else {
+				*mask = xkeymap_find_modifier_mask_for_keysym(xkeymap, rule->keysym,
+									      allow_unassigned);
+			}
+		}
 	}
 }
 
@@ -763,7 +795,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 		unsigned int kern_keycode = KERN_KEYCODE(key);
 		unsigned int features;
 
-		if (kern_keycode > KEY_F24 && kern_keycode < KEY_PLAYCD)
+		if (xkeymap_is_unassigned_keycode(kern_keycode))
 			continue;
 
 		features = xkeymap_group_features(xkeymap->keymap, key);
@@ -800,7 +832,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	for (xkb_keycode_t key = min; key <= max; key++) {
 		unsigned int kern_keycode = KERN_KEYCODE(key);
 
-		if (kern_keycode > KEY_F24 && kern_keycode < KEY_PLAYCD)
+		if (xkeymap_is_unassigned_keycode(kern_keycode))
 			continue;
 
 		/* Let XKB resolve per-key layout fallback for every console group. */
