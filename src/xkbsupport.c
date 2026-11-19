@@ -101,6 +101,13 @@ struct compose_candidate {
  */
 #define KERN_KEYCODE(keycode) (keycode - EVDEV_OFFSET)
 
+/*
+ * Shift, AltGr, Control and Alt occupy the four low console modifier bits
+ * (16 combinations per group).
+ */
+#define NR_BASE_MOD_STATES	16U
+#define BASE_MOD_TABLE_MASK	(NR_BASE_MOD_STATES - 1U)
+
 static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod);
 static unsigned int xkb_mask_weight(xkb_mod_mask_t mask);
 static int xkeymap_get_symbol(struct xkb_keymap *keymap,
@@ -661,7 +668,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 {
 	struct xkb_state *state;
 	lk_keywords keywords = lk_get_keywords(xkeymap->ctx);
-	xkb_mod_mask_t masks[16] = { 0 };
+	xkb_mod_mask_t masks[NR_BASE_MOD_STATES] = { 0 };
 	bool group_switch[NR_KEYS] = { false };
 	bool has_group_switch = false;
 	unsigned int group_features = 0;
@@ -732,6 +739,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				xkb_level_index_t level;
 				xkb_keysym_t sym;
 				unsigned int table = group_table | mods | (held ? (1U << KG_CTRLR) : 0U);
+				int base_code = lk_get_key(xkeymap->ctx, table & ~BASE_MOD_TABLE_MASK, KERN_KEYCODE(key));
 				int code;
 
 				/*
@@ -742,6 +750,20 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				 */
 				if (held && group_switch[KERN_KEYCODE(key)]) {
 					if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), K_CTRLR) < 0)
+						goto end;
+					continue;
+				}
+
+				/*
+				 * A key whose unmodified binding is a console modifier
+				 * must keep that modifier action in every table where
+				 * its modifier bit is active; otherwise releasing the
+				 * key selects the higher-level action (such as Caps_Lock
+				 * in shift(both_capslock)) and leaves the modifier stuck.
+				 */
+				if (base_code != K_HOLE && KTYP(base_code) == KT_SHIFT &&
+				    (table & (1U << KVAL(base_code)))) {
+					if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), base_code) < 0)
 						goto end;
 					continue;
 				}
@@ -780,6 +802,19 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 					if (code == shiftl_lock || code == shiftr_lock)
 						code = shift_lock;
 
+					/*
+					 * A key whose unmodified binding is a console modifier
+					 * must not switch to a different modifier or lock on a
+					 * higher level: the VT resolves key release in the
+					 * newly active table and would leave one of the two
+					 * modifiers stuck depending on release order.
+					 */
+					if (base_code != K_HOLE && KTYP(base_code) == KT_SHIFT &&
+					    (KTYP(code) == KT_SHIFT || KTYP(code) == KT_LOCK ||
+					     KTYP(code) == KT_SLOCK) &&
+					    code != base_code)
+						code = base_code;
+
 					remember_reachable_sym(xkeymap, sym, code);
 					if (xkeymap_is_capslockable(sym, code))
 						code = lk_add_capslock(xkeymap->ctx, code);
@@ -803,10 +838,9 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 	struct lk_ctx *ctx = xkeymap->ctx;
 
 	/*
-	 * This intentionally runs after xkeymap_walk(). Whether a pure
-	 * modifier key must be visible in a given kernel table depends on the
-	 * final set of tables that survived XKB conversion, and that set is
-	 * only stable once the walk has finished.
+	 * Ensure every key that activates a modifier bit in table T can also
+	 * clear shift_down[KVAL] when released in any table where that bit is
+	 * set, even if the user releases another modifier first.
 	 */
 	for (unsigned int keycode = 0; keycode < NR_KEYS; keycode++) {
 		int modifier_code = K_HOLE;
@@ -822,19 +856,38 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 			if (code == K_HOLE)
 				continue;
 
+			if (KTYP(code) == KT_SHIFT || KTYP(code) == KT_SLOCK) {
+				unsigned int bit = 1U << KVAL(code);
+				unsigned int group_mask = table & ~BASE_MOD_TABLE_MASK;
+				int base_code = lk_get_key(ctx, group_mask, keycode);
+
+				if (!(table & bit) && (base_code == K_HOLE || KTYP(base_code) != KT_SHIFT)) {
+					for (unsigned int mods = 0; mods < NR_BASE_MOD_STATES; mods++) {
+						unsigned int other = group_mask | mods;
+
+						if (!(other & bit) || !lk_map_exists(ctx, other))
+							continue;
+
+						if (lk_get_key(ctx, other, keycode) == code)
+							continue;
+
+						if (lk_add_key(ctx, other, keycode, code) < 0)
+							return -1;
+					}
+				}
+			}
+
 			if (!seen) {
 				modifier_code = code;
 				seen = 1;
 				continue;
 			}
 
-			if (code != modifier_code) {
-				seen = 0;
-				break;
-			}
+			if (code != modifier_code)
+				seen = -1;
 		}
 
-		if (!seen || KTYP(modifier_code) != KT_SHIFT)
+		if (seen != 1 || KTYP(modifier_code) != KT_SHIFT)
 			continue;
 
 		/*
