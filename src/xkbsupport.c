@@ -15,6 +15,7 @@
 #include "xkbsupport.h"
 
 #include <xkbcommon/xkbregistry.h>
+#include <linux/input-event-codes.h>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
@@ -70,6 +71,7 @@ enum xkeymap_modifier_mask {
 	XKEYMAP_MASK_CONTROL,
 	XKEYMAP_MASK_ALT,
 	XKEYMAP_MASK_LEVEL3,
+	XKEYMAP_MASK_LEVEL5,
 	XKEYMAP_MASK__COUNT,
 };
 
@@ -80,6 +82,9 @@ struct xkeymap {
 	struct lk_ctx *ctx;
 	void *reachable_syms;
 	xkb_mod_mask_t modifier_masks[XKEYMAP_MASK__COUNT];
+	unsigned int level5_bit;
+	int level5_shift;
+	int level5_lock;
 };
 
 struct compose_candidate {
@@ -103,10 +108,15 @@ struct compose_candidate {
 
 /*
  * Shift, AltGr, Control and Alt occupy the four low console modifier bits
- * (16 combinations per group).
+ * (16 combinations per group). An optional LevelFive modifier doubles the
+ * per-group modifier states from 1 to 2 blocks of 16 tables.
  */
 #define NR_BASE_MOD_STATES	16U
 #define BASE_MOD_TABLE_MASK	(NR_BASE_MOD_STATES - 1U)
+#define NR_MOD_LEVEL5_BLOCKS	2U
+#define NR_MOD_PLAIN_BLOCKS	1U
+#define NR_HELD_GROUP_BLOCKS	2U
+#define NR_PLAIN_GROUP_BLOCKS	1U
 
 static xkb_mod_mask_t xkb_mod_bit(xkb_mod_index_t mod);
 static unsigned int xkb_mask_weight(xkb_mod_mask_t mask);
@@ -127,6 +137,8 @@ static const struct xkeymap_modifier_rule xkeymap_modifier_rules[] = {
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_L,			(1u << KG_ALT) },
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_R,			(1u << KG_ALT) },
 	{ XKEYMAP_MASK_LEVEL3,		NULL,			XKB_KEY_ISO_Level3_Shift,	(1u << KG_ALTGR) },
+	{ XKEYMAP_MASK_LEVEL5,		NULL,			XKB_KEY_ISO_Level5_Shift,	0 },
+	{ XKEYMAP_MASK_LEVEL5,		NULL,			XKB_KEY_ISO_Level5_Latch,	0 },
 };
 
 static xkb_mod_mask_t xkeymap_mod_mask_by_name(struct xkb_keymap *keymap, const char *name)
@@ -379,9 +391,6 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 		{ XKB_KEY_ISO_Level3_Shift,	"AltGr" },
 		{ XKB_KEY_ISO_Level3_Latch,	"AltGr" },
 		{ XKB_KEY_ISO_Level3_Lock,	"AltGr_Lock" },
-		{ XKB_KEY_ISO_Level5_Shift,	"AltGr" },
-		{ XKB_KEY_ISO_Level5_Latch,	"AltGr" },
-		{ XKB_KEY_ISO_Level5_Lock,	"AltGr_Lock" },
 		{ XKB_KEY_ISO_Group_Latch,	"ShiftL" },
 		{ XKB_KEY_ISO_Group_Lock,	"ShiftL_Lock" },
 		{ XKB_KEY_ISO_First_Group,	"ShiftL_Lock" },
@@ -418,6 +427,12 @@ static int xkeymap_get_code_from_semantic_keysym(struct xkeymap *xkeymap, xkb_ke
 					     ARRAY_SIZE(semantic_dead_map));
 	if (ret >= 0)
 		return ret;
+
+	if (symbol == XKB_KEY_ISO_Level5_Shift || symbol == XKB_KEY_ISO_Level5_Latch)
+		return xkeymap->level5_bit ? xkeymap->level5_shift : -1;
+
+	if (symbol == XKB_KEY_ISO_Level5_Lock)
+		return xkeymap->level5_bit ? xkeymap->level5_lock : -1;
 
 	/* Prefer direct semantic actions before Linux VT-specific approximations. */
 	ret = xkeymap_lookup_semantic_keysym(xkeymap, symbol, semantic_modifier_map,
@@ -625,6 +640,7 @@ static int xkeymap_apply_modifiers(struct xkeymap *xkeymap, struct xkb_state *st
 enum xkeymap_group_feature {
 	XKEYMAP_GROUP_SWITCH = 1,
 	XKEYMAP_GROUP_SELECT = 2,
+	XKEYMAP_GROUP_LEVEL5 = 4,
 };
 
 static unsigned int xkeymap_group_features(struct xkb_keymap *keymap, xkb_keycode_t key)
@@ -643,6 +659,10 @@ static unsigned int xkeymap_group_features(struct xkb_keymap *keymap, xkb_keycod
 			else if (syms[0] == XKB_KEY_ISO_First_Group || syms[0] == XKB_KEY_ISO_Last_Group ||
 				 syms[0] == XKB_KEY_ISO_Prev_Group)
 				features |= XKEYMAP_GROUP_SELECT;
+			else if (syms[0] == XKB_KEY_ISO_Level5_Shift ||
+				 syms[0] == XKB_KEY_ISO_Level5_Latch ||
+				 syms[0] == XKB_KEY_ISO_Level5_Lock)
+				features |= XKEYMAP_GROUP_LEVEL5;
 		}
 	}
 	return features;
@@ -664,6 +684,42 @@ static int xkeymap_select_group(unsigned int num_layouts, unsigned int group, un
 	return K_HOLE;
 }
 
+static int xkeymap_assign_level5_modifier(struct xkeymap *xkeymap,
+					  xkb_layout_index_t num_layouts,
+					  unsigned int group_features)
+{
+	xkeymap->level5_bit = 0;
+	xkeymap->level5_shift = -1;
+	xkeymap->level5_lock = -1;
+
+	/*
+	 * pc(pc105) always defines a virtual modifier mapping on the
+	 * unassigned kernel keycode 195 (between KEY_F24 and KEY_PLAYCD), so
+	 * allocate level-5 tables only when a real key exposes ISO_Level5_*.
+	 */
+	if (!(group_features & XKEYMAP_GROUP_LEVEL5) ||
+	    !xkeymap->modifier_masks[XKEYMAP_MASK_LEVEL5])
+		return 0;
+
+	if (!(num_layouts > 2 && (group_features & XKEYMAP_GROUP_SELECT))) {
+		xkeymap->level5_bit = 1U << KG_CTRLL;
+		xkeymap->level5_shift = K_CTRLL;
+		xkeymap->level5_lock = K_CTRLLLOCK;
+		return 0;
+	}
+
+	if (!(group_features & XKEYMAP_GROUP_SWITCH)) {
+		xkeymap->level5_bit = 1U << KG_CTRLR;
+		xkeymap->level5_shift = K_CTRLR;
+		xkeymap->level5_lock = K_CTRLRLOCK;
+		return 0;
+	}
+
+	XKEYMAP_WARNING(0, _("unable to convert XKB layouts: kernel keymap table limit (%d) exceeded by combining LevelFive with momentary and multi-group selection"),
+			MAX_NR_KEYMAPS);
+	return -1;
+}
+
 static int xkeymap_walk(struct xkeymap *xkeymap)
 {
 	struct xkb_state *state;
@@ -673,6 +729,10 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	bool has_group_switch = false;
 	unsigned int group_features = 0;
 	unsigned int group_states;
+	unsigned int group_blocks;
+	unsigned int mod_blocks;
+	unsigned int mod_states;
+	unsigned int mod_table_mask;
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
 	xkb_keycode_t min = xkb_keymap_min_keycode(xkeymap->keymap);
 	xkb_keycode_t max = xkb_keymap_max_keycode(xkeymap->keymap);
@@ -700,16 +760,29 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 		max = NR_KEYS + EVDEV_OFFSET - 1;
 
 	for (xkb_keycode_t key = min; key <= max; key++) {
-		unsigned int features = xkeymap_group_features(xkeymap->keymap, key);
+		unsigned int kern_keycode = KERN_KEYCODE(key);
+		unsigned int features;
 
-		group_switch[KERN_KEYCODE(key)] = (features & XKEYMAP_GROUP_SWITCH) != 0;
+		if (kern_keycode > KEY_F24 && kern_keycode < KEY_PLAYCD)
+			continue;
+
+		features = xkeymap_group_features(xkeymap->keymap, key);
+
+		group_switch[kern_keycode] = (features & XKEYMAP_GROUP_SWITCH) != 0;
 		group_features |= features;
 	}
+
+	if (xkeymap_assign_level5_modifier(xkeymap, num_layouts, group_features) < 0)
+		goto end;
 
 	has_group_switch = (group_features & XKEYMAP_GROUP_SWITCH) != 0;
 	group_states = NR_LAYOUTS;
 	if (num_layouts > 2 && (group_features & XKEYMAP_GROUP_SELECT))
 		group_states *= 2;
+	group_blocks = has_group_switch ? NR_HELD_GROUP_BLOCKS : NR_PLAIN_GROUP_BLOCKS;
+	mod_blocks = xkeymap->level5_bit ? NR_MOD_LEVEL5_BLOCKS : NR_MOD_PLAIN_BLOCKS;
+	mod_states = ARRAY_SIZE(masks) * mod_blocks;
+	mod_table_mask = BASE_MOD_TABLE_MASK | xkeymap->level5_bit;
 
 	/* Shift, AltGr, Control and Alt occupy the four low console bits. */
 	for (unsigned int mods = 0; mods < ARRAY_SIZE(masks); mods++) {
@@ -725,8 +798,13 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	lk_set_keywords(xkeymap->ctx, keywords & ~(unsigned int) LK_KEYWORD_ALTISMETA);
 
 	for (xkb_keycode_t key = min; key <= max; key++) {
+		unsigned int kern_keycode = KERN_KEYCODE(key);
+
+		if (kern_keycode > KEY_F24 && kern_keycode < KEY_PLAYCD)
+			continue;
+
 		/* Let XKB resolve per-key layout fallback for every console group. */
-		for (unsigned int slot = 0; slot < group_states * (has_group_switch ? 2u : 1u); slot++) {
+		for (unsigned int slot = 0; slot < group_states * group_blocks; slot++) {
 			unsigned int base = slot % group_states;
 			unsigned int group = (base % NR_LAYOUTS) ^ (base >= NR_LAYOUTS ? 3u : 0u);
 			bool held = slot >= group_states;
@@ -734,12 +812,18 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 			unsigned int group_table = layout_switch[base % NR_LAYOUTS] |
 						   (base >= NR_LAYOUTS ? (1U << KG_CTRLL) : 0U);
 
-			for (unsigned int mods = 0; mods < ARRAY_SIZE(masks); mods++) {
+			for (unsigned int mod_slot = 0; mod_slot < mod_states; mod_slot++) {
+				unsigned int mods = mod_slot % ARRAY_SIZE(masks);
+				bool level5 = mod_slot >= ARRAY_SIZE(masks);
+				xkb_mod_mask_t mask = masks[mods] |
+						      (level5 ? xkeymap->modifier_masks[XKEYMAP_MASK_LEVEL5] : 0U);
 				xkb_layout_index_t layout;
 				xkb_level_index_t level;
 				xkb_keysym_t sym;
-				unsigned int table = group_table | mods | (held ? (1U << KG_CTRLR) : 0U);
-				int base_code = lk_get_key(xkeymap->ctx, table & ~BASE_MOD_TABLE_MASK, KERN_KEYCODE(key));
+				unsigned int table = group_table | mods |
+						     (level5 ? xkeymap->level5_bit : 0U) |
+						     (held ? (1U << KG_CTRLR) : 0U);
+				int base_code = lk_get_key(xkeymap->ctx, table & ~mod_table_mask, KERN_KEYCODE(key));
 				int code;
 
 				/*
@@ -769,7 +853,7 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				}
 
 				/* Level masks omit modifiers ignored by a key's type. */
-				xkb_state_update_mask(state, masks[mods], 0, 0, 0, 0,
+				xkb_state_update_mask(state, mask, 0, 0, 0, 0,
 						      selected);
 				layout = xkb_state_key_get_layout(state, key);
 				if (layout == XKB_LAYOUT_INVALID)
@@ -836,11 +920,15 @@ end:
 static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 {
 	struct lk_ctx *ctx = xkeymap->ctx;
+	unsigned int mod_blocks = xkeymap->level5_bit ? NR_MOD_LEVEL5_BLOCKS : NR_MOD_PLAIN_BLOCKS;
+	unsigned int mod_states = NR_BASE_MOD_STATES * mod_blocks;
+	unsigned int mod_table_mask = BASE_MOD_TABLE_MASK | xkeymap->level5_bit;
 
 	/*
 	 * Ensure every key that activates a modifier bit in table T can also
 	 * clear shift_down[KVAL] when released in any table where that bit is
-	 * set, even if the user releases another modifier first.
+	 * set, even if the user releases another modifier (such as Shift or
+	 * AltGr after triggering ISO_Level5_Latch) first.
 	 */
 	for (unsigned int keycode = 0; keycode < NR_KEYS; keycode++) {
 		int modifier_code = K_HOLE;
@@ -858,12 +946,15 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 
 			if (KTYP(code) == KT_SHIFT || KTYP(code) == KT_SLOCK) {
 				unsigned int bit = 1U << KVAL(code);
-				unsigned int group_mask = table & ~BASE_MOD_TABLE_MASK;
+				unsigned int group_mask = table & ~mod_table_mask;
 				int base_code = lk_get_key(ctx, group_mask, keycode);
 
 				if (!(table & bit) && (base_code == K_HOLE || KTYP(base_code) != KT_SHIFT)) {
-					for (unsigned int mods = 0; mods < NR_BASE_MOD_STATES; mods++) {
-						unsigned int other = group_mask | mods;
+					for (unsigned int mod_slot = 0; mod_slot < mod_states; mod_slot++) {
+						unsigned int mods = mod_slot % NR_BASE_MOD_STATES;
+						bool level5 = mod_slot >= NR_BASE_MOD_STATES;
+						unsigned int other = group_mask | mods |
+								     (level5 ? xkeymap->level5_bit : 0U);
 
 						if (!(other & bit) || !lk_map_exists(ctx, other))
 							continue;

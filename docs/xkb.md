@@ -164,6 +164,26 @@ releasing it reveals the newly selected locked group. Custom XKB actions
 attached to `ISO_Prev_Group` are not interpreted. Supporting this keysym
 does not remove the modifier-release limitation of `grp:shifts_toggle`.
 
+## Level 5 modifiers
+
+Eight-level XKB layouts such as `de(neo)` and `de(noted)` use
+`ISO_Level5_Shift`, `ISO_Level5_Latch`, and `ISO_Level5_Lock` alongside
+`ISO_Level3_Shift` (`AltGr`). The converter keeps `LevelThree` on `AltGr`
+(`KG_ALTGR`) and assigns `LevelFive` to an unused console modifier bit:
+
+- By default, `ISO_Level5_Shift` and `ISO_Level5_Latch` map to `CtrlL`
+  (`KG_CTRLL`), and `ISO_Level5_Lock` maps to `CtrlL_Lock`. Ordinary left
+  and right Control keys continue to use `Control` (`KG_CTRL`).
+- When more than two layouts are combined with absolute or previous-group
+  selection (`ISO_First_Group`, `ISO_Last_Group`, or `ISO_Prev_Group`),
+  `KG_CTRLL` is reserved for single-step group locking; `LevelFive` then
+  uses `CtrlR` (`KG_CTRLR`) and `CtrlR_Lock`.
+- Combining `LevelFive` with more than two layouts, absolute or
+  previous-group selection, and temporary group switching (`Mode_switch`)
+  at the same time requires 9 modifier/group bits (512 tables), which
+  exceeds the kernel limit of 256 keymap tables (`MAX_NR_KEYMAPS`) and is
+  rejected with an error.
+
 ## Scope and limitations
 
 - XKB conversion affects the Linux virtual console keymap only.
