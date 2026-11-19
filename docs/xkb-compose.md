@@ -12,8 +12,9 @@ and `result`. The kernel looks up the pair `(diacr, base)` and returns the
 first matching result. It does not retain XKB keysyms, physical keycodes,
 modifier states, or the original compose sequence.
 
-The table is shared by the converted layouts. It has `MAX_DIACR` entries
-(currently 256); it is not a separate table for each layout or modifier.
+The table is shared by the converted layouts. `MAX_DIACR` is currently 256,
+and `KDSKBDIACR`/`KDSKBDIACRUC` accept up to `MAX_DIACR - 1` (255) entries;
+it is not a separate table for each layout or modifier.
 XKB sequences and output strings do not necessarily fit this representation.
 Importing a compose table therefore does not reproduce the full XKB compose
 state machine.
@@ -183,7 +184,7 @@ that become the same stored character. Keeping multiple results for one
 pair would waste slots: the kernel would only use the first one.
 
 Each surviving pair is inserted through `lk_append_compose()`, which
-converts all three fields. Only the first `MAX_DIACR` unique pairs are
+converts all three fields. Only the first `MAX_DIACR - 1` unique pairs are
 inserted. The converter continues counting unique pairs beyond the limit
 and warns if the count exceeds it. The reported count is after filtering
 and duplicate removal, not the number of entries in the original XKB table.

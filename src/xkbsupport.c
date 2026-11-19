@@ -1280,6 +1280,12 @@ err:
 	return -1;
 }
 
+/*
+ * The kernel accent_table has MAX_DIACR slots, but KDSKBDIACR and
+ * KDSKBDIACRUC reject counts greater than or equal to MAX_DIACR.
+ */
+#define MAX_KERNEL_COMPOSE_RULES (MAX_DIACR - 1)
+
 static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 					     const struct compose_candidate *candidates,
 					     size_t count,
@@ -1322,7 +1328,7 @@ static int xkeymap_append_compose_candidates(struct xkeymap *xkeymap,
 		}
 
 		total_rules++;
-		if (appended >= MAX_DIACR)
+		if (appended >= MAX_KERNEL_COMPOSE_RULES)
 			continue;
 
 		diacr = candidates[i].diacr;
@@ -1359,9 +1365,9 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 	selected = xkeymap_select_compose_candidates(candidates, count);
 
 	ret = xkeymap_append_compose_candidates(xkeymap, candidates, selected, &kernel_rules);
-	if (ret == 0 && kernel_rules > MAX_DIACR) {
+	if (ret == 0 && kernel_rules > MAX_KERNEL_COMPOSE_RULES) {
 		XKEYMAP_WARNING(0, _("kernel can handle only %d compose definitions, but xkb needs %zu"),
-				MAX_DIACR, kernel_rules);
+				MAX_KERNEL_COMPOSE_RULES, kernel_rules);
 	}
 	free(candidates);
 
