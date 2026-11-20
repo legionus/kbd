@@ -1665,8 +1665,8 @@ static int xkeymap_compose(struct xkeymap *xkeymap)
 
 	ret = xkeymap_append_compose_candidates(xkeymap, candidates, selected, &kernel_rules);
 	if (ret == 0 && kernel_rules > MAX_KERNEL_COMPOSE_RULES) {
-		XKEYMAP_WARNING(0, _("kernel can handle only %d compose definitions, but xkb needs %zu"),
-				MAX_KERNEL_COMPOSE_RULES, kernel_rules);
+		XKEYMAP_WARNING(0, _("kernel supports at most %d compose definitions, but xkb defines %zu; keeping the %d highest-priority rules"),
+				MAX_KERNEL_COMPOSE_RULES, kernel_rules, MAX_KERNEL_COMPOSE_RULES);
 	}
 	free(candidates);
 
