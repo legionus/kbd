@@ -770,6 +770,15 @@ static int xkeymap_assign_level5_modifier(struct xkeymap *xkeymap,
 	return -1;
 }
 
+static int xkeymap_get_existing_key(struct lk_ctx *ctx, unsigned int table,
+				    unsigned int keycode)
+{
+	if (!lk_map_exists(ctx, table))
+		return K_HOLE;
+
+	return lk_get_key(ctx, table, keycode);
+}
+
 static int xkeymap_walk(struct xkeymap *xkeymap)
 {
 	struct xkb_state *state;
@@ -873,7 +882,9 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				unsigned int table = group_table | mods |
 						     (level5 ? xkeymap->level5_bit : 0U) |
 						     (held ? (1U << KG_CTRLR) : 0U);
-				int base_code = lk_get_key(xkeymap->ctx, table & ~mod_table_mask, KERN_KEYCODE(key));
+				int base_code = xkeymap_get_existing_key(xkeymap->ctx,
+									 table & ~mod_table_mask,
+									 KERN_KEYCODE(key));
 				int code;
 
 				/*
@@ -997,7 +1008,7 @@ static int xkeymap_fill_modifier_release_bindings(struct xkeymap *xkeymap)
 			if (KTYP(code) == KT_SHIFT || KTYP(code) == KT_SLOCK) {
 				unsigned int bit = 1U << KVAL(code);
 				unsigned int group_mask = table & ~mod_table_mask;
-				int base_code = lk_get_key(ctx, group_mask, keycode);
+				int base_code = xkeymap_get_existing_key(ctx, group_mask, keycode);
 
 				if (!(table & bit) && (base_code == K_HOLE || KTYP(base_code) != KT_SHIFT)) {
 					for (unsigned int mod_slot = 0; mod_slot < mod_states; mod_slot++) {
