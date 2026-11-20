@@ -911,6 +911,59 @@ test_real_key_modifier_mask_priority(void)
 }
 
 static void
+test_keypad_numlock_semantics(void)
+{
+	struct parsed_keymap keymap;
+	struct xkeymap_params de_pc = {
+		.model = "pc105",
+		.layout = "de",
+	};
+	struct xkeymap_params us_mac_numpad = {
+		.model = "pc105",
+		.layout = "us",
+		.options = "numpad:mac",
+	};
+	struct xkeymap_params de_noted = {
+		.model = "pc105",
+		.layout = "de",
+		.variant = "noted",
+	};
+
+	set_xkb_config_root();
+	set_xkb_suppress_warnings();
+
+	/* Standard KEYPAD keys paired under NumLock keep KT_PAD; unpaired KP_Decimal does not. */
+	init_test_keymap(&keymap, "xkb-keypad-pc");
+	if (convert_xkb_keymap(keymap.ctx, &de_pc) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert de pc105 layout");
+	expect_key_code(keymap.ctx, 0, 71, K_P7);
+	expect_key_code(keymap.ctx, 1 << KG_SHIFT, 71, K_P7);
+	expect_key_code(keymap.ctx, 0, 83, K_PDOT);
+	expect_key_code(keymap.ctx, 0, 121, K(KT_LATIN, '.'));
+	free_test_keymap(&keymap);
+
+	/* numpad:mac emits unconditional KP digits/decimal even with NumLock=0. */
+	init_test_keymap(&keymap, "xkb-keypad-mac");
+	if (convert_xkb_keymap(keymap.ctx, &us_mac_numpad) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert us with numpad:mac");
+	expect_key_code(keymap.ctx, 0, 71, K(KT_LATIN, '7'));
+	expect_key_code(keymap.ctx, 0, 82, K(KT_LATIN, '0'));
+	expect_key_code(keymap.ctx, 0, 83, K(KT_LATIN, '.'));
+	free_test_keymap(&keymap);
+
+	/* de(noted) has no NumLock: Layer 4 KP digits and KP navigation must be unconditional. */
+	init_test_keymap(&keymap, "xkb-keypad-noted");
+	if (convert_xkb_keymap(keymap.ctx, &de_noted) != 0)
+		kbd_error(EXIT_FAILURE, 0, "Unable to convert de(noted) layout");
+	expect_key_code(keymap.ctx, 1 << KG_CTRLL, 22, K(KT_LATIN, '7'));
+	expect_key_code(keymap.ctx, 1 << KG_CTRLL, 57, K(KT_LATIN, '0'));
+	expect_key_code(keymap.ctx, (1 << KG_CTRLL) | (1 << KG_SHIFT), 39, K(KT_LATIN, '.'));
+	expect_key_code(keymap.ctx, 0, 71, K(KT_LATIN, '7'));
+	expect_key_code(keymap.ctx, 1 << KG_CTRLL, 71, K_FIND);
+	free_test_keymap(&keymap);
+}
+
+static void
 test_capslock_follows_xkb_lock_state(void)
 {
 	struct parsed_keymap keymap;
@@ -966,6 +1019,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	test_level5_layouts_and_table_limits();
 	test_modifier_mask_lookup_across_layouts();
 	test_real_key_modifier_mask_priority();
+	test_keypad_numlock_semantics();
 
 	return EXIT_SUCCESS;
 }
