@@ -69,6 +69,7 @@ struct reachable_sym {
 enum xkeymap_modifier_mask {
 	XKEYMAP_MASK_SHIFT,
 	XKEYMAP_MASK_LOCK,
+	XKEYMAP_MASK_NUMLOCK,
 	XKEYMAP_MASK_CONTROL,
 	XKEYMAP_MASK_ALT,
 	XKEYMAP_MASK_LEVEL3,
@@ -147,6 +148,7 @@ struct xkeymap_modifier_rule {
 static const struct xkeymap_modifier_rule xkeymap_modifier_rules[] = {
 	{ XKEYMAP_MASK_SHIFT,		"Shift",		0,				(1u << KG_SHIFT) },
 	{ XKEYMAP_MASK_LOCK,		"Lock",			0,				0 },
+	{ XKEYMAP_MASK_NUMLOCK,		NULL,			XKB_KEY_Num_Lock,		0 },
 	{ XKEYMAP_MASK_CONTROL,		"Control",		0,				(1u << KG_CTRL) },
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_L,			(1u << KG_ALT) },
 	{ XKEYMAP_MASK_ALT,		NULL,			XKB_KEY_Alt_R,			(1u << KG_ALT) },
@@ -625,6 +627,88 @@ static void remember_reachable_sym(struct xkeymap *xkeymap, xkb_keysym_t sym, in
 		free(ptr);
 }
 
+static bool xkeymap_is_keypad_nav_numlock_pair(struct xkeymap *xkeymap,
+					       struct xkb_state *state,
+					       xkb_keycode_t key,
+					       xkb_mod_mask_t mask,
+					       xkb_layout_index_t selected,
+					       xkb_keysym_t sym)
+{
+	xkb_mod_mask_t numlock_mask = xkeymap->modifier_masks[XKEYMAP_MASK_NUMLOCK];
+	xkb_mod_mask_t shift_mask = xkeymap->modifier_masks[XKEYMAP_MASK_SHIFT];
+	xkb_keysym_t sym_numlock;
+
+	if (!numlock_mask)
+		return false;
+
+	/*
+	 * In standard XKB KEYPAD types, Shift cancels NumLock (Shift+NumLock ->
+	 * Level1). Probe without Shift so shifted keypad entries keep the same
+	 * KT_PAD binding as the unmodified keypad key.
+	 */
+	xkb_state_update_mask(state, mask & ~shift_mask, 0, numlock_mask, 0, 0, selected);
+	sym_numlock = xkb_state_key_get_one_sym(state, key);
+	xkb_state_update_mask(state, mask, 0, 0, 0, 0, selected);
+
+	switch (sym) {
+	case XKB_KEY_KP_Insert:	return sym_numlock == XKB_KEY_KP_0;
+	case XKB_KEY_KP_End:	return sym_numlock == XKB_KEY_KP_1;
+	case XKB_KEY_KP_Down:	return sym_numlock == XKB_KEY_KP_2;
+	case XKB_KEY_KP_Next:	return sym_numlock == XKB_KEY_KP_3;
+	case XKB_KEY_KP_Left:	return sym_numlock == XKB_KEY_KP_4;
+	case XKB_KEY_KP_Begin:	return sym_numlock == XKB_KEY_KP_5;
+	case XKB_KEY_KP_Right:	return sym_numlock == XKB_KEY_KP_6;
+	case XKB_KEY_KP_Home:	return sym_numlock == XKB_KEY_KP_7;
+	case XKB_KEY_KP_Up:	return sym_numlock == XKB_KEY_KP_8;
+	case XKB_KEY_KP_Prior:	return sym_numlock == XKB_KEY_KP_9;
+	case XKB_KEY_KP_Delete:
+		return sym_numlock == XKB_KEY_KP_Decimal ||
+		       sym_numlock == XKB_KEY_KP_Separator;
+	default:
+		return false;
+	}
+}
+
+/*
+ * Linux VT implements NumLock inside k_pad() for K_P0..K_P9, K_PDOT, and
+ * K_PCOMMA (turning them into cursor navigation when NumLock is off). Only use
+ * KT_PAD for keypad navigation keys that XKB actually pairs with KP digits or
+ * decimal/separator under NumLock; otherwise emit unconditional Latin digits
+ * or VT navigation actions matching the NumLock=0 XKB keysym.
+ */
+static int xkeymap_get_keypad_code(struct xkeymap *xkeymap, struct xkb_state *state,
+				   xkb_keycode_t key, xkb_mod_mask_t mask,
+				   xkb_layout_index_t selected, xkb_keysym_t sym)
+{
+	static const struct builtin_keysym_map unconditional_nav_map[] = {
+		{ XKB_KEY_KP_Insert,	"Insert" },
+		{ XKB_KEY_KP_End,	"Select" },
+		{ XKB_KEY_KP_Down,	"Down"   },
+		{ XKB_KEY_KP_Next,	"Next"   },
+		{ XKB_KEY_KP_Left,	"Left"   },
+		{ XKB_KEY_KP_Right,	"Right"  },
+		{ XKB_KEY_KP_Home,	"Find"   },
+		{ XKB_KEY_KP_Up,	"Up"     },
+		{ XKB_KEY_KP_Prior,	"Prior"  },
+		{ XKB_KEY_KP_Delete,	"Remove" },
+	};
+
+	if (sym >= XKB_KEY_KP_0 && sym <= XKB_KEY_KP_9)
+		return K(KT_LATIN, '0' + (int) (sym - XKB_KEY_KP_0));
+
+	if (sym == XKB_KEY_KP_Decimal)
+		return K(KT_LATIN, '.');
+
+	if (sym == XKB_KEY_KP_Separator)
+		return K(KT_LATIN, ',');
+
+	if (!xkeymap_is_keypad_nav_numlock_pair(xkeymap, state, key, mask, selected, sym))
+		return xkeymap_lookup_semantic_keysym(xkeymap, sym, unconditional_nav_map,
+						      ARRAY_SIZE(unconditional_nav_map));
+
+	return -1;
+}
+
 static int xkeymap_is_capslockable(struct xkeymap *xkeymap, struct xkb_state *state,
 				   xkb_keycode_t key, xkb_mod_mask_t mask,
 				   xkb_layout_index_t selected, xkb_keysym_t sym, int code)
@@ -937,7 +1021,9 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 
 					code = xkeymap_select_group(num_layouts, group, target);
 				} else {
-					code = xkeymap_get_code(xkeymap, sym);
+					code = xkeymap_get_keypad_code(xkeymap, state, key, mask, selected, sym);
+					if (code < 0)
+						code = xkeymap_get_code(xkeymap, sym);
 					if (code < 0)
 						continue;
 
