@@ -1282,6 +1282,7 @@ static int xkeymap_is_preferred_console_dead_rule(const struct compose_candidate
 
 static int xkeymap_score_compose_candidate(const struct compose_candidate *candidate)
 {
+	uint32_t diacr_unicode = xkeymap_compose_code_to_unicode(candidate->diacr.diacr);
 	uint32_t base_unicode = xkeymap_compose_code_to_unicode(candidate->diacr.base);
 	uint32_t result_unicode = xkeymap_compose_result_unicode(candidate);
 	int score = 0;
@@ -1302,8 +1303,15 @@ static int xkeymap_score_compose_candidate(const struct compose_candidate *candi
 	/*
 	 * Under MAX_DIACR, accent + letter rules are more useful than accent +
 	 * digit/space/keypad rules and closer to traditional console keymaps.
+	 * However, Linux handle_diacr() falls back to returning the kernel's
+	 * ASCII placeholder (such as 'c' for dead_caron or 'U' for dead_breve)
+	 * on dead_key + Space unless an explicit rule overrides it, so keep
+	 * non-redundant dead_key + Space rules within the kernel limit.
 	 */
-	if (xkeymap_is_ascii_lower(base_unicode))
+	if (xkeymap_is_dead_keysym(candidate->seq[0]) && base_unicode == ' ' &&
+	    result_unicode != diacr_unicode)
+		score += 550;
+	else if (xkeymap_is_ascii_lower(base_unicode))
 		score += 250;
 	else if (xkeymap_is_ascii_upper(base_unicode))
 		score += 200;
