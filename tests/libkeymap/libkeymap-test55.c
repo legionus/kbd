@@ -235,6 +235,36 @@ test_compose_append_uses_kbd_conversion_rules(void)
 }
 
 static void
+test_dead_space_compose_scoring(void)
+{
+	struct compose_candidate caron_space = {
+		.seq = { XKB_KEY_dead_caron, XKB_KEY_space },
+		.diacr = { .diacr = 'c', .base = ' ', .result = (unsigned int) (0x02c7 ^ 0xf000) },
+	};
+	struct compose_candidate grave_space = {
+		.seq = { XKB_KEY_dead_grave, XKB_KEY_space },
+		.diacr = { .diacr = '`', .base = ' ', .result = '`' },
+	};
+	struct compose_candidate extra_letter = {
+		.seq = { XKB_KEY_dead_belowdot, 'A' },
+		.diacr = { .diacr = '!', .base = 'A', .result = (unsigned int) (0x1ea0 ^ 0xf000) },
+	};
+	int caron_score = xkeymap_score_compose_candidate(&caron_space);
+	int grave_score = xkeymap_score_compose_candidate(&grave_space);
+	int extra_score = xkeymap_score_compose_candidate(&extra_letter);
+
+	if (caron_score <= extra_score)
+		kbd_error(EXIT_FAILURE, 0,
+			  "Expected non-redundant dead_caron + Space (%d) to outrank low-priority dead rule (%d)",
+			  caron_score, extra_score);
+
+	if (grave_score >= extra_score)
+		kbd_error(EXIT_FAILURE, 0,
+			  "Expected redundant dead_grave + Space (%d) to stay below letter rule (%d)",
+			  grave_score, extra_score);
+}
+
+static void
 test_console_dead_rule_policy_prefers_historic_letter_sets(void)
 {
 	struct compose_candidate preferred = {
@@ -504,6 +534,7 @@ main(int argc KBD_ATTR_UNUSED, char **argv KBD_ATTR_UNUSED)
 	test_kernel_rule_dedup_happens_after_selection(1);
 	test_compose_append_clamps_to_kernel_limit();
 	test_compose_append_uses_kbd_conversion_rules();
+	test_dead_space_compose_scoring();
 	test_console_dead_rule_policy_prefers_historic_letter_sets();
 	test_dead_key_compose_inputs(0);
 	test_dead_key_compose_inputs(1);
