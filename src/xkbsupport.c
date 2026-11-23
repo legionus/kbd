@@ -873,11 +873,117 @@ static int xkeymap_get_existing_key(struct lk_ctx *ctx, unsigned int table,
 	return lk_get_key(ctx, table, keycode);
 }
 
+struct xkeymap_shift_actions {
+	int shift;
+	int shiftl;
+	int shiftr;
+	int shift_lock;
+	int shiftl_lock;
+	int shiftr_lock;
+};
+
+static void xkeymap_init_shift_actions(struct lk_ctx *ctx,
+				       struct xkeymap_shift_actions *shifts)
+{
+	shifts->shift = lk_ksym_to_unicode(ctx, "Shift");
+	shifts->shiftl = lk_ksym_to_unicode(ctx, "ShiftL");
+	shifts->shiftr = lk_ksym_to_unicode(ctx, "ShiftR");
+	shifts->shift_lock = lk_ksym_to_unicode(ctx, "Shift_Lock");
+	shifts->shiftl_lock = lk_ksym_to_unicode(ctx, "ShiftL_Lock");
+	shifts->shiftr_lock = lk_ksym_to_unicode(ctx, "ShiftR_Lock");
+}
+
+static void xkeymap_build_base_mod_masks(const struct xkeymap *xkeymap,
+					 xkb_mod_mask_t masks[NR_BASE_MOD_STATES])
+{
+	/* Shift, AltGr, Control and Alt occupy the four low console bits. */
+	for (unsigned int mods = 0; mods < NR_BASE_MOD_STATES; mods++) {
+		masks[mods] = 0;
+
+		for (size_t i = 0; i < ARRAY_SIZE(xkeymap_modifier_rules); i++) {
+			const struct xkeymap_modifier_rule *rule = &xkeymap_modifier_rules[i];
+
+			if (mods & rule->kernel_bit)
+				masks[mods] |= xkeymap->modifier_masks[rule->mask];
+		}
+	}
+}
+
+static int xkeymap_resolve_key_action(struct xkeymap *xkeymap, struct xkb_state *state,
+				      const struct xkeymap_shift_actions *shifts,
+				      xkb_keycode_t key, xkb_mod_mask_t mask,
+				      unsigned int mods, unsigned int group,
+				      xkb_layout_index_t num_layouts,
+				      xkb_layout_index_t selected, int base_code)
+{
+	xkb_layout_index_t layout;
+	xkb_level_index_t level;
+	xkb_keysym_t sym;
+	int code;
+
+	/* Level masks omit modifiers ignored by a key's type. */
+	xkb_state_update_mask(state, mask, 0, 0, 0, 0, selected);
+	layout = xkb_state_key_get_layout(state, key);
+	if (layout == XKB_LAYOUT_INVALID)
+		return -1;
+	level = xkb_state_key_get_level(state, key, layout);
+	if (level == XKB_LEVEL_INVALID ||
+	    xkeymap_get_symbol(xkeymap->keymap, key, layout, level, &sym) <= 0)
+		return -1;
+
+	if (sym == XKB_KEY_ISO_Next_Group)
+		return (group == 0 || group == 3) ? shifts->shiftl_lock : shifts->shiftr_lock;
+
+	if (sym == XKB_KEY_ISO_Prev_Group) {
+		/* LockGroup(-1) changes the locked group, not the held offset. */
+		unsigned int target = (layouts[num_layouts - 1][group] + num_layouts - 1) % num_layouts;
+
+		return xkeymap_select_group(num_layouts, group, target);
+	}
+
+	if (sym == XKB_KEY_ISO_First_Group || sym == XKB_KEY_ISO_Last_Group) {
+		/* ISO_Last_Group conventionally locks group 2, not the final group. */
+		unsigned int target = (sym == XKB_KEY_ISO_Last_Group) ? 1u % num_layouts : 0;
+
+		return xkeymap_select_group(num_layouts, group, target);
+	}
+
+	code = xkeymap_get_keypad_code(xkeymap, state, key, mask, selected, sym);
+	if (code < 0)
+		code = xkeymap_get_code(xkeymap, sym);
+	if (code < 0)
+		return -1;
+
+	/* Reserve ShiftL/ShiftR for layout switching. */
+	if (code == shifts->shiftl || code == shifts->shiftr)
+		code = shifts->shift;
+	if (code == shifts->shiftl_lock || code == shifts->shiftr_lock)
+		code = shifts->shift_lock;
+
+	/*
+	 * A key whose unmodified binding is a console modifier must not switch
+	 * to a different modifier or lock on a higher level: the VT resolves
+	 * key release in the newly active table and would leave one of the two
+	 * modifiers stuck depending on release order.
+	 */
+	if (base_code != K_HOLE && KTYP(base_code) == KT_SHIFT &&
+	    (KTYP(code) == KT_SHIFT || KTYP(code) == KT_LOCK || KTYP(code) == KT_SLOCK) &&
+	    code != base_code)
+		code = base_code;
+
+	remember_reachable_sym(xkeymap, sym, code);
+	if (xkeymap_is_capslockable(xkeymap, state, key, mask, selected, sym, code))
+		code = lk_add_capslock(xkeymap->ctx, code);
+
+	return xkeymap_apply_modifiers(xkeymap, state, key, mods, code);
+}
+
 static int xkeymap_walk(struct xkeymap *xkeymap)
 {
 	struct xkb_state *state;
+	struct xkeymap_shift_actions shifts;
 	lk_keywords keywords = lk_get_keywords(xkeymap->ctx);
-	xkb_mod_mask_t masks[NR_BASE_MOD_STATES] = { 0 };
+	xkb_mod_mask_t masks[NR_BASE_MOD_STATES];
 	bool group_switch[NR_KEYS] = { false };
 	bool has_group_switch = false;
 	unsigned int group_features = 0;
@@ -886,12 +992,6 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	xkb_layout_index_t num_layouts = xkb_keymap_num_layouts(xkeymap->keymap);
 	xkb_keycode_t min = xkb_keymap_min_keycode(xkeymap->keymap);
 	xkb_keycode_t max = xkb_keymap_max_keycode(xkeymap->keymap);
-	int shift = lk_ksym_to_unicode(xkeymap->ctx, "Shift");
-	int shiftl = lk_ksym_to_unicode(xkeymap->ctx, "ShiftL");
-	int shiftr = lk_ksym_to_unicode(xkeymap->ctx, "ShiftR");
-	int shift_lock = lk_ksym_to_unicode(xkeymap->ctx, "Shift_Lock");
-	int shiftl_lock = lk_ksym_to_unicode(xkeymap->ctx, "ShiftL_Lock");
-	int shiftr_lock = lk_ksym_to_unicode(xkeymap->ctx, "ShiftR_Lock");
 	int ret = -1;
 
 	if (num_layouts == 0 || num_layouts > NR_LAYOUTS) {
@@ -925,21 +1025,14 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 	if (xkeymap_assign_level5_modifier(xkeymap, num_layouts, group_features) < 0)
 		goto end;
 
+	xkeymap_init_shift_actions(xkeymap->ctx, &shifts);
+	xkeymap_build_base_mod_masks(xkeymap, masks);
+
 	has_group_switch = (group_features & XKEYMAP_GROUP_SWITCH) != 0;
 	group_states = NR_LAYOUTS;
 	if (num_layouts > 2 && (group_features & XKEYMAP_GROUP_SELECT))
 		group_states *= 2;
 	group_blocks = has_group_switch ? NR_HELD_GROUP_BLOCKS : NR_PLAIN_GROUP_BLOCKS;
-
-	/* Shift, AltGr, Control and Alt occupy the four low console bits. */
-	for (unsigned int mods = 0; mods < ARRAY_SIZE(masks); mods++) {
-		for (size_t i = 0; i < ARRAY_SIZE(xkeymap_modifier_rules); i++) {
-			const struct xkeymap_modifier_rule *rule = &xkeymap_modifier_rules[i];
-
-			if (mods & rule->kernel_bit)
-				masks[mods] |= xkeymap->modifier_masks[rule->mask];
-		}
-	}
 
 	/* Every Meta binding is resolved below; do not synthesize one early. */
 	lk_set_keywords(xkeymap->ctx, keywords & ~(unsigned int) LK_KEYWORD_ALTISMETA);
@@ -964,15 +1057,12 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				bool level5 = mod_slot >= NR_BASE_MOD_STATES;
 				xkb_mod_mask_t mask = masks[mods] |
 						      (level5 ? xkeymap->modifier_masks[XKEYMAP_MASK_LEVEL5] : 0U);
-				xkb_layout_index_t layout;
-				xkb_level_index_t level;
-				xkb_keysym_t sym;
 				unsigned int table = group_table |
 						     xkeymap_mod_table_bits(xkeymap, mod_slot) |
 						     (held ? (1U << KG_CTRLR) : 0U);
 				int base_code = xkeymap_get_existing_key(xkeymap->ctx,
 									 table & ~xkeymap->mod_table_mask,
-									 KERN_KEYCODE(key));
+									 kern_keycode);
 				int code;
 
 				/*
@@ -981,82 +1071,28 @@ static int xkeymap_walk(struct xkeymap *xkeymap)
 				 * selects Compose or the new group has another binding.
 				 * KG_CTRLR is separate from the locked group bits.
 				 */
-				if (held && group_switch[KERN_KEYCODE(key)]) {
-					if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), K_CTRLR) < 0)
-						goto end;
-					continue;
-				}
-
-				/*
-				 * A key whose unmodified binding is a console modifier
-				 * must keep that modifier action in every table where
-				 * its modifier bit is active; otherwise releasing the
-				 * key selects the higher-level action (such as Caps_Lock
-				 * in shift(both_capslock)) and leaves the modifier stuck.
-				 */
-				if (base_code != K_HOLE && KTYP(base_code) == KT_SHIFT &&
-				    (table & (1U << KVAL(base_code)))) {
-					if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), base_code) < 0)
-						goto end;
-					continue;
-				}
-
-				/* Level masks omit modifiers ignored by a key's type. */
-				xkb_state_update_mask(state, mask, 0, 0, 0, 0,
-						      selected);
-				layout = xkb_state_key_get_layout(state, key);
-				if (layout == XKB_LAYOUT_INVALID)
-					continue;
-				level = xkb_state_key_get_level(state, key, layout);
-				if (level == XKB_LEVEL_INVALID ||
-				    xkeymap_get_symbol(xkeymap->keymap, key, layout, level, &sym) <= 0)
-					continue;
-
-				if (sym == XKB_KEY_ISO_Next_Group) {
-					code = (group == 0 || group == 3) ? shiftl_lock : shiftr_lock;
-				} else if (sym == XKB_KEY_ISO_Prev_Group) {
-					/* LockGroup(-1) changes the locked group, not the held offset. */
-					unsigned int target = (layouts[num_layouts - 1][group] + num_layouts - 1) % num_layouts;
-
-					code = xkeymap_select_group(num_layouts, group, target);
-				} else if (sym == XKB_KEY_ISO_First_Group || sym == XKB_KEY_ISO_Last_Group) {
-					/* ISO_Last_Group conventionally locks group 2, not the final group. */
-					unsigned int target = (sym == XKB_KEY_ISO_Last_Group) ? 1u % num_layouts : 0;
-
-					code = xkeymap_select_group(num_layouts, group, target);
-				} else {
-					code = xkeymap_get_keypad_code(xkeymap, state, key, mask, selected, sym);
-					if (code < 0)
-						code = xkeymap_get_code(xkeymap, sym);
-					if (code < 0)
-						continue;
-
-					/* Reserve ShiftL/ShiftR for layout switching. */
-					if (code == shiftl || code == shiftr)
-						code = shift;
-					if (code == shiftl_lock || code == shiftr_lock)
-						code = shift_lock;
-
+				if (held && group_switch[kern_keycode]) {
+					code = K_CTRLR;
+				} else if (base_code != K_HOLE && KTYP(base_code) == KT_SHIFT &&
+					   (table & (1U << KVAL(base_code)))) {
 					/*
 					 * A key whose unmodified binding is a console modifier
-					 * must not switch to a different modifier or lock on a
-					 * higher level: the VT resolves key release in the
-					 * newly active table and would leave one of the two
-					 * modifiers stuck depending on release order.
+					 * must keep that modifier action in every table where
+					 * its modifier bit is active; otherwise releasing the
+					 * key selects the higher-level action (such as Caps_Lock
+					 * in shift(both_capslock)) and leaves the modifier stuck.
 					 */
-					if (base_code != K_HOLE && KTYP(base_code) == KT_SHIFT &&
-					    (KTYP(code) == KT_SHIFT || KTYP(code) == KT_LOCK ||
-					     KTYP(code) == KT_SLOCK) &&
-					    code != base_code)
-						code = base_code;
-
-					remember_reachable_sym(xkeymap, sym, code);
-					if (xkeymap_is_capslockable(xkeymap, state, key, mask, selected, sym, code))
-						code = lk_add_capslock(xkeymap->ctx, code);
-					code = xkeymap_apply_modifiers(xkeymap, state, key, mods, code);
+					code = base_code;
+				} else {
+					code = xkeymap_resolve_key_action(xkeymap, state, &shifts,
+									  key, mask, mods, group,
+									  num_layouts, selected,
+									  base_code);
+					if (code < 0)
+						continue;
 				}
 
-				if (lk_add_key(xkeymap->ctx, table, KERN_KEYCODE(key), code) < 0)
+				if (lk_add_key(xkeymap->ctx, table, kern_keycode, code) < 0)
 					goto end;
 			}
 		}
