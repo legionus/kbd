@@ -1,0 +1,63 @@
+# bash completion for dumpkeys(1)                        -*- shell-script -*-
+
+_dumpkeys_module()
+{
+	local cur prev opts
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-C'|'--console')
+			if [[ -z $cur || $cur == /dev* ]]; then
+				COMPREPLY=( $(compgen -W "/dev/console $(compgen -G '/dev/tty[0-9]*')" -- "$cur") )
+			else
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			fi
+			return 0
+			;;
+		'-S'|'--shape')
+			COMPREPLY=( $(compgen -W "2 4 8 16" -- "$cur") )
+			return 0
+			;;
+		'-c'|'--charset')
+			local charsets="
+				iso-8859-1 iso-8859-2 iso-8859-3 iso-8859-4 iso-8859-5
+				iso-8859-7 iso-8859-8 iso-8859-9 iso-8859-10 iso-8859-15
+				koi8-r koi8-u mazovia cp-1250 tis-620
+				iso-10646-18 iso-ir-197 iso-ir-209
+			"
+			COMPREPLY=( $(compgen -W "$charsets" -- "$cur") )
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	opts="
+		-i --short-info
+		-l -s --long-info
+		-n --numeric
+		-f --full-table
+		-1 --separate-lines
+		-S --shape
+		-t --funcs-only
+		-k --keys-only
+		-d --compose-only
+		-c --charset
+		-C --console
+		-v --verbose
+		-V --version
+		-h --help
+	"
+	COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+	return 0
+}
+complete -F _dumpkeys_module dumpkeys

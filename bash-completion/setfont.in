@@ -1,0 +1,123 @@
+# bash completion for setfont(8)                         -*- shell-script -*-
+
+_setfont_list_dir()
+{
+	local dir="$1"
+	local re="$2"
+	[[ -d $dir ]] || return 0
+
+	find "$dir" -maxdepth 1 \( -type f -o -type l \) 2>/dev/null | \
+		awk -F/ -v re="$re" '
+			{
+				name = $NF
+				if (name ~ /^README/) next
+				sub(/\.(gz|bz2|xz|zst)$/, "", name)
+				sub(re, "", name)
+				if (name != "" && !seen[name]++) print name
+			}
+		'
+}
+
+_setfont_module()
+{
+	local cur prev opts
+	local datadir="${KBD_DATADIR:-@datadir@}"
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-C'|'--console')
+			if [[ -z $cur || $cur == /dev* ]]; then
+				COMPREPLY=( $(compgen -W "/dev/console $(compgen -G '/dev/tty[0-9]*')" -- "$cur") )
+			else
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			fi
+			return 0
+			;;
+		'-o'|'--output-font'|'-O'|'--output-fullfont'|'-om'|'--output-consolemap'|'-ou'|'--output-unicodemap')
+			local IFS=$'\n'
+			compopt -o filenames 2>/dev/null || true
+			COMPREPLY=( $(compgen -f -- "$cur") )
+			return 0
+			;;
+		'-m'|'--consolemap')
+			if [[ $cur == /* || $cur == ./* || $cur == ../* ]]; then
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			else
+				local maps
+				maps="$(_setfont_list_dir "$datadir/consoletrans" '(_to_uni[.]trans|[.]trans|[.]acm)$')"
+				COMPREPLY=( $(compgen -W "none $maps" -- "$cur") )
+			fi
+			return 0
+			;;
+		'-u'|'--unicodemap')
+			if [[ $cur == /* || $cur == ./* || $cur == ../* ]]; then
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			else
+				local maps
+				maps="$(_setfont_list_dir "$datadir/unimaps" '([.]uni|[.]sfm)$')"
+				COMPREPLY=( $(compgen -W "none $maps" -- "$cur") )
+			fi
+			return 0
+			;;
+		'--default8x'|'--font-height')
+			COMPREPLY=( $(compgen -W "8 14 16" -- "$cur") )
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	case $cur in
+		-*)
+			opts="
+				--default8x
+				--font-height
+				-o --output-font
+				-om --output-consolemap
+				-ou --output-unicodemap
+				-O --output-fullfont
+				-m --consolemap
+				-u --unicodemap
+				-C --console
+				-c --check
+				-d --double
+				-f --force
+				-R --reset
+				-v --verbose
+				-V --version
+				-h --help
+			"
+			COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+			return 0
+			;;
+	esac
+
+	if [[ $cur == /* || $cur == ./* || $cur == ../* ]]; then
+		local IFS=$'\n'
+		compopt -o filenames 2>/dev/null || true
+		COMPREPLY=( $(compgen -f -- "$cur") )
+		return 0
+	fi
+
+	local IFS=$'\n'
+	COMPREPLY=( $(compgen -W "$(_setfont_list_dir "$datadir/consolefonts" '([.]psfu|[.]psf|[.]cp|[.]fnt)$')" -- "$cur") )
+	if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
+		compopt -o filenames 2>/dev/null || true
+		COMPREPLY=( $(compgen -f -- "$cur") )
+	fi
+	return 0
+}
+complete -F _setfont_module setfont

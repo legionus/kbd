@@ -399,6 +399,38 @@ AS_IF([test "x$USE_XKB" = xyes],
 		[USE_XKB=no])])
 AM_CONDITIONAL(USE_XKB, test "$USE_XKB" = "yes")
 
+AC_ARG_ENABLE([bash-completion],
+	[AS_HELP_STRING([--disable-bash-completion],
+			[do not install bash completion files])],
+	[enable_bash_completion=$enableval],
+	[enable_bash_completion=yes]
+)
+AC_ARG_WITH([bashcompletiondir],
+	[AS_HELP_STRING([--with-bashcompletiondir=DIR],
+			[Bash completions directory @<:@default=auto@:>@])],
+	[with_bashcompletiondir=$withval],
+	[with_bashcompletiondir=auto]
+)
+AS_IF([test "x$enable_bash_completion" = "xyes"], [
+	AS_IF([test "x$with_bashcompletiondir" = "xno"], [
+		enable_bash_completion=no
+		bashcompletiondir=""
+	], [test "x$with_bashcompletiondir" = "xyes" -o "x$with_bashcompletiondir" = "xauto"], [
+		AS_IF([test -n "$PKG_CONFIG"], [
+			bashcompletiondir=$($PKG_CONFIG --variable=completionsdir bash-completion 2>/dev/null)
+		])
+		AS_IF([test -z "$bashcompletiondir"], [
+			bashcompletiondir='${datadir}/bash-completion/completions'
+		])
+	], [
+		bashcompletiondir="$with_bashcompletiondir"
+	])
+], [
+	bashcompletiondir=""
+])
+AC_SUBST([bashcompletiondir])
+AM_CONDITIONAL([BUILD_BASH_COMPLETION], [test "x$enable_bash_completion" = "xyes"])
+
 AC_MSG_NOTICE([generation of Makefiles...])
 
 # Remove -h (dereference) from am__tar
@@ -410,6 +442,7 @@ AC_CONFIG_COMMANDS_PRE([
 
 AC_CONFIG_FILES([
 	Makefile
+	bash-completion/Makefile
 	data/Makefile
 	docs/Makefile
 	docs/man/Makefile
@@ -462,4 +495,5 @@ AC_MSG_RESULT([
 	standalone libkeymap:   ${BUILD_LIBKEYMAP}
 	standalone libkfont:    ${BUILD_LIBKFONT}
 	xkb support:            ${USE_XKB}
+	bash completion dir:    ${bashcompletiondir:-no}
 ])

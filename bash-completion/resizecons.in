@@ -1,0 +1,35 @@
+# bash completion for resizecons(8)                      -*- shell-script -*-
+
+_resizecons_module()
+{
+	local cur prev
+	local datadir="${KBD_DATADIR:-@datadir@}"
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	case $prev in
+		'-lines')
+			COMPREPLY=( $(compgen -W "25 28 30 34 36 40 44 50 60" -- "$cur") )
+			return 0
+			;;
+		'-V')
+			return 0
+			;;
+	esac
+
+	case $cur in
+		-*)
+			COMPREPLY=( $(compgen -W "-lines -V" -- "$cur") )
+			return 0
+			;;
+	esac
+
+	if [[ -d $datadir/videomodes ]]; then
+		local modes
+		modes="$(find "$datadir/videomodes" -maxdepth 1 \( -type f -o -type l \) -printf '%f\n' 2>/dev/null)"
+		COMPREPLY=( $(compgen -W "$modes" -- "$cur") )
+	fi
+	return 0
+}
+complete -F _resizecons_module resizecons

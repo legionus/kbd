@@ -1,0 +1,64 @@
+# bash completion for openvt(1)                          -*- shell-script -*-
+
+_openvt_module()
+{
+	local cur prev opts i seen_dd=0
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	for (( i = 1; i < COMP_CWORD; i++ )); do
+		if [[ ${COMP_WORDS[i]} == '--' ]]; then
+			seen_dd=1
+			break
+		fi
+	done
+
+	if (( seen_dd )); then
+		if [[ $prev == '--' ]]; then
+			COMPREPLY=( $(compgen -c -- "$cur") )
+		else
+			local IFS=$'\n'
+			compopt -o filenames 2>/dev/null || true
+			COMPREPLY=( $(compgen -f -- "$cur") )
+		fi
+		return 0
+	fi
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-c'|'--console')
+			COMPREPLY=( $(compgen -W "1 2 3 4 5 6 7 8 9 10 11 12" -- "$cur") )
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	case $cur in
+		-*)
+			opts="
+				-c --console
+				-e --exec
+				-f --force
+				-l --login
+				-u --user
+				-s --switch
+				-w --wait
+				-v --verbose
+				-V --version
+				-h --help
+			"
+			COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+			return 0
+			;;
+	esac
+
+	COMPREPLY=( $(compgen -c -- "$cur") )
+	return 0
+}
+complete -F _openvt_module openvt

@@ -1,0 +1,144 @@
+# bash completion for loadkeys(1)                        -*- shell-script -*-
+
+_loadkeys_xkb_list()
+{
+	local section="$1"
+	local rules=""
+	local f
+
+	for f in /usr/share/X11/xkb/rules/base.lst /usr/share/X11/xkb/rules/evdev.lst; do
+		if [[ -r $f ]]; then
+			rules="$f"
+			break
+		fi
+	done
+	[[ -n $rules ]] || return 0
+
+	awk -v sec="$section" '
+		/^!/ { in_sec = ($2 == sec); next }
+		in_sec && /^[[:space:]]+[^[:space:]]/ { print $1 }
+	' "$rules"
+}
+
+_loadkeys_keymaps()
+{
+	local datadir="${KBD_DATADIR:-@datadir@}"
+	local keymapdir="$datadir/keymaps"
+	[[ -d $keymapdir ]] || return 0
+
+	find "$keymapdir" -type f -o -type l 2>/dev/null | \
+		awk -F/ '
+			/\/include\// { next }
+			{
+				name = $NF
+				if (name ~ /^README/) next
+				sub(/\.(gz|bz2|xz|zst)$/, "", name)
+				if (name !~ /\.(map|kmap)$/) next
+				sub(/\.(map|kmap)$/, "", name)
+				if (!seen[name]++) print name
+			}
+		'
+}
+
+_loadkeys_module()
+{
+	local cur prev opts prefix=""
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-C'|'--console')
+			if [[ -z $cur || $cur == /dev* ]]; then
+				COMPREPLY=( $(compgen -W "/dev/console $(compgen -G '/dev/tty[0-9]*')" -- "$cur") )
+			else
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			fi
+			return 0
+			;;
+		'-t'|'--tkeymap')
+			COMPREPLY=( $(compgen -W "2 4 8 16" -- "$cur") )
+			return 0
+			;;
+		'--xkb-model')
+			COMPREPLY=( $(compgen -W "$(_loadkeys_xkb_list model)" -- "$cur") )
+			return 0
+			;;
+		'--xkb-layout'|'--xkb-variant'|'--xkb-options')
+			local sec="${prev#--xkb-}"
+			[[ $sec == "options" ]] && sec="option"
+			if [[ $cur == *,* ]]; then
+				prefix="${cur%,*},"
+				cur="${cur##*,}"
+			fi
+			local item
+			while IFS= read -r item; do
+				COMPREPLY+=( "${prefix}${item}" )
+			done < <(compgen -W "$(_loadkeys_xkb_list "$sec")" -- "$cur")
+			return 0
+			;;
+		'--xkb-locale')
+			if command -v locale >/dev/null 2>&1; then
+				COMPREPLY=( $(compgen -W "$(locale -a 2>/dev/null)" -- "$cur") )
+			fi
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	case $cur in
+		-*)
+			opts="
+				-C --console
+				-a --ascii
+				-b --bkeymap
+				-c --clearcompose
+				-d --default
+				-m --mktable
+				-p --parse
+				-s --clearstrings
+				-t --tkeymap
+				-u --unicode
+				-q --quiet
+				-v --verbose
+				-V --version
+				-h --help
+			"
+			if [[ "@USE_XKB@" == "yes" ]]; then
+				opts+="
+					--xkb-model
+					--xkb-layout
+					--xkb-variant
+					--xkb-options
+					--xkb-locale
+				"
+			fi
+			COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+			return 0
+			;;
+	esac
+
+	if [[ $cur == /* || $cur == ./* || $cur == ../* ]]; then
+		local IFS=$'\n'
+		compopt -o filenames 2>/dev/null || true
+		COMPREPLY=( $(compgen -f -- "$cur") )
+		return 0
+	fi
+
+	local IFS=$'\n'
+	COMPREPLY=( $(compgen -W "$(_loadkeys_keymaps)" -- "$cur") )
+	if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
+		compopt -o filenames 2>/dev/null || true
+		COMPREPLY=( $(compgen -f -- "$cur") )
+	fi
+	return 0
+}
+complete -F _loadkeys_module loadkeys

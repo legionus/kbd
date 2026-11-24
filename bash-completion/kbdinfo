@@ -1,0 +1,77 @@
+# bash completion for kbdinfo(1)                         -*- shell-script -*-
+
+_kbdinfo_module()
+{
+	local cur prev opts i action=""
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-C'|'--console')
+			if [[ -z $cur || $cur == /dev* ]]; then
+				COMPREPLY=( $(compgen -W "/dev/console $(compgen -G '/dev/tty[0-9]*')" -- "$cur") )
+			else
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			fi
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	for (( i = 1; i < COMP_CWORD; i++ )); do
+		case ${COMP_WORDS[i]} in
+			-C|--console)
+				(( i++ ))
+				;;
+			-C*|--console=*|-h|--help|-V|--version)
+				;;
+			getmode|gkbmode|gkbmeta|gkbled|GETMODE|GKBMODE|GKBMETA|GKBLED)
+				action="${COMP_WORDS[i],,}"
+				break
+				;;
+		esac
+	done
+
+	if [[ -n $action ]]; then
+		case $action in
+			getmode)
+				COMPREPLY=( $(compgen -W "text graphics" -- "$cur") )
+				;;
+			gkbmode)
+				COMPREPLY=( $(compgen -W "raw xlate mediumraw unicode" -- "$cur") )
+				;;
+			gkbmeta)
+				COMPREPLY=( $(compgen -W "metabit escprefix" -- "$cur") )
+				;;
+			gkbled)
+				COMPREPLY=( $(compgen -W "scrolllock numlock capslock" -- "$cur") )
+				;;
+		esac
+		return 0
+	fi
+
+	case $cur in
+		-*)
+			opts="
+				-C --console
+				-V --version
+				-h --help
+			"
+			COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+			return 0
+			;;
+	esac
+
+	COMPREPLY=( $(compgen -W "getmode gkbmode gkbmeta gkbled" -- "$cur") )
+	return 0
+}
+complete -F _kbdinfo_module kbdinfo

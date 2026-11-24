@@ -1,0 +1,39 @@
+# bash completion for kbdrate(8)                         -*- shell-script -*-
+
+_kbdrate_module()
+{
+	local cur prev opts
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-r'|'--rate')
+			COMPREPLY=( $(compgen -W "2.0 5.0 10.9 15.0 20.0 25.0 30.0" -- "$cur") )
+			return 0
+			;;
+		'-d'|'--delay')
+			COMPREPLY=( $(compgen -W "250 500 750 1000" -- "$cur") )
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	opts="
+		-r --rate
+		-d --delay
+		-p --print
+		-s --silent
+		-V --version
+		-h --help
+	"
+	COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+	return 0
+}
+complete -F _kbdrate_module kbdrate

@@ -1,0 +1,39 @@
+# bash completion for fgconsole(1)                       -*- shell-script -*-
+
+_fgconsole_module()
+{
+	local cur prev opts
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-C'|'--console')
+			if [[ -z $cur || $cur == /dev* ]]; then
+				COMPREPLY=( $(compgen -W "/dev/console $(compgen -G '/dev/tty[0-9]*')" -- "$cur") )
+			else
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			fi
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	opts="
+		-C --console
+		-n --next-available
+		-V --version
+		-h --help
+	"
+	COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+	return 0
+}
+complete -F _fgconsole_module fgconsole

@@ -19,6 +19,7 @@ KBD_DISTCHECK_CONFIGURE_FLAGS = \
 	--enable-libkeymap \
 	--enable-libkfont \
 	--enable-optional-progs \
+	--with-bashcompletiondir='$${datadir}/bash-completion/completions' \
 	${DISTCHECK_CONFIGURE_EXTRA_FLAGS}
 
 if CODE_COVERAGE_ENABLED
@@ -33,7 +34,7 @@ EXTRA_DIST = \
 	CREDITS \
 	contrib docs
 
-SUBDIRS = src data po docs
+SUBDIRS = src data po docs bash-completion
 if BUILD_TESTS
 SUBDIRS += tests
 endif

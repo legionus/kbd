@@ -1,0 +1,78 @@
+# bash completion for mapscrn(8)                         -*- shell-script -*-
+
+_mapscrn_module()
+{
+	local cur prev opts
+	local datadir="${KBD_DATADIR:-@datadir@}"
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	if [[ $prev == '=' && $COMP_CWORD -ge 2 ]]; then
+		prev="${COMP_WORDS[COMP_CWORD-2]}"
+	fi
+
+	case $prev in
+		'-C'|'--console')
+			if [[ -z $cur || $cur == /dev* ]]; then
+				COMPREPLY=( $(compgen -W "/dev/console $(compgen -G '/dev/tty[0-9]*')" -- "$cur") )
+			else
+				local IFS=$'\n'
+				compopt -o filenames 2>/dev/null || true
+				COMPREPLY=( $(compgen -f -- "$cur") )
+			fi
+			return 0
+			;;
+		'-o'|'--output')
+			local IFS=$'\n'
+			compopt -o filenames 2>/dev/null || true
+			COMPREPLY=( $(compgen -f -- "$cur") )
+			return 0
+			;;
+		'-h'|'--help'|'-V'|'--version')
+			return 0
+			;;
+	esac
+
+	case $cur in
+		-*)
+			opts="
+				-o --output
+				-C --console
+				-v --verbose
+				-V --version
+				-h --help
+			"
+			COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+			return 0
+			;;
+	esac
+
+	if [[ $cur == /* || $cur == ./* || $cur == ../* ]]; then
+		local IFS=$'\n'
+		compopt -o filenames 2>/dev/null || true
+		COMPREPLY=( $(compgen -f -- "$cur") )
+		return 0
+	fi
+
+	if [[ -d $datadir/consoletrans ]]; then
+		local maps
+		maps="$(find "$datadir/consoletrans" -maxdepth 1 \( -type f -o -type l \) 2>/dev/null | \
+			awk -F/ '{
+				name = $NF
+				if (name ~ /^README/) next
+				sub(/\.(gz|bz2|xz|zst)$/, "", name)
+				sub(/(_to_uni\.trans|\.trans|\.acm)$/, "", name)
+				if (name != "" && !seen[name]++) print name
+			}')"
+		COMPREPLY=( $(compgen -W "$maps" -- "$cur") )
+	fi
+
+	if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
+		local IFS=$'\n'
+		compopt -o filenames 2>/dev/null || true
+		COMPREPLY=( $(compgen -f -- "$cur") )
+	fi
+	return 0
+}
+complete -F _mapscrn_module mapscrn

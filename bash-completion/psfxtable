@@ -1,0 +1,26 @@
+# bash completion for psfxtable(1)                       -*- shell-script -*-
+
+_psfxtable_module()
+{
+	local cur prev opts
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	case $prev in
+		'-i'|'-if'|'-o'|'-of'|'-it'|'-ot')
+			local IFS=$'\n'
+			compopt -o filenames 2>/dev/null || true
+			COMPREPLY=( $(compgen -f -- "$cur") )
+			return 0
+			;;
+		'-V')
+			return 0
+			;;
+	esac
+
+	opts="-i -if -o -of -it -ot -nt -V"
+	COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+	return 0
+}
+complete -F _psfxtable_module psfxtable
