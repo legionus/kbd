@@ -94,3 +94,8 @@ install-exec-hook:
 		rm -f $(DESTDIR)$(bindir)/$$i; \
 		$(LN_S) psfxtable $(DESTDIR)$(bindir)/$$i || exit $$?; \
 	done
+
+uninstall-hook:
+	for i in psfaddtable psfgettable psfstriptable; do \
+		rm -f $(DESTDIR)$(bindir)/$$i; \
+	done
